@@ -1,0 +1,2 @@
+// nostalgic sci-fi music ; https://w2.mat.ucsb.edu/l.putnam/sc3one/index.html #2
+CombC(mul(sum(SinOsc(add(mul(LFNoise2(mul([1, 1, 1, 1], 0.1)), 440), mul([1, 2], 440)), 0)), 0.01), 0.2, [0.13, 0.2], 15)

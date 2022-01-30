@@ -1,0 +1,20 @@
+body {
+  margin: 1em 1em;
+  background-color: #98ece8; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
+}
+
+textArea, select, button {
+  background-color: #ffffe8; /* fffacd d0f0c0 fffacd f0fff0  */
+  color: #424242;
+}
+
+body, textarea, select, button {
+    font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Palatino', 'Garamond', 'Bookman', serif;
+    font-size: 14pt;
+}
+
+#jsProgram { height: 90vh; width: 95vw; }
+
+#statusArea { display: none; 2border: 1px dotted black; margin: 5px 0px; max-width: 25em; }
+
+#statusText { height: 1.5em }

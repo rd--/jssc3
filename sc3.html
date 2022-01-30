@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="icon" type="image/png" href="https://rohandrape.net/data/png/rd.512.png" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="css/sc3.css" />
+    <script src="https://unpkg.com/osc@2.4.2/dist/osc-browser.js"></script>
+    <script src="js/sc3-array.js"></script>
+    <script src="js/sc3-operators.js"></script>
+    <script src="js/sc3.js"></script>
+    <script src="js/sc3-bindings.js"></script>
+    <script src="js/sc3-pseudo.js"></script>
+    <script src="js/sc3-event.js"></script>
+    <script src="js/sc3-ws.js"></script>
+    <script src="js/sc3-ui.js"></script>
+    <script>
+      window.onload = sc3_init;
+    </script>
+  </head>
+  <body>
+    <div>
+      <textarea id="jsProgram">
+      </textarea>
+    </div>
+    <div>
+      <select id="programsMenu" title="Programs (p)" accesskey="p"></select>
+      <select id="helpMenu" title="Help (h)" accesskey="h"></select>
+      <!-- <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select> -->
+      <button title="Play (,)" accesskey="," onclick="playJsProgram()">Play</button>
+      <button title="Reset (.)" accesskey="." onclick="reset()">Reset</button>
+      <button title="Print" onclick="prettyPrintSyndefOf(eval(document.getElementById('jsProgram').value))">Print</button>
+      <button title="Save document to local storage (s)" accesskey="s" onclick="local_storage_save_to()">Save</button>
+    </div>
+  </body>
+</html>
