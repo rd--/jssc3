@@ -1,5 +1,10 @@
 # Js SuperCollider
 
+Js SuperCollider - 2022-01-31 ; JMcC ; Firefox, Windows 10
+
+<iframe src="https://player.vimeo.com/video/671818913" frameborder="0" allowfullscreen="true" width="640" height="360" >
+</iframe>
+
 Js SuperCollider - 2022-01-30 ; CR ; Ws->Udp
 
 <iframe src="https://player.vimeo.com/video/671546887" frameborder="0" allowfullscreen="true" width="640" height="360" >
