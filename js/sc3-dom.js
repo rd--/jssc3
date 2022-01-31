@@ -54,6 +54,12 @@ function load_json_and_then(fileName, processFunc) {
         .then(obj => processFunc(obj));
 }
 
+// Set onchange handler
+function select_on_change(selectId, proc) {
+    var select = document.getElementById(selectId);
+    select.addEventListener('change', e => e.target.value ? proc(e.target.value) : null);
+}
+
 // Add option to select at elemId
 function select_add_option(elemId, value, text) {
     var select = document.getElementById(elemId);
@@ -63,26 +69,25 @@ function select_add_option(elemId, value, text) {
     select.add(option, null);
 }
 
-// Delete all options at select at elemId from startIndex
-function select_clear_from(elemId, startIndex) {
-    var select = document.getElementById(elemId);
+// Delete all options at selectId from startIndex
+function select_clear_from(selectId, startIndex) {
+    var select = document.getElementById(selectId);
     var k = select.length;
     for(let i = startIndex; i < k; i++) {
         select.remove(startIndex);
     }
 }
 
-// Add all keys from localStorage as entries, both value and text, at select
-function select_add_local_storage_keys_as_options(select) {
-    var k = localStorage.length;
-    for(let i = 0; i < k; i++) {
+// Add all keys as entries, both value and text, at selectId
+function select_add_keys_as_options(selectId, keyArray) {
+    var select = document.getElementById(selectId);
+    keyArray.forEach(function(key) {
         var option = document.createElement('option');
-        var entry = localStorage.key(i);
-        option.value = entry;
-        option.text = entry;
+        option.value = key;
+        option.text = key;
         select.add(option, null);
-        console.debug('select_add_local_storage_keys_as_options', entry);
-    }
+        console.debug('select_add_keys_as_options', key);
+    });
 }
 
 // Add listener to button passes click events to input.
@@ -97,4 +102,19 @@ function read_text_file_and_then(fileName, proc) {
     var reader = new FileReader();
     reader.addEventListener('load', () => proc(reader.result), false);
     reader.readAsText(fileName);
+}
+
+// Array of all keys at local storage
+function local_storage_keys() {
+    var a = [];
+    var k = localStorage.length;
+    for(let i = 0; i < k; i++) {
+        a.push(localStorage.key(i));
+    }
+    return a;
+}
+
+// Delete all keys selected by predicate
+function local_storage_delete_matching(predicate) {
+    local_storage_keys().forEach(entry => predicate(entry) ? localStorage.removeItem(entry) : null);
 }

@@ -12,38 +12,6 @@ function makeCounter() {
     return f;
 }
 
-// String
-
-function isString(x) { return typeof x == 'string'; }
-
-// Number
-
-function isNumber(x) {
-    return (typeof x === 'number');
-}
-
-var pi = Math.PI;
-
-var inf = Infinity;
-
-function randomInteger(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min); // the maximum is exclusive and the minimum is inclusive
-}
-
-// Object
-
-function objectKeyFromValue(object, value) {
-  return Object.keys(object).find(key => object[key] === value);
-}
-
-// Uint8Array
-
-function isUint8Array(x) {
-    return (x instanceof Uint8Array);
-}
-
 // Encode
 
 function encodeUsing(k, f) {
@@ -82,23 +50,6 @@ String.prototype.encodePascalString = function () {
         e[i] = this.charCodeAt(i - 1);
     }
     return e;
-}
-
-// Flatten a tree of arrays of Uint8Array to an array
-function flattenByteEncodingTo(e, a) {
-    if(isUint8Array(e)) {
-        e.forEach(item => a.push(item));
-    } else if(Array.isArray(a)) {
-        e.forEach(item => flattenByteEncodingTo(item, a));
-    } else {
-        console.error("flattenByteEncodingTo", e);
-    }
-}
-
-function flattenByteEncoding(e) {
-    var a = []
-    flattenByteEncodingTo(e, a);
-    return new Uint8Array(a);
 }
 
 // Ugen
@@ -273,21 +224,6 @@ function BinaryOp(ix, a, b) {
         return expanded.map(item => BinaryOpWithConstantOptimiser(ix, item[0], item[1]));
     } else {
         return BinaryOpWithConstantOptimiser(ix, a, b);
-    }
-}
-
-// Null
-
-function isNull(x) { return x === null; }
-
-function isUndefined(x) { return x === undefined; }
-
-function nullFix(message, inputValue, defaultValue) {
-    if(isNull(inputValue) || isUndefined(inputValue)) {
-        console.warn('nullFix', message, inputValue, defaultValue);
-        return defaultValue;
-    } else {
-        return inputValue;
     }
 }
 

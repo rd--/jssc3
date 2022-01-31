@@ -1,5 +1,10 @@
 'use strict';
 
+// * -> bool
+function isString(x) {
+    return typeof x == 'string';
+}
+
 // string -> [string]
 String.prototype.lines = function () {
     return this.split('\n');

@@ -1,7 +1,11 @@
 'use strict';
 
 function sendOsc(oscMessage) {
-    Module.oscDriver.send(57120, 57110, osc.writePacket(oscMessage));
+    if(Module.oscDriver) {
+        Module.oscDriver.send(57120, 57110, osc.writePacket(oscMessage));
+    } else {
+        console.warn('sendOsc: scsynth not running');
+    }
 };
 
 function bootScsynth(numInputs, numOutputs) {
@@ -9,7 +13,7 @@ function bootScsynth(numInputs, numOutputs) {
     args[args.indexOf('-i') + 1] = String(numInputs);
     args[args.indexOf('-o') + 1] = String(numOutputs);
     args.push('-w', '512');
-    //args.push('-m', '131072'); // fixed at scsynth/wasm compile time, see README
+    //args.push('-m', '131072'); // fixed at scsynth/wasm compile time, see README_WASM
     Module.callMain(args);
 }
 

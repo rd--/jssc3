@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" media="all" href="css/sc3.css" />
     <script src="https://unpkg.com/osc@2.4.2/dist/osc-browser.js"></script>
     <script src="js/sc3-array.js"></script>
+    <script src="js/sc3-dom.js"></script>
     <script src="js/sc3-operators.js"></script>
     <script src="js/sc3.js"></script>
     <script src="js/sc3-bindings.js"></script>
@@ -23,9 +24,8 @@
       </textarea>
     </div>
     <div>
-      <select id="programsMenu" title="Programs (p)" accesskey="p"></select>
+      <select id="programMenu" title="Program (p)" accesskey="p"></select>
       <select id="helpMenu" title="Help (h)" accesskey="h"></select>
-      <!-- <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select> -->
       <button title="Play (,)" accesskey="," onclick="playJsProgram()">Play</button>
       <button title="Reset (.)" accesskey="." onclick="reset()">Reset</button>
       <button title="Print" onclick="prettyPrintSyndefOf(eval(document.getElementById('jsProgram').value))">Print</button>
