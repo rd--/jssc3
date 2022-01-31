@@ -47,7 +47,7 @@ Array.prototype.dropWhile = function(predicate) {
 Array.prototype.extendCyclically = function(size) {
     var k = this.length;
     var result = this.slice(0, k)
-    for(let x = 0; x < size - k; x += 1) {
+    for(var x = 0; x < size - k; x += 1) {
         result.push(this.atWrap(x));
     }
     return result;
@@ -159,7 +159,7 @@ function arrayFillWithIndex(k, f) {
 // arrayFromToBy(1, 9, 2).shallowEq([1, 3, 5, 7, 9])
 function arrayFromToBy(from, to, by) {
     var r = [];
-    for(let i = from; i <= to; i += by) {
+    for(var i = from; i <= to; i += by) {
         r.push(i);
     }
     return r;

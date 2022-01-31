@@ -236,7 +236,7 @@ function sum(a) { return a.reduce(add); }
 function product(a) { return a.reduce(mul); }
 function collect(array, proc) { return array.map(proc); }
 function dup(proc, count) { return arrayFill(nullFix('dup: count?', count, 2), proc); }
-function timesRepeat(count, proc) { for(i = 0; i < count; i++) { proc(); }; }
+function timesRepeat(count, proc) { for(var i = 0; i < count; i++) { proc(); }; }
 function append(lhs, rhs) { return lhs.concat(rhs); }
 function transpose(array) { return array.transpose(); }
 function reverse(array) { return array.reverse(); }
@@ -294,7 +294,7 @@ EnvSpec.prototype.coord = function() {
     r.push(n);
     r.push(this.releaseNode || -99);
     r.push(this.loopNode || -99);
-    for(let i = 0; i < n; i++) {
+    for(var i = 0; i < n; i++) {
         var c = this.curves.atWrap(i);
         r.push(this.levels[i + 1]);
         r.push(this.times.atWrap(i));

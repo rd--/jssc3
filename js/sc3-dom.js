@@ -73,7 +73,7 @@ function select_add_option(elemId, value, text) {
 function select_clear_from(selectId, startIndex) {
     var select = document.getElementById(selectId);
     var k = select.length;
-    for(let i = startIndex; i < k; i++) {
+    for(var i = startIndex; i < k; i++) {
         select.remove(startIndex);
     }
 }
@@ -108,7 +108,7 @@ function read_text_file_and_then(fileName, proc) {
 function local_storage_keys() {
     var a = [];
     var k = localStorage.length;
-    for(let i = 0; i < k; i++) {
+    for(var i = 0; i < k; i++) {
         a.push(localStorage.key(i));
     }
     return a;
