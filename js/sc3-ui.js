@@ -48,3 +48,10 @@ function sc3_init() {
     load_utf8_and_then('html/help-menu.html', set_inner_html_of('helpMenu'));
     user_program_menu_init();
 }
+
+function setStatusDisplay(text) {
+    var status = document.getElementById('statusText');
+    if(status) {
+            statusText.innerHTML = text;
+    }
+}

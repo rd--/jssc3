@@ -19,7 +19,7 @@ function bootScsynth(numInputs, numOutputs) {
     //args.push('-m', '131072'); // fixed at scsynth/wasm compile time, see README_WASM
     Module.callMain(args);
     setTimeout(monitorOsc, 1000);
-    setInterval(requestStatus, 1500);
+    setInterval(requestStatus, 1000);
 }
 
 function play(u) {
@@ -33,19 +33,12 @@ function reset() {
     sendOsc(g_freeAll1(0));
 }
 
-function setStatus(text) {
-    var status = document.getElementById('statusText');
-    if(status) {
-            statusText.innerHTML = text;
-    }
-}
-
 function monitorOsc() {
     Module.oscDriver[57120] = {
         receive: function(addr, data) {
             var msg = osc.readPacket(data, {});
             if(msg.address === '/status.reply') {
-                setStatus('# ' + msg.args[1]);
+                setStatusDisplay('# ' + msg.args[1]);
             } else if(msg.address === '/done') {
                 console.log('/done', msg.args[0]);
             } else {

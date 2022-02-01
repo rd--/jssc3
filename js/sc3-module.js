@@ -21,9 +21,13 @@ var Module = {
     totalDependencies: 0,
     monitorRunDependencies: function(left) {
         logMessage('monitorRunDependencies', '# ' + String(left));
+        if(left > 0) {
+            setStatusDisplay("Loading...");
+        }
     },
     onRuntimeInitialized: function() {
         logMessage('onRuntimeInitialized', '...');
+        setStatusDisplay("--------");
     }
 };
 
