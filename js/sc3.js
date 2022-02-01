@@ -20,34 +20,34 @@ function encodeUsing(k, f) {
     return new Uint8Array(b);
 }
 
-Number.prototype.encodeUint8 = function() {
-    return encodeUsing(1, b => b.setUint8(0, this));
+function encodeUint8(number) {
+    return encodeUsing(1, b => b.setUint8(0, number));
 }
 
-Number.prototype.encodeInt8 = function() {
-    return encodeUsing(1, b => b.setInt8(0, this));
+function encodeInt8(number) {
+    return encodeUsing(1, b => b.setInt8(0, number));
 }
 
-Number.prototype.encodeInt16 = function() {
-    return encodeUsing(2, b => b.setInt16(0, this));
+function encodeInt16(number) {
+    return encodeUsing(2, b => b.setInt16(0, number));
 }
 
-Number.prototype.encodeInt32 = function() {
-    return encodeUsing(4, b => b.setInt32(0, this));
+function encodeInt32(number) {
+    return encodeUsing(4, b => b.setInt32(0, number));
 }
 
-// Number(1.0).encodeFloat32() //=> [63, 128, 0, 0]
-Number.prototype.encodeFloat32 = function() {
-    return encodeUsing(4, b => b.setFloat32(0, this));
+// encodeFloat32(1.0) //=> [63, 128, 0, 0]
+function encodeFloat32(number) {
+    return encodeUsing(4, b => b.setFloat32(0, number));
 }
 
-// 'string'.encodePascalString() //=> [6, 115, 116, 114, 105, 110, 103]
-String.prototype.encodePascalString = function () {
-    var k = this.length;
+// encodePascalString('string') //=> [6, 115, 116, 114, 105, 110, 103]
+function encodePascalString(string) {
+    var k = string.length;
     var e = new Uint8Array(k + 1);
     e[0] = k;
     for(var i = 1; i < k + 1; i++) {
-        e[i] = this.charCodeAt(i - 1);
+        e[i] = string.charCodeAt(i - 1);
     }
     return e;
 }
@@ -84,15 +84,22 @@ function isPort(obj) {
     return obj instanceof Port;
 }
 
+// input = port | number
+function inputRate(i) {
+    //console.log('inputRate', i);
+    return isPort(i) ? i.ugen.ugenRate : (isNumber(i) ? Rate.ir : console.error('inputRate: ', i));
+}
+
 function deriveRate(rt, inputs) {
-    return isNumber(rt) ? rt : inputs.atIndices(rt).map(inputRate).maxItem();
+    //console.log('deriveRate', rt, inputs);
+    return isNumber(rt) ? rt : arrayMaxItem(arrayAtIndices(inputs, rt).map(inputRate));
 }
 
 // If rt is a scalar it is the operating rate, if it is an array it is indices into the inputs telling how to derive the rate.
 function makeUgen(name, nc, rt, op, inputs) {
     //console.log('makeUgen', name, nc, rt, op, inputs);
-    if(inputs.containsArray()) {
-        return inputs.extendToBeOfEqualSize().transpose().map(item => makeUgen(name, nc, rt, op, item));
+    if(arrayContainsArray(inputs)) {
+        return arrayTranspose(arrayExtendToBeOfEqualSize(inputs)).map(item => makeUgen(name, nc, rt, op, item));
     } else {
         var u = new Ugen(name, nc, deriveRate(rt, inputs), op, inputs);
         switch(nc) {
@@ -117,13 +124,6 @@ var Rate = {ir: 0, kr: 1, ar: 2, dr: 3}
 
 function rateSelector(r) {
     return objectKeyFromValue(Rate, r);
-}
-
-// Input = Port | Number
-
-function inputRate(i) {
-    //console.log('inputRate', i);
-    return isPort(i) ? i.ugen.ugenRate : (isNumber(i) ? Rate.ir : console.error('inputRate', i));
 }
 
 // Mrg
@@ -219,7 +219,7 @@ function BinaryOpWithConstantOptimiser(ix, a, b) {
 
 function BinaryOp(ix, a, b) {
     if(Array.isArray(a) || Array.isArray(b)) {
-        var expanded = [unitArrayIfScalar(a), unitArrayIfScalar(b)].extendToBeOfEqualSize().transpose();
+        var expanded = arrayTranspose(arrayExtendToBeOfEqualSize([unitArrayIfScalar(a), unitArrayIfScalar(b)]));
         // console.log('BinaryOp: array constant', expanded);
         return expanded.map(item => BinaryOpWithConstantOptimiser(ix, item[0], item[1]));
     } else {
@@ -238,10 +238,10 @@ function collect(array, proc) { return array.map(proc); }
 function dup(proc, count) { return arrayFill(nullFix('dup: count?', count, 2), proc); }
 function timesRepeat(count, proc) { for(var i = 0; i < count; i++) { proc(); }; }
 function append(lhs, rhs) { return lhs.concat(rhs); }
-function transpose(array) { return array.transpose(); }
+function transpose(array) { return arrayTranspose(array); }
 function reverse(array) { return array.reverse(); }
-function concatenation(array) { return array.concatenation(); }
-function clump(array, n) { return array.clump(n); }
+function concatenation(array) { return arrayConcatenation(array); }
+function clump(array, n) { return arrayClump(array, n); }
 function mean(array) { return fdiv(sum(array), array.length); }
 function choose(array) { return array[randomInteger(0, array.length)]; }
 function nth(array, index) { return array[index - 1]; }
@@ -295,9 +295,9 @@ EnvSpec.prototype.coord = function() {
     r.push(this.releaseNode || -99);
     r.push(this.loopNode || -99);
     for(var i = 0; i < n; i++) {
-        var c = this.curves.atWrap(i);
+        var c = arrayAtWrap(this.curves, i);
         r.push(this.levels[i + 1]);
-        r.push(this.times.atWrap(i));
+        r.push(arrayAtWrap(this.times, i));
         r.push(EnvDict[c] || 5);
         r.push(isString(c) ? 0 : c);
     }
@@ -382,7 +382,7 @@ class Graph {
         var numLocalBufs = ugens.filter(item => isUgen(item) && item.ugenName == 'LocalBuf').length;
         this.graphName = name;
         this.ugenSeq = [MaxLocalBufs(numLocalBufs).ugen].concat(ugens);
-        this.constantSeq = [numLocalBufs].concat(constants).nub().sort((i, j) => i - j);
+        this.constantSeq = arrayNub([numLocalBufs].concat(constants)).sort((i, j) => i - j);
     }
 }
 
@@ -426,29 +426,29 @@ Graph.prototype.printSyndef = function() {
 
 Graph.prototype.encodeUgenSpec = function(u) {
     return [
-        u.ugenName.encodePascalString(),
-        Number(u.ugenRate).encodeInt8(),
-        Number(u.inputValues.length).encodeInt32(),
-        Number(u.numChan).encodeInt32(),
-        Number(u.specialIndex).encodeInt16(),
-        u.inputValues.map(i => this.inputSpec(i).map(ix => Number(ix).encodeInt32())),
-        arrayReplicate(u.numChan, Number(u.ugenRate).encodeInt8())
+        encodePascalString(u.ugenName),
+        encodeInt8(u.ugenRate),
+        encodeInt32(u.inputValues.length),
+        encodeInt32(u.numChan),
+        encodeInt16(u.specialIndex),
+        u.inputValues.map(i => this.inputSpec(i).map(ix => encodeInt32(ix))),
+        arrayReplicate(u.numChan, encodeInt8(u.ugenRate))
     ];
 }
 
 Graph.prototype.encodeSyndef = function() {
     return flattenByteEncoding([
-        SCgf.encodeInt32(),
-        Number(2).encodeInt32(), // file version
-        Number(1).encodeInt16(), // # synth definitions
-        this.graphName.encodePascalString(), // pstring
-        Number(this.constantSeq.length).encodeInt32(),
-        this.constantSeq.map(item => Number(item).encodeFloat32()),
-        Number(0).encodeInt32(), // # param
-        Number(0).encodeInt32(), // # param names
-        Number(this.ugenSeq.length).encodeInt32(),
+        encodeInt32(SCgf),
+        encodeInt32(2), // file version
+        encodeInt16(1), // # synth definitions
+        encodePascalString(this.graphName), // pstring
+        encodeInt32(this.constantSeq.length),
+        this.constantSeq.map(item => encodeFloat32(item)),
+        encodeInt32(0), // # param
+        encodeInt32(0), // # param names
+        encodeInt32(this.ugenSeq.length),
         this.ugenSeq.map(item => this.encodeUgenSpec(item)),
-        Number(0).encodeInt16() // # variants
+        encodeInt16(0) // # variants
     ]);
 }
 

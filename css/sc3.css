@@ -3,7 +3,7 @@ body {
   background-color: #98ece8; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
 }
 
-textArea, select, button {
+textArea, select, button, span {
   background-color: #ffffe8; /* fffacd d0f0c0 fffacd f0fff0  */
   color: #424242;
 }
@@ -15,6 +15,4 @@ body, textarea, select, button {
 
 #jsProgram { height: 90vh; width: 95vw; }
 
-#statusArea { display: none; 2border: 1px dotted black; margin: 5px 0px; max-width: 25em; }
-
-#statusText { height: 1.5em }
+#statusText { display: inline-block; border: 1px dotted black; padding: 2px; width: 75px; }

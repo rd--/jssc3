@@ -10,8 +10,10 @@ function Splay(inArray, spread, level, center, levelComp) {
 
 function Splay2(inArray) {
     var n = Math.max(2, inArray.length);
-    var positions = arrayFromTo(0, n - 1).map(item => item * (2 / (n - 1)) - 1);
-    return sum(Pan2(inArray, positions, Math.sqrt(1 / n)));
+    var pos = arrayFromTo(0, n - 1).map(item => item * (2 / (n - 1)) - 1);
+    var lvl = Math.sqrt(1 / n);
+    // console.log('Splay2', n, pos, lvl);
+    return sum(Pan2(inArray, pos, lvl));
 }
 
 function LinLin(input, srclo, srchi, dstlo, dsthi) {
@@ -107,7 +109,7 @@ function asKlankSpec(freq, amp, time) {
     var n = freq.length;
     var a = [freq, amp || arrayReplicate(n, 1), time || arrayReplicate(n, 1)];
     // console.log('asKlankSpec', a);
-    return a.extendToBeOfEqualSize().transpose().concatenation();
+    return arrayConcatenation(arrayTranspose(arrayExtendToBeOfEqualSize(a)));
 }
 
 function RingzBank(input, freq, amp, time) {
@@ -119,7 +121,7 @@ function SinOscBank(freq, amp, time) {
 }
 
 function LinSeg(gate, coordArray) {
-    var coord = coordArray.clump(2).transpose();
+    var coord = arrayTranspose(arrayClump(coordArray, 2));
     var levels = first(coord);
     var times = second(coord);
     var env = Env(levels, times.slice(0, times.length - 1), 'lin', null, null, 0);

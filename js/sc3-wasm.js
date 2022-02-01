@@ -2,7 +2,10 @@
 
 function sendOsc(oscMessage) {
     if(Module.oscDriver) {
-        Module.oscDriver.send(57120, 57110, osc.writePacket(oscMessage));
+        var port = Module.oscDriver[57110];
+        var recv = port && port['receive'];
+        var data = osc.writePacket(oscMessage);
+        recv ? recv(57120, data) : console.warn('sendOsc: recv?');
     } else {
         console.warn('sendOsc: scsynth not running');
     }
@@ -15,6 +18,8 @@ function bootScsynth(numInputs, numOutputs) {
     args.push('-w', '512');
     //args.push('-m', '131072'); // fixed at scsynth/wasm compile time, see README_WASM
     Module.callMain(args);
+    setTimeout(monitorOsc, 1000);
+    setInterval(requestStatus, 1500);
 }
 
 function play(u) {
@@ -28,11 +33,24 @@ function reset() {
     sendOsc(g_freeAll1(0));
 }
 
+function setStatus(text) {
+    var status = document.getElementById('statusText');
+    if(status) {
+            statusText.innerHTML = text;
+    }
+}
+
 function monitorOsc() {
     Module.oscDriver[57120] = {
         receive: function(addr, data) {
             var msg = osc.readPacket(data, {});
-            console.log('monitorOsc', addr, JSON.stringify(msg, null, 4));
+            if(msg.address === '/status.reply') {
+                setStatus('# ' + msg.args[1]);
+            } else if(msg.address === '/done') {
+                console.log('/done', msg.args[0]);
+            } else {
+                console.log('monitorOsc', addr, JSON.stringify(msg, null, 4));
+            }
         }
     }
 }

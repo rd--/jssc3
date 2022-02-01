@@ -6,11 +6,11 @@ function isString(x) {
 }
 
 // string -> [string]
-String.prototype.lines = function () {
-    return this.split('\n');
+function stringLines(string) {
+    return string.split('\n');
 }
 
 // string -> string -> bool
-String.prototype.isPrefixOf = function (aString) {
-    return aString.slice(0, this.length) === this;
+function stringIsPrefixOf(lhs, rhs) {
+    return rhs.slice(0, lhs.length) === lhs;
 }
