@@ -82,3 +82,7 @@ function text_editor_set_text(programText) {
         document.getElementById('jsProgram').value = programText;
     }
 }
+
+function prettyPrintSyndef() {
+    prettyPrintSyndefOf(eval(text_editor_get_text()));
+}

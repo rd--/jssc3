@@ -1,12 +1,15 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <link rel="icon" type="image/png" href="https://rohandrape.net/data/png/rd.512.png" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
     <link rel="stylesheet" type="text/css" media="all" href="css/sc3.css" />
-    <!-- <script src="https://unpkg.com/osc@2.4.2/dist/osc-browser.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js" type="text/javascript" charset="utf-8"></script>
+    <!--
+        <script src="https://unpkg.com/osc@2.4.2/dist/osc-browser.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js" type="text/javascript" charset="utf-8"></script>
+        -->
     <script src="lib/osc-browser.js"></script>
+    <script src="lib/ace-builds/src/ace.js"></script>
     <script src="js/sc3-array.js"></script>
     <script src="js/sc3-dom.js"></script>
     <script src="js/sc3-operators.js"></script>
@@ -36,7 +39,7 @@
       <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select>
       <button title="Play (,)" accesskey="," onclick="playJsProgram()">Play</button>
       <button title="Reset (.)" accesskey="." onclick="reset()">Reset</button>
-      <button title="Print" onclick="prettyPrintSyndefOf(eval(document.getElementById('jsProgram').value))">Print</button>
+      <button title="Print" onclick="prettyPrintSyndef()">Print</button>
       <button title="Save document to local storage (s)" accesskey="s" onclick="user_program_save_to()">Save</button>
     </div>
   </body>

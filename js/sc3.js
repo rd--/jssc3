@@ -520,7 +520,7 @@ function m_notify(status, clientId) {
 }
 
 function playJsProgram() {
-    var programText = document.getElementById('jsProgram').value;
+    var programText = text_editor_get_text();
     var program = eval(programText);
     play(program);
 }
