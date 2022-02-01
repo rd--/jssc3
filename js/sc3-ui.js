@@ -1,12 +1,13 @@
 'use strict';
 
 var user_programs;
+var text_editor;
 
 function load_graph(graphDir, graphName, fileType) {
     var graphFileName = 'help/' + graphDir + '/' + graphName + fileType;
     var graphUrl = url_append_timestamp(graphFileName);
     console.log(graphName);
-    fetch_url_and_then(graphUrl, 'text', programText => document.getElementById('jsProgram').value = programText);
+    fetch_url_and_then(graphUrl, 'text', programText => text_editor_set_text(programText));
 }
 
 function menu_init(menuId, graphDir, fileType) {
@@ -24,14 +25,14 @@ function user_program_save_to() {
     var timeStamp = (new Date()).toISOString();
     var programName = window.prompt('Set program name', timeStamp);
     if(programName) {
-        user_programs[programName] = document.getElementById('jsProgram').value;
+        user_programs[programName] = text_editor_get_text();
         localStorage.setItem('jssc3UserPrograms', JSON.stringify(user_programs));
         select_add_option('userMenu', programName, programName);
     }
 }
 
 function user_program_load(programName) {
-    document.getElementById('jsProgram').value = user_programs[programName];
+    text_editor_set_text(user_programs[programName]);
 }
 
 function user_program_clear() {
@@ -53,5 +54,31 @@ function setStatusDisplay(text) {
     var status = document.getElementById('statusText');
     if(status) {
             statusText.innerHTML = text;
+    }
+}
+
+function text_editor_init() {
+    text_editor = ace.edit("text_editor", { wrap: true, indentedSoftWrap: true });
+    text_editor.setTheme("ace/theme/solarized_light");
+    text_editor.session.setMode("ace/mode/javascript");
+    text_editor.setOption("highlightActiveLine", false)
+    text_editor.renderer.setShowGutter(false);
+    text_editor.setShowPrintMargin(false);
+};
+
+function text_editor_get_text() {
+    if(text_editor) {
+        return text_editor.getValue();
+    } else {
+        return document.getElementById('jsProgram').value;
+    }
+}
+
+function text_editor_set_text(programText) {
+    // console.log('text_editor_set_text', programText);
+    if(text_editor) {
+        text_editor.getSession().setValue(programText);
+    } else {
+        document.getElementById('jsProgram').value = programText;
     }
 }

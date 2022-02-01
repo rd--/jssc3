@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
     <link rel="stylesheet" type="text/css" media="all" href="css/sc3.css" />
     <!-- <script src="https://unpkg.com/osc@2.4.2/dist/osc-browser.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="lib/osc-browser.js"></script>
     <script src="js/sc3-array.js"></script>
     <script src="js/sc3-dom.js"></script>
@@ -21,13 +22,13 @@
     <script src="js/sc3-ws.js"></script>
     <script src="js/sc3-ui.js"></script>
     <script>
-      window.onload = sc3_init;
+      window.onload = function () { sc3_init(); text_editor_init(); };
     </script>
   </head>
   <body>
     <div>
-      <textarea id="jsProgram">
-      </textarea>
+      <!-- <textarea id="jsProgram"></textarea> -->
+      <div id="text_editor"></div>
     </div>
     <div>
       <select id="programMenu" title="Program (p)" accesskey="p"></select>
