@@ -12,3 +12,10 @@ fetch-ace:
 
 clone-ace:
 	git clone https://github.com/ajaxorg/ace-builds/
+
+fetch-quill:
+	rm -Rf quill
+	wget https://github.com/quilljs/quill/releases/download/v1.3.7/quill.tar.gz
+	tar zxf quill.tar.gz
+	rm quill.tar.gz
+

@@ -1,7 +1,6 @@
 'use strict';
 
 var user_programs;
-var text_editor;
 
 function load_graph(graphDir, graphName, fileType) {
     var graphFileName = 'help/' + graphDir + '/' + graphName + fileType;
@@ -11,7 +10,10 @@ function load_graph(graphDir, graphName, fileType) {
 }
 
 function menu_init(menuId, graphDir, fileType) {
-    document.getElementById(menuId).addEventListener('change', e => e.target.value ? load_graph(graphDir, e.target.value, fileType) : null);
+    var menu = document.getElementById(menuId);
+    if(menu) {
+            menu.addEventListener('change', e => e.target.value ? load_graph(graphDir, e.target.value, fileType) : null);
+    }
 }
 
 function user_program_menu_init() {
@@ -54,32 +56,6 @@ function setStatusDisplay(text) {
     var status = document.getElementById('statusText');
     if(status) {
             statusText.innerHTML = text;
-    }
-}
-
-function text_editor_init() {
-    text_editor = ace.edit("text_editor", { wrap: true, indentedSoftWrap: true });
-    text_editor.setTheme("ace/theme/solarized_light");
-    text_editor.session.setMode("ace/mode/javascript");
-    text_editor.setOption("highlightActiveLine", false)
-    text_editor.renderer.setShowGutter(false);
-    text_editor.setShowPrintMargin(false);
-};
-
-function text_editor_get_text() {
-    if(text_editor) {
-        return text_editor.getValue();
-    } else {
-        return document.getElementById('jsProgram').value;
-    }
-}
-
-function text_editor_set_text(programText) {
-    // console.log('text_editor_set_text', programText);
-    if(text_editor) {
-        text_editor.getSession().setValue(programText);
-    } else {
-        document.getElementById('jsProgram').value = programText;
     }
 }
 

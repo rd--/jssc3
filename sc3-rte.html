@@ -3,13 +3,10 @@
   <head>
     <link rel="icon" type="image/png" href="https://rohandrape.net/data/png/rd.512.png" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
+    <link href="lib/quill/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="all" href="css/sc3.css" />
-    <!--
-        <script src="https://unpkg.com/osc@2.4.2/dist/osc-browser.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js" type="text/javascript" charset="utf-8"></script>
-        -->
     <script src="lib/osc-browser.js"></script>
-    <script src="lib/ace-builds/src/ace.js"></script>
+    <script src="lib/quill/quill.js"></script>
     <script src="js/sc3-array.js"></script>
     <script src="js/sc3-dom.js"></script>
     <script src="js/sc3-operators.js"></script>
@@ -22,26 +19,30 @@
     <script src="js/sc3-bindings.js"></script>
     <script src="js/sc3-pseudo.js"></script>
     <script src="js/sc3-event.js"></script>
-    <script src="js/sc3-ws.js"></script>
-    <script src="js/sc3-ui-pte.js"></script>
+    <script src="js/sc3-wasm.js"></script>
+    <script src="js/sc3-wasm-module.js"></script>
     <script src="js/sc3-ui.js"></script>
+    <script src="js/sc3-ui-rte.js"></script>
     <script>
-      window.onload = function () { sc3_init(); text_editor_init(); };
+window.onload = function () {
+    text_editor_init();
+    load_utf8_and_then('help/essay/1.html', text_editor_set_text);
+};
     </script>
   </head>
   <body>
     <div>
-      <!-- <textarea id="jsProgram"></textarea> -->
       <div id="text_editor"></div>
     </div>
     <div>
-      <select id="programMenu" title="Program (p)" accesskey="p"></select>
-      <select id="helpMenu" title="Help (h)" accesskey="h"></select>
-      <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select>
+      <!-- <select id="guideMenu" title="Guide (g)" accesskey="g"></select> -->
       <button title="Play (,)" accesskey="," onclick="playJsProgram()">Play</button>
       <button title="Reset (.)" accesskey="." onclick="reset()">Reset</button>
       <button title="Print" onclick="prettyPrintSyndef()">Print</button>
-      <button title="Save document to local storage (s)" accesskey="s" onclick="user_program_save_to()">Save</button>
+      <button title="Boot" accesskey="b" onclick="bootScsynth(0, 2)">Boot</button>
+      <span id="statusText">------</span></div>
     </div>
+    <script src="lib/quill/quill.js"></script>
+    <script async src="lib/scsynth-wasm-builds/core/scsynth.js"></script>
   </body>
 </html>
