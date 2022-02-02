@@ -26,6 +26,7 @@
     <script src="js/sc3-ui-rte.js"></script>
     <script>
 window.onload = function () {
+    sc3_init(false, false, 'jssc3UserPrograms/html');
     text_editor_init();
     load_utf8_and_then('help/essay/1.html', text_editor_set_text);
 };
@@ -37,9 +38,17 @@ window.onload = function () {
     </div>
     <div>
       <!-- <select id="guideMenu" title="Guide (g)" accesskey="g"></select> -->
+      <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select>
+      <button title="Copy document to clipboard (c)" accesskey="c" onclick="navigator.clipboard.writeText(text_editor_get_data())">Copy</button>
       <button title="Play (,)" accesskey="," onclick="playJsProgram()">Play</button>
       <button title="Reset (.)" accesskey="." onclick="reset()">Reset</button>
+      <button title="Save document to local storage (s)" accesskey="s" onclick="user_program_save_to()">Save</button>
       <button title="Print" onclick="prettyPrintSyndef()">Print</button>
+      <select id="actionsMenu" title="Actions">
+        <option value=''>&#x2630;</option>
+        <option value='userBackup'>Backup</option>
+        <option value='userRestore'>Restore</option>
+      </select>
       <button title="Boot" accesskey="b" onclick="bootScsynth(0, 2)">Boot</button>
       <span id="statusText">------</span></div>
     </div>

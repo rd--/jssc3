@@ -1,6 +1,4 @@
 lib/ace-builds
 lib/osc-browser.js
-lib/sciss/
-lib/scsynth.js
-lib/scsynth.wasm
-lib/scsynth.worker.js
+lib/quill/
+lib/scsynth-wasm-builds

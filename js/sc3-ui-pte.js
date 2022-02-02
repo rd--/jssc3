@@ -31,6 +31,8 @@ function text_editor_get_text() {
     }
 }
 
+var text_editor_get_data = text_editor_get_text;
+
 function text_editor_set_text(programText) {
     // console.log('text_editor_set_text', programText);
     if(text_editor) {
@@ -39,3 +41,5 @@ function text_editor_set_text(programText) {
         document.getElementById('jsProgram').value = programText;
     }
 }
+
+var text_editor_set_data = text_editor_set_text;

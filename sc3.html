@@ -22,7 +22,10 @@
     <script src="js/sc3-ui-pte.js"></script>
     <script src="js/sc3-ui.js"></script>
     <script>
-      window.onload = function () { sc3_init(); text_editor_init(); };
+window.onload = function () {
+    sc3_init(true, true, 'jssc3UserPrograms/js');
+    text_editor_init();
+};
     </script>
   </head>
   <body>
@@ -35,6 +38,11 @@
       <button title="Reset (.)" accesskey="." onclick="reset()">Reset</button>
       <button title="Print" onclick="prettyPrintSyndef()">Print</button>
       <button title="Save document to local storage (s)" accesskey="s" onclick="user_program_save_to()">Save</button>
+      <select id="actionsMenu" title="Actions">
+        <option value=''>&#x2630;</option>
+        <option value='userBackup'>Backup</option>
+        <option value='userRestore'>Restore</option>
+      </select>
     </div>
   </body>
 </html>
