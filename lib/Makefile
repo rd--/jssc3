@@ -1,17 +1,20 @@
-fetch-osc:
-	wget https://unpkg.com/osc@2.4.2/dist/osc-browser.js
+fetch-ace:
+	(cd ace-builds ; git pull)
+
+clone-ace:
+	git clone https://github.com/ajaxorg/ace-builds/
+
+clone-oscjs:
+	git clone https://github.com/colinbdclark/osc.js/
+
+fetch-oscjs:
+	(cd osc.js ; git pull)
 
 clone-scsynth:
 	git clone https://gitlab.com/rd--/scsynth-wasm-builds
 
 fetch-scsynth:
 	(cd scsynth-wasm-builds ; git pull)
-
-fetch-ace:
-	(cd ace-builds ; git pull)
-
-clone-ace:
-	git clone https://github.com/ajaxorg/ace-builds/
 
 fetch-quill:
 	rm -Rf quill
