@@ -90,6 +90,8 @@ function setStatusDisplay(text) {
     var status = document.getElementById('statusText');
     if(status) {
         statusText.innerHTML = text;
+    } else {
+        console.log(text);
     }
 }
 

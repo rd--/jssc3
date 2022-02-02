@@ -1,6 +1,7 @@
 'use strict';
 
 function sendOsc(oscMessage) {
+    // console.log('sendOsc', oscMessage);
     if(Module.oscDriver) {
         var port = Module.oscDriver[57110];
         var recv = port && port.receive;
