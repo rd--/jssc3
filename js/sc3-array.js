@@ -46,7 +46,7 @@ function arrayDropWhile(array, predicate) {
 // arrayExtendCyclically([1, 2, 3], 8) //=> [1, 2, 3, 1, 2, 3, 1, 2]
 function arrayExtendCyclically(array, size) {
     var k = array.length;
-    var result = array.slice(0, k)
+    var result = array.slice(0, k);
     for(var x = 0; x < size - k; x += 1) {
         result.push(arrayAtWrap(array, x));
     }

@@ -1,5 +1,5 @@
 %.html : %.md
-	cmark < $< | tr -d '\n' > $@
+	cmark < $<  | runhaskell rw.hs > $@
 
 doc = 1.html
 

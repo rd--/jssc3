@@ -3,12 +3,12 @@ body {
   background-color: #98ece8 !important; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
 }
 
-textarea, select, button, span, code, .ql-toolbar, .ql-container, .ql-syntax {
+textarea, select, button, span, pre, code, .ql-toolbar, .ql-container, .ql-syntax {
   background-color: #ffffe8 !important; /* fffacd d0f0c0 fffacd f0fff0  */
   color: #424242  !important;
 }
 
-body, textarea, select, button, span, code, #text_editor, .ql-toolbar, .ql-container, .ql-syntax {
+body, textarea, select, button, span, pre, code, #text_editor, .ql-toolbar, .ql-container, .ql-syntax {
     font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Palatino', 'Garamond', 'Bookman', serif !important;
     font-size: 14pt !important;
 }
@@ -17,25 +17,3 @@ body, textarea, select, button, span, code, #text_editor, .ql-toolbar, .ql-conta
 #text_editor { height: 90vh; width: 95vw; margin-bottom: 5px; }
 
 #statusText { display: inline-block; border: 1px dotted black; padding: 2px; width: 75px; }
-
-h1 {
-    font-size: 1.25em !important;
-    text-decoration: none !important;
-    margin-bottom: 1em !important;
-}
-h2 {
-    font-size: 1em !important;
-    font-style: italic !important;
-    margin-bottom: 1em !important;
-}
-p, blockquote {
-    margin-bottom: 1em !important;
-}
-code {
-    font-style: normal !important;
-}
-pre {
-    border: 1px dotted #999;
-}
-.ql-toolbar, #text_editor { width: 50em !important; }
-.ql-container { width: 50em; height: 85vh !important; }

@@ -1,0 +1,31 @@
+h1 {
+    font-size: 1.25em !important;
+    text-decoration: none !important;
+    margin-bottom: 1em !important;
+}
+
+h2 {
+    font-size: 1.15em !important;
+    font-style: normal !important;
+    margin-bottom: 1em !important;
+}
+
+p, blockquote, code, pre {
+    margin-bottom: 1em !important;
+}
+
+code {
+    font-style: normal !important;
+}
+
+pre {
+    border: 1px dotted #999;
+}
+
+.ql-toolbar, .ql-container, #text_editor {
+    width: 55em;
+}
+
+.ql-container, #text_editor {
+    height: 85vh;
+}

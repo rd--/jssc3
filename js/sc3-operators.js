@@ -55,7 +55,7 @@ var unaryOperators = {
   triWindow: 51,
   ramp_: 52,
   scurve: 53,
-}
+};
 
 var binaryOperators = {
   add: 0,
@@ -107,4 +107,4 @@ var binaryOperators = {
   firstArg: 46,
   randRange: 47,
   expRandRange: 48,
-}
+};

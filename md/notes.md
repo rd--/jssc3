@@ -1,0 +1,1 @@
+- ace: does not work properly with proportional fonts, using textarea instead (code dyamically adapts)

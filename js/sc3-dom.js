@@ -20,7 +20,7 @@ function set_inner_html_of(elemId) {
     var selectElem = document.getElementById(elemId);
     return function(innerHtml) {
         selectElem.innerHTML = innerHtml;
-    }
+    };
 }
 
 // Throw error if response status is not .ok

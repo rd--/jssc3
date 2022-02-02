@@ -17,7 +17,7 @@ function flattenByteEncodingToArray(e, a) {
 }
 
 function flattenByteEncoding(e) {
-    var a = []
+    var a = [];
     flattenByteEncodingToArray(e, a);
     return new Uint8Array(a);
 }

@@ -19,6 +19,7 @@ var quill_options = {
 
 function text_editor_init() {
     text_editor = new Quill('#text_editor', quill_options);
+    text_editor.root.setAttribute('spellcheck', false);
 }
 
 function text_editor_get_selected_text() {

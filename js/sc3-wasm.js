@@ -3,13 +3,17 @@
 function sendOsc(oscMessage) {
     if(Module.oscDriver) {
         var port = Module.oscDriver[57110];
-        var recv = port && port['receive'];
+        var recv = port && port.receive;
         var data = osc.writePacket(oscMessage);
-        recv ? recv(57120, data) : console.warn('sendOsc: recv?');
+        if(recv) {
+            recv(57120, data);
+        } else {
+            console.warn('sendOsc: recv?');
+        }
     } else {
         console.warn('sendOsc: scsynth not running');
     }
-};
+}
 
 function bootScsynth(numInputs, numOutputs) {
     var args = Module['arguments'];
@@ -45,7 +49,7 @@ function monitorOsc() {
                 console.log('monitorOsc', addr, JSON.stringify(msg, null, 4));
             }
         }
-    }
+    };
 }
 
 function requestStatus() {
