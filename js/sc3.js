@@ -493,30 +493,61 @@ function prettyPrintSyndefOf(u) {
 
 // Server commands (Open Sound Control) ; prefixes are d = definition, s = synth, g = group, m = meta
 
+function oscData(t, x) { return {type: t, value: x}; }
+function oscInt32(x) { return oscData('i', x); }
+function oscFloat(x) { return oscData('f', x); }
+function oscString(x) { return oscData('s', x); }
+function oscBlob(x) { return oscData('b', x); }
+
 function d_recv(syndefArray) {
-    return {address: '/d_recv', args: [{type: 'b', value: syndefArray}]};
+    return {
+        address: '/d_recv',
+        args: [oscBlob(syndefArray)]
+    };
 }
 
 function d_recv_then(syndefArray, onCompletion) {
-    return {address: '/d_recv', args: [{type: 'b', value: syndefArray}, {type: 'b', value: onCompletion}]};
+    return {
+        address: '/d_recv',
+        args: [oscBlob(syndefArray), oscBlob(onCompletion)]
+    };
 }
 
 function s_new0(name, id, addAction, target) {
-    return {address: '/s_new', args: [{type: 's', value: name}, {type: 'i', value: id}, {type: 'i', value: addAction}, {type: 'i', value: target}]};
+    return {
+        address: '/s_new',
+        args: [oscString(name), oscInt32(id), oscInt32(addAction), oscInt32(target)]
+    };
+}
+
+function c_setn1(busIndex, controlArray) {
+    return {
+        address: '/c_setn',
+        args: [oscInt32(busIndex), oscInt32(controlArray.length)].concat(controlArray.map(oscFloat))
+    };
 }
 
 function g_freeAll1(id) {
-    return {address: '/g_freeAll', args: [{type: 'i', value: id}]};
+    return {
+        address: '/g_freeAll',
+        args: [oscInt32(id)]
+    };
 }
 
 var m_status = {address: '/status', args: []};
 
 function m_dumpOsc(code) {
-    return {address: '/dumpOSC', args: [{type: 'i', value: code}]};
+    return {
+        address: '/dumpOSC',
+        args: [oscInt32(code)]
+    };
 }
 
 function m_notify(status, clientId) {
-    return {address: '/notify', args: [{type: 'i', value: status}, {type: 'i', value: clientId}]};
+    return {
+        address: '/notify',
+        args: [oscInt32(status), oscInt32(clientId)]
+    };
 }
 
 function playJsProgram() {

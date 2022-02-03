@@ -1,13 +1,14 @@
 'use strict';
 
+var scsynth_alive = false;
+
 function sendOsc(oscMessage) {
     // console.log('sendOsc', oscMessage);
-    if(Module.oscDriver) {
+    if(scsynth_alive && Module.oscDriver) {
         var port = Module.oscDriver[57110];
         var recv = port && port.receive;
-        var data = osc.writePacket(oscMessage);
         if(recv) {
-            recv(57120, data);
+            recv(57120, osc.writePacket(oscMessage));
         } else {
             console.warn('sendOsc: recv?');
         }
@@ -20,11 +21,13 @@ function bootScsynth(numInputs, numOutputs) {
     var args = Module['arguments'];
     args[args.indexOf('-i') + 1] = String(numInputs);
     args[args.indexOf('-o') + 1] = String(numOutputs);
-    args.push('-w', '512');
-    //args.push('-m', '131072'); // fixed at scsynth/wasm compile time, see README_WASM
+    args.push('-w', '512'); // # wire buffers
+    args.push('-Z', '2048'); // # audio driver block size
+    // args.push('-m', '131072'); // fixed at scsynth/wasm compile time, see README_WASM
     Module.callMain(args);
     setTimeout(monitorOsc, 1000);
     setInterval(requestStatus, 1000);
+    scsynth_alive = true;
 }
 
 function play(u) {
@@ -63,4 +66,10 @@ function requestNotifications() {
 
 function requestPrintingOsc() {
     sendOsc(m_dumpOsc(1));
+}
+
+function setPointerControls(n, w, x, y) {
+    if(scsynth_alive) {
+        sendOsc(c_setn1(15001 + (n * 10), [w, x, y]));
+    }
 }

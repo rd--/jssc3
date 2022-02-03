@@ -72,7 +72,7 @@ function actions_menu_init() {
     }
 }
 
-function sc3_init(hasProgramMenu, hasHelpMenu, storageKey) {
+function sc3_ui_init(hasProgramMenu, hasHelpMenu, storageKey) {
     if(hasProgramMenu) {
         menu_init('programMenu', 'graph', '.js');
         load_utf8_and_then('html/program-menu.html', set_inner_html_of('programMenu'));
@@ -84,6 +84,7 @@ function sc3_init(hasProgramMenu, hasHelpMenu, storageKey) {
     user_storage_key = storageKey;
     user_program_menu_init();
     actions_menu_init();
+    sc3_mouse_init();
 }
 
 function setStatusDisplay(text) {
