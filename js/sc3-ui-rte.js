@@ -41,15 +41,15 @@ function text_editor_get_text() {
     return text_editor_get_selected_text();
 }
 
-function text_editor_get_data() {
-    return text_editor.root.innerHTML;
-}
-
 function text_editor_set_text(programText) {
     text_editor.root.innerHTML = programText;
 }
 
-function text_editor_set_data(programData) {
+function editor_get_data() {
+    return text_editor.root.innerHTML;
+}
+
+function editor_set_data(programData) {
     return text_editor.root.innerHTML = programData;
 }
 

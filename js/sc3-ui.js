@@ -10,10 +10,10 @@ function load_graph(graphDir, graphName, fileType) {
     fetch_url_and_then(graphUrl, 'text', programText => text_editor_set_text(programText));
 }
 
-function menu_init(menuId, graphDir, fileType) {
+function menu_init(menuId, graphDir, fileType, loadProc) {
     var menu = document.getElementById(menuId);
     if(menu) {
-        menu.addEventListener('change', e => e.target.value ? load_graph(graphDir, e.target.value, fileType) : null);
+        menu.addEventListener('change', e => e.target.value ? loadProc(graphDir, e.target.value, fileType) : null);
     } else {
         console.warn('menu_init: no element', menuId);
     }
@@ -30,20 +30,32 @@ function user_program_save_to() {
     var timeStamp = (new Date()).toISOString();
     var programName = window.prompt('Set program name', timeStamp);
     if(programName) {
-        user_programs[programName] = text_editor_get_data();
+        user_programs[programName] = editor_get_data();
         localStorage.setItem(user_storage_key, JSON.stringify(user_programs));
         select_add_option('userMenu', programName, programName);
     }
 }
 
 function user_program_load(programName) {
-    text_editor_set_data(user_programs[programName]);
+    editor_set_data(user_programs[programName]);
 }
 
 function user_program_clear() {
     if (window.confirm("Clear user program storage?")) {
         select_clear_from('userMenu', 1);
         localStorage.removeItem(user_storage_key);
+    }
+}
+
+function action_set_block_size() {
+    var blockSizeText = window.prompt('Set block size', '2048');
+    if(blockSizeText) {
+        var blockSize = Number.parseInt(blockSizeText, 10);
+        if(blockSize) {
+            scsynth_block_size = blockSize;
+        } else {
+            window.alert('Block size not an integer: ' + blockSizeText);
+        }
     }
 }
 
@@ -58,6 +70,7 @@ function action_user_restore() {
 function actions_menu_do(menu, entryName) {
     console.log('actions_menu_do', entryName);
     switch(entryName) {
+    case 'setBlockSize': action_set_block_size(); break;
     case 'userBackup': action_user_backup(); break;
     case 'userRestore': action_user_restore(); break;
     default: console.error('actions_menu_do: unknown action', entryName);
@@ -72,14 +85,18 @@ function actions_menu_init() {
     }
 }
 
-function sc3_ui_init(hasProgramMenu, hasHelpMenu, storageKey) {
+function sc3_ui_init(hasProgramMenu, hasHelpMenu, hasGuideMenu, fileExt, storageKey, loadProc) {
     if(hasProgramMenu) {
-        menu_init('programMenu', 'graph', '.js');
+        menu_init('programMenu', 'graph', fileExt, loadProc);
         load_utf8_and_then('html/program-menu.html', set_inner_html_of('programMenu'));
     }
     if(hasHelpMenu) {
-        menu_init('helpMenu', 'ugen', '.js');
+        menu_init('helpMenu', 'ugen', fileExt, loadProc);
         load_utf8_and_then('html/help-menu.html', set_inner_html_of('helpMenu'));
+    }
+    if(hasGuideMenu) {
+        menu_init('guideMenu', 'guide', fileExt, loadProc);
+        load_utf8_and_then('html/guide-menu.html', set_inner_html_of('guideMenu'));
     }
     user_storage_key = storageKey;
     user_program_menu_init();

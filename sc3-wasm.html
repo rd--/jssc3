@@ -25,7 +25,7 @@
     <script src="js/sc3-ui.js"></script>
     <script>
 window.onload = function () {
-    sc3_ui_init(true, true, 'jssc3UserPrograms/js');
+    sc3_ui_init(true, true, false, '.js', 'jssc3UserPrograms/js', load_graph);
     text_editor_init();
 };
     </script>
@@ -42,6 +42,7 @@ window.onload = function () {
       <button title="Print" onclick="prettyPrintSyndef()">Print</button>
       <select id="actionsMenu" title="Actions">
         <option value=''>&#x2630;</option>
+        <option value='setBlockSize'>Block Size</option>
         <option value='userBackup'>Backup</option>
         <option value='userRestore'>Restore</option>
       </select>

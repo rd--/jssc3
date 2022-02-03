@@ -1,6 +1,7 @@
 'use strict';
 
 var scsynth_alive = false;
+var scsynth_block_size = 2048;
 
 function sendOsc(oscMessage) {
     // console.log('sendOsc', oscMessage);
@@ -22,7 +23,7 @@ function bootScsynth(numInputs, numOutputs) {
     args[args.indexOf('-i') + 1] = String(numInputs);
     args[args.indexOf('-o') + 1] = String(numOutputs);
     args.push('-w', '512'); // # wire buffers
-    args.push('-Z', '2048'); // # audio driver block size
+    args.push('-Z', String(scsynth_block_size)); // # audio driver block size
     // args.push('-m', '131072'); // fixed at scsynth/wasm compile time, see README_WASM
     Module.callMain(args);
     setTimeout(monitorOsc, 1000);
