@@ -45,6 +45,8 @@ function text_editor_set_text(programText) {
     text_editor.root.innerHTML = programText;
 }
 
+var editor_get_notation() = text_editor_get_text;
+
 function editor_get_data() {
     return text_editor.root.innerHTML;
 }

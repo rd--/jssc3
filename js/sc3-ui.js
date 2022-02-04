@@ -136,5 +136,5 @@ function setStatusDisplay(text) {
 }
 
 function prettyPrintSyndef() {
-    prettyPrintSyndefOf(eval(text_editor_get_text()));
+    prettyPrintSyndefOf(eval(editor_get_notation()));
 }
