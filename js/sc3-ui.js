@@ -107,7 +107,7 @@ function actions_menu_init() {
     }
 }
 
-function sc3_ui_init(hasProgramMenu, hasHelpMenu, hasGuideMenu, fileExt, storageKey, loadProc) {
+function sc3_ui_init(hasProgramMenu, hasHelpMenu, hasGuideMenu, fileExt, storageKey, loadProc, initMouse) {
     if(hasProgramMenu) {
         menu_init('programMenu', 'graph', fileExt, loadProc);
         load_utf8_and_then('html/program-menu.html', set_inner_html_of('programMenu'));
@@ -123,7 +123,9 @@ function sc3_ui_init(hasProgramMenu, hasHelpMenu, hasGuideMenu, fileExt, storage
     user_storage_key = storageKey;
     user_program_menu_init();
     actions_menu_init();
-    sc3_mouse_init();
+    if(initMouse) {
+        sc3_mouse_init();
+    }
 }
 
 function setStatusDisplay(text) {

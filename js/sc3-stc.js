@@ -30,3 +30,10 @@ function stc_binary_selector_from_operator(text) {
         default: return text;
     }
 }
+
+// Request .stc to .js translation from server, result text is sent to proc (async).
+function stc_to_js(stcText, proc) {
+    var urlPrefix = 'https://rohandrape.net/pub/stsc3/cgi-bin/stc-to-js-cgi.py?stc=';
+    var encodedStcText = encodeURIComponent(stcText);
+    fetch_url_and_then(urlPrefix + encodedStcText, 'text', proc);
+}
