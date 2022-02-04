@@ -23,10 +23,11 @@
     <script src="js/sc3-wasm.js"></script>
     <script src="js/sc3-wasm-module.js"></script>
     <script src="js/sc3-ui.js"></script>
+    <script src="js/sc3-ui-mouse.js"></script>
     <script src="js/sc3-ui-rte.js"></script>
     <script>
 window.onload = function () {
-    sc3_ui_init(false, false, 'jssc3UserPrograms/html');
+    sc3_ui_init(false, false, false, '.html', 'jssc3UserPrograms/html', load_graph, true);
     text_editor_init();
     load_utf8_and_then('help/essay/1.html', text_editor_set_text);
 };
