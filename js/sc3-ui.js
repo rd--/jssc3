@@ -59,12 +59,33 @@ function action_set_block_size() {
     }
 }
 
+// Copy user programs as JSON to clipboard
 function action_user_backup() {
     navigator.clipboard.writeText(JSON.stringify(user_programs));
 }
 
+function user_storage_sync() {
+    localStorage.setItem(user_storage_key, JSON.stringify(user_programs));
+    select_clear_from('userMenu', 1);
+    select_add_keys_as_options('userMenu', Object.keys(user_programs));
+}
+
+// Read selected .json user program archive file.
+function user_program_read_archive() {
+    var jsonFile = document.getElementById('userProgramArchiveFile').files[0];
+    // console.log('user_program_read_archive', jsonFile);
+    if (jsonFile) {
+        read_json_file_and_then(jsonFile, function(obj) {
+            // console.log('user_program_read_archive', obj);
+            Object.assign(user_programs, obj);
+            user_storage_sync();
+        });
+    }
+}
+
+// Click (invisible) file select input.
 function action_user_restore() {
-    console.warn('actions_user_restore: not implemented');
+    document.getElementById('userProgramArchiveFile').click();
 }
 
 function actions_menu_do(menu, entryName) {
@@ -73,6 +94,7 @@ function actions_menu_do(menu, entryName) {
     case 'setBlockSize': action_set_block_size(); break;
     case 'userBackup': action_user_backup(); break;
     case 'userRestore': action_user_restore(); break;
+    case 'userPurge': user_program_clear(); break;
     default: console.error('actions_menu_do: unknown action', entryName);
     }
     menu.selectedIndex = 0;

@@ -104,6 +104,11 @@ function read_text_file_and_then(fileName, proc) {
     reader.readAsText(fileName);
 }
 
+// Read named .json file and run proc on parsed result.
+function read_json_file_and_then(fileName, proc) {
+    read_text_file_and_then(fileName, jsonText => proc(JSON.parse(jsonText)));
+}
+
 // Array of all keys at local storage
 function local_storage_keys() {
     var a = [];
