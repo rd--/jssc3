@@ -2,9 +2,14 @@
 
 var user_programs;
 var user_storage_key;
+var notation_format;
+
+function resolve_file_type(fileType) {
+    return fileType ? fileType : notation_format;
+}
 
 function load_graph(graphDir, graphName, fileType) {
-    var graphFileName = 'help/' + graphDir + '/' + graphName + fileType;
+    var graphFileName = 'help/' + graphDir + '/' + graphName + resolve_file_type(fileType);
     var graphUrl = url_append_timestamp(graphFileName);
     console.log(graphName);
     fetch_url_and_then(graphUrl, 'text', programText => text_editor_set_text(programText));
@@ -13,7 +18,7 @@ function load_graph(graphDir, graphName, fileType) {
 function menu_init(menuId, graphDir, fileType, loadProc) {
     var menu = document.getElementById(menuId);
     if(menu) {
-        menu.addEventListener('change', e => e.target.value ? loadProc(graphDir, e.target.value, fileType) : null);
+        menu.addEventListener('change', e => e.target.value ? loadProc(graphDir, e.target.value, resolve_file_type(fileType)) : null);
     } else {
         console.warn('menu_init: no element', menuId);
     }
@@ -107,6 +112,12 @@ function actions_menu_init() {
     }
 }
 
+function set_notation_format() {
+    var notationFormat = document.getElementById('notationFormat');
+    notation_format = notationFormat.value;
+    console.log('set_notation_format', notation_format);
+}
+
 function sc3_ui_init(hasProgramMenu, hasHelpMenu, hasGuideMenu, fileExt, storageKey, loadProc, initMouse) {
     if(hasProgramMenu) {
         menu_init('programMenu', 'graph', fileExt, loadProc);
@@ -121,6 +132,7 @@ function sc3_ui_init(hasProgramMenu, hasHelpMenu, hasGuideMenu, fileExt, storage
         load_utf8_and_then('html/guide-menu.html', set_inner_html_of('guideMenu'));
     }
     user_storage_key = storageKey;
+    notation_format = '.js';
     user_program_menu_init();
     actions_menu_init();
     if(initMouse) {
@@ -137,6 +149,24 @@ function setStatusDisplay(text) {
     }
 }
 
+function translate_if_required_and_then(userText, proc) {
+    switch(notation_format) {
+    case '.js': proc(userText); break;
+    case '.stc': stc_to_js_and_then(userText, proc); break;
+    default: console.error('translate_if_required_and_then: unknown format', notation_format);
+    }
+}
+
 function prettyPrintSyndef() {
-    prettyPrintSyndefOf(eval(editor_get_notation()));
+    editor_get_notation_and_then(function(programText) {
+        prettyPrintSyndefOf(eval(programText));
+    });
+}
+
+function playJsProgram() {
+    editor_get_notation_and_then(function(programText) {
+        console.log(programText);
+        var program = eval(programText);
+        play(program);
+    });
 }

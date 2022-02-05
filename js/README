@@ -1,0 +1,15 @@
+Parts of this code are shared between:
+
+1. blksc3 block editor (.xml format)
+2. jssc3 plain text editor (.text format)
+3. jssc3 rich text editor (.html format)
+
+The common operations are:
+
+1. editor_get_notation(), to fetch the .js notation that is to be compiled
+2. editor_get_data(), to fetch the storable data from the editor (.xml or .text or .html)
+3. editor_set_data(programData), to load stored data into the editor (.xml or .text or .html)
+
+In addition some text editor contexts allow a translation stage, from .stc notation to .js notation.
+This translation is handled prior to editor_get_notation(), which returns .js notation.
+The variable notation_format says which format the user notation is in.

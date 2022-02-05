@@ -1,43 +1,53 @@
 'use strict';
 
-var text_editor;
+// https://ace.c9.io
+var ace_text_editor;
+
+// textarea
+var textarea_editor;
+
+function ace_text_editor_init(parent) {
+    var container = document.createElement('div');
+    container.setAttribute("id", "text_editor");
+    parent.appendChild(container);
+    ace_text_editor = ace.edit("text_editor", { wrap: true, indentedSoftWrap: true });
+    ace_text_editor.setTheme("ace/theme/solarized_light");
+    ace_text_editor.session.setMode("ace/mode/javascript");
+    ace_text_editor.setOption("highlightActiveLine", false);
+    ace_text_editor.renderer.setShowGutter(false);
+    ace_text_editor.setShowPrintMargin(false);
+}
 
 function text_editor_init() {
-    var container = document.getElementById('jsContainer');
-    var not_using_ace = typeof ace === 'undefined';
-    var editor;
-    if(not_using_ace) {
-        editor = document.createElement('textarea');
-        editor.setAttribute("id", "jsProgram");
-        container.appendChild(editor);
-    } else {
-        editor = document.createElement('div');
-        editor.setAttribute("id", "text_editor");
-        container.appendChild(editor);
-        text_editor = ace.edit("text_editor", { wrap: true, indentedSoftWrap: true });
-        text_editor.setTheme("ace/theme/solarized_light");
-        text_editor.session.setMode("ace/mode/javascript");
-        text_editor.setOption("highlightActiveLine", false);
-        text_editor.renderer.setShowGutter(false);
-        text_editor.setShowPrintMargin(false);
+    var parent = document.getElementById('jsContainer');
+    var useAce = typeof ace !== 'undefined';
+    if(useAce) {
+        ace_text_editor_init(parent);
+    }  else {
+        textarea_editor = document.createElement('textarea');
+        textarea_editor.setAttribute("id", "jsProgram");
+        parent.appendChild(textarea_editor);
     }
 }
 
 function text_editor_get_text() {
-    if(text_editor) {
-        return text_editor.getValue();
+    if(ace_text_editor) {
+        return ace_text_editor.getValue();
     } else {
-        return document.getElementById('jsProgram').value;
+        return textarea_editor.value;
     }
 }
 
 function text_editor_set_text(programText) {
-    // console.log('text_editor_set_text', programText);
-    if(text_editor) {
-        text_editor.getSession().setValue(programText);
+    if(ace_text_editor) {
+        ace_text_editor.getSession().setValue(programText);
     } else {
-        document.getElementById('jsProgram').value = programText;
+        textarea_editor.value = programText;
     }
+}
+
+function editor_get_notation_and_then(proc) {
+    translate_if_required_and_then(text_editor_get_text(), proc);
 }
 
 var editor_get_data = text_editor_get_text;

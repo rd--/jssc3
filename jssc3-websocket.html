@@ -18,12 +18,14 @@
     <script src="js/sc3-bindings.js"></script>
     <script src="js/sc3-pseudo.js"></script>
     <script src="js/sc3-event.js"></script>
-    <script src="js/sc3-ws.js"></script>
+    <script src="js/sc3-websocket.js"></script>
+    <script src="js/sc3-websocket-osc.js"></script>
     <script src="js/sc3-ui-pte.js"></script>
     <script src="js/sc3-ui.js"></script>
     <script>
 window.onload = function () {
     sc3_ui_init(true, true, false, '.js', 'jssc3UserPrograms/js', load_graph, false);
+    sc3_websocket_init('localhost', 9160);
     text_editor_init();
 };
     </script>

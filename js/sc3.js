@@ -549,9 +549,3 @@ function m_notify(status, clientId) {
         args: [oscInt32(status), oscInt32(clientId)]
     };
 }
-
-function playJsProgram() {
-    var programText = text_editor_get_text();
-    var program = eval(programText);
-    play(program);
-}

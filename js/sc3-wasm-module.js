@@ -1,6 +1,6 @@
 'use strict';
 
-function logMessage(from, text) {
+function logMessageFrom(from, text) {
     console.log(from + ':', text);
 }
 
@@ -9,28 +9,25 @@ var Module = {
     postRun: [],
     print: (function() {
         return function(text) {
-            logMessage('print', text);
+            logMessageFrom('print', text);
         };
     })(),
     printErr: function(text) {
-        logMessage('error', text);
+        logMessageFrom('error', text);
     },
-    logMessage: function(text) {
-        logMessage('status', text);
+    logMessageFrom: function(text) {
+        logMessageFrom('status', text);
     },
     totalDependencies: 0,
     monitorRunDependencies: function(left) {
-        logMessage('monitorRunDependencies', '# ' + String(left));
+        logMessageFrom('monitorRunDependencies', '# ' + String(left));
         if(left > 0) {
             setStatusDisplay("Loading...");
         }
     },
     onRuntimeInitialized: function() {
-        logMessage('onRuntimeInitialized', '...');
+        logMessageFrom('onRuntimeInitialized', '...');
         setStatusDisplay("--------");
     }
 };
 
-window.onerror = function(event) {
-    logMessage('window.onerror', String(event));
-};

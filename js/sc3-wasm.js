@@ -74,3 +74,9 @@ function setPointerControls(n, w, x, y) {
         sendOsc(c_setn1(15001 + (n * 10), [w, x, y]));
     }
 }
+
+function sc3_wasm_init() {
+    window.onerror = function(event) {
+        logMessageFrom('window.onerror', String(event));
+    };
+}
