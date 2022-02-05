@@ -165,7 +165,7 @@ function prettyPrintSyndef() {
 
 function playJsProgram() {
     editor_get_notation_and_then(function(programText) {
-        console.log(programText);
+        // console.log(programText);
         var program = eval(programText);
         play(program);
     });
