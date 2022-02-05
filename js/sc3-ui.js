@@ -132,7 +132,7 @@ function sc3_ui_init(hasProgramMenu, hasHelpMenu, hasGuideMenu, fileExt, storage
         load_utf8_and_then('html/guide-menu.html', set_inner_html_of('guideMenu'));
     }
     user_storage_key = storageKey;
-    notation_format = '.js';
+    notation_format = '.stc';
     user_program_menu_init();
     actions_menu_init();
     if(initMouse) {
