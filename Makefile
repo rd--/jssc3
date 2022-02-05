@@ -7,3 +7,6 @@ push-all:
 
 remote-update:
 	ssh rd@rohandrape.net "(cd rohandrape.net/pub/jssc3 ; git pull)"
+
+mk-cgi-ln:
+	ln -s lib/stsc3/cgi-bin cgi-bin
