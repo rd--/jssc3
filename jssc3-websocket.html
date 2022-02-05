@@ -18,13 +18,14 @@
     <script src="js/sc3-bindings.js"></script>
     <script src="js/sc3-pseudo.js"></script>
     <script src="js/sc3-event.js"></script>
+    <script src="js/sc3-stc.js"></script>
     <script src="js/sc3-websocket.js"></script>
     <script src="js/sc3-websocket-osc.js"></script>
     <script src="js/sc3-ui-pte.js"></script>
     <script src="js/sc3-ui.js"></script>
     <script>
 window.onload = function () {
-    sc3_ui_init(true, true, false, '.js', 'jssc3UserPrograms/js', load_graph, false);
+    sc3_ui_init(true, true, false, null, 'jssc3UserPrograms/js', load_graph, false);
     sc3_websocket_init('localhost', 9160);
     text_editor_init();
 };
@@ -40,6 +41,10 @@ window.onload = function () {
       <button title="Reset (.)" accesskey="." onclick="reset()">Reset</button>
       <button title="Print" onclick="prettyPrintSyndef()">Print</button>
       <button title="Save document to local storage (s)" accesskey="s" onclick="user_program_save_to()">Save</button>
+      <select id="notationFormat" title="Notation format" onchange="set_notation_format()">
+        <option value='.js' accesskey="j">.js</option>
+        <option value='.stc' accesskey="t">.stc</option>
+      </select>
       <select id="actionsMenu" title="Actions">
         <option value=''>&#x2630;</option>
         <option value='userBackup'>Backup</option>

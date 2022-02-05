@@ -158,14 +158,14 @@ function translate_if_required_and_then(userText, proc) {
 }
 
 function prettyPrintSyndef() {
-    editor_get_notation_and_then(function(programText) {
+    editor_get_js_notation_and_then(function(programText) {
         prettyPrintSyndefOf(eval(programText));
     });
 }
 
 function playJsProgram() {
-    editor_get_notation_and_then(function(programText) {
-        // console.log(programText);
+    editor_get_js_notation_and_then(function(programText) {
+        // console.log('playJsProgram', programText);
         var program = eval(programText);
         play(program);
     });

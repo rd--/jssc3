@@ -1,4 +1,4 @@
-// TChoose ; select input at trigger
+// TChoose ; choose input at trigger
 var x = MouseX(1, 1000, 1, 0.1);
 var t = Dust(x);
 var f = TIRand(48, 60, t).midiCps;

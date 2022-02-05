@@ -46,7 +46,7 @@ function text_editor_set_text(programText) {
     }
 }
 
-function editor_get_notation_and_then(proc) {
+function editor_get_js_notation_and_then(proc) {
     translate_if_required_and_then(text_editor_get_text(), proc);
 }
 

@@ -1,6 +1,6 @@
 // CombC ; glissandi
 var lwr = 48;
-var tr = { Dust(0.65) }.dup;
+var tr = { Dust(0.65) }.dup(2);
 var fn = {
     var n = LinLin(LFNoise2(0.1), -1, 1, lwr, 72);
     var e = Decay2(tr, 0.05, TRand(0.05, 0.75, tr));
