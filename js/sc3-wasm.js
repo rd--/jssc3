@@ -2,14 +2,16 @@
 
 var scsynth_alive = false;
 var scsynth_block_size = 2048;
+var scsynth_port = 57110;
+var sclang_port = 57120;
 
 function sendOsc(oscMessage) {
     // console.log('sendOsc', oscMessage);
     if(scsynth_alive && Module.oscDriver) {
-        var port = Module.oscDriver[57110];
+        var port = Module.oscDriver[scsynth_port];
         var recv = port && port.receive;
         if(recv) {
-            recv(57120, osc.writePacket(oscMessage));
+            recv(sclang_port, osc.writePacket(oscMessage));
         } else {
             console.warn('sendOsc: recv?');
         }
@@ -19,16 +21,20 @@ function sendOsc(oscMessage) {
 }
 
 function bootScsynth(numInputs, numOutputs) {
-    var args = Module['arguments'];
-    args[args.indexOf('-i') + 1] = String(numInputs);
-    args[args.indexOf('-o') + 1] = String(numOutputs);
-    args.push('-w', '512'); // # wire buffers
-    args.push('-Z', String(scsynth_block_size)); // # audio driver block size
-    // args.push('-m', '131072'); // fixed at scsynth/wasm compile time, see README_WASM
-    Module.callMain(args);
-    setTimeout(monitorOsc, 1000);
-    setInterval(requestStatus, 1000);
-    scsynth_alive = true;
+    if(!scsynth_alive) {
+        var args = Module['arguments'];
+        args[args.indexOf('-i') + 1] = String(numInputs);
+        args[args.indexOf('-o') + 1] = String(numOutputs);
+        args.push('-w', '512'); // # wire buffers
+        args.push('-Z', String(scsynth_block_size)); // # audio driver block size
+        // args.push('-m', '131072'); // fixed at scsynth/wasm compile time, see README_WASM
+        Module.callMain(args);
+        setTimeout(monitorOsc, 1000);
+        setInterval(requestStatus, 1000);
+        scsynth_alive = true;
+    } else {
+        console.log('bootScsynth: already running')
+    }
 }
 
 function play(u) {
@@ -43,7 +49,7 @@ function reset() {
 }
 
 function monitorOsc() {
-    Module.oscDriver[57120] = {
+    Module.oscDriver[sclang_port] = {
         receive: function(addr, data) {
             var msg = osc.readPacket(data, {});
             if(msg.address === '/status.reply') {

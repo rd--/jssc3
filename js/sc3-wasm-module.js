@@ -27,7 +27,7 @@ var Module = {
     },
     onRuntimeInitialized: function() {
         logMessageFrom('onRuntimeInitialized', '...');
-        setStatusDisplay("--------");
+        setStatusDisplay("&nbsp;");
     }
 };
 
