@@ -68,6 +68,10 @@ function BRF(input, freq, rq) {
 function BrownNoise() {
     return makeUgen('BrownNoise', 1, Rate.ar, 0, []);
 }
+// Current number of frames allocated in the buffer.
+function BufFrames(bufnum) {
+    return makeUgen('BufFrames', 1, Rate.kr, 0, [bufnum]);
+}
 // Buffer rate scaling in respect to server samplerate.
 function BufRateScale(bufnum) {
     return makeUgen('BufRateScale', 1, Rate.kr, 0, [bufnum]);
