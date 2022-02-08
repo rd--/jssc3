@@ -1,3 +1,5 @@
+'use strict';
+
 // Schroeder allpass delay line with cubic interpolation.
 function AllpassC(input, maxdelaytime, delaytime, decaytime) {
     return makeUgen('AllpassC', 1, [0], 0, [input, maxdelaytime, delaytime, decaytime]);
@@ -225,6 +227,10 @@ function Formlet(input, freq, attacktime, decaytime) {
 // Frequency Shifter.
 function FreqShift(input, freq, phase) {
     return makeUgen('FreqShift', 1, Rate.ar, 0, [input, freq, phase]);
+}
+// A physical model of a system with dry-friction. A chaotic filter.
+function Friction(input, friction, spring, damp, mass, beltmass) {
+    return makeUgen('Friction', 1, Rate.ar, 0, [input, friction, spring, damp, mass, beltmass]);
 }
 // Fast sine oscillator.
 function FSinOsc(freq, iphase) {
@@ -493,6 +499,10 @@ function NumOutputBuses() {
 // One pole filter.
 function OnePole(input, coef) {
     return makeUgen('OnePole', 1, [0], 0, [input, coef]);
+}
+// Interpolating wavetable oscillator.
+function Osc(bufnum, freq, phase) {
+    return makeUgen('Osc', 1, Rate.ar, 0, [bufnum, freq, phase]);
 }
 // Write a signal to a bus.
 function Out(bus, channelsArray) {
