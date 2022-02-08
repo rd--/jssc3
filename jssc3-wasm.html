@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta charset="utf-8">
     <link rel="icon" type="image/png" href="https://rohandrape.net/data/png/rd.512.png" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
     <link rel="stylesheet" type="text/css" media="all" href="css/sc3.css" />
@@ -54,8 +55,8 @@ window.onload = function () {
         <option value='.stc' accesskey="t">.stc</option>
         <option value='.js' accesskey="j">.js</option>
       </select>
-      <button title="Boot" accesskey="b" onclick="bootScsynth(0, 2)">Boot</button>
-      <span id="statusText">------</span>
+      <button title="Boot" accesskey="b" onclick="bootScsynth(0, 2)">⏻ (Boot)</button>
+      <span id="statusText"></span>
     </div>
     <script async src="lib/scsynth-wasm-builds/core/scsynth.js"></script>
   </body>

@@ -23,9 +23,10 @@ pre {
 }
 
 .ql-toolbar, .ql-container, #text_editor {
-    width: 55em;
+    width: 800px;
 }
 
 .ql-container, #text_editor {
+    font-size: 12pt !important;
     height: 85vh;
 }

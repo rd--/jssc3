@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta charset="utf-8">
     <link rel="icon" type="image/png" href="https://rohandrape.net/data/png/rd.512.png" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
     <link href="lib/quill/quill.snow.css" rel="stylesheet">
@@ -56,8 +57,8 @@ window.onload = function () {
         <option value='userRestore'>Restore</option>
         <option value='userPurge'>Purge</option>
       </select>
-      <button title="Boot" accesskey="b" onclick="bootScsynth(0, 2)">Boot</button>
-      <span id="statusText">------</span>
+      <button title="Boot" accesskey="b" onclick="bootScsynth(0, 2)">⏻ (Boot)</button>
+      <span id="statusText"></span>
     </div>
     <script src="lib/quill/quill.js"></script>
     <script async src="lib/scsynth-wasm-builds/core/scsynth.js"></script>

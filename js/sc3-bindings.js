@@ -1,5 +1,3 @@
-'use strict';
-
 // Schroeder allpass delay line with cubic interpolation.
 function AllpassC(input, maxdelaytime, delaytime, decaytime) {
     return makeUgen('AllpassC', 1, [0], 0, [input, maxdelaytime, delaytime, decaytime]);
@@ -483,6 +481,10 @@ function MulAdd(input, mul, add) {
 // Flattens dynamics.
 function Normalizer(input, level, dur) {
     return makeUgen('Normalizer', 1, [0], 0, [input, level, dur]);
+}
+// Sum of uniform distributions.
+function NRand(lo, hi, n) {
+    return makeUgen('NRand', 1, Rate.ir, 0, [lo, hi, n]);
 }
 // Number of output busses.
 function NumOutputBuses() {
