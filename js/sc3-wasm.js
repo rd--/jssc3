@@ -44,7 +44,7 @@ function playSyndef(syndefName, syndefData) {
 function play(u) {
     var name = 'sc3.js';
     var graph = new Graph(name, Out(0, u));
-    playSyndef(name, g.encodeSyndef());
+    playSyndef(name, graph.encodeSyndef());
 }
 
 function reset() {
