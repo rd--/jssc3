@@ -597,6 +597,10 @@ function RBezier(haltAfter, dx, freq, phase, param) {
     return makeUgen('RBezier', 1, Rate.ar, 0, [haltAfter, dx, freq, phase].concat(unitArrayIfScalar(param)));
 }
 // (Undocumented class)
+function RDX7(bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc) {
+    return makeUgen('RDX7', 1, Rate.ar, 0, [bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc]);
+}
+// (Undocumented class)
 function RDX7Env(gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol) {
     return makeUgen('RDX7Env', 1, Rate.ar, 0, [gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol]);
 }
