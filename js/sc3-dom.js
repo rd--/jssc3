@@ -17,9 +17,9 @@ function fetch_url_and_then(url, type, proc) {
 
 // Function to return a function to set the innerHTML of elemId
 function set_inner_html_of(elemId) {
-    var selectElem = document.getElementById(elemId);
+    var elem = document.getElementById(elemId);
     return function(innerHtml) {
-        selectElem.innerHTML = innerHtml;
+        elem.innerHTML = innerHtml;
     };
 }
 
@@ -37,21 +37,27 @@ function log_error_and_return(from, reason, defaultValue) {
     return defaultValue;
 }
 
-// Fetch fileName and apply processFunc to the text read (stored as UTF-8).
-function load_utf8_and_then(fileName, processFunc) {
+function load_and_extract_and_then(fileName, typeString, extractFunc, processFunc) {
     fetch(fileName, { cache: 'no-cache' })
         .then(response => handle_fetch_error(response))
-        .then(response => response.text())
+        .then(response => extractFunc(response))
         .then(text => processFunc(text))
-        .catch(reason => processFunc(log_error_and_return('utf8', reason, '')));
+        .catch(reason => processFunc(log_error_and_return('load' + typeString, reason, '')));
+}
+
+// Fetch fileName and apply processFunc to the text read (stored as UTF-8).
+function load_utf8_and_then(fileName, processFunc) {
+    load_and_extract_and_then(fileName, 'text/utf8', r => r.text(), processFunc);
 }
 
 // Fetch fileName and apply processFunc to the object read (stored as JSON).
 function load_json_and_then(fileName, processFunc) {
-    fetch(fileName, { cache: 'no-cache' })
-        .then(response => handle_fetch_error(response))
-        .then(response => response.json())
-        .then(obj => processFunc(obj));
+    load_and_extract_and_then(fileName, 'text/json', r => r.json(), processFunc);
+}
+
+// Fetch fileName and apply processFunc to the ArrayBuffer object read
+function load_array_buffer_and_then(fileName, processFunc) {
+    load_and_extract_and_then(fileName, 'bytes/arraybuffer', r => r.arrayBuffer(), processFunc);
 }
 
 // Set onchange handler
@@ -60,13 +66,17 @@ function select_on_change(selectId, proc) {
     select.addEventListener('change', e => e.target.value ? proc(e.target.value) : null);
 }
 
-// Add option to select at elemId
-function select_add_option(elemId, value, text) {
-    var select = document.getElementById(elemId);
+function select_add_option_to(select, value, text) {
     var option = document.createElement('option');
     option.value = value;
     option.text = text;
     select.add(option, null);
+}
+
+// Add option to select at elemId
+function select_add_option_at_id(elemId, value, text) {
+    var select = document.getElementById(elemId);
+    select_add_option_to(select, value, text)
 }
 
 // Delete all options at selectId from startIndex

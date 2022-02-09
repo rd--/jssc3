@@ -55,7 +55,7 @@ window.onload = function () {
         <option value='.stc' accesskey="t">.stc</option>
         <option value='.js' accesskey="j">.js</option>
       </select>
-      <button title="Boot" accesskey="b" onclick="bootScsynth(0, 2)">⏻ (Boot)</button>
+      <button title="Boot" accesskey="b" onclick="bootScsynth(0, 2, scsynth_block_size)">⏻ (Boot)</button>
       <span id="statusText"></span>
     </div>
     <script async src="lib/scsynth-wasm-builds/core/scsynth.js"></script>

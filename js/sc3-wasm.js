@@ -1,7 +1,6 @@
 'use strict';
 
 var scsynth_alive = false;
-var scsynth_block_size = 2048;
 var scsynth_port = 57110;
 var sclang_port = 57120;
 
@@ -20,13 +19,13 @@ function sendOsc(oscMessage) {
     }
 }
 
-function bootScsynth(numInputs, numOutputs) {
+function bootScsynth(numInputs, numOutputs, blockSize) {
     if(!scsynth_alive) {
         var args = Module['arguments'];
         args[args.indexOf('-i') + 1] = String(numInputs);
         args[args.indexOf('-o') + 1] = String(numOutputs);
         args.push('-w', '512'); // # wire buffers
-        args.push('-Z', String(scsynth_block_size)); // # audio driver block size
+        args.push('-Z', String(blockSize)); // # audio driver block size
         // args.push('-m', '131072'); // fixed at scsynth/wasm compile time, see README_WASM
         Module.callMain(args);
         setTimeout(monitorOsc, 1000);
@@ -37,11 +36,15 @@ function bootScsynth(numInputs, numOutputs) {
     }
 }
 
+function playSyndef(syndefName, syndefData) {
+    console.log('playSyndef #', syndefData.length);
+    sendOsc(d_recv_then(syndefData, osc.writePacket(s_new0(syndefName, -1, 1, 0))));
+}
+
 function play(u) {
-    var g = new Graph('sc3.js', Out(0, u));
-    var d = g.encodeSyndef();
-    console.log('play: scsyndef #', d.length);
-    sendOsc(d_recv_then(d, osc.writePacket(s_new0('sc3.js', -1, 1, 0))));
+    var name = 'sc3.js';
+    var graph = new Graph(name, Out(0, u));
+    playSyndef(name, g.encodeSyndef());
 }
 
 function reset() {

@@ -3,6 +3,7 @@
 var user_programs;
 var user_storage_key;
 var notation_format;
+var scsynth_block_size;
 
 function resolve_file_type(fileType) {
     return fileType ? fileType : notation_format;
@@ -37,7 +38,7 @@ function user_program_save_to() {
     if(programName) {
         user_programs[programName] = editor_get_data();
         localStorage.setItem(user_storage_key, JSON.stringify(user_programs));
-        select_add_option('userMenu', programName, programName);
+        select_add_option_at_id('userMenu', programName, programName);
     }
 }
 
@@ -138,6 +139,7 @@ function sc3_ui_init(hasProgramMenu, hasHelpMenu, hasGuideMenu, fileExt, storage
     if(initMouse) {
         sc3_mouse_init();
     }
+    scsynth_block_size = 2048;
 }
 
 function setStatusDisplay(text) {
