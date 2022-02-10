@@ -208,6 +208,10 @@ function EnvGen(gate, levelScale, levelBias, timeScale, doneAction, envelope) {
 function ExpRand(lo, hi) {
     return makeUgen('ExpRand', 1, Rate.ir, 0, [lo, hi]);
 }
+// (Undocumented class)
+function ExpRandN(numChan, lo, hi) {
+    return makeUgen('ExpRandN', numChan, Rate.ir, 0, [lo, hi]);
+}
 // Feedback sine with chaotic phase indexing
 function FBSineC(freq, im, fb, a, c, xi, yi) {
     return makeUgen('FBSineC', 1, Rate.ar, 0, [freq, im, fb, a, c, xi, yi]);
@@ -424,6 +428,10 @@ function LinPan2(input, pos, level) {
 function LinRand(lo, hi, minmax) {
     return makeUgen('LinRand', 1, Rate.ir, 0, [lo, hi, minmax]);
 }
+// (Undocumented class)
+function LinRandN(numChan, lo, hi, minmax) {
+    return makeUgen('LinRandN', numChan, Rate.ir, 0, [lo, hi, minmax]);
+}
 // Two channel linear crossfade.
 function LinXFade2(inA, inB, pan) {
     return makeUgen('LinXFade2', 1, [0, 1], 0, [inA, inB, pan]);
@@ -572,6 +580,10 @@ function RLPF(input, freq, rq) {
 function Rand(lo, hi) {
     return makeUgen('Rand', 1, Rate.ir, 0, [lo, hi]);
 }
+// (Undocumented class)
+function RandN(numChan, lo, hi) {
+    return makeUgen('RandN', numChan, Rate.ir, 0, [lo, hi]);
+}
 // Record or overdub into a Buffer.
 function RecordBuf(bufnum, offset, recLevel, preLevel, run, loop, trigger, doneAction, inputArray) {
     return makeUgen('RecordBuf', 1, Rate.ar, 0, [bufnum, offset, recLevel, preLevel, run, loop, trigger, doneAction].concat(unitArrayIfScalar(inputArray)));
@@ -604,17 +616,9 @@ function RDX7(bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc) {
 function RDX7Env(gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol) {
     return makeUgen('RDX7Env', 1, Rate.ar, 0, [gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol]);
 }
-// (Undocumented class)
-function RExpRandN(numChan, lo, hi) {
-    return makeUgen('RExpRandN', numChan, Rate.ir, 0, [lo, hi]);
-}
 // Rotate a sound field.
 function Rotate2(x, y, pos) {
     return makeUgen('Rotate2', 2, [0, 1], 0, [x, y, pos]);
-}
-// (Undocumented class)
-function RRandN(numChan, lo, hi) {
-    return makeUgen('RRandN', numChan, Rate.ir, 0, [lo, hi]);
 }
 // Duration of one sample.
 function SampleDur() {
