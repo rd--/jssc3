@@ -24,10 +24,6 @@ function AmpCompA(freq, root, minAmp, rootAmp) {
 function Amplitude(input, attackTime, releaseTime) {
     return makeUgen('Amplitude', 1, Rate.ar, 0, [input, attackTime, releaseTime]);
 }
-// (Undocumented class)
-function AnalogFoldOsc(freq, amp) {
-    return makeUgen('AnalogFoldOsc', 1, Rate.ar, 0, [freq, amp]);
-}
 // Stereo signal balancer
 function Balance2(left, right, pos, level) {
     return makeUgen('Balance2', 2, [0, 1], 0, [left, right, pos, level]);
@@ -92,6 +88,10 @@ function ClearBuf(buf) {
 function Clip(input, lo, hi) {
     return makeUgen('Clip', 1, [0], 0, [input, lo, hi]);
 }
+// Statistical gate.
+function CoinGate(prob, input) {
+    return makeUgen('CoinGate', 1, [1], 0, [prob, input]);
+}
 // Comb delay line with cubic interpolation.
 function CombC(input, maxdelaytime, delaytime, decaytime) {
     return makeUgen('CombC', 1, [0], 0, [input, maxdelaytime, delaytime, decaytime]);
@@ -119,10 +119,6 @@ function Convolution(input, kernel, framesize) {
 // Chaotic noise function.
 function Crackle(chaosParam) {
     return makeUgen('Crackle', 1, Rate.ar, 0, [chaosParam]);
-}
-// class B/AB power amp distortion simulation
-function CrossoverDistortion(input, amp, smooth) {
-    return makeUgen('CrossoverDistortion', 1, [0], 0, [input, amp, smooth]);
 }
 // Cusp map chaotic generator
 function CuspL(freq, a, b, xi) {
@@ -155,6 +151,10 @@ function DegreeToKey(bufnum, input, octave) {
 // Simple delay line with cubic interpolation.
 function DelayC(input, maxdelaytime, delaytime) {
     return makeUgen('DelayC', 1, [0], 0, [input, maxdelaytime, delaytime]);
+}
+// Simple delay line with linear interpolation.
+function DelayL(input, maxdelaytime, delaytime) {
+    return makeUgen('DelayL', 1, [0], 0, [input, maxdelaytime, delaytime]);
 }
 // Simple delay line with no interpolation.
 function DelayN(input, maxdelaytime, delaytime) {
@@ -200,6 +200,10 @@ function Dust2(density) {
 function Duty(dur, reset, doneAction, level) {
     return makeUgen('Duty', 1, Rate.ar, 0, [dur, reset, doneAction, level]);
 }
+// Plucked physical model.
+function DWGPluckedStiff(freq, amp, gate, pos, c1, c3, inp, release, fB) {
+    return makeUgen('DWGPluckedStiff', 1, Rate.ar, 0, [freq, amp, gate, pos, c1, c3, inp, release, fB]);
+}
 // Envelope generator
 function EnvGen(gate, levelScale, levelBias, timeScale, doneAction, envelope) {
     return makeUgen('EnvGen', 1, Rate.ar, 0, [gate, levelScale, levelBias, timeScale, doneAction].concat(unitArrayIfScalar(envelope)));
@@ -207,10 +211,6 @@ function EnvGen(gate, levelScale, levelBias, timeScale, doneAction, envelope) {
 // Exponential single random number generator.
 function ExpRand(lo, hi) {
     return makeUgen('ExpRand', 1, Rate.ir, 0, [lo, hi]);
-}
-// (Undocumented class)
-function ExpRandN(numChan, lo, hi) {
-    return makeUgen('ExpRandN', numChan, Rate.ir, 0, [lo, hi]);
 }
 // Feedback sine with chaotic phase indexing
 function FBSineC(freq, im, fb, a, c, xi, yi) {
@@ -235,10 +235,6 @@ function Formlet(input, freq, attacktime, decaytime) {
 // Frequency Shifter.
 function FreqShift(input, freq, phase) {
     return makeUgen('FreqShift', 1, Rate.ar, 0, [input, freq, phase]);
-}
-// A physical model of a system with dry-friction. A chaotic filter.
-function Friction(input, friction, spring, damp, mass, beltmass) {
-    return makeUgen('Friction', 1, Rate.ar, 0, [input, friction, spring, damp, mass, beltmass]);
 }
 // Fast sine oscillator.
 function FSinOsc(freq, iphase) {
@@ -267,10 +263,6 @@ function GrainSin(numChan, trigger, dur, freq, pan, envbufnum, maxGrains) {
 // Gray Noise.
 function GrayNoise() {
     return makeUgen('GrayNoise', 1, Rate.ar, 0, []);
-}
-// algorithmic delay
-function GreyholeRaw(in1, in2, damping, delaytime, diffusion, feedback, moddepth, modfreq, size) {
-    return makeUgen('GreyholeRaw', 2, [0, 1], 0, [in1, in2, damping, delaytime, diffusion, feedback, moddepth, modfreq, size]);
 }
 // A two-channel reverb
 function GVerb(input, roomsize, revtime, damping, inputbw, spread, drylevel, earlyreflevel, taillevel, maxroomsize) {
@@ -331,6 +323,10 @@ function Klang(freqscale, freqoffset, specificationsArrayRef) {
 // Bank of resonators
 function Klank(input, freqscale, freqoffset, decayscale, specificationsArrayRef) {
     return makeUgen('Klank', 1, [0], 0, [input, freqscale, freqoffset, decayscale].concat(unitArrayIfScalar(specificationsArrayRef)));
+}
+// Clipped noise
+function LFClipNoise(freq) {
+    return makeUgen('LFClipNoise', 1, Rate.ar, 0, [freq]);
 }
 // A sine like shape made of two cubic pieces
 function LFCub(freq, iphase) {
@@ -428,10 +424,6 @@ function LinPan2(input, pos, level) {
 function LinRand(lo, hi, minmax) {
     return makeUgen('LinRand', 1, Rate.ir, 0, [lo, hi, minmax]);
 }
-// (Undocumented class)
-function LinRandN(numChan, lo, hi, minmax) {
-    return makeUgen('LinRandN', numChan, Rate.ir, 0, [lo, hi, minmax]);
-}
 // Two channel linear crossfade.
 function LinXFade2(inA, inB, pan) {
     return makeUgen('LinXFade2', 1, [0, 1], 0, [inA, inB, pan]);
@@ -460,14 +452,6 @@ function MantissaMask(input, bits) {
 function MaxLocalBufs(count) {
     return makeUgen('MaxLocalBufs', 1, Rate.ir, 0, [count]);
 }
-// Waveguide mesh physical models of drum membranes
-function MembraneCircle(excitation, tension, loss) {
-    return makeUgen('MembraneCircle', 1, Rate.ar, 0, [excitation, tension, loss]);
-}
-// a resonator
-function MiRings(input, trig, pit, struct, bright, damp, pos, model, poly, intern_exciter, easteregg, bypass) {
-    return makeUgen('MiRings', 2, Rate.ar, 0, [input, trig, pit, struct, bright, damp, pos, model, poly, intern_exciter, easteregg, bypass]);
-}
 // Minimum difference of two values in modulo arithmetics
 function ModDif(x, y, mod) {
     return makeUgen('ModDif', 1, [0], 0, [x, y, mod]);
@@ -475,10 +459,6 @@ function ModDif(x, y, mod) {
 // Moog VCF implementation, designed by Federico Fontana
 function MoogFF(input, freq, gain, reset) {
     return makeUgen('MoogFF', 1, [0], 0, [input, freq, gain, reset]);
-}
-// Moog Filter Emulation
-function MoogLadder(input, ffreq, res) {
-    return makeUgen('MoogLadder', 1, [0], 0, [input, ffreq, res]);
 }
 // Mouse button UGen.
 function MouseButton(minval, maxval, lag) {
@@ -580,10 +560,6 @@ function RLPF(input, freq, rq) {
 function Rand(lo, hi) {
     return makeUgen('Rand', 1, Rate.ir, 0, [lo, hi]);
 }
-// (Undocumented class)
-function RandN(numChan, lo, hi) {
-    return makeUgen('RandN', numChan, Rate.ir, 0, [lo, hi]);
-}
 // Record or overdub into a Buffer.
 function RecordBuf(bufnum, offset, recLevel, preLevel, run, loop, trigger, doneAction, inputArray) {
     return makeUgen('RecordBuf', 1, Rate.ar, 0, [bufnum, offset, recLevel, preLevel, run, loop, trigger, doneAction].concat(unitArrayIfScalar(inputArray)));
@@ -603,18 +579,6 @@ function Ringz(input, freq, decaytime) {
 // Track maximum level.
 function RunningMax(input, trig) {
     return makeUgen('RunningMax', 1, [0], 0, [input, trig]);
-}
-// (Undocumented class)
-function RBezier(haltAfter, dx, freq, phase, param) {
-    return makeUgen('RBezier', 1, Rate.ar, 0, [haltAfter, dx, freq, phase].concat(unitArrayIfScalar(param)));
-}
-// (Undocumented class)
-function RDX7(bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc) {
-    return makeUgen('RDX7', 1, Rate.ar, 0, [bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc]);
-}
-// (Undocumented class)
-function RDX7Env(gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol) {
-    return makeUgen('RDX7Env', 1, Rate.ar, 0, [gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol]);
 }
 // Rotate a sound field.
 function Rotate2(x, y, pos) {
@@ -708,10 +672,6 @@ function Trig(input, dur) {
 function Trig1(input, dur) {
     return makeUgen('Trig1', 1, [0], 0, [input, dur]);
 }
-// (Undocumented class)
-function TScramble(trigger, inputs) {
-    return makeUgen('TScramble', unitArrayIfScalar(inputs).length, [0], 0, [trigger].concat(unitArrayIfScalar(inputs)));
-}
 // Two pole filter.
 function TwoPole(input, freq, radius) {
     return makeUgen('TwoPole', 1, [0], 0, [input, freq, radius]);
@@ -747,6 +707,74 @@ function XLine(start, end, dur, doneAction) {
 // Zero crossing frequency follower
 function ZeroCrossing(input) {
     return makeUgen('ZeroCrossing', 1, [0], 0, [input]);
+}
+// Moog Filter Emulation
+function MoogLadder(input, ffreq, res) {
+    return makeUgen('MoogLadder', 1, [0], 0, [input, ffreq, res]);
+}
+// algorithmic delay
+function GreyholeRaw(in1, in2, damping, delaytime, diffusion, feedback, moddepth, modfreq, size) {
+    return makeUgen('GreyholeRaw', 2, [0, 1], 0, [in1, in2, damping, delaytime, diffusion, feedback, moddepth, modfreq, size]);
+}
+// class B/AB power amp distortion simulation
+function CrossoverDistortion(input, amp, smooth) {
+    return makeUgen('CrossoverDistortion', 1, [0], 0, [input, amp, smooth]);
+}
+// A physical model of a system with dry-friction. A chaotic filter.
+function Friction(input, friction, spring, damp, mass, beltmass) {
+    return makeUgen('Friction', 1, Rate.ar, 0, [input, friction, spring, damp, mass, beltmass]);
+}
+// Waveguide mesh physical models of drum membranes
+function MembraneCircle(excitation, tension, loss) {
+    return makeUgen('MembraneCircle', 1, Rate.ar, 0, [excitation, tension, loss]);
+}
+// a resonator
+function MiRings(input, trig, pit, struct, bright, damp, pos, model, poly, intern_exciter, easteregg, bypass) {
+    return makeUgen('MiRings', 2, Rate.ar, 0, [input, trig, pit, struct, bright, damp, pos, model, poly, intern_exciter, easteregg, bypass]);
+}
+// (Undocumented class)
+function AnalogFoldOsc(freq, amp) {
+    return makeUgen('AnalogFoldOsc', 1, Rate.ar, 0, [freq, amp]);
+}
+// rotating clock divider
+function RCD(clock, rotate, reset, div, spread, auto, len, down, gates) {
+    return makeUgen('RCD', 8, [0], 0, [clock, rotate, reset, div, spread, auto, len, down, gates]);
+}
+// shuffling clock multiplier
+function SCM(clock, bpm, rotate, slip, shuffle, skip, pw) {
+    return makeUgen('SCM', 8, Rate.ar, 0, [clock, bpm, rotate, slip, shuffle, skip, pw]);
+}
+// (Undocumented class)
+function DustRange(iotMin, iotMax) {
+    return makeUgen('DustRange', 1, Rate.ar, 0, [iotMin, iotMax]);
+}
+// (Undocumented class)
+function ExpRandN(numChan, lo, hi) {
+    return makeUgen('ExpRandN', numChan, Rate.ir, 0, [lo, hi]);
+}
+// (Undocumented class)
+function LinRandN(numChan, lo, hi, minmax) {
+    return makeUgen('LinRandN', numChan, Rate.ir, 0, [lo, hi, minmax]);
+}
+// (Undocumented class)
+function RandN(numChan, lo, hi) {
+    return makeUgen('RandN', numChan, Rate.ir, 0, [lo, hi]);
+}
+// (Undocumented class)
+function TScramble(trigger, inputs) {
+    return makeUgen('TScramble', unitArrayIfScalar(inputs).length, [0], 0, [trigger].concat(unitArrayIfScalar(inputs)));
+}
+// (Undocumented class)
+function Bezier(haltAfter, dx, freq, phase, param) {
+    return makeUgen('Bezier', 1, Rate.ar, 0, [haltAfter, dx, freq, phase].concat(unitArrayIfScalar(param)));
+}
+// (Undocumented class)
+function DX7(bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc) {
+    return makeUgen('DX7', 1, Rate.ar, 0, [bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc]);
+}
+// (Undocumented class)
+function RDX7Env(gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol) {
+    return makeUgen('RDX7Env', 1, Rate.ar, 0, [gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol]);
 }
 
 function add(a, b) { return BinaryOp(0, a, b); }
