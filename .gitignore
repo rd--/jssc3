@@ -1,4 +1,2 @@
-lib/ace-builds
-lib/osc.js
-lib/quill/
-lib/scsynth-wasm-builds
+cgi-bin
+lib/quill

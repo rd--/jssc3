@@ -292,6 +292,14 @@ function Impulse(freq, phase) {
 function In(numChan, bus) {
     return makeUgen('In', numChan, Rate.ar, 0, [bus]);
 }
+// Index into a table with a signal
+function Index(bufnum, input) {
+    return makeUgen('Index', 1, [1], 0, [bufnum, input]);
+}
+// Finds the (lowest) point in the Buffer at which the input signal lies in-between the two values
+function IndexInBetween(bufnum, input) {
+    return makeUgen('IndexInBetween', 1, [1], 0, [bufnum, input]);
+}
 // Read signal from a bus with a current or one cycle old timestamp.
 function InFeedback(numChan, bus) {
     return makeUgen('InFeedback', numChan, Rate.ar, 0, [bus]);
@@ -323,6 +331,10 @@ function Klang(freqscale, freqoffset, specificationsArrayRef) {
 // Bank of resonators
 function Klank(input, freqscale, freqoffset, decayscale, specificationsArrayRef) {
     return makeUgen('Klank', 1, [0], 0, [input, freqscale, freqoffset, decayscale].concat(unitArrayIfScalar(specificationsArrayRef)));
+}
+// random walk linear interp
+function LFBrownNoise1(freq, dev, dist) {
+    return makeUgen('LFBrownNoise1', 1, Rate.ar, 0, [freq, dev, dist]);
 }
 // Clipped noise
 function LFClipNoise(freq) {

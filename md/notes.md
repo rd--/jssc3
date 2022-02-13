@@ -30,7 +30,7 @@ There is a public server at <https://rohandrape.net/pub/stsc3/html/stc-to-js.htm
 
 There is a script at
 [http-server-cgi-cross-origin.py](https://gitlab.com/rd--/jssc3/-/blob/main/py/http-server-cgi-cross-origin.py)
-to run a local http server with the required _.cgi_ and _Cross-Origin_ headers set.
+to run a local http server with the required _.cgi_ handler and _Cross-Origin_ headers set.
 
 ## Ace
 
