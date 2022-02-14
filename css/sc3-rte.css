@@ -27,6 +27,6 @@ pre {
 }
 
 .ql-container, #text_editor {
-    font-size: 12pt !important;
+    font-size: 1em !important;
     height: 85vh;
 }
