@@ -133,3 +133,12 @@ function local_storage_keys() {
 function local_storage_delete_matching(predicate) {
     local_storage_keys().forEach(entry => predicate(entry) ? localStorage.removeItem(entry) : null);
 }
+
+// If some text is selected, get only the selected text, else get the entire text.
+function textarea_get_selection_or_contents(textarea) {
+    if(textarea.selectionStart == textarea.selectionEnd) {
+        return textarea.value;
+    } else {
+        return textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
+    }
+}

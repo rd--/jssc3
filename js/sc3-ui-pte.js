@@ -1,46 +1,51 @@
 'use strict';
 
 // https://ace.c9.io
-var ace_text_editor;
+var ace_editor;
 
 // textarea
 var textarea_editor;
 
-function ace_text_editor_init(parent) {
+function ace_editor_init(parent) {
     var container = document.createElement('div');
     container.setAttribute("id", "text_editor");
     parent.appendChild(container);
-    ace_text_editor = ace.edit("text_editor", { wrap: true, indentedSoftWrap: true });
-    ace_text_editor.setTheme("ace/theme/solarized_light");
-    ace_text_editor.session.setMode("ace/mode/javascript");
-    ace_text_editor.setOption("highlightActiveLine", false);
-    ace_text_editor.renderer.setShowGutter(false);
-    ace_text_editor.setShowPrintMargin(false);
+    ace_editor = ace.edit("text_editor", { wrap: true, indentedSoftWrap: true });
+    ace_editor.setTheme("ace/theme/solarized_light");
+    ace_editor.session.setMode("ace/mode/javascript");
+    ace_editor.setOption("highlightActiveLine", false);
+    ace_editor.renderer.setShowGutter(false);
+    ace_editor.setShowPrintMargin(false);
+}
+
+function textarea_editor_init(parent) {
+    textarea_editor = document.createElement('textarea');
+    textarea_editor.setAttribute("id", "jsProgram");
+    parent.appendChild(textarea_editor);
 }
 
 function text_editor_init() {
     var parent = document.getElementById('jsContainer');
     var useAce = typeof ace !== 'undefined';
     if(useAce) {
-        ace_text_editor_init(parent);
+        ace_editor_init(parent);
     }  else {
-        textarea_editor = document.createElement('textarea');
-        textarea_editor.setAttribute("id", "jsProgram");
-        parent.appendChild(textarea_editor);
+        textarea_editor_init(parent);
     }
 }
 
 function text_editor_get_text() {
-    if(ace_text_editor) {
-        return ace_text_editor.getValue();
-    } else {
-        return textarea_editor.value;
+    var currentText = ace_editor ? ace_editor.getValue() : textarea_get_selection_or_contents(textarea_editor);
+    // console.log('text_editor_get_text', currentText);
+    if(currentText.length.trim() == 0) {
+        console.warn('text_editor_get_text: empty text');
     }
+    return currentText;
 }
 
 function text_editor_set_text(programText) {
-    if(ace_text_editor) {
-        ace_text_editor.getSession().setValue(programText);
+    if(ace_editor) {
+        ace_editor.getSession().setValue(programText);
     } else {
         textarea_editor.value = programText;
     }
