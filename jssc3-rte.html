@@ -11,6 +11,9 @@
     <script src="lib/quill/quill.js"></script>
     <script src="js/sc3-array.js"></script>
     <script src="js/sc3-dom.js"></script>
+    <script src="js/sc3-error.js"></script>
+    <script src="js/sc3-io.js"></script>
+    <script src="js/sc3-localstorage.js"></script>
     <script src="js/sc3-operators.js"></script>
     <script src="js/sc3-null.js"></script>
     <script src="js/sc3-number.js"></script>
@@ -29,8 +32,9 @@
     <script src="js/sc3-ui-rte.js"></script>
     <script>
 window.onload = function () {
-    sc3_ui_init(false, false, false, '.html', 'jssc3UserPrograms/html', load_graph, true);
+    sc3_ui_init(false, false, false, '.html', 'jssc3UserPrograms/html', load_graph, true, 4096);
     text_editor_init();
+    sc3_wasm_init();
     load_utf8_and_then('help/essay/1.html', editor_set_data);
 };
     </script>

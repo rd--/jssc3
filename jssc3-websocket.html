@@ -8,6 +8,9 @@
     <!-- <script src="lib/ace-builds/src/ace.js"></script> -->
     <script src="js/sc3-array.js"></script>
     <script src="js/sc3-dom.js"></script>
+    <script src="js/sc3-error.js"></script>
+    <script src="js/sc3-io.js"></script>
+    <script src="js/sc3-localstorage.js"></script>
     <script src="js/sc3-operators.js"></script>
     <script src="js/sc3-null.js"></script>
     <script src="js/sc3-number.js"></script>
@@ -25,7 +28,7 @@
     <script src="js/sc3-ui.js"></script>
     <script>
 window.onload = function () {
-    sc3_ui_init(true, true, false, null, 'jssc3UserPrograms/js', load_graph, false);
+    sc3_ui_init(true, true, false, null, 'jssc3UserPrograms/js', load_graph, false, -1);
     sc3_websocket_init('localhost', 9160);
     text_editor_init();
 };

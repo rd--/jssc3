@@ -54,7 +54,7 @@ function user_program_clear() {
 }
 
 function action_set_block_size() {
-    var blockSizeText = window.prompt('Set block size', '2048');
+    var blockSizeText = window.prompt('Set block size', String(scsynth_block_size));
     if(blockSizeText) {
         var blockSize = Number.parseInt(blockSizeText, 10);
         if(blockSize) {
@@ -119,18 +119,18 @@ function set_notation_format() {
     console.log('set_notation_format', notation_format);
 }
 
-function sc3_ui_init(hasProgramMenu, hasHelpMenu, hasGuideMenu, fileExt, storageKey, loadProc, initMouse) {
+function sc3_ui_init(hasProgramMenu, hasHelpMenu, hasGuideMenu, fileExt, storageKey, loadProc, initMouse, blockSize) {
     if(hasProgramMenu) {
         menu_init('programMenu', 'graph', fileExt, loadProc);
-        load_utf8_and_then('html/program-menu.html', set_inner_html_of('programMenu'));
+        load_utf8_and_then('html/program-menu.html', setter_for_inner_html_of('programMenu'));
     }
     if(hasHelpMenu) {
         menu_init('helpMenu', 'ugen', fileExt, loadProc);
-        load_utf8_and_then('html/help-menu.html', set_inner_html_of('helpMenu'));
+        load_utf8_and_then('html/help-menu.html', setter_for_inner_html_of('helpMenu'));
     }
     if(hasGuideMenu) {
         menu_init('guideMenu', 'guide', fileExt, loadProc);
-        load_utf8_and_then('html/guide-menu.html', set_inner_html_of('guideMenu'));
+        load_utf8_and_then('html/guide-menu.html', setter_for_inner_html_of('guideMenu'));
     }
     user_storage_key = storageKey;
     notation_format = '.stc';
@@ -139,7 +139,7 @@ function sc3_ui_init(hasProgramMenu, hasHelpMenu, hasGuideMenu, fileExt, storage
     if(initMouse) {
         sc3_mouse_init();
     }
-    scsynth_block_size = 2048;
+    scsynth_block_size = blockSize;
 }
 
 function setStatusDisplay(text) {

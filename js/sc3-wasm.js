@@ -1,8 +1,8 @@
 'use strict';
 
-var scsynth_alive = false;
-var scsynth_port = 57110;
-var sclang_port = 57120;
+var scsynth_alive;
+var scsynth_port;
+var sclang_port;
 
 function sendOsc(oscMessage) {
     // console.log('sendOsc', oscMessage);
@@ -85,6 +85,9 @@ function setPointerControls(n, w, x, y) {
 }
 
 function sc3_wasm_init() {
+    scsynth_alive = false;
+    scsynth_port = 57110;
+    sclang_port = 57120;
     window.onerror = function(event) {
         logMessageFrom('window.onerror', String(event));
     };
