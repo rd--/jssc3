@@ -64,6 +64,10 @@ function BRF(input, freq, rq) {
 function BrownNoise() {
     return makeUgen('BrownNoise', 1, Rate.ar, 0, []);
 }
+// Current duration of soundfile in buffer.
+function BufDur(bufnum) {
+    return makeUgen('BufDur', 1, Rate.kr, 0, [bufnum]);
+}
 // Current number of frames allocated in the buffer.
 function BufFrames(bufnum) {
     return makeUgen('BufFrames', 1, Rate.kr, 0, [bufnum]);

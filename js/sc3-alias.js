@@ -1,4 +1,4 @@
 'use strict';
 
-var splay2 = Splay2;
-var bitShiftLeft = shiftLeft;
+function splay2(inArray) { return Splay2(inArray); }
+function bitShiftLeft(a, b) { return shiftLeft(a, b); }

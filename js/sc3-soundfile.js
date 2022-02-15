@@ -1,11 +1,11 @@
 'use strict';
 
-// Return the header fields of an audioBuffer.
+// Return the header fields of an audioBuffer.  length is the number of frames.
 function audiobuffer_header(audioBuffer) {
     return copy_keys_from_object(audioBuffer, ['length', 'duration', 'sampleRate', 'numberOfChannels']);
 }
 
-// Number of frames (length) multiplied by the number of channels.
+// Number of frames multiplied by the number of channels.
 function audiobuffer_number_of_samples(audioBuffer) {
     return audioBuffer.length * audioBuffer.numberOfChannels;
 }
@@ -31,6 +31,22 @@ function audiobuffer_interleaved_channel_data(audioBuffer) {
     }
 }
 
+function audiobuffer_maximum_absolute_value_and_frame_number_of(audioBuffer) {
+    var channelsArray = arrayIota(audioBuffer.numberOfChannels).map(i => audioBuffer.getChannelData(i));
+    var maximumValue = 0;
+    var frameNumber = 0;
+    for(var i = 0; i < audioBuffer.length; i++) {
+        for(var j = 0; j < audioBuffer.numberOfChannels; j++) {
+            var nextValue = Math.abs(channelsArray[j][i]);
+            if (nextValue > maximumValue) {
+                maximumValue = nextValue;
+                frameNumber = i;
+            }
+        }
+    }
+    return [maximumValue, frameNumber];
+}
+
 // Get the sample rate of the audio context
 function system_samplerate() {
     var audioContext = new window.AudioContext();
@@ -45,3 +61,4 @@ function fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, proc) {
         audioContext.decodeAudioData(arrayBuffer).then(proc);
     });
 };
+

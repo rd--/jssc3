@@ -12,46 +12,6 @@ function makeCounter() {
     return f;
 }
 
-// Encode
-
-function encodeUsing(k, f) {
-    var b = new ArrayBuffer(k);
-    f(new DataView(b));
-    return new Uint8Array(b);
-}
-
-function encodeUint8(number) {
-    return encodeUsing(1, b => b.setUint8(0, number));
-}
-
-function encodeInt8(number) {
-    return encodeUsing(1, b => b.setInt8(0, number));
-}
-
-function encodeInt16(number) {
-    return encodeUsing(2, b => b.setInt16(0, number));
-}
-
-function encodeInt32(number) {
-    return encodeUsing(4, b => b.setInt32(0, number));
-}
-
-// encodeFloat32(1.0) //=> [63, 128, 0, 0]
-function encodeFloat32(number) {
-    return encodeUsing(4, b => b.setFloat32(0, number));
-}
-
-// encodePascalString('string') //=> [6, 115, 116, 114, 105, 110, 103]
-function encodePascalString(string) {
-    var k = string.length;
-    var e = new Uint8Array(k + 1);
-    e[0] = k;
-    for(var i = 1; i < k + 1; i++) {
-        e[i] = string.charCodeAt(i - 1);
-    }
-    return e;
-}
-
 // Ugen
 
 // () -> int
@@ -492,61 +452,3 @@ function prettyPrintSyndefOf(u) {
     g.prettyPrintSyndef(g);
 }
 
-// Server commands (Open Sound Control) ; prefixes are d = definition, s = synth, g = group, m = meta
-
-function oscData(t, x) { return {type: t, value: x}; }
-function oscInt32(x) { return oscData('i', x); }
-function oscFloat(x) { return oscData('f', x); }
-function oscString(x) { return oscData('s', x); }
-function oscBlob(x) { return oscData('b', x); }
-
-function d_recv(syndefArray) {
-    return {
-        address: '/d_recv',
-        args: [oscBlob(syndefArray)]
-    };
-}
-
-function d_recv_then(syndefArray, onCompletion) {
-    return {
-        address: '/d_recv',
-        args: [oscBlob(syndefArray), oscBlob(onCompletion)]
-    };
-}
-
-function s_new0(name, id, addAction, target) {
-    return {
-        address: '/s_new',
-        args: [oscString(name), oscInt32(id), oscInt32(addAction), oscInt32(target)]
-    };
-}
-
-function c_setn1(busIndex, controlArray) {
-    return {
-        address: '/c_setn',
-        args: [oscInt32(busIndex), oscInt32(controlArray.length)].concat(controlArray.map(oscFloat))
-    };
-}
-
-function g_freeAll1(id) {
-    return {
-        address: '/g_freeAll',
-        args: [oscInt32(id)]
-    };
-}
-
-var m_status = {address: '/status', args: []};
-
-function m_dumpOsc(code) {
-    return {
-        address: '/dumpOSC',
-        args: [oscInt32(code)]
-    };
-}
-
-function m_notify(status, clientId) {
-    return {
-        address: '/notify',
-        args: [oscInt32(status), oscInt32(clientId)]
-    };
-}
