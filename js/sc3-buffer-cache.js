@@ -1,9 +1,10 @@
 'use strict';
 
-var sc3_buffer_dict = {'harp-a4.flac': 'https://rohandrape.net/rd/j/2022-02-15/harp-a4.flac' };
+var sc3_buffer_dict = {'harp-a4': 'https://rd.slavepianos.org/sw/jssc3/flac/harp-a4.flac' };
 var sc3_buffer_cache = {};
 var sc3_buffer_next = 100;
 
+// Fetch buffer index from cache, allocate and load if required.  Resolve soundFileId against dictionary.
 function SoundFileBufferCache(soundFileId, numberOfChannels) {
     var soundFileUrl = sc3_buffer_dict[soundFileId] || soundFileId;
     var cacheValue = sc3_buffer_cache[soundFileUrl];
