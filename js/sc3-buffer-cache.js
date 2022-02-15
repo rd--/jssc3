@@ -1,6 +1,6 @@
 'use strict';
 
-var sc3_buffer_dict = { 'harp-a4.flac': 'https://rohandrape.net/pub/jssc3/flac/harp-a4.flac' };
+var sc3_buffer_dict = { 'harp-a4': 'https://rohandrape.net/pub/jssc3/flac/harp-a4.flac' };
 var sc3_buffer_cache = {};
 var sc3_buffer_next = 100;
 
