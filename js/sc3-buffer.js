@@ -9,14 +9,18 @@ function audiobuffer_to_scsynth_buffer(audioBuffer, bufferNumber, numberOfChanne
 }
 
 // Fetch sound file data, and then allocate a buffer and memcpy all channel data.
-function fetch_soundfile_to_scsynth_buffer(soundFileUrl, bufferNumber) {
+function fetch_soundfile_to_scsynth_buffer(soundFileUrl, numberOfChannels, bufferNumber) {
     fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, function (audioBuffer) {
-        audiobuffer_to_scsynth_buffer(
-            audioBuffer,
-            bufferNumber,
-            audioBuffer.numberOfChannels,
-            audiobuffer_interleaved_channel_data(audioBuffer)
-        );
+        if(audioBuffer.numberOfChannels == numberOfChannels) {
+            audiobuffer_to_scsynth_buffer(
+                audioBuffer,
+                bufferNumber,
+                numberOfChannels,
+                audiobuffer_interleaved_channel_data(audioBuffer)
+            );
+        } else {
+            console.error('fetch_soundfile_to_scsynth_buffer: numberOfChannels mismatch');
+        };
     });
 }
 

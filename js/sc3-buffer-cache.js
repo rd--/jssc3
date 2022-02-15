@@ -1,0 +1,24 @@
+'use strict';
+
+var sc3_buffer_dict = {'harp-a4.flac': 'https://rohandrape.net/rd/j/2022-02-15/harp-a4.flac' };
+var sc3_buffer_cache = {};
+var sc3_buffer_next = 100;
+
+function SoundFileBufferCache(soundFileId, numberOfChannels) {
+    var soundFileUrl = sc3_buffer_dict[soundFileId] || soundFileId;
+    var cacheValue = sc3_buffer_cache[soundFileUrl];
+    if(cacheValue) {
+        if(cacheValue.numberOfChannels == numberOfChannels) {
+            cacheValue.useCount += 1;
+            return cacheValue.bufferNumber;
+        } else {
+            console.error('SoundFileBufferCache: channel mismatch');
+            return null;
+        }
+    } else {
+        var bufferNumber = sc3_buffer_next;
+        fetch_soundfile_to_scsynth_buffer(soundFileUrl, numberOfChannels, bufferNumber);
+        sc3_buffer_cache[soundFileUrl] = { bufferNumber: bufferNumber, numberOfChannels: numberOfChannels, useCount: 1 };
+        return bufferNumber;
+    };
+}
