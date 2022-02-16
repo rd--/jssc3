@@ -216,7 +216,7 @@ function reciprocal(a) { return recip(a); }
 function negated(a) { return neg(a); }
 function truncateTo(a, b) { return trunc(a, b); }
 function rand2(n) { return randomFloat(0 - n, n); }
-function value(proc, maybeArg) { return maybeArg ? proc(maybeArg) : proc(); }
+function value(proc, maybeArg1, maybeArg2) { return maybeArg2 ? proc(maybeArg1, maybeArg2) : (maybeArg1 ? proc(maybeArg1) : proc()); }
 
 // Env
 
