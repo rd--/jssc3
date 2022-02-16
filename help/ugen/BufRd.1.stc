@@ -1,6 +1,6 @@
 // BufRd ; phasor as phase input
 var nc = 2;
-var buf = SoundFileBufferCache("harp-a4", nc);
+var buf = SoundFileBuffer("harp-a4", nc);
 {
     var tr = Impulse(2 ** Rand(1, 3) / BufDur(buf), 0).kr;
     var mnn = TIRand(-2, 0, tr) * 12 + TChoose(tr, [0, 2.1, 4.9, 7, 9.2]);

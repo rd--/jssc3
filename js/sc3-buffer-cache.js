@@ -5,7 +5,7 @@ var sc3_buffer_cache = {};
 var sc3_buffer_next = 100;
 
 // Fetch buffer index from cache, allocate and load if required.  Resolve soundFileId against dictionary.
-function SoundFileBufferCache(soundFileId, numberOfChannels) {
+function SoundFileBuffer(soundFileId, numberOfChannels) {
     var soundFileUrl = sc3_buffer_dict[soundFileId] || soundFileId;
     var cacheValue = sc3_buffer_cache[soundFileUrl];
     if(cacheValue) {
@@ -13,7 +13,7 @@ function SoundFileBufferCache(soundFileId, numberOfChannels) {
             cacheValue.useCount += 1;
             return cacheValue.bufferNumber;
         } else {
-            console.error('SoundFileBufferCache: channel mismatch');
+            console.error('SoundFileBuffer: channel mismatch');
             return null;
         }
     } else {
