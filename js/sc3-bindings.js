@@ -781,16 +781,40 @@ function TScramble(trigger, inputs) {
     return makeUgen('TScramble', unitArrayIfScalar(inputs).length, [0], 0, [trigger].concat(unitArrayIfScalar(inputs)));
 }
 // (Undocumented class)
-function Bezier(haltAfter, dx, freq, phase, param) {
-    return makeUgen('Bezier', 1, Rate.ar, 0, [haltAfter, dx, freq, phase].concat(unitArrayIfScalar(param)));
-}
-// (Undocumented class)
 function DX7(bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc) {
     return makeUgen('DX7', 1, Rate.ar, 0, [bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc]);
 }
 // (Undocumented class)
 function RDX7Env(gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol) {
     return makeUgen('RDX7Env', 1, Rate.ar, 0, [gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol]);
+}
+// (Undocumented class)
+function ObxdFilter(input, cutoff, resonance, multimode, bandpass, fourpole) {
+    return makeUgen('ObxdFilter', 1, [0], 0, [input, cutoff, resonance, multimode, bandpass, fourpole]);
+}
+// (Undocumented class)
+function SvfBp(input, freq, q) {
+    return makeUgen('SvfBp', 1, Rate.ar, 0, [input, freq, q]);
+}
+// (Undocumented class)
+function SvfHp(input, freq, q) {
+    return makeUgen('SvfHp', 1, [0], 0, [input, freq, q]);
+}
+// (Undocumented class)
+function SvfLp(input, freq, q) {
+    return makeUgen('SvfLp', 1, Rate.ar, 0, [input, freq, q]);
+}
+// (Undocumented class)
+function Bezier(haltAfter, dx, freq, phase, param) {
+    return makeUgen('Bezier', 1, Rate.ar, 0, [haltAfter, dx, freq, phase].concat(unitArrayIfScalar(param)));
+}
+// (Undocumented class)
+function Freezer(bufnum, left, right, gain, increment, incrementOffset, incrementRandom, rightRandom, syncPhaseTrigger, randomizePhaseTrigger, numberOfLoops) {
+    return makeUgen('Freezer', 1, Rate.ar, 0, [bufnum, left, right, gain, increment, incrementOffset, incrementRandom, rightRandom, syncPhaseTrigger, randomizePhaseTrigger, numberOfLoops]);
+}
+// (Undocumented class)
+function ShufflerB(bufnum, readLocationMinima, readLocationMaxima, readIncrementMinima, readIncrementMaxima, durationMinima, durationMaxima, envelopeAmplitudeMinima, envelopeAmplitudeMaxima, envelopeShapeMinima, envelopeShapeMaxima, envelopeSkewMinima, envelopeSkewMaxima, stereoLocationMinima, stereoLocationMaxima, interOffsetTimeMinima, interOffsetTimeMaxima, ftableReadLocationIncrement, readIncrementQuanta, interOffsetTimeQuanta) {
+    return makeUgen('ShufflerB', 2, Rate.ar, 0, [bufnum, readLocationMinima, readLocationMaxima, readIncrementMinima, readIncrementMaxima, durationMinima, durationMaxima, envelopeAmplitudeMinima, envelopeAmplitudeMaxima, envelopeShapeMinima, envelopeShapeMaxima, envelopeSkewMinima, envelopeSkewMaxima, stereoLocationMinima, stereoLocationMaxima, interOffsetTimeMinima, interOffsetTimeMaxima, ftableReadLocationIncrement, readIncrementQuanta, interOffsetTimeQuanta]);
 }
 
 function add(a, b) { return BinaryOp(0, a, b); }
