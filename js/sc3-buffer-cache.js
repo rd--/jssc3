@@ -23,6 +23,7 @@ function SoundFileBuffer(soundFileId, numberOfChannels) {
         var bufferNumber = sc3_buffer_next;
         fetch_soundfile_to_scsynth_buffer(soundFileUrl, numberOfChannels, bufferNumber);
         sc3_buffer_cache[soundFileUrl] = { bufferNumber: bufferNumber, numberOfChannels: numberOfChannels, useCount: 1 };
+        sc3_buffer_next += 1;
         return bufferNumber;
     };
 }
