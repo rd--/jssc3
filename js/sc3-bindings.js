@@ -217,6 +217,10 @@ function ExpRand(lo, hi) {
     return makeUgen('ExpRand', 1, Rate.ir, 0, [lo, hi]);
 }
 // Feedback sine with chaotic phase indexing
+function FBSineL(freq, im, fb, a, c, xi, yi) {
+    return makeUgen('FBSineL', 1, Rate.ar, 0, [freq, im, fb, a, c, xi, yi]);
+}
+// Feedback sine with chaotic phase indexing
 function FBSineC(freq, im, fb, a, c, xi, yi) {
     return makeUgen('FBSineC', 1, Rate.ar, 0, [freq, im, fb, a, c, xi, yi]);
 }
@@ -275,6 +279,14 @@ function GVerb(input, roomsize, revtime, damping, inputbw, spread, drylevel, ear
 // Scrambled value with a hash function.
 function Hasher(input) {
     return makeUgen('Hasher', 1, [0], 0, [input]);
+}
+// Henon map chaotic generator
+function HenonL(freq, a, b, x0, x1) {
+    return makeUgen('HenonL', 1, Rate.ar, 0, [freq, a, b, x0, x1]);
+}
+// Henon map chaotic generator
+function HenonC(freq, a, b, x0, x1) {
+    return makeUgen('HenonC', 1, Rate.ar, 0, [freq, a, b, x0, x1]);
 }
 // 2nd order Butterworth highpass filter.
 function HPF(input, freq) {
@@ -559,6 +571,10 @@ function PulseDivider(trig, div, start) {
 // Pass random bins.
 function PV_RandComb(buffer, wipe, trig) {
     return makeUgen('PV_RandComb', 1, Rate.kr, 0, [buffer, wipe, trig]);
+}
+// General quadratic map chaotic generator
+function QuadL(freq, a, b, c, xi) {
+    return makeUgen('QuadL', 1, Rate.ar, 0, [freq, a, b, c, xi]);
 }
 // General quadratic map chaotic generator
 function QuadC(freq, a, b, c, xi) {
