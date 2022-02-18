@@ -1,5 +1,9 @@
 'use strict';
 
+function arrayAsArray(maybeArray) {
+    return Array.isArray(maybeArray) ? maybeArray : [maybeArray];
+}
+
 // arrayAt([1, 2, 3, 4], 3) == 4
 function arrayAt(array, index) {
     return array[index];
@@ -61,7 +65,7 @@ function arrayExtendToBeOfEqualSize(array) {
 }
 
 // [t] -> t
-function arrayHead(array) {
+function arrayFirst(array) {
     return array[0];
 }
 

@@ -25,8 +25,8 @@ function bootScsynth(numInputs, numOutputs, blockSize) {
         args[args.indexOf('-i') + 1] = String(numInputs);
         args[args.indexOf('-o') + 1] = String(numOutputs);
         args.push('-w', '512'); // # wire buffers
-        args.push('-Z', String(blockSize)); // # audio driver block size
-        args.push('-m', '32768'); // total memory is fixed at scsynth/wasm compile time, see README_WASM
+        args.push('-Z', String(blockSize)); // audio driver block size (frames)
+        args.push('-m', '32768'); // real time memory (Kb), total memory is fixed at scsynth/wasm compile time, see README_WASM
         Module.callMain(args);
         setTimeout(monitorOsc, 1000);
         setInterval(requestStatus, 1000);

@@ -10,6 +10,11 @@ function audiobuffer_number_of_samples(audioBuffer) {
     return audioBuffer.length * audioBuffer.numberOfChannels;
 }
 
+// Get all audio data as an array of Float32Array.
+function audiobuffer_channel_data_array(audioBuffer) {
+    return arrayIota(audioBuffer.numberOfChannels).map(i => audioBuffer.getChannelData(i));
+}
+
 // Interleave data from channelsArray into outputArray.
 function interleave_sample_data(numberOfFrames, numberOfChannels, channelsArray, outputArray) {
     for(var i = 0; i < numberOfFrames; i++) {
@@ -61,4 +66,3 @@ function fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, proc) {
         audioContext.decodeAudioData(arrayBuffer).then(proc);
     });
 };
-

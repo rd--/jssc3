@@ -178,3 +178,23 @@ MouseY = function(minval, maxval, warp, lag) {
 MouseButton = function(minval, maxval, lag) {
     return LinLin(Lag(PointerW(0), lag), 0, 1, minval, maxval);
 }
+
+function SfFrames(sfBufferArray) {
+    return BufFrames(arrayFirst(arrayAsArray(sfBufferArray)));
+}
+
+function SfDur(sfBufferArray) {
+    return BufDur(arrayFirst(arrayAsArray(sfBufferArray)));
+}
+
+function SfSampleRate(sfBufferArray) {
+    return BufSampleRate(arrayFirst(arrayAsArray(sfBufferArray)));
+}
+
+function SfRateScale(sfBufferArray) {
+    return BufRateScale(arrayFirst(arrayAsArray(sfBufferArray)));
+}
+
+function SfRead(sfBufferArray, phase, loop, interpolation) {
+    return BufRd(1, sfBufferArray, phase, loop, interpolation);
+}
