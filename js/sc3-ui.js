@@ -165,10 +165,14 @@ function prettyPrintSyndef() {
     });
 }
 
-function playJsProgram() {
+function playJsProgram(opt) {
     editor_get_js_notation_and_then(function(programText) {
         // console.log('playJsProgram', programText);
-        var program = eval(programText);
-        play(program);
+        var programUgen = eval(programText);
+        if(opt.cacheOnly) {
+            console.log(programText);
+        } else {
+            playUgen(programUgen);
+        }
     });
 }

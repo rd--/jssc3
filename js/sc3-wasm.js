@@ -41,9 +41,9 @@ function playSyndef(syndefName, syndefData) {
     sendOsc(d_recv_then(syndefData, osc.writePacket(s_new0(syndefName, -1, 1, 0))));
 }
 
-function play(u) {
+function playUgen(ugen) {
     var name = 'sc3.js';
-    var graph = new Graph(name, Out(0, u));
+    var graph = new Graph(name, Out(0, ugen));
     playSyndef(name, graph.encodeSyndef());
 }
 

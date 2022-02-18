@@ -49,7 +49,8 @@ window.onload = function () {
       <select id="programMenu" title="Program (p)" accesskey="p"></select>
       <select id="helpMenu" title="Help (h)" accesskey="h"></select>
       <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select>
-      <button title="Play (,)" accesskey="," onclick="playJsProgram()">Play</button>
+      <button title="Evaluate workspace program but do not play (/)" accesskey="/" onclick="playJsProgram({cacheOnly: true})">Cache</button>
+      <button title="Play (,)" accesskey="," onclick="playJsProgram({})">Play</button>
       <button title="Reset (.)" accesskey="." onclick="reset()">Reset</button>
       <button title="Save document to local storage (s)" accesskey="s" onclick="user_program_save_to()">Save</button>
       <button title="Print" onclick="prettyPrintSyndef()">Print</button>
