@@ -76,11 +76,11 @@ Ugen.prototype.displayName = function() {
     case 'BinaryOpUGen': return objectKeyFromValue(binaryOperators, this.specialIndex);
     default: return this.ugenName;
     }
-}
+};
 
 // Rate
 
-var Rate = {ir: 0, kr: 1, ar: 2, dr: 3}
+var Rate = { ir: 0, kr: 1, ar: 2, dr: 3 };
 
 function rateSelector(r) {
     return objectKeyFromValue(Rate, r);
@@ -105,7 +105,15 @@ function inputFirstUgen(i) {
 function mrg(lhs,rhs) {
     var u = inputFirstUgen(lhs);
     //console.log('mrg', lhs, rhs, u);
-    u ? (Array.isArray(rhs) ? rhs.forEach(item => u.mrg.push(item)) : u.mrg.push(rhs)) : console.error("mrg?");
+    if(u) {
+        if(Array.isArray(rhs)) {
+            rhs.forEach(item => u.mrg.push(item));
+        } else {
+            u.mrg.push(rhs);
+        }
+    } else {
+        console.error("mrg?");
+    }
     return lhs;
 }
 
@@ -118,10 +126,10 @@ function krMutateInPlace(i) {
     } else if(isUgen(i)) {
         // console.log('kr: ugen', i);
         i.ugenRate = i.ugenRate === 2 ? 1 : i.ugenRate;
-        i.inputValues.forEach(item => krMutateInPlace(item))
+        i.inputValues.forEach(item => krMutateInPlace(item));
     } else if(Array.isArray(i)) {
         // console.log('kr: array', i);
-        i.forEach(item => krMutateInPlace(item))
+        i.forEach(item => krMutateInPlace(item));
     } else {
         if(!isNumber(i)) {
             console.error('krMutateInPlace', i);
@@ -187,114 +195,6 @@ function BinaryOp(ix, a, b) {
     }
 }
 
-// Smalltalk
-
-/*
-append([1, 2, 3], [4, 5]) //=> [1, 2, 3, 4, 5]
-*/
-function sum(a) { return a.reduce(add); }
-function product(a) { return a.reduce(mul); }
-function collect(array, proc) { return array.map(proc); }
-function dup(proc, count) { return arrayFill(nullFix('dup: count?', count, 2), proc); }
-function timesRepeat(count, proc) { for(var i = 0; i < count; i++) { proc(); }; }
-function append(lhs, rhs) { return lhs.concat(rhs); }
-function transpose(array) { return arrayTranspose(array); }
-function reverse(array) { return array.reverse(); }
-function concatenation(array) { return arrayConcatenation(array); }
-function clump(array, n) { return arrayClump(array, n); }
-function mean(array) { return fdiv(sum(array), array.length); }
-function choose(array) { return array[randomInteger(0, array.length)]; }
-function nth(array, index) { return array[index - 1]; }
-function size(array) { return array.length; }
-function to(from, to) { return arrayFromTo(from, to); }
-function first(array) { return array[0]; }
-function second(array) { return array[1]; }
-function third(array) { return array[2]; }
-function roundTo(a, b) { return round(a, b); }
-function rounded(a) { return round(a, 1); }
-function reciprocal(a) { return recip(a); }
-function negated(a) { return neg(a); }
-function truncateTo(a, b) { return trunc(a, b); }
-function rand2(n) { return randomFloat(0 - n, n); }
-function value(proc, maybeArg1, maybeArg2) { return maybeArg2 ? proc(maybeArg1, maybeArg2) : (maybeArg1 ? proc(maybeArg1) : proc()); }
-
-// Env
-
-var EnvDict = {
-    step: 0,
-    lin: 1, linear: 1,
-    exp: 2, exponential: 2,
-    sin: 3, sine: 3,
-    wel: 4, welch: 4,
-    sqr: 6, squared: 6,
-    cub: 7, cubed: 7,
-    hold: 8
-};
-
-class EnvSpec {
-    constructor(levels, times, curves, releaseNode, loopNode, offset) {
-        this.levels = levels;
-        this.times = times;
-        this.curves = Array.isArray(curves) ? curves : [curves];
-        this.releaseNode = releaseNode;
-        this.loopNode = loopNode;
-        this.offset = offset;
-        //console.log('EnvSpec', curves, this);
-    }
-}
-
-// Env([0, 1, 0], [0.1, 0.9], 'lin', null, null, 0).coord().shallowEq([0, 2, -99, -99, 1, 0.1, 1, 0, 0, 0.9, 1, 0])
-function Env(levels, times, curves, releaseNode, loopNode, offset) {
-    return new EnvSpec(levels, times, curves, releaseNode, loopNode, offset);
-}
-
-EnvSpec.prototype.coord = function() {
-    var n = this.levels.length - 1;
-    var r = [];
-    r.push(this.levels[0]);
-    r.push(n);
-    r.push(this.releaseNode || -99);
-    r.push(this.loopNode || -99);
-    for(var i = 0; i < n; i++) {
-        var c = arrayAtWrap(this.curves, i);
-        r.push(this.levels[i + 1]);
-        r.push(arrayAtWrap(this.times, i));
-        r.push(EnvDict[c] || 5);
-        r.push(isString(c) ? 0 : c);
-    }
-    return r;
-}
-
-function EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, peakLevel, curve) {
-    return Env(
-        [0, peakLevel, mul(peakLevel, sustainLevel), 0],
-        [attackTime, decayTime, releaseTime],
-        curve,
-        2,
-        null,
-        0);
-}
-
-function ADSR(gate, attackTime, decayTime, sustainLevel, releaseTime, curve) {
-    var env = EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, 1, curve);
-    return EnvGen(gate, 1, 0, 1, 0, env.coord());
-}
-
-function EnvASR(attackTime, sustainLevel, releaseTime, curve) {
-    return Env(
-        [0, sustainLevel, 0],
-        [attackTime, releaseTime],
-        curve,
-        1,
-        null,
-        0);
-}
-
-function ASR(gate, attackTime, releaseTime, curve) {
-    var env = EnvASR(attackTime, 1, releaseTime, curve);
-    return EnvGen(gate, 1, 0, 1, 0, env.coord());
-}
-
 // Texture
 
 function OverlapTexture(graphFunc, sustainTime, transitionTime, overlap) {
@@ -353,17 +253,17 @@ function isGraph(obj) {
 
 Graph.prototype.constantIndex = function(k) {
     return this.constantSeq.indexOf(k);
-}
+};
 
 // lookup ugen index at graph given ugenId
 Graph.prototype.ugenIndex = function(k) {
     return this.ugenSeq.findIndex(u => u.ugenId === k);
-}
+};
 
 // port|num -> [int, int]
 Graph.prototype.inputSpec = function(i) {
     return isPort(i) ? [this.ugenIndex(i.ugen.ugenId), i.index] : [-1, this.constantIndex(i)];
-}
+};
 
 Graph.prototype.printUgenSpec = function(u) {
     console.log(
@@ -375,7 +275,7 @@ Graph.prototype.printUgenSpec = function(u) {
         u.inputValues.map(i => this.inputSpec(i)),
         arrayReplicate(u.numChan, u.ugenRate)
     );
-}
+};
 
 var SCgf = Number(1396926310);
 
@@ -383,7 +283,7 @@ Graph.prototype.printSyndef = function() {
     console.log(SCgf, 2, 1, this.graphName, this.constantSeq.length, this.constantSeq, 0, [], 0, [], this.ugenSeq.length);
     this.ugenSeq.forEach(item => this.printUgenSpec(item));
     console.log(0, []);
-}
+};
 
 Graph.prototype.encodeUgenSpec = function(u) {
     return [
@@ -395,7 +295,7 @@ Graph.prototype.encodeUgenSpec = function(u) {
         u.inputValues.map(i => this.inputSpec(i).map(ix => encodeInt32(ix))),
         arrayReplicate(u.numChan, encodeInt8(u.ugenRate))
     ];
-}
+};
 
 Graph.prototype.encodeSyndef = function() {
     return flattenByteEncoding([
@@ -411,7 +311,7 @@ Graph.prototype.encodeSyndef = function() {
         this.ugenSeq.map(item => this.encodeUgenSpec(item)),
         encodeInt16(0) // # variants
     ]);
-}
+};
 
 // Print
 
@@ -433,7 +333,7 @@ Graph.prototype.inputDisplayName = function(i) {
     } else {
         console.error('inputDisplayName', i);
     }
-}
+};
 
 Graph.prototype.prettyPrintUgen = function(u) {
     console.log(
@@ -441,11 +341,11 @@ Graph.prototype.prettyPrintUgen = function(u) {
         rateSelector(u.ugenRate),
         '[' + String(u.inputValues.map(i => this.inputDisplayName(i))) + ']'
     );
-}
+};
 
 Graph.prototype.prettyPrintSyndef = function() {
     this.ugenSeq.forEach(item => this.prettyPrintUgen(item));
-}
+};
 
 function prettyPrintSyndefOf(u) {
     var g = new Graph('sc3.js', Out(0, u));

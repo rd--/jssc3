@@ -10,6 +10,7 @@ textarea, select, button, span, pre, code, .ql-toolbar, .ql-container, .ql-synta
 
 body, textarea, select, button, span, pre, code, #text_editor, .ql-toolbar, .ql-container, .ql-syntax {
     font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Palatino', 'Garamond', 'Bookman', serif !important;
+    font-size: 1em;
 }
 
 #jsProgram { height: 90vh; width: 95vw; }
