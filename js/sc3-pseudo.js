@@ -165,7 +165,7 @@ MouseX = function(minval, maxval, warp, lag) {
     case 1: return LinExp(Lag(PointerX(0), lag), 0, 1, minval, maxval);
     default: console.error('MouseX: unknown warp', warp);
     }
-}
+};
 
 MouseY = function(minval, maxval, warp, lag) {
     switch(warp) {
@@ -173,11 +173,11 @@ MouseY = function(minval, maxval, warp, lag) {
     case 1: return LinExp(Lag(PointerY(0), lag), 0, 1, minval, maxval);
     default: console.error('MouseY: unknown warp', warp);
     }
-}
+};
 
 MouseButton = function(minval, maxval, lag) {
     return LinLin(Lag(PointerW(0), lag), 0, 1, minval, maxval);
-}
+};
 
 function SfFrames(sfBufferArray) {
     return BufFrames(arrayFirst(arrayAsArray(sfBufferArray)));

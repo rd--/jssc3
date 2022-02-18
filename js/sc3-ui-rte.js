@@ -54,6 +54,6 @@ function editor_get_data() {
 }
 
 function editor_set_data(programData) {
-    return quill_text_editor.root.innerHTML = programData;
+    quill_text_editor.root.innerHTML = programData;
 }
 

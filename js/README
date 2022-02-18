@@ -21,7 +21,7 @@ There are also functions that must be implemented for each mode of communicating
 
 The common synthesis operations are:
 
-1. play, play a unit generator, implicitly add Out
+1. playUgen, play a unit generator, implicitly add Out
 2. reset, remove all synthesis nodes
 
 C.f.

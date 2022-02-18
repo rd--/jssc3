@@ -20,7 +20,7 @@ function fetch_soundfile_to_scsynth_buffer(soundFileUrl, numberOfChannels, buffe
             );
         } else {
             console.error('fetch_soundfile_to_scsynth_buffer: numberOfChannels mismatch');
-        };
+        }
     });
 }
 
@@ -34,7 +34,7 @@ function fetch_soundfile_channels_to_scsynth_buffers(soundFileUrl, bufferNumbers
                 audiobuffer_to_scsynth_buffer(audioBuffer, bufferNumber, 1, audioBuffer.getChannelData(channelIndex - 1));
             } else {
                 console.error('fetch_soundfile_channels_to_scsynth_buffers: channelIndex out of bounds', channelIndex, audioBuffer.numberOfChannels);
-            };
-        };
+            }
+        }
     });
 }

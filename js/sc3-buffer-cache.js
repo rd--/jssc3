@@ -20,7 +20,7 @@ function SfAcquire(urlOrKey, numberOfChannels, channelIndices) {
         sc3_buffer_cache[soundFileUrl] = bufferNumberArray;
         sc3_buffer_next += numberOfChannels;
         return bufferNumberArray;
-    };
+    }
 }
 
 /*

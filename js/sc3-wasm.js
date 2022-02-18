@@ -32,7 +32,7 @@ function bootScsynth(numInputs, numOutputs, blockSize) {
         setInterval(requestStatus, 1000);
         scsynth_alive = true;
     } else {
-        console.log('bootScsynth: already running')
+        console.log('bootScsynth: already running');
     }
 }
 

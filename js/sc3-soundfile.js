@@ -65,4 +65,4 @@ function fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, proc) {
     load_arraybuffer_and_then(soundFileUrl, function(arrayBuffer) {
         audioContext.decodeAudioData(arrayBuffer).then(proc);
     });
-};
+}
