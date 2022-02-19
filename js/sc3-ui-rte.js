@@ -26,7 +26,7 @@ function text_editor_get_selected_text() {
     var range = quill_text_editor.getSelection();
     var emptyString = '';
     if (range) {
-        if (range.length == 0) {
+        if (range.length === 0) {
             return emptyString;
         } else {
             var text = quill_text_editor.getText(range.index, range.length);

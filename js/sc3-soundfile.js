@@ -26,7 +26,7 @@ function interleave_sample_data(numberOfFrames, numberOfChannels, channelsArray,
 
 // Get all audio data as an interleaved Float32Array.
 function audiobuffer_interleaved_channel_data(audioBuffer) {
-    if(audioBuffer.numberOfChannels == 1) {
+    if(audioBuffer.numberOfChannels === 1) {
         return audioBuffer.getChannelData(0);
     } else {
         var channelsArray = arrayIota(audioBuffer.numberOfChannels).map(i => audioBuffer.getChannelData(i));

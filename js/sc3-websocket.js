@@ -26,7 +26,7 @@ function sc3_websocket_dialog() {
 
 // If websocket is connected, send data.
 function sc3_websocket_send(data) {
-    if(sc3_websocket && sc3_websocket.readyState == 1) {
+    if(sc3_websocket && sc3_websocket.readyState === 1) {
         sc3_websocket.send(data);
     } else {
         console.error('sc3_websocket_send: websocket nil or not ready?');

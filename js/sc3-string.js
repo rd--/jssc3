@@ -1,8 +1,8 @@
 'use strict';
 
-// * -> bool
+// * -> bool ; isString('string') === true
 function isString(x) {
-    return typeof x == 'string';
+    return typeof x === 'string';
 }
 
 // string -> [string]

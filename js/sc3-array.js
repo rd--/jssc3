@@ -4,7 +4,7 @@ function arrayAsArray(maybeArray) {
     return Array.isArray(maybeArray) ? maybeArray : [maybeArray];
 }
 
-// arrayAt([1, 2, 3, 4], 3) == 4
+// arrayAt([1, 2, 3, 4], 3) === 4
 function arrayAt(array, index) {
     return array[index];
 }

@@ -11,7 +11,7 @@ function audiobuffer_to_scsynth_buffer(audioBuffer, bufferNumber, numberOfChanne
 // Fetch sound file data, and then allocate a buffer and memcpy all interleaved channel data.
 function fetch_soundfile_to_scsynth_buffer(soundFileUrl, numberOfChannels, bufferNumber) {
     fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, function (audioBuffer) {
-        if(audioBuffer.numberOfChannels == numberOfChannels) {
+        if(audioBuffer.numberOfChannels === numberOfChannels) {
             audiobuffer_to_scsynth_buffer(
                 audioBuffer,
                 bufferNumber,

@@ -58,7 +58,7 @@ function connect_button_to_input(buttonId, inputId) {
 
 // If some text is selected, get only the selected text, else get the entire text.
 function textarea_get_selection_or_contents(textarea) {
-    if(textarea.selectionStart == textarea.selectionEnd) {
+    if(textarea.selectionStart === textarea.selectionEnd) {
         return textarea.value;
     } else {
         return textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
