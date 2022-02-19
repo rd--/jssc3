@@ -760,6 +760,10 @@ function Friction(input, friction, spring, damp, mass, beltmass) {
 function MembraneCircle(excitation, tension, loss) {
     return makeUgen('MembraneCircle', 1, Rate.ar, 0, [excitation, tension, loss]);
 }
+// vosim pulse generator
+function VOSIM(trig, freq, nCycles, decay) {
+    return makeUgen('VOSIM', 1, Rate.ar, 0, [trig, freq, nCycles, decay]);
+}
 // a resonator
 function MiRings(input, trig, pit, struct, bright, damp, pos, model, poly, intern_exciter, easteregg, bypass) {
     return makeUgen('MiRings', 2, Rate.ar, 0, [input, trig, pit, struct, bright, damp, pos, model, poly, intern_exciter, easteregg, bypass]);
