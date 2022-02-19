@@ -33,7 +33,7 @@ function stc_binary_selector_from_operator(text) {
 
 // Request .stc to .js translation from server, result text is sent to proc (async).
 function stc_to_js_and_then(stcText, proc) {
-    var urlPrefix = 'cgi-bin/stc-to-js-cgi.py?stc=';
+    var urlPrefix = 'cgi-bin/stsc3-cgi.py?cmd=stc-to-js&stc=';
     var encodedStcText = encodeURIComponent(stcText);
     fetch_url_and_then(urlPrefix + encodedStcText, 'text', proc);
 }
