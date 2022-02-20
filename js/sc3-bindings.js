@@ -152,6 +152,10 @@ function Decay2(input, attackTime, decayTime) {
 function DegreeToKey(bufnum, input, octave) {
     return makeUgen('DegreeToKey', 1, [1], 0, [bufnum, input, octave]);
 }
+// Single sample delay.
+function Delay1(input) {
+    return makeUgen('Delay1', 1, [0], 0, [input]);
+}
 // Simple delay line with cubic interpolation.
 function DelayC(input, maxdelaytime, delaytime) {
     return makeUgen('DelayC', 1, [0], 0, [input, maxdelaytime, delaytime]);

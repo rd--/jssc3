@@ -3,7 +3,7 @@ var modfreq = MouseY(1, 5000, 1, 0.2);
 var carrier = SinOsc(carrfreq, 0) * 0.5;
 var modulator = SinOsc(modfreq, 0) * 0.5;
 carrier * modulator
-</code></pre><p>For simple sine waves, the spectrum ends up with two frequencies (two sidebands), at C+M and C-M, where C is the carrier frequency and M is the modulator frequency.</p><p>For more complex waves than sines, we get many more components to the spectrum of the multiplied signals.</p><p>But if C and M are harmonic, the sidebands are also harmonic.</p><p>For those who want to see some proof, it all follows from the mathematical relation <em>cos(C)<em>cos(M) = 0.5</em>(cos(C-M) + cos(C+M))</em></p><h2>Amplitude Modulation (AM)</h2><p>AM is like ring modulation but with a subtle difference: the modulator is unipolar, that is, always positive. Think of tremolo, where the amplitude goes up and down (but is never negative!).</p><p>Bipolar, -0.1 to 0.1, <em>SinOsc(440, 0) * 0.1</em>.</p><p>Unipolar, 0 to 0.2 (0.1 plus or minus 0.1), <em>SinOsc(440, 0) * 0.1 + 0.1</em></p><p>The spectrum ends up with the sum and difference frequencies we saw in ring modulation, at C+M and C-M, as well as the original carrier frequency C.</p><pre><code>var carrfreq = MouseX(440, 5000, 1, 0.2);
+</code></pre><p>For simple sine waves, the spectrum ends up with two frequencies (two sidebands), at <em>C+M</em> and <em>C-M</em>, where <em>C</em> is the carrier frequency and <em>M</em> is the modulator frequency.</p><p>For more complex waves than sines, we get many more components to the spectrum of the multiplied signals.</p><p>But if <em>C</em> and <em>M</em> are harmonic, the sidebands are also harmonic.</p><p>For those who want to see some proof, it all follows from the mathematical relation <em>cos(C)<em>cos(M) = 0.5</em>(cos(C-M) + cos(C+M))</em></p><h2>Amplitude Modulation (AM)</h2><p>AM is like ring modulation but with a subtle difference: the modulator is unipolar, that is, always positive. Think of tremolo, where the amplitude goes up and down (but is never negative!).</p><p>Bipolar, -0.1 to 0.1, <em>SinOsc(440, 0) * 0.1</em>.</p><p>Unipolar, 0 to 0.2 (0.1 plus or minus 0.1), <em>SinOsc(440, 0) * 0.1 + 0.1</em></p><p>The spectrum ends up with the sum and difference frequencies we saw in ring modulation, at C+M and C-M, as well as the original carrier frequency C.</p><pre><code>var carrfreq = MouseX(440, 5000, 1, 0.2);
 var modfreq = MouseY(1, 5000, 1, 0.2);
 var carrier = SinOsc(carrfreq, 0) * 0.5;
 var modulator = SinOsc(modfreq, 0) * 0.25 + 0.25;
@@ -17,15 +17,15 @@ var modfreq = LinExp(Cc(2), 0, 1, 1, 5000);
 var modindex = LinExp(Cc(3), 0, 1, 0.01, 5000);
 SinOsc(carrfreq + (modindex * modfreq * SinOsc(modfreq, 0)), 0) * 0.2
 </code></pre><p>Or via mouse control</p><pre><code>var modfreq = MouseX(1, 440, 1, 0.2);
-var modindex = MouseY(1, 10, 0, 0.2);
+var modindex = MouseY(0, 10, 0, 0.2);
 SinOsc(SinOsc(modfreq, 0) * modfreq * modindex + 440, 0) * 0.2
 </code></pre><p>Harmonicity ratio, following Moore Elements of Computer Music, also see the Max/MSP help file MSP Tutorial 11; Frequency Modulation.  Since sideband energy is distributed to <em>C+(k*M)</em> for integer k, if <em>M = h*C</em>, everything is related by an integer to <em>C</em> (negative integers bounce back around, giving harmonic tones).</p><pre><code>var carrfreq = 440;
 var harmonicity = MouseX(0,10, 0, 0.2).roundTo(1);
 var modindex= MouseY(0, 10, 0, 0.2);
-var modfreq = carrfreq * harmonicity; //since harmonicity is an integer
+var modfreq = carrfreq * harmonicity;
 SinOsc(carrfreq + (SinOsc(modfreq, 0) * modfreq * modindex), 0) * 0.1
 </code></pre><p>ModIndex is really modulation amplitude/modulation frequency, acts as brightness control as energy distribution changed over components.</p><h2>Phase Modulation</h2><p>Recall the arguments for a sine, _SinOsc(freq, phase).</p><p>If you have a input for a phase control you could modulate phase too.</p><p><em>Phasor</em> is a UGen which will loop around a given interval, in this case 0 to 2 * pi, taking us around the waveform of the sinusoid; note that all the action is in the phase input.</p><pre><code>var modfreq = MouseX(1,1000, 1, 0.2);
 var modindex=MouseY(0, 100, 0, 0.2);
 var conversion= 2 * pi / SampleRate();
 SinOsc(0, Phasor(0, 440 * conversion, 0, 2 * pi, 0) + ((modfreq * modindex)  * conversion * SinOsc(modfreq, 0))) * 0.2
-</code></pre><p>The rate of change of phase is frequency. So phase modulation is related to frequency modulation.</p><p>See also [PMOsc], a dedicated phase modulation oscillator.</p><p>In fact, anything you could control can be modulated, that is, changed over time by some oscillator or other signal.</p><p>See also:</p><ul><li>[SinOscFB], feedback FM; a bit of the output is leaked back into the frequency input</li><li>[Vibrato], add vibrato (slow frequency modulation) potentially at some delay after onset</li></ul>
+</code></pre><p>The rate of change of phase is frequency. So phase modulation is related to frequency modulation.</p><p>See also [PMOsc], a dedicated phase modulation oscillator.</p><p>In fact, anything you could control can be modulated, that is, changed over time by some oscillator or other signal.</p><p>See also:</p><ul><li>[SinOscFB], feedback FM; a bit of the output is leaked back into the frequency input</li><li>[Vibrato], add vibrato (slow frequency modulation) potentially at some delay after onset</li></ul><p>NC: <a href="https://composerprogrammer.com/teaching/supercollider/sctutorial/2.4%20Modulation%20Synthesis.html">2.4</a></p>

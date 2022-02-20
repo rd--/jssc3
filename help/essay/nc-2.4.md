@@ -75,7 +75,7 @@ The ratio of frequency deviation to modulation frequency. If I is small there is
 Or via mouse control
 
     var modfreq = MouseX(1, 440, 1, 0.2);
-    var modindex = MouseY(1, 10, 0, 0.2);
+    var modindex = MouseY(0, 10, 0, 0.2);
     SinOsc(SinOsc(modfreq, 0) * modfreq * modindex + 440, 0) * 0.2
 
 Harmonicity ratio, following Moore Elements of Computer Music, also see the Max/MSP help file MSP Tutorial 11; Frequency Modulation.  Since sideband energy is distributed to _C+(k*M)_ for integer k, if _M = h*C_, everything is related by an integer to _C_ (negative integers bounce back around, giving harmonic tones).
@@ -83,7 +83,7 @@ Harmonicity ratio, following Moore Elements of Computer Music, also see the Max/
     var carrfreq = 440;
     var harmonicity = MouseX(0,10, 0, 0.2).roundTo(1);
     var modindex= MouseY(0, 10, 0, 0.2);
-    var modfreq = carrfreq * harmonicity; //since harmonicity is an integer
+    var modfreq = carrfreq * harmonicity;
     SinOsc(carrfreq + (SinOsc(modfreq, 0) * modfreq * modindex), 0) * 0.1
 
 ModIndex is really modulation amplitude/modulation frequency, acts as brightness control as energy distribution changed over components.

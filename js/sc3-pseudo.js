@@ -165,3 +165,7 @@ function SfRateScale(sfBufferArray) {
 function SfRead(sfBufferArray, phase, loop, interpolation) {
     return BufRd(1, sfBufferArray, phase, loop, interpolation);
 }
+
+function SfPlay(sfBufferArray, rate, trigger, startPos, loop) {
+    return PlayBuf(1, sfBufferArray, rate, trigger, startPos, loop, 0);
+}
