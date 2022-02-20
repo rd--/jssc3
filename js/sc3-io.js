@@ -53,6 +53,14 @@ function read_text_file_and_then(fileName, proc) {
     reader.readAsText(fileName);
 }
 
+// Read file from input/file at indicated id and index and run proc.
+function read_text_file_from_file_input_and_then(inputId, fileIndex, proc) {
+    var inputFile = document.getElementById(inputId).files[fileIndex];
+    if (inputFile) {
+        read_text_file_and_then(inputFile, proc);
+    }
+}
+
 // Read named .json file and run proc on parsed result.
 function read_json_file_and_then(fileName, proc) {
     read_text_file_and_then(fileName, jsonText => proc(JSON.parse(jsonText)));
