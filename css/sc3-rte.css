@@ -4,13 +4,13 @@ h1 {
     margin-bottom: 1em !important;
 }
 
-h2 {
+h2, h3 {
     font-size: 1.15em !important;
     font-style: normal !important;
     margin-bottom: 1em !important;
 }
 
-p, blockquote, code, pre {
+p, blockquote, code, pre, ul {
     margin-bottom: 1em !important;
 }
 

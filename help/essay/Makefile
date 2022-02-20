@@ -1,7 +1,7 @@
 %.html : %.md
 	cmark < $<  | runhaskell rw.hs > $@
 
-doc = 1.html
+doc = 1.html nc-2.1.html
 
 all: $(doc)
 

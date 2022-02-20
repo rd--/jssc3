@@ -58,7 +58,7 @@ window.onload = function () {
       <div id="text_editor"></div>
     </div>
     <div>
-      <input type="file" id="programInputFile" accept=".stc,.js" onchange="jssc3_read_input_program()" style="display:none">
+      <input type="file" id="programInputFile" accept=".html" onchange="jssc3_read_input_program()" style="display:none">
       <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
       <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select>
       <button title="Copy document to clipboard (c)" accesskey="c" onclick="navigator.clipboard.writeText(editor_get_data())">Copy</button>
