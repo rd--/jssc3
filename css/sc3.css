@@ -13,8 +13,9 @@ body, textarea, select, button, span, pre, code, #text_editor, .ql-toolbar, .ql-
     font-size: 1em;
 }
 
-#jsProgram { height: 90vh; width: 95vw; }
-#text_editor { height: 90vh; width: 95vw; margin-bottom: 5px; }
+#jsProgram { height: 85vh; width: 95vw; }
+#text_editor { height: 85vh; width: 95vw; margin-bottom: 5px; }
+#jssc3Menu { margin-bottom: 5px; }
 
 #statusText {
   background-color: #ffffe8 !important;

@@ -101,6 +101,7 @@ function actions_menu_do(menu, entryName) {
     case 'userBackup': action_user_backup(); break;
     case 'userRestore': action_user_restore(); break;
     case 'userPurge': user_program_clear(); break;
+    case 'startMpeMidi': sc3_midi_mpe_init(); break;
     default: console.error('actions_menu_do: unknown action', entryName);
     }
     menu.selectedIndex = 0;

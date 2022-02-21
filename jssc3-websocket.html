@@ -36,13 +36,17 @@ window.onload = function () {
     </script>
   </head>
   <body>
-    <div id="jsContainer"></div>
+    <div id="jsContainer">
+    </div>
     <div>
-      <input type="file" id="programInputFile" accept=".stc,.js" onchange="jssc3_read_input_program()" style="display:none">
-      <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
+    <div id="jssc3Menu">
       <select id="programMenu" title="Program (p)" accesskey="p"></select>
       <select id="helpMenu" title="Help (h)" accesskey="h"></select>
       <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select>
+    </div>
+    <div>
+      <input type="file" id="programInputFile" accept=".stc,.js" onchange="jssc3_read_input_program()" style="display:none">
+      <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
       <button title="Play (,)" accesskey="," onclick="playJsProgram()">Play</button>
       <button title="Reset (.)" accesskey="." onclick="reset()">Reset</button>
       <button title="Print" onclick="prettyPrintSyndef()">Print</button>

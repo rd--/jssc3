@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
     <link rel="stylesheet" type="text/css" media="all" href="css/sc3.css" />
     <script src="lib/osc.js/dist/osc-browser.js"></script>
+    <script src="lib/mpejs/lib/mpe.js"></script>
     <script src="js/sc3-array.js"></script>
     <script src="js/sc3-dom.js"></script>
     <script src="js/sc3-encode.js"></script>
@@ -29,6 +30,7 @@
     <script src="js/sc3-envelope.js"></script>
     <script src="js/sc3-event.js"></script>
     <script src="js/sc3-graph.js"></script>
+    <script src="js/sc3-midi-mpe.js"></script>
     <script src="js/sc3-pointer.js"></script>
     <script src="js/sc3-pseudo.js"></script>
     <script src="js/sc3-servercommand.js"></script>
@@ -50,13 +52,16 @@ window.onload = function () {
     </script>
   </head>
   <body>
-    <div id="jsContainer"></div>
-    <div>
-      <input type="file" id="programInputFile" accept=".stc,.js" onchange="jssc3_read_input_program()" style="display:none">
-      <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
+    <div id="jsContainer">
+    </div>
+    <div id="jssc3Menu">
       <select id="programMenu" title="Program (p)" accesskey="p"></select>
       <select id="helpMenu" title="Help (h)" accesskey="h"></select>
       <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select>
+    </div>
+    <div>
+      <input type="file" id="programInputFile" accept=".stc,.js" onchange="jssc3_read_input_program()" style="display:none">
+      <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
       <button title="Evaluate workspace program but do not play (/)" accesskey="/" onclick="playJsProgram({cacheOnly: true})">Cache</button>
       <button title="Play (,)" accesskey="," onclick="playJsProgram({})">Play</button>
       <button title="Reset (.)" accesskey="." onclick="reset()">Reset</button>
@@ -68,6 +73,7 @@ window.onload = function () {
         <option value='userBackup'>Backup</option>
         <option value='userRestore'>Restore</option>
         <option value='userPurge'>Purge</option>
+        <option value='startMpeMidi'>Mpe Midi</option>
       </select>
       <select id="notationFormat" title="Notation format" onchange="set_notation_format()">
         <option value='.stc' accesskey="t">.stc</option>
@@ -75,6 +81,7 @@ window.onload = function () {
       </select>
       <button title="Boot" accesskey="b" onclick="bootScsynth(0, 2, scsynth_block_size)">⏻ (Boot)</button>
       <span id="statusText"></span>
+    </div>
     </div>
     <script async src="lib/scsynth-wasm-builds/ext/scsynth.js"></script>
   </body>

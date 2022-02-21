@@ -52,6 +52,13 @@ function b_query1(bufferNumber) {
 
 // c = control
 
+function c_set1(busIndex, controlValue) {
+    return {
+        address: '/c_set',
+        args: [oscInt32(busIndex), oscFloat(controlValue)]
+    };
+}
+
 function c_setn1(busIndex, controlArray) {
     return {
         address: '/c_setn',
