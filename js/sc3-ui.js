@@ -120,7 +120,7 @@ function set_notation_format() {
     console.log('set_notation_format', notation_format);
 }
 
-function sc3_ui_init(hasProgramMenu, hasHelpMenu, hasGuideMenu, fileExt, storageKey, loadProc, initMouse, blockSize) {
+function sc3_ui_init(hasProgramMenu, hasHelpMenu, hasGuideMenu, hasEssayMenu, fileExt, storageKey, loadProc, initMouse, blockSize) {
     if(hasProgramMenu) {
         menu_init('programMenu', 'graph', fileExt, loadProc);
         load_utf8_and_then('html/program-menu.html', setter_for_inner_html_of('programMenu'));
@@ -132,6 +132,10 @@ function sc3_ui_init(hasProgramMenu, hasHelpMenu, hasGuideMenu, fileExt, storage
     if(hasGuideMenu) {
         menu_init('guideMenu', 'guide', fileExt, loadProc);
         load_utf8_and_then('html/guide-menu.html', setter_for_inner_html_of('guideMenu'));
+    }
+    if(hasEssayMenu) {
+        menu_init('essayMenu', 'essay', fileExt, loadProc);
+        load_utf8_and_then('html/essay-menu.html', setter_for_inner_html_of('essayMenu'));
     }
     user_storage_key = storageKey;
     notation_format = '.stc';
@@ -166,14 +170,16 @@ function prettyPrintSyndef() {
     });
 }
 
-function playJsProgram(opt) {
+function evalJsProgram() {
     editor_get_js_notation_and_then(function(programText) {
-        // console.log('playJsProgram', programText);
-        var programUgen = eval(programText);
-        if(opt.cacheOnly) {
-            console.log(programText);
-        } else {
-            playUgen(programUgen);
-        }
+        var result = eval(programText);
+        console.log(result);
+    });
+}
+
+function playJsProgram() {
+    editor_get_js_notation_and_then(function(programText) {
+        var result = eval(programText);
+        playUgen(result);
     });
 }

@@ -47,6 +47,10 @@ function playUgen(ugen) {
     playSyndef(name, graph.encodeSyndef());
 }
 
+function play(ugenFunction) {
+    playUgen(ugenFunction());
+}
+
 function reset() {
     sendOsc(g_freeAll1(0));
 }

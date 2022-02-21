@@ -10,7 +10,7 @@ h2, h3 {
     margin-bottom: 1em !important;
 }
 
-p, blockquote, code, pre, ul {
+p, blockquote, code, pre, ul, ol {
     margin-bottom: 1em !important;
 }
 
@@ -28,5 +28,5 @@ pre {
 
 .ql-container, #text_editor {
     font-size: 1em !important;
-    height: 85vh;
+    height: 80vh;
 }
