@@ -1,3 +1,5 @@
+Nick Collins' _SuperCollider Tutorial_. [Html](https://composerprogrammer.com/teaching/supercollider/sctutorial/tutorial.html)
+
 # 1.1 Getting Started
 
 ## Essentials

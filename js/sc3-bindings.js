@@ -444,6 +444,10 @@ function Limiter(input, level, dur) {
 function Line(start, end, dur, doneAction) {
     return makeUgen('Line', 1, Rate.ar, 0, [start, end, dur, doneAction]);
 }
+// Simple linear envelope generator.
+function Linen(gate, attackTime, susLevel, releaseTime, doneAction) {
+    return makeUgen('Linen', 1, Rate.kr, 0, [gate, attackTime, susLevel, releaseTime, doneAction]);
+}
 // Map a linear range to an exponential range
 function LinExp(input, srclo, srchi, dstlo, dsthi) {
     return makeUgen('LinExp', 1, [0], 0, [input, srclo, srchi, dstlo, dsthi]);
@@ -535,6 +539,10 @@ function Out(bus, channelsArray) {
 // Two channel equal power pan.
 function Pan2(input, pos, level) {
     return makeUgen('Pan2', 2, [0], 0, [input, pos, level]);
+}
+// Azimuth panner
+function PanAz(numChan, input, pos, level, width, orientation) {
+    return makeUgen('PanAz', numChan, [0], 0, [input, pos, level, width, orientation]);
 }
 // A resettable linear ramp between two levels.
 function Phasor(trig, rate, start, end, resetPos) {
