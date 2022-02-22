@@ -1,5 +1,0 @@
-<h1>SinOsc - interpolating sine wavetable oscillator</h1><p><em>SinOsc.ar(freq, phase)</em></p><p>This is the same as Osc except that the table is a sine table of 8192 entries.</p><ul><li>freq: frequency in Hertz</li><li>phase: phase offset or modulator in radians</li></ul><p>Constant frequency:</p><pre><code>SinOsc(200, 0) * 0.25
-</code></pre><p>Modulate freq:</p><pre><code>SinOsc(XLn(2000, 200, 1), 0) * 0.25
-</code></pre><p>Modulate freq:</p><pre><code>SinOsc(SinOsc(XLn(1, 1000, 9), 0) * 200 + 800, 0) * 0.25
-</code></pre><p>Modulate phase:</p><pre><code>SinOsc(800, SinOsc(XLn(1, 1000, 9), 0) * 2 * pi) * 0.25
-</code></pre>
