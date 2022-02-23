@@ -1,5 +1,3 @@
-# Audio Tutorial 2
-
 # 2. How to use UGens
 
 ## 2.1 What is a UGen?

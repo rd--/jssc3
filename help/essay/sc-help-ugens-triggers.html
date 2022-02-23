@@ -1,0 +1,25 @@
+<h1>Phasor - a resettable linear ramp between two levels</h1><p><em>Phasor(trig, rate, start, end, resetPos)</em></p><p>Phasor is a linear ramp between start and end values. When its trigger input crosses from non-positive to positive, Phasor's output will jump to its reset position. Upon reaching the end of its ramp Phasor will wrap back to its start. N.B. Since end is defined as the wrap point, its value is never actually output.</p><p>Phasor is commonly used as an index control with [BufRd] and [BufWr].</p><ul><li>trig: when triggered, reset value to resetPos (default: 0, Phasor outputs start initially)</li><li>rate: the amount of change per sample i.e at a rate of 1 the value of each sample	will be 1 greater than the preceding sample</li><li>start: start point of ramp</li><li>end: end point of ramp</li><li>resetPos: the value to jump to upon receiving a trigger.</li></ul><p>Phasor controls sine frequency, end frequency matches a second sine wave:</p><pre><code>var rate = MouseX(0.2, 2, 1, 0.2);
+var trig = Impulse(rate, 0);
+var sr = SampleRate();
+var x = Phasor(trig, rate / sr, 0, 1, 0);
+SinOsc(
+    [
+        LinLin(x, 0, 1, 600, 1000), // convert range from 0..1 to 600..1000
+        1000 // constant second frequency
+    ],
+    0
+) * 0.1
+</code></pre><p>Two phasors control two sine frequencies.  <em>MouseX</em> controls trigger frequency and <em>MouseY</em> controls resetPos of the second:</p><pre><code>var rate = MouseX(1, 200, 1, 0.2);
+var trig = Impulse(rate, 0);
+var sr = SampleRate();
+var x = Phasor(trig, rate / sr, 0, 1, [0, MouseY(0, 1, 0, 0.2)]);
+SinOsc(x * 500 + 500, 0) * 0.2
+</code></pre><p>Use phasor to index into a sound file.  Start and end here are defined as 0 and the number of frames in the buffer.  This means that the Phasor will output values from 0 to numFrames - 1 before looping, which is perfect for driving BufRd.  (See note above)</p><pre><code>var b = SfAcquire(&quot;crotale-d6&quot;, 1, [1]);
+SfRead(b, Phasor(1, SfRateScale(b), 0, SfFrames(b)), 1, 2)
+</code></pre><p>Two phasors control two sound file positions.  <em>MouseX</em> controls trigger frequency and <em>MouseY</em> controls resetPos of the second:</p><pre><code>var b = SfAcquire(&quot;crotale-d6&quot;, 1, [1]);
+var rate = MouseX(0.1, 100, 1, 0.2);
+var trig = Impulse(rate, 0);
+var framesInBuffer = SfFrames(b);
+var x = Phasor(trig, SfRateScale(b), 0, framesInBuffer, [0, MouseY(0, framesInBuffer, 0, 0.2)]);
+SfRead(b, x, 1, 2)
+</code></pre>
