@@ -60,3 +60,9 @@ i.e. _jssc3-rte.html?e=help/essay/jssc3-1.html_.
 - Sc2 Tutorial
   - [2 - UGens](https://rohandrape.net/pub/jssc3/jssc3-rte.html?e=help/essay/sc-tutorial-2.html)
   - [5 - Parallel & Series](https://rohandrape.net/pub/jssc3/jssc3-rte.html?e=help/essay/sc-tutorial-5.html)
+
+Likewise _jssc3-wasm.html?e=help/graph/jmcc-why-supercollider.stc_.
+
+## Visiting
+
+_Navigating_ to  a Url creates a new browser context, _visiting_ loads a file into the current context.

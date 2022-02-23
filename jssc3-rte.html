@@ -70,14 +70,15 @@ window.onload = function () {
       <button title="Save document to local storage (s)" accesskey="s" onclick="user_program_save_to()">Save</button>
       <button title="Print" onclick="prettyPrintSyndef()">Print</button>
       <select id="notationFormat" title="Notation format" onchange="set_notation_format()">
-        <option value='.stc' accesskey="t">.stc</option>
-        <option value='.js' accesskey="j">.js</option>
+        <option value=".stc" accesskey="t">.stc</option>
+        <option value=".js" accesskey="j">.js</option>
       </select>
       <select id="actionsMenu" title="Actions">
-        <option value=''>&#x2630;</option>
-        <option value='userBackup'>Backup</option>
-        <option value='userRestore'>Restore</option>
-        <option value='userPurge'>Purge</option>
+        <option value="">&#x2630;</option>
+        <option value="userBackup" title="Save user programs to archive">Backup</option>
+        <option value="userRestore" title="Load user programs from archive">Restore</option>
+        <option value="userPurge" title="Delete all user programs">Purge</option>
+        <option value="documentVisit" title="Visit document named in selected text (v)" accesskey="v">Visit</option>
       </select>
       <button title="Boot" accesskey="b" onclick="bootScsynth(0, 2, scsynth_block_size)">⏻ (Boot)</button>
       <span id="statusText"></span>

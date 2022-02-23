@@ -47,7 +47,7 @@ window.onload = function () {
     sc3_ui_init(true, true, false, false, null, 'jssc3UserPrograms/js', load_graph, true, 4096);
     text_editor_init();
     sc3_wasm_init();
-    jssc3_init();
+    jssc3_init('e', null);
 };
     </script>
   </head>
@@ -68,12 +68,12 @@ window.onload = function () {
       <button title="Save document to local storage (s)" accesskey="s" onclick="user_program_save_to()">Save</button>
       <button title="Print" onclick="prettyPrintSyndef()">Print</button>
       <select id="actionsMenu" title="Actions">
-        <option value=''>&#x2630;</option>
-        <option value='setBlockSize'>Block Size</option>
-        <option value='userBackup'>Backup</option>
-        <option value='userRestore'>Restore</option>
-        <option value='userPurge'>Purge</option>
-        <option value='startMpeMidi'>Mpe Midi</option>
+        <option value="">&#x2630;</option>
+        <option value="userBackup" title="Save user programs to archive">Backup</option>
+        <option value="userRestore" title="Load user programs from archive">Restore</option>
+        <option value="userPurge" title="Delete all user programs">Purge</option>
+        <option value="documentVisit" title="Visit document named in selected text (v)" accesskey="v">Visit</option>
+        <option value="midiMpeStart" title="Start listener for Midi Mpe input">Midi Mpe</option>
       </select>
       <select id="notationFormat" title="Notation format" onchange="set_notation_format()">
         <option value='.stc' accesskey="t">.stc</option>

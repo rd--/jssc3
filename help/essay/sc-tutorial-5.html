@@ -41,5 +41,5 @@ var freq = [LFNoise0(3), FSinOsc(3, 0)].choose * 500 + 800;
 // amplitude control
 var amp = [LFNoise1(2.2).max(0) * 0.5, FSinOsc(2.2, 0) * 0.25 + 0.25].choose;
 // sound source
-[SinOsc(freq, 0), Blip(freq, 8)].choose * amp
+[SinOsc(freq, 0), Blip(freq, 8)].choose * amp * 0.2
 </code></pre>

@@ -31,7 +31,7 @@ window.onload = function () {
     sc3_ui_init(true, true, false, false, null, 'jssc3UserPrograms/js', load_graph, false, -1);
     sc3_websocket_init('localhost', 9160);
     text_editor_init();
-    jssc3_init();
+    jssc3_init('e', null);
 };
     </script>
   </head>
@@ -56,10 +56,11 @@ window.onload = function () {
         <option value='.js' accesskey="j">.js</option>
       </select>
       <select id="actionsMenu" title="Actions">
-        <option value=''>&#x2630;</option>
-        <option value='userBackup'>Backup</option>
-        <option value='userRestore'>Restore</option>
-        <option value='userPurge'>Purge</option>
+        <option value="">&#x2630;</option>
+        <option value="userBackup" title="Save user programs to archive">Backup</option>
+        <option value="userRestore" title="Load user programs from archive">Restore</option>
+        <option value="userPurge" title="Delete all user programs">Purge</option>
+        <option value="documentVisit" title="Visit document named in selected text (v)" accesskey="v">Visit</option>
       </select>
     </div>
   </body>

@@ -56,4 +56,3 @@ function editor_get_data() {
 function editor_set_data(programData) {
     quill_text_editor.root.innerHTML = programData;
 }
-

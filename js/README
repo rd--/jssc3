@@ -10,6 +10,8 @@ The common editor operations are:
 2. editor_get_data(), to fetch the storable data from the editor (.xml or .text or .html)
 3. editor_set_data(programData), to load stored data into the editor (.xml or .text or .html)
 
+For text editors there is also a _text_editor_get_text_ function to get the currently selected text.
+
 In addition some text editor contexts allow a translation stage, from .stc notation to .js notation.
 This translation is handled prior to editor_get_js_notation_and_then(), which returns .js notation.
 The variable notation_format says which format the user notation is in.

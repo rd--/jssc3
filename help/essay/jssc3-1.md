@@ -101,3 +101,9 @@ OverlapTexture(function(tr) {
     return Pan2(SinOsc(TRand(20, 2000, tr), 0), TRand(-1, 1, tr), 0.05);
 }, 5, 2, 9)
 ~~~~
+
+## Referencing
+
+An ordinary Url address can be given to navigate to a document, for instance [Why SuperCollider?](?e=help/essay/sc-documentation-1.html).  This will most likely open a new context and require a new synthesiser to be started.
+
+It is also possible to request a new document replace the current document using the _Visit_ command, for instance the file _help/essay/sc-documentation-1.html_ can be visited.
