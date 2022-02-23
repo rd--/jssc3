@@ -4,6 +4,7 @@ var sc3_buffer_dict = {
     'crotale-d6': 'https://rohandrape.net/pub/jssc3/flac/crotale-d6.flac',
     'harp-a4': 'https://rohandrape.net/pub/jssc3/flac/harp-a4.flac',
     'piano-c5': 'https://rohandrape.net/pub/jssc3/flac/piano-c5.flac',
+    'floating_1': 'https://rohandrape.net/pub/jssc3/flac/floating_1.flac',
     'then': 'https://rohandrape.net/pub/jssc3/flac/then.flac'
 };
 var sc3_buffer_cache = {};
