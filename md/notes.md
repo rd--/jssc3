@@ -46,5 +46,17 @@ It is required by _jssc3-rte.html_ but not by _jssc3-wasm.html_ or _jssc3-websoc
 
 ## Url
 
-An initial file to be loaded can be specified using the Url parameter _e_,
-i.e. _jssc3-rte.html?e=help/essay/sc-help-ugens-oscillators.html_.
+An initial file can be loaded by setting the Url parameter _e_,
+i.e. _jssc3-rte.html?e=help/essay/jssc3-1.html_.
+
+- Sc2 Documentation
+  - [1 - Intro](https://rohandrape.net/pub/jssc3/jssc3-rte.html?e=help/essay/sc-documentation-1.html)
+  - [2 - Audio Basics](https://rohandrape.net/pub/jssc3/jssc3-rte.html?e=help/essay/sc-documentation-2.html)
+  - [3 - Other Topics](https://rohandrape.net/pub/jssc3/jssc3-rte.html?e=help/essay/sc-documentation-3.html)
+- Sc2 Help
+  - UGens
+    - [Oscillators](https://rohandrape.net/pub/jssc3/jssc3-rte.html?e=help/essay/sc-help-ugens-oscillators.html)
+    - [Triggers](https://rohandrape.net/pub/jssc3/jssc3-rte.html?e=help/essay/sc-help-ugens-triggers.html)
+- Sc2 Tutorial
+  - [2 - UGens](https://rohandrape.net/pub/jssc3/jssc3-rte.html?e=help/essay/sc-tutorial-2.html)
+  - [5 - Parallel & Series](https://rohandrape.net/pub/jssc3/jssc3-rte.html?e=help/essay/sc-tutorial-5.html)
