@@ -64,3 +64,9 @@ function textarea_get_selection_or_contents(textarea) {
         return textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
     }
 }
+
+// Lookup key in parameters of Url of current document.  (C.f. window.location)
+function url_get_param(key) {
+    var params = new URLSearchParams(document.location.search);
+    return params.get(key);
+}

@@ -43,3 +43,8 @@ A simple textarea is used instead.
 
 Quill is a rich text editor library.
 It is required by _jssc3-rte.html_ but not by _jssc3-wasm.html_ or _jssc3-websocket.html_.
+
+## Url
+
+An initial file to be loaded can be specified using the Url parameter _e_,
+i.e. _jssc3-rte.html?e=help/essay/sc-help-ugens-oscillators.html_.
