@@ -18,3 +18,7 @@ function randomInteger(min, max) {
 function randomFloat(min, max) {
   return Math.random() * (max - min) + min;
 }
+
+function randomBoolean() {
+    return Math.random()  > 0.5;
+}

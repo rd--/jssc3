@@ -11,6 +11,7 @@ function mean(array) { return fdiv(sum(array), array.length); }
 function negated(a) { return neg(a); }
 function nth(array, index) { return array[index - 1]; }
 function product(a) { return a.reduce(mul); }
+var rand = randomFloat;
 function rand2(n) { return randomFloat(0 - n, n); }
 function reciprocal(a) { return recip(a); }
 function reverse(array) { return array.reverse(); }
