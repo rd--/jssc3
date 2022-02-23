@@ -47,3 +47,42 @@ Two phasors control two sound file positions.  _MouseX_ controls trigger frequen
     var framesInBuffer = SfFrames(b);
     var x = Phasor(trig, SfRateScale(b), 0, framesInBuffer, [0, MouseY(0, framesInBuffer, 0, 0.2)]);
     SfRead(b, x, 1, 2)
+
+# PulseCount - pulse counter
+
+_PulseCount(trig, reset)_
+
+Each trigger increments a counter which is output as a signal.
+
+- trig: trigger. Trigger can be any signal. A trigger happens when the signal changes from non-positive to positive.
+- reset: resets the counter to zero when triggered.
+
+Pulse count as frequency input:
+
+    SinOsc(PulseCount(Impulse(10, 0), Impulse(0.4, 0)) * 200, 0) * 0.05
+
+# PulseDivider - pulse divider
+
+_PulseDivider(trig, div, startCount)_
+
+Outputs one impulse each time it receives a certain number of triggers at its input.
+
+- trig: trigger. Trigger can be any signal. A trigger happens when the signal changes from non-positive to positive.
+- div: number of pulses to divide by.
+- startCount: starting value for the trigger count. This lets you start somewhere in the middle of a count, or if startCount is negative it adds that many counts to the first time the output is triggers.
+
+Lower tone at quarter the clock rate:
+
+    var p = Impulse(8, 0);
+    var a = SinOsc(1200, 0) * Decay2(p, 0.005, 0.1);
+    var b = SinOsc(600,  0) * Decay2(PulseDivider(p, 4, 0), 0.005, 0.5);
+    (a + b) * 0.4
+
+Four divisions:
+
+    var p = Impulse(8, 0);
+    var a = SinOsc(1200, 0) * Decay2(p, 0.005, 0.1);
+    var b = SinOsc(600,  0) * Decay2(PulseDivider(p, 4, 0), 0.005, 0.5);
+    var c = SinOsc(800,  0) * Decay2(PulseDivider(p, 2, 1), 0.005, 0.5);
+    var d = SinOsc(200,  0) * Decay2(PulseDivider(p, 16, 0), 0.005, 1.0);
+    (a + b + c + d) * 0.3

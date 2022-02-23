@@ -22,4 +22,15 @@ var trig = Impulse(rate, 0);
 var framesInBuffer = SfFrames(b);
 var x = Phasor(trig, SfRateScale(b), 0, framesInBuffer, [0, MouseY(0, framesInBuffer, 0, 0.2)]);
 SfRead(b, x, 1, 2)
+</code></pre><h1>PulseCount - pulse counter</h1><p><em>PulseCount(trig, reset)</em></p><p>Each trigger increments a counter which is output as a signal.</p><ul><li>trig: trigger. Trigger can be any signal. A trigger happens when the signal changes from non-positive to positive.</li><li>reset: resets the counter to zero when triggered.</li></ul><p>Pulse count as frequency input:</p><pre><code>SinOsc(PulseCount(Impulse(10, 0), Impulse(0.4, 0)) * 200, 0) * 0.05
+</code></pre><h1>PulseDivider - pulse divider</h1><p><em>PulseDivider(trig, div, startCount)</em></p><p>Outputs one impulse each time it receives a certain number of triggers at its input.</p><ul><li>trig: trigger. Trigger can be any signal. A trigger happens when the signal changes from non-positive to positive.</li><li>div: number of pulses to divide by.</li><li>startCount: starting value for the trigger count. This lets you start somewhere in the middle of a count, or if startCount is negative it adds that many counts to the first time the output is triggers.</li></ul><p>Lower tone at quarter the clock rate:</p><pre><code>var p = Impulse(8, 0);
+var a = SinOsc(1200, 0) * Decay2(p, 0.005, 0.1);
+var b = SinOsc(600,  0) * Decay2(PulseDivider(p, 4, 0), 0.005, 0.5);
+(a + b) * 0.4
+</code></pre><p>Four divisions:</p><pre><code>var p = Impulse(8, 0);
+var a = SinOsc(1200, 0) * Decay2(p, 0.005, 0.1);
+var b = SinOsc(600,  0) * Decay2(PulseDivider(p, 4, 0), 0.005, 0.5);
+var c = SinOsc(800,  0) * Decay2(PulseDivider(p, 2, 1), 0.005, 0.5);
+var d = SinOsc(200,  0) * Decay2(PulseDivider(p, 16, 0), 0.005, 1.0);
+(a + b + c + d) * 0.3
 </code></pre>
