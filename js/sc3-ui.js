@@ -184,3 +184,8 @@ function playJsProgram() {
         playUgen(result);
     });
 }
+
+// Sets the 's' url parameter of the window to the encdoded form of the selected text.
+function set_url_to_encode_selection() {
+    window_url_set_param('s', text_editor_get_text());
+}

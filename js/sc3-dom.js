@@ -70,3 +70,10 @@ function url_get_param(key) {
     var params = new URLSearchParams(document.location.search);
     return params.get(key);
 }
+
+// Set key to value in window location url.
+function window_url_set_param(key, value) {
+    var windowUrl = new URL(window.location);
+    windowUrl.searchParams.set(key, value);
+    window.history.pushState({}, '', windowUrl);
+}
