@@ -22,25 +22,27 @@ The DiskIn unit generator can stream audio from a disk file. It can be used in a
 
 Files loaded in RAM can be processed in more ways because the entire file is accessible.  Files in RAM can be played using the PlayBuf ugen. See the help file for PlayBuf for more info.
 
-    // normal playback at same speed of recording
+Normal playback at same speed of recording:
+
     var filename = "floating_1"; // the file's path name
     var file = SfAcquire(filename, 1, [1]); // create a SoundFile object
     SfPlay(
         file, // sample buffer
         1, // playback rate
-        Impulse(1 / SfDur(file), 0), // trigger playback
+        1, // trigger playback
         0, // starting offset sample
+        1, // loop
     );
 
-Mouse controls playback rate and re-trigger interval:
+Mouse controls playback rate:
 
-    // normal playback at same speed of recording
     var filename = "floating_1"; // the file's path name
     var file = SfAcquire(filename, 1, [1]); // create a SoundFile object
     var rateMultiplier = MouseX(0.25, 4, 1, 0.2);
     SfPlay(
         file, // sample buffer
         rateMultiplier, // playback rate
-        Impulse(rateMultiplier / SfDur(file), 0), // trigger playback
+        1, // trigger playback
         0, // starting offset sample
+        1, // loop
     );
