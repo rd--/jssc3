@@ -77,25 +77,19 @@ A more complex example based on the Saw example above is given below.  In this e
 
 Some unit generators such as Klank require arrays of values as inputs. Since all arrays are expanded, you need to protect some arrays by a Ref object. A Ref instance is an object with a single slot named 'value' that serves as a holder of an object. Ref.new(object) one way to create a Ref, but there is a syntactic shortcut.  The backquote ` is a unary operator that is equivalent to calling Ref.new(something).  So to protect arrays that are inputs to a Klank or similar UGens you write:
 
-    Klank.ar(`[[400,500,600],[1,2,1]], z)
+    // ...
 
 You can still create multiple Klanks by giving it an array of Ref'ed arrays.
 
-    Klank.ar([ `[[400,500,600],[1,2,1]],  `[[700,800,900],[1,2,1]] ], z)
+    // ...
 
 is equivalent to:
 
-    [ Klank.ar(`[[400,500,600],[1,2,1]], z),  Klank.ar(`[[700,800,900],[1,2,1]], z)]
+    // ....
 
 ## Reducing channel expansion with Mix
 
-The Mix unit generator provides the means for reducing multi channel arrays to a single channel.
-
-    Mix.ar([a, b, c]) // array of channels
-
-is equivalent to:
-
-    a + b + c  // mixed to one
+_sum_ provides the means for reducing multi channel arrays to a single channel. _[a, b, c].sum_ is equivalent to _a + b + c_.
 
 Mix is more efficient than using + since it can perform multiple additions at a time.  But the main advantage is that it can deal with situations where the number of channels is arbitrary or determined at runtime.
 
@@ -103,12 +97,11 @@ Mix is more efficient than using + since it can perform multiple additions at a 
 
 Multi channel expansion works differently for Mix. Mix takes one input which is an array (one not protected by a Ref). That array does not cause copies of Mix to be made. All elements of the array are mixed together in a single Mix object.  On the other hand if the array contains one or more arrays then multi channel expansion is performed one level down. This allows you to mix an array of stereo (two element) arrays resulting in one two channel array. For example:
 
-    Mix.ar( [ [a, b], [c, d], [e, f] ] ) // input is an array of stereo pairs
+    // ...
 
 is equivalent to:
 
-    // mixed to a single stereo pair
-    [ Mix.ar( [a, c, e] ), Mix.ar( [b, d, f] ) ]
+    // ...
 
 Currently it is not recursive. You cannot use Mix on arrays of arrays of arrays.
 

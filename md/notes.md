@@ -58,6 +58,7 @@ i.e. _jssc3-rte.html?e=help/essay/jssc3-1.html_.
     - [Oscillators](https://rohandrape.net/pub/jssc3/jssc3-rte.html?e=help/essay/sc-help-ugens-oscillators.html)
     - [Triggers](https://rohandrape.net/pub/jssc3/jssc3-rte.html?e=help/essay/sc-help-ugens-triggers.html)
 - Sc2 Tutorial
+  - [1 - Synth](https://rohandrape.net/pub/jssc3/jssc3-rte.html?e=help/essay/sc-tutorial-1.html)
   - [2 - UGens](https://rohandrape.net/pub/jssc3/jssc3-rte.html?e=help/essay/sc-tutorial-2.html)
   - [5 - Parallel & Series](https://rohandrape.net/pub/jssc3/jssc3-rte.html?e=help/essay/sc-tutorial-5.html)
 
