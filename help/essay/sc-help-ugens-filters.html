@@ -1,0 +1,43 @@
+<h1>BPF - 2nd order Butterworth bandpass filter</h1><p><em>BPF(in, freq, rq)</em></p><p>A second order low pass filter.</p><ul><li>in: input signal to be processed</li><li>freq: cutoff frequency in Hertz.</li><li>rq: the reciprocal of Q.  bandwidth / cutoffFreq.</li></ul><p>Modulate frequency:</p><pre><code>BPF(Saw(200) * 0.5, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000, 0.3)
+</code></pre><h1>BPZ2 - two zero fixed midpass</h1><p><em>BPZ2(in)</em></p><p>A special case fixed filter.  Implements the formula <em>out(i) = 0.5 * (in(i) - in(i-2))</em></p><p>This filter cuts out 0 Hz and the Nyquist frequency.</p><p>Compare:</p><pre><code>WhiteNoise() * 0.1
+</code></pre><p>and:</p><pre><code>BPZ2(WhiteNoise() * 0.1)
+</code></pre><h1>BRF - 2nd order Butterworth band reject filter</h1><p><em>BRF(in, freq, rq)</em></p><p>A second order low pass filter.</p><ul><li>in: input signal to be processed</li><li>freq: cutoff frequency in Hertz.</li><li>rq: the reciprocal of Q.  bandwidth / cutoffFreq.</li></ul><p>Modulate frequency:</p><pre><code>BRF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3800 + 4000, 0.3)
+</code></pre><h1>BRZ2 - two zero fixed midcut</h1><p><em>BRZ2(in)</em></p><p>A special case fixed filter.  Implements the formula <em>out(i) = 0.5 * (in(i) + in(i-2))</em>.</p><p>This filter cuts out frequencies around 1/2 of the Nyquist frequency.</p><p>Compare:</p><pre><code>WhiteNoise() * 0.1
+</code></pre><p>and:</p><pre><code>BRZ2(WhiteNoise() * 0.1)
+</code></pre><h1>Formlet - FOF-like filter</h1><p><em>Formlet(in, freq, attackTime, decayTime)</em></p><p>This is a resonant filter whose impulse response is like that of a sine wave with a Decay2 envelope over it.  It is possible to control the attacktime and decaytime.</p><p>Formlet is equivalent to <em>Ringz(in, freq, decaytime) - Ringz(in, freq, attacktime)</em>.</p><p>Note that if <em>attacktime = decaytime</em> then the signal cancels out and if <em>attacktime &gt; decaytime</em> then the impulse response is inverted.</p><p>The great advantage to this filter over FOF is that there is no limit to the number of overlapping grains since the grain is just the impulse response of the filter.</p><ul><li>in: input signal to be processed</li><li>freq: resonant frequency in Hertz</li><li>attackTime: 60 dB attack time in seconds.</li><li>decayTime: 60 dB decay time in seconds.</li></ul><p>Fixed parameters:</p><pre><code>Formlet(Impulse(20, 0) * 0.5, 1000, 0.01, 0.1)
+</code></pre><p>Fixed parameters, modulate frequency of input signal:</p><pre><code>Formlet(Blip(XLn(10, 400, 8), 1000) * 0.1, 1000, 0.01, 0.1)
+</code></pre><p>Modulating formant frequency:</p><pre><code>var input = Blip(SinOsc(5, 0) * 20 + 300, 1000) * 0.1;
+Formlet(input, XLn(1500, 700, 8), 0.005, 0.04)
+</code></pre><p>Mouse control of frequency and decay time:</p><pre><code>var input = Blip(SinOsc(5, 0) * 20 + 300, 1000) * 0.1;
+Formlet(input, MouseY(700, 2000, 1, 0.2), 0.005, MouseX(0.01, 0.2, 1, 0.2))
+</code></pre><h1>FOS - first order filter section</h1><p><em>FOS(in, a0, a1, b1)</em></p><p>A standard first order filter section. Filter coefficients are given directly rather than calculated for you.  Formula is equivalent to <em>out(i) = (a0 * in(i)) + (a1 * in(i-1)) + (b1 * out(i-1))</em>.</p><p>Same as OnePole:</p><pre><code>var x = MouseX(-1, 1, 0, 0.2);
+FOS(LFSaw(200, 0) * 0.1, 1 - x.abs, 0, x)
+</code></pre><p>Same as OneZero:</p><pre><code>var x = MouseX(-1, 1, 0, 0.2);
+FOS(LFSaw(200, 0) * 0.1, 1 - x.abs, x, 0)
+</code></pre><h1>HPF - 2nd order Butterworth highpass filter</h1><p><em>HPF(in, freq)</em></p><p>A second order high pass filter.</p><ul><li>in: input signal to be processed</li><li>freq: cutoff frequency.</li></ul><p>Modulate frequency, note makeup gain:</p><pre><code>HPF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000) * 2
+</code></pre><h1>HPZ1 - two point difference filter</h1><p><em>HPZ1(in)</em></p><p>A special case fixed filter. Implements the formula <em>out(i) = 0.5 * (in(i) - in(i-1))</em> which is a two point differentiator.</p><p>Compare:</p><pre><code>WhiteNoise() * 0.1
+</code></pre><p>and:</p><pre><code>HPZ1(WhiteNoise() * 0.25)
+</code></pre><h1>HPZ2 - two zero fixed highpass</h1><p><em>HPZ2(in)</em></p><p>A special case fixed filter. Implements the formula <em>out(i) = 0.25 * (in(i) - (2*in(i-1)) + in(i-2))</em>.</p><p>Compare:</p><pre><code>WhiteNoise() * 0.1
+</code></pre><p>and:</p><pre><code>HPZ2(WhiteNoise()) * 0.1
+</code></pre><h1>RHPF - resonant high pass filter</h1><p><em>RHPF(in, freq, q)</em></p><p>A resonant high pass filter.</p><ul><li>in: input signal to be processed</li><li>freq: cutoff frequency.</li><li>rq: the reciprocal of Q.  bandwidth / cutoffFreq.</li></ul><p>Modulate frequency:</p><pre><code>RHPF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000, 0.2)
+</code></pre><h1>Ringz - ringing filter</h1><p><em>Ringz(in, freq, decaytime)</em></p><p>This is the same as Resonz, except that instead of a resonance parameter, the bandwidth is specified in a 60dB ring decay time. One Ringz is equivalent to one component of the Klank UGen.</p><ul><li>in: input signal to be processed</li><li>freq: resonant frequency in Hertz</li><li>decaytime: the 60 dB decay time of the filter</li></ul><p>Resonant dust:</p><pre><code>Ringz(Dust(3) *  0.1, 2000, 2)
+</code></pre><p>Resonant noise:</p><pre><code>Ringz(WhiteNoise() * 0.005, 2000, 0.5)
+</code></pre><p>Modulate frequency:</p><p>var freq = XLn(100, 3000, 10);
+[Ringz(WhiteNoise() * 0.005, freq, 0.5), Ringz(Impulse(6, 0) * 0.1,  freq, 0.5)]</p><p>Modulate ring time:</p><pre><code>Ringz(Impulse(6, 0) * 0.1,  2000, XLn(4, 0.04, 8))
+</code></pre><p>Modulate ring time opposite direction:</p><pre><code>Ringz(Impulse(6, 0) * 0.1,  2000, XLn(0.04, 4, 8))
+</code></pre><p>Parallel filters with frequency ramps:</p><pre><code>var exciter = WhiteNoise() * 0.001;
+{ Ringz(exciter, XLn(ExpRand(100, 5000), ExpRand(100, 5000), 20), 0.5) }.dup(10).splay2
+</code></pre><p>Texture of above:</p><pre><code>OverlapTexture({
+    arg tr;
+    var exciter = WhiteNoise() * 0.001;
+    { Ringz(exciter, TXLine(TExpRand(100, 5000, tr), TExpRand(100, 5000, tr), 20, tr), 0.5) }.dup(10).splay2
+}, 5, 10, 3)
+</code></pre><h1>RLPF - resonant low pass filter</h1><p><em>RLPF(in, freq, rq)</em></p><p>A resonant low pass filter.</p><ul><li><p>in: input signal to be processed</p></li><li><p>freq: cutoff frequency.</p></li><li><p>rq: the reciprocal of Q.  bandwidth / cutoffFreq.</p><p>RLPF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000, 0.2)</p></li></ul><h1>SOS - second order filter section (biquad)</h1><p><em>SOS(in, a0, a1, a2, b1, b2)</em></p><p>A standard second order filter section. Filter coefficients are given directly rather than calculated for you. Formula is equivalent to <em>out(i) = (a0 * in(i)) + (a1 * in(i-1)) + (a2 * in(i-2)) + (b1 * out(i-1)) + (b2 * out(i-2))</em>.</p><p>Same as TwoPole:</p><pre><code>var theta = MouseX(0.2 * pi, pi, 0, 0.2);
+var rho = MouseY(0.6, 0.99, 0, 0.2);
+var b1 = 2 * rho * theta.cos;
+var b2 = rho.squared.negated;
+SOS(LFSaw(200, 0) * 0.1, 1, 0, 0, b1, b2)
+</code></pre><h1>TwoPole - two pole filter</h1><p><em>TwoPole(in, freq, radius)</em></p><p>A two pole filter. This provides lower level access to setting of pole location.  For general purposes Resonz is better.</p><ul><li>in: input signal to be processed</li><li>freq: frequency of pole angle.</li><li>radius: radius of pole. Should be between 0 and +1</li></ul><p>Fixed frequency:</p><pre><code>TwoPole(WhiteNoise() * 0.005, 2000, 0.95)
+</code></pre><p>Modulate frequency:</p><pre><code>TwoPole(WhiteNoise() * 0.005, XLn(800, 8000, 8), 0.95)
+</code></pre><h1>TwoZero - two zero filter</h1><p><em>TwoZero(in, freq, radius)</em></p><p>A two zero filter.</p><ul><li>in: input signal to be processed</li><li>freq: frequency of zero angle.</li><li>radius: radius of zero.</li></ul><p>Modulate frequency:</p><pre><code>TwoZero(WhiteNoise() * 0.125, XLn(20, 20000, 8), 1)
+</code></pre>

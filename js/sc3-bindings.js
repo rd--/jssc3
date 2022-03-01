@@ -60,6 +60,10 @@ function BPZ2(input) {
 function BRF(input, freq, rq) {
     return makeUgen('BRF', 1, [0], 0, [input, freq, rq]);
 }
+// Two zero fixed midcut.
+function BRZ2(input) {
+    return makeUgen('BRZ2', 1, [0], 0, [input]);
+}
 // Brown Noise.
 function BrownNoise() {
     return makeUgen('BrownNoise', 1, Rate.ar, 0, []);
@@ -244,6 +248,10 @@ function Formant(fundfreq, formfreq, bwfreq) {
 function Formlet(input, freq, attacktime, decaytime) {
     return makeUgen('Formlet', 1, [0], 0, [input, freq, attacktime, decaytime]);
 }
+// First order filter section.
+function FOS(input, a0, a1, b1) {
+    return makeUgen('FOS', 1, [0], 0, [input, a0, a1, b1]);
+}
 // Frequency Shifter.
 function FreqShift(input, freq, phase) {
     return makeUgen('FreqShift', 1, Rate.ar, 0, [input, freq, phase]);
@@ -299,6 +307,10 @@ function HPF(input, freq) {
 // Two point difference filter
 function HPZ1(input) {
     return makeUgen('HPZ1', 1, [0], 0, [input]);
+}
+// Two zero fixed midcut.
+function HPZ2(input) {
+    return makeUgen('HPZ2', 1, [0], 0, [input]);
 }
 // Inverse Fast Fourier Transform
 function IFFT(buffer, wintype, winsize) {
@@ -667,6 +679,10 @@ function Slew(input, up, dn) {
 // Slope of signal
 function Slope(input) {
     return makeUgen('Slope', 1, [0], 0, [input]);
+}
+// Second order filter section (biquad).
+function SOS(input, a0, a1, a2, b1, b2) {
+    return makeUgen('SOS', 1, [0], 0, [input, a0, a1, a2, b1, b2]);
 }
 // Pulse counter.
 function Stepper(trig, reset, min, max, step, resetval) {
