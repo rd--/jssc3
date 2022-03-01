@@ -78,3 +78,18 @@ function ASR(gate, attackTime, releaseTime, curve) {
     var env = EnvASR(attackTime, 1, releaseTime, curve);
     return EnvGen(gate, 1, 0, 1, 0, env.coord());
 }
+
+function EnvCutoff(sustainTime, releaseTime, curve) {
+    return Env(
+        [1, 1, 0],
+        [sustainTime, releaseTime],
+        curve,
+        null,
+        null,
+        0);
+}
+
+function Cutoff(sustainTime, releaseTime, curve) {
+    var env = EnvCutoff(sustainTime, releaseTime, curve);
+    return EnvGen(1, 1, 0, 1, 0, env.coord());
+}
