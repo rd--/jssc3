@@ -75,12 +75,14 @@ window.onload = function () {
       </select>
       <select id="actionsMenu" title="Actions">
         <option value="">&#x2630;</option>
+        <option value='setBlockSize'>Block Size</option>
+        <option value='setNumInputs'>Input Channels</option>
         <option value="userBackup" title="Save user programs to archive">Backup</option>
         <option value="userRestore" title="Load user programs from archive">Restore</option>
         <option value="userPurge" title="Delete all user programs">Purge</option>
         <option value="documentVisit" title="Visit document named in selected text (v)" accesskey="v">Visit</option>
       </select>
-      <button title="Boot" accesskey="b" onclick="bootScsynth(0, 2, scsynth_block_size)">⏻ (Boot)</button>
+      <button title="Boot" accesskey="b" onclick="ui_boot_scsynth()">⏻ (Boot)</button>
       <span id="statusText"></span>
     </div>
     <script src="lib/quill/quill.js"></script>
