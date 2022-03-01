@@ -19,11 +19,47 @@ FOS(LFSaw(200, 0) * 0.1, 1 - x.abs, x, 0)
 </code></pre><p>and:</p><pre><code>HPZ1(WhiteNoise() * 0.25)
 </code></pre><h1>HPZ2 - two zero fixed highpass</h1><p><em>HPZ2(in)</em></p><p>A special case fixed filter. Implements the formula <em>out(i) = 0.25 * (in(i) - (2*in(i-1)) + in(i-2))</em>.</p><p>Compare:</p><pre><code>WhiteNoise() * 0.1
 </code></pre><p>and:</p><pre><code>HPZ2(WhiteNoise()) * 0.1
+</code></pre><h1>LeakDC - remove DC</h1><p><em>LeakDC(in, coef)</em></p><p>This filter removes a DC offset from a signal.</p><ul><li>in: input signal.</li><li>coef: leak coefficient.</li></ul><p>Add DC to a pulse wave and then remove it:</p><pre><code>var a = LFPulse(800, 0, 0.5) * 0.5 + 0.5;
+[a * 0.1, LeakDC(a, 0.995) * 0.1]
+</code></pre><h1>Limiter - peak limiter</h1><p><em>Limiter(input, level, lookAheadTime)</em></p><p>Limits the input amplitude to the given level. Limiter will not overshoot like <em>Compander</em> will, but it needs to look ahead in the audio. Thus there is a delay equal to twice the lookAheadTime.</p><p>Limiter, unlike Compander, is completely transparent for an in range signal.</p><ul><li><p>input: the signal to be processed.</p></li><li><p>level: the peak output amplitude level to which to normalize the input.</p></li><li><p>lookAheadTime: the buffer delay time. Shorter times will produce smaller delays and quicker transient response times, but may introduce amplitude modulation artifacts.</p><p>var z = Decay2(Impulse(8, 0) * (LFSaw(0.25, 0) * -0.6 + 0.7), 0.001, 0.3) * FSinOsc(500, 0);
+[z, Limiter(z, 0.4, 0.01)] * 0.2</p></li></ul><h1>LPF - 2nd order Butterworth lowpass filter</h1><p><em>LPF(in, freq)</em></p><p>A second order low pass filter.</p><ul><li>in: input signal to be processed</li><li>freq: cutoff frequency.</li></ul><p>Modulate frequency:</p><pre><code>LPF(Saw(200) * 0.1, SinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000)
+</code></pre><h1>LPZ1 - two point average filter</h1><p><em>LPZ1(in)</em></p><p>A special case fixed filter. Implements the formula <em>out(i) = 0.5 * (in(i) + in(i-1))</em> which is a two point averager.</p><p>Compare:</p><pre><code>WhiteNoise() * 0.1
+</code></pre><p>and:</p><pre><code>LPZ1(WhiteNoise() * 0.1)
+</code></pre><h1>LPZ2 two zero fixed lowpass</h1><p><em>LPZ2(in)</em></p><p>A special case fixed filter. Implements the formula <em>out(i) = 0.25 * (in(i) + (2*in(i-1)) + in(i-2))</em>.</p><p>Compare:</p><pre><code>WhiteNoise() * 0.1
+</code></pre><p>and:</p><pre><code>LPZ2(WhiteNoise() * 0.1)
+</code></pre><h1>Median - median filter</h1><p><em>Median(length, in)</em></p><p>Returns the median of the last length input points.  This non linear filter is good at reducing impulse noise from a signal.</p><ul><li>length: number of input points in which to find the median. Must be an odd number from 1 to 31. If length is 1 then Median has no effect.</li><li>in: input signal to be processed</li></ul><p>A signal with impulse noise.</p><pre><code>Saw(500) * 0.1 + (Dust2(100) * 0.9)
+</code></pre><p>After applying median filter:</p><pre><code>var z = Saw(500) * 0.1 + (Dust2(100) * 0.9);
+Median(3, z)
+</code></pre><p>The median length can be increased for longer duration noise.</p><p>A signal with longer impulse noise:</p><pre><code>Saw(500) * 0.1 + (LPZ1(Dust2(100) * 0.9))
+</code></pre><p>Length 3 doesn't help here because the impulses are 2 samples long.</p><pre><code>var z = Saw(500) * 0.1 + (LPZ1(Dust2(100) * 0.9));
+Median(3, z)
+</code></pre><p>Length 5 does better:</p><pre><code>var z = Saw(500) * 0.1 + (LPZ1(Dust2(100) * 0.9));
+Median(5, z)
+</code></pre><p>Long Median filters begin chopping off the peaks of the waveform:</p><pre><code>var x = SinOsc(1000, 0) * 0.1;
+XFade2(x, Median(31, x), MouseX(-1, 1, 0, 0.2), 1)
+</code></pre><p>Another noise reduction application:</p><pre><code>WhiteNoise() + SinOsc(800,0) * 0.1
+</code></pre><p>Use Median filter for high frequency noise:</p><pre><code>var z = WhiteNoise() + SinOsc(800,0) * 0.1;
+Median(31, z)
+</code></pre><p>Use LeakDC for low frequency noise:</p><pre><code>var z = WhiteNoise() + SinOsc(800,0) * 0.1;
+LeakDC(Median(31, z), 0.9)
+</code></pre><h1>Normalizer - flattens dynamics</h1><p><em>Normalizer(input, level, lookAheadTime)</em></p><p>Normalizes the input amplitude to the given level. Normalize will not overshoot like Compander will, but it needs to look ahead in the audio. Thus there is a delay equal to twice the lookAheadTime.</p><ul><li>input: the signal to be processed.</li><li>level: the peak output amplitude level to which to normalize the input.</li><li>lookAheadTime: the buffer delay time. Shorter times will produce smaller delays and quicker transient response times, but may introduce amplitude modulation artifacts.</li></ul><p>Example signal to process:</p><pre><code>var z = Decay2(Impulse(8, 0) * (LFSaw(0.25, 0) * -0.6 + 0.7), 0.001, 0.3) * FSinOsc(500, 0);
+[z, Normalizer(z, 0.4, 0.01)] * 0.2
+</code></pre><h1>OnePole - one pole filter</h1><p><em>OnePole(in, coef)</em></p><p>A one pole filter. Implements the formula <em>out(i) = ((1 - abs(coef)) * in(i)) + (coef * out(i-1))</em>.</p><ul><li>in: input signal to be processed</li><li>coef: feedback coefficient. Should be between -1 and +1</li></ul><p>Low pass:</p><pre><code>OnePole(WhiteNoise() * 0.2, 0.95)
+</code></pre><p>High pass:</p><pre><code>OnePole(WhiteNoise() * 0.2, -0.95)
+</code></pre><p>Modulate coeficient:</p><pre><code>OnePole(WhiteNoise() * 0.2, Ln(0.95, -0.95, 10))
+</code></pre><h1>OneZero - one zero filter</h1><p><em>OneZero(in, coef)</em></p><p>A one zero filter. Implements the formula <em>out(i) = ((1 - abs(coef)) * in(i)) + (coef * in(i-1))</em>.</p><ul><li>in: input signal to be processed</li><li>coef: feed forward coefficient. +0.5 makes a two point averaging filter (see also LPZ1), -0.5 makes a differentiator (see also HPZ1),  +1 makes a single sample delay (see also Delay1), -1 makes an inverted single sample delay.</li></ul><p>Low pass:</p><pre><code>OneZero(WhiteNoise() * 0.2, 0.5)
+</code></pre><p>High pass:</p><pre><code>OneZero(WhiteNoise() * 0.2, -0.5)
+</code></pre><p>Modulate coeficient:</p><pre><code>OneZero(WhiteNoise() * 0.2, Ln(-0.5, 0.5, 10))
+</code></pre><h1>Resonz - resonant filter</h1><p><em>Resonz(in, freq, rq)</em></p><p>A two pole resonant filter with zeroes at z = +/- 1. Based on K. Steiglitz,  &quot;A Note on Constant-Gain Digital Resonators,&quot; Computer Music Journal, vol 18, no. 4, pp. 8-10, Winter 1994.</p><ul><li>in: input signal to be processed</li><li>freq: resonant frequency in Hertz</li><li>rq: bandwidth ratio (reciprocal of Q). rq = bandwidth / centerFreq</li></ul><p>The reciprocal of Q is used rather than Q because it saves a divide operation inside the unit generator.</p><p>Fixed frequency:</p><pre><code>Resonz(WhiteNoise() * 0.5, 2000, 0.1)
+</code></pre><p>Modulate frequency:</p><pre><code>Resonz(WhiteNoise() * 0.5, XLn(1000, 8000, 10), 0.05)
+</code></pre><p>Modulate bandwidth:</p><pre><code>Resonz(WhiteNoise() * 0.5, 2000, XLn(1, 0.001, 8))
+</code></pre><p>Modulate bandwidth opposite direction:</p><pre><code>Resonz(WhiteNoise() * 0.5, 2000, XLn(0.001, 1, 8))
 </code></pre><h1>RHPF - resonant high pass filter</h1><p><em>RHPF(in, freq, q)</em></p><p>A resonant high pass filter.</p><ul><li>in: input signal to be processed</li><li>freq: cutoff frequency.</li><li>rq: the reciprocal of Q.  bandwidth / cutoffFreq.</li></ul><p>Modulate frequency:</p><pre><code>RHPF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000, 0.2)
 </code></pre><h1>Ringz - ringing filter</h1><p><em>Ringz(in, freq, decaytime)</em></p><p>This is the same as Resonz, except that instead of a resonance parameter, the bandwidth is specified in a 60dB ring decay time. One Ringz is equivalent to one component of the Klank UGen.</p><ul><li>in: input signal to be processed</li><li>freq: resonant frequency in Hertz</li><li>decaytime: the 60 dB decay time of the filter</li></ul><p>Resonant dust:</p><pre><code>Ringz(Dust(3) *  0.1, 2000, 2)
 </code></pre><p>Resonant noise:</p><pre><code>Ringz(WhiteNoise() * 0.005, 2000, 0.5)
-</code></pre><p>Modulate frequency:</p><p>var freq = XLn(100, 3000, 10);
-[Ringz(WhiteNoise() * 0.005, freq, 0.5), Ringz(Impulse(6, 0) * 0.1,  freq, 0.5)]</p><p>Modulate ring time:</p><pre><code>Ringz(Impulse(6, 0) * 0.1,  2000, XLn(4, 0.04, 8))
+</code></pre><p>Modulate frequency:</p><pre><code>var freq = XLn(100, 3000, 10);
+[Ringz(WhiteNoise() * 0.005, freq, 0.5), Ringz(Impulse(6, 0) * 0.1,  freq, 0.5)]
+</code></pre><p>Modulate ring time:</p><pre><code>Ringz(Impulse(6, 0) * 0.1,  2000, XLn(4, 0.04, 8))
 </code></pre><p>Modulate ring time opposite direction:</p><pre><code>Ringz(Impulse(6, 0) * 0.1,  2000, XLn(0.04, 4, 8))
 </code></pre><p>Parallel filters with frequency ramps:</p><pre><code>var exciter = WhiteNoise() * 0.001;
 { Ringz(exciter, XLn(ExpRand(100, 5000), ExpRand(100, 5000), 20), 0.5) }.dup(10).splay2
@@ -32,7 +68,19 @@ FOS(LFSaw(200, 0) * 0.1, 1 - x.abs, x, 0)
     var exciter = WhiteNoise() * 0.001;
     { Ringz(exciter, TXLine(TExpRand(100, 5000, tr), TExpRand(100, 5000, tr), 20, tr), 0.5) }.dup(10).splay2
 }, 5, 10, 3)
-</code></pre><h1>RLPF - resonant low pass filter</h1><p><em>RLPF(in, freq, rq)</em></p><p>A resonant low pass filter.</p><ul><li><p>in: input signal to be processed</p></li><li><p>freq: cutoff frequency.</p></li><li><p>rq: the reciprocal of Q.  bandwidth / cutoffFreq.</p><p>RLPF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000, 0.2)</p></li></ul><h1>SOS - second order filter section (biquad)</h1><p><em>SOS(in, a0, a1, a2, b1, b2)</em></p><p>A standard second order filter section. Filter coefficients are given directly rather than calculated for you. Formula is equivalent to <em>out(i) = (a0 * in(i)) + (a1 * in(i-1)) + (a2 * in(i-2)) + (b1 * out(i-1)) + (b2 * out(i-2))</em>.</p><p>Same as TwoPole:</p><pre><code>var theta = MouseX(0.2 * pi, pi, 0, 0.2);
+</code></pre><h1>RingzBank - bank of resonators</h1><p><em>RingzBank(input, freqArray, ampArray, timeArray)</em></p><p>RingzBank (<em>Klank</em>) is a bank of fixed frequency resonators which can be used to simulate the resonant modes of an object. Each mode is given a ring time, which is the time for the mode to decay by 60 dB.</p><ul><li>input: the excitation input to the resonant filter bank.</li><li>frequencies: an Array of filter frequencies.</li><li>amplitudes: an Array of filter amplitudes. If <em>nil</em> default to 1.</li><li>ring times: an Array of 60 dB decay times for the filters. If <em>nil</em> default to 1.</li></ul><p>Four resonant filters, default amplitudes and decay times:</p><pre><code>RingzBank(Impulse(2, 0) * 0.1, [800, 1071, 1153, 1723], nil, nil)
+</code></pre><p>With dust input:</p><pre><code>RingzBank(Dust(8) * 0.1, [800, 1071, 1153, 1723], nil, nil)
+</code></pre><p>With noise input:</p><pre><code>RingzBank(PinkNoise() * 0.007, [800, 1071, 1153, 1723], nil, nil)
+</code></pre><p>With stereo input:</p><pre><code>RingzBank({ PinkNoise() }.dup(2) * 0.005, [200, 671, 1153, 1723], nil, nil)
+</code></pre><p>With random frequencies input:</p><pre><code>RingzBank(Decay(Impulse(4, 0), 0.03) * ClipNoise() * 0.005, { Rand(800, 4000) }.dup(12), nil, { Rand(0.1, 2) }.dup(12))
+</code></pre><p>Texture of variation of above:</p><pre><code>OverlapTexture({
+    arg tr;
+    var z = Decay(Impulse(4, 0), TRand(0.03, 0.09, tr)) * ClipNoise() * 0.0025;
+    var r = RingzBank(z, { TRand(800, 4000, tr) }.dup(12), nil, { TRand(0.1, 2, tr) }.dup(12));
+    Pan2(r, TRand(-1, 1, tr), 1)
+}, 8, 3, 4)
+</code></pre><h1>RLPF - resonant low pass filter</h1><p><em>RLPF(in, freq, rq)</em></p><p>A resonant low pass filter.</p><ul><li>in: input signal to be processed</li><li>freq: cutoff frequency.</li><li>rq: the reciprocal of Q.  bandwidth / cutoffFreq.</li></ul><p>Modulate frequency:</p><pre><code>RLPF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000, 0.2)
+</code></pre><h1>SOS - second order filter section (biquad)</h1><p><em>SOS(in, a0, a1, a2, b1, b2)</em></p><p>A standard second order filter section. Filter coefficients are given directly rather than calculated for you. Formula is equivalent to <em>out(i) = (a0 * in(i)) + (a1 * in(i-1)) + (a2 * in(i-2)) + (b1 * out(i-1)) + (b2 * out(i-2))</em>.</p><p>Same as TwoPole:</p><pre><code>var theta = MouseX(0.2 * pi, pi, 0, 0.2);
 var rho = MouseY(0.6, 0.99, 0, 0.2);
 var b1 = 2 * rho * theta.cos;
 var b2 = rho.squared.negated;

@@ -96,6 +96,10 @@ function ClearBuf(buf) {
 function Clip(input, lo, hi) {
     return makeUgen('Clip', 1, [0], 0, [input, lo, hi]);
 }
+// Clip Noise.
+function ClipNoise() {
+    return makeUgen('ClipNoise', 1, Rate.ar, 0, []);
+}
 // Statistical gate.
 function CoinGate(prob, input) {
     return makeUgen('CoinGate', 1, [1], 0, [prob, input]);
@@ -492,6 +496,10 @@ function LocalOut(channelsArray) {
 function LPZ1(input) {
     return makeUgen('LPZ1', 1, [0], 0, [input]);
 }
+// Two zero fixed lowpass
+function LPZ2(input) {
+    return makeUgen('LPZ2', 1, [0], 0, [input]);
+}
 // Reduce precision.
 function MantissaMask(input, bits) {
     return makeUgen('MantissaMask', 1, [0], 0, [input, bits]);
@@ -499,6 +507,10 @@ function MantissaMask(input, bits) {
 // LocalBuf count
 function MaxLocalBufs(count) {
     return makeUgen('MaxLocalBufs', 1, Rate.ir, 0, [count]);
+}
+// Median filter.
+function Median(length, input) {
+    return makeUgen('Median', 1, [1], 0, [length, input]);
 }
 // Minimum difference of two values in modulo arithmetics
 function ModDif(x, y, mod) {
@@ -539,6 +551,10 @@ function NumOutputBuses() {
 // One pole filter.
 function OnePole(input, coef) {
     return makeUgen('OnePole', 1, [0], 0, [input, coef]);
+}
+// One zero filter.
+function OneZero(input, coef) {
+    return makeUgen('OneZero', 1, [0], 0, [input, coef]);
 }
 // Interpolating wavetable oscillator.
 function Osc(bufnum, freq, phase) {
