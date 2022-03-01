@@ -23,3 +23,8 @@ Tested with:
 [SuperCollider](https://www.audiosynth.com/) 3.11.2
 
 © [Rohan Drape](http://rohandrape.net/), 2021-2022, [Gpl](http://gnu.org/copyleft/)
+
+* * *
+
+[Html](https://jssc3.rohandrape.net)
+[Video](https://rohandrape.net/?t=jssc3&e=md/video.md)

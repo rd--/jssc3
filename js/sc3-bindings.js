@@ -740,6 +740,10 @@ function WhiteNoise() {
 function Wrap(input, lo, hi) {
     return makeUgen('Wrap', 1, [0], 0, [input, lo, hi]);
 }
+// Index into a table with a signal.
+function WrapIndex(bufnum, input) {
+    return makeUgen('WrapIndex', 1, [1], 0, [bufnum, input]);
+}
 // Equal power two channel cross fade.
 function XFade2(inA, inB, pan, level) {
     return makeUgen('XFade2', 1, [0, 1], 0, [inA, inB, pan, level]);

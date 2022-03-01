@@ -23,7 +23,7 @@ class EnvSpec {
     }
 }
 
-// Env([0, 1, 0], [0.1, 0.9], 'lin', null, null, 0).coord().shallowEq([0, 2, -99, -99, 1, 0.1, 1, 0, 0, 0.9, 1, 0])
+// Env([0, 1, 0], [0.1, 0.9], 'lin', null, null, 0).coord() // => [0, 2, -99, -99, 1, 0.1, 1, 0, 0, 0.9, 1, 0]
 function Env(levels, times, curves, releaseNode, loopNode, offset) {
     return new EnvSpec(levels, times, curves, releaseNode, loopNode, offset);
 }
@@ -44,6 +44,10 @@ EnvSpec.prototype.coord = function() {
     }
     return r;
 };
+
+function coord(envelope) {
+    return envelope.coord;
+}
 
 function EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, peakLevel, curve) {
     return Env(
