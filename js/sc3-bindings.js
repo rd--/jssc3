@@ -164,6 +164,10 @@ function DegreeToKey(bufnum, input, octave) {
 function Delay1(input) {
     return makeUgen('Delay1', 1, [0], 0, [input]);
 }
+// Two sample delay.
+function Delay2(input) {
+    return makeUgen('Delay2', 1, [0], 0, [input]);
+}
 // Simple delay line with cubic interpolation.
 function DelayC(input, maxdelaytime, delaytime) {
     return makeUgen('DelayC', 1, [0], 0, [input, maxdelaytime, delaytime]);

@@ -1,0 +1,38 @@
+<h1>AllpassC - All pass filter</h1><p><em>AllpassC(in, maxdelaytime, delaytime, decaytime)</em></p><p>All pass delay line. AllpassN uses no interpolation, AllpassL uses linear interpolation, AllpassC uses cubic interpolation.</p><ul><li>in: the input signal.</li><li>maxdelaytime: the maximum delay time in seconds. used to initialize the delay buffer size.</li><li>delaytime: delay time in seconds.</li><li>decaytime: time for the echoes to decay by 60 decibels. If this time is negative then the feedback coefficient will be negative, thus emphasizing only odd harmonics at an octave lower.</li></ul><p>Since the allpass delay has no audible effect as a resonator on steady state sound...</p><pre><code>AllpassC(WhiteNoise() * 0.1, 0.01, XLn(0.0001, 0.01, 20), 0.2)
+</code></pre><p>...these examples add the input to the effected sound so that you can hear the effect of the phase comb:</p><pre><code>var z = WhiteNoise() * 0.1;
+z + AllpassC(z, 0.01, XLn(0.0001, 0.01, 20), 0.2)
+</code></pre><p>The interpolation schemes result in different signals.</p><p>Used as an echo this doesn't really sound different than <em>Comb</em>, but it outputs the input signal immediately (inverted) and the echoes are lower in amplitude.</p><pre><code>AllpassC(Decay(Dust(1) * 0.5, 0.2) * WhiteNoise(), 0.2, 0.2, 3)
+</code></pre><h1>CombC - comb filter</h1><p><em>CombC(in, maxdelaytime, delaytime, decaytime)</em></p><p>Comb delay line. CombN uses no interpolation, CombL uses linear interpolation, CombC uses cubic interpolation.</p><ul><li>in: the input signal.</li><li>maxdelaytime: the maximum delay time in seconds. used to initialize the delay buffer size.</li><li>delaytime: delay time in seconds.</li><li>decaytime: time for the echoes to decay by 60 decibels. If this time is negative then the feedback coefficient will be negative, thus emphasizing only odd harmonics at an octave lower.</li></ul><p>Comb used as a resonator. The resonant fundamental is equal to reciprocal of the delay time.</p><pre><code> CombC(WhiteNoise() * 0.01, 0.01, XLn(0.0001, 0.01, 20), 0.2)
+</code></pre><p>With negative feedback:</p><pre><code> CombC(WhiteNoise() * 0.01, 0.01, XLn(0.0001, 0.01, 20), -0.2)
+</code></pre><p>Used as an echo:</p><pre><code>CombC(Decay(Dust(1) * 0.5, 0.2) * WhiteNoise(), 0.2, 0.2, 3)
+</code></pre><h1>Delay1 - single sample delay</h1><p><em>Delay1(in)</em></p><ul><li>in: sample to be delayed.</li></ul><p>Original, with delayed subtracted from original:</p><pre><code>var z = Dust(1000);
+[z, z - Delay1(z)]
+</code></pre><h1>Delay2 - two sample delay</h1><p><em>Delay2(in)</em></p><ul><li>in: sample to be delayed.</li></ul><p>Original, with delayed subtracted from original:</p><pre><code>var z = Dust(1000);
+[z, z - Delay2(z)]
+</code></pre><h1>DelayC - delay line</h1><p><em>DelayC(in, maxdelaytime, delaytime)</em></p><p>Simple delay line. DelayN uses no interpolation, DelayL uses linear interpolation, DelayA uses all pass interpolation.</p><ul><li>in: the input signal.</li><li>maxdelaytime: the maximum delay time in seconds. used to initialize the delay buffer size.</li><li>delaytime: delay time in seconds.</li></ul><p>Dust randomly triggers Decay to create an exponential decay envelope for the WhiteNoise input source, input is mixed with delay:</p><pre><code>var z = Decay(Dust(1) * 0.5, 0.3) * WhiteNoise();
+DelayC(z, 0.2, 0.2) + z
+</code></pre><h1>DelayWr, TapC</h1><p><em>DelayWr(buffer, in)</em>,
+<em>TapC(buffer, delayTime)</em></p><p>These unit generators implement delay line reading and writing in separate objects. This lets you put processing in the feedback loop, or granulate a delay line, or implement a ping pong delay or other feedback network. The Tap unit generators read from the delay line and DelayWr writes to it. You must supply an instance of Signal long enough to hold the maximum delay time you will require. You do not need to initialize the buffer.  The maximum delay time is the length of the buffer minus the block size. The minimum delay time is equal to the block size + 1.  A single delay line may have any number of Taps but only one DelayWr. The same buffer should be supplied to the DelayWr and all Tap unit generators which are part of the same delay line.</p><p>TapN uses no interpolation, TapL uses linear interpolation, TapA uses all pass interpolation.</p><p>The output of DelayWr is just its input. The output of DelayWr is usually not needed, but it must be in the call graph of the Synth. In order to acheive this you will usually use the <em>mrg</em> operator which returns the first argument but ignores the second. This is just a bit of prestidigitation to give the DelayWr object an order in the call graph. Otherwise, if the Synth object is unable to trace up the graph and find theDelayWr object, it will never get called and the Taps will produce either garbage or silence. The use of <em>mrg</em> is shown below. Also see the help for <em>mrg</em>.</p><p>DelayWr arguments:</p><ul><li>buffer: an instance of Signal.</li><li>in:  the input signal to write to the delay line.</li></ul><p>Tap arguments:</p><ul><li>delaytime: delay time in seconds.</li></ul><p>Simple feedback delay (if this is all you want, Comb is easier to use):</p><pre><code>var buffer = BufAlloc(1, 48000 * 0.3); // allocate a buffer for the delay line
+var input = Decay(Impulse(1, 0), 0.2) * PinkNoise(); // make a percussive sound as input
+var delayedSignal = TapN.ar(buffer, 1, 0.15); // tap the delay line at 0.15 second delay
+var mixedSignal = (delayedSignal * 0.4) + input; // mix the delayed signal with the input
+var writer = DelayWr.ar(buffer, mixedSignal); // write the mixed signal to the delay line
+mixedSignal.mrg(writer) // output the mixed signal
+</code></pre><h1>PitchShift</h1><p><em>PitchShift(in, windowSize, pitchRatio, pitchDispersion, timeDispersion)</em></p><p>A time domain granular pitch shifter. Grains have a triangular amplitude envelope and an overlap of 4:1.</p><ul><li>in: the input signal.</li><li>windowSize: the size of the grain window in seconds. This value cannot be modulated.</li><li>pitchRatio: the ratio of the pitch shift. Must be from 0.0 to 4.0.</li><li>pitchDispersion: the maximum random deviation of the pitch from the pitchRatio.</li><li>timeDispersion: a random offset of from zero to timeDispersion seconds is added to the delay of each grain. Use of some dispersion can alleviate a hard comb filter effect due to uniform grain placement. It can also be an effect in itself. timeDispersion can be no larger than windowSize.</li></ul><p>Modulate pitch ratio:</p><pre><code>var z = Blip(800, 6) * 0.1;
+PitchShift(z, 0.02, Ln(0.1, 4, 20), 0, 0.0001)
+</code></pre><p>Pitch shift input.  <strong>Use headphones</strong> to prevent feedback:</p><pre><code>PitchShift(
+    AudioIn([1, 2]), // stereo audio input
+    0.1, // grain size
+    MouseX(0, 2, 0, 0.2), // mouse x controls pitch shift ratio
+    0, // pitch dispersion
+    0.004 // time dispersion
+)
+</code></pre><p>Use PitchShift to granulate input.  <strong>Use headphones</strong> to prevent feedback.  Upper left corner is normal playback. x = pitch dispersion, y = time dispersion.</p><pre><code>var grainSize = 0.5;
+PitchShift(
+   AudioIn([1, 2]),
+   grainSize,
+   1, // nominal pitch rate = 1
+   MouseX(0, 1, 0, 0.2), // pitch dispersion
+   MouseY(0, grainSize, 0, 0.2) // time dispersion
+)
+</code></pre>
