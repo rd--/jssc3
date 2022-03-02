@@ -84,10 +84,10 @@ Dust randomly triggers Decay to create an exponential decay envelope for the Whi
     var z = Decay(Dust(1) * 0.5, 0.3) * WhiteNoise();
     DelayC(z, 0.2, 0.2) + z
 
-# DelayWr, TapC
+# DelayWrite, DelayTap
 
-_DelayWr(buffer, in)_,
-_TapC(buffer, delayTime)_
+_DelayWrite(buffer, in)_,
+_DelayTap(buffer, delayTime)_
 
 These unit generators implement delay line reading and writing in separate objects. This lets you put processing in the feedback loop, or granulate a delay line, or implement a ping pong delay or other feedback network. The Tap unit generators read from the delay line and DelayWr writes to it. You must supply an instance of Signal long enough to hold the maximum delay time you will require. You do not need to initialize the buffer.  The maximum delay time is the length of the buffer minus the block size. The minimum delay time is equal to the block size + 1.  A single delay line may have any number of Taps but only one DelayWr. The same buffer should be supplied to the DelayWr and all Tap unit generators which are part of the same delay line.
 
@@ -106,12 +106,60 @@ Tap arguments:
 
 Simple feedback delay (if this is all you want, Comb is easier to use):
 
-    var buffer = BufAlloc(1, 48000 * 0.3); // allocate a buffer for the delay line
+    var buffer = BufAlloc(1, 48000 * 0.3).clearBuf; // allocate a buffer for the delay line
     var input = Decay(Impulse(1, 0), 0.2) * PinkNoise(); // make a percussive sound as input
-    var delayedSignal = TapN.ar(buffer, 1, 0.15); // tap the delay line at 0.15 second delay
+    var delayedSignal = DelayTap(buffer, 0.15); // tap the delay line at 0.15 second delay
     var mixedSignal = (delayedSignal * 0.4) + input; // mix the delayed signal with the input
-    var writer = DelayWr.ar(buffer, mixedSignal); // write the mixed signal to the delay line
+    var writer = DelayWrite(buffer, mixedSignal); // write the mixed signal to the delay line
     mixedSignal.mrg(writer) // output the mixed signal
+
+Ping pong delay:
+
+    var leftBuffer  = BufAlloc(1, 48000 * 0.4).clearBuf; // allocate a buffer for the left delay line
+    var rightBuffer  = BufAlloc(1, 48000 * 0.4).clearBuf; // allocate a buffer for the right delay line
+    var input = Decay(Impulse(0.4, 0), 0.1) * PinkNoise(); // make a percussive sound as input
+    var leftDelayedSignal = DelayTap(leftBuffer, 0.3); // tap the left delay line
+    var rightDelayedSignal = DelayTap(rightBuffer, 0.3); // tap the left delay line
+    var output = [leftDelayedSignal + input, rightDelayedSignal]; // mix the delayed signal with the input
+    var writer = DelayWrite([rightBuffer, leftBuffer], output * 0.8); // feedback to buffers in reverse order
+    output.mrg(writer)  // output the mixed signal and force the DelayWr into the call graph
+
+Distortion in the feedback loop:
+
+    var buffer = BufAlloc(1, 48000 * 0.3).clearBuf; // allocate a buffer for the delay line
+    var input = FSinOsc(1000, 0) * LFPulse(0.3, 0, 0.05) * 0.3; // sine pulse
+    var delayedSignal = DelayTap(buffer, 0.15).distort; // tap the delay line at 0.15 second delay and distort
+    var mixedSignal = (delayedSignal * 0.8) + input; // mix the delayed signal with the input
+    var writer = DelayWrite(buffer, mixedSignal); // write the mixed signal to the delay line
+    mixedSignal.mrg(writer) // output the mixed signal
+
+Pitch shift in the feedback loop:
+
+    var buffer = BufAlloc(1, 48000 * 0.3).clearBuf; // allocate a buffer for the delay line
+    var input = FSinOsc(1000, 0) * LFPulse(0.3, 0, 0.05) * 0.3; // sine pulse
+    var delayedSignal = DelayTap(buffer, 0.15); // tap the delay line at 0.15 seconds
+    var shiftedSignal = PitchShift(delayedSignal, 0.2, 5 / 7, 0.01, 0.01); // apply pitch shift
+    var mixedSignal = (shiftedSignal * 0.8) + input; // mix the delayed signal with the input
+    var writer = DelayWrite(buffer, mixedSignal); // write the mixed signal to the delay line
+    mixedSignal.mrg(writer) // output the mixed signal
+
+# PingPongDelay - stereo ping pong delay
+
+_PingPongDelay(left, right, maxdelaytime, delaytime, feedback)_
+
+Bounces sound between two outputs. PingPong is actually a compound built upon DelayWr, TapN, and TapL.
+
+- left: left input.
+- right: right input.
+- maxdelaytime: the maximum delay time in seconds. used to initialize the delay buffer sizes.
+- delaytime: delay time in seconds.
+- feedback: feedback coefficient.
+
+Mouse control of delay time:
+
+    var left = Decay2(Impulse(0.6, 0) * 0.25, 0.01, 0.25) * SinOsc(SinOsc(3.7, 0) * 200 + 500);
+    var right = Decay2(Impulse(0.5, 0) * 0.25, 0.01, 0.25) * Resonz(PinkNoise() * 4, SinOsc(2.7, 0) * 1000 + 2500, 0.2);
+    PingPongDelay(left, right, 0.5, MouseX(0.1, 0.5, 0, 0.2), 0.7)
 
 # PitchShift
 
