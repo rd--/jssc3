@@ -584,6 +584,10 @@ function Pan2(input, pos, level) {
 function PanAz(numChan, input, pos, level, width, orientation) {
     return makeUgen('PanAz', numChan, [0], 0, [input, pos, level, width, orientation]);
 }
+// Ambisonic B-format panner.
+function PanB(input, azimuth, elevation, gain) {
+    return makeUgen('PanB', 4, Rate.ar, 0, [input, azimuth, elevation, gain]);
+}
 // A resettable linear ramp between two levels.
 function Phasor(trig, rate, start, end, resetPos) {
     return makeUgen('Phasor', 1, Rate.ar, 0, [trig, rate, start, end, resetPos]);
