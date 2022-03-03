@@ -50,7 +50,7 @@ SinOsc([f, f * 9], 0) * 0.1
 [s * 0.1, LinExp(s, -1, 1, 0.001, 0.1)]
 </code></pre><p>Convert oscillator output to frequency input:</p><pre><code>var mod = SinOsc(Line(1, 10, 10, 0), 0);
 [SinOsc(mod * 400 + 500, 0), SinOsc(LinExp(mod, -1, 1, 100, 900), 0)] * 0.1
-</code></pre><h1>Osc1 - one-shot oscillator</h1><p><em>Osc1(table, dur)</em></p><p>An oscillator that reads through a table only once.</p><ul><li>table: an instance of Signal; its size must be a power of 2.</li><li>dur: how long  to read through the table</li></ul><p>Pitch class table, linear interpolation:</p><pre><code>var tbl = [0, 2, 10, 12].asLocalBuf;
+</code></pre><h1>Osc1 - one-shot oscillator</h1><p><em>Osc1(table, dur)</em></p><p>An oscillator that reads through a table only once.</p><ul><li>table: an instance of Signal; its size must be a power of 2.</li><li>dur: how long  to read through the table</li></ul><p>Pitch class table, linear interpolation, first slowly, then quickly, then slowly again:</p><pre><code>var tbl = [0, 2, 10, 12].asLocalBuf;
 SinOsc((Osc1(tbl, 5) + 48).midiCps, 0) * 0.1
 </code></pre><h1>Slew - slew rate limiter</h1><p><em>Slew(in, upSlope, downSlope)</em></p><p>Limits the slope of an input signal. The slope is expressed in units per second.</p><ul><li>in: input signal.</li><li>upSlope: maximum upward slope.</li><li>downSlope: maximum downward slope.</li></ul><p>Slew square wave:</p><pre><code>var z = LFPulse(800, 0, 0.5) * 0.1;
 [z, Slew(z, 4000, 4000)]

@@ -169,3 +169,40 @@ function SfRead(sfBufferArray, phase, loop, interpolation) {
 function SfPlay(sfBufferArray, rate, trigger, startPos, loop) {
     return PlayBuf(1, sfBufferArray, rate, trigger, startPos, loop, 0);
 }
+
+function DelayWrite(bufnum, input) {
+    return RecordBuf(bufnum, 0, 1, 0, 1, 1, 1, 0, [input]);
+}
+
+function DelayTap(bufnum, delayTime) {
+    return PlayBuf(1, bufnum, 1, 1, mul(sub(BufDur(bufnum), delayTime), SampleRate()), 1, 0);
+}
+
+function PingPongDelay(left, right, maxDelayTime, delayTime, feedback) {
+    var delaySize = mul(maxDelayTime, SampleRate());
+    var phase = Phasor(0, 1, 0, delaySize, 0);
+    var leftBuffer = clearBuf(BufAlloc(1, delaySize)); // allocate a buffer for the left delay line
+    var rightBuffer = clearBuf(BufAlloc(1, delaySize)); // allocate a buffer for the right delay line
+    var leftDelayedSignal = BufRd(1, leftBuffer, Wrap(sub(phase, mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
+    var rightDelayedSignal = BufRd(1, rightBuffer, Wrap(sub(phase, mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
+    var output = [add(leftDelayedSignal, left), add(rightDelayedSignal, right)]; // mix the delayed signal with the input
+    var writer = DelayWrite([rightBuffer, leftBuffer], mul(output, 0.8)); // feedback to buffers in reverse order
+    return mrg(output, writer);  // output the mixed signal and force the DelayWr into the call graph
+}
+
+function MultiTapDelay(timesArray, levelsArray, input) {
+    var delayFrames = mul(arrayMaxItem(timesArray), SampleRate());
+    var buf = clearBuf(BufAlloc(1, delayFrames));
+    var writer = DelayWrite(buf, input);
+    var numReaders = timesArray.length;
+    var readers = arrayFromTo(0, numReaders - 1).map(item => mul(DelayTap(buf, timesArray[item]), levelsArray[item]));
+    return mrg(sum(readers), writer);
+}
+
+function Osc1(buf, dur) {
+    var numChan = 1;
+    var phase = Ln(0, sub(BufFrames(buf), 1), dur);
+    var loop = 0;
+    var interpolation = 2;
+    return BufRd(numChan, buf, phase, loop, interpolation);
+}

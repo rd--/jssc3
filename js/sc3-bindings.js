@@ -452,6 +452,10 @@ function Lag3UD(input, lagTimeU, lagTimeD) {
 function Latch(input, trig) {
     return makeUgen('Latch', 1, [0], 0, [input, trig]);
 }
+// Latoocarfian chaotic generator
+function LatoocarfianC(freq, a, b, c, d, xi, yi) {
+    return makeUgen('LatoocarfianC', 1, Rate.ar, 0, [freq, a, b, c, d, xi, yi]);
+}
 // Remove DC
 function LeakDC(input, coef) {
     return makeUgen('LeakDC', 1, [0], 0, [input, coef]);
@@ -459,6 +463,10 @@ function LeakDC(input, coef) {
 // Peak limiter
 function Limiter(input, level, dur) {
     return makeUgen('Limiter', 1, [0], 0, [input, level, dur]);
+}
+// Linear congruential chaotic generator
+function LinCongC(freq, a, c, m, xi) {
+    return makeUgen('LinCongC', 1, Rate.ar, 0, [freq, a, c, m, xi]);
 }
 // Line generator.
 function Line(start, end, dur, doneAction) {

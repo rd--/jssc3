@@ -1,0 +1,38 @@
+<h1>BrownNoise</h1><p><em>BrownNoise()</em></p><p>Generates noise whose spectrum falls off in power by 6 dB per octave.</p><pre><code>BrownNoise() * 0.1
+</code></pre><h1>ClipNoise</h1><p><em>ClipNoise()</em></p><p>Generates noise whose values are either -1 or 1.  This produces the maximum energy for the least peak to peak amplitude.</p><pre><code>ClipNoise() * 0.1
+</code></pre><h1>Crackle - chaotic noise function</h1><p><em>Crackle(param)</em></p><p>A noise generator based on a chaotic function.</p><ul><li>param: a parameter of the chaotic function with useful values from just below 1.0 to just above 2.0. Towards 2.0 the sound crackles.</li></ul><p>Fixed param:</p><pre><code>Crackle(1.95) * 0.1
+</code></pre><p>Modulate param:</p><pre><code>Crackle(Ln(1, 2, 10)) * 0.1
+</code></pre><h1>Dust - random impulses</h1><p><em>Dust(density)</em></p><p>Generates random impulses from 0 to +1.</p><ul><li>density: average number of impulses per second</li></ul><p>Fixed density:</p><pre><code>Dust(200) * 0.1
+</code></pre><p>Modulate density:</p><pre><code>Dust(XLn(20000, 2, 10)) * 0.1
+</code></pre><h1>Dust2 - bipolar random impulses</h1><p><em>Dust2(density)</em></p><p>Generates random impulses from -1 to +1. There is no noticeable difference in sound from Dust, but it may be useful for its properties in some situations.</p><ul><li>density: average number of impulses per second</li></ul><p>Fixed density:</p><pre><code>Dust2(200) * 0.1
+</code></pre><p>Modulate density:</p><pre><code>Dust2(XLn(20000, 2, 10)) * 0.1
+</code></pre><h1>GrayNoise</h1><p><em>GrayNoise()</em></p><p>Generates noise which results from flipping random bits in a word.  This type of noise has a high RMS level relative to its peak to peak level.  The spectrum is emphasized towards lower frequencies.</p><pre><code>GrayNoise() * 0.125
+</code></pre><h1>LatoocarfianC - chaotic function</h1><p><em>LatoocarfianC(freq, a, b, c, d, xi, yi)</em></p><p>This is a function given inClifford Pickover's book Chaos In Wonderland, pg 26.  The function has four parameters a, b, c, and d.  The function is <em>x1 = sin(b<em>y0) + c</em>sin(b<em>x0)\ny1 = sin(a</em>x0) + d<em>sin(a</em>y0)</em>.</p><p>According to Pickover, parameters a and b should be in the range from -3 to +3, and parameters c and d should be in the range from 0.5 to 1.5.  The function can, depending on the parameters given, give continuous chaotic output, converge to a single value (silence) or oscillate in a cycle (tone).  This UGen is experimental and not optimized currently, so is rather hoggish of CPU.</p><pre><code>// LatoocarfianC ; texture
+OverlapTexture({
+    arg tr;
+    var freq = TRand(400, SampleRate() / 3, tr);
+    var a = TRand(-3, 3, tr);
+    var b = TRand(-3, 3, tr);
+    var c = TRand(0.5, 1.5, tr);
+    var d = TRand(0.5, 1.5, tr);
+    SinOsc(freq, 0) * 0.05 + Pan2(LatoocarfianC(freq, a, b, c, d, 0.5, 0.5), TRand(-1, 1, tr), 0.05)
+}, 1, 4, 8)
+</code></pre><h1>LFClipNoise - clipped noise</h1><p><em>LFClipNoise(freq)</em></p><p>Randomly generates the values -1 or +1 at a rate given by the nearest integer division of the sample rate by the freq argument. It is probably pretty hard on your speakers!</p><ul><li>freq: approximate rate at which to generate random values.</li></ul><p>Fixed frequency:</p><pre><code>LFClipNoise(1000) * 0.05
+</code></pre><p>Modulate frequency:</p><pre><code>LFClipNoise(XLn(1000, 10000, 10)) * 0.05
+</code></pre><h1>LFNoise0 - step noise</h1><p><em>LFNoise0(freq)</em></p><p>Generates random values at a rate given by the nearest integer division of the sample rate by the freq argument.</p><ul><li>freq: approximate rate at which to generate random values.</li></ul><p>Fixed frequency:</p><pre><code>LFNoise0(1000) * 0.05
+</code></pre><p>Modulate frequency:</p><pre><code>LFNoise0(XLn(1000, 10000, 10)) * 0.05
+</code></pre><h1>LFNoise1 - ramp noise</h1><p><em>LFNoise1(freq)</em></p><p>Generates linearly interpolated random values at a rate given by the nearest integer division of the sample rate by the freq argument.</p><ul><li>freq: approximate rate at which to generate random values.</li></ul><p>Fixed frequency:</p><pre><code>LFNoise1(1000) * 0.05
+</code></pre><p>Modulate frequency:</p><pre><code>LFNoise1(XLn(1000, 10000, 10)) * 0.05
+</code></pre><h1>LFNoise2 - quadratic noise</h1><p><em>LFNoise2(freq)</em></p><p>Generates quadratically interpolated random values at a rate given by the nearest integer division of the sample rate by the freq argument.</p><ul><li>freq: approximate rate at which to generate random values.</li></ul><p>Fixed frequency:</p><pre><code>LFNoise2(1000) * 0.05
+</code></pre><p>Modulate frequency:</p><pre><code>LFNoise2(XLn(1000, 10000, 10)) * 0.05
+</code></pre><h1>LinCongC - linear congruential generator</h1><p><em>LinCong(freq, a, c, m, xi)</em></p><p>Linear congruential generators are often used to implement random number generators. However the number series they generate are cyclic.  There are 'good' and 'bad' choices for the parameters if one wants to have a good random number series. However the real point of this UGen is to experiment and use the function as something between an oscillator and a noise source.  The formula is <em>&quot;x1 = ((a * x0) + c) % m</em>.</p><p>All of the parameters are integers and cannot be modulated.</p><ul><li>a: a multiplier.</li><li>c: an offset.</li><li>m: the modulus of the series.</li><li>xi: the seed value for the generator.</li></ul><p>Texture:</p><pre><code>OverlapTexture({
+    arg tr;
+    var freq = SampleRate() / 2;
+    var m = TIRand(0, 1000000, tr);
+    var a = TIRand(1, 2000, tr);
+    var c = TIRand(1, 30000, tr);
+    LinCongC(freq, a, c, m, { TIRand(0, m, tr) }.dup(2)) * 0.05
+}, 1, 2, 4)
+</code></pre><h1>PinkNoise</h1><p><em>PinkNoise()</em></p><p>Generates noise whose spectrum falls off in power by 3 dB per octave.  This gives equal power over the span of each octave.</p><pre><code>PinkNoise() * 0.1
+</code></pre><h1>WhiteNoise</h1><p><em>WhiteNoise()</em></p><p>Generates noise whose spectrum has equal power at all frequencies.</p><pre><code>WhiteNoise() * 0.1
+</code></pre>
