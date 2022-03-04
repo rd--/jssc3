@@ -4,6 +4,8 @@
 doc = jssc3-1.html \
 	sc-documentation-1.html sc-documentation-2.html sc-documentation-3.html \
 	sc-tutorial-1.html sc-tutorial-2.html sc-tutorial-5.html sc-tutorial-6.html \
+	sc-help-ugens-analysis.html \
+	sc-help-ugens-buffers.html \
 	sc-help-ugens-controls.html \
 	sc-help-ugens-delays.html \
 	sc-help-ugens-events.html \

@@ -668,6 +668,10 @@ function Ringz(input, freq, decaytime) {
 function RunningMax(input, trig) {
     return makeUgen('RunningMax', 1, [0], 0, [input, trig]);
 }
+// Running sum over n frames
+function RunningSum(input, numsamp) {
+    return makeUgen('RunningSum', 1, [0], 0, [input, numsamp]);
+}
 // Rotate a sound field.
 function Rotate2(x, y, pos) {
     return makeUgen('Rotate2', 2, [0, 1], 0, [x, y, pos]);
