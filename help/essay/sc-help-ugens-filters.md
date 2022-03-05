@@ -261,16 +261,16 @@ Long Median filters begin chopping off the peaks of the waveform:
 
 Another noise reduction application:
 
-    WhiteNoise() + SinOsc(800,0) * 0.1
+    WhiteNoise() + SinOsc(800, 0) * 0.1
 
 Use Median filter for high frequency noise:
 
-    var z = WhiteNoise() + SinOsc(800,0) * 0.1;
+    var z = WhiteNoise() + SinOsc(800, 0) * 0.1;
     Median(31, z)
 
 Use LeakDC for low frequency noise:
 
-    var z = WhiteNoise() + SinOsc(800,0) * 0.1;
+    var z = WhiteNoise() + SinOsc(800, 0) * 0.1;
     LeakDC(Median(31, z), 0.9)
 
 # Normalizer - flattens dynamics

@@ -13,11 +13,11 @@ Implementation notes: It is improved from other implementations in that it will 
 
 Modulate frequency:
 
-    Blip(XLn(20000,200,6),100) * 0.2
+    Blip(XLn(20000, 200, 6), 100) * 0.2
 
 Modulate numharmonics:
 
-    Blip(200,Ln(1,100,20)) * 0.2
+    Blip(200,Ln(1, 100, 20)) * 0.2
 
 # Formant - formant oscillator
 
@@ -33,7 +33,7 @@ Widthfreq must be greater than or equal fundfreq.
 
 Modulate fundamental frequency, formant freq stays constant:
 
-    Formant(XLn(400,1000, 8), 2000, 800) * 0.125
+    Formant(XLn(400, 1000, 8), 2000, 800) * 0.125
 
 Modulate formant frequency, fundamental freq stays constant:
 
@@ -57,11 +57,11 @@ Constant frequency:
 
 Modulate frequency:
 
-    FSinOsc(XLn(200,4000,1), 0) * 0.25
+    FSinOsc(XLn(200, 4000, 1), 0) * 0.25
 
 Loses amplitude towards the end:
 
-    FSinOsc(FSinOsc(XLn(4,401,8), 0) * 200 + 800, 0) * 0.25
+    FSinOsc(FSinOsc(XLn(4, 401, 8), 0) * 200 + 800, 0) * 0.25
 
 # Impulse - impulse oscillator
 
@@ -161,7 +161,7 @@ Modulate modfreq:
 
 Modulate index:
 
-    PMOsc(300, 550, Ln(0,20,8), 0) * 0.1
+    PMOsc(300, 550, Ln(0, 20, 8), 0) * 0.1
 
 Texture:
 
@@ -205,7 +205,7 @@ Modulating the frequency:
 
 Two band limited sawtooth waves through a resonant low pass filter:
 
-    RLPF(Saw([100,250]) * 0.1, XLn(8000, 400, 5), 0.05)
+    RLPF(Saw([100, 250]) * 0.1, XLn(8000, 400, 5), 0.05)
 
 # SinOsc - interpolating sine wavetable oscillator
 
@@ -263,18 +263,16 @@ Modulate frequency and width:
     VarSaw(
         LFPulse([3, 3.03], 0, 0.3) * 200 + 200, // frequency
         0, // initial phase
-        LFTri(1, 0) * 0.5 + 0.5, // width
-        0.1 // mul
-    )
+        LFTri(1, 0) * 0.5 + 0.5 // width
+    ) * 0.1 // mul
 
 Same but with static width:
 
     VarSaw(
         LFPulse([3, 3.03], 0, 0.3) * 200 + 200, // frequency
         0, // initial phase
-        0.2, // width
-        0.1 // mul
-    )
+        0.2 // width
+    ) * 0.1 // mul
 
 Compare VarSaw and LFPulse:
 

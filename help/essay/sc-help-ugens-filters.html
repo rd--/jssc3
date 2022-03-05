@@ -37,10 +37,10 @@ Median(3, z)
 Median(5, z)
 </code></pre><p>Long Median filters begin chopping off the peaks of the waveform:</p><pre><code>var x = SinOsc(1000, 0) * 0.1;
 XFade2(x, Median(31, x), MouseX(-1, 1, 0, 0.2), 1)
-</code></pre><p>Another noise reduction application:</p><pre><code>WhiteNoise() + SinOsc(800,0) * 0.1
-</code></pre><p>Use Median filter for high frequency noise:</p><pre><code>var z = WhiteNoise() + SinOsc(800,0) * 0.1;
+</code></pre><p>Another noise reduction application:</p><pre><code>WhiteNoise() + SinOsc(800, 0) * 0.1
+</code></pre><p>Use Median filter for high frequency noise:</p><pre><code>var z = WhiteNoise() + SinOsc(800, 0) * 0.1;
 Median(31, z)
-</code></pre><p>Use LeakDC for low frequency noise:</p><pre><code>var z = WhiteNoise() + SinOsc(800,0) * 0.1;
+</code></pre><p>Use LeakDC for low frequency noise:</p><pre><code>var z = WhiteNoise() + SinOsc(800, 0) * 0.1;
 LeakDC(Median(31, z), 0.9)
 </code></pre><h1>Normalizer - flattens dynamics</h1><p><em>Normalizer(input, level, lookAheadTime)</em></p><p>Normalizes the input amplitude to the given level. Normalize will not overshoot like Compander will, but it needs to look ahead in the audio. Thus there is a delay equal to twice the lookAheadTime.</p><ul><li>input: the signal to be processed.</li><li>level: the peak output amplitude level to which to normalize the input.</li><li>lookAheadTime: the buffer delay time. Shorter times will produce smaller delays and quicker transient response times, but may introduce amplitude modulation artifacts.</li></ul><p>Example signal to process:</p><pre><code>var z = Decay2(Impulse(8, 0) * (LFSaw(0.25, 0) * -0.6 + 0.7), 0.001, 0.3) * FSinOsc(500, 0);
 [z, Normalizer(z, 0.4, 0.01)] * 0.2
