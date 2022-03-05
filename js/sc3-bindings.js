@@ -84,6 +84,10 @@ function BufRateScale(bufnum) {
 function BufRd(numChan, bufnum, phase, loop, interpolation) {
     return makeUgen('BufRd', numChan, Rate.ar, 0, [bufnum, phase, loop, interpolation]);
 }
+// Buffer sample rate.
+function BufSampleRate(bufnum) {
+    return makeUgen('BufSampleRate', 1, Rate.kr, 0, [bufnum]);
+}
 // Buffer writing oscillator.
 function BufWr(bufnum, phase, loop, inputArray) {
     return makeUgen('BufWr', 1, [3], 0, [bufnum, phase, loop].concat(unitArrayIfScalar(inputArray)));
@@ -275,6 +279,10 @@ function FreeVerb(input, mix, room, damp) {
 // A two-channel reverb
 function FreeVerb2(input, in2, mix, room, damp) {
     return makeUgen('FreeVerb2', 2, [0], 0, [input, in2, mix, room, damp]);
+}
+// Gate or hold.
+function Gate(input, trig) {
+    return makeUgen('Gate', 1, [0], 0, [input, trig]);
 }
 // Dynamic stochastic synthesis generator.
 function Gendy1(ampdist, durdist, adparam, ddparam, minfreq, maxfreq, ampscale, durscale, initCPs, knum) {
@@ -588,6 +596,10 @@ function PanAz(numChan, input, pos, level, width, orientation) {
 function PanB(input, azimuth, elevation, gain) {
     return makeUgen('PanB', 4, Rate.ar, 0, [input, azimuth, elevation, gain]);
 }
+// Track peak signal amplitude.
+function PeakFollower(input, decay) {
+    return makeUgen('PeakFollower', 1, [0], 0, [input, decay]);
+}
 // A resettable linear ramp between two levels.
 function Phasor(trig, rate, start, end, resetPos) {
     return makeUgen('Phasor', 1, Rate.ar, 0, [trig, rate, start, end, resetPos]);
@@ -687,6 +699,10 @@ function SampleRate() {
 // Band limited sawtooth.
 function Saw(freq) {
     return makeUgen('Saw', 1, Rate.ar, 0, [freq]);
+}
+// Schmidt trigger.
+function Schmidt(input, lo, hi) {
+    return makeUgen('Schmidt', 1, [0], 0, [input, lo, hi]);
 }
 // Select output from an array of inputs.
 function Select(which, array) {
