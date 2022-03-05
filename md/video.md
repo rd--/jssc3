@@ -1,5 +1,9 @@
 # Js SuperCollider
 
+Js SuperCollider - 2022-03-05 ; Rich Text Editor ; Wasm ; SfAcquire ; Windows, Firefox
+
+<iframe src="https://player.vimeo.com/video/684929215" frameborder="0" allowfullscreen="true" width="640" height="360" ></iframe>
+
 Js SuperCollider - 2022-02-24 ; Addresses ; F0 ; Safari, Mac Os
 
 <iframe src="https://player.vimeo.com/video/681192648" frameborder="0" allowfullscreen="true" width="640" height="360" ></iframe>
