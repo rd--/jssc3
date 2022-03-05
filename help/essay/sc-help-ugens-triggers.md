@@ -215,7 +215,7 @@ Using Stepper and BufRd for sequencing, mouse controls clock rate:
 
 _Sweep(trig, rate)_
 
-Starts a linear raise by rate/sec from zero when trig input crosses from non-positive to positive 
+Starts a linear raise by rate/sec from zero when trig input crosses from non-positive to positive
 
 Using sweep to modulate sine frequency:
 

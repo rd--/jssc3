@@ -8,6 +8,7 @@ doc = jssc3-1.html \
 	sc-help-ugens-buffers.html \
 	sc-help-ugens-controls.html \
 	sc-help-ugens-delays.html \
+	sc-help-ugens-envelopes.html \
 	sc-help-ugens-events.html \
 	sc-help-ugens-filters.html \
 	sc-help-ugens-noise.html \
@@ -15,6 +16,7 @@ doc = jssc3-1.html \
 	sc-help-ugens-panners.html \
 	sc-help-ugens-random.html \
 	sc-help-ugens-triggers.html \
+	sc-help-ugens-unary-operators.html \
 	nc-1.1.html nc-2.1.html nc-2.4.html nc-2.5.html nc-3.4.html nc-12.2.html
 
 all: $(doc)
