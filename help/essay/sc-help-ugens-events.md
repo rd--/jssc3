@@ -20,8 +20,8 @@ There are many examples of OverlapTexture in the examples files.
             LFPulse(f, 0, 0.2) + LFPulse(2 * f + TRand(-0.5, 0.5, tr), 0, 0.2)
         }, 4, 2, 4) * 0.02,
         lfo, // cutoff freq
-        MouseX(0.2, 0.02, 1, 0.2)
-    ); // filter bandwidth
+        MouseX(0.2, 0.02, 1, 0.2) // filter bandwidth
+    );
     var delayTime = 2 / lfoFreq;
     var right = DelayC(left, delayTime, delayTime); // delay right channel by two beats
     [left,right]
