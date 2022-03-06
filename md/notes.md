@@ -64,6 +64,27 @@ i.e. _jssc3-rte.html?e=help/essay/jssc3-1.html_.
 
 Likewise _jssc3-wasm.html?e=help/graph/jmcc-why-supercollider.stc_.
 
+## Text
+
+Initial editor text can be loaded by setting the Url parameter _s_, i.e. _jssc3-wasm.html?s=SinOsc(440,0)*0.1_
+
 ## Visiting
 
 _Navigating_ to  a Url creates a new browser context, _visiting_ loads a file into the current context.
+
+## Remainder
+
+- implement sc2 ugens for help
+- control param, singular constructor, p = Param({freq: 400, amp: 0.1}) and then SinOsc(p.freq, 0) to use
+- simple examples for scheduling s_new messages
+- proper help menus for pte & rte
+- .stc help files from lib/stsc3/help
+- midi for cc and sw
+- midi keyboard input (mpe & non-mpe), voicer
+- document polyglot db (allows testing syndef compiled elsewhere)
+- mechanisms to read control data
+  + from websocket
+  + as midi sysex
+- document selection rules
+- note limited .js help files
+- document git submodules
