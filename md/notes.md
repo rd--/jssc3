@@ -74,6 +74,7 @@ _Navigating_ to  a Url creates a new browser context, _visiting_ loads a file in
 
 ## Remainder
 
+- CsvAcquire
 - implement sc2 ugens for help
 - control param, singular constructor, p = Param({freq: 400, amp: 0.1}) and then SinOsc(p.freq, 0) to use
 - simple examples for scheduling s_new messages

@@ -14,14 +14,17 @@ var sc3_buffer_next = 100;
 function SfAcquire(urlOrKey, numberOfChannels, channelIndices) {
     var soundFileUrl = sc3_buffer_dict[urlOrKey] || urlOrKey;
     var cacheValue = sc3_buffer_cache[soundFileUrl];
-    if(cacheValue) {
-        return channelIndices.map(item => arrayAtWrap(cacheValue, item - 1));
-    } else {
+    if(!cacheValue) {
         var bufferNumberArray = arrayFromTo(sc3_buffer_next, sc3_buffer_next + numberOfChannels - 1);
         fetch_soundfile_channels_to_scsynth_buffers(soundFileUrl, bufferNumberArray, channelIndices);
         sc3_buffer_cache[soundFileUrl] = bufferNumberArray;
         sc3_buffer_next += numberOfChannels;
-        return bufferNumberArray;
+        cacheValue = bufferNumberArray;
+    }
+    if(Array.isArray(channelIndices)) {
+        return channelIndices.map(item => arrayAtWrap(cacheValue, item - 1));
+    } else {
+        return arrayAtWrap(cacheValue, channelIndices - 1);
     }
 }
 
