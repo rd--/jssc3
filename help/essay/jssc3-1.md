@@ -50,13 +50,14 @@ When this page is first loaded the Wasm form of scsynth is fetched and cached.  
 
 Once loaded the status area will be empty, indicating that the page is ready, after which the synthesiser can be started by clicking ⏻ (_Boot_).
 
-When the synthesiser is running the status area will indicate the number of _unit generators_ that are currently running, initially this will be zero.
+When the synthesiser is running the status area will indicate the number of _unit generators_ that are currently playing, initially this will be zero.
 
-When the synthesiser is running, programs can be executed by selecting the text describing the program and pressing the _Play_ button.  To quieten the synthesiser press the _Reset_ button.
+Programs can be executed by selecting the text describing the program and pressing the _Play_ button.  To quieten the synthesiser press the _Reset_ button.
 
 ## Access keys
 
-The synthesiser controls all have _access keys_ associated with them, _b_ for _Boot_, _comma_ (,) for _Play_ and _period_ (.) for _Stop_.
+The synthesiser controls all have _access keys_ associated with them.
+_b_ for _Boot_, _comma_ (,) for _Play_, _forward slash_ (/) for _Eval_, _period_ (.) for _Reset_.
 
 The access keys are displayed as part of the control help text, which can be seen by hovering the mouse over the control.
 
@@ -106,4 +107,4 @@ OverlapTexture(function(tr) {
 
 An ordinary Url address can be given to navigate to a document, for instance [Why SuperCollider?](?e=help/essay/sc-documentation-1.html).  This will most likely open a new context and require a new synthesiser to be started.
 
-It is also possible to request a new document replace the current document using the _Visit_ command, for instance the file _help/essay/sc-documentation-1.html_ can be visited.
+It is also possible to request a new document replace the current document using the _Visit_ command (located in the ☰ menu).  For instance the file _help/essay/sc-documentation-1.html_ can be visited.

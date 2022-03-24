@@ -48,6 +48,10 @@ function BlockSize() {
 function BLowPass(input, freq, rq) {
     return makeUgen('BLowPass', 1, [0], 0, [input, freq, rq]);
 }
+// Parametric equalizer
+function BPeakEQ(input, freq, rq, db) {
+    return makeUgen('BPeakEQ', 1, [0], 0, [input, freq, rq, db]);
+}
 // 2nd order Butterworth bandpass filter.
 function BPF(input, freq, rq) {
     return makeUgen('BPF', 1, [0], 0, [input, freq, rq]);
@@ -799,6 +803,10 @@ function VarSaw(freq, iphase, width) {
 // The Vibrato oscillator models a slow frequency modulation.
 function Vibrato(freq, rate, depth, delay, onset, rateVariation, depthVariation, iphase, trig) {
     return makeUgen('Vibrato', 1, Rate.ar, 0, [freq, rate, depth, delay, onset, rateVariation, depthVariation, iphase, trig]);
+}
+// Lose bits of your waves
+function WaveLoss(input, drop, outof, mode) {
+    return makeUgen('WaveLoss', 1, Rate.ar, 0, [input, drop, outof, mode]);
 }
 // White noise.
 function WhiteNoise() {

@@ -12,7 +12,7 @@ A unit generator is created by sending the 'ar' or 'kr' message to the unit gene
 
 The input parameters for a unit generator are given in the documentation for that class.
 
-    FSinOsc(800, 0) * 0.2; // create a sine oscillator at 800 Hz, amplitude 0.2
+    FSinOsc(800, 0) * 0.1; // create a sine oscillator at 800 Hz, amplitude 0.1
 
 A unit generator's signal inputs can be other unit generators, scalars, or arrays of unit generators and scalars.
 
@@ -22,13 +22,13 @@ In order to play a unit generator one needs to install it in a Synth object. A S
 
 The 'play' method of class Function will create and play a synth using the function for you:
 
-    { FSinOsc(800, 0) * 0.2 }.play;
+    { FSinOsc(800, 0) * 0.1 }.play;
 
 ## Building Patches
 
 You can do math operations on unit generators and the result will be another unit generator. Doing math on unit generators is not doing any signal calculation itself - it is building the network of unit generators that will execute once they are played in a Synth. This is the essential thing to understand: Synthesis networks, or in other words signal flow graphs are created by executing expressions of unit generators.  The following expression creates a flow graph whose root is an instance of BinaryOpUGen which performs the '+' operation. Its inputs are the FSinOsc and BrownNoise unit generators.
 
-    (FSinOsc(800, 0) * 0.2) + (BrownNoise() * 0.2) // (use cmd-P)
+    (FSinOsc(800, 0) * 0.1) + (BrownNoise() * 0.1) // (use cmd-P)
 
 You can find out what unit generators are in a Synth by dumping the Array stored in the 'ugens' instance variable. The unit generators are listed in the order they will be executed.
 
@@ -36,8 +36,9 @@ You can find out what unit generators are in a Synth by dumping the Array stored
 
 Multiple channels of audio are represented as Arrays.
 
-    Blip(800, 4) * 0.1 // one channel
-    [Blip(800, 4) * 0.1, WhiteNoise() * 0.1] // two channels
+    Blip(200, 8) + // one channel, summed with
+    [WhiteNoise(), Blip(403, 4)] * // two channels, scaled by
+    0.1
 
 Each channel sent to Synth.play will go out a different speaker, so your limit here is two for a stereo output. If you have a supported multi channel sound card then you can output as many channels as the card supports.
 
@@ -57,19 +58,19 @@ Multi channel expansion will propagate through the expression graph.  When a uni
 
     RLPF(Saw([100, 250]) * 0.05, XLn(8000, 400, 5), 0.05)
 
-The [100,250] array of frequency inputs to Saw causes Saw.ar to return an array of two Saws, that array causes RLPF.ar to create two RLPFs.  Both RLPFs share a single instance of XLine.
+The _[100,250]_ array of frequency inputs to _Saw_ causes Saw to return an array of two Saws, that array causes _RLPF_ to create two RLPFs.  Both RLPFs share a single instance of _XLn_.
 
 When a constructor is parameterized by two or more arrays, then the number of channels created is equal to the longest array, with parameters being pulled from each array in parallel.  The shorter arrays will wrap.
 
 For example, the following:
 
-    Pulse([400, 500, 600], [0.5, 0.1]) * 0.2
+    Pulse([400, 500, 600], [0.5, 0.1]) * 0.1
 
 is equivalent to:
 
-    [Pulse(400, 0.5), Pulse(500, 0.1), Pulse(600, 0.5) ] * 0.2
+    [Pulse(400, 0.5), Pulse(500, 0.1), Pulse(600, 0.5) ] * 0.1
 
-A more complex example based on the Saw example above is given below.  In this example, the XLine is expanded to two instances, one going from 8000 Hz to 400 Hz and the other going in the opposite direction from 500 Hz to 7000 Hz. These two XLines are 'married' to the two Saw oscillators and used to parameterize two copies of RLPF. So on the left channel a 100 Hz Saw is filtered from 8000 Hz to 400 Hz and on the right channel a 250 Hz Saw is filtered from 500 Hz to 7000 Hz.
+A more complex example based on the Saw example above is given below.  In this example, the XLn is expanded to two instances, one going from 8000 Hz to 400 Hz and the other going in the opposite direction from 500 Hz to 7000 Hz. These two XLns are 'married' to the two Saw oscillators and used to parameterize two copies of RLPF. So on the left channel a 100 Hz Saw is filtered from 8000 Hz to 400 Hz and on the right channel a 250 Hz Saw is filtered from 500 Hz to 7000 Hz.
 
     RLPF(Saw([100, 250]) * 0.05, XLn([8000, 500], [400, 7000], 5), 0.05)
 
@@ -107,7 +108,7 @@ Currently it is not recursive. You cannot use Mix on arrays of arrays of arrays.
 
 Here's a final example illustrating multi channel expansion and Mix.  By changing the variable 'n' you can change the number of voices in the patch. How many voices can your machine handle?
 
-    var n = 8; // number of 'voices'
+    var n = 8 * 12; // number of 'voices'
     Pan2( // pan the voice to a stereo position
         CombL( // a comb filter used as a string resonator
             Dust( // random impulses as an excitation function

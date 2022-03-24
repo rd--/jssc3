@@ -10,7 +10,7 @@ Mixing sine oscillators in parallel:
 
     var n = 16; // number of structures to make
     var f = { FSinOsc(Rand(200, 1200), 0) }; // function to create an oscillator at a random frequency
-    f.dup(n).sum / (2 * n) // array of n places, summed, scale amplitude
+    f.dup(n).sum / (8 * n) // array of n places, summed, scale amplitude
 
 Filling an Array and mixing it is a common idiom:
 
