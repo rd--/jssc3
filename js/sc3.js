@@ -29,6 +29,7 @@ class Ugen {
     }
 }
 
+// * -> bool
 function isUgen(obj) {
     return obj.constructor === Ugen;
 }
@@ -46,18 +47,18 @@ function isPort(obj) {
 
 // input = port | number
 function inputRate(input) {
-    //console.log('inputRate', input);
+    console.debug('inputRate', input);
     return isPort(input) ? input.ugen.ugenRate : (isNumber(input) ? Rate.ir : console.error('inputRate: ', input));
 }
 
 // If rate is a scalar it is the operating rate, if it is an array it is indices into the inputs telling how to derive the rate.
 function deriveRate(rateOrFilterInputs, inputsArray) {
-    //console.log('deriveRate', rateOrFilterInputs, inputsArray);
+    console.debug('deriveRate', rateOrFilterInputs, inputsArray);
     return isNumber(rateOrFilterInputs) ? rateOrFilterInputs : arrayMaxItem(arrayAtIndices(inputsArray, rateOrFilterInputs).map(inputRate));
 }
 
 function makeUgen(name, nc, rt, op, inputs) {
-    //console.log('makeUgen', name, nc, rt, op, inputs);
+    console.debug('makeUgen', name, nc, rt, op, inputs);
     if(arrayContainsArray(inputs)) {
         return arrayTranspose(arrayExtendToBeOfEqualSize(inputs)).map(item => makeUgen(name, nc, rt, op, item));
     } else {
@@ -83,20 +84,20 @@ Ugen.prototype.displayName = function() {
 // inputFirstUgen([SinOsc([440, 441], 0), SinOsc(442, 0)])
 function inputFirstUgen(i) {
     if(Array.isArray(i)) {
-        //console.log('inputFirstUgen: array', i)
+        console.debug('inputFirstUgen: array', i);
         return i.find(inputFirstUgen).ugen || null;
     } else if(isPort(i)) {
-        //console.log('inputFirstUgen: port', i)
+        console.debug('inputFirstUgen: port', i);
         return i.ugen;
     } else {
-        //console.log('inputFirstUgen: number?', i)
+        console.debug('inputFirstUgen: number?', i);
         return null;
     }
 }
 
 function mrg(lhs,rhs) {
     var u = inputFirstUgen(lhs);
-    //console.log('mrg', lhs, rhs, u);
+    console.debug('mrg', lhs, rhs, u);
     if(u) {
         if(Array.isArray(rhs)) {
             rhs.forEach(item => u.mrg.push(item));
@@ -113,14 +114,14 @@ function mrg(lhs,rhs) {
 
 function krMutateInPlace(i) {
     if(isPort(i)) {
-        // console.log('kr: port', i);
+        console.debug('kr: port', i);
         krMutateInPlace(i.ugen);
     } else if(isUgen(i)) {
-        // console.log('kr: ugen', i);
+        console.debug('kr: ugen', i);
         i.ugenRate = i.ugenRate === 2 ? 1 : i.ugenRate;
         i.inputValues.forEach(item => krMutateInPlace(item));
     } else if(Array.isArray(i)) {
-        // console.log('kr: array', i);
+        console.debug('kr: array', i);
         i.forEach(item => krMutateInPlace(item));
     } else {
         if(!isNumber(i)) {
@@ -129,7 +130,10 @@ function krMutateInPlace(i) {
     }
 }
 
-function kr(i) { krMutateInPlace(i); return i; }
+function kr(i) {
+    krMutateInPlace(i);
+    return i;
+}
 
 // Operators
 
@@ -180,22 +184,10 @@ function BinaryOpWithConstantOptimiser(ix, a, b) {
 function BinaryOp(ix, a, b) {
     if(Array.isArray(a) || Array.isArray(b)) {
         var expanded = arrayTranspose(arrayExtendToBeOfEqualSize([unitArrayIfScalar(a), unitArrayIfScalar(b)]));
-        // console.log('BinaryOp: array constant', expanded);
+        console.debug('BinaryOp: array constant', expanded);
         return expanded.map(item => BinaryOpWithConstantOptimiser(ix, item[0], item[1]));
     } else {
         return BinaryOpWithConstantOptimiser(ix, a, b);
     }
 }
 
-// Texture
-
-function OverlapTexture(graphFunc, sustainTime, transitionTime, overlap) {
-        return sum(to(0, overlap - 1).map(function(i) {
-            var trg = kr(Impulse(1 / (sustainTime + (transitionTime * 2)), i / overlap));
-            var snd = graphFunc(trg);
-            var env = Env([0, 1, 1, 0], [transitionTime,sustainTime,transitionTime], 'sin', null, null, 0);
-            var sig = mul(snd, EnvGen(trg, 1, 0, 1, 0, env.coord()));
-            //console.log('OverlapTexture', trg, snd, env, sig);
-            return sig;
-        }));
-}

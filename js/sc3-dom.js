@@ -25,7 +25,7 @@ function select_add_option_to(select, value, text) {
 // Add option to selectId
 function select_add_option_at_id(selectId, value, text) {
     var select = document.getElementById(selectId);
-    select_add_option_to(select, value, text)
+    select_add_option_to(select, value, text);
 }
 
 // Delete all options at selectId from startIndex

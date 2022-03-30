@@ -30,9 +30,8 @@ function longestInactive() {
 function set_event_ctl(note) {
     var channel = note.channel;
     var noteEnd = note.noteState === 0; // noteState is 0 on note end
-    var noteActive = !(note.noteState === 0); // noteState is only set at note end (this seems odd)
+    var noteActive = !noteEnd; // noteState is only set at note end (this seems odd)
     var noteBegin = noteActive && (channelActive[channel] === 0); // track active channels to see start of note
-    var voice = null;
     channelActive[channel] = noteActive;
     if(noteBegin) {
         channelVoice[channel] = longestInactive();
@@ -49,7 +48,7 @@ function set_event_ctl(note) {
         var useVelocityForZ = true;
         var z = useVelocityForZ ? note.noteOnVelocity : note.pressure;
         var event = { v: voice, w: 1, x: x, y: y, z: z, o: 0.5, rx: 0.5, ry: 0.5, p: x, px: 0 };
-        // console.log('set_event_ctl', event, eventParamSetMessage(event));
+        console.debug('set_event_ctl', event, eventParamSetMessage(event));
         sendOsc(eventParamSetMessage(event));
     } else {
         sendOsc(voiceEndMessage(voice));

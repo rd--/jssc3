@@ -35,7 +35,7 @@ function voiceAddr(voiceNumber) {
 
 function Voicer(numVoices, voiceFunc) {
     var voiceOffset = 0;
-    return arrayFromTo(1, numVoices).map(c => voiceFunc(new EventParam(c + voiceOffset, ControlIn(9, voiceAddr(c + voiceOffset)))))
+    return arrayFromTo(1, numVoices).map(c => voiceFunc(new EventParam(c + voiceOffset, ControlIn(9, voiceAddr(c + voiceOffset)))));
 }
 
 function eventParamSetMessage(e) {

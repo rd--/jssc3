@@ -19,7 +19,7 @@ class EnvSpec {
         this.releaseNode = releaseNode;
         this.loopNode = loopNode;
         this.offset = offset;
-        //console.log('EnvSpec', curves, this);
+        console.log('EnvSpec', curves, this);
     }
 }
 

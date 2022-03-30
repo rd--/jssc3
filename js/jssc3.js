@@ -8,7 +8,7 @@ function jssc3_init(fileNameParamKey, defaultFileName, codeParamKey) {
     var fileName = url_get_param(fileNameParamKey) || defaultFileName;
     var code = codeParamKey ? url_get_param(codeParamKey) : null;
     connect_button_to_input('programInputFileSelect', 'programInputFile');
-    // console.log('jssc3_init', fileName, code);
+    console.debug('jssc3_init', fileName, code);
     if(fileName) {
         load_utf8_and_then(fileName , editor_set_data);
     }

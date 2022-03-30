@@ -93,10 +93,10 @@ function user_storage_sync() {
 // Read selected .json user program archive file.
 function user_program_read_archive() {
     var jsonFile = document.getElementById('userProgramArchiveFile').files[0];
-    // console.log('user_program_read_archive', jsonFile);
+    console.debug('user_program_read_archive', jsonFile);
     if (jsonFile) {
         read_json_file_and_then(jsonFile, function(obj) {
-            // console.log('user_program_read_archive', obj);
+            console.debug('user_program_read_archive', obj);
             Object.assign(user_programs, obj);
             user_storage_sync();
         });

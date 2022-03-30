@@ -3,10 +3,10 @@
 // p : port | [port], c & w : {number | ugen} ; traverse graph from p adding leaf nodes to the set c ; w protects from loops in mrg
 function ugenTraverseCollecting(p, c, w) {
     if(Array.isArray(p)) {
-        //console.log('ugenTraverseCollecting: array', p);
+        console.debug('ugenTraverseCollecting: array', p);
         p.forEach(item => ugenTraverseCollecting(item, c, w));
     } else if(isPort(p)) {
-        //console.log('ugenTraverseCollecting: port', p);
+        console.debug('ugenTraverseCollecting: port', p);
         if(!w.has(p.ugen)) {
             c.add(p.ugen);
             p.ugen.inputValues.forEach(item => isNumber(item) ? c.add(item)  : ugenTraverseCollecting(item, c, w));

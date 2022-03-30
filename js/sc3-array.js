@@ -16,7 +16,7 @@ function arrayAtIndices(array, indices) {
 
 // arrayAtWrap([1, 2, 3], 5) === 3
 function arrayAtWrap(array, index) {
-    //console.log('atWrap', this, index);
+    console.debug('atWrap', array, index);
     return array[index % array.length];
 }
 

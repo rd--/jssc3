@@ -1,5 +1,6 @@
 'use strict';
 
+// https://quilljs.com/
 var quill_text_editor;
 
 var quill_toolbar_config = [

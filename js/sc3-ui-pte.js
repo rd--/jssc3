@@ -36,7 +36,7 @@ function text_editor_init() {
 
 function text_editor_get_text() {
     var currentText = ace_editor ? ace_editor.getValue() : textarea_get_selection_or_contents(textarea_editor);
-    // console.log('text_editor_get_text', currentText);
+    console.debug('text_editor_get_text', currentText);
     if(currentText.trim().length === 0) {
         console.warn('text_editor_get_text: empty text');
     }

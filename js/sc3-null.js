@@ -1,9 +1,13 @@
 'use strict';
 
 // * -> bool
-function isNull(x) { return x === null; }
+function isNull(x) {
+    return x === null;
+}
 
-function isUndefined(x) { return x === undefined; }
+function isUndefined(x) {
+    return x === undefined;
+}
 
 // If inputValue is null or undefined log message and return defaulValue, else return inputValue
 function nullFix(message, inputValue, defaultValue) {

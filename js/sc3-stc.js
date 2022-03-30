@@ -4,7 +4,7 @@
 function stc_is_binary_selector(text) {
     var allowed = Array.from('!%&*+/<=>?@\\~|-');
     var answer = Array.from(text).every(item => allowed.includes(item));
-    // console.log('stc_is_binary_selector', text, answer);
+    console.debug('stc_is_binary_selector', text, answer);
     return answer;
 }
 

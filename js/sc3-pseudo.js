@@ -4,7 +4,7 @@ function Splay(inArray, spread, level, center, levelComp) {
     var n = Math.max(2, inArray.length);
     var pos = arrayFromTo(0, n - 1).map(item => add(mul(sub(mul(item, fdiv(2, sub(n, 1))), 1), spread), center));
     var lvl = mul(level, levelComp ? Math.sqrt(1 / n) : 1);
-    // console.log('Splay', n, pos, lvl);
+    console.debug('Splay', n, pos, lvl);
     return sum(Pan2(inArray, pos, lvl));
 }
 
@@ -12,7 +12,7 @@ function Splay2(inArray) {
     var n = Math.max(2, inArray.length);
     var pos = arrayFromTo(0, n - 1).map(item => item * (2 / (n - 1)) - 1);
     var lvl = Math.sqrt(1 / n);
-    // console.log('Splay2', n, pos, lvl);
+    console.debug('Splay2', n, pos, lvl);
     return sum(Pan2(inArray, pos, lvl));
 }
 
@@ -108,7 +108,7 @@ var BufAlloc = LocalBuf;
 function asKlankSpec(freq, amp, time) {
     var n = freq.length;
     var a = [freq, amp || arrayReplicate(n, 1), time || arrayReplicate(n, 1)];
-    // console.log('asKlankSpec', a);
+    console.debug('asKlankSpec', a);
     return arrayConcatenation(arrayTranspose(arrayExtendToBeOfEqualSize(a)));
 }
 

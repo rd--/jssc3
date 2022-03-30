@@ -35,9 +35,9 @@ function encodeFloat32Array(inputArray) {
         dataView.setFloat32(i * 4, inputArray[i]);
     }
     var uint8Array = new Uint8Array(arrayBuffer);
-    // console.log('encodeFloat32Array: inputArray', inputArray);
-    // console.log('encodeFloat32Array: arrayBuffer', arrayBuffer);
-    // console.log('encodeFloat32Array: uint8Array', uint8Array);
+    console.debug('encodeFloat32Array: inputArray', inputArray);
+    console.debug('encodeFloat32Array: arrayBuffer', arrayBuffer);
+    console.debug('encodeFloat32Array: uint8Array', uint8Array);
     return uint8Array;
 }
 
