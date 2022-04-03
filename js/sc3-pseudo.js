@@ -81,6 +81,10 @@ function AudioIn(channels) {
     return In(1, sub(add(NumOutputBuses(), channels), 1));
 }
 
+function AudioOut(channelsArray) {
+    return Out(0, channelsArray);
+}
+
 /*
 note that mrg places q in p, and here q has a reference to p, so the traversal of the mrg node must not recurse
 

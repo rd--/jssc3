@@ -19,14 +19,15 @@ function sendOsc(oscMessage) {
     }
 }
 
-function bootScsynth(numInputs, numOutputs, blockSize) {
+function bootScsynth(numInputs, numOutputs, hardwareBufferSize, blockSize) {
+    console.log('-i', numInputs, '-o', numOutputs, '-Z', hardwareBufferSize, '-z', blockSize);
     if(!scsynth_alive) {
         var args = Module['arguments'];
         args[args.indexOf('-i') + 1] = String(numInputs);
         args[args.indexOf('-o') + 1] = String(numOutputs);
+        args.push('-Z', String(hardwareBufferSize)); // audio driver block size (frames)
+        args.push('-z', String(blockSize)); // # block size (for sample-rate of 48000 gives blocks of 1ms)
         args.push('-w', '512'); // # wire buffers
-        args.push('-z', '48'); // # block size (for sample-rate of 48000 gives blocks of 1ms)
-        args.push('-Z', String(blockSize)); // audio driver block size (frames)
         args.push('-m', '32768'); // real time memory (Kb), total memory is fixed at scsynth/wasm compile time, see README_WASM
         Module.callMain(args);
         setTimeout(monitorOsc, 1000);
@@ -39,12 +40,12 @@ function bootScsynth(numInputs, numOutputs, blockSize) {
 
 function playSyndef(syndefName, syndefData) {
     console.log('playSyndef #', syndefData.length);
-    sendOsc(d_recv_then(syndefData, osc.writePacket(s_new0(syndefName, -1, 1, 0))));
+    sendOsc(d_recv_then(syndefData, osc.writePacket(s_new0(syndefName, -1, kAddToTail, 0))));
 }
 
 function playUgen(ugen) {
     var name = 'sc3.js';
-    var graph = new Graph(name, Out(0, ugen));
+    var graph = new Graph(name, wrapOut(0, ugen));
     playSyndef(name, graph.encodeSyndef());
 }
 

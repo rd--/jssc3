@@ -191,3 +191,12 @@ function BinaryOp(ix, a, b) {
     }
 }
 
+// isOutUgen(Out(0, mul(SinOsc(440, 0), 0.1)))
+function isOutUgen(ugen) {
+    return isPort(ugen) && ugen.ugen.ugenName == 'Out';
+}
+
+// wrapOut(0, mul(SinOsc(440, 0), 0.1))
+function wrapOut(bus, ugen) {
+    return isOutUgen(ugen) ? ugen : Out(bus, ugen);
+}

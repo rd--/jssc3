@@ -1,5 +1,9 @@
 'use strict';
 
+// k = constant
+var kAddToHead = 0;
+var kAddToTail = 1;
+
 // b = buffer
 
 function b_alloc_then(bufferNumber, numberOfFrames, numberOfChannels, onCompletion) {
@@ -83,6 +87,13 @@ function d_recv_then(syndefArray, onCompletion) {
 }
 
 // g = group
+
+function g_new1(groupId, addAction, nodeId) {
+    return {
+        address: '/g_new',
+        args: [oscInt32(groupId), oscInt32(addAction), oscInt32(nodeId)]
+    };
+}
 
 function g_freeAll1(id) {
     return {

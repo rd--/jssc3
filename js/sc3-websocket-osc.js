@@ -6,11 +6,11 @@ function sc3_websocket_send_osc(msg) {
 }
 
 // Encode and play Ugen.
-function play(u) {
-    var g = new Graph('sc3.js', Out(0, u));
-    var d = g.encodeSyndef();
-    console.log('play: scsyndef #', d.length);
-    sc3_websocket_send_osc(d_recv_then(d, osc.writePacket(s_new0('sc3.js', -1, 1, 1))));
+function play(ugen) {
+    var graph = new Graph('sc3.js', wrapOut(0, ugen));
+    var syndef = graph.encodeSyndef();
+    console.log('play: scsyndef #', syndef.length);
+    sc3_websocket_send_osc(d_recv_then(syndef, osc.writePacket(s_new0('sc3.js', -1, kAddToTail, 1))));
 }
 
 // Free all.
