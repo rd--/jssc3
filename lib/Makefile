@@ -16,6 +16,17 @@ add-submodules:
 	git submodule add https://gitlab.com/rd--/scsynth-wasm-builds
 	git submodule add https://gitlab.com/rd--/stsc3
 
+# jspreadsheet is required by supercalc, it in turn requires jsuites
+
+clone-jspreadsheet:
+	mkdir jspreadsheet
+	(cd jspreadsheet ; git clone https://github.com/jspreadsheet/ce)
+	git clone https://github.com/jsuites/jsuites
+
+fetch-jspreadsheet:
+	(cd jspreadsheet/ce ; git pull)
+	(cd jsuites ; git pull)
+
 # use submodules, do not fetch
 
 fetch-all: fetch-oscjs fetch-scsynth fetch-stsc3
