@@ -516,6 +516,10 @@ function LocalIn(numChan, defaultValue) {
 function LocalOut(channelsArray) {
     return makeUgen('LocalOut', 0, [0], 0, [].concat(unitArrayIfScalar(channelsArray)));
 }
+// Lorenz chaotic generator
+function LorenzL(freq, s, r, b, h, xi, yi, zi) {
+    return makeUgen('LorenzL', 1, Rate.ar, 0, [freq, s, r, b, h, xi, yi, zi]);
+}
 // Two point average filter
 function LPZ1(input) {
     return makeUgen('LPZ1', 1, [0], 0, [input]);
