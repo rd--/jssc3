@@ -196,6 +196,11 @@ function isOutUgen(ugen) {
     return isPort(ugen) && ugen.ugen.ugenName == 'Out';
 }
 
+// isControlRateUgen(MouseX(0, 1, 0, 0.2))
+function isControlRateUgen(ugen) {
+    return inputRate(ugen) == 1;
+}
+
 // wrapOut(0, mul(SinOsc(440, 0), 0.1))
 function wrapOut(bus, ugen) {
     return isOutUgen(ugen) ? ugen : Out(bus, ugen);

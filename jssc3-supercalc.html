@@ -49,10 +49,8 @@
     <script src="js/jssc3.js"></script>
     <script src="js/sc3-supercalc.js"></script>
     <script>
-function js_supercalc_load_csv(graphDir, graphName, fileType) {
-};
 window.onload = function () {
-    sc3_ui_init(false, false, false, false, null, 'jssc3UserPrograms/csv', js_supercalc_load_csv, false, 4096, 48);
+    sc3_ui_init(false, false, false, false, '.json', 'jssc3SuperCalcUserPrograms/json', load_graph, true, 4096, 48);
     sc3_wasm_init();
     sc3_supercalc_init(8, 8);
     jssc3_init('e', null, 's');
@@ -65,9 +63,22 @@ window.onload = function () {
       <div id="sc3_supercalc"></div>
     </div>
     <div id="jssc3Menu">
+      <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select>
+    </div>
+    <div>
       <input type="file" id="programInputFile" accept=".stc,.js" onchange="jssc3_read_input_program()" style="display:none">
       <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
-      <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select>
+      <button title="Copy json to clipboard (c)"  accesskey="c" onclick="navigator.clipboard.writeText(sc3_supercalc_get_json())">Copy</button>
+      <button title="Save document to local storage (s)" accesskey="s" onclick="user_program_save_to()">Save</button>
+      <select id="actionsMenu" title="Actions">
+        <option value="">&#x2630;</option>
+        <option value='setBlockSize'>Block Size</option>
+        <option value='setHardwareBufferSize'>Hardware Buffer Size</option>
+        <option value='setNumInputs'>Input Channels</option>
+        <option value="userBackup" title="Save user programs to archive">Backup</option>
+        <option value="userRestore" title="Load user programs from archive">Restore</option>
+        <option value="userPurge" title="Delete all user programs">Purge</option>
+      </select>
       <button title="Boot" accesskey="b" onclick="ui_boot_scsynth()">⏻ (Boot)</button>
       <span id="statusText"></span>
       <button title="Init" onclick="sc3_supercalc_server_setup()">Init</button>
