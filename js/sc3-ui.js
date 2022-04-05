@@ -16,7 +16,7 @@ function load_graph(graphDir, graphName, fileType) {
     var graphFileName = 'help/' + graphDir + '/' + graphName + resolve_file_type(fileType);
     var graphUrl = url_append_timestamp(graphFileName);
     console.log(graphName);
-    fetch_url_and_then(graphUrl, 'text', programText => text_editor_set_text(programText));
+    fetch_url_and_then(graphUrl, 'text', programText => editor_set_data(programText));
 }
 
 function menu_init(menuId, graphDir, fileType, loadProc) {
@@ -145,22 +145,23 @@ function set_notation_format() {
     console.log('set_notation_format', notation_format);
 }
 
-function sc3_ui_init(hasProgramMenu, hasHelpMenu, hasGuideMenu, hasEssayMenu, fileExt, storageKey, loadProc, initMouse, hardwareBufferSize, blockSize) {
+// subDir should be empty or should end with a '/'
+function sc3_ui_init(subDir, hasProgramMenu, hasHelpMenu, hasGuideMenu, hasEssayMenu, fileExt, storageKey, loadProc, initMouse, hardwareBufferSize, blockSize) {
     if(hasProgramMenu) {
-        menu_init('programMenu', 'graph', fileExt, loadProc);
-        load_utf8_and_then('html/program-menu.html', setter_for_inner_html_of('programMenu'));
+        menu_init('programMenu', subDir + 'graph', fileExt, loadProc);
+        load_utf8_and_then('html/' + subDir + 'program-menu.html', setter_for_inner_html_of('programMenu'));
     }
     if(hasHelpMenu) {
-        menu_init('helpMenu', 'ugen', fileExt, loadProc);
-        load_utf8_and_then('html/help-menu.html', setter_for_inner_html_of('helpMenu'));
+        menu_init('helpMenu', subDir + 'ugen', fileExt, loadProc);
+        load_utf8_and_then('html/' + subDir + 'help-menu.html', setter_for_inner_html_of('helpMenu'));
     }
     if(hasGuideMenu) {
-        menu_init('guideMenu', 'guide', fileExt, loadProc);
-        load_utf8_and_then('html/guide-menu.html', setter_for_inner_html_of('guideMenu'));
+        menu_init('guideMenu', subDir + 'guide', fileExt, loadProc);
+        load_utf8_and_then('html/' + subDir + 'guide-menu.html', setter_for_inner_html_of('guideMenu'));
     }
     if(hasEssayMenu) {
-        menu_init('essayMenu', 'essay', fileExt, loadProc);
-        load_utf8_and_then('html/essay-menu.html', setter_for_inner_html_of('essayMenu'));
+        menu_init('essayMenu', subDir + 'essay', fileExt, loadProc);
+        load_utf8_and_then('html/' + subDir + 'essay-menu.html', setter_for_inner_html_of('essayMenu'));
     }
     user_storage_key = storageKey;
     notation_format = '.stc';

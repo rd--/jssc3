@@ -56,7 +56,8 @@ function sc3_supercalc_all_cellref_do(proc) {
 
 // eval_or_zero('referenceToUndefinedName')
 function eval_or_zero(text) {
-    if(text === '') {
+    console.debug('eval_or_zero', '"' + text + '"');
+    if(text === '' || text.substring(0, 2) == '//') {
         return 0;
     } else {
         try {
@@ -126,7 +127,9 @@ function sc3_supercalc_init (numCol, numRow) {
     sc3_supercalc_bus_offset = 24;
     sc3_supercalc_sheet = jspreadsheet(document.getElementById('sc3_supercalc'), {
         data: sc3_supercalc_data,
-        columns: arrayReplicate(numCol, { type: 'text', width: 200 }),
+        columns: arrayFillWithIndex(numCol, function(col_index) {
+                return { type: 'text', title: sc3_supercalc_col_index_to_letter(col_index), width: 200 }
+        }),
         onchange: sc3_supercalc_on_change,
         allowInsertRow: false,
         allowInsertColumn: false,
@@ -138,7 +141,7 @@ function sc3_supercalc_init (numCol, numRow) {
 function sc3_supercalc_gen_cell_reader_bus_declaration(col_letter, row_number) {
     var bus_index = sc3_supercalc_cellref_to_bus(col_letter, row_number);
     var var_name = col_letter + String(row_number);
-    return ('var ' + var_name + ' = InFeedback(1, ' + String(bus_index) + ');');
+    return ('var ' + var_name + ' = InFb(1, ' + String(bus_index) + ');');
 }
 
 // sc3_supercalc_define_cell_variables()

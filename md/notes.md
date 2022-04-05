@@ -26,6 +26,8 @@ There is a _.cgi_ (Common Gateway Interface) form at
 
 There is a public server at <https://rohandrape.net/pub/stsc3/html/stc-to-js.html>
 
+The _cgi-bin_ directory at _jssc3_ is ordinarily a symbolic link to _stsc3/cgi-bin_.
+
 ## Local server
 
 There is a script at
