@@ -54,27 +54,42 @@ function sc3_supercalc_all_cellref_do(proc) {
     }
 }
 
-// eval_or_zero('referenceToUndefinedName')
-function eval_or_zero(text) {
-    console.debug('eval_or_zero', '"' + text + '"');
-    if(text === '' || text.substring(0, 2) == '//') {
-        return 0;
+function sc3_supercalc_set_cell_colour(col_letter, row_number, colour_string) {
+    var cell_ref = col_letter.toUpperCase() + String(row_number);
+    sc3_supercalc_sheet.setStyle(cell_ref, 'background-color', colour_string);
+}
+
+function sc3_supercalc_set_cell_status_and_return(col_letter, row_number, success, result) {
+    console.debug('sc3_supercalc_set_cell_status_and_return', col_letter, row_number, success, result);
+    sc3_supercalc_set_cell_colour(col_letter, row_number, success ? '#ffffe8' : '#c1e7f8');
+    return result;
+}
+
+// sc3_supercalc_eval_or_zero('a', 1, true, 'referenceToUndefinedName')
+function sc3_supercalc_eval_or_zero(col_letter, row_number, translator_status, text) {
+    console.debug('sc3_supercalc_eval_or_zero', col_letter, row_number, translator_status, '"' + text + '"');
+    if(text === '' || text.substring(0, 2) === '//') {
+        console.debug('sc3_supercalc_eval_or_zero: empty cell or comment cell');
+        return sc3_supercalc_set_cell_status_and_return(col_letter, row_number, translator_status, 0);
     } else {
         try {
-            return eval(text);
+            var result = eval(text);
+            console.debug('sc3_supercalc_eval_or_zero: success!');
+            return sc3_supercalc_set_cell_status_and_return(col_letter, row_number, translator_status, result);
         } catch (e) {
-            console.log('eval_or_zero: error!');
-            return 0;
+            console.debug('sc3_supercalc_eval_or_zero: error!');
+            return sc3_supercalc_set_cell_status_and_return(col_letter, row_number, false, 0);
         }
     }
 }
 
 function sc3_supercalc_eval_cell(col_letter, row_number, cell_text) {
-    stc_to_js_and_then(cell_text, function (js_text) {
-        var cell_value = eval_or_zero(js_text);
+    var program_text = cell_text.trim();
+    stc_to_js_and_then(program_text, function (js_text) {
+        var translator_status =  program_text === '' || js_text !== '';
+        var cell_value = sc3_supercalc_eval_or_zero(col_letter, row_number, translator_status, js_text);
         var cell_ugen = isNumber(cell_value) ? DC(cell_value) : (isControlRateUgen(cell_value) ? K2A(cell_value) : cell_value);
         var cell_packet = sc3_supercalc_cell_ugen_to_osc_packet(col_letter, row_number, cell_ugen);
-        console.debug('sc3_supercalc_eval_cell', col_letter, row_number, '"' + cell_text + '"', '"' + js_text + '"');
         sendOsc(cell_packet);
     });
 }
@@ -128,7 +143,7 @@ function sc3_supercalc_init (numCol, numRow) {
     sc3_supercalc_sheet = jspreadsheet(document.getElementById('sc3_supercalc'), {
         data: sc3_supercalc_data,
         columns: arrayFillWithIndex(numCol, function(col_index) {
-                return { type: 'text', title: sc3_supercalc_col_index_to_letter(col_index), width: 200 }
+                return { type: 'text', title: sc3_supercalc_col_index_to_letter(col_index), width: 200 };
         }),
         onchange: sc3_supercalc_on_change,
         allowInsertRow: false,
