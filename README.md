@@ -8,7 +8,11 @@ jssc3
 
 Online editors:
 [Plain Text](https://rohandrape.net/pub/jssc3/jssc3-wasm.html),
-[Rich Text](https://rohandrape.net/pub/jssc3/jssc3-rte.html)
+[SuperScript](https://rohandrape.net/pub/jssc3/jssc3-rte.html) (Word processor)
+[SuperCalc](https://rohandrape.net/pub/jssc3/jssc3-supercalc.html) (Spread sheet)
+
+- [SuperScript](https://archive.org/details/SuperScript_Word_Processor_for_the_128_1995_Precision_Software/mode/2up), _Precision Software_, 1985
+- [SuperCalc](https://museum.syssrc.com/artifact/exhibits/807/) _Sorcim_, 1980.
 
 Requires:
 [osc.js](https://github.com/colinbdclark/osc.js),
