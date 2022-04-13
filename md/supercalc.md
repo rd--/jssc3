@@ -17,10 +17,10 @@ The size of the table is fixed when SuperCalc starts.
 Cell addresses comprise a finite set of named _variables_.
 
 Each cell contains a SuperCollider synthesis program.
-An empty cell, is equal to the _silence_ program, _DC(0)_.
+An empty cell is equal to the _silence_ program, _DC(0)_.
 Commentary cells, indicated by a _//_ prefix, are also equal to _DC(0)_.
 
-Cells are evaluated from right to left within each row, and rows are evaluated from the top down.
+Cells are evaluated from right to left within each row, rows are evaluated from the top down.
 
 This ordering is chosen so that the program at _a1_ can read the _current_ output of the program at _b1_,
 which corresponds to placing arguments to a program to the right of the program that references them.
@@ -38,9 +38,9 @@ An initial _synthesis node_ is added to each group generating a _DC(0)_ signal.
 
 Each cell is associated with an _audio bus_.
 The program in the cell writes to the associated bus though an implicit _Out_ node.
-Writing _p_ in cell _c_ means something like _Out(Cell('c').busIndex, p)_.
+Writing program _p_ in cell _c_ means something like _Out(Cell('c).busIndex, p)_.
 References to cells read from the bus associated with the referenced cell.
-Writing _c_ means something like _InFb(1, Cell('c').busIndex)_.
+Writing a reference to cell _c_ means something like _InFb(1, Cell('c).busIndex)_.
 
 Whenever a cell is edited the group associated with the cell is cleared and a new synthesis node added.
 If the program in the cell is not an _AudioOut_ program, it writes to the _audio bus_ associated with the cell.
@@ -66,9 +66,10 @@ The writer and reader parts must agree on the name of the store.
 The SuperCalc grid automatically associates every text element (sound processing sub-program) with a name.
 The result of every text program is written to a store that is named for the cell the text is located in.
 The memory model is simple, each store is written to by exactly one text, and can be read from by any number of texts.
+Reads receive either the current output of the cell (for _backwards_ references) or the previous output of the cell (for _forward_ references).
 
-Since all programs are named implicity there is no need for inventing names to facilitate partitioning,
-and when programs are copied they necessarily acquire new names.
+Since all programs are named implicity there is no need to invent names to facilitate partitioning.
+When programs are copied they automatically acquire new names.
 
 A SuperCalc program is a _graph of graphs_.
 The cell texts each describe a _unit generator_ graph,
@@ -78,7 +79,7 @@ Structured text editing allows annotations to be attached to parts of a text.
 A grid of cells is a simple mechanism for dividing the text area into named parts.
 Cell names are coordinates, they indicate the location on the page of the text they refer to.
 Annotations can be attached to cells,
-for instance the simple colouring to indicate when a cell program is incorrect.
+for instance the simple colouring rule to indicate when a cell program is incorrect.
 
 ## Remainder
 
