@@ -50,7 +50,7 @@
     <script src="js/sc3-supercalc.js"></script>
     <script>
 window.onload = function () {
-    sc3_ui_init('supercalc/', false, true, false, false, '.json', 'jssc3SuperCalcUserPrograms/json', load_graph, true, 4096, 48);
+    sc3_ui_init('supercalc/', true, true, false, false, '.json', 'jssc3SuperCalcUserPrograms/json', load_graph, true, 4096, 48);
     sc3_wasm_init();
     sc3_supercalc_init(8, 8);
     jssc3_init('e', null, 's');
@@ -63,6 +63,7 @@ window.onload = function () {
       <div id="sc3_supercalc"></div>
     </div>
     <div id="jssc3Menu">
+      <select id="programMenu" title="Program (p)" accesskey="p"></select>
       <select id="helpMenu" title="Help (h)" accesskey="h"></select>
       <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select>
     </div>
@@ -84,6 +85,12 @@ window.onload = function () {
       <span id="statusText"></span>
       <button title="Init" onclick="sc3_supercalc_server_setup()">Init</button>
     </div>
+    <p>
+      <strong>Instructions</strong>:
+      1. Press <em>Boot</em> to start the synthesiser.
+      2. Press <em>Init</em> to initialise the cell programs.
+      3. Read brief <a href="http://rohandrape.net/?t=jssc3&e=md/supercalc.md">notes</a>.
+    </p>
     <script async src="lib/scsynth-wasm-builds/ext/scsynth.js"></script>
   </body>
 </html>
