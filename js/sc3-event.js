@@ -1,18 +1,18 @@
 'use strict';
 
-class EventParam {
-    constructor(v, u) {
-        this.v = v;
-        this.w = u[0];
-        this.x = u[1];
-        this.y = u[2];
-        this.z = u[3];
-        this.o = u[4];
-        this.rx = u[5];
-        this.ry = u[6];
-        this.p = u[7];
-        this.px = u[8];
-    }
+function EventParam(v, u) {
+    return {
+        v: v,
+        w: u[0],
+        x: u[1],
+        y: u[2],
+        z: u[3],
+        o: u[4],
+        rx: u[5],
+        ry: u[6],
+        p: u[7],
+        px: u[8]
+    };
 }
 
 function eventW(e) { return e.w; }
@@ -35,7 +35,7 @@ function voiceAddr(voiceNumber) {
 
 function Voicer(numVoices, voiceFunc) {
     var voiceOffset = 0;
-    return arrayFromTo(1, numVoices).map(c => voiceFunc(new EventParam(c + voiceOffset, ControlIn(9, voiceAddr(c + voiceOffset)))));
+    return arrayFromTo(1, numVoices).map(c => voiceFunc(EventParam(c + voiceOffset, ControlIn(9, voiceAddr(c + voiceOffset)))));
 }
 
 function eventParamSetMessage(e) {

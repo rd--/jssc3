@@ -45,8 +45,8 @@ function playSyndef(syndefName, syndefData) {
 
 function playUgen(ugen) {
     var name = 'sc3.js';
-    var graph = new Graph(name, wrapOut(0, ugen));
-    playSyndef(name, graph.encodeSyndef());
+    var graph = Graph(name, wrapOut(0, ugen));
+    playSyndef(name, graphEncodeSyndef(graph));
 }
 
 function play(ugenFunction) {

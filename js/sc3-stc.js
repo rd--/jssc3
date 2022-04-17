@@ -31,6 +31,7 @@ function stc_binary_selector_from_operator(text) {
     }
 }
 
+// string -> (string -> ()) -> ()
 // Request .stc to .js translation from server, result text is sent to proc (async).
 function stc_to_js_and_then(stcText, proc) {
     if(stcText.trim() === '') {

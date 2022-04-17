@@ -7,8 +7,8 @@ function sc3_websocket_send_osc(msg) {
 
 // Encode and play Ugen.
 function play(ugen) {
-    var graph = new Graph('sc3.js', wrapOut(0, ugen));
-    var syndef = graph.encodeSyndef();
+    var graph = Graph('sc3.js', wrapOut(0, ugen));
+    var syndef = graphEncodeSyndef(graph);
     console.log('play: scsyndef #', syndef.length);
     sc3_websocket_send_osc(d_recv_then(syndef, osc.writePacket(s_new0('sc3.js', -1, kAddToTail, 1))));
 }

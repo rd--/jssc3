@@ -172,8 +172,8 @@ function sc3_supercalc_define_cell_variables() {
 function sc3_supercalc_cell_ugen_to_osc_packet(col_letter, row_number, ugen) {
     var cell_name = col_letter + String(row_number);
     var bus_index = sc3_supercalc_cellref_to_bus(col_letter, row_number);
-    var graph = new Graph(cell_name, wrapOut(bus_index, ugen));
-    var syndef = graph.encodeSyndef();
+    var graph = Graph(cell_name, wrapOut(bus_index, ugen));
+    var syndef = graphEncodeSyndef(graph);
     var group_id = sc3_supercalc_cellref_to_group(col_letter, row_number);
     var g_free_msg = g_freeAll1(group_id);
     var s_new_msg = s_new0(cell_name, -1, kAddToHead, group_id);

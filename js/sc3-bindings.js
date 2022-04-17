@@ -14,15 +14,15 @@ function AllpassN(input, maxdelaytime, delaytime, decaytime) {
 }
 // Basic psychoacoustic amplitude compensation.
 function AmpComp(freq, root, exp) {
-    return makeUgen('AmpComp', 1, Rate.ar, 0, [freq, root, exp]);
+    return makeUgen('AmpComp', 1, rateAr, 0, [freq, root, exp]);
 }
 // Basic psychoacoustic amplitude compensation (ANSI A-weighting curve).
 function AmpCompA(freq, root, minAmp, rootAmp) {
-    return makeUgen('AmpCompA', 1, Rate.ar, 0, [freq, root, minAmp, rootAmp]);
+    return makeUgen('AmpCompA', 1, rateAr, 0, [freq, root, minAmp, rootAmp]);
 }
 // Amplitude follower
 function Amplitude(input, attackTime, releaseTime) {
-    return makeUgen('Amplitude', 1, Rate.ar, 0, [input, attackTime, releaseTime]);
+    return makeUgen('Amplitude', 1, rateAr, 0, [input, attackTime, releaseTime]);
 }
 // Stereo signal balancer
 function Balance2(left, right, pos, level) {
@@ -38,11 +38,11 @@ function BBandStop(input, freq, bw) {
 }
 // Band limited impulse oscillator.
 function Blip(freq, numharm) {
-    return makeUgen('Blip', 1, Rate.ar, 0, [freq, numharm]);
+    return makeUgen('Blip', 1, rateAr, 0, [freq, numharm]);
 }
 // (Undocumented class)
 function BlockSize() {
-    return makeUgen('BlockSize', 1, Rate.ir, 0, []);
+    return makeUgen('BlockSize', 1, rateIr, 0, []);
 }
 // 12db/oct rolloff - 2nd order resonant Low Pass Filter
 function BLowPass(input, freq, rq) {
@@ -70,27 +70,27 @@ function BRZ2(input) {
 }
 // Brown Noise.
 function BrownNoise() {
-    return makeUgen('BrownNoise', 1, Rate.ar, 0, []);
+    return makeUgen('BrownNoise', 1, rateAr, 0, []);
 }
 // Current duration of soundfile in buffer.
 function BufDur(bufnum) {
-    return makeUgen('BufDur', 1, Rate.kr, 0, [bufnum]);
+    return makeUgen('BufDur', 1, rateKr, 0, [bufnum]);
 }
 // Current number of frames allocated in the buffer.
 function BufFrames(bufnum) {
-    return makeUgen('BufFrames', 1, Rate.kr, 0, [bufnum]);
+    return makeUgen('BufFrames', 1, rateKr, 0, [bufnum]);
 }
 // Buffer rate scaling in respect to server samplerate.
 function BufRateScale(bufnum) {
-    return makeUgen('BufRateScale', 1, Rate.kr, 0, [bufnum]);
+    return makeUgen('BufRateScale', 1, rateKr, 0, [bufnum]);
 }
 // Buffer reading oscillator.
 function BufRd(numChan, bufnum, phase, loop, interpolation) {
-    return makeUgen('BufRd', numChan, Rate.ar, 0, [bufnum, phase, loop, interpolation]);
+    return makeUgen('BufRd', numChan, rateAr, 0, [bufnum, phase, loop, interpolation]);
 }
 // Buffer sample rate.
 function BufSampleRate(bufnum) {
-    return makeUgen('BufSampleRate', 1, Rate.kr, 0, [bufnum]);
+    return makeUgen('BufSampleRate', 1, rateKr, 0, [bufnum]);
 }
 // Buffer writing oscillator.
 function BufWr(bufnum, phase, loop, inputArray) {
@@ -98,7 +98,7 @@ function BufWr(bufnum, phase, loop, inputArray) {
 }
 // (Undocumented class)
 function ClearBuf(buf) {
-    return makeUgen('ClearBuf', 1, Rate.ir, 0, [buf]);
+    return makeUgen('ClearBuf', 1, rateIr, 0, [buf]);
 }
 // Clip a signal outside given thresholds.
 function Clip(input, lo, hi) {
@@ -106,7 +106,7 @@ function Clip(input, lo, hi) {
 }
 // Clip Noise.
 function ClipNoise() {
-    return makeUgen('ClipNoise', 1, Rate.ar, 0, []);
+    return makeUgen('ClipNoise', 1, rateAr, 0, []);
 }
 // Statistical gate.
 function CoinGate(prob, input) {
@@ -126,35 +126,35 @@ function CombN(input, maxdelaytime, delaytime, decaytime) {
 }
 // Duration of one block
 function ControlDur() {
-    return makeUgen('ControlDur', 1, Rate.ir, 0, []);
+    return makeUgen('ControlDur', 1, rateIr, 0, []);
 }
 // Server control rate.
 function ControlRate() {
-    return makeUgen('ControlRate', 1, Rate.ir, 0, []);
+    return makeUgen('ControlRate', 1, rateIr, 0, []);
 }
 // Real-time convolver.
 function Convolution(input, kernel, framesize) {
-    return makeUgen('Convolution', 1, Rate.ar, 0, [input, kernel, framesize]);
+    return makeUgen('Convolution', 1, rateAr, 0, [input, kernel, framesize]);
 }
 // Chaotic noise function.
 function Crackle(chaosParam) {
-    return makeUgen('Crackle', 1, Rate.ar, 0, [chaosParam]);
+    return makeUgen('Crackle', 1, rateAr, 0, [chaosParam]);
 }
 // Cusp map chaotic generator
 function CuspL(freq, a, b, xi) {
-    return makeUgen('CuspL', 1, Rate.ar, 0, [freq, a, b, xi]);
+    return makeUgen('CuspL', 1, rateAr, 0, [freq, a, b, xi]);
 }
 // Buffer read demand ugen
 function Dbufrd(bufnum, phase, loop) {
-    return makeUgen('Dbufrd', 1, Rate.dr, 0, [bufnum, phase, loop]);
+    return makeUgen('Dbufrd', 1, rateDr, 0, [bufnum, phase, loop]);
 }
 // Buffer write demand ugen
 function Dbufwr(bufnum, phase, input, loop) {
-    return makeUgen('Dbufwr', 1, Rate.dr, 0, [bufnum, phase, input, loop]);
+    return makeUgen('Dbufwr', 1, rateDr, 0, [bufnum, phase, input, loop]);
 }
 // Create a constant amplitude signal
 function DC(input) {
-    return makeUgen('DC', 1, Rate.ar, 0, [input]);
+    return makeUgen('DC', 1, rateAr, 0, [input]);
 }
 // Exponential decay
 function Decay(input, decayTime) {
@@ -198,59 +198,59 @@ function DetectSilence(input, amp, time, doneAction) {
 }
 // Demand rate white noise random generator.
 function Diwhite(length, lo, hi) {
-    return makeUgen('Diwhite', 1, Rate.dr, 0, [length, lo, hi]);
+    return makeUgen('Diwhite', 1, rateDr, 0, [length, lo, hi]);
 }
 // Demand rate random sequence generator.
 function Drand(repeats, list) {
-    return makeUgen('Drand', 1, Rate.dr, 0, [repeats].concat(arrayAsArray(list)));
+    return makeUgen('Drand', 1, rateDr, 0, [repeats].concat(arrayAsArray(list)));
 }
 // Demand rate sequence generator.
 function Dseq(repeats, list) {
-    return makeUgen('Dseq', 1, Rate.dr, 0, [repeats].concat(arrayAsArray(list)));
+    return makeUgen('Dseq', 1, rateDr, 0, [repeats].concat(arrayAsArray(list)));
 }
 // Demand rate arithmetic series UGen.
 function Dseries(length, start, step) {
-    return makeUgen('Dseries', 1, Rate.dr, 0, [length, start, step]);
+    return makeUgen('Dseries', 1, rateDr, 0, [length, start, step]);
 }
 // Demand rate random sequence generator
 function Dshuf(repeats, list) {
-    return makeUgen('Dshuf', 1, Rate.dr, 0, [repeats].concat(arrayAsArray(list)));
+    return makeUgen('Dshuf', 1, rateDr, 0, [repeats].concat(arrayAsArray(list)));
 }
 // Random impulses.
 function Dust(density) {
-    return makeUgen('Dust', 1, Rate.ar, 0, [density]);
+    return makeUgen('Dust', 1, rateAr, 0, [density]);
 }
 // Random impulses.
 function Dust2(density) {
-    return makeUgen('Dust2', 1, Rate.ar, 0, [density]);
+    return makeUgen('Dust2', 1, rateAr, 0, [density]);
 }
 // Demand results from demand rate UGens.
 function Duty(dur, reset, doneAction, level) {
-    return makeUgen('Duty', 1, Rate.ar, 0, [dur, reset, doneAction, level]);
+    return makeUgen('Duty', 1, rateAr, 0, [dur, reset, doneAction, level]);
 }
 // Plucked physical model.
 function DWGPluckedStiff(freq, amp, gate, pos, c1, c3, inp, release, fB) {
-    return makeUgen('DWGPluckedStiff', 1, Rate.ar, 0, [freq, amp, gate, pos, c1, c3, inp, release, fB]);
+    return makeUgen('DWGPluckedStiff', 1, rateAr, 0, [freq, amp, gate, pos, c1, c3, inp, release, fB]);
 }
 // Envelope generator
 function EnvGen(gate, levelScale, levelBias, timeScale, doneAction, envelope) {
-    return makeUgen('EnvGen', 1, Rate.ar, 0, [gate, levelScale, levelBias, timeScale, doneAction].concat(arrayAsArray(envelope)));
+    return makeUgen('EnvGen', 1, rateAr, 0, [gate, levelScale, levelBias, timeScale, doneAction].concat(arrayAsArray(envelope)));
 }
 // Exponential single random number generator.
 function ExpRand(lo, hi) {
-    return makeUgen('ExpRand', 1, Rate.ir, 0, [lo, hi]);
+    return makeUgen('ExpRand', 1, rateIr, 0, [lo, hi]);
 }
 // Feedback sine with chaotic phase indexing
 function FBSineL(freq, im, fb, a, c, xi, yi) {
-    return makeUgen('FBSineL', 1, Rate.ar, 0, [freq, im, fb, a, c, xi, yi]);
+    return makeUgen('FBSineL', 1, rateAr, 0, [freq, im, fb, a, c, xi, yi]);
 }
 // Feedback sine with chaotic phase indexing
 function FBSineC(freq, im, fb, a, c, xi, yi) {
-    return makeUgen('FBSineC', 1, Rate.ar, 0, [freq, im, fb, a, c, xi, yi]);
+    return makeUgen('FBSineC', 1, rateAr, 0, [freq, im, fb, a, c, xi, yi]);
 }
 // Fast Fourier Transform
 function FFT(buffer, input, hop, wintype, active, winsize) {
-    return makeUgen('FFT', 1, Rate.kr, 0, [buffer, input, hop, wintype, active, winsize]);
+    return makeUgen('FFT', 1, rateKr, 0, [buffer, input, hop, wintype, active, winsize]);
 }
 // Fold a signal outside given thresholds.
 function Fold(input, lo, hi) {
@@ -258,7 +258,7 @@ function Fold(input, lo, hi) {
 }
 // Formant oscillator
 function Formant(fundfreq, formfreq, bwfreq) {
-    return makeUgen('Formant', 1, Rate.ar, 0, [fundfreq, formfreq, bwfreq]);
+    return makeUgen('Formant', 1, rateAr, 0, [fundfreq, formfreq, bwfreq]);
 }
 // FOF-like filter.
 function Formlet(input, freq, attacktime, decaytime) {
@@ -270,11 +270,11 @@ function FOS(input, a0, a1, b1) {
 }
 // Frequency Shifter.
 function FreqShift(input, freq, phase) {
-    return makeUgen('FreqShift', 1, Rate.ar, 0, [input, freq, phase]);
+    return makeUgen('FreqShift', 1, rateAr, 0, [input, freq, phase]);
 }
 // Fast sine oscillator.
 function FSinOsc(freq, iphase) {
-    return makeUgen('FSinOsc', 1, Rate.ar, 0, [freq, iphase]);
+    return makeUgen('FSinOsc', 1, rateAr, 0, [freq, iphase]);
 }
 // A reverb
 function FreeVerb(input, mix, room, damp) {
@@ -290,19 +290,19 @@ function Gate(input, trig) {
 }
 // Dynamic stochastic synthesis generator.
 function Gendy1(ampdist, durdist, adparam, ddparam, minfreq, maxfreq, ampscale, durscale, initCPs, knum) {
-    return makeUgen('Gendy1', 1, Rate.ar, 0, [ampdist, durdist, adparam, ddparam, minfreq, maxfreq, ampscale, durscale, initCPs, knum]);
+    return makeUgen('Gendy1', 1, rateAr, 0, [ampdist, durdist, adparam, ddparam, minfreq, maxfreq, ampscale, durscale, initCPs, knum]);
 }
 // Granular synthesis with frequency modulated sine tones
 function GrainFM(numChan, trigger, dur, carfreq, modfreq, index, pan, envbufnum, maxGrains) {
-    return makeUgen('GrainFM', numChan, Rate.ar, 0, [trigger, dur, carfreq, modfreq, index, pan, envbufnum, maxGrains]);
+    return makeUgen('GrainFM', numChan, rateAr, 0, [trigger, dur, carfreq, modfreq, index, pan, envbufnum, maxGrains]);
 }
 // Granular synthesis with sine tones
 function GrainSin(numChan, trigger, dur, freq, pan, envbufnum, maxGrains) {
-    return makeUgen('GrainSin', numChan, Rate.ar, 0, [trigger, dur, freq, pan, envbufnum, maxGrains]);
+    return makeUgen('GrainSin', numChan, rateAr, 0, [trigger, dur, freq, pan, envbufnum, maxGrains]);
 }
 // Gray Noise.
 function GrayNoise() {
-    return makeUgen('GrayNoise', 1, Rate.ar, 0, []);
+    return makeUgen('GrayNoise', 1, rateAr, 0, []);
 }
 // A two-channel reverb
 function GVerb(input, roomsize, revtime, damping, inputbw, spread, drylevel, earlyreflevel, taillevel, maxroomsize) {
@@ -314,11 +314,11 @@ function Hasher(input) {
 }
 // Henon map chaotic generator
 function HenonL(freq, a, b, x0, x1) {
-    return makeUgen('HenonL', 1, Rate.ar, 0, [freq, a, b, x0, x1]);
+    return makeUgen('HenonL', 1, rateAr, 0, [freq, a, b, x0, x1]);
 }
 // Henon map chaotic generator
 function HenonC(freq, a, b, x0, x1) {
-    return makeUgen('HenonC', 1, Rate.ar, 0, [freq, a, b, x0, x1]);
+    return makeUgen('HenonC', 1, rateAr, 0, [freq, a, b, x0, x1]);
 }
 // 2nd order Butterworth highpass filter.
 function HPF(input, freq) {
@@ -334,15 +334,15 @@ function HPZ2(input) {
 }
 // Inverse Fast Fourier Transform
 function IFFT(buffer, wintype, winsize) {
-    return makeUgen('IFFT', 1, Rate.ar, 0, [buffer, wintype, winsize]);
+    return makeUgen('IFFT', 1, rateAr, 0, [buffer, wintype, winsize]);
 }
 // Impulse oscillator.
 function Impulse(freq, phase) {
-    return makeUgen('Impulse', 1, Rate.ar, 0, [freq, phase]);
+    return makeUgen('Impulse', 1, rateAr, 0, [freq, phase]);
 }
 // Read a signal from a bus.
 function In(numChan, bus) {
-    return makeUgen('In', numChan, Rate.ar, 0, [bus]);
+    return makeUgen('In', numChan, rateAr, 0, [bus]);
 }
 // Index into a table with a signal
 function Index(bufnum, input) {
@@ -354,7 +354,7 @@ function IndexInBetween(bufnum, input) {
 }
 // Read signal from a bus with a current or one cycle old timestamp.
 function InFeedback(numChan, bus) {
-    return makeUgen('InFeedback', numChan, Rate.ar, 0, [bus]);
+    return makeUgen('InFeedback', numChan, rateAr, 0, [bus]);
 }
 // Tests if a signal is within a given range.
 function InRange(input, lo, hi) {
@@ -362,7 +362,7 @@ function InRange(input, lo, hi) {
 }
 // Single integer random number generator.
 function IRand(lo, hi) {
-    return makeUgen('IRand', 1, Rate.ir, 0, [lo, hi]);
+    return makeUgen('IRand', 1, rateIr, 0, [lo, hi]);
 }
 // A leaky integrator.
 function Integrator(input, coef) {
@@ -370,15 +370,15 @@ function Integrator(input, coef) {
 }
 // Control to audio rate converter.
 function K2A(input) {
-    return makeUgen('K2A', 1, Rate.ar, 0, [input]);
+    return makeUgen('K2A', 1, rateAr, 0, [input]);
 }
 // Respond to the state of a key
 function KeyState(keycode, minval, maxval, lag) {
-    return makeUgen('KeyState', 1, Rate.kr, 0, [keycode, minval, maxval, lag]);
+    return makeUgen('KeyState', 1, rateKr, 0, [keycode, minval, maxval, lag]);
 }
 // Sine oscillator bank
 function Klang(freqscale, freqoffset, specificationsArrayRef) {
-    return makeUgen('Klang', 1, Rate.ar, 0, [freqscale, freqoffset].concat(arrayAsArray(specificationsArrayRef)));
+    return makeUgen('Klang', 1, rateAr, 0, [freqscale, freqoffset].concat(arrayAsArray(specificationsArrayRef)));
 }
 // Bank of resonators
 function Klank(input, freqscale, freqoffset, decayscale, specificationsArrayRef) {
@@ -386,55 +386,55 @@ function Klank(input, freqscale, freqoffset, decayscale, specificationsArrayRef)
 }
 // random walk linear interp
 function LFBrownNoise1(freq, dev, dist) {
-    return makeUgen('LFBrownNoise1', 1, Rate.ar, 0, [freq, dev, dist]);
+    return makeUgen('LFBrownNoise1', 1, rateAr, 0, [freq, dev, dist]);
 }
 // Clipped noise
 function LFClipNoise(freq) {
-    return makeUgen('LFClipNoise', 1, Rate.ar, 0, [freq]);
+    return makeUgen('LFClipNoise', 1, rateAr, 0, [freq]);
 }
 // A sine like shape made of two cubic pieces
 function LFCub(freq, iphase) {
-    return makeUgen('LFCub', 1, Rate.ar, 0, [freq, iphase]);
+    return makeUgen('LFCub', 1, rateAr, 0, [freq, iphase]);
 }
 // Dynamic ramp noise
 function LFDNoise1(freq) {
-    return makeUgen('LFDNoise1', 1, Rate.ar, 0, [freq]);
+    return makeUgen('LFDNoise1', 1, rateAr, 0, [freq]);
 }
 // Dynamic cubic noise
 function LFDNoise3(freq) {
-    return makeUgen('LFDNoise3', 1, Rate.ar, 0, [freq]);
+    return makeUgen('LFDNoise3', 1, rateAr, 0, [freq]);
 }
 // Gaussian function oscillator
 function LFGauss(duration, width, iphase, loop, doneAction) {
-    return makeUgen('LFGauss', 1, Rate.ar, 0, [duration, width, iphase, loop, doneAction]);
+    return makeUgen('LFGauss', 1, rateAr, 0, [duration, width, iphase, loop, doneAction]);
 }
 // Step noise
 function LFNoise0(freq) {
-    return makeUgen('LFNoise0', 1, Rate.ar, 0, [freq]);
+    return makeUgen('LFNoise0', 1, rateAr, 0, [freq]);
 }
 // Ramp noise
 function LFNoise1(freq) {
-    return makeUgen('LFNoise1', 1, Rate.ar, 0, [freq]);
+    return makeUgen('LFNoise1', 1, rateAr, 0, [freq]);
 }
 // Quadratic noise.
 function LFNoise2(freq) {
-    return makeUgen('LFNoise2', 1, Rate.ar, 0, [freq]);
+    return makeUgen('LFNoise2', 1, rateAr, 0, [freq]);
 }
 // Parabolic oscillator
 function LFPar(freq, iphase) {
-    return makeUgen('LFPar', 1, Rate.ar, 0, [freq, iphase]);
+    return makeUgen('LFPar', 1, rateAr, 0, [freq, iphase]);
 }
 // pulse oscillator
 function LFPulse(freq, iphase, width) {
-    return makeUgen('LFPulse', 1, Rate.ar, 0, [freq, iphase, width]);
+    return makeUgen('LFPulse', 1, rateAr, 0, [freq, iphase, width]);
 }
 // Sawtooth oscillator
 function LFSaw(freq, iphase) {
-    return makeUgen('LFSaw', 1, Rate.ar, 0, [freq, iphase]);
+    return makeUgen('LFSaw', 1, rateAr, 0, [freq, iphase]);
 }
 // Triangle oscillator
 function LFTri(freq, iphase) {
-    return makeUgen('LFTri', 1, Rate.ar, 0, [freq, iphase]);
+    return makeUgen('LFTri', 1, rateAr, 0, [freq, iphase]);
 }
 // 2nd order Butterworth lowpass filter
 function LPF(input, freq) {
@@ -466,7 +466,7 @@ function Latch(input, trig) {
 }
 // Latoocarfian chaotic generator
 function LatoocarfianC(freq, a, b, c, d, xi, yi) {
-    return makeUgen('LatoocarfianC', 1, Rate.ar, 0, [freq, a, b, c, d, xi, yi]);
+    return makeUgen('LatoocarfianC', 1, rateAr, 0, [freq, a, b, c, d, xi, yi]);
 }
 // Remove DC
 function LeakDC(input, coef) {
@@ -478,15 +478,15 @@ function Limiter(input, level, dur) {
 }
 // Linear congruential chaotic generator
 function LinCongC(freq, a, c, m, xi) {
-    return makeUgen('LinCongC', 1, Rate.ar, 0, [freq, a, c, m, xi]);
+    return makeUgen('LinCongC', 1, rateAr, 0, [freq, a, c, m, xi]);
 }
 // Line generator.
 function Line(start, end, dur, doneAction) {
-    return makeUgen('Line', 1, Rate.ar, 0, [start, end, dur, doneAction]);
+    return makeUgen('Line', 1, rateAr, 0, [start, end, dur, doneAction]);
 }
 // Simple linear envelope generator.
 function Linen(gate, attackTime, susLevel, releaseTime, doneAction) {
-    return makeUgen('Linen', 1, Rate.kr, 0, [gate, attackTime, susLevel, releaseTime, doneAction]);
+    return makeUgen('Linen', 1, rateKr, 0, [gate, attackTime, susLevel, releaseTime, doneAction]);
 }
 // Map a linear range to an exponential range
 function LinExp(input, srclo, srchi, dstlo, dsthi) {
@@ -498,7 +498,7 @@ function LinPan2(input, pos, level) {
 }
 // Skewed random number generator.
 function LinRand(lo, hi, minmax) {
-    return makeUgen('LinRand', 1, Rate.ir, 0, [lo, hi, minmax]);
+    return makeUgen('LinRand', 1, rateIr, 0, [lo, hi, minmax]);
 }
 // Two channel linear crossfade.
 function LinXFade2(inA, inB, pan) {
@@ -506,11 +506,11 @@ function LinXFade2(inA, inB, pan) {
 }
 // Allocate a buffer local to the synth
 function LocalBuf(numChannels, numFrames) {
-    return makeUgen('LocalBuf', 1, Rate.ir, 0, [numChannels, numFrames]);
+    return makeUgen('LocalBuf', 1, rateIr, 0, [numChannels, numFrames]);
 }
 // Define and read from buses local to a synth.
 function LocalIn(numChan, defaultValue) {
-    return makeUgen('LocalIn', numChan, Rate.ar, 0, [].concat(arrayAsArray(defaultValue)));
+    return makeUgen('LocalIn', numChan, rateAr, 0, [].concat(arrayAsArray(defaultValue)));
 }
 // Write to buses local to a synth.
 function LocalOut(channelsArray) {
@@ -518,7 +518,7 @@ function LocalOut(channelsArray) {
 }
 // Lorenz chaotic generator
 function LorenzL(freq, s, r, b, h, xi, yi, zi) {
-    return makeUgen('LorenzL', 1, Rate.ar, 0, [freq, s, r, b, h, xi, yi, zi]);
+    return makeUgen('LorenzL', 1, rateAr, 0, [freq, s, r, b, h, xi, yi, zi]);
 }
 // Two point average filter
 function LPZ1(input) {
@@ -534,7 +534,7 @@ function MantissaMask(input, bits) {
 }
 // LocalBuf count
 function MaxLocalBufs(count) {
-    return makeUgen('MaxLocalBufs', 1, Rate.ir, 0, [count]);
+    return makeUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
 }
 // Median filter.
 function Median(length, input) {
@@ -550,15 +550,15 @@ function MoogFF(input, freq, gain, reset) {
 }
 // Mouse button UGen.
 function MouseButton(minval, maxval, lag) {
-    return makeUgen('MouseButton', 1, Rate.kr, 0, [minval, maxval, lag]);
+    return makeUgen('MouseButton', 1, rateKr, 0, [minval, maxval, lag]);
 }
 // Cursor tracking UGen.
 function MouseX(minval, maxval, warp, lag) {
-    return makeUgen('MouseX', 1, Rate.kr, 0, [minval, maxval, warp, lag]);
+    return makeUgen('MouseX', 1, rateKr, 0, [minval, maxval, warp, lag]);
 }
 // Cursor tracking UGen.
 function MouseY(minval, maxval, warp, lag) {
-    return makeUgen('MouseY', 1, Rate.kr, 0, [minval, maxval, warp, lag]);
+    return makeUgen('MouseY', 1, rateKr, 0, [minval, maxval, warp, lag]);
 }
 // Multiply add
 function MulAdd(input, mul, add) {
@@ -570,11 +570,11 @@ function Normalizer(input, level, dur) {
 }
 // Sum of uniform distributions.
 function NRand(lo, hi, n) {
-    return makeUgen('NRand', 1, Rate.ir, 0, [lo, hi, n]);
+    return makeUgen('NRand', 1, rateIr, 0, [lo, hi, n]);
 }
 // Number of output busses.
 function NumOutputBuses() {
-    return makeUgen('NumOutputBuses', 1, Rate.ir, 0, []);
+    return makeUgen('NumOutputBuses', 1, rateIr, 0, []);
 }
 // One pole filter.
 function OnePole(input, coef) {
@@ -586,7 +586,7 @@ function OneZero(input, coef) {
 }
 // Interpolating wavetable oscillator.
 function Osc(bufnum, freq, phase) {
-    return makeUgen('Osc', 1, Rate.ar, 0, [bufnum, freq, phase]);
+    return makeUgen('Osc', 1, rateAr, 0, [bufnum, freq, phase]);
 }
 // Write a signal to a bus.
 function Out(bus, channelsArray) {
@@ -602,7 +602,7 @@ function PanAz(numChan, input, pos, level, width, orientation) {
 }
 // Ambisonic B-format panner.
 function PanB(input, azimuth, elevation, gain) {
-    return makeUgen('PanB', 4, Rate.ar, 0, [input, azimuth, elevation, gain]);
+    return makeUgen('PanB', 4, rateAr, 0, [input, azimuth, elevation, gain]);
 }
 // Track peak signal amplitude.
 function PeakFollower(input, decay) {
@@ -610,15 +610,15 @@ function PeakFollower(input, decay) {
 }
 // A resettable linear ramp between two levels.
 function Phasor(trig, rate, start, end, resetPos) {
-    return makeUgen('Phasor', 1, Rate.ar, 0, [trig, rate, start, end, resetPos]);
+    return makeUgen('Phasor', 1, rateAr, 0, [trig, rate, start, end, resetPos]);
 }
 // Pink Noise.
 function PinkNoise() {
-    return makeUgen('PinkNoise', 1, Rate.ar, 0, []);
+    return makeUgen('PinkNoise', 1, rateAr, 0, []);
 }
 // Autocorrelation pitch follower
 function Pitch(input, initFreq, minFreq, maxFreq, execFreq, maxBinsPerOctave, median, ampThreshold, peakThreshold, downSample, clar) {
-    return makeUgen('Pitch', 2, Rate.kr, 0, [input, initFreq, minFreq, maxFreq, execFreq, maxBinsPerOctave, median, ampThreshold, peakThreshold, downSample, clar]);
+    return makeUgen('Pitch', 2, rateKr, 0, [input, initFreq, minFreq, maxFreq, execFreq, maxBinsPerOctave, median, ampThreshold, peakThreshold, downSample, clar]);
 }
 // Time domain pitch shifter.
 function PitchShift(input, windowSize, pitchRatio, pitchDispersion, timeDispersion) {
@@ -626,7 +626,7 @@ function PitchShift(input, windowSize, pitchRatio, pitchDispersion, timeDispersi
 }
 // Sample playback oscillator.
 function PlayBuf(numChan, bufnum, rate, trigger, startPos, loop, doneAction) {
-    return makeUgen('PlayBuf', numChan, Rate.ar, 0, [bufnum, rate, trigger, startPos, loop, doneAction]);
+    return makeUgen('PlayBuf', numChan, rateAr, 0, [bufnum, rate, trigger, startPos, loop, doneAction]);
 }
 // A Karplus-Strong UGen
 function Pluck(input, trig, maxdelaytime, delaytime, decaytime, coef) {
@@ -634,7 +634,7 @@ function Pluck(input, trig, maxdelaytime, delaytime, decaytime, coef) {
 }
 // Band limited pulse wave.
 function Pulse(freq, width) {
-    return makeUgen('Pulse', 1, Rate.ar, 0, [freq, width]);
+    return makeUgen('Pulse', 1, rateAr, 0, [freq, width]);
 }
 // Pulse counter.
 function PulseCount(trig, reset) {
@@ -646,15 +646,15 @@ function PulseDivider(trig, div, start) {
 }
 // Pass random bins.
 function PV_RandComb(buffer, wipe, trig) {
-    return makeUgen('PV_RandComb', 1, Rate.kr, 0, [buffer, wipe, trig]);
+    return makeUgen('PV_RandComb', 1, rateKr, 0, [buffer, wipe, trig]);
 }
 // General quadratic map chaotic generator
 function QuadL(freq, a, b, c, xi) {
-    return makeUgen('QuadL', 1, Rate.ar, 0, [freq, a, b, c, xi]);
+    return makeUgen('QuadL', 1, rateAr, 0, [freq, a, b, c, xi]);
 }
 // General quadratic map chaotic generator
 function QuadC(freq, a, b, c, xi) {
-    return makeUgen('QuadC', 1, Rate.ar, 0, [freq, a, b, c, xi]);
+    return makeUgen('QuadC', 1, rateAr, 0, [freq, a, b, c, xi]);
 }
 // A resonant high pass filter.
 function RHPF(input, freq, rq) {
@@ -666,11 +666,11 @@ function RLPF(input, freq, rq) {
 }
 // Single random number generator.
 function Rand(lo, hi) {
-    return makeUgen('Rand', 1, Rate.ir, 0, [lo, hi]);
+    return makeUgen('Rand', 1, rateIr, 0, [lo, hi]);
 }
 // Record or overdub into a Buffer.
 function RecordBuf(bufnum, offset, recLevel, preLevel, run, loop, trigger, doneAction, inputArray) {
-    return makeUgen('RecordBuf', 1, Rate.ar, 0, [bufnum, offset, recLevel, preLevel, run, loop, trigger, doneAction].concat(arrayAsArray(inputArray)));
+    return makeUgen('RecordBuf', 1, rateAr, 0, [bufnum, offset, recLevel, preLevel, run, loop, trigger, doneAction].concat(arrayAsArray(inputArray)));
 }
 // Send signal to a bus, overwriting previous contents.
 function ReplaceOut(bus, channelsArray) {
@@ -698,15 +698,15 @@ function Rotate2(x, y, pos) {
 }
 // Duration of one sample.
 function SampleDur() {
-    return makeUgen('SampleDur', 1, Rate.ir, 0, []);
+    return makeUgen('SampleDur', 1, rateIr, 0, []);
 }
 // Server sample rate.
 function SampleRate() {
-    return makeUgen('SampleRate', 1, Rate.ir, 0, []);
+    return makeUgen('SampleRate', 1, rateIr, 0, []);
 }
 // Band limited sawtooth.
 function Saw(freq) {
-    return makeUgen('Saw', 1, Rate.ar, 0, [freq]);
+    return makeUgen('Saw', 1, rateAr, 0, [freq]);
 }
 // Schmidt trigger.
 function Schmidt(input, lo, hi) {
@@ -718,7 +718,7 @@ function Select(which, array) {
 }
 // Set local buffer
 function SetBuf(buf, offset, length, array) {
-    return makeUgen('SetBuf', 1, Rate.ir, 0, [buf, offset, length].concat(arrayAsArray(array)));
+    return makeUgen('SetBuf', 1, rateIr, 0, [buf, offset, length].concat(arrayAsArray(array)));
 }
 // Set-reset flip flop.
 function SetResetFF(trig, reset) {
@@ -726,11 +726,11 @@ function SetResetFF(trig, reset) {
 }
 // Interpolating sine wavetable oscillator.
 function SinOsc(freq, phase) {
-    return makeUgen('SinOsc', 1, Rate.ar, 0, [freq, phase]);
+    return makeUgen('SinOsc', 1, rateAr, 0, [freq, phase]);
 }
 // Feedback FM oscillator
 function SinOscFB(freq, feedback) {
-    return makeUgen('SinOscFB', 1, Rate.ar, 0, [freq, feedback]);
+    return makeUgen('SinOscFB', 1, rateAr, 0, [freq, feedback]);
 }
 // Slew rate limiter.
 function Slew(input, up, dn) {
@@ -754,11 +754,11 @@ function Sweep(trig, rate) {
 }
 // Hard sync sawtooth wave.
 function SyncSaw(syncFreq, sawFreq) {
-    return makeUgen('SyncSaw', 1, Rate.ar, 0, [syncFreq, sawFreq]);
+    return makeUgen('SyncSaw', 1, rateAr, 0, [syncFreq, sawFreq]);
 }
 // Demand results as trigger from demand rate UGens.
 function TDuty(dur, reset, doneAction, level, gapFirst) {
-    return makeUgen('TDuty', 1, Rate.ar, 0, [dur, reset, doneAction, level, gapFirst]);
+    return makeUgen('TDuty', 1, rateAr, 0, [dur, reset, doneAction, level, gapFirst]);
 }
 // Triggered exponential random number generator.
 function TExpRand(lo, hi, trig) {
@@ -766,7 +766,7 @@ function TExpRand(lo, hi, trig) {
 }
 // Buffer granulator.
 function TGrains(numChan, trigger, bufnum, rate, centerPos, dur, pan, amp, interp) {
-    return makeUgen('TGrains', numChan, Rate.ar, 0, [trigger, bufnum, rate, centerPos, dur, pan, amp, interp]);
+    return makeUgen('TGrains', numChan, rateAr, 0, [trigger, bufnum, rate, centerPos, dur, pan, amp, interp]);
 }
 // Returns time since last triggered.
 function Timer(trig) {
@@ -802,19 +802,19 @@ function TwoZero(input, freq, radius) {
 }
 // Variable duty saw
 function VarSaw(freq, iphase, width) {
-    return makeUgen('VarSaw', 1, Rate.ar, 0, [freq, iphase, width]);
+    return makeUgen('VarSaw', 1, rateAr, 0, [freq, iphase, width]);
 }
 // The Vibrato oscillator models a slow frequency modulation.
 function Vibrato(freq, rate, depth, delay, onset, rateVariation, depthVariation, iphase, trig) {
-    return makeUgen('Vibrato', 1, Rate.ar, 0, [freq, rate, depth, delay, onset, rateVariation, depthVariation, iphase, trig]);
+    return makeUgen('Vibrato', 1, rateAr, 0, [freq, rate, depth, delay, onset, rateVariation, depthVariation, iphase, trig]);
 }
 // Lose bits of your waves
 function WaveLoss(input, drop, outof, mode) {
-    return makeUgen('WaveLoss', 1, Rate.ar, 0, [input, drop, outof, mode]);
+    return makeUgen('WaveLoss', 1, rateAr, 0, [input, drop, outof, mode]);
 }
 // White noise.
 function WhiteNoise() {
-    return makeUgen('WhiteNoise', 1, Rate.ar, 0, []);
+    return makeUgen('WhiteNoise', 1, rateAr, 0, []);
 }
 // Wrap a signal outside given thresholds.
 function Wrap(input, lo, hi) {
@@ -830,7 +830,7 @@ function XFade2(inA, inB, pan, level) {
 }
 // Exponential line generator.
 function XLine(start, end, dur, doneAction) {
-    return makeUgen('XLine', 1, Rate.ar, 0, [start, end, dur, doneAction]);
+    return makeUgen('XLine', 1, rateAr, 0, [start, end, dur, doneAction]);
 }
 // Zero crossing frequency follower
 function ZeroCrossing(input) {
@@ -850,23 +850,23 @@ function CrossoverDistortion(input, amp, smooth) {
 }
 // A physical model of a system with dry-friction. A chaotic filter.
 function Friction(input, friction, spring, damp, mass, beltmass) {
-    return makeUgen('Friction', 1, Rate.ar, 0, [input, friction, spring, damp, mass, beltmass]);
+    return makeUgen('Friction', 1, rateAr, 0, [input, friction, spring, damp, mass, beltmass]);
 }
 // Waveguide mesh physical models of drum membranes
 function MembraneCircle(excitation, tension, loss) {
-    return makeUgen('MembraneCircle', 1, Rate.ar, 0, [excitation, tension, loss]);
+    return makeUgen('MembraneCircle', 1, rateAr, 0, [excitation, tension, loss]);
 }
 // vosim pulse generator
 function VOSIM(trig, freq, nCycles, decay) {
-    return makeUgen('VOSIM', 1, Rate.ar, 0, [trig, freq, nCycles, decay]);
+    return makeUgen('VOSIM', 1, rateAr, 0, [trig, freq, nCycles, decay]);
 }
 // a resonator
 function MiRings(input, trig, pit, struct, bright, damp, pos, model, poly, intern_exciter, easteregg, bypass) {
-    return makeUgen('MiRings', 2, Rate.ar, 0, [input, trig, pit, struct, bright, damp, pos, model, poly, intern_exciter, easteregg, bypass]);
+    return makeUgen('MiRings', 2, rateAr, 0, [input, trig, pit, struct, bright, damp, pos, model, poly, intern_exciter, easteregg, bypass]);
 }
 // (Undocumented class)
 function AnalogFoldOsc(freq, amp) {
-    return makeUgen('AnalogFoldOsc', 1, Rate.ar, 0, [freq, amp]);
+    return makeUgen('AnalogFoldOsc', 1, rateAr, 0, [freq, amp]);
 }
 // rotating clock divider
 function RCD(clock, rotate, reset, div, spread, auto, len, down, gates) {
@@ -874,23 +874,23 @@ function RCD(clock, rotate, reset, div, spread, auto, len, down, gates) {
 }
 // shuffling clock multiplier
 function SCM(clock, bpm, rotate, slip, shuffle, skip, pw) {
-    return makeUgen('SCM', 8, Rate.ar, 0, [clock, bpm, rotate, slip, shuffle, skip, pw]);
+    return makeUgen('SCM', 8, rateAr, 0, [clock, bpm, rotate, slip, shuffle, skip, pw]);
 }
 // (Undocumented class)
 function DustRange(iotMin, iotMax) {
-    return makeUgen('DustRange', 1, Rate.ar, 0, [iotMin, iotMax]);
+    return makeUgen('DustRange', 1, rateAr, 0, [iotMin, iotMax]);
 }
 // (Undocumented class)
 function ExpRandN(numChan, lo, hi) {
-    return makeUgen('ExpRandN', numChan, Rate.ir, 0, [lo, hi]);
+    return makeUgen('ExpRandN', numChan, rateIr, 0, [lo, hi]);
 }
 // (Undocumented class)
 function LinRandN(numChan, lo, hi, minmax) {
-    return makeUgen('LinRandN', numChan, Rate.ir, 0, [lo, hi, minmax]);
+    return makeUgen('LinRandN', numChan, rateIr, 0, [lo, hi, minmax]);
 }
 // (Undocumented class)
 function RandN(numChan, lo, hi) {
-    return makeUgen('RandN', numChan, Rate.ir, 0, [lo, hi]);
+    return makeUgen('RandN', numChan, rateIr, 0, [lo, hi]);
 }
 // (Undocumented class)
 function TScramble(trigger, inputs) {
@@ -898,11 +898,11 @@ function TScramble(trigger, inputs) {
 }
 // (Undocumented class)
 function DX7(bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc) {
-    return makeUgen('DX7', 1, Rate.ar, 0, [bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc]);
+    return makeUgen('DX7', 1, rateAr, 0, [bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc]);
 }
 // (Undocumented class)
 function RDX7Env(gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol) {
-    return makeUgen('RDX7Env', 1, Rate.ar, 0, [gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol]);
+    return makeUgen('RDX7Env', 1, rateAr, 0, [gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol]);
 }
 // (Undocumented class)
 function ObxdFilter(input, cutoff, resonance, multimode, bandpass, fourpole) {
@@ -910,7 +910,7 @@ function ObxdFilter(input, cutoff, resonance, multimode, bandpass, fourpole) {
 }
 // (Undocumented class)
 function SvfBp(input, freq, q) {
-    return makeUgen('SvfBp', 1, Rate.ar, 0, [input, freq, q]);
+    return makeUgen('SvfBp', 1, rateAr, 0, [input, freq, q]);
 }
 // (Undocumented class)
 function SvfHp(input, freq, q) {
@@ -918,19 +918,19 @@ function SvfHp(input, freq, q) {
 }
 // (Undocumented class)
 function SvfLp(input, freq, q) {
-    return makeUgen('SvfLp', 1, Rate.ar, 0, [input, freq, q]);
+    return makeUgen('SvfLp', 1, rateAr, 0, [input, freq, q]);
 }
 // (Undocumented class)
 function Bezier(haltAfter, dx, freq, phase, param) {
-    return makeUgen('Bezier', 1, Rate.ar, 0, [haltAfter, dx, freq, phase].concat(arrayAsArray(param)));
+    return makeUgen('Bezier', 1, rateAr, 0, [haltAfter, dx, freq, phase].concat(arrayAsArray(param)));
 }
 // (Undocumented class)
 function Freezer(bufnum, left, right, gain, increment, incrementOffset, incrementRandom, rightRandom, syncPhaseTrigger, randomizePhaseTrigger, numberOfLoops) {
-    return makeUgen('Freezer', 1, Rate.ar, 0, [bufnum, left, right, gain, increment, incrementOffset, incrementRandom, rightRandom, syncPhaseTrigger, randomizePhaseTrigger, numberOfLoops]);
+    return makeUgen('Freezer', 1, rateAr, 0, [bufnum, left, right, gain, increment, incrementOffset, incrementRandom, rightRandom, syncPhaseTrigger, randomizePhaseTrigger, numberOfLoops]);
 }
 // (Undocumented class)
 function ShufflerB(bufnum, readLocationMinima, readLocationMaxima, readIncrementMinima, readIncrementMaxima, durationMinima, durationMaxima, envelopeAmplitudeMinima, envelopeAmplitudeMaxima, envelopeShapeMinima, envelopeShapeMaxima, envelopeSkewMinima, envelopeSkewMaxima, stereoLocationMinima, stereoLocationMaxima, interOffsetTimeMinima, interOffsetTimeMaxima, ftableReadLocationIncrement, readIncrementQuanta, interOffsetTimeQuanta) {
-    return makeUgen('ShufflerB', 2, Rate.ar, 0, [bufnum, readLocationMinima, readLocationMaxima, readIncrementMinima, readIncrementMaxima, durationMinima, durationMaxima, envelopeAmplitudeMinima, envelopeAmplitudeMaxima, envelopeShapeMinima, envelopeShapeMaxima, envelopeSkewMinima, envelopeSkewMaxima, stereoLocationMinima, stereoLocationMaxima, interOffsetTimeMinima, interOffsetTimeMaxima, ftableReadLocationIncrement, readIncrementQuanta, interOffsetTimeQuanta]);
+    return makeUgen('ShufflerB', 2, rateAr, 0, [bufnum, readLocationMinima, readLocationMaxima, readIncrementMinima, readIncrementMaxima, durationMinima, durationMaxima, envelopeAmplitudeMinima, envelopeAmplitudeMaxima, envelopeShapeMinima, envelopeShapeMaxima, envelopeSkewMinima, envelopeSkewMaxima, stereoLocationMinima, stereoLocationMaxima, interOffsetTimeMinima, interOffsetTimeMaxima, ftableReadLocationIncrement, readIncrementQuanta, interOffsetTimeQuanta]);
 }
 
 function add(a, b) { return BinaryOp(0, a, b); }

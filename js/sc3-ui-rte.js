@@ -18,12 +18,13 @@ var quill_options = {
     theme: 'snow'
 };
 
-function text_editor_init() {
+function ui_rte_init() {
     quill_text_editor = new Quill('#text_editor', quill_options);
     quill_text_editor.root.setAttribute('spellcheck', false);
+    console.debug('ui_rte_init: finished');
 }
 
-function text_editor_get_selected_text() {
+function ui_rte_get_selected_text() {
     var range = quill_text_editor.getSelection();
     var emptyString = '';
     if (range) {
@@ -38,22 +39,22 @@ function text_editor_get_selected_text() {
     }
 }
 
-function text_editor_get_text() {
-    return text_editor_get_selected_text();
-}
-
-function text_editor_set_text(programText) {
+function ui_rte_set_text(programText) {
     quill_text_editor.root.innerHTML = programText;
 }
 
 function editor_get_js_notation_and_then(proc) {
-    translate_if_required_and_then(text_editor_get_text(), proc);
+    translate_if_required_and_then(ui_rte_get_selected_text(), proc);
 }
 
+var text_editor_get_selected_text = ui_rte_get_selected_text;
+
+// Get text (as .html)
 function editor_get_data() {
     return quill_text_editor.root.innerHTML;
 }
 
+// Set text (from .html)
 function editor_set_data(programData) {
     quill_text_editor.root.innerHTML = programData;
 }

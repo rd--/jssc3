@@ -17,38 +17,38 @@ function makeCounter() {
 // () -> int
 var ugenCounter = makeCounter();
 
-class Ugen {
-    constructor(name, nc, rt, op, inputs) {
-        this.ugenName = name; // str
-        this.numChan = nc; // int
-        this.ugenRate = rt; // int
-        this.specialIndex = op; // maybe int
-        this.ugenId = ugenCounter(); // int
-        this.inputValues = inputs; // [number | port]
-        this.mrg = [];
-    }
+function Ugen(name, nc, rt, op, inputs) {
+    return {
+        ugenName: name, // string
+        numChan: nc, // number
+        ugenRate: rt, // number
+        specialIndex: op, // maybe number
+        ugenId: ugenCounter(), // number
+        inputValues: inputs, // [number | port]
+        mrg: [] // [ugen]
+    };
 }
 
-// * -> bool
+// any -> boolean
 function isUgen(obj) {
-    return obj.constructor === Ugen;
+    return obj && obj.ugenName !== undefined;
 }
 
-class Port {
-    constructor(ugen, index) {
-        this.ugen = ugen; // ugen
-        this.index = index; // int
-    }
+function Port(ugen, index) {
+    return {
+        ugen: ugen, // ugen
+        index: index // number
+    };
 }
 
 function isPort(obj) {
-    return obj instanceof Port;
+    return obj && obj.ugen !== undefined && obj.index !== undefined;
 }
 
 // input = port | number
 function inputRate(input) {
     console.debug('inputRate', input);
-    return isPort(input) ? input.ugen.ugenRate : (isNumber(input) ? Rate.ir : console.error('inputRate: ', input));
+    return isPort(input) ? input.ugen.ugenRate : (isNumber(input) ? rateIr : console.error('inputRate: ', input));
 }
 
 // If rate is a scalar it is the operating rate, if it is an array it is indices into the inputs telling how to derive the rate.
@@ -62,50 +62,50 @@ function makeUgen(name, nc, rt, op, inputs) {
     if(arrayContainsArray(inputs)) {
         return arrayTranspose(arrayExtendToBeOfEqualSize(inputs)).map(item => makeUgen(name, nc, rt, op, item));
     } else {
-        var u = new Ugen(name, nc, deriveRate(rt, inputs), op, inputs);
+        var u = Ugen(name, nc, deriveRate(rt, inputs), op, inputs);
         switch(nc) {
-            case 0: return (new Port(u, null));
-            case 1: return (new Port(u, 0));
-            default: return arrayFillWithIndex(nc, i => new Port(u, i));
+            case 0: return (Port(u, null));
+            case 1: return (Port(u, 0));
+            default: return arrayFillWithIndex(nc, i => Port(u, i));
         }
     }
 }
 
-Ugen.prototype.displayName = function() {
-    switch(this.ugenName) {
-    case 'UnaryOpUGen': return objectKeyFromValue(unaryOperators, this.specialIndex);
-    case 'BinaryOpUGen': return objectKeyFromValue(binaryOperators, this.specialIndex);
-    default: return this.ugenName;
+function ugenDisplayName(ugen) {
+    switch(ugen.ugenName) {
+    case 'UnaryOpUGen': return objectKeyFromValue(unaryOperators, ugen.specialIndex);
+    case 'BinaryOpUGen': return objectKeyFromValue(binaryOperators, ugen.specialIndex);
+    default: return ugen.ugenName;
     }
-};
+}
 
 // Mrg
 
-// inputFirstUgen([SinOsc([440, 441], 0), SinOsc(442, 0)])
-function inputFirstUgen(i) {
-    if(Array.isArray(i)) {
-        console.debug('inputFirstUgen: array', i);
-        return i.find(inputFirstUgen).ugen || null;
-    } else if(isPort(i)) {
-        console.debug('inputFirstUgen: port', i);
-        return i.ugen;
+// inputFirstUgen([0, SinOsc([440, 441], 0), SinOsc(442, 0)])
+function inputFirstUgen(input) {
+    if(isArray(input)) {
+        console.debug('inputFirstUgen: array', input);
+        return arrayFind(arrayMap(input, inputFirstUgen), isUgen) || null;
+    } else if(isPort(input)) {
+        console.debug('inputFirstUgen: port', input);
+        return input.ugen;
     } else {
-        console.debug('inputFirstUgen: number?', i);
+        console.debug('inputFirstUgen: number?', input);
         return null;
     }
 }
 
 function mrg(lhs,rhs) {
-    var u = inputFirstUgen(lhs);
-    console.debug('mrg', lhs, rhs, u);
-    if(u) {
-        if(Array.isArray(rhs)) {
-            rhs.forEach(item => u.mrg.push(item));
+    var ugen = inputFirstUgen(lhs);
+    console.debug('mrg', lhs, rhs, ugen);
+    if(ugen) {
+        if(isArray(rhs)) {
+            arrayForEach(rhs, item => arrayPush(ugen.mrg, item));
         } else {
-            u.mrg.push(rhs);
+            arrayPush(ugen.mrg, rhs);
         }
     } else {
-        console.error("mrg?");
+        console.error("mrg: no ugen?");
     }
     return lhs;
 }

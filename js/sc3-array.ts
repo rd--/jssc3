@@ -1,71 +1,80 @@
 'use strict';
 
+function isArray(aValue: any): boolean {
+    return Array.isArray(aValue);
+}
+
+// arrayAppend([1, 2, 3], [4, 5, 6]) //= [1, 2, 3, 4, 5, 6]
+function arrayAppend(lhs: any[], rhs: any[]): any[] {
+    return lhs.concat(rhs);
+}
+
 // [1, [1, 2]].map(arrayAsArray) //= [[1], [1, 2]]
-function arrayAsArray(maybeArray : any) : any[] {
-    return Array.isArray(maybeArray) ? maybeArray : [maybeArray];
+function arrayAsArray(maybeArray: any): any[] {
+    return Array.isArray(maybeArray) ? maybeArray: [maybeArray];
 }
 
 // arrayAt([1, 2, 3, 4], 3) === 4
-function arrayAt(array : any[], index : number) : any {
-    return array[index];
+function arrayAt(anArray: any[], index: number): any {
+    return anArray[index];
 }
 
 // arrayAtIndices([1, 2, 3], [0, 2]) //= [1, 3]
-function arrayAtIndices(array : any[], indices : number[]) : any[] {
-    return indices.map(index => array[index]);
+function arrayAtIndices(anArray: any[], indices: number[]): any[] {
+    return indices.map(index => anArray[index]);
 }
 
 // arrayAtWrap([1, 2, 3], 5) === 3
-function arrayAtWrap(array : any[], index : number) : any {
-    console.debug('atWrap', array, index);
-    return array[index % array.length];
+function arrayAtWrap(anArray: any[], index: number): any {
+    console.debug('atWrap', anArray, index);
+    return anArray[index % anArray.length];
 }
 
 // arrayClump(arrayIota(20), 5)
-function arrayClump(array : any[], n : number) : any[] {
-    var k = Math.ceil(array.length / n);
-    return arrayIota(k).map(i => array.slice(i * n, i * n + n));
+function arrayClump(anArray: any[], n: number): any[] {
+    var k = Math.ceil(anArray.length / n);
+    return arrayIota(k).map(i => anArray.slice(i * n, i * n + n));
 }
 
 // arrayConcatenation([[1, 2, 3], [4, 5]]) //= [1, 2, 3, 4, 5]
-function arrayConcatenation(array : any[][] ) : any[] {
-    return array.flat(1);
+function arrayConcatenation(anArray: any[][] ): any[] {
+    return anArray.flat(1);
 }
 
 // arrayContainsarray([1, 2, [3, 4]]) === true
-function arrayContainsArray(array : any[]) : boolean {
-    return array.some(item => Array.isArray(item));
+function arrayContainsArray(anArray: any[]): boolean {
+    return anArray.some(item => Array.isArray(item));
 }
 
 // arrayDropWhile([1, 2, 3, 4], x => x < 3) //= [3, 4]
-function arrayDropWhile(array : any[], predicate : (x : any) => boolean) {
-    var [x, ...xs] = array;
-    if (array.length > 0 && predicate(x)) {
+function arrayDropWhile(anArray: any[], predicate: (x: any) => boolean) : any[] {
+    var [x, ...xs] = anArray;
+    if (anArray.length > 0 && predicate(x)) {
         return arrayDropWhile(xs, predicate);
     } else {
-        return array;
+        return anArray;
     }
 }
 
 // arrayExtendCyclically([1, 2, 3], 8) //= [1, 2, 3, 1, 2, 3, 1, 2]
-function arrayExtendCyclically(array : any[], size : number) : any[] {
-    var k = array.length;
-    var result = array.slice(0, k);
+function arrayExtendCyclically(anArray: any[], size: number): any[] {
+    var k = anArray.length;
+    var result = anArray.slice(0, k);
     for(var x = 0; x < size - k; x += 1) {
-        result.push(arrayAtWrap(array, x));
+        result.push(arrayAtWrap(anArray, x));
     }
     return result;
 }
 
 // arrayExtendToBeOfEqualSize([[1, 2], [3, 4, 5]]) //= [[1, 2, 1], [3, 4, 5]]
 // arrayExtendToBeOfEqualSize([[440, 550], 0]) //= [[440, 550], [0, 0]]
-function arrayExtendToBeOfEqualSize(array : any[][]) : any[][] {
-    var m = arrayMaxItem(array.map(item => Array.isArray(item) ? item.length : 1));
-    return array.map(item => arrayExtendCyclically(Array.isArray(item) ? item : [item], m));
+function arrayExtendToBeOfEqualSize(anArray: any[][]): any[][] {
+    var m = arrayMaxItem(anArray.map(item => Array.isArray(item) ? item.length: 1));
+    return anArray.map(item => arrayExtendCyclically(Array.isArray(item) ? item: [item], m));
 }
 
 // arrayFill(5, () => Math.random())
-function arrayFill(k : number, f : (x : void) => any) : any[] {
+function arrayFill(k: number, f: (x: void) => any): any[] {
     if(f.length != 0) {
         console.error('arrayFill: arity error');
     }
@@ -73,24 +82,40 @@ function arrayFill(k : number, f : (x : void) => any) : any[] {
 }
 
 // arrayFillWithIndex(5, i => i * i) //= [0, 1, 4, 9, 16]
-function arrayFillWithIndex(k : number, f : (x : any) => any) : any[] {
+function arrayFillWithIndex(k: number, f: (x: any) => any): any[] {
     if(f.length != 1) {
         console.error('arrayFillWithIndex: arity error');
     }
     return arrayIota(k).map(f);
 }
 
-function arrayFirst(array : any[]) : any {
-    return array[0];
+function arrayFilter(anArray: any[], aFunction: (x : any) => boolean): any[] {
+    return anArray.filter(aFunction);
+}
+
+function arrayFind(anArray: any[], aFunction: (x : any) => boolean): any {
+    return anArray.find(aFunction);
+}
+
+function arrayFindIndex(anArray: any[], aFunction: (x : any) => boolean): number {
+    return anArray.findIndex(aFunction);
+}
+
+function arrayFirst(anArray: any[]): any {
+    return anArray[0];
+}
+
+function arrayForEach(anArray: any[], aFunction: (x : any) => void): void {
+    anArray.forEach(aFunction);
 }
 
 // arrayFromTo(1, 5) //= [1, 2, 3, 4, 5]
-function arrayFromTo(from : number, to : number) : number[] {
+function arrayFromTo(from: number, to: number): number[] {
     return arrayFromToBy(from, to, 1);
 }
 
 // arrayFromToBy(1, 9, 2) //= [1, 3, 5, 7, 9]
-function arrayFromToBy(from : number, to : number, by : number) : number[] {
+function arrayFromToBy(from: number, to: number, by: number): number[] {
     var r = [];
     for(var i = from; i <= to; i += by) {
         r.push(i);
@@ -98,29 +123,45 @@ function arrayFromToBy(from : number, to : number, by : number) : number[] {
     return r;
 }
 
+function arrayIndexOf(anArray: any[], aValue: any): number {
+    return anArray.indexOf(aValue);
+}
+
 // arrayIota(5) //= [0, 1, 2, 3, 4]
-function arrayIota(k : number) : number[] {
+function arrayIota(k: number): number[] {
     return arrayFromTo(0, k - 1);
 }
 
+function arrayLength(anArray: any[]): number {
+    return anArray.length;
+}
+
+function arrayMap(anArray: any[], aFunction: (x : any) => any): any[] {
+    return anArray.map(aFunction);
+}
+
 // arrayMaxItem([1, 2, 3, 4, 3, 2, 1]) === 4
-function arrayMaxItem(array : number[]) : number {
-    return array.reduce((i, j) => Math.max(i, j));
+function arrayMaxItem(anArray: number[]): number {
+    return anArray.reduce((i, j) => Math.max(i, j));
 }
 
 // Delete duplicate entries, retain ordering
 // arrayNub([1, 2, 3, 2, 1, 2, 3, 4, 3, 2, 1]) //= [1, 2, 3, 4]
-function arrayNub(array : any[]) : any[] {
-    return array.filter((item, index) => array.indexOf(item) === index);
+function arrayNub(anArray: any[]): any[] {
+    return anArray.filter((item, index) => anArray.indexOf(item) === index);
+}
+
+function arrayPush(anArray: any[], aValue: any): number {
+    return anArray.push(aValue);
 }
 
 // arrayReplicate(5, 1) //= [1, 1, 1, 1, 1]
-function arrayReplicate(k : number, v : any) : any[] {
+function arrayReplicate(k: number, v: any): any[] {
     return arrayIota(k).map(unusedItem => v);
 }
 
 // arrayShallowEq([1, 2, 3], [1, 2, 3]) === true
-function arrayShallowEq(lhs : any[], rhs : any[]) : boolean {
+function arrayShallowEq(lhs: any[], rhs: any[]): boolean {
     if (lhs === rhs) {
         return true;
     }
@@ -135,15 +176,23 @@ function arrayShallowEq(lhs : any[], rhs : any[]) : boolean {
     return true;
 }
 
+function arraySort(anArray: any[], aFunction: (x : any, y: any) => number): any[] {
+    return anArray.sort(aFunction);
+}
+
+function arraySum(anArray: number[]): number {
+    return anArray.reduce((lhs, rhs) => lhs + rhs);
+}
+
 // arrayTail([1, 2, 3, 4]) // => [2, 3, 4]
-function arrayTail(array : any[]) : any[] {
-    return array.slice(1, array.length);
+function arrayTail(anArray: any[]): any[] {
+    return anArray.slice(1, anArray.length);
 }
 
 // arrayTakeWhile([1, 2, 3, 4], x => x < 3) //= [1, 2]
-function arrayTakeWhile(array : any[], predicate : (x : any) => boolean) : any[] {
-    var [x, ...xs] = array;
-    if (array.length > 0 && predicate(x)) {
+function arrayTakeWhile(anArray: any[], predicate: (x: any) => boolean): any[] {
+    var [x, ...xs] = anArray;
+    if (anArray.length > 0 && predicate(x)) {
         return [x, ...arrayTakeWhile(xs, predicate)];
     } else {
         return [];
@@ -151,12 +200,12 @@ function arrayTakeWhile(array : any[], predicate : (x : any) => boolean) : any[]
 }
 
 // arrayTranspose([[1, 2, 3], [4, 5, 6]]) //= [[1, 4], [2, 5], [3, 6]]
-function arrayTranspose(array : any[][])  : any[][] {
-    return array[0].map((col, i) => array.map(row => row[i]));
+function arrayTranspose(anArray: any[][]) : any[][] {
+    return anArray[0].map((col, i) => anArray.map(row => row[i]));
 }
 
 // arrayTreeEq([1, 2, [3, [4, 5]]], [1, 2, [3, [4, 5]]])
-function arrayTreeEq(lhs : any[], rhs : any[]) : boolean {
+function arrayTreeEq(lhs: any[], rhs: any[]): boolean {
     if (lhs === rhs) {
         return true;
     }
@@ -177,8 +226,8 @@ function arrayTreeEq(lhs : any[], rhs : any[]) : boolean {
     return true;
 }
 
-function arrayUnlines(array : string[]) : string {
-    return array.join('\n');
+function arrayUnlines(anArray: string[]): string {
+    return anArray.join('\n');
 }
 
 var array = {

@@ -2,7 +2,8 @@ Parts of this code are shared between:
 
 1. blksc3 block editor (.xml format)
 2. jssc3 plain text editor (.text format)
-3. jssc3 rich text editor (.html format)
+3. jssc3 superscript (rich text editor) (.html format)
+4. jssc3 supercalc (grid editor) (.json format)
 
 The common editor operations are:
 
@@ -10,7 +11,7 @@ The common editor operations are:
 2. editor_get_data(), to fetch the storable data from the editor (.xml or .text or .html)
 3. editor_set_data(programData), to load stored data into the editor (.xml or .text or .html)
 
-For text editors there is also a _text_editor_get_text_ function to get the currently selected text.
+For text editors there is also a _text_editor_get_selected_text_ function to get the _currently selected_ text.
 
 In addition some text editor contexts allow a translation stage, from .stc notation to .js notation.
 This translation is handled prior to editor_get_js_notation_and_then(), which returns .js notation.
@@ -30,3 +31,26 @@ C.f.
 
 1. print, print unit generator sequence
 2. draw, draw unit generator graph
+
+# Modules
+
+Some parts of this could be in organised as modules, which would help clarify inter-connections.
+However an important part of the system is exporting names to the _top-level_, for evaluation in the browser.
+For these parts it's much simpler to use a traditional load sequence.
+For the moment the simplest improvement would be to to _cat_ the various required files together in sequence.
+Files that are _optional_ would still need to be loaded separately as required.
+
+# Typescript
+
+TypeScript interacts with the module system.
+Files that are completely self contained are written with .ts annotations and compiled from .ts to .js as an experiment.
+If <https://github.com/tc39/proposal-type-annotations> proceeds these would be ordinary .js files with type comments.
+TypeScript is very slow.
+
+# Relation to Scheme
+
+It is possible to work in a subset of Js that will translate very simply to R5RS Scheme (Scm).
+It would be nice if jssc3 and rsc3 could be translated into one another.
+It's not entirely straightforwards to do this for any code using _this_.
+This makes some expressions a little more verbose, however Js is quite complicated and this also avoids some difficulties.
+The simple rule would be that _p.q_ means _dictionaryAt(p, 'q')_ and _p.q(...)_ means _q(p...)_.

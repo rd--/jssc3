@@ -1,5 +1,20 @@
 'use strict';
 
+function ADSR(gate, attackTime, decayTime, sustainLevel, releaseTime, curve) {
+    var env = EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, curve);
+    return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
+}
+
+function ASR(gate, attackTime, releaseTime, curve) {
+    var env = EnvASR(attackTime, 1, releaseTime, curve);
+    return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
+}
+
+function Cutoff(sustainTime, releaseTime, curve) {
+    var env = EnvCutoff(sustainTime, releaseTime, curve);
+    return EnvGen(1, 1, 0, 1, 0, envCoord(env));
+}
+
 function Splay(inArray, spread, level, center, levelComp) {
     var n = Math.max(2, inArray.length);
     var pos = arrayFromTo(0, n - 1).map(item => add(mul(sub(mul(item, fdiv(2, sub(n, 1))), 1), spread), center));
@@ -65,12 +80,12 @@ function Ln(start, end, dur) {
 
 function TLine(start, end, dur, trig) {
     var env = Env([start, start, end], [0, dur], 'lin', null, null, 0);
-    return EnvGen(trig, 1, 0, 1, 0, env.coord());
+    return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
 }
 
 function TXLine(start, end, dur, trig) {
     var env = Env([start, start, end], [0, dur], 'exp', null, null, 0);
-    return EnvGen(trig, 1, 0, 1, 0, env.coord());
+    return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
 }
 
 function bitShiftRight(a, b) {
@@ -129,7 +144,7 @@ function LinSeg(gate, coordArray) {
     var levels = first(coord);
     var times = second(coord);
     var env = Env(levels, times.slice(0, times.length - 1), 'lin', null, null, 0);
-    return EnvGen(gate, 1, 0, 1, 0, env.coord());
+    return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 
 function SelectX(which, array) {

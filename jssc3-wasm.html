@@ -33,6 +33,8 @@
     <script src="js/sc3-midi-mpe.js"></script>
     <script src="js/sc3-pointer.js"></script>
     <script src="js/sc3-pseudo.js"></script>
+    <script src="js/sc3-rate.js"></script>
+    <script src="js/sc3-set.js"></script>
     <script src="js/sc3-servercommand.js"></script>
     <script src="js/sc3-smalltalk.js"></script>
     <script src="js/sc3-stc.js"></script>
@@ -46,7 +48,7 @@
     <script>
 window.onload = function () {
     sc3_ui_init('', true, true, false, false, null, 'jssc3UserPrograms/js', load_graph, true, 4096, 48);
-    text_editor_init();
+    ui_pte_init();
     sc3_wasm_init();
     jssc3_init('e', null, 's');
 };

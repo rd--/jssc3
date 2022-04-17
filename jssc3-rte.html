@@ -21,6 +21,7 @@
     <script src="js/sc3-object.js"></script>
     <script src="js/sc3-opensoundcontrol.js"></script>
     <script src="js/sc3-rate.js"></script>
+    <script src="js/sc3-set.js"></script>
     <script src="js/sc3-soundfile.js"></script>
     <script src="js/sc3-string.js"></script>
     <script src="js/sc3-u8.js"></script>
@@ -47,7 +48,7 @@
     <script>
 window.onload = function () {
     sc3_ui_init('', false, false, false, true, '.html', 'jssc3UserPrograms/html', load_graph, true, 4096, 48);
-    text_editor_init();
+    ui_rte_init();
     sc3_wasm_init();
     jssc3_init('e', 'help/essay/jssc3-1.html', null);
 };
