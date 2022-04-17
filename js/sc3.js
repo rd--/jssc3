@@ -183,7 +183,7 @@ function BinaryOpWithConstantOptimiser(ix, a, b) {
 
 function BinaryOp(ix, a, b) {
     if(Array.isArray(a) || Array.isArray(b)) {
-        var expanded = arrayTranspose(arrayExtendToBeOfEqualSize([unitArrayIfScalar(a), unitArrayIfScalar(b)]));
+        var expanded = arrayTranspose(arrayExtendToBeOfEqualSize([arrayAsArray(a), arrayAsArray(b)]));
         console.debug('BinaryOp: array constant', expanded);
         return expanded.map(item => BinaryOpWithConstantOptimiser(ix, item[0], item[1]));
     } else {

@@ -51,3 +51,16 @@ function encodePascalString(string) {
     }
     return e;
 }
+
+var encode = {
+    float32: encodeFloat32,
+    float32Array: encodeFloat32Array,
+    int16: encodeInt16,
+    int32: encodeInt32,
+    int8: encodeInt8,
+    pascalString: encodePascalString,
+    uint8: encodeUint8,
+    using: encodeUsing
+};
+
+// export { encode };

@@ -94,7 +94,7 @@ function BufSampleRate(bufnum) {
 }
 // Buffer writing oscillator.
 function BufWr(bufnum, phase, loop, inputArray) {
-    return makeUgen('BufWr', 1, [3], 0, [bufnum, phase, loop].concat(unitArrayIfScalar(inputArray)));
+    return makeUgen('BufWr', 1, [3], 0, [bufnum, phase, loop].concat(arrayAsArray(inputArray)));
 }
 // (Undocumented class)
 function ClearBuf(buf) {
@@ -190,7 +190,7 @@ function DelayN(input, maxdelaytime, delaytime) {
 }
 // Demand results from demand rate UGens.
 function Demand(trig, reset, demandUGens) {
-    return makeUgen('Demand', unitArrayIfScalar(demandUGens).length, [0], 0, [trig, reset].concat(unitArrayIfScalar(demandUGens)));
+    return makeUgen('Demand', arrayAsArray(demandUGens).length, [0], 0, [trig, reset].concat(arrayAsArray(demandUGens)));
 }
 // Detect when input falls below an amplitude threshold
 function DetectSilence(input, amp, time, doneAction) {
@@ -202,11 +202,11 @@ function Diwhite(length, lo, hi) {
 }
 // Demand rate random sequence generator.
 function Drand(repeats, list) {
-    return makeUgen('Drand', 1, Rate.dr, 0, [repeats].concat(unitArrayIfScalar(list)));
+    return makeUgen('Drand', 1, Rate.dr, 0, [repeats].concat(arrayAsArray(list)));
 }
 // Demand rate sequence generator.
 function Dseq(repeats, list) {
-    return makeUgen('Dseq', 1, Rate.dr, 0, [repeats].concat(unitArrayIfScalar(list)));
+    return makeUgen('Dseq', 1, Rate.dr, 0, [repeats].concat(arrayAsArray(list)));
 }
 // Demand rate arithmetic series UGen.
 function Dseries(length, start, step) {
@@ -214,7 +214,7 @@ function Dseries(length, start, step) {
 }
 // Demand rate random sequence generator
 function Dshuf(repeats, list) {
-    return makeUgen('Dshuf', 1, Rate.dr, 0, [repeats].concat(unitArrayIfScalar(list)));
+    return makeUgen('Dshuf', 1, Rate.dr, 0, [repeats].concat(arrayAsArray(list)));
 }
 // Random impulses.
 function Dust(density) {
@@ -234,7 +234,7 @@ function DWGPluckedStiff(freq, amp, gate, pos, c1, c3, inp, release, fB) {
 }
 // Envelope generator
 function EnvGen(gate, levelScale, levelBias, timeScale, doneAction, envelope) {
-    return makeUgen('EnvGen', 1, Rate.ar, 0, [gate, levelScale, levelBias, timeScale, doneAction].concat(unitArrayIfScalar(envelope)));
+    return makeUgen('EnvGen', 1, Rate.ar, 0, [gate, levelScale, levelBias, timeScale, doneAction].concat(arrayAsArray(envelope)));
 }
 // Exponential single random number generator.
 function ExpRand(lo, hi) {
@@ -378,11 +378,11 @@ function KeyState(keycode, minval, maxval, lag) {
 }
 // Sine oscillator bank
 function Klang(freqscale, freqoffset, specificationsArrayRef) {
-    return makeUgen('Klang', 1, Rate.ar, 0, [freqscale, freqoffset].concat(unitArrayIfScalar(specificationsArrayRef)));
+    return makeUgen('Klang', 1, Rate.ar, 0, [freqscale, freqoffset].concat(arrayAsArray(specificationsArrayRef)));
 }
 // Bank of resonators
 function Klank(input, freqscale, freqoffset, decayscale, specificationsArrayRef) {
-    return makeUgen('Klank', 1, [0], 0, [input, freqscale, freqoffset, decayscale].concat(unitArrayIfScalar(specificationsArrayRef)));
+    return makeUgen('Klank', 1, [0], 0, [input, freqscale, freqoffset, decayscale].concat(arrayAsArray(specificationsArrayRef)));
 }
 // random walk linear interp
 function LFBrownNoise1(freq, dev, dist) {
@@ -510,11 +510,11 @@ function LocalBuf(numChannels, numFrames) {
 }
 // Define and read from buses local to a synth.
 function LocalIn(numChan, defaultValue) {
-    return makeUgen('LocalIn', numChan, Rate.ar, 0, [].concat(unitArrayIfScalar(defaultValue)));
+    return makeUgen('LocalIn', numChan, Rate.ar, 0, [].concat(arrayAsArray(defaultValue)));
 }
 // Write to buses local to a synth.
 function LocalOut(channelsArray) {
-    return makeUgen('LocalOut', 0, [0], 0, [].concat(unitArrayIfScalar(channelsArray)));
+    return makeUgen('LocalOut', 0, [0], 0, [].concat(arrayAsArray(channelsArray)));
 }
 // Lorenz chaotic generator
 function LorenzL(freq, s, r, b, h, xi, yi, zi) {
@@ -590,7 +590,7 @@ function Osc(bufnum, freq, phase) {
 }
 // Write a signal to a bus.
 function Out(bus, channelsArray) {
-    return makeUgen('Out', 0, [1], 0, [bus].concat(unitArrayIfScalar(channelsArray)));
+    return makeUgen('Out', 0, [1], 0, [bus].concat(arrayAsArray(channelsArray)));
 }
 // Two channel equal power pan.
 function Pan2(input, pos, level) {
@@ -670,11 +670,11 @@ function Rand(lo, hi) {
 }
 // Record or overdub into a Buffer.
 function RecordBuf(bufnum, offset, recLevel, preLevel, run, loop, trigger, doneAction, inputArray) {
-    return makeUgen('RecordBuf', 1, Rate.ar, 0, [bufnum, offset, recLevel, preLevel, run, loop, trigger, doneAction].concat(unitArrayIfScalar(inputArray)));
+    return makeUgen('RecordBuf', 1, Rate.ar, 0, [bufnum, offset, recLevel, preLevel, run, loop, trigger, doneAction].concat(arrayAsArray(inputArray)));
 }
 // Send signal to a bus, overwriting previous contents.
 function ReplaceOut(bus, channelsArray) {
-    return makeUgen('ReplaceOut', 0, [1], 0, [bus].concat(unitArrayIfScalar(channelsArray)));
+    return makeUgen('ReplaceOut', 0, [1], 0, [bus].concat(arrayAsArray(channelsArray)));
 }
 // Resonant filter.
 function Resonz(input, freq, bwr) {
@@ -714,11 +714,11 @@ function Schmidt(input, lo, hi) {
 }
 // Select output from an array of inputs.
 function Select(which, array) {
-    return makeUgen('Select', 1, [0, 1], 0, [which].concat(unitArrayIfScalar(array)));
+    return makeUgen('Select', 1, [0, 1], 0, [which].concat(arrayAsArray(array)));
 }
 // Set local buffer
 function SetBuf(buf, offset, length, array) {
-    return makeUgen('SetBuf', 1, Rate.ir, 0, [buf, offset, length].concat(unitArrayIfScalar(array)));
+    return makeUgen('SetBuf', 1, Rate.ir, 0, [buf, offset, length].concat(arrayAsArray(array)));
 }
 // Set-reset flip flop.
 function SetResetFF(trig, reset) {
@@ -894,7 +894,7 @@ function RandN(numChan, lo, hi) {
 }
 // (Undocumented class)
 function TScramble(trigger, inputs) {
-    return makeUgen('TScramble', unitArrayIfScalar(inputs).length, [0], 0, [trigger].concat(unitArrayIfScalar(inputs)));
+    return makeUgen('TScramble', arrayAsArray(inputs).length, [0], 0, [trigger].concat(arrayAsArray(inputs)));
 }
 // (Undocumented class)
 function DX7(bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc) {
@@ -922,7 +922,7 @@ function SvfLp(input, freq, q) {
 }
 // (Undocumented class)
 function Bezier(haltAfter, dx, freq, phase, param) {
-    return makeUgen('Bezier', 1, Rate.ar, 0, [haltAfter, dx, freq, phase].concat(unitArrayIfScalar(param)));
+    return makeUgen('Bezier', 1, Rate.ar, 0, [haltAfter, dx, freq, phase].concat(arrayAsArray(param)));
 }
 // (Undocumented class)
 function Freezer(bufnum, left, right, gain, increment, incrementOffset, incrementRandom, rightRandom, syncPhaseTrigger, randomizePhaseTrigger, numberOfLoops) {

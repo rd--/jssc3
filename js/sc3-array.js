@@ -1,5 +1,6 @@
 'use strict';
 
+// [1, [1, 2]].map(arrayAsArray) //=> [[1], [1, 2]]
 function arrayAsArray(maybeArray) {
     return Array.isArray(maybeArray) ? maybeArray : [maybeArray];
 }
@@ -64,9 +65,44 @@ function arrayExtendToBeOfEqualSize(array) {
     return array.map(item => arrayExtendCyclically(Array.isArray(item) ? item : [item], m));
 }
 
+// arrayFill(5, () => Math.random())
+function arrayFill(k, f) {
+    if(f.length != 0) {
+        console.error('arrayFill: arity error');
+    }
+    return arrayIota(k).map(f);
+}
+
+// arrayFillWithIndex(5, i => i * i) //=> [0, 1, 4, 9, 16]
+function arrayFillWithIndex(k, f) {
+    if(f.length != 1) {
+        console.error('arrayFillWithIndex: arity error');
+    }
+    return arrayIota(k).map(f);
+}
+
 // [t] -> t
 function arrayFirst(array) {
     return array[0];
+}
+
+// arrayFromTo(1, 5) //=> [1, 2, 3, 4, 5]
+function arrayFromTo(from, to) {
+    return arrayFromToBy(from, to, 1);
+}
+
+// arrayFromToBy(1, 9, 2) //=> [1, 3, 5, 7, 9]
+function arrayFromToBy(from, to, by) {
+    var r = [];
+    for(var i = from; i <= to; i += by) {
+        r.push(i);
+    }
+    return r;
+}
+
+// arrayIota(5) //=> [0, 1, 2, 3, 4]
+function arrayIota(k) {
+    return arrayFromTo(0, k - 1);
 }
 
 // arrayMaxItem([1, 2, 3, 4, 3, 2, 1]) === 4
@@ -78,6 +114,11 @@ function arrayMaxItem(array) {
 // arrayNub([1, 2, 3, 2, 1, 2, 3, 4, 3, 2, 1]) //=> [1, 2, 3, 4]
 function arrayNub(array) {
     return array.filter((item, index) => array.indexOf(item) === index);
+}
+
+// arrayReplicate(5, 1) //=> [1, 1, 1, 1, 1]
+function arrayReplicate(k, v) {
+    return arrayIota(k).map(unused => v);
 }
 
 // arrayShallowEq([1, 2, 3], [1, 2, 3]) === true
@@ -145,47 +186,32 @@ function arrayUnlines(array) {
     return array.join('\n');
 }
 
-// arrayFill(5, () => Math.random())
-function arrayFill(k, f) {
-    if(f.length != 0) {
-        console.error('arrayFill: arity error');
-    }
-    return arrayIota(k).map(f);
-}
+var array = {
+    asArray: arrayAsArray,
+    at: arrayAt,
+    atIndices: arrayAtIndices,
+    atWrap: arrayAtWrap,
+    clump: arrayClump,
+    concatenation: arrayConcatenation,
+    containsArray: arrayContainsArray,
+    dropWhile: arrayDropWhile,
+    extendCyclically: arrayExtendCyclically,
+    extendToBeOfEqualSize: arrayExtendToBeOfEqualSize,
+    fill: arrayFill,
+    fillWithIndex: arrayFillWithIndex,
+    first: arrayFirst,
+    fromTo: arrayFromTo,
+    fromToBy: arrayFromToBy,
+    iota: arrayIota,
+    maxItem: arrayMaxItem,
+    nub: arrayNub,
+    replicate: arrayReplicate,
+    shallowEq: arrayShallowEq,
+    tail: arrayTail,
+    takeWhile: arrayTakeWhile,
+    transpose: arrayTranspose,
+    treeEq: arrayTreeEq,
+    unlines: arrayUnlines
+};
 
-// arrayFillWithIndex(5, i => i * i) //=> [0, 1, 4, 9, 16]
-function arrayFillWithIndex(k, f) {
-    if(f.length != 1) {
-        console.error('arrayFillWithIndex: arity error');
-    }
-    return arrayIota(k).map(f);
-}
-
-// arrayFromToBy(1, 9, 2) //=> [1, 3, 5, 7, 9]
-function arrayFromToBy(from, to, by) {
-    var r = [];
-    for(var i = from; i <= to; i += by) {
-        r.push(i);
-    }
-    return r;
-}
-
-// arrayFromTo(1, 5) //=> [1, 2, 3, 4, 5]
-function arrayFromTo(from, to) {
-    return arrayFromToBy(from, to, 1);
-}
-
-// arrayIota(5) //=> [0, 1, 2, 3, 4]
-function arrayIota(k) {
-    return arrayFromTo(0, k - 1);
-}
-
-// arrayReplicate(5, 1) //=> [1, 1, 1, 1, 1]
-function arrayReplicate(k, v) {
-    return arrayIota(k).map(unused => v);
-}
-
-// [1, [1, 2]].map(unitArrayIfScalar) //=> [[1], [1, 2]]
-function unitArrayIfScalar(i) {
-    return Array.isArray(i) ? i : [i];
-}
+// export { array };
