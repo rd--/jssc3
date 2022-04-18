@@ -1,4 +1,4 @@
-// requires: sc3-io
+// sc3-stc.ts ; requires: sc3-io.ts
 
 function stc_is_binary_selector(text: string): boolean {
     var allowed = Array.from('!%&*+/<=>?@\\~|-');

@@ -1,3 +1,5 @@
+// sc3-number.ts
+
 function isNumber(x : any) : boolean {
     return (typeof x === 'number');
 }

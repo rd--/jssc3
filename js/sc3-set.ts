@@ -1,3 +1,5 @@
+// sc3-set.ts
+
 function setAdd(aSet: Set<any>, aValue: any): void {
     aSet.add(aValue);
 }

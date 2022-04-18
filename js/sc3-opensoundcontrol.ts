@@ -1,3 +1,5 @@
+// sc3-opensoundcontrol.ts
+
 type OscData = {
     type: string,
     value: number | string | Uint8Array

@@ -1,3 +1,5 @@
+// sc3-io.ts
+
 // Append timestamp to URL to defeat cache
 function url_append_timestamp(url : string) : string {
     var ext = ((/\?/).test(url) ? '&' : '?') + (new Date()).getTime();

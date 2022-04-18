@@ -1,3 +1,5 @@
+// sc3-localstorage.ts
+
 // Array of all keys at local storage
 function local_storage_keys(): string[] {
     var answer = [];

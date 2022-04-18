@@ -1,5 +1,10 @@
 'use strict';
 
+// wrapOut(0, mul(SinOsc(440, 0), 0.1))
+function wrapOut(bus, ugen) {
+    return isOutUgen(ugen) ? ugen : Out(bus, ugen);
+}
+
 function ADSR(gate, attackTime, decayTime, sustainLevel, releaseTime, curve) {
     var env = EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, curve);
     return EnvGen(gate, 1, 0, 1, 0, envCoord(env));

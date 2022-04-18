@@ -1,3 +1,5 @@
+// sc3-null.ts
+
 function isNull(x : any) : boolean {
     return x === null;
 }

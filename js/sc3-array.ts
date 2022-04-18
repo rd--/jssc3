@@ -1,3 +1,5 @@
+// sc3-array.ts
+
 function isArray(aValue: any): boolean {
     return Array.isArray(aValue);
 }
@@ -29,9 +31,9 @@ function arrayAtWrap(anArray: any[], index: number): any {
 }
 
 // arrayClump(arrayIota(20), 5)
-function arrayClump(anArray: any[], n: number): any[] {
-    var k = Math.ceil(anArray.length / n);
-    return arrayIota(k).map(i => anArray.slice(i * n, i * n + n));
+function arrayClump(anArray: any[], clumpSize: number): any[] {
+    var clumpCount = Math.ceil(anArray.length / clumpSize);
+    return arrayIota(clumpCount).map(i => anArray.slice(i * clumpSize, i * clumpSize + clumpSize));
 }
 
 // arrayConcatenation([[1, 2, 3], [4, 5]]) //= [1, 2, 3, 4, 5]
@@ -45,7 +47,7 @@ function arrayContainsArray(anArray: any[]): boolean {
 }
 
 // arrayDropWhile([1, 2, 3, 4], x => x < 3) //= [3, 4]
-function arrayDropWhile(anArray: any[], predicate: (x: any) => boolean) : any[] {
+function arrayDropWhile(anArray: any[], predicate: (aValue: any) => boolean): any[] {
     var [x, ...xs] = anArray;
     if (anArray.length > 0 && predicate(x)) {
         return arrayDropWhile(xs, predicate);
@@ -56,9 +58,9 @@ function arrayDropWhile(anArray: any[], predicate: (x: any) => boolean) : any[] 
 
 // arrayExtendCyclically([1, 2, 3], 8) //= [1, 2, 3, 1, 2, 3, 1, 2]
 function arrayExtendCyclically(anArray: any[], size: number): any[] {
-    var k = anArray.length;
-    var result = anArray.slice(0, k);
-    for(var x = 0; x < size - k; x += 1) {
+    var initialSize = anArray.length;
+    var result = anArray.slice(0, initialSize);
+    for(var x = 0; x < size - initialSize; x += 1) {
         result.push(arrayAtWrap(anArray, x));
     }
     return result;
@@ -66,36 +68,36 @@ function arrayExtendCyclically(anArray: any[], size: number): any[] {
 
 // arrayExtendToBeOfEqualSize([[1, 2], [3, 4, 5]]) //= [[1, 2, 1], [3, 4, 5]]
 // arrayExtendToBeOfEqualSize([[440, 550], 0]) //= [[440, 550], [0, 0]]
-function arrayExtendToBeOfEqualSize(anArray: any[][]): any[][] {
-    var m = arrayMaxItem(anArray.map(item => Array.isArray(item) ? item.length: 1));
-    return anArray.map(item => arrayExtendCyclically(Array.isArray(item) ? item: [item], m));
+function arrayExtendToBeOfEqualSize(anArray: (any | any[])[]): any[][] {
+    var maxSize = arrayMaxItem(anArray.map(item => Array.isArray(item) ? item.length: 1));
+    return anArray.map(item => arrayExtendCyclically(Array.isArray(item) ? item: [item], maxSize));
 }
 
 // arrayFill(5, () => Math.random())
-function arrayFill(k: number, f: (x: void) => any): any[] {
-    if(f.length != 0) {
+function arrayFill(size: number, elemProc: (noValue: void) => any): any[] {
+    if(elemProc.length != 0) {
         console.error('arrayFill: arity error');
     }
-    return arrayIota(k).map(unusedItem => f());
+    return arrayIota(size).map(unusedItem => elemProc());
 }
 
 // arrayFillWithIndex(5, i => i * i) //= [0, 1, 4, 9, 16]
-function arrayFillWithIndex(k: number, f: (x: any) => any): any[] {
-    if(f.length != 1) {
+function arrayFillWithIndex(size: number, elemProc: (anIndex: number) => any): any[] {
+    if(elemProc.length != 1) {
         console.error('arrayFillWithIndex: arity error');
     }
-    return arrayIota(k).map(f);
+    return arrayIota(size).map(elemProc);
 }
 
-function arrayFilter(anArray: any[], aFunction: (x : any) => boolean): any[] {
+function arrayFilter(anArray: any[], aFunction: (aValue: any) => boolean): any[] {
     return anArray.filter(aFunction);
 }
 
-function arrayFind(anArray: any[], aFunction: (x : any) => boolean): any {
+function arrayFind(anArray: any[], aFunction: (aValue: any) => boolean): any {
     return anArray.find(aFunction);
 }
 
-function arrayFindIndex(anArray: any[], aFunction: (x : any) => boolean): number {
+function arrayFindIndex(anArray: any[], aFunction: (aValue: any) => boolean): number {
     return anArray.findIndex(aFunction);
 }
 
@@ -103,7 +105,7 @@ function arrayFirst(anArray: any[]): any {
     return anArray[0];
 }
 
-function arrayForEach(anArray: any[], aFunction: (x : any) => void): void {
+function arrayForEach(anArray: any[], aFunction: (aValue: any) => void): void {
     anArray.forEach(aFunction);
 }
 
@@ -130,11 +132,16 @@ function arrayIota(k: number): number[] {
     return arrayFromTo(0, k - 1);
 }
 
+// x = [1, 2, 3]; arrayInsert([4, 5, 6], x); x //= [1, 2, 3, 4, 5, 6]
+function arrayInsert(sourceArray: any[], destinationArray: any[]): void {
+    sourceArray.forEach(item => destinationArray.push(item));
+}
+
 function arrayLength(anArray: any[]): number {
     return anArray.length;
 }
 
-function arrayMap(anArray: any[], aFunction: (x : any) => any): any[] {
+function arrayMap(anArray: any[], aFunction: (aValue: any) => any): any[] {
     return anArray.map(aFunction);
 }
 
@@ -174,7 +181,7 @@ function arrayShallowEq(lhs: any[], rhs: any[]): boolean {
     return true;
 }
 
-function arraySort(anArray: any[], aFunction: (x : any, y: any) => number): any[] {
+function arraySort(anArray: any[], aFunction: (lhs: any, rhs: any) => number): any[] {
     return anArray.sort(aFunction);
 }
 
@@ -188,7 +195,7 @@ function arrayTail(anArray: any[]): any[] {
 }
 
 // arrayTakeWhile([1, 2, 3, 4], x => x < 3) //= [1, 2]
-function arrayTakeWhile(anArray: any[], predicate: (x: any) => boolean): any[] {
+function arrayTakeWhile(anArray: any[], predicate: (aValue: any) => boolean): any[] {
     var [x, ...xs] = anArray;
     if (anArray.length > 0 && predicate(x)) {
         return [x, ...arrayTakeWhile(xs, predicate)];
@@ -198,7 +205,7 @@ function arrayTakeWhile(anArray: any[], predicate: (x: any) => boolean): any[] {
 }
 
 // arrayTranspose([[1, 2, 3], [4, 5, 6]]) //= [[1, 4], [2, 5], [3, 6]]
-function arrayTranspose(anArray: any[][]) : any[][] {
+function arrayTranspose(anArray: any[][]): any[][] {
     return anArray[0].map((col, i) => anArray.map(row => row[i]));
 }
 

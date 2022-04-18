@@ -1,4 +1,4 @@
-// requires: sc3-array, sc3-dictionary
+// sc3-soundfile.ts ; requires: sc3-array.ts, sc3-dictionary.ts
 
 // Return the header fields of an audioBuffer.  length is the number of frames.
 function audiobuffer_header(audioBuffer: AudioBuffer): Dictionary {

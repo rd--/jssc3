@@ -1,3 +1,5 @@
+// sc3-encode.ts
+
 function encodeUsing(byteCount : number, writerFunction : (x : DataView) => void) : Uint8Array {
     var arrayBuffer = new ArrayBuffer(byteCount);
     writerFunction(new DataView(arrayBuffer));

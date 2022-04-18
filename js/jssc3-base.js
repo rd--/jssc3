@@ -1,4 +1,5 @@
 "use strict";
+// sc3-array.ts
 function isArray(aValue) {
     return Array.isArray(aValue);
 }
@@ -24,9 +25,9 @@ function arrayAtWrap(anArray, index) {
     return anArray[index % anArray.length];
 }
 // arrayClump(arrayIota(20), 5)
-function arrayClump(anArray, n) {
-    var k = Math.ceil(anArray.length / n);
-    return arrayIota(k).map(i => anArray.slice(i * n, i * n + n));
+function arrayClump(anArray, clumpSize) {
+    var clumpCount = Math.ceil(anArray.length / clumpSize);
+    return arrayIota(clumpCount).map(i => anArray.slice(i * clumpSize, i * clumpSize + clumpSize));
 }
 // arrayConcatenation([[1, 2, 3], [4, 5]]) //= [1, 2, 3, 4, 5]
 function arrayConcatenation(anArray) {
@@ -48,9 +49,9 @@ function arrayDropWhile(anArray, predicate) {
 }
 // arrayExtendCyclically([1, 2, 3], 8) //= [1, 2, 3, 1, 2, 3, 1, 2]
 function arrayExtendCyclically(anArray, size) {
-    var k = anArray.length;
-    var result = anArray.slice(0, k);
-    for (var x = 0; x < size - k; x += 1) {
+    var initialSize = anArray.length;
+    var result = anArray.slice(0, initialSize);
+    for (var x = 0; x < size - initialSize; x += 1) {
         result.push(arrayAtWrap(anArray, x));
     }
     return result;
@@ -58,22 +59,22 @@ function arrayExtendCyclically(anArray, size) {
 // arrayExtendToBeOfEqualSize([[1, 2], [3, 4, 5]]) //= [[1, 2, 1], [3, 4, 5]]
 // arrayExtendToBeOfEqualSize([[440, 550], 0]) //= [[440, 550], [0, 0]]
 function arrayExtendToBeOfEqualSize(anArray) {
-    var m = arrayMaxItem(anArray.map(item => Array.isArray(item) ? item.length : 1));
-    return anArray.map(item => arrayExtendCyclically(Array.isArray(item) ? item : [item], m));
+    var maxSize = arrayMaxItem(anArray.map(item => Array.isArray(item) ? item.length : 1));
+    return anArray.map(item => arrayExtendCyclically(Array.isArray(item) ? item : [item], maxSize));
 }
 // arrayFill(5, () => Math.random())
-function arrayFill(k, f) {
-    if (f.length != 0) {
+function arrayFill(size, elemProc) {
+    if (elemProc.length != 0) {
         console.error('arrayFill: arity error');
     }
-    return arrayIota(k).map(unusedItem => f());
+    return arrayIota(size).map(unusedItem => elemProc());
 }
 // arrayFillWithIndex(5, i => i * i) //= [0, 1, 4, 9, 16]
-function arrayFillWithIndex(k, f) {
-    if (f.length != 1) {
+function arrayFillWithIndex(size, elemProc) {
+    if (elemProc.length != 1) {
         console.error('arrayFillWithIndex: arity error');
     }
-    return arrayIota(k).map(f);
+    return arrayIota(size).map(elemProc);
 }
 function arrayFilter(anArray, aFunction) {
     return anArray.filter(aFunction);
@@ -108,6 +109,10 @@ function arrayIndexOf(anArray, aValue) {
 // arrayIota(5) //= [0, 1, 2, 3, 4]
 function arrayIota(k) {
     return arrayFromTo(0, k - 1);
+}
+// x = [1, 2, 3]; arrayInsert([4, 5, 6], x); x //= [1, 2, 3, 4, 5, 6]
+function arrayInsert(sourceArray, destinationArray) {
+    sourceArray.forEach(item => destinationArray.push(item));
 }
 function arrayLength(anArray) {
     return anArray.length;
@@ -195,6 +200,16 @@ function arrayTreeEq(lhs, rhs) {
 function arrayUnlines(anArray) {
     return anArray.join('\n');
 }
+function counterNewFromBy(start, by) {
+    var x = start;
+    return function () {
+        x = x + by;
+        return x;
+    };
+}
+function counterNew() {
+    return counterNewFromBy(0, 1);
+}
 function dictionaryNew() {
     return {};
 }
@@ -206,7 +221,9 @@ function dictionaryPut(aDictionary, aKey, aValue) {
 }
 // Find key at aDictionary that holds aValue.
 function dictionaryFindKeyOfValue(aDictionary, aValue) {
-    var predicateFunction = function (aKey) { return aDictionary[aKey] === aValue; };
+    var predicateFunction = function (aKey) {
+        return aDictionary[aKey] === aValue;
+    };
     return Object.keys(aDictionary).find(predicateFunction);
 }
 // Make a new dictionary having only the indicated fields copied from the input.
@@ -216,6 +233,7 @@ function dictionaryCopyKeys(aDictionary, keysArray) {
     keysArray.forEach(key => answer[key] = aDictionary[key]);
     return answer;
 }
+// sc3-dom.ts
 // Return a function to set the inner Html of elemId
 function setter_for_inner_html_of(elemId) {
     var elem = document.getElementById(elemId);
@@ -231,8 +249,8 @@ function setter_for_inner_html_of(elemId) {
 // Set onchange handler of selectId, guards against absence of selection (proc is only called if value is set).
 function select_on_change(selectId, proc) {
     var select = document.getElementById(selectId);
-    var guardedProc = function (event) {
-        var target = event.target;
+    var guardedProc = function (anEvent) {
+        var target = anEvent.target;
         if (target && target.value) {
             proc(target.value);
         }
@@ -240,23 +258,23 @@ function select_on_change(selectId, proc) {
     select.addEventListener('change', guardedProc);
 }
 // Create option element and add to select element.
-function select_add_option_to(select, value, text) {
-    var option = document.createElement('option');
-    option.value = value;
-    option.text = text;
-    select.add(option, null);
+function select_add_option_to(selectElement, optionValue, optionText) {
+    var optionElement = document.createElement('option');
+    optionElement.value = optionValue;
+    optionElement.text = optionText;
+    selectElement.add(optionElement, null);
 }
 // Add option to selectId
-function select_add_option_at_id(selectId, value, text) {
-    var select = document.getElementById(selectId);
-    select_add_option_to(select, value, text);
+function select_add_option_at_id(selectId, optionValue, optionText) {
+    var selectElement = document.getElementById(selectId);
+    select_add_option_to(selectElement, optionValue, optionText);
 }
 // Delete all options at selectId from startIndex
 function select_clear_from(selectId, startIndex) {
-    var select = document.getElementById(selectId);
-    var k = select.length;
-    for (var i = startIndex; i < k; i++) {
-        select.remove(startIndex);
+    var selectElement = document.getElementById(selectId);
+    var endIndex = selectElement.length;
+    for (var i = startIndex; i < endIndex; i++) {
+        selectElement.remove(startIndex);
     }
 }
 // Add all keys as entries, both value and text, at selectId
@@ -282,12 +300,12 @@ function connect_button_to_input(buttonId, inputId) {
     }
 }
 // If some text is selected, get only the selected text, else get the entire text.
-function textarea_get_selection_or_contents(textarea) {
-    if (textarea.selectionStart === textarea.selectionEnd) {
-        return textarea.value;
+function textarea_get_selection_or_contents(textareaElement) {
+    if (textareaElement.selectionStart === textareaElement.selectionEnd) {
+        return textareaElement.value;
     }
     else {
-        return textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
+        return textareaElement.value.substring(textareaElement.selectionStart, textareaElement.selectionEnd);
     }
 }
 // Lookup key in parameters of Url of current document.  (C.f. window.location)
@@ -301,6 +319,7 @@ function window_url_set_param(key, value) {
     windowUrl.searchParams.set(key, value);
     window.history.pushState({}, '', windowUrl);
 }
+// sc3-encode.ts
 function encodeUsing(byteCount, writerFunction) {
     var arrayBuffer = new ArrayBuffer(byteCount);
     writerFunction(new DataView(arrayBuffer));
@@ -341,6 +360,7 @@ function encodePascalString(aString) {
     }
     return uint8Array;
 }
+// sc3-io.ts
 // Append timestamp to URL to defeat cache
 function url_append_timestamp(url) {
     var ext = ((/\?/).test(url) ? '&' : '?') + (new Date()).getTime();
@@ -411,6 +431,7 @@ function read_text_file_from_file_input_and_then(inputId, fileIndex, proc) {
 function read_json_file_and_then(jsonFile, proc) {
     read_text_file_and_then(jsonFile, jsonText => proc(JSON.parse(jsonText)));
 }
+// sc3-localstorage.ts
 // Array of all keys at local storage
 function local_storage_keys() {
     var answer = [];
@@ -429,6 +450,7 @@ function local_storage_keys() {
 function local_storage_delete_matching(predicate) {
     local_storage_keys().forEach(entry => predicate(entry) ? localStorage.removeItem(entry) : null);
 }
+// sc3-null.ts
 function isNull(x) {
     return x === null;
 }
@@ -445,6 +467,7 @@ function nullFix(message, inputValue, defaultValue) {
         return inputValue;
     }
 }
+// sc3-number.ts
 function isNumber(x) {
     return (typeof x === 'number');
 }
@@ -476,6 +499,7 @@ function oscString(x) {
 function oscBlob(x) {
     return oscData('b', x);
 }
+// sc3-operators.ts
 var unaryOperators = {
     neg: 0,
     not: 1,
@@ -532,6 +556,9 @@ var unaryOperators = {
     ramp_: 52,
     scurve: 53,
 };
+function unaryOperatorName(specialIndex) {
+    return Object.keys(unaryOperators).find(key => unaryOperators[key] === specialIndex) || 'unknown unary operator name?';
+}
 var binaryOperators = {
     add: 0,
     sub: 1,
@@ -583,6 +610,10 @@ var binaryOperators = {
     randRange: 47,
     expRandRange: 48,
 };
+function binaryOperatorName(specialIndex) {
+    return Object.keys(binaryOperators).find(key => binaryOperators[key] === specialIndex) || 'unknown binary operator name?';
+}
+// sc3-rate.ts
 var rateIr = 0;
 var rateKr = 1;
 var rateAr = 2;
@@ -592,14 +623,7 @@ var rateSelectorTable = { 0: 'ir', 1: 'kr', 2: 'ar', 3: 'dr' };
 function rateSelector(aRate) {
     return rateSelectorTable[String(aRate)];
 }
-var rate = {
-    ir: rateIr,
-    kr: rateKr,
-    ar: rateAr,
-    dr: rateDr,
-    selectorTable: rateSelectorTable,
-    selector: rateSelector
-};
+// sc3-set.ts
 function setAdd(aSet, aValue) {
     aSet.add(aValue);
 }
@@ -616,6 +640,7 @@ function setToArray(aSet) {
     return Array.from(aSet);
 }
 var setPut = setAdd;
+// sc3-string.ts
 // isString('string') === true
 function isString(x) {
     return typeof x === 'string';
@@ -626,61 +651,76 @@ function stringLines(aString) {
 function stringIsPrefixOf(lhs, rhs) {
     return rhs.slice(0, lhs.length) === lhs;
 }
-function isUint8Array(x) {
-    return (x instanceof Uint8Array);
-}
-function uint8ArrayIntoArray(u8Array, numberArray) {
-    u8Array.forEach(aNumber => numberArray.push(aNumber));
-}
-// Flatten a tree of Uint8Array to an array of U8
-function flattenByteEncodingToArray(e, a) {
-    if (isUint8Array(e)) {
-        uint8ArrayIntoArray(e, a);
-    }
-    else if (Array.isArray(e)) {
-        e.forEach(item => flattenByteEncodingToArray(item, a));
+function treeVisit(aTree, visitFunction) {
+    if (Array.isArray(aTree)) {
+        aTree.forEach(item => treeVisit(item, visitFunction));
     }
     else {
-        console.error("flattenByteEncodingTo?", e);
+        visitFunction(aTree);
     }
 }
-function flattenByteEncoding(e) {
-    var a = [];
-    flattenByteEncodingToArray(e, a);
-    return new Uint8Array(a);
+function treeFlattenIntoArray(aTree, anArray) {
+    treeVisit(aTree, item => anArray.push(item));
+}
+// treeFlatten(1) //= [1]
+// treeFlatten([1, [2, [3, 4], 5], 6]) //= [1, 2, 3, 4, 5, 6]
+function treeFlatten(aTree) {
+    var anArray = [];
+    treeFlattenIntoArray(aTree, anArray);
+    return anArray;
+}
+function forestFlatten(aForest) {
+    return treeFlatten(aForest);
+}
+// sc3-websocket.ts
+function websocket_open(host, port) {
+    try {
+        var ws_address = 'ws://' + host + ':' + Number(port).toString();
+        return new WebSocket(ws_address);
+    }
+    catch (err) {
+        console.error('websocket_open: ' + err);
+        return null;
+    }
+}
+// Prompt for websocket address (host and port) and call function on answer
+function websocket_address_dialog(receiveAddress) {
+    var reply = window.prompt('Set WebSocket address as Host:Port', 'localhost:9160');
+    if (reply) {
+        var [host, port] = reply.split(':');
+        receiveAddress(host, Number(port));
+    }
+}
+// If websocket is not null and is connected, send data.
+function websocket_send(websocket, data) {
+    if (websocket && websocket.readyState === 1) {
+        websocket.send(data);
+    }
+    else {
+        console.warn('websocket_send: websocket nil or not ready?');
+    }
+}
+function websocket_close(websocket) {
+    if (websocket) {
+        websocket.close();
+    }
+    else {
+        console.warn('websocket_close: websocket nil?');
+    }
 }
 var sc3_websocket;
 // Initialise WebSocket.  To send .stc to sclang as /eval message see 'blksc3 stc-to-osc'
 function sc3_websocket_init(host, port) {
-    if (sc3_websocket) {
-        sc3_websocket.close();
-    }
-    try {
-        var ws_address = 'ws://' + host + ':' + Number(port).toString();
-        sc3_websocket = new WebSocket(ws_address);
-    }
-    catch (err) {
-        console.error('sc3_websocket_init: ' + err);
-    }
+    websocket_close(sc3_websocket);
+    sc3_websocket = websocket_open(host, port);
 }
-// Prompt for WebSocket address (host and port) and initialise WebSocket.
 function sc3_websocket_dialog() {
-    var reply = window.prompt('Set WebSocket address as Host:Port', 'localhost:9160');
-    if (reply) {
-        var [host, port] = reply.split(':');
-        sc3_websocket_init(host, Number(port));
-    }
+    websocket_address_dialog(sc3_websocket_init);
 }
-// If websocket is connected, send data.
 function sc3_websocket_send(data) {
-    if (sc3_websocket && sc3_websocket.readyState === 1) {
-        sc3_websocket.send(data);
-    }
-    else {
-        console.error('sc3_websocket_send: websocket nil or not ready?');
-    }
+    websocket_send(sc3_websocket, data);
 }
-// requires: sc3-array, sc3-dictionary
+// sc3-soundfile.ts ; requires: sc3-array.ts, sc3-dictionary.ts
 // Return the header fields of an audioBuffer.  length is the number of frames.
 function audiobuffer_header(audioBuffer) {
     var keysArray = ['length', 'duration', 'sampleRate', 'numberOfChannels'];
@@ -742,7 +782,7 @@ function fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, proc) {
         audioContext.decodeAudioData(arrayBuffer).then(proc);
     });
 }
-// requires: sc3-io
+// sc3-stc.ts ; requires: sc3-io.ts
 function stc_is_binary_selector(text) {
     var allowed = Array.from('!%&*+/<=>?@\\~|-');
     var answer = Array.from(text).every(item => allowed.includes(item));
@@ -780,4 +820,221 @@ function stc_to_js_and_then(stcText, proc) {
         var encodedStcText = encodeURIComponent(stcText);
         fetch_url_and_then(urlPrefix + encodedStcText, 'text', proc);
     }
+}
+// sc3-u8.ts ; requires sc3-tree
+function isUint8Array(x) {
+    return (x instanceof Uint8Array);
+}
+function uint8ArrayIntoArray(u8Array, numberArray) {
+    u8Array.forEach(aNumber => numberArray.push(aNumber));
+}
+// Flatten a tree of Uint8Array to an array of U8
+function flattenByteEncodingToArray(aTree, anArray) {
+    treeVisit(aTree, item => uint8ArrayIntoArray(item, anArray));
+}
+function flattenByteEncoding(aTree) {
+    var anArray = [];
+    flattenByteEncodingToArray(aTree, anArray);
+    return new Uint8Array(anArray);
+}
+// sc3-ugen.ts ; requires: sc3-counter, sc3-operators, sc3-tree
+var ugenCounter = counterNew();
+function Ugen(name, numChan, rate, specialIndex, inputs) {
+    return {
+        ugenName: name,
+        numChan: numChan,
+        ugenRate: rate,
+        specialIndex: specialIndex,
+        ugenId: ugenCounter(),
+        inputValues: inputs,
+        mrg: []
+    };
+}
+function isUgen(obj) {
+    return obj && obj.ugenName !== undefined;
+}
+// Ugen constructors return a Tree of Ports.  Ugens with no outputs, such as Out, set index to -1.
+function Port(ugen, index) {
+    return {
+        ugen: ugen,
+        index: index
+    };
+}
+function isPort(obj) {
+    return obj && obj.ugen !== undefined && obj.index !== undefined;
+}
+function isInput(aValue) {
+    return isNumber(aValue) || isPort(aValue);
+}
+function inputRate(input) {
+    console.debug('inputRate', input);
+    if (isNumber(input)) {
+        return rateIr;
+    }
+    else if (isPort(input)) {
+        return input.ugen.ugenRate;
+    }
+    else {
+        console.error('inputRate: unknown input type?', input);
+        return -1;
+    }
+}
+// If scalar it is the operating rate, if an array it is indices into the inputs telling how to derive the rate.
+function deriveRate(rateOrFilterInputs, inputsArray) {
+    console.debug('deriveRate', rateOrFilterInputs, inputsArray);
+    if (isNumber(rateOrFilterInputs)) {
+        return rateOrFilterInputs;
+    }
+    else {
+        return arrayMaxItem(arrayMap(arrayAtIndices(inputsArray, rateOrFilterInputs), inputRate));
+    }
+}
+function makeUgen(name, numChan, rateSpec, specialIndex, inputs) {
+    console.debug('makeUgen', name, numChan, rateSpec, specialIndex, inputs);
+    if (arrayContainsArray(inputs)) {
+        return arrayTranspose(arrayExtendToBeOfEqualSize(inputs)).map(item => makeUgen(name, numChan, rateSpec, specialIndex, item));
+    }
+    else {
+        var inputArray = inputs;
+        var ugen = Ugen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
+        switch (numChan) {
+            case 0: return (Port(ugen, -1));
+            case 1: return (Port(ugen, 0));
+            default: return arrayFillWithIndex(numChan, item => Port(ugen, item));
+        }
+    }
+}
+function ugenDisplayName(ugen) {
+    switch (ugen.ugenName) {
+        case 'UnaryOpUGen': return unaryOperatorName(ugen.specialIndex);
+        case 'BinaryOpUGen': return binaryOperatorName(ugen.specialIndex);
+        default: return ugen.ugenName;
+    }
+}
+// Mrg
+// inputFirstUgen([0, SinOsc([440, 441], 0), SinOsc(442, 0)])
+function inputFirstUgen(input) {
+    if (isArray(input)) {
+        console.debug('inputFirstUgen: array', input);
+        var inputArray = input;
+        return arrayFind(arrayMap(inputArray, inputFirstUgen), isUgen) || null;
+    }
+    else if (isPort(input)) {
+        console.debug('inputFirstUgen: port', input);
+        return input.ugen;
+    }
+    else {
+        console.debug('inputFirstUgen: number?', input);
+        return null;
+    }
+}
+function mrg(lhs, rhs) {
+    var ugen = inputFirstUgen(lhs);
+    console.debug('mrg', lhs, rhs, ugen);
+    if (ugen && ugen.mrg) {
+        if (isArray(rhs)) {
+            var rhsArray = rhs;
+            var mrgArray = (ugen.mrg);
+            arrayForEach(rhsArray, item => arrayPush(mrgArray, item));
+        }
+        else {
+            arrayPush(ugen.mrg, rhs);
+        }
+    }
+    else {
+        console.error("mrg: no ugen or ugen.mrg is null?");
+    }
+    return lhs;
+}
+// Kr
+function krMutateInPlace(input) {
+    if (isPort(input)) {
+        var port = input;
+        console.debug('kr: port', port);
+        krMutateInPlace(port.ugen);
+    }
+    else if (isUgen(input)) {
+        var ugen = input;
+        console.debug('kr: ugen', ugen);
+        ugen.ugenRate = ugen.ugenRate === 2 ? 1 : ugen.ugenRate;
+        ugen.inputValues.forEach(item => krMutateInPlace(item));
+    }
+    else if (Array.isArray(input)) {
+        var array = input;
+        console.debug('kr: array', array);
+        array.forEach(item => krMutateInPlace(item));
+    }
+    else {
+        if (!isNumber(input)) {
+            console.error('krMutateInPlace', input);
+        }
+    }
+}
+function kr(input) {
+    krMutateInPlace(input);
+    return input;
+}
+// Operators
+function UnaryOpWithConstantOptimiser(specialIndex, input) {
+    if (isNumber(input)) {
+        var aNumber = input;
+        switch (specialIndex) {
+            case 0: return 0 - aNumber;
+            case 5: return Math.abs(aNumber);
+            case 8: return Math.ceil(aNumber);
+            case 9: return Math.floor(aNumber);
+            case 12: return aNumber * aNumber;
+            case 13: return aNumber * aNumber * aNumber;
+            case 14: return Math.sqrt(aNumber);
+            case 16: return 1 / aNumber;
+            case 28: return Math.sin(aNumber);
+            case 29: return Math.cos(aNumber);
+            case 30: return Math.tan(aNumber);
+        }
+    }
+    return makeUgen('UnaryOpUGen', 1, [0], specialIndex, [input]);
+}
+// [1, [], [1], [1, 2], [1, null], SinOsc(440, 0), [SinOsc(440, 0)]].map(isArrayConstant)
+function isArrayConstant(aValue) {
+    return Array.isArray(aValue) && aValue.every(isNumber);
+}
+function UnaryOp(specialIndex, input) {
+    if (isArrayConstant(input)) {
+        var constantArray = input;
+        return constantArray.map(item => UnaryOpWithConstantOptimiser(specialIndex, item));
+    }
+    else {
+        return UnaryOpWithConstantOptimiser(specialIndex, input);
+    }
+}
+function BinaryOpWithConstantOptimiser(specialIndex, lhs, rhs) {
+    if (isNumber(lhs) && isNumber(rhs)) {
+        var lhsNumber = lhs;
+        var rhsNumber = rhs;
+        switch (specialIndex) {
+            case 0: return lhsNumber + rhsNumber;
+            case 1: return lhsNumber - rhsNumber;
+            case 2: return lhsNumber * rhsNumber;
+            case 4: return lhsNumber / rhsNumber;
+        }
+    }
+    return makeUgen('BinaryOpUGen', 1, [0, 1], specialIndex, [lhs, rhs]);
+}
+function BinaryOp(specialIndex, lhs, rhs) {
+    if (Array.isArray(lhs) || Array.isArray(rhs)) {
+        var expanded = arrayTranspose(arrayExtendToBeOfEqualSize([arrayAsArray(lhs), arrayAsArray(rhs)]));
+        console.debug('BinaryOp: array constant', expanded);
+        return expanded.map(item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]));
+    }
+    else {
+        return BinaryOpWithConstantOptimiser(specialIndex, lhs, rhs);
+    }
+}
+// isOutUgen(Out(0, mul(SinOsc(440, 0), 0.1)))
+function isOutUgen(aValue) {
+    return isPort(aValue) && aValue.ugen.ugenName == 'Out';
+}
+// isControlRateUgen(MouseX(0, 1, 0, 0.2))
+function isControlRateUgen(aValue) {
+    return isInput(aValue) && (inputRate(aValue) == 1);
 }

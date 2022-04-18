@@ -1,5 +1,7 @@
+// sc3-dom.ts
+
 // Return a function to set the inner Html of elemId
-function setter_for_inner_html_of(elemId : string) : (x : string) => void {
+function setter_for_inner_html_of(elemId: string): (innerHtml: string) => void {
     var elem = document.getElementById(elemId);
     return function(innerHtml) {
         if(elem) {
@@ -11,10 +13,10 @@ function setter_for_inner_html_of(elemId : string) : (x : string) => void {
 }
 
 // Set onchange handler of selectId, guards against absence of selection (proc is only called if value is set).
-function select_on_change(selectId : string, proc : (x : string) => void) : void {
+function select_on_change(selectId: string, proc: (aString: string) => void): void {
     var select = <HTMLSelectElement>document.getElementById(selectId);
-    var guardedProc = function(event : Event) {
-        var target = <HTMLSelectElement>event.target;
+    var guardedProc = function(anEvent: Event) {
+        var target = <HTMLSelectElement>anEvent.target;
         if(target && target.value) {
             proc(target.value);
         }
@@ -23,30 +25,30 @@ function select_on_change(selectId : string, proc : (x : string) => void) : void
 }
 
 // Create option element and add to select element.
-function select_add_option_to(select : HTMLSelectElement, value : string, text : string) : void {
-    var option = document.createElement('option');
-    option.value = value;
-    option.text = text;
-    select.add(option, null);
+function select_add_option_to(selectElement: HTMLSelectElement, optionValue: string, optionText: string): void {
+    var optionElement = document.createElement('option');
+    optionElement.value = optionValue;
+    optionElement.text = optionText;
+    selectElement.add(optionElement, null);
 }
 
 // Add option to selectId
-function select_add_option_at_id(selectId : string, value : string, text : string) : void {
-    var select = <HTMLSelectElement>document.getElementById(selectId);
-    select_add_option_to(select, value, text);
+function select_add_option_at_id(selectId: string, optionValue: string, optionText: string): void {
+    var selectElement = <HTMLSelectElement>document.getElementById(selectId);
+    select_add_option_to(selectElement, optionValue, optionText);
 }
 
 // Delete all options at selectId from startIndex
-function select_clear_from(selectId : string, startIndex : number) : void {
-    var select = <HTMLSelectElement>document.getElementById(selectId);
-    var k = select.length;
-    for(var i = startIndex; i < k; i++) {
-        select.remove(startIndex);
+function select_clear_from(selectId: string, startIndex: number): void {
+    var selectElement = <HTMLSelectElement>document.getElementById(selectId);
+    var endIndex = selectElement.length;
+    for(var i = startIndex; i < endIndex; i++) {
+        selectElement.remove(startIndex);
     }
 }
 
 // Add all keys as entries, both value and text, at selectId
-function select_add_keys_as_options(selectId : string, keyArray : string[]) : void {
+function select_add_keys_as_options(selectId: string, keyArray: string[]): void {
     var select = <HTMLSelectElement>document.getElementById(selectId);
     keyArray.forEach(function(key) {
         var option = document.createElement('option');
@@ -58,7 +60,7 @@ function select_add_keys_as_options(selectId : string, keyArray : string[]) : vo
 }
 
 // Add a listener to buttonId that passes click events to inputId.
-function connect_button_to_input(buttonId : string, inputId : string) : void {
+function connect_button_to_input(buttonId: string, inputId: string): void {
     var button = <HTMLButtonElement>document.getElementById(buttonId);
     var input = <HTMLInputElement>document.getElementById(inputId);
     if (!button || !input) {
@@ -69,22 +71,22 @@ function connect_button_to_input(buttonId : string, inputId : string) : void {
 }
 
 // If some text is selected, get only the selected text, else get the entire text.
-function textarea_get_selection_or_contents(textarea : HTMLTextAreaElement) : string {
-    if(textarea.selectionStart === textarea.selectionEnd) {
-        return textarea.value;
+function textarea_get_selection_or_contents(textareaElement: HTMLTextAreaElement): string {
+    if(textareaElement.selectionStart === textareaElement.selectionEnd) {
+        return textareaElement.value;
     } else {
-        return textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
+        return textareaElement.value.substring(textareaElement.selectionStart, textareaElement.selectionEnd);
     }
 }
 
 // Lookup key in parameters of Url of current document.  (C.f. window.location)
-function url_get_param(key : string) : null | string {
+function url_get_param(key: string): null | string {
     var params = new URLSearchParams(document.location.search);
     return params.get(key);
 }
 
 // Set key to value in window location url.
-function window_url_set_param(key : string, value : string) : void {
+function window_url_set_param(key: string, value: string): void {
     var windowUrl = new URL(window.location.href);
     windowUrl.searchParams.set(key, value);
     window.history.pushState({}, '', windowUrl);
