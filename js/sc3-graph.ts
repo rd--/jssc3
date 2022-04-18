@@ -1,17 +1,19 @@
-'use strict';
+// sc3-graph.ts ; requires: sc3-ugen
 
-// p : port | [port], c & w : {number | ugen} ; traverse graph from p adding leaf nodes to the set c
+// traverse graph from p adding leaf nodes to the set c
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
-function ugenTraverseCollecting(p, c, w) {
+function ugenTraverseCollecting(p: Tree<Port>, c: Set<number | Ugen>, w: Set<number | Ugen>): void {
     if(isArray(p)) {
-        console.debug('ugenTraverseCollecting: array', p);
-        arrayForEach(p, item => ugenTraverseCollecting(item, c, w));
+        var pArray = <Forest<Port>>p;
+        console.debug('ugenTraverseCollecting: array', pArray);
+        arrayForEach(pArray, item => ugenTraverseCollecting(item, c, w));
     } else if(isPort(p)) {
-        console.debug('ugenTraverseCollecting: port', p);
-        if(!setHas(w, p.ugen)) {
-            setAdd(c, p.ugen);
-            arrayForEach(p.ugen.inputValues, item => isNumber(item) ? setAdd(c, item)  : ugenTraverseCollecting(item, c, w));
-            arrayForEach(p.ugen.mrg, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
+        var pPort = <Port>p;
+        console.debug('ugenTraverseCollecting: port', pPort);
+        if(!setHas(w, pPort.ugen)) {
+            setAdd(c, pPort.ugen);
+            arrayForEach(pPort.ugen.inputValues, item => isNumber(item) ? setAdd(c, item)  : ugenTraverseCollecting(item, c, w));
+            arrayForEach(pPort.ugen.mrg, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
         }
     } else {
         console.error('ugenTraverseCollecting', p, c, w);
@@ -19,44 +21,57 @@ function ugenTraverseCollecting(p, c, w) {
 }
 
 // all leaf nodes of p
-function ugenGraphLeafNodes(p) {
+function ugenGraphLeafNodes(p: Tree<Port>): Array<number | Ugen> {
     var c = setNew();
     ugenTraverseCollecting(p, c, setNew());
     return setToArray(c);
 }
 
-function ugenCompare(i, j) {
+function ugenCompare(i: Ugen, j: Ugen): number {
     return  i.ugenId - j.ugenId;
 }
 
+type Graph = {
+    graphName: string,
+    ugenSeq: Ugen[],
+    constantSeq: number[]
+};
+
 // ugens are sorted by id, which is in applicative order. a maxlocalbufs ugen is always present.
-function Graph(name, graph) {
+function Graph(name: string, graph: Tree<Port>): Graph {
     var leafNodes = ugenGraphLeafNodes(graph);
     var ugens = arraySort(arrayFilter(leafNodes, isUgen), ugenCompare);
     var constants = arrayFilter(leafNodes, isNumber);
     var numLocalBufs = arrayLength(arrayFilter(ugens, item => item.ugenName === 'LocalBuf'));
+    var MaxLocalBufs = function(count: number): Ugen {
+        return Ugen('MaxLocalBufs', 1, rateIr, 0, [count]);
+    };
     return {
         graphName: name,
-        ugenSeq: arrayAppend([MaxLocalBufs(numLocalBufs).ugen], ugens),
+        ugenSeq: arrayAppend([MaxLocalBufs(numLocalBufs)], ugens),
         constantSeq: arraySort(arrayNub(arrayAppend([numLocalBufs], constants)), (i, j) => i - j)
     };
 }
 
-function graphConstantIndex(graph, constantIndex) {
-    return arrayIndexOf(graph.constantSeq, constantIndex);
+function graphConstantIndex(graph: Graph, constantValue: number): number {
+    return arrayIndexOf(graph.constantSeq, constantValue);
 }
 
 // lookup ugen index at graph given ugenId
-function graphUgenIndex(graph, ugenId) {
+function graphUgenIndex(graph: Graph, ugenId: number): number {
     return arrayFindIndex(graph.ugenSeq, ugen => ugen.ugenId === ugenId);
 }
 
-// port|num -> [int, int]
-function graphInputSpec(graph, input) {
-    return isPort(input) ? [graphUgenIndex(graph, input.ugen.ugenId), input.index] : [-1, graphConstantIndex(graph, input)];
+function graphInputSpec(graph: Graph, input: Input): number[] {
+    if(isPort(input)) {
+        var port = <Port>input;
+        return [graphUgenIndex(graph, port.ugen.ugenId), port.index];
+    } else {
+        return [-1, graphConstantIndex(graph, <number>input)];
+    }
 }
 
-function graphPrintUgenSpec(graph, ugen) {
+function graphPrintUgenSpec(graph: Graph, ugen: Ugen): void {
     console.log(
         ugen.ugenName,
         ugen.ugenRate,
@@ -68,15 +83,15 @@ function graphPrintUgenSpec(graph, ugen) {
     );
 }
 
-var SCgf = Number(1396926310);
+var SCgf: number = Number(1396926310);
 
-function graphPrintSyndef(graph) {
+function graphPrintSyndef(graph: Graph): void {
     console.log(SCgf, 2, 1, graph.graphName, arrayLength(graph.constantSeq), graph.constantSeq, 0, [], 0, [], arrayLength(graph.ugenSeq));
     arrayForEach(graph.ugenSeq, item => graphPrintUgenSpec(graph, item));
     console.log(0, []);
 }
 
-function graphEncodeUgenSpec(graph, ugen) {
+function graphEncodeUgenSpec(graph: Graph, ugen: Ugen): Tree<Uint8Array> {
     return [
         encodePascalString(ugen.ugenName),
         encodeInt8(ugen.ugenRate),
@@ -88,7 +103,7 @@ function graphEncodeUgenSpec(graph, ugen) {
     ];
 }
 
-function graphEncodeSyndef(graph) {
+function graphEncodeSyndef(graph: Graph): Uint8Array {
     return flattenByteEncoding([
         encodeInt32(SCgf),
         encodeInt32(2), // file version
@@ -102,43 +117,4 @@ function graphEncodeSyndef(graph) {
         arrayMap(graph.ugenSeq, item => graphEncodeUgenSpec(graph, item)),
         encodeInt16(0) // # variants
     ]);
-}
-
-// Print
-
-function printSyndefOf(ugen) {
-    var graph = Graph('sc3.js', Out(0, ugen));
-    graphPrintSyndef(graph);
-}
-
-// Pretty print
-
-function graphInputDisplayName(graph, input) {
-    if(isPort(input)) {
-        var id = String(graphUgenIndex(graph, input.ugen.ugenId));
-        var nm = ugenDisplayName(input.ugen);
-        var ix = input.ugen.numChan > 1 ? ('[' + String(input.index) + ']') : '';
-        return id + '_' + nm + ix;
-    } else if(isNumber(input)) {
-        return String(input);
-    } else {
-        console.error('graphInputDisplayName', input);
-    }
-}
-
-function graphPrettyPrintUgen(graph, ugen) {
-    console.log(
-        graphUgenIndex(graph, ugen.ugenId) + '_' + ugenDisplayName(ugen),
-        rateSelector(ugen.ugenRate),
-        '[' + String(arrayMap(ugen.inputValues, input => graphInputDisplayName(graph, input))) + ']'
-    );
-}
-
-function graphPrettyPrintSyndef(graph) {
-    arrayForEach(graph.ugenSeq, item => graphPrettyPrintUgen(graph, item));
-}
-
-function prettyPrintSyndefOf(ugen) {
-    var graph = Graph('sc3.js', Out(0, ugen));
-    graphPrettyPrintSyndef(graph);
 }

@@ -41,6 +41,10 @@ function arrayConcatenation(anArray: any[][] ): any[] {
     return anArray.flat(1);
 }
 
+function arrayCons(anArray: any[], aValue: any): number {
+    return anArray.unshift(aValue);
+}
+
 // arrayContainsarray([1, 2, [3, 4]]) === true
 function arrayContainsArray(anArray: any[]): boolean {
     return anArray.some(item => Array.isArray(item));

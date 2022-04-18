@@ -51,16 +51,20 @@ function isInput(aValue: any): boolean {
     return isNumber(aValue) || isPort(aValue);
 }
 
+function inputBranch(input: Input, onPort: (aPort: Port) => any, onNumber: (aNumber: number) => any, onError: () => any): any {
+    if(isPort(input)) {
+        return onPort(<Port>input);
+    } else if(isNumber(input)) {
+        return onNumber(<number>input);
+    } else {
+        console.error('inputBranch: unknown input type?', input);
+        return onError();
+    }
+}
+
 function inputRate(input: Input): number {
     console.debug('inputRate', input);
-    if(isNumber(input)) {
-        return rateIr;
-    } else if(isPort(input)) {
-        return (<Port>input).ugen.ugenRate;
-    } else {
-        console.error('inputRate: unknown input type?', input);
-        return -1;
-    }
+    return inputBranch(input, port => port.ugen.ugenRate, unusedNumber => rateIr, () => -1);
 }
 
 type RateSpec = number | number[];

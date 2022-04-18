@@ -33,6 +33,9 @@ function arrayClump(anArray, clumpSize) {
 function arrayConcatenation(anArray) {
     return anArray.flat(1);
 }
+function arrayCons(anArray, aValue) {
+    return anArray.unshift(aValue);
+}
 // arrayContainsarray([1, 2, [3, 4]]) === true
 function arrayContainsArray(anArray) {
     return anArray.some(item => Array.isArray(item));
@@ -720,6 +723,103 @@ function sc3_websocket_dialog() {
 function sc3_websocket_send(data) {
     websocket_send(sc3_websocket, data);
 }
+// sc3-graph.ts ; requires: sc3-ugen
+// traverse graph from p adding leaf nodes to the set c
+// w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
+function ugenTraverseCollecting(p, c, w) {
+    if (isArray(p)) {
+        var pArray = p;
+        console.debug('ugenTraverseCollecting: array', pArray);
+        arrayForEach(pArray, item => ugenTraverseCollecting(item, c, w));
+    }
+    else if (isPort(p)) {
+        var pPort = p;
+        console.debug('ugenTraverseCollecting: port', pPort);
+        if (!setHas(w, pPort.ugen)) {
+            setAdd(c, pPort.ugen);
+            arrayForEach(pPort.ugen.inputValues, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, w));
+            arrayForEach(pPort.ugen.mrg, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
+        }
+    }
+    else {
+        console.error('ugenTraverseCollecting', p, c, w);
+    }
+}
+// all leaf nodes of p
+function ugenGraphLeafNodes(p) {
+    var c = setNew();
+    ugenTraverseCollecting(p, c, setNew());
+    return setToArray(c);
+}
+function ugenCompare(i, j) {
+    return i.ugenId - j.ugenId;
+}
+// ugens are sorted by id, which is in applicative order. a maxlocalbufs ugen is always present.
+function Graph(name, graph) {
+    var leafNodes = ugenGraphLeafNodes(graph);
+    var ugens = arraySort(arrayFilter(leafNodes, isUgen), ugenCompare);
+    var constants = arrayFilter(leafNodes, isNumber);
+    var numLocalBufs = arrayLength(arrayFilter(ugens, item => item.ugenName === 'LocalBuf'));
+    var MaxLocalBufs = function (count) {
+        return Ugen('MaxLocalBufs', 1, rateIr, 0, [count]);
+    };
+    return {
+        graphName: name,
+        ugenSeq: arrayAppend([MaxLocalBufs(numLocalBufs)], ugens),
+        constantSeq: arraySort(arrayNub(arrayAppend([numLocalBufs], constants)), (i, j) => i - j)
+    };
+}
+function graphConstantIndex(graph, constantValue) {
+    return arrayIndexOf(graph.constantSeq, constantValue);
+}
+// lookup ugen index at graph given ugenId
+function graphUgenIndex(graph, ugenId) {
+    return arrayFindIndex(graph.ugenSeq, ugen => ugen.ugenId === ugenId);
+}
+function graphInputSpec(graph, input) {
+    if (isPort(input)) {
+        var port = input;
+        return [graphUgenIndex(graph, port.ugen.ugenId), port.index];
+    }
+    else {
+        return [-1, graphConstantIndex(graph, input)];
+    }
+}
+function graphPrintUgenSpec(graph, ugen) {
+    console.log(ugen.ugenName, ugen.ugenRate, arrayLength(ugen.inputValues), ugen.numChan, ugen.specialIndex, arrayMap(ugen.inputValues, input => graphInputSpec(graph, input)), arrayReplicate(ugen.numChan, ugen.ugenRate));
+}
+var SCgf = Number(1396926310);
+function graphPrintSyndef(graph) {
+    console.log(SCgf, 2, 1, graph.graphName, arrayLength(graph.constantSeq), graph.constantSeq, 0, [], 0, [], arrayLength(graph.ugenSeq));
+    arrayForEach(graph.ugenSeq, item => graphPrintUgenSpec(graph, item));
+    console.log(0, []);
+}
+function graphEncodeUgenSpec(graph, ugen) {
+    return [
+        encodePascalString(ugen.ugenName),
+        encodeInt8(ugen.ugenRate),
+        encodeInt32(arrayLength(ugen.inputValues)),
+        encodeInt32(ugen.numChan),
+        encodeInt16(ugen.specialIndex),
+        arrayMap(ugen.inputValues, input => arrayMap(graphInputSpec(graph, input), index => encodeInt32(index))),
+        arrayReplicate(ugen.numChan, encodeInt8(ugen.ugenRate))
+    ];
+}
+function graphEncodeSyndef(graph) {
+    return flattenByteEncoding([
+        encodeInt32(SCgf),
+        encodeInt32(2),
+        encodeInt16(1),
+        encodePascalString(graph.graphName),
+        encodeInt32(arrayLength(graph.constantSeq)),
+        arrayMap(graph.constantSeq, item => encodeFloat32(item)),
+        encodeInt32(0),
+        encodeInt32(0),
+        encodeInt32(arrayLength(graph.ugenSeq)),
+        arrayMap(graph.ugenSeq, item => graphEncodeUgenSpec(graph, item)),
+        encodeInt16(0) // # variants
+    ]);
+}
 // sc3-soundfile.ts ; requires: sc3-array.ts, sc3-dictionary.ts
 // Return the header fields of an audioBuffer.  length is the number of frames.
 function audiobuffer_header(audioBuffer) {
@@ -866,18 +966,21 @@ function isPort(obj) {
 function isInput(aValue) {
     return isNumber(aValue) || isPort(aValue);
 }
-function inputRate(input) {
-    console.debug('inputRate', input);
-    if (isNumber(input)) {
-        return rateIr;
+function inputBranch(input, onPort, onNumber, onError) {
+    if (isPort(input)) {
+        return onPort(input);
     }
-    else if (isPort(input)) {
-        return input.ugen.ugenRate;
+    else if (isNumber(input)) {
+        return onNumber(input);
     }
     else {
-        console.error('inputRate: unknown input type?', input);
-        return -1;
+        console.error('inputBranch: unknown input type?', input);
+        return onError();
     }
+}
+function inputRate(input) {
+    console.debug('inputRate', input);
+    return inputBranch(input, port => port.ugen.ugenRate, unusedNumber => rateIr, () => -1);
 }
 // If scalar it is the operating rate, if an array it is indices into the inputs telling how to derive the rate.
 function deriveRate(rateOrFilterInputs, inputsArray) {
