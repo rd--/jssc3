@@ -1,4 +1,4 @@
-var osc = require('osc'); // https://github.com/colinbdclark/osc.js/ ; npm i osc
+// var osc = require('osc'); // https://github.com/colinbdclark/osc.js/ ; npm i osc
 
 function defaultSc3Udp() {
     return new osc.UDPPort({
@@ -10,6 +10,8 @@ function defaultSc3Udp() {
     });
 }
 
-var sc3 = defaultSc3Udp();
-
-sc3.open();
+function sc3UdpOpen() {
+    var udpPort = defaultSc3Udp();
+    udpPort.open();
+    return udpPort;
+}

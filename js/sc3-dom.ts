@@ -1,5 +1,3 @@
-'use strict';
-
 // Return a function to set the inner Html of elemId
 function setter_for_inner_html_of(elemId : string) : (x : string) => void {
     var elem = document.getElementById(elemId);

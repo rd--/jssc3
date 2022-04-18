@@ -1,5 +1,3 @@
-'use strict';
-
 var unaryOperators : { [key: string]: number; } = {
   neg: 0,
   not: 1,

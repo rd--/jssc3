@@ -1,5 +1,3 @@
-'use strict';
-
 var rateIr = 0;
 var rateKr = 1;
 var rateAr = 2;

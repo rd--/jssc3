@@ -1,5 +1,3 @@
-'use strict';
-
 function isNull(x : any) : boolean {
     return x === null;
 }

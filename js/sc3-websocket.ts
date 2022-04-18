@@ -1,5 +1,3 @@
-'use strict';
-
 var sc3_websocket : WebSocket | null;
 
 // Initialise WebSocket.  To send .stc to sclang as /eval message see 'blksc3 stc-to-osc'

@@ -20,8 +20,8 @@ function ugenTraverseCollecting(p, c, w) {
 
 // all leaf nodes of p
 function ugenGraphLeafNodes(p) {
-    var c = emptySet();
-    ugenTraverseCollecting(p, c, emptySet());
+    var c = setNew();
+    ugenTraverseCollecting(p, c, setNew());
     return setToArray(c);
 }
 

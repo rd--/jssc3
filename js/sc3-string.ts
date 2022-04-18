@@ -1,5 +1,3 @@
-'use strict';
-
 // isString('string') === true
 function isString(x : any) : boolean {
     return typeof x === 'string';

@@ -1,12 +1,23 @@
 %.js : %.ts
 	tsc --strict --lib dom,es2021 -t es2021 $<
 
-typescripted = sc3-array.js sc3-dom.js sc3-encode.js sc3-io.js sc3-localstorage.js sc3-null.js sc3-number.js sc3-object.js sc3-operators.js sc3-rate.js sc3-set.js sc3-string.js sc3-u8.js sc3-websocket.js
+# .ts files that have no requirements
+core = sc3-array sc3-dictionary sc3-dom sc3-encode sc3-io sc3-localstorage sc3-null sc3-number sc3-opensoundcontrol sc3-operators sc3-rate sc3-set sc3-string sc3-u8 sc3-websocket
 
-all: $(typescripted)
+# .ts files that require .ts files in core
+base = sc3-soundfile sc3-stc
+
+all: base-ts base-js
+
+base-ts:
+	cat $(core:=.ts) $(base:=.ts) > jssc3-base.ts
+
+base-js:
+	make  jssc3-base.js
+	rm -f jssc3-base.ts
 
 clean:
-	rm -f $(typescripted)
+	rm -f $(core:=.js) $(base:=.js)
 
 run-lint:
 	jshint *.js | grep -v "is not defined"

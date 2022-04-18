@@ -1,5 +1,3 @@
-'use strict';
-
 function isUint8Array(x : any) : boolean {
     return (x instanceof Uint8Array);
 }

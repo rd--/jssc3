@@ -1,5 +1,3 @@
-'use strict';
-
 function isArray(aValue: any): boolean {
     return Array.isArray(aValue);
 }
@@ -229,33 +227,3 @@ function arrayTreeEq(lhs: any[], rhs: any[]): boolean {
 function arrayUnlines(anArray: string[]): string {
     return anArray.join('\n');
 }
-
-var array = {
-    asArray: arrayAsArray,
-    at: arrayAt,
-    atIndices: arrayAtIndices,
-    atWrap: arrayAtWrap,
-    clump: arrayClump,
-    concatenation: arrayConcatenation,
-    containsArray: arrayContainsArray,
-    dropWhile: arrayDropWhile,
-    extendCyclically: arrayExtendCyclically,
-    extendToBeOfEqualSize: arrayExtendToBeOfEqualSize,
-    fill: arrayFill,
-    fillWithIndex: arrayFillWithIndex,
-    first: arrayFirst,
-    fromTo: arrayFromTo,
-    fromToBy: arrayFromToBy,
-    iota: arrayIota,
-    maxItem: arrayMaxItem,
-    nub: arrayNub,
-    replicate: arrayReplicate,
-    shallowEq: arrayShallowEq,
-    tail: arrayTail,
-    takeWhile: arrayTakeWhile,
-    transpose: arrayTranspose,
-    treeEq: arrayTreeEq,
-    unlines: arrayUnlines
-};
-
-// export { array };

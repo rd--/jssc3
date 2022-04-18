@@ -1,6 +1,7 @@
 'use strict';
 
 // k = constant
+
 var kAddToHead = 0;
 var kAddToTail = 1;
 

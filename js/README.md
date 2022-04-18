@@ -43,14 +43,16 @@ Files that are _optional_ would still need to be loaded separately as required.
 # Typescript
 
 TypeScript interacts with the module system.
-Files that are completely self contained are written with .ts annotations and compiled from .ts to .js as an experiment.
+Files that are completely self contained are written with .ts annotations, and can be individually compiled from .ts to .js.
+These file are called _core_ files at the _Makefile_.
+Files that depend only on _core_ files, and that can be typed easily, are also written with .ts annotations.
+These file are called _base_ files at the _Makefile_.
+The _core_ and _base_ .ts files are joined together into _jssc3-base.ts_, which is compiled to .js.
 If <https://github.com/tc39/proposal-type-annotations> proceeds these would be ordinary .js files with type comments.
-TypeScript is very slow.
 
 # Relation to Scheme
 
-It is possible to work in a subset of Js that will translate very simply to R5RS Scheme (Scm).
+It is possible to work in a subset of Js that will translate very to R5RS Scheme.
 It would be nice if jssc3 and rsc3 could be translated into one another.
-It's not entirely straightforwards to do this for any code using _this_.
-This makes some expressions a little more verbose, however Js is quite complicated and this also avoids some difficulties.
-The simple rule would be that _p.q_ means _dictionaryAt(p, 'q')_ and _p.q(...)_ means _q(p...)_.
+It's not straightforwards to do this for any expressions using _this_.
+_p.q_ means _dictionaryAt(p, 'q')_ and _p.q = r_ means _dictionaryPut(p, 'q', r)_.

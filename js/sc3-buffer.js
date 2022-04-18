@@ -3,7 +3,7 @@
 function audiobuffer_to_scsynth_buffer(audioBuffer, bufferNumber, numberOfChannels, bufferData) {
     var numberOfFrames = audioBuffer.length;
     var sampleRate = audioBuffer.sampleRate;
-    var oscMessage = b_alloc_then_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, encodeFloat32Array(bufferData));
+    var oscMessage = b_alloc_then_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, encode_float32_array(bufferData));
     console.log('audiobuffer_to_scsynth_buffer', oscMessage);
     sendOsc(oscMessage);
 }
