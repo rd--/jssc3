@@ -52,7 +52,8 @@ If <https://github.com/tc39/proposal-type-annotations> proceeds these would be o
 
 # Relation to Scheme
 
-It is possible to work in a subset of Js that will translate very to R5RS Scheme.
+It is possible to work in a subset of Js that will translate to R5RS Scheme.
 It would be nice if jssc3 and rsc3 could be translated into one another.
 It's not straightforwards to do this for any expressions using _this_.
 _p.q_ means _dictionaryAt(p, 'q')_ and _p.q = r_ means _dictionaryPut(p, 'q', r)_.
+These should be the only uses of _._.
