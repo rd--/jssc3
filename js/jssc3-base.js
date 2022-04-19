@@ -1832,7 +1832,8 @@ var sc3_buffer_dict = {
 var sc3_buffer_cache = {};
 var sc3_buffer_next = 100;
 // Fetch buffer index from cache, allocate and load if required.  Resolve soundFileId against dictionary.
-function SfAcquire(urlOrKey, numberOfChannels, channelIndices) {
+function SfAcquire(urlOrKey, numberOfChannels, channelSelector) {
+    var channelIndices = arrayAsArray(channelSelector);
     var soundFileUrl = sc3_buffer_dict[urlOrKey] || urlOrKey;
     var cacheValue = sc3_buffer_cache[soundFileUrl];
     if (!cacheValue) {
@@ -1842,7 +1843,12 @@ function SfAcquire(urlOrKey, numberOfChannels, channelIndices) {
         sc3_buffer_next += numberOfChannels;
         cacheValue = bufferNumberArray;
     }
-    return channelIndices.map(item => arrayAtWrap(cacheValue, item - 1));
+    if (Array.isArray(channelIndices)) {
+        return channelIndices.map(item => arrayAtWrap(cacheValue, item - 1));
+    }
+    else {
+        return [arrayAtWrap(cacheValue, channelIndices - 1)];
+    }
 }
 var envCurveDictionary = {
     step: 0,
