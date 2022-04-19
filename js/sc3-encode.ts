@@ -27,7 +27,7 @@ function encodeFloat32(aNumber : number) : Uint8Array {
     return encodeUsing(4, b => b.setFloat32(0, aNumber));
 }
 
-function encodeFloat32Array(inputArray : number[]) : Uint8Array {
+function encodeFloat32Array(inputArray : Float32Array) : Uint8Array {
     var arrayBuffer = new ArrayBuffer(inputArray.length * 4);
     var dataView = new DataView(arrayBuffer);
     for(var i = 0; i < inputArray.length; i++ ) {

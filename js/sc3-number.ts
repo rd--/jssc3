@@ -4,9 +4,9 @@ function isNumber(x : any) : boolean {
     return (typeof x === 'number');
 }
 
-var pi = Math.PI;
+var pi : number = Math.PI;
 
-var inf = Infinity;
+var inf : number = Infinity;
 
 function randomInteger(minNumber : number, maxNumber : number) : number {
     var min = Math.ceil(minNumber);
@@ -20,4 +20,8 @@ function randomFloat(min : number, max  : number) : number {
 
 function randomBoolean() : boolean {
     return Math.random()  > 0.5;
+}
+
+function numberToString(aNumber: number): string {
+    return Number(aNumber).toString();
 }

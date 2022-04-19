@@ -325,6 +325,16 @@ function window_url_set_param(key, value) {
     windowUrl.searchParams.set(key, value);
     window.history.pushState({}, '', windowUrl);
 }
+function parse_int_or_alert(integerText, errorText, defaultAnswer) {
+    var answer = Number.parseInt(integerText, 10);
+    if (isNaN(answer)) {
+        window.alert(errorText);
+        return defaultAnswer;
+    }
+    else {
+        return answer;
+    }
+}
 // sc3-encode.ts
 function encodeUsing(byteCount, writerFunction) {
     var arrayBuffer = new ArrayBuffer(byteCount);
@@ -366,11 +376,15 @@ function encodePascalString(aString) {
     }
     return uint8Array;
 }
+// Printing to to the console is slow, even if debugging messages aren't displayed
 var sc3_debug = false;
 function consoleDebug(...args) {
     if (sc3_debug) {
         console.debug(...args);
     }
+}
+function consoleError(...args) {
+    console.error(...args);
 }
 // sc3-io.ts
 // Append timestamp to URL to defeat cache
@@ -495,6 +509,9 @@ function randomFloat(min, max) {
 }
 function randomBoolean() {
     return Math.random() > 0.5;
+}
+function numberToString(aNumber) {
+    return Number(aNumber).toString();
 }
 function oscData(t, x) {
     return { type: t, value: x };
@@ -655,6 +672,10 @@ var setPut = setAdd;
 // isString('string') === true
 function isString(x) {
     return typeof x === 'string';
+}
+// The split method accepts regular expressions, this is a simpler function.
+function stringSplitOn(aString, delimiter) {
+    return aString.split(delimiter);
 }
 function stringLines(aString) {
     return aString.split('\n');
@@ -1768,6 +1789,61 @@ function welchWindow(a) { return UnaryOp(50, a); }
 function triWindow(a) { return UnaryOp(51, a); }
 function ramp_(a) { return UnaryOp(52, a); }
 function scurve(a) { return UnaryOp(53, a); }
+function audiobuffer_to_scsynth_buffer(audioBuffer, bufferNumber, numberOfChannels, bufferData) {
+    var numberOfFrames = audioBuffer.length;
+    var sampleRate = audioBuffer.sampleRate;
+    var oscMessage = b_alloc_then_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, encodeFloat32Array(bufferData));
+    console.log('audiobuffer_to_scsynth_buffer', oscMessage);
+    sendOsc(oscMessage);
+}
+// Fetch sound file data, and then allocate a buffer and memcpy all interleaved channel data.
+function fetch_soundfile_to_scsynth_buffer(soundFileUrl, numberOfChannels, bufferNumber) {
+    fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, function (audioBuffer) {
+        if (audioBuffer.numberOfChannels === numberOfChannels) {
+            audiobuffer_to_scsynth_buffer(audioBuffer, bufferNumber, numberOfChannels, audiobuffer_interleaved_channel_data(audioBuffer));
+        }
+        else {
+            console.error('fetch_soundfile_to_scsynth_buffer: numberOfChannels mismatch');
+        }
+    });
+}
+// Fetch single channels of sound file data to mono ssynth buffers.  The channel numbers are one-indexed.
+function fetch_soundfile_channels_to_scsynth_buffers(soundFileUrl, bufferNumbers, channelIndices) {
+    fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, function (audioBuffer) {
+        for (var i = 0; i < bufferNumbers.length; i++) {
+            var bufferNumber = bufferNumbers[i];
+            var channelIndex = channelIndices[i];
+            if (channelIndex >= 1 && channelIndex <= audioBuffer.numberOfChannels) {
+                audiobuffer_to_scsynth_buffer(audioBuffer, bufferNumber, 1, audioBuffer.getChannelData(channelIndex - 1));
+            }
+            else {
+                console.error('fetch_soundfile_channels_to_scsynth_buffers: channelIndex out of bounds', channelIndex, audioBuffer.numberOfChannels);
+            }
+        }
+    });
+}
+var sc3_buffer_dict = {
+    'crotale-d6': 'https://rohandrape.net/pub/jssc3/flac/crotale-d6.flac',
+    'harp-a4': 'https://rohandrape.net/pub/jssc3/flac/harp-a4.flac',
+    'piano-c5': 'https://rohandrape.net/pub/jssc3/flac/piano-c5.flac',
+    'floating_1': 'https://rohandrape.net/pub/jssc3/flac/floating_1.flac',
+    'then': 'https://rohandrape.net/pub/jssc3/flac/then.flac'
+};
+var sc3_buffer_cache = {};
+var sc3_buffer_next = 100;
+// Fetch buffer index from cache, allocate and load if required.  Resolve soundFileId against dictionary.
+function SfAcquire(urlOrKey, numberOfChannels, channelIndices) {
+    var soundFileUrl = sc3_buffer_dict[urlOrKey] || urlOrKey;
+    var cacheValue = sc3_buffer_cache[soundFileUrl];
+    if (!cacheValue) {
+        var bufferNumberArray = arrayFromTo(sc3_buffer_next, sc3_buffer_next + numberOfChannels - 1);
+        fetch_soundfile_channels_to_scsynth_buffers(soundFileUrl, bufferNumberArray, channelIndices);
+        sc3_buffer_cache[soundFileUrl] = bufferNumberArray;
+        sc3_buffer_next += numberOfChannels;
+        cacheValue = bufferNumberArray;
+    }
+    return channelIndices.map(item => arrayAtWrap(cacheValue, item - 1));
+}
 var envCurveDictionary = {
     step: 0,
     lin: 1, linear: 1,
@@ -1814,7 +1890,63 @@ function EnvASR(attackTime, sustainLevel, releaseTime, curve) {
 function EnvCutoff(sustainTime, releaseTime, curve) {
     return Env([1, 1, 0], [sustainTime, releaseTime], curve, null, null, 0);
 }
-// sc3-graph.ts ; requires: sc3-ugen
+function EventParam(v, u) {
+    return {
+        v: v,
+        w: u[0],
+        x: u[1],
+        y: u[2],
+        z: u[3],
+        o: u[4],
+        rx: u[5],
+        ry: u[6],
+        p: u[7],
+        px: u[8]
+    };
+}
+function eventW(e) { return e.w; }
+function eventX(e) { return e.x; }
+function eventY(e) { return e.y; }
+function eventZ(e) { return e.z; }
+function eventO(e) { return e.o; }
+function eventRx(e) { return e.rx; }
+function eventRy(e) { return e.ry; }
+function eventP(e) { return e.p; }
+// Control bus address of voiceNumber (indexed from one).
+function voiceAddr(voiceNumber) {
+    var eventAddr = 13000;
+    var eventIncr = 10;
+    var eventZero = 0;
+    var voiceAddr = eventAddr + ((voiceNumber - 1 + eventZero) * eventIncr);
+    return voiceAddr;
+}
+function Voicer(numVoices, voiceFunc) {
+    var voiceOffset = 0;
+    return arrayFromTo(1, numVoices).map(function (c) {
+        var controlArray = ControlIn(9, voiceAddr(c + voiceOffset));
+        return voiceFunc(EventParam(c + voiceOffset, controlArray));
+    });
+}
+function eventParamSetMessage(e) {
+    return c_setn1(voiceAddr(e.v), [e.w, e.x, e.y, e.z, e.o, e.rx, e.ry, e.p, e.px]);
+}
+function voiceEndMessage(voiceNumber) {
+    return c_set1(voiceAddr(voiceNumber), 0);
+}
+// Kyma keyboard names, all values are 0-1
+function KeyDown(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 0); }
+function KeyTimbre(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 2); }
+function KeyPressure(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 3); }
+function KeyVelocity(voiceNumber) { return Latch(KeyPressure(voiceNumber), KeyDown(voiceNumber)); }
+function KeyPitch(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 7); }
+// Kyma pen names, all values are 0-1
+function PenDown(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 0); }
+function PenX(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 1); }
+function PenY(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 2); }
+function PenZ(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 3); }
+function PenAngle(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 4); }
+function PenRadius(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 5); }
+// sc3-graph.ts ; requires: sc3-pseudo sc3-ugen
 // traverse graph from p adding leaf nodes to the set c
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
 function ugenTraverseCollecting(p, c, w) {
@@ -1845,8 +1977,13 @@ function ugenGraphLeafNodes(p) {
 function ugenCompare(i, j) {
     return i.ugenId - j.ugenId;
 }
+// This should check that signal is not a tree of numbers...
+function signalToUgenGraph(signal) {
+    return signal;
+}
 // ugens are sorted by id, which is in applicative order. a maxlocalbufs ugen is always present.
-function Graph(name, graph) {
+function Graph(name, signal) {
+    var graph = signalToUgenGraph(signal);
     var leafNodes = ugenGraphLeafNodes(graph);
     var ugens = arraySort(arrayFilter(leafNodes, isUgenPrimitive), ugenCompare);
     var constants = arrayFilter(leafNodes, isNumber);
@@ -1885,6 +2022,10 @@ function graphPrintSyndef(graph) {
     arrayForEach(graph.ugenSeq, item => graphPrintUgenSpec(graph, item));
     console.log(0, []);
 }
+function printSyndefOf(ugen) {
+    var graph = Graph('sc3.js', wrapOut(0, ugen));
+    graphPrintSyndef(graph);
+}
 function graphEncodeUgenSpec(graph, ugen) {
     return [
         encodePascalString(ugen.ugenName),
@@ -1911,6 +2052,67 @@ function graphEncodeSyndef(graph) {
         encodeInt16(0) // # variants
     ]);
 }
+// sc3-graph-print.ts ; requires: sc3-graph sc3-pseudo sc3-ugen
+function graphInputDisplayName(graph, input) {
+    if (isUgenOutput(input)) {
+        var id = String(graphUgenIndex(graph, input.ugen.ugenId));
+        var nm = ugenDisplayName(input.ugen);
+        var ix = input.ugen.numChan > 1 ? ('[' + String(input.index) + ']') : '';
+        return id + '_' + nm + ix;
+    }
+    else if (isNumber(input)) {
+        return String(input);
+    }
+    else {
+        console.error('graphInputDisplayName', input);
+        return '?';
+    }
+}
+function graphPrettyPrintUgen(graph, ugen) {
+    console.log(graphUgenIndex(graph, ugen.ugenId) + '_' + ugenDisplayName(ugen), rateSelector(ugen.ugenRate), '[' + String(arrayMap(ugen.inputValues, input => graphInputDisplayName(graph, input))) + ']');
+}
+function graphPrettyPrintSyndef(graph) {
+    arrayForEach(graph.ugenSeq, item => graphPrettyPrintUgen(graph, item));
+}
+function prettyPrintSyndefOf(ugen) {
+    var graph = Graph('sc3.js', wrapOut(0, ugen));
+    graphPrettyPrintSyndef(graph);
+}
+// sc3-pointer.ts
+function PointerW(n) {
+    return ControlIn(1, 15001 + (n * 10));
+}
+function PointerX(n) {
+    return ControlIn(1, 15002 + (n * 10));
+}
+function PointerY(n) {
+    return ControlIn(1, 15003 + (n * 10));
+}
+/*
+Web Assembly scsynth does not include the Mouse unit generators.
+*/
+function pointerMouseX(minval, maxval, warp, lag) {
+    switch (warp) {
+        case 0: return LinLin(Lag(PointerX(0), lag), 0, 1, minval, maxval);
+        case 1: return LinExp(Lag(PointerX(0), lag), 0, 1, minval, maxval);
+        default:
+            console.error('MouseX: unknown warp', warp);
+            return 0;
+    }
+}
+function pointerMouseY(minval, maxval, warp, lag) {
+    switch (warp) {
+        case 0: return LinLin(Lag(PointerY(0), lag), 0, 1, minval, maxval);
+        case 1: return LinExp(Lag(PointerY(0), lag), 0, 1, minval, maxval);
+        default:
+            console.error('MouseY: unknown warp', warp);
+            return 0;
+    }
+}
+function pointerMouseButton(minval, maxval, lag) {
+    return LinLin(Lag(PointerW(0), lag), 0, 1, minval, maxval);
+}
+// sc3-pseudo.ts ; requries: sc3-bindings sc3-envelope sc3-ugen
 // wrapOut(0, mul(SinOsc(440, 0), 0.1))
 function wrapOut(bus, ugen) {
     return isOutUgen(ugen) ? ugen : Out(bus, ugen);
@@ -2101,6 +2303,109 @@ function Osc1(buf, dur) {
     var interpolation = 2;
     return BufRd(numChan, buf, phase, loop, interpolation);
 }
+// k = constant
+var kAddToHead = 0;
+var kAddToTail = 1;
+// b = buffer
+function b_alloc_then(bufferNumber, numberOfFrames, numberOfChannels, onCompletion) {
+    return {
+        address: '/b_alloc',
+        args: [oscInt32(bufferNumber), oscInt32(numberOfFrames), oscInt32(numberOfChannels), oscBlob(onCompletion)]
+    };
+}
+// b_gen memcpy is in sc3-rdu
+function b_memcpy(bufferNumber, numFrames, numChannels, sampleRate, bufferData) {
+    return {
+        address: '/b_gen',
+        args: [
+            oscInt32(bufferNumber),
+            oscString('memcpy'),
+            oscInt32(numFrames),
+            oscInt32(numChannels),
+            oscFloat(sampleRate),
+            oscBlob(bufferData)
+        ]
+    };
+}
+function b_alloc_then_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, bufferData) {
+    var allocBytes = numberOfFrames * numberOfChannels * 4;
+    if (allocBytes != bufferData.length) {
+        console.error('b_alloc_then_memcpy: array size error', allocBytes, bufferData.length);
+    }
+    return b_alloc_then(bufferNumber, numberOfFrames, numberOfChannels, osc.writePacket(b_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, bufferData)));
+}
+function b_getn1(bufferNumber, startIndex, count) {
+    return {
+        address: '/b_getn',
+        args: [oscInt32(bufferNumber), oscInt32(startIndex), oscInt32(count)]
+    };
+}
+function b_query1(bufferNumber) {
+    return {
+        address: '/b_query',
+        args: [oscInt32(bufferNumber)]
+    };
+}
+// c = control
+function c_set1(busIndex, controlValue) {
+    return {
+        address: '/c_set',
+        args: [oscInt32(busIndex), oscFloat(controlValue)]
+    };
+}
+function c_setn1(busIndex, controlArray) {
+    return {
+        address: '/c_setn',
+        args: [oscInt32(busIndex), oscInt32(controlArray.length)].concat(controlArray.map(oscFloat))
+    };
+}
+// d = (synth) definition
+function d_recv(syndefArray) {
+    return {
+        address: '/d_recv',
+        args: [oscBlob(syndefArray)]
+    };
+}
+function d_recv_then(syndefArray, onCompletion) {
+    return {
+        address: '/d_recv',
+        args: [oscBlob(syndefArray), oscBlob(onCompletion)]
+    };
+}
+// g = group
+function g_new1(groupId, addAction, nodeId) {
+    return {
+        address: '/g_new',
+        args: [oscInt32(groupId), oscInt32(addAction), oscInt32(nodeId)]
+    };
+}
+function g_freeAll1(groupId) {
+    return {
+        address: '/g_freeAll',
+        args: [oscInt32(groupId)]
+    };
+}
+// m = meta
+var m_status = { address: '/status', args: [] };
+function m_dumpOsc(code) {
+    return {
+        address: '/dumpOSC',
+        args: [oscInt32(code)]
+    };
+}
+function m_notify(status, clientId) {
+    return {
+        address: '/notify',
+        args: [oscInt32(status), oscInt32(clientId)]
+    };
+}
+// s = synth
+function s_new0(name, nodeId, addAction, target) {
+    return {
+        address: '/s_new',
+        args: [oscString(name), oscInt32(nodeId), oscInt32(addAction), oscInt32(target)]
+    };
+}
 function append(lhs, rhs) { return lhs.concat(rhs); }
 function choose(anArray) { return anArray[randomInteger(0, anArray.length)]; }
 function clump(anArray, n) { return arrayClump(anArray, n); }
@@ -2235,6 +2540,18 @@ function stc_to_js_and_then(stcText, proc) {
         var encodedStcText = encodeURIComponent(stcText);
         fetch_url_and_then(urlPrefix + encodedStcText, 'text', proc);
     }
+}
+// sc3-texture.ts
+function OverlapTexture(graphFunc, sustainTime, transitionTime, overlap) {
+    var voiceFunction = function (i) {
+        var trg = kr(Impulse(1 / (sustainTime + (transitionTime * 2)), i / overlap));
+        var snd = graphFunc(trg);
+        var env = Env([0, 1, 1, 0], [transitionTime, sustainTime, transitionTime], 'sin', null, null, 0);
+        var sig = mul(snd, EnvGen(trg, 1, 0, 1, 0, envCoord(env)));
+        consoleDebug('OverlapTexture', trg, snd, env, sig);
+        return sig;
+    };
+    return sum(collect(to(0, overlap - 1), voiceFunction));
 }
 // sc3-u8.ts ; requires sc3-tree
 function isUint8Array(x) {
@@ -2455,4 +2772,19 @@ function isOutUgen(aValue) {
 // isControlRateUgen(MouseX(0, 1, 0, 0.2))
 function isControlRateUgen(aValue) {
     return isUgenInput(aValue) && (inputRate(aValue) == 1);
+}
+// Encode and send OpenSoundControl message to sc3_websocket.
+function sc3_websocket_send_osc(msg) {
+    sc3_websocket_send(osc.writePacket(msg));
+}
+// Encode and play Ugen.
+function playUgen(ugen) {
+    var graph = Graph('sc3.js', wrapOut(0, ugen));
+    var syndef = graphEncodeSyndef(graph);
+    console.log('play: scsyndef #', syndef.length);
+    sc3_websocket_send_osc(d_recv_then(syndef, osc.writePacket(s_new0('sc3.js', -1, kAddToTail, 1))));
+}
+// Free all.
+function reset() {
+    sc3_websocket_send_osc(g_freeAll1(1));
 }

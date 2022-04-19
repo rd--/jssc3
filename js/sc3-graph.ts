@@ -1,4 +1,4 @@
-// sc3-graph.ts ; requires: sc3-ugen
+// sc3-graph.ts ; requires: sc3-pseudo sc3-ugen
 
 // traverse graph from p adding leaf nodes to the set c
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
@@ -37,8 +37,14 @@ type Graph = {
     constantSeq: number[]
 };
 
+// This should check that signal is not a tree of numbers...
+function signalToUgenGraph(signal: Signal): Tree<UgenOutput> {
+    return <Tree<UgenOutput>>signal;
+}
+
 // ugens are sorted by id, which is in applicative order. a maxlocalbufs ugen is always present.
-function Graph(name: string, graph: Tree<UgenOutput>): Graph {
+function Graph(name: string, signal: Signal): Graph {
+    var graph = signalToUgenGraph(signal);
     var leafNodes = ugenGraphLeafNodes(graph);
     var ugens = arraySort(arrayFilter(leafNodes, isUgenPrimitive), ugenCompare);
     var constants = arrayFilter(leafNodes, isNumber);
@@ -89,6 +95,11 @@ function graphPrintSyndef(graph: Graph): void {
     console.log(SCgf, 2, 1, graph.graphName, arrayLength(graph.constantSeq), graph.constantSeq, 0, [], 0, [], arrayLength(graph.ugenSeq));
     arrayForEach(graph.ugenSeq, item => graphPrintUgenSpec(graph, item));
     console.log(0, []);
+}
+
+function printSyndefOf(ugen: Signal): void {
+    var graph = Graph('sc3.js', wrapOut(0, ugen));
+    graphPrintSyndef(graph);
 }
 
 function graphEncodeUgenSpec(graph: Graph, ugen: UgenPrimitive): Tree<Uint8Array> {

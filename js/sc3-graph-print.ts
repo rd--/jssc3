@@ -1,14 +1,7 @@
-'use strict';
+// sc3-graph-print.ts ; requires: sc3-graph sc3-pseudo sc3-ugen
 
-function printSyndefOf(ugen) {
-    var graph = Graph('sc3.js', Out(0, ugen));
-    graphPrintSyndef(graph);
-}
-
-// Pretty print
-
-function graphInputDisplayName(graph, input) {
-    if(isPort(input)) {
+function graphInputDisplayName(graph: Graph, input: UgenOutput): string {
+    if(isUgenOutput(input)) {
         var id = String(graphUgenIndex(graph, input.ugen.ugenId));
         var nm = ugenDisplayName(input.ugen);
         var ix = input.ugen.numChan > 1 ? ('[' + String(input.index) + ']') : '';
@@ -17,10 +10,11 @@ function graphInputDisplayName(graph, input) {
         return String(input);
     } else {
         console.error('graphInputDisplayName', input);
+        return '?';
     }
 }
 
-function graphPrettyPrintUgen(graph, ugen) {
+function graphPrettyPrintUgen(graph: Graph, ugen: UgenPrimitive): void {
     console.log(
         graphUgenIndex(graph, ugen.ugenId) + '_' + ugenDisplayName(ugen),
         rateSelector(ugen.ugenRate),
@@ -28,11 +22,11 @@ function graphPrettyPrintUgen(graph, ugen) {
     );
 }
 
-function graphPrettyPrintSyndef(graph) {
+function graphPrettyPrintSyndef(graph: Graph): void {
     arrayForEach(graph.ugenSeq, item => graphPrettyPrintUgen(graph, item));
 }
 
-function prettyPrintSyndefOf(ugen) {
-    var graph = Graph('sc3.js', Out(0, ugen));
+function prettyPrintSyndefOf(ugen: Signal): void {
+    var graph = Graph('sc3.js', wrapOut(0, ugen));
     graphPrettyPrintSyndef(graph);
 }

@@ -1,3 +1,5 @@
+// sc3-pseudo.ts ; requries: sc3-bindings sc3-envelope sc3-ugen
+
 // wrapOut(0, mul(SinOsc(440, 0), 0.1))
 function wrapOut(bus: Signal, ugen: Signal): Signal {
     return isOutUgen(ugen) ? ugen : Out(bus, ugen);

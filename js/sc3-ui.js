@@ -56,16 +56,6 @@ function user_program_clear() {
     }
 }
 
-function parse_int_or_alert(integerText, errorText, defaultAnswer) {
-    var answer = Number.parseInt(integerText, 10);
-    if(isNaN(answer)) {
-        window.alert(errorText);
-        return defaultAnswer;
-    } else {
-        return answer;
-    }
-}
-
 function action_set_hardware_buffer_size() {
     var replyText = window.prompt('Set hardware buffer size', String(scsynth_hardware_buffer_size));
     if(replyText) {

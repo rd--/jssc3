@@ -91,3 +91,13 @@ function window_url_set_param(key: string, value: string): void {
     windowUrl.searchParams.set(key, value);
     window.history.pushState({}, '', windowUrl);
 }
+
+function parse_int_or_alert(integerText: string, errorText: string, defaultAnswer: number): number {
+    var answer = Number.parseInt(integerText, 10);
+    if(isNaN(answer)) {
+        window.alert(errorText);
+        return defaultAnswer;
+    } else {
+        return answer;
+    }
+}

@@ -8,8 +8,8 @@ function recv_document_mouse_event(e) {
     sc3_mouse.x = event.pageX / window.innerWidth;
     sc3_mouse.y = 1 - (e.pageY / window.innerHeight);
     sc3_mouse.w = e.buttons === 1 ? 1 : 0;
-    consoleDebug('recv_document_mouse_event', sc3_mouse);
-    setPointerControls(0, sc3_mouse.w, sc3_mouse.x, sc3_mouse.y);
+    consoleDebug('recv_document_mouse_event', sc3_mouse); // sc3-error
+    setPointerControls(0, sc3_mouse.w, sc3_mouse.x, sc3_mouse.y); // sc3-wasm
 }
 
 // Install mouse event handler.

@@ -1,12 +1,16 @@
-'use strict';
+// sc3-websocket-osc.js
+
+declare namespace osc {
+  function writePacket(message: ServerMessage): Uint8Array;
+}
 
 // Encode and send OpenSoundControl message to sc3_websocket.
-function sc3_websocket_send_osc(msg) {
+function sc3_websocket_send_osc(msg: ServerMessage): void {
     sc3_websocket_send(osc.writePacket(msg));
 }
 
 // Encode and play Ugen.
-function playUgen(ugen) {
+function playUgen(ugen: Signal): void {
     var graph = Graph('sc3.js', wrapOut(0, ugen));
     var syndef = graphEncodeSyndef(graph);
     console.log('play: scsyndef #', syndef.length);
@@ -14,6 +18,6 @@ function playUgen(ugen) {
 }
 
 // Free all.
-function reset() {
+function reset(): void {
     sc3_websocket_send_osc(g_freeAll1(1));
 }

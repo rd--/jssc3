@@ -1,3 +1,4 @@
+// Printing to to the console is slow, even if debugging messages aren't displayed
 var sc3_debug: boolean = false;
 
 function consoleDebug(...args: any[]): void {
@@ -6,3 +7,6 @@ function consoleDebug(...args: any[]): void {
     }
 }
 
+function consoleError(...args: any[]): void {
+    console.error(...args);
+}
