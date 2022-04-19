@@ -1,5 +1,3 @@
-'use strict';
-
 // w is button state, x and y are unit scaled co-ordinates within window where y points up.
 var sc3_mouse = { w: 0, x: 0, y: 0 };
 

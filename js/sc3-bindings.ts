@@ -606,6 +606,10 @@ function PanB(input: Signal, azimuth: Signal, elevation: Signal, gain: Signal): 
 function PeakFollower(input: Signal, decay: Signal): Signal {
     return makeUgen('PeakFollower', 1, [0], 0, [input, decay]);
 }
+// 3D Perlin Noise
+function Perlin3(x: Signal, y: Signal, z: Signal): Signal {
+    return makeUgen('Perlin3', 1, rateAr, 0, [x, y, z]);
+}
 // A resettable linear ramp between two levels.
 function Phasor(trig: Signal, rate: Signal, start: Signal, end: Signal, resetPos: Signal): Signal {
     return makeUgen('Phasor', 1, rateAr, 0, [trig, rate, start, end, resetPos]);
@@ -801,6 +805,10 @@ function TwoZero(input: Signal, freq: Signal, radius: Signal): Signal {
 // Variable duty saw
 function VarSaw(freq: Signal, iphase: Signal, width: Signal): Signal {
     return makeUgen('VarSaw', 1, rateAr, 0, [freq, iphase, width]);
+}
+// artifical reverberator
+function VBJonVerb(input: Signal, decay: Signal, damping: Signal, inputbw: Signal, erfl: Signal, tail: Signal): Signal {
+    return makeUgen('VBJonVerb', 2, [0], 0, [input, decay, damping, inputbw, erfl, tail]);
 }
 // The Vibrato oscillator models a slow frequency modulation.
 function Vibrato(freq: Signal, rate: Signal, depth: Signal, delay: Signal, onset: Signal, rateVariation: Signal, depthVariation: Signal, iphase: Signal, trig: Signal): Signal {
@@ -1019,7 +1027,7 @@ function sinh(a: Signal): Signal { return UnaryOp(34, a); }
 function cosh(a: Signal): Signal { return UnaryOp(35, a); }
 function tanh(a: Signal): Signal { return UnaryOp(36, a); }
 function rand_(a: Signal): Signal { return UnaryOp(37, a); }
-function rand2_(a: Signal): Signal { return UnaryOp(38, a); }
+function rand2(a: Signal): Signal { return UnaryOp(38, a); }
 function linRand_(a: Signal): Signal { return UnaryOp(39, a); }
 function biLinRand(a: Signal): Signal { return UnaryOp(40, a); }
 function sum3Rand(a: Signal): Signal { return UnaryOp(41, a); }

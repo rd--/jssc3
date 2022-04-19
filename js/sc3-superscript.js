@@ -18,13 +18,13 @@ var quill_options = {
     theme: 'snow'
 };
 
-function ui_rte_init() {
+function sc3_superscript_init() {
     quill_text_editor = new Quill('#text_editor', quill_options);
     quill_text_editor.root.setAttribute('spellcheck', false);
-    consoleDebug('ui_rte_init: finished');
+    consoleDebug('sc3_superscript_init: finished');
 }
 
-function ui_rte_get_selected_text() {
+function sc3_superscript_get_selected_text() {
     var range = quill_text_editor.getSelection();
     var emptyString = '';
     if (range) {
@@ -39,15 +39,15 @@ function ui_rte_get_selected_text() {
     }
 }
 
-function ui_rte_set_text(programText) {
+function sc3_superscript_set_text(programText) {
     quill_text_editor.root.innerHTML = programText;
 }
 
 function editor_get_js_notation_and_then(proc) {
-    translate_if_required_and_then(ui_rte_get_selected_text(), proc);
+    translate_if_required_and_then(sc3_superscript_get_selected_text(), proc);
 }
 
-var text_editor_get_selected_text = ui_rte_get_selected_text;
+var text_editor_get_selected_text = sc3_superscript_get_selected_text;
 
 // Get text (as .html)
 function editor_get_data() {

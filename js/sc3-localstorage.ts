@@ -2,11 +2,12 @@
 
 // Array of all keys at local storage
 function local_storage_keys(): string[] {
-    var answer = [];
-    for(var i = 0; i < localStorage.length; i++) {
+    var arrayLength = localStorage.length;
+    var answer = Array(arrayLength);
+    for(var i = 0; i < arrayLength; i++) {
         var key = localStorage.key(i);
         if(key) {
-            answer.push(key);
+            answer[i] = key;
         } else {
             console.warn('local_storage_keys: null key?');
         }
@@ -15,6 +16,6 @@ function local_storage_keys(): string[] {
 }
 
 // Delete all keys selected by predicate
-function local_storage_delete_matching(predicate: (x: string) => boolean): void {
+function local_storage_delete_matching(predicate:  (aString: string) => boolean): void {
     local_storage_keys().forEach(entry => predicate(entry) ? localStorage.removeItem(entry) : null);
 }

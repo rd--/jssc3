@@ -49,6 +49,7 @@ Files that depend only on _core_ files, and that can be typed easily, are also w
 These file are called _base_ files at the _Makefile_.
 The _core_ and _base_ .ts files are joined together into _jssc3-base.ts_, which is compiled to .js.
 If <https://github.com/tc39/proposal-type-annotations> proceeds these would be ordinary .js files with type comments.
+Note that .ts can use _Array.isArray_ to reason, but not _isArray_, even where _isArray = Array.isArray_.
 
 # Relation to Scheme
 

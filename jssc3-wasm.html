@@ -10,15 +10,13 @@
     <script src="js/jssc3-base.js"></script>
     <script src="js/sc3-midi-mpe.js"></script>
     <script src="js/sc3-pointer-rebind.js"></script>
+    <script src="js/sc3-ui-pte.js"></script>
     <script src="js/sc3-wasm.js"></script>
     <script src="js/sc3-wasm-module.js"></script>
-    <script src="js/sc3-ui.js"></script>
-    <script src="js/sc3-ui-mouse.js"></script>
-    <script src="js/sc3-ui-pte.js"></script>
     <script src="js/jssc3.js"></script>
     <script>
 window.onload = function () {
-    sc3_ui_init('', true, true, false, false, null, 'jssc3UserPrograms/js', load_graph, true, 4096, 48);
+    sc3_ui_init('', true, true, false, false, null, 'jssc3UserPrograms/js', graph_load, true, 4096, 48);
     ui_pte_init();
     sc3_wasm_init();
     jssc3_init('e', null, 's');

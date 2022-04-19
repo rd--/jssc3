@@ -3,10 +3,9 @@
 // traverse graph from p adding leaf nodes to the set c
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
 function ugenTraverseCollecting(p: Tree<UgenOutput>, c: Set<number | UgenPrimitive>, w: Set<number | UgenPrimitive>): void {
-    if(isArray(p)) {
-        var pArray = <Forest<UgenOutput>>p;
-        consoleDebug('ugenTraverseCollecting: array', pArray);
-        arrayForEach(pArray, item => ugenTraverseCollecting(item, c, w));
+    if(Array.isArray(p)) {
+        consoleDebug('ugenTraverseCollecting: array', p);
+        arrayForEach(p, item => ugenTraverseCollecting(item, c, w));
     } else if(isUgenOutput(p)) {
         var pUgenOutput = <UgenOutput>p;
         consoleDebug('ugenTraverseCollecting: port', pUgenOutput);

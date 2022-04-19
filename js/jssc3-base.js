@@ -1,8 +1,6 @@
 "use strict";
 // sc3-array.ts
-function isArray(aValue) {
-    return Array.isArray(aValue);
-}
+var isArray = Array.isArray;
 function arrayAppend(lhs, rhs) {
     return lhs.concat(rhs);
 }
@@ -20,7 +18,6 @@ function arrayAtIndices(anArray, indices) {
 }
 // arrayAtWrap([1, 2, 3], 5) === 3
 function arrayAtWrap(anArray, index) {
-    consoleDebug('atWrap', anArray, index);
     return anArray[index % anArray.length];
 }
 // arrayClump(arrayIota(20), 5)
@@ -52,6 +49,9 @@ function arrayDropWhile(anArray, predicate) {
     else {
         return anArray;
     }
+}
+function arrayEvery(anArray, aPredicate) {
+    return anArray.every(aPredicate);
 }
 // arrayExtendCyclically([1, 2, 3], 8) //= [1, 2, 3, 1, 2, 3, 1, 2]
 function arrayExtendCyclically(anArray, size) {
@@ -216,6 +216,9 @@ function counterNewFromBy(start, by) {
 function counterNew() {
     return counterNewFromBy(0, 1);
 }
+function isDictionary(aValue) {
+    return (typeof aValue) == 'object';
+}
 function dictionaryNew() {
     return {};
 }
@@ -224,6 +227,13 @@ function dictionaryAt(aDictionary, aKey) {
 }
 function dictionaryPut(aDictionary, aKey, aValue) {
     aDictionary[aKey] = aValue;
+}
+function dictionaryHasKey(aDictionary, aKey) {
+    return aDictionary[aKey] !== undefined;
+}
+// Copy all entries from sourceDictionary to destinationDictionary.
+function dictionaryCopyAllFromTo(sourceDictionary, destinationDictionary) {
+    Object.entries(sourceDictionary).forEach(([key, value]) => destinationDictionary[key] = value);
 }
 // Find key at aDictionary that holds aValue.
 function dictionaryFindKeyOfValue(aDictionary, aValue) {
@@ -291,7 +301,6 @@ function select_add_keys_as_options(selectId, keyArray) {
         option.value = key;
         option.text = key;
         select.add(option, null);
-        consoleDebug('select_add_keys_as_options', key);
     });
 }
 // Add a listener to buttonId that passes click events to inputId.
@@ -364,7 +373,6 @@ function encodeFloat32Array(inputArray) {
         dataView.setFloat32(i * 4, inputArray[i]);
     }
     var uint8Array = new Uint8Array(arrayBuffer);
-    consoleDebug('encodeFloat32Array', inputArray, arrayBuffer, uint8Array);
     return uint8Array;
 }
 // encodePascalString('string') //= [6, 115, 116, 114, 105, 110, 103]
@@ -383,8 +391,18 @@ function consoleDebug(...args) {
         console.debug(...args);
     }
 }
+function consoleWarn(...args) {
+    console.warn(...args);
+}
 function consoleError(...args) {
     console.error(...args);
+}
+function consoleLogMessageFrom(from, text) {
+    console.log(from + ': ', text);
+}
+// [() => null, Math.abs, Math.pow, console.log].map(functionArity) //= [0, 1, 2, 0]
+function functionArity(aFunction) {
+    return aFunction.length;
 }
 // sc3-io.ts
 // Append timestamp to URL to defeat cache
@@ -409,7 +427,7 @@ function handle_fetch_error(response) {
 }
 // Log error and return default value
 function log_error_and_return(fromWhere, reason, defaultValue) {
-    consoleDebug(fromWhere, ': ', reason);
+    console.debug(fromWhere, ': ', reason);
     return defaultValue;
 }
 function load_and_extract_and_then(fileName, typeString, extractFunc, processFunc) {
@@ -460,11 +478,12 @@ function read_json_file_and_then(jsonFile, proc) {
 // sc3-localstorage.ts
 // Array of all keys at local storage
 function local_storage_keys() {
-    var answer = [];
-    for (var i = 0; i < localStorage.length; i++) {
+    var arrayLength = localStorage.length;
+    var answer = Array(arrayLength);
+    for (var i = 0; i < arrayLength; i++) {
         var key = localStorage.key(i);
         if (key) {
-            answer.push(key);
+            answer[i] = key;
         }
         else {
             console.warn('local_storage_keys: null key?');
@@ -641,6 +660,22 @@ function unaryOperatorName(specialIndex) {
 function binaryOperatorName(specialIndex) {
     return Object.keys(binaryOperators).find(key => binaryOperators[key] === specialIndex) || 'unknown binary operator name?';
 }
+function isQueue(aValue) {
+    return Array.isArray(aValue);
+}
+function queueNew() {
+    return [];
+}
+function queuePush(aQueue, aValue) {
+    aQueue.push(aValue);
+}
+function queuePop(aQueue) {
+    return aQueue.pop;
+}
+// q = queueNew(); [1, 2, 3].forEach(item => queuePush(q, item)); queueToArray(q) //= [1, 2, 3]
+function queueToArray(aQueue) {
+    return aQueue;
+}
 // sc3-rate.ts
 var rateIr = 0;
 var rateKr = 1;
@@ -652,22 +687,22 @@ function rateSelector(aRate) {
     return rateSelectorTable[String(aRate)];
 }
 // sc3-set.ts
+function setNew() {
+    return new Set();
+}
 function setAdd(aSet, aValue) {
     aSet.add(aValue);
 }
+var setPut = setAdd;
 function setHas(aSet, aValue) {
     return aSet.has(aValue);
 }
 function setFromArray(anArray) {
     return new Set(anArray);
 }
-function setNew() {
-    return new Set();
-}
 function setToArray(aSet) {
     return Array.from(aSet);
 }
-var setPut = setAdd;
 // sc3-string.ts
 // isString('string') === true
 function isString(x) {
@@ -1362,6 +1397,10 @@ function PanB(input, azimuth, elevation, gain) {
 function PeakFollower(input, decay) {
     return makeUgen('PeakFollower', 1, [0], 0, [input, decay]);
 }
+// 3D Perlin Noise
+function Perlin3(x, y, z) {
+    return makeUgen('Perlin3', 1, rateAr, 0, [x, y, z]);
+}
 // A resettable linear ramp between two levels.
 function Phasor(trig, rate, start, end, resetPos) {
     return makeUgen('Phasor', 1, rateAr, 0, [trig, rate, start, end, resetPos]);
@@ -1872,20 +1911,21 @@ function Env(levels, times, curves, releaseNode, loopNode, offset) {
     };
 }
 function envCoord(env) {
-    var n = env.levels.length - 1;
-    var r = [];
-    r.push(env.levels[0]);
-    r.push(n);
-    r.push(env.releaseNode || -99);
-    r.push(env.loopNode || -99);
-    for (var i = 0; i < n; i++) {
+    var segmentCount = arrayLength(env.levels) - 1;
+    var answerQueue = queueNew();
+    var store = function (aValue) { queuePush(answerQueue, aValue); };
+    store(env.levels[0]);
+    store(segmentCount);
+    store(env.releaseNode || -99);
+    store(env.loopNode || -99);
+    for (var i = 0; i < segmentCount; i++) {
         var c = arrayAtWrap(env.curves, i);
-        r.push(env.levels[i + 1]);
-        r.push(arrayAtWrap(env.times, i));
-        r.push(isString(c) ? envCurveDictionary[c] : 5);
-        r.push(isString(c) ? 0 : c);
+        store(env.levels[i + 1]);
+        store(arrayAtWrap(env.times, i));
+        store(isString(c) ? envCurveDictionary[c] : 5);
+        store(isString(c) ? 0 : c);
     }
-    return r;
+    return queueToArray(answerQueue);
 }
 function EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, peakLevel, curve) {
     return Env([0, peakLevel, mul(peakLevel, sustainLevel), 0], [attackTime, decayTime, releaseTime], curve, 2, null, 0);
@@ -1957,10 +1997,9 @@ function PenRadius(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 5
 // traverse graph from p adding leaf nodes to the set c
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
 function ugenTraverseCollecting(p, c, w) {
-    if (isArray(p)) {
-        var pArray = p;
-        consoleDebug('ugenTraverseCollecting: array', pArray);
-        arrayForEach(pArray, item => ugenTraverseCollecting(item, c, w));
+    if (Array.isArray(p)) {
+        consoleDebug('ugenTraverseCollecting: array', p);
+        arrayForEach(p, item => ugenTraverseCollecting(item, c, w));
     }
     else if (isUgenOutput(p)) {
         var pUgenOutput = p;
@@ -2137,8 +2176,8 @@ function Cutoff(sustainTime, releaseTime, curve) {
     return EnvGen(1, 1, 0, 1, 0, envCoord(env));
 }
 function signalLength(aSignal) {
-    if (isArray(aSignal)) {
-        return aSignal.length;
+    if (Array.isArray(aSignal)) {
+        return (aSignal).length;
     }
     else {
         return 1;
@@ -2413,6 +2452,7 @@ function s_new0(name, nodeId, addAction, target) {
         args: [oscString(name), oscInt32(nodeId), oscInt32(addAction), oscInt32(target)]
     };
 }
+// sc3-smalltalk.ts
 function append(lhs, rhs) { return lhs.concat(rhs); }
 function choose(anArray) { return anArray[randomInteger(0, anArray.length)]; }
 function clump(anArray, n) { return arrayClump(anArray, n); }
@@ -2425,7 +2465,7 @@ function mean(anArray) { return fdiv(sum(anArray), anArray.length); }
 function negated(aNumber) { return neg(aNumber); }
 function nth(anArray, index) { return anArray[index - 1]; }
 function product(anArray) { return anArray.reduce(mul); }
-var rand = randomFloat;
+function rand(min, max) { return randomFloat(min, max); }
 function rand2(n) { return randomFloat(0 - n, n); }
 function reciprocal(a) { return recip(a); }
 function reverse(anArray) { return anArray.reverse(); }
@@ -2560,23 +2600,23 @@ function OverlapTexture(graphFunc, sustainTime, transitionTime, overlap) {
     };
     return sum(collect(to(0, overlap - 1), voiceFunction));
 }
-// sc3-u8.ts ; requires sc3-tree
+// sc3-u8.ts ; requires sc3-queue sc3-tree
 function isUint8Array(x) {
     return (x instanceof Uint8Array);
 }
-function uint8ArrayIntoArray(u8Array, numberArray) {
-    u8Array.forEach(aNumber => numberArray.push(aNumber));
+function uint8ArrayIntoQueue(u8Array, numberQueue) {
+    u8Array.forEach(aNumber => queuePush(numberQueue, aNumber));
 }
-// Flatten a tree of Uint8Array to an array of U8
-function flattenByteEncodingToArray(aTree, anArray) {
-    treeVisit(aTree, item => uint8ArrayIntoArray(item, anArray));
+// Flatten a tree of Uint8Array to an queue of U8
+function flattenByteEncodingIntoQueue(aTree, numberQueue) {
+    treeVisit(aTree, item => uint8ArrayIntoQueue(item, numberQueue));
 }
 function flattenByteEncoding(aTree) {
-    var anArray = [];
-    flattenByteEncodingToArray(aTree, anArray);
-    return new Uint8Array(anArray);
+    var numberQueue = queueNew();
+    flattenByteEncodingIntoQueue(aTree, numberQueue);
+    return new Uint8Array(queueToArray(numberQueue));
 }
-// sc3-ugen.ts ; requires: sc3-counter, sc3-operators, sc3-tree
+// sc3-ugen.ts ; requires: sc3-counter sc3-error sc3-operators sc3-tree
 var ugenCounter = counterNew();
 function Ugen(name, numChan, rate, specialIndex, inputs) {
     return {
@@ -2600,7 +2640,7 @@ function UgenOutput(ugen, index) {
     };
 }
 function isUgenOutput(obj) {
-    return obj && obj.ugen !== undefined && obj.index !== undefined;
+    return obj && dictionaryHasKey(obj, 'ugen') && dictionaryHasKey(obj, 'index');
 }
 function isUgenInput(aValue) {
     return isNumber(aValue) || isUgenOutput(aValue);
@@ -2613,7 +2653,7 @@ function inputBranch(input, onUgenOutput, onNumber, onError) {
         return onNumber(input);
     }
     else {
-        console.error('inputBranch: unknown input type?', input);
+        consoleError('inputBranch: unknown input type?', input);
         return onError();
     }
 }
@@ -2631,10 +2671,16 @@ function deriveRate(rateOrFilterUgenInputs, inputsArray) {
         return arrayMaxItem(arrayMap(arrayAtIndices(inputsArray, rateOrFilterUgenInputs), inputRate));
     }
 }
+function requiresMce(inputs) {
+    return arrayContainsArray(inputs);
+}
+function mceInputTransform(aSignal) {
+    return arrayTranspose(arrayExtendToBeOfEqualSize(aSignal));
+}
 function makeUgen(name, numChan, rateSpec, specialIndex, inputs) {
     consoleDebug('makeUgen', name, numChan, rateSpec, specialIndex, inputs);
-    if (arrayContainsArray(inputs)) {
-        return arrayTranspose(arrayExtendToBeOfEqualSize(inputs)).map(item => makeUgen(name, numChan, rateSpec, specialIndex, item));
+    if (requiresMce(inputs)) {
+        return arrayMap(mceInputTransform(inputs), item => makeUgen(name, numChan, rateSpec, specialIndex, item));
     }
     else {
         var inputArray = inputs;
@@ -2656,10 +2702,9 @@ function ugenDisplayName(ugen) {
 // Mrg
 // inputFirstUgen([0, SinOsc([440, 441], 0), SinOsc(442, 0)])
 function inputFirstUgen(input) {
-    if (isArray(input)) {
+    if (Array.isArray(input)) {
         consoleDebug('inputFirstUgen: array', input);
-        var inputArray = input;
-        return arrayFind(arrayMap(inputArray, inputFirstUgen), isUgenPrimitive) || null;
+        return arrayFind(arrayMap(input, inputFirstUgen), isUgenPrimitive) || null;
     }
     else if (isUgenOutput(input)) {
         consoleDebug('inputFirstUgen: port', input);
@@ -2674,41 +2719,39 @@ function mrg(lhs, rhs) {
     var ugen = inputFirstUgen(lhs);
     consoleDebug('mrg', lhs, rhs, ugen);
     if (ugen && ugen.mrg) {
-        if (isArray(rhs)) {
-            var rhsArray = rhs;
+        if (Array.isArray(rhs)) {
             var mrgArray = (ugen.mrg);
-            arrayForEach(rhsArray, item => arrayPush(mrgArray, item));
+            arrayForEach(rhs, item => arrayPush(mrgArray, item));
         }
         else {
             arrayPush(ugen.mrg, rhs);
         }
     }
     else {
-        console.error("mrg: no ugen or ugen.mrg is null?");
+        consoleError("mrg: no ugen or ugen.mrg is null?");
     }
     return lhs;
 }
 // Kr
 function krMutateInPlace(input) {
     if (isUgenOutput(input)) {
-        var port = input;
-        consoleDebug('kr: port', port);
-        krMutateInPlace(port.ugen);
+        var inputPort = input;
+        consoleDebug('kr: port', inputPort);
+        krMutateInPlace(inputPort.ugen);
     }
     else if (isUgenPrimitive(input)) {
-        var ugen = input;
-        consoleDebug('kr: ugen', ugen);
-        ugen.ugenRate = ugen.ugenRate === 2 ? 1 : ugen.ugenRate;
-        ugen.inputValues.forEach(item => krMutateInPlace(item));
+        var inputUgen = input;
+        consoleDebug('kr: ugen', inputUgen);
+        inputUgen.ugenRate = inputUgen.ugenRate === 2 ? 1 : inputUgen.ugenRate;
+        arrayForEach(inputUgen.inputValues, item => krMutateInPlace(item));
     }
     else if (Array.isArray(input)) {
-        var array = input;
-        consoleDebug('kr: array', array);
-        array.forEach(item => krMutateInPlace(item));
+        consoleDebug('kr: array', input);
+        arrayForEach(input, item => krMutateInPlace(item));
     }
     else {
         if (!isNumber(input)) {
-            console.error('krMutateInPlace', input);
+            consoleError('krMutateInPlace', input);
         }
     }
 }
@@ -2738,12 +2781,11 @@ function UnaryOpWithConstantOptimiser(specialIndex, input) {
 }
 // [1, [], [1], [1, 2], [1, null], SinOsc(440, 0), [SinOsc(440, 0)]].map(isArrayConstant)
 function isArrayConstant(aValue) {
-    return Array.isArray(aValue) && aValue.every(isNumber);
+    return Array.isArray(aValue) && arrayEvery(aValue, isNumber);
 }
 function UnaryOp(specialIndex, input) {
-    if (isArrayConstant(input)) {
-        var constantArray = input;
-        return constantArray.map(item => UnaryOpWithConstantOptimiser(specialIndex, item));
+    if (Array.isArray(input) && arrayEvery(input, isNumber)) {
+        return arrayMap(input, item => UnaryOpWithConstantOptimiser(specialIndex, item));
     }
     else {
         return UnaryOpWithConstantOptimiser(specialIndex, input);
@@ -2764,9 +2806,9 @@ function BinaryOpWithConstantOptimiser(specialIndex, lhs, rhs) {
 }
 function BinaryOp(specialIndex, lhs, rhs) {
     if (Array.isArray(lhs) || Array.isArray(rhs)) {
-        var expanded = arrayTranspose(arrayExtendToBeOfEqualSize([arrayAsArray(lhs), arrayAsArray(rhs)]));
+        var expanded = mceInputTransform([arrayAsArray(lhs), arrayAsArray(rhs)]);
         consoleDebug('BinaryOp: array constant', expanded);
-        return expanded.map(item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]));
+        return arrayMap(expanded, item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]));
     }
     else {
         return BinaryOpWithConstantOptimiser(specialIndex, lhs, rhs);
@@ -2794,4 +2836,232 @@ function playUgen(ugen) {
 // Free all.
 function reset() {
     sc3_websocket_send_osc(g_freeAll1(1));
+}
+var notation_format;
+var scsynth_hardware_buffer_size;
+var scsynth_block_size;
+var scsynth_num_inputs;
+var scsynth_num_outputs;
+
+function resolve_file_type(fileType) {
+    return fileType ? fileType : notation_format;
+}
+
+function graph_load(graphDir, graphName, fileType) {
+    var graphFileName = 'help/' + graphDir + '/' + graphName + resolve_file_type(fileType);
+    var graphUrl = url_append_timestamp(graphFileName);
+    consoleLogMessageFrom('load_graph', graphName);
+    fetch_url_and_then(graphUrl, 'text', programText => editor_set_data(programText));
+}
+
+function graph_menu_init(menuId, graphDir, fileType, loadProc) {
+    var menu = document.getElementById(menuId);
+    if(menu) {
+        menu.addEventListener('change', e => e.target.value ? loadProc(graphDir, e.target.value, resolve_file_type(fileType)) : null);
+    } else {
+        consoleWarn('graph_menu_init: no element', menuId);
+    }
+}
+
+function set_notation_format() {
+    var notationFormat = document.getElementById('notationFormat');
+    notation_format = notationFormat.value;
+    consoleLogMessageFrom('set_notation_format', notation_format);
+}
+
+// subDir should be empty or should end with a '/'
+function sc3_ui_init(subDir, hasProgramMenu, hasHelpMenu, hasGuideMenu, hasEssayMenu, fileExt, storageKey, loadProc, initMouse, hardwareBufferSize, blockSize) {
+    if(hasProgramMenu) {
+        graph_menu_init('programMenu', subDir + 'graph', fileExt, loadProc);
+        load_utf8_and_then('html/' + subDir + 'program-menu.html', setter_for_inner_html_of('programMenu'));
+    }
+    if(hasHelpMenu) {
+        graph_menu_init('helpMenu', subDir + 'ugen', fileExt, loadProc);
+        load_utf8_and_then('html/' + subDir + 'help-menu.html', setter_for_inner_html_of('helpMenu'));
+    }
+    if(hasGuideMenu) {
+        graph_menu_init('guideMenu', subDir + 'guide', fileExt, loadProc);
+        load_utf8_and_then('html/' + subDir + 'guide-menu.html', setter_for_inner_html_of('guideMenu'));
+    }
+    if(hasEssayMenu) {
+        graph_menu_init('essayMenu', subDir + 'essay', fileExt, loadProc);
+        load_utf8_and_then('html/' + subDir + 'essay-menu.html', setter_for_inner_html_of('essayMenu'));
+    }
+    user_storage_key = storageKey;
+    notation_format = '.stc';
+    user_program_menu_init();
+    actions_menu_init();
+    if(initMouse) {
+        sc3_mouse_init();
+    }
+    scsynth_hardware_buffer_size = hardwareBufferSize;
+    scsynth_block_size = blockSize;
+    scsynth_num_inputs = 0;
+    scsynth_num_outputs = 2;
+}
+
+function setStatusDisplay(text) {
+    var status = document.getElementById('statusText');
+    if(status) {
+        statusText.innerHTML = text;
+    } else {
+        console.log(text);
+    }
+}
+
+function translate_if_required_and_then(userText, proc) {
+    switch(notation_format) {
+    case '.js': proc(userText); break;
+    case '.stc': stc_to_js_and_then(userText, proc); break;
+    default: consoleError('translate_if_required_and_then: unknown format', notation_format);
+    }
+}
+
+function prettyPrintSyndef() {
+    editor_get_js_notation_and_then(function(programText) {
+        prettyPrintSyndefOf(eval(programText));
+    });
+}
+
+function evalJsProgram() {
+    editor_get_js_notation_and_then(function(programText) {
+        var result = eval(programText);
+        console.log(result);
+    });
+}
+
+function playJsProgram() {
+    editor_get_js_notation_and_then(function(programText) {
+        var result = eval(programText);
+        playUgen(result);
+    });
+}
+
+// Sets the 's' url parameter of the window to the encdoded form of the selected text.
+function set_url_to_encode_selection() {
+    window_url_set_param('s', text_editor_get_selected_text());
+}
+
+function ui_boot_scsynth() {
+    bootScsynth(scsynth_num_inputs, scsynth_num_outputs, scsynth_hardware_buffer_size, scsynth_block_size);
+}
+function action_set_hardware_buffer_size() {
+    var replyText = window.prompt('Set hardware buffer size', String(scsynth_hardware_buffer_size));
+    if(replyText) {
+        scsynth_block_size = parse_int_or_alert(replyText, 'Hardware buffer size not an integer', scsynth_hardware_buffer_size);
+    }
+}
+
+function action_set_block_size() {
+    var replyText = window.prompt('Set block size', String(scsynth_block_size));
+    if(replyText) {
+        scsynth_block_size = parse_int_or_alert(replyText, 'Block size not an integer', scsynth_block_size);
+    }
+}
+
+function action_set_num_inputs() {
+    var replyText = window.prompt('Set number of inputs', String(scsynth_num_inputs));
+    if(replyText) {
+        scsynth_num_inputs = parse_int_or_alert(replyText, 'Number of inputs not an integer', scsynth_num_inputs);
+    }
+}
+
+// Copy user programs as .json to clipboard
+function action_user_backup() {
+    navigator.clipboard.writeText(JSON.stringify(user_programs));
+}
+
+// Click (invisible) file select input.
+function action_user_restore() {
+    document.getElementById('userProgramArchiveFile').click();
+}
+
+function actions_menu_do(menu, entryName) {
+    console.log('actions_menu_do', entryName);
+    switch(entryName) {
+    case 'setBlockSize': action_set_block_size(); break;
+    case 'setHardwareBufferSize': action_set_hardware_buffer_size(); break;
+    case 'setNumInputs': action_set_num_inputs(); break;
+    case 'userBackup': action_user_backup(); break;
+    case 'userRestore': action_user_restore(); break;
+    case 'userPurge': user_program_clear(); break;
+    case 'documentVisit': load_utf8_and_then(text_editor_get_selected_text(), editor_set_data); break;
+    case 'midiMpeStart': sc3_midi_mpe_init(); break;
+    default: console.error('actions_menu_do: unknown action', entryName);
+    }
+    menu.selectedIndex = 0;
+}
+
+function actions_menu_init() {
+    var menu = document.getElementById('actionsMenu');
+    if(menu) {
+        menu.addEventListener('change', e => e.target.value ? actions_menu_do(menu, e.target.value) : null);
+    }
+}
+// w is button state, x and y are unit scaled co-ordinates within window where y points up.
+var sc3_mouse = { w: 0, x: 0, y: 0 };
+
+// Event handler for mouse event.
+function recv_document_mouse_event(e) {
+    sc3_mouse.x = event.pageX / window.innerWidth;
+    sc3_mouse.y = 1 - (e.pageY / window.innerHeight);
+    sc3_mouse.w = e.buttons === 1 ? 1 : 0;
+    consoleDebug('recv_document_mouse_event', sc3_mouse); // sc3-error
+    setPointerControls(0, sc3_mouse.w, sc3_mouse.x, sc3_mouse.y); // sc3-wasm
+}
+
+// Install mouse event handler.
+function sc3_mouse_init() {
+    document.onmousedown = recv_document_mouse_event;
+    document.onmousemove = recv_document_mouse_event;
+    document.onmouseup = recv_document_mouse_event;
+}
+var user_programs;
+var user_storage_key;
+
+function user_program_menu_init() {
+    var stored = localStorage.getItem(user_storage_key);
+    user_programs = stored ? JSON.parse(stored) : {};
+    select_on_change('userMenu', user_program_load);
+    select_add_keys_as_options('userMenu', Object.keys(user_programs));
+}
+
+function user_program_save_to() {
+    var timeStamp = (new Date()).toISOString();
+    var programName = window.prompt('Set program name', timeStamp);
+    if(programName) {
+        user_programs[programName] = editor_get_data();
+        localStorage.setItem(user_storage_key, JSON.stringify(user_programs));
+        select_add_option_at_id('userMenu', programName, programName);
+    }
+}
+
+function user_program_load(programName) {
+    editor_set_data(user_programs[programName]);
+}
+
+function user_program_clear() {
+    if (window.confirm("Clear user program storage?")) {
+        select_clear_from('userMenu', 1);
+        localStorage.removeItem(user_storage_key);
+    }
+}
+
+function user_storage_sync() {
+    localStorage.setItem(user_storage_key, JSON.stringify(user_programs));
+    select_clear_from('userMenu', 1);
+    select_add_keys_as_options('userMenu', Object.keys(user_programs));
+}
+
+// Read selected .json user program archive file.
+function user_program_read_archive() {
+    var jsonFile = document.getElementById('userProgramArchiveFile').files[0];
+    consoleDebug('user_program_read_archive', jsonFile);
+    if (jsonFile) {
+        read_json_file_and_then(jsonFile, function(obj) {
+            consoleDebug('user_program_read_archive', obj);
+            Object.assign(user_programs, obj);
+            user_storage_sync();
+        });
+    }
 }

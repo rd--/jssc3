@@ -21,8 +21,8 @@ function Cutoff(sustainTime: Signal, releaseTime: Signal, curve: Signal): Signal
 }
 
 function signalLength(aSignal: Signal): number {
-    if(isArray(aSignal)) {
-        return (<any[]>aSignal).length;
+    if(Array.isArray(aSignal)) {
+        return (aSignal).length;
     } else {
         return 1;
     }

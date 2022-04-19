@@ -7,6 +7,14 @@ function consoleDebug(...args: any[]): void {
     }
 }
 
+function consoleWarn(...args: any[]): void {
+    console.warn(...args);
+}
+
 function consoleError(...args: any[]): void {
     console.error(...args);
+}
+
+function consoleLogMessageFrom(from: string, text: string): void {
+    console.log(from + ': ', text);
 }

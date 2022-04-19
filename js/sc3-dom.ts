@@ -55,7 +55,6 @@ function select_add_keys_as_options(selectId: string, keyArray: string[]): void 
         option.value = key;
         option.text = key;
         select.add(option, null);
-        consoleDebug('select_add_keys_as_options', key);
     });
 }
 

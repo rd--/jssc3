@@ -2,6 +2,10 @@
 
 type Dictionary = { [key: string]: any };
 
+function isDictionary(aValue: any): boolean {
+    return (typeof aValue) == 'object';
+}
+
 function dictionaryNew(): Dictionary {
     return {};
 }
@@ -12,6 +16,15 @@ function dictionaryAt(aDictionary: Dictionary, aKey: string): any {
 
 function dictionaryPut(aDictionary: Dictionary, aKey: string, aValue: any): void {
     aDictionary[aKey] = aValue;
+}
+
+function dictionaryHasKey(aDictionary: Dictionary, aKey: string): boolean {
+    return aDictionary[aKey] !== undefined;
+}
+
+// Copy all entries from sourceDictionary to destinationDictionary.
+function dictionaryCopyAllFromTo(sourceDictionary: Dictionary, destinationDictionary: Dictionary): void {
+    Object.entries(sourceDictionary).forEach(([key, value]) => destinationDictionary[key] = value);
 }
 
 // Find key at aDictionary that holds aValue.

@@ -1,3 +1,5 @@
+// sc3-envelope.ts ; requires: sc3-array sc3-bindings sc3-queue sc3-tree sc3-ugen
+
 type EnvCurveDictionary = { [key: string]: number };
 
 var envCurveDictionary: EnvCurveDictionary = {
@@ -11,10 +13,14 @@ var envCurveDictionary: EnvCurveDictionary = {
     hold: 8
 };
 
-type Env = Dictionary;
+type Env = { [key: string]: any };
+
+type Maybe<T> = T | null;
+
+type EnvCurves = Tree<string | Signal>;
 
 // envCoord(Env([0, 1, 0], [0.1, 0.9], 'lin', null, null, 0)) // => [0, 2, -99, -99, 1, 0.1, 1, 0, 0, 0.9, 1, 0]
-function Env(levels: Signal[], times: Signal[], curves: Tree<string | Signal>, releaseNode: number | null, loopNode: number | null, offset: number): Env {
+function Env(levels: Signal[], times: Signal[], curves: EnvCurves, releaseNode: Maybe<number>, loopNode: Maybe<number>, offset: number): Env {
     return {
         levels: levels,
         times: times,
@@ -26,20 +32,21 @@ function Env(levels: Signal[], times: Signal[], curves: Tree<string | Signal>, r
 }
 
 function envCoord(env: Env): Signal[] {
-    var n = env.levels.length - 1;
-    var r = [];
-    r.push(env.levels[0]);
-    r.push(n);
-    r.push(env.releaseNode || -99);
-    r.push(env.loopNode || -99);
-    for(var i = 0; i < n; i++) {
+    var segmentCount = arrayLength(env.levels) - 1;
+    var answerQueue = queueNew();
+    var store = function(aValue: any) { queuePush(answerQueue, aValue); };
+    store(env.levels[0]);
+    store(segmentCount);
+    store(env.releaseNode || -99);
+    store(env.loopNode || -99);
+    for(var i = 0; i < segmentCount; i++) {
         var c = arrayAtWrap(env.curves, i);
-        r.push(env.levels[i + 1]);
-        r.push(arrayAtWrap(env.times, i));
-        r.push(isString(c) ? envCurveDictionary[<string>c] : 5);
-        r.push(isString(c) ? 0 : c);
+        store(env.levels[i + 1]);
+        store(arrayAtWrap(env.times, i));
+        store(isString(c) ? envCurveDictionary[<string>c] : 5);
+        store(isString(c) ? 0 : c);
     }
-    return r;
+    return queueToArray(answerQueue);
 }
 
 function EnvADSR(attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, peakLevel: Signal, curve: Signal): Env {

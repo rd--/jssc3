@@ -1,3 +1,5 @@
+// sc3-smalltalk.ts
+
 function append(lhs: any[], rhs: any[]): any[] { return lhs.concat(rhs); }
 function choose(anArray: any[]): any { return anArray[randomInteger(0, anArray.length)]; }
 function clump(anArray: any[], n: number) { return arrayClump(anArray, n); }
@@ -10,7 +12,7 @@ function mean(anArray: Signal[]): Signal { return fdiv(sum(anArray), anArray.len
 function negated(aNumber: Signal): Signal { return neg(aNumber); }
 function nth(anArray: any[], index: number): any { return anArray[index - 1]; }
 function product(anArray : Signal[]): Signal { return anArray.reduce(mul); }
-var rand = randomFloat;
+function rand(min : number, max  : number): number { return randomFloat(min, max); }
 function rand2(n: number): number { return randomFloat(0 - n, n); }
 function reciprocal(a: Signal): Signal { return recip(a); }
 function reverse(anArray: any[]): any[] { return anArray.reverse(); }

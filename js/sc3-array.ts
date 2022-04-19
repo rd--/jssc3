@@ -1,8 +1,6 @@
 // sc3-array.ts
 
-function isArray(aValue: any): boolean {
-    return Array.isArray(aValue);
-}
+var isArray: (aValue: any) => boolean = Array.isArray;
 
 function arrayAppend(lhs: any[], rhs: any[]): any[] {
     return lhs.concat(rhs);
@@ -25,7 +23,6 @@ function arrayAtIndices(anArray: any[], indices: number[]): any[] {
 
 // arrayAtWrap([1, 2, 3], 5) === 3
 function arrayAtWrap(anArray: any[], index: number): any {
-    consoleDebug('atWrap', anArray, index);
     return anArray[index % anArray.length];
 }
 
@@ -62,6 +59,10 @@ function arrayDropWhile(anArray: any[], predicate: (aValue: any) => boolean): an
     } else {
         return anArray;
     }
+}
+
+function arrayEvery(anArray: any[], aPredicate: (aValue: any) => boolean): boolean {
+    return anArray.every(aPredicate);
 }
 
 // arrayExtendCyclically([1, 2, 3], 8) //= [1, 2, 3, 1, 2, 3, 1, 2]
