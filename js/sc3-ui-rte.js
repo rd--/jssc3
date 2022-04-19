@@ -21,7 +21,7 @@ var quill_options = {
 function ui_rte_init() {
     quill_text_editor = new Quill('#text_editor', quill_options);
     quill_text_editor.root.setAttribute('spellcheck', false);
-    console.debug('ui_rte_init: finished');
+    consoleDebug('ui_rte_init: finished');
 }
 
 function ui_rte_get_selected_text() {

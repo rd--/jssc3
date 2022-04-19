@@ -34,7 +34,7 @@ function encodeFloat32Array(inputArray : number[]) : Uint8Array {
         dataView.setFloat32(i * 4, inputArray[i]);
     }
     var uint8Array = new Uint8Array(arrayBuffer);
-    console.debug('encodeFloat32Array', inputArray, arrayBuffer, uint8Array);
+    consoleDebug('encodeFloat32Array', inputArray, arrayBuffer, uint8Array);
     return uint8Array;
 }
 

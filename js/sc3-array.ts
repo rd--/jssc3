@@ -4,7 +4,6 @@ function isArray(aValue: any): boolean {
     return Array.isArray(aValue);
 }
 
-// arrayAppend([1, 2, 3], [4, 5, 6]) //= [1, 2, 3, 4, 5, 6]
 function arrayAppend(lhs: any[], rhs: any[]): any[] {
     return lhs.concat(rhs);
 }
@@ -26,7 +25,7 @@ function arrayAtIndices(anArray: any[], indices: number[]): any[] {
 
 // arrayAtWrap([1, 2, 3], 5) === 3
 function arrayAtWrap(anArray: any[], index: number): any {
-    console.debug('atWrap', anArray, index);
+    consoleDebug('atWrap', anArray, index);
     return anArray[index % anArray.length];
 }
 
@@ -34,6 +33,11 @@ function arrayAtWrap(anArray: any[], index: number): any {
 function arrayClump(anArray: any[], clumpSize: number): any[] {
     var clumpCount = Math.ceil(anArray.length / clumpSize);
     return arrayIota(clumpCount).map(i => anArray.slice(i * clumpSize, i * clumpSize + clumpSize));
+}
+
+// arrayConcat([1, 2, 3], [4, 5, 6]) //= [1, 2, 3, 4, 5, 6] ; c.f. arrayAppend
+function arrayConcat(lhs: any[], rhs: any[]): any[] {
+    return lhs.concat(rhs);
 }
 
 // arrayConcatenation([[1, 2, 3], [4, 5]]) //= [1, 2, 3, 4, 5]

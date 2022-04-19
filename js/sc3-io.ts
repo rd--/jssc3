@@ -25,7 +25,7 @@ function handle_fetch_error(response : Response) : Response {
 
 // Log error and return default value
 function log_error_and_return(fromWhere : string, reason : string, defaultValue : any) : any {
-    console.debug(fromWhere, ': ', reason);
+    consoleDebug(fromWhere, ': ', reason);
     return defaultValue;
 }
 

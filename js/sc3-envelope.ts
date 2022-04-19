@@ -1,6 +1,6 @@
-'use strict';
+type EnvCurveDictionary = { [key: string]: number };
 
-var envCurveDictionary = {
+var envCurveDictionary: EnvCurveDictionary = {
     step: 0,
     lin: 1, linear: 1,
     exp: 2, exponential: 2,
@@ -11,8 +11,10 @@ var envCurveDictionary = {
     hold: 8
 };
 
+type Env = Dictionary;
+
 // envCoord(Env([0, 1, 0], [0.1, 0.9], 'lin', null, null, 0)) // => [0, 2, -99, -99, 1, 0.1, 1, 0, 0, 0.9, 1, 0]
-function Env(levels, times, curves, releaseNode, loopNode, offset) {
+function Env(levels: Signal[], times: Signal[], curves: Tree<string | Signal>, releaseNode: number | null, loopNode: number | null, offset: number): Env {
     return {
         levels: levels,
         times: times,
@@ -23,7 +25,7 @@ function Env(levels, times, curves, releaseNode, loopNode, offset) {
     };
 }
 
-function envCoord(env) {
+function envCoord(env: Env): Signal[] {
     var n = env.levels.length - 1;
     var r = [];
     r.push(env.levels[0]);
@@ -34,13 +36,13 @@ function envCoord(env) {
         var c = arrayAtWrap(env.curves, i);
         r.push(env.levels[i + 1]);
         r.push(arrayAtWrap(env.times, i));
-        r.push(envCurveDictionary[c] || 5);
+        r.push(isString(c) ? envCurveDictionary[<string>c] : 5);
         r.push(isString(c) ? 0 : c);
     }
     return r;
 }
 
-function EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, peakLevel, curve) {
+function EnvADSR(attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, peakLevel: Signal, curve: Signal): Env {
      return Env(
         [0, peakLevel, mul(peakLevel, sustainLevel), 0],
         [attackTime, decayTime, releaseTime],
@@ -50,7 +52,7 @@ function EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, peakLevel, cu
         0);
 }
 
-function EnvASR(attackTime, sustainLevel, releaseTime, curve) {
+function EnvASR(attackTime: Signal, sustainLevel: Signal, releaseTime: Signal, curve: Signal): Env {
     return Env(
         [0, sustainLevel, 0],
         [attackTime, releaseTime],
@@ -60,7 +62,7 @@ function EnvASR(attackTime, sustainLevel, releaseTime, curve) {
         0);
 }
 
-function EnvCutoff(sustainTime, releaseTime, curve) {
+function EnvCutoff(sustainTime: Signal, releaseTime: Signal, curve: Signal): Env {
     return Env(
         [1, 1, 0],
         [sustainTime, releaseTime],

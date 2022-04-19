@@ -1,6 +1,8 @@
 // sc3-operators.ts
 
-var unaryOperators : { [key: string]: number } = {
+type OperatorDictionary = { [key: string]: number };
+
+var unaryOperators: OperatorDictionary = {
   neg: 0,
   not: 1,
   isNil: 2,
@@ -57,11 +59,7 @@ var unaryOperators : { [key: string]: number } = {
   scurve: 53,
 };
 
-function unaryOperatorName(specialIndex: number): string {
-    return Object.keys(unaryOperators).find(key => unaryOperators[key] === specialIndex) || 'unknown unary operator name?';
-}
-
-var binaryOperators : { [key: string]: number } = {
+var binaryOperators: OperatorDictionary = {
   add: 0,
   sub: 1,
   mul: 2,
@@ -112,6 +110,10 @@ var binaryOperators : { [key: string]: number } = {
   randRange: 47,
   expRandRange: 48,
 };
+
+function unaryOperatorName(specialIndex: number): string {
+    return Object.keys(unaryOperators).find(key => unaryOperators[key] === specialIndex) || 'unknown unary operator name?';
+}
 
 function binaryOperatorName(specialIndex: number): string {
     return Object.keys(binaryOperators).find(key => binaryOperators[key] === specialIndex) || 'unknown binary operator name?';

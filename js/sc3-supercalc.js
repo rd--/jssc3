@@ -17,7 +17,7 @@ row_index = 0 - 7
 function sc3_supercalc_col_index_to_letter(col_index) {
     if(isNumber(col_index)) {
         var col_letter = String.fromCharCode(col_index + 97); // 0 -> a
-        console.debug('sc3_supercalc_col_index_to_letter', col_index, '"' + col_letter + '"');
+        consoleDebug('sc3_supercalc_col_index_to_letter', col_index, '"' + col_letter + '"');
         return col_letter;
     } else {
         console.error('sc3_supercalc_col_index_to_letter: not a number?', col_index);
@@ -36,7 +36,7 @@ function sc3_supercalc_col_letter_to_index(col_letter) {
 
 // sc3_supercalc_cellref_to_bus('a', 4)
 function sc3_supercalc_cellref_to_bus(col_letter, row_number) {
-    console.debug('sc3_supercalc_cellref_to_bus', col_letter, row_number);
+    consoleDebug('sc3_supercalc_cellref_to_bus', col_letter, row_number);
     var col_index = sc3_supercalc_col_letter_to_index(col_letter);
     return sc3_supercalc_bus_offset + ((row_number - 1) * sc3_supercalc_num_col) + col_index;
 }
@@ -60,24 +60,24 @@ function sc3_supercalc_set_cell_colour(col_letter, row_number, colour_string) {
 }
 
 function sc3_supercalc_set_cell_status_and_return(col_letter, row_number, success, result) {
-    console.debug('sc3_supercalc_set_cell_status_and_return', col_letter, row_number, success, result);
+    consoleDebug('sc3_supercalc_set_cell_status_and_return', col_letter, row_number, success, result);
     sc3_supercalc_set_cell_colour(col_letter, row_number, success ? '#ffffe8' : '#c1e7f8');
     return result;
 }
 
 // sc3_supercalc_eval_or_zero('a', 1, true, 'referenceToUndefinedName')
 function sc3_supercalc_eval_or_zero(col_letter, row_number, translator_status, text) {
-    console.debug('sc3_supercalc_eval_or_zero', col_letter, row_number, translator_status, '"' + text + '"');
+    consoleDebug('sc3_supercalc_eval_or_zero', col_letter, row_number, translator_status, '"' + text + '"');
     if(text === '' || text.substring(0, 2) === '//') {
-        console.debug('sc3_supercalc_eval_or_zero: empty cell or comment cell');
+        consoleDebug('sc3_supercalc_eval_or_zero: empty cell or comment cell');
         return sc3_supercalc_set_cell_status_and_return(col_letter, row_number, translator_status, 0);
     } else {
         try {
             var result = eval(text);
-            console.debug('sc3_supercalc_eval_or_zero: success!');
+            consoleDebug('sc3_supercalc_eval_or_zero: success!');
             return sc3_supercalc_set_cell_status_and_return(col_letter, row_number, translator_status, result);
         } catch (e) {
-            console.debug('sc3_supercalc_eval_or_zero: error!');
+            consoleDebug('sc3_supercalc_eval_or_zero: error!');
             return sc3_supercalc_set_cell_status_and_return(col_letter, row_number, false, 0);
         }
     }
@@ -109,7 +109,7 @@ function sc3_supercalc_eval_sheet() {
 function sc3_supercalc_on_change (instance, cell, col_index, row_index, cell_text) {
     var col_letter = sc3_supercalc_col_index_to_letter(Number(col_index));
     var row_number = Number(row_index) + 1;
-    console.debug('sc3_supercalc_on_change', col_letter, row_number, cell_text);
+    consoleDebug('sc3_supercalc_on_change', col_letter, row_number, cell_text);
     sc3_supercalc_eval_cell(col_letter, row_number, cell_text.trim());
 }
 
@@ -164,7 +164,7 @@ function sc3_supercalc_define_cell_variables() {
     sc3_supercalc_all_cellref_do(function(col_letter, row_number) {
         var code_text = sc3_supercalc_gen_cell_reader_bus_declaration(col_letter, row_number);
         var global_eval = eval; // https://262.ecma-international.org/5.1/#sec-10.4.2
-        console.debug(code_text);
+        consoleDebug(code_text);
         global_eval(code_text);
     });
 }
@@ -182,7 +182,7 @@ function sc3_supercalc_cell_ugen_to_osc_packet(col_letter, row_number, ugen) {
         timeTag: 1,
         packets: [g_free_msg, d_recv_msg]
     };
-    console.debug('sc3_supercalc_cell_ugen_to_osc_message', col_letter, row_number, cell_name, bus_index, group_id, bundle);
+    consoleDebug('sc3_supercalc_cell_ugen_to_osc_message', col_letter, row_number, cell_name, bus_index, group_id, bundle);
     return bundle;
 }
 
@@ -197,7 +197,7 @@ function sc3_supercalc_create_and_init_cell_groups() {
 }
 
 function sc3_supercalc_server_setup() {
-    console.debug('sc3_supercalc_server_setup');
+    consoleDebug('sc3_supercalc_server_setup');
     sc3_supercalc_define_cell_variables(sc3_supercalc_num_col, sc3_supercalc_num_row);
     sc3_supercalc_create_and_init_cell_groups(sc3_supercalc_num_col, sc3_supercalc_num_row);
 }
