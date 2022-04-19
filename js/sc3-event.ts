@@ -17,6 +17,7 @@ function EventParam(v: number, u: any[]): event<any> {
     };
 }
 
+function eventV(e: event<any>): number { return e.v; }
 function eventW(e: event<any>): any { return e.w; }
 function eventX(e: event<any>): any { return e.x; }
 function eventY(e: event<any>): any { return e.y; }

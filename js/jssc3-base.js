@@ -1904,6 +1904,7 @@ function EventParam(v, u) {
         px: u[8]
     };
 }
+function eventV(e) { return e.v; }
 function eventW(e) { return e.w; }
 function eventX(e) { return e.x; }
 function eventY(e) { return e.y; }
