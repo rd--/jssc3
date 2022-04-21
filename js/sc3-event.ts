@@ -1,4 +1,10 @@
-// sc3-event.ts ; requires: sc3-pseudo sc3-ugen
+// sc3-event.ts
+
+import { arrayFromTo } from './sc3-array.js'
+import { Latch } from './sc3-bindings.js'
+import { ControlIn } from './sc3-pseudo.js'
+import { ServerMessage, c_set1, c_setn1 } from './sc3-servercommand.js'
+import { Signal } from './sc3-ugen.js'
 
 type event<T> = { v: number, w: T, x: T, y: T, z: T, o: T, rx: T, ry: T, p: T, px: T };
 

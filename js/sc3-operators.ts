@@ -1,8 +1,8 @@
 // sc3-operators.ts
 
-type OperatorDictionary = { [key: string]: number };
+export type OperatorDictionary = { [key: string]: number };
 
-var unaryOperators: OperatorDictionary = {
+export var unaryOperators: OperatorDictionary = {
   neg: 0,
   not: 1,
   isNil: 2,
@@ -59,7 +59,7 @@ var unaryOperators: OperatorDictionary = {
   scurve: 53,
 };
 
-var binaryOperators: OperatorDictionary = {
+export var binaryOperators: OperatorDictionary = {
   add: 0,
   sub: 1,
   mul: 2,
@@ -111,11 +111,11 @@ var binaryOperators: OperatorDictionary = {
   expRandRange: 48,
 };
 
-function unaryOperatorName(specialIndex: number): string {
+export function unaryOperatorName(specialIndex: number): string {
     return Object.keys(unaryOperators).find(key => unaryOperators[key] === specialIndex) || 'unknown unary operator name?';
 }
 
-function binaryOperatorName(specialIndex: number): string {
+export function binaryOperatorName(specialIndex: number): string {
     return Object.keys(binaryOperators).find(key => binaryOperators[key] === specialIndex) || 'unknown binary operator name?';
 }
 

@@ -1,7 +1,7 @@
 // sc3-dom.ts
 
 // Return a function to set the inner Html of elemId
-function setter_for_inner_html_of(elemId: string): (innerHtml: string) => void {
+export function setter_for_inner_html_of(elemId: string): (innerHtml: string) => void {
     var elem = document.getElementById(elemId);
     return function(innerHtml) {
         if(elem) {
@@ -13,7 +13,7 @@ function setter_for_inner_html_of(elemId: string): (innerHtml: string) => void {
 }
 
 // Set onchange handler of selectId, guards against absence of selection (proc is only called if value is set).
-function select_on_change(selectId: string, proc: (aString: string) => void): void {
+export function select_on_change(selectId: string, proc: (aString: string) => void): void {
     var select = <HTMLSelectElement>document.getElementById(selectId);
     var guardedProc = function(anEvent: Event) {
         var target = <HTMLSelectElement>anEvent.target;
@@ -25,7 +25,7 @@ function select_on_change(selectId: string, proc: (aString: string) => void): vo
 }
 
 // Create option element and add to select element.
-function select_add_option_to(selectElement: HTMLSelectElement, optionValue: string, optionText: string): void {
+export function select_add_option_to(selectElement: HTMLSelectElement, optionValue: string, optionText: string): void {
     var optionElement = document.createElement('option');
     optionElement.value = optionValue;
     optionElement.text = optionText;
@@ -33,13 +33,13 @@ function select_add_option_to(selectElement: HTMLSelectElement, optionValue: str
 }
 
 // Add option to selectId
-function select_add_option_at_id(selectId: string, optionValue: string, optionText: string): void {
+export function select_add_option_at_id(selectId: string, optionValue: string, optionText: string): void {
     var selectElement = <HTMLSelectElement>document.getElementById(selectId);
     select_add_option_to(selectElement, optionValue, optionText);
 }
 
 // Delete all options at selectId from startIndex
-function select_clear_from(selectId: string, startIndex: number): void {
+export function select_clear_from(selectId: string, startIndex: number): void {
     var selectElement = <HTMLSelectElement>document.getElementById(selectId);
     var endIndex = selectElement.length;
     for(var i = startIndex; i < endIndex; i++) {
@@ -48,7 +48,7 @@ function select_clear_from(selectId: string, startIndex: number): void {
 }
 
 // Add all keys as entries, both value and text, at selectId
-function select_add_keys_as_options(selectId: string, keyArray: string[]): void {
+export function select_add_keys_as_options(selectId: string, keyArray: string[]): void {
     var select = <HTMLSelectElement>document.getElementById(selectId);
     keyArray.forEach(function(key) {
         var option = document.createElement('option');
@@ -59,7 +59,7 @@ function select_add_keys_as_options(selectId: string, keyArray: string[]): void 
 }
 
 // Add a listener to buttonId that passes click events to inputId.
-function connect_button_to_input(buttonId: string, inputId: string): void {
+export function connect_button_to_input(buttonId: string, inputId: string): void {
     var button = <HTMLButtonElement>document.getElementById(buttonId);
     var input = <HTMLInputElement>document.getElementById(inputId);
     if (!button || !input) {
@@ -70,7 +70,7 @@ function connect_button_to_input(buttonId: string, inputId: string): void {
 }
 
 // If some text is selected, get only the selected text, else get the entire text.
-function textarea_get_selection_or_contents(textareaElement: HTMLTextAreaElement): string {
+export function textarea_get_selection_or_contents(textareaElement: HTMLTextAreaElement): string {
     if(textareaElement.selectionStart === textareaElement.selectionEnd) {
         return textareaElement.value;
     } else {
@@ -79,19 +79,19 @@ function textarea_get_selection_or_contents(textareaElement: HTMLTextAreaElement
 }
 
 // Lookup key in parameters of Url of current document.  (C.f. window.location)
-function url_get_param(key: string): null | string {
+export function url_get_param(key: string): null | string {
     var params = new URLSearchParams(document.location.search);
     return params.get(key);
 }
 
 // Set key to value in window location url.
-function window_url_set_param(key: string, value: string): void {
+export function window_url_set_param(key: string, value: string): void {
     var windowUrl = new URL(window.location.href);
     windowUrl.searchParams.set(key, value);
     window.history.pushState({}, '', windowUrl);
 }
 
-function parse_int_or_alert(integerText: string, errorText: string, defaultAnswer: number): number {
+export function parse_int_or_alert(integerText: string, errorText: string, defaultAnswer: number): number {
     var answer = Number.parseInt(integerText, 10);
     if(isNaN(answer)) {
         window.alert(errorText);

@@ -1,8 +1,8 @@
 // sc3-counter.ts
 
-type Counter = (() => number);
+export type Counter = (() => number);
 
-function counterNewFromBy(start: number, by: number): Counter {
+export function counterNewFromBy(start: number, by: number): Counter {
     var x = start;
     return function() {
         x = x + by;
@@ -10,6 +10,6 @@ function counterNewFromBy(start: number, by: number): Counter {
     }
 }
 
-function counterNew(): Counter {
+export function counterNew(): Counter {
     return counterNewFromBy(0, 1);
 }

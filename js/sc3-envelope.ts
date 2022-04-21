@@ -1,8 +1,15 @@
-// sc3-envelope.ts ; requires: sc3-array sc3-bindings sc3-queue sc3-tree sc3-ugen
+// sc3-envelope.ts
 
-type EnvCurveDictionary = { [key: string]: number };
+import { arrayAtWrap, arrayLength } from './sc3-array.js'
+import { mul } from './sc3-bindings.js'
+import { Queue, queueNew, queuePush, queueToArray } from './sc3-queue.js'
+import { isString } from './sc3-string.js'
+import { Tree } from './sc3-tree.js'
+import { Signal } from './sc3-ugen.js'
 
-var envCurveDictionary: EnvCurveDictionary = {
+export type EnvCurveDictionary = { [key: string]: number };
+
+export var envCurveDictionary: EnvCurveDictionary = {
     step: 0,
     lin: 1, linear: 1,
     exp: 2, exponential: 2,
@@ -13,14 +20,14 @@ var envCurveDictionary: EnvCurveDictionary = {
     hold: 8
 };
 
-type Env = { [key: string]: any };
+export type Env = { [key: string]: any };
 
-type Maybe<T> = T | null;
+export type Maybe<T> = T | null;
 
-type EnvCurves = Tree<string | Signal>;
+export type EnvCurves = Tree<string | Signal>;
 
 // envCoord(Env([0, 1, 0], [0.1, 0.9], 'lin', null, null, 0)) // => [0, 2, -99, -99, 1, 0.1, 1, 0, 0, 0.9, 1, 0]
-function Env(levels: Signal[], times: Signal[], curves: EnvCurves, releaseNode: Maybe<number>, loopNode: Maybe<number>, offset: number): Env {
+export function Env(levels: Signal[], times: Signal[], curves: EnvCurves, releaseNode: Maybe<number>, loopNode: Maybe<number>, offset: number): Env {
     return {
         levels: levels,
         times: times,
@@ -31,7 +38,7 @@ function Env(levels: Signal[], times: Signal[], curves: EnvCurves, releaseNode: 
     };
 }
 
-function envCoord(env: Env): Signal[] {
+export function envCoord(env: Env): Signal[] {
     var segmentCount = arrayLength(env.levels) - 1;
     var answerQueue = queueNew();
     var store = function(aValue: any) { queuePush(answerQueue, aValue); };
@@ -49,7 +56,7 @@ function envCoord(env: Env): Signal[] {
     return queueToArray(answerQueue);
 }
 
-function EnvADSR(attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, peakLevel: Signal, curve: Signal): Env {
+export function EnvADSR(attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, peakLevel: Signal, curve: Signal): Env {
      return Env(
         [0, peakLevel, mul(peakLevel, sustainLevel), 0],
         [attackTime, decayTime, releaseTime],
@@ -59,7 +66,7 @@ function EnvADSR(attackTime: Signal, decayTime: Signal, sustainLevel: Signal, re
         0);
 }
 
-function EnvASR(attackTime: Signal, sustainLevel: Signal, releaseTime: Signal, curve: Signal): Env {
+export function EnvASR(attackTime: Signal, sustainLevel: Signal, releaseTime: Signal, curve: Signal): Env {
     return Env(
         [0, sustainLevel, 0],
         [attackTime, releaseTime],
@@ -69,7 +76,7 @@ function EnvASR(attackTime: Signal, sustainLevel: Signal, releaseTime: Signal, c
         0);
 }
 
-function EnvCutoff(sustainTime: Signal, releaseTime: Signal, curve: Signal): Env {
+export function EnvCutoff(sustainTime: Signal, releaseTime: Signal, curve: Signal): Env {
     return Env(
         [1, 1, 0],
         [sustainTime, releaseTime],

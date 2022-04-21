@@ -1,6 +1,8 @@
 "use strict";
 // sc3-array.ts
-var isArray = Array.isArray;
+function isArray(aValue) {
+    return Array.isArray(aValue);
+}
 function arrayAppend(lhs, rhs) {
     return lhs.concat(rhs);
 }
@@ -141,6 +143,12 @@ function arrayPush(anArray, aValue) {
 // arrayReplicate(5, 1) //= [1, 1, 1, 1, 1]
 function arrayReplicate(k, v) {
     return arrayIota(k).map(unusedItem => v);
+}
+function arrayReduce(anArray, aFunction) {
+    return anArray.reduce(aFunction);
+}
+function arraySecond(anArray) {
+    return anArray[1];
 }
 // arrayShallowEq([1, 2, 3], [1, 2, 3]) === true
 function arrayShallowEq(lhs, rhs) {
@@ -396,6 +404,9 @@ function consoleWarn(...args) {
 }
 function consoleError(...args) {
     console.error(...args);
+}
+function consoleLog(...args) {
+    console.log(...args);
 }
 function consoleLogMessageFrom(from, text) {
     console.log(from + ': ', text);
@@ -681,7 +692,12 @@ var rateIr = 0;
 var rateKr = 1;
 var rateAr = 2;
 var rateDr = 3;
-var rateSelectorTable = { 0: 'ir', 1: 'kr', 2: 'ar', 3: 'dr' };
+var rateSelectorTable = {
+    0: 'ir',
+    1: 'kr',
+    2: 'ar',
+    3: 'dr'
+};
 // rateSelector(rateKr) === 'kr'
 function rateSelector(aRate) {
     return rateSelectorTable[String(aRate)];
@@ -787,8 +803,12 @@ function sc3_websocket_dialog() {
 function sc3_websocket_send(data) {
     websocket_send(sc3_websocket, data);
 }
-function splay2(inArray) { return Splay2(inArray); }
-function bitShiftLeft(a, b) { return shiftLeft(a, b); }
+function splay2(inArray) {
+    return Splay2(inArray);
+}
+function bitShiftLeft(a, b) {
+    return shiftLeft(a, b);
+}
 // Schroeder allpass delay line with cubic interpolation.
 function AllpassC(input, maxdelaytime, delaytime, decaytime) {
     return makeUgen('AllpassC', 1, [0], 0, [input, maxdelaytime, delaytime, decaytime]);
@@ -1597,6 +1617,10 @@ function TwoZero(input, freq, radius) {
 function VarSaw(freq, iphase, width) {
     return makeUgen('VarSaw', 1, rateAr, 0, [freq, iphase, width]);
 }
+// artifical reverberator
+function VBJonVerb(input, decay, damping, inputbw, erfl, tail) {
+    return makeUgen('VBJonVerb', 2, [0], 0, [input, decay, damping, inputbw, erfl, tail]);
+}
 // The Vibrato oscillator models a slow frequency modulation.
 function Vibrato(freq, rate, depth, delay, onset, rateVariation, depthVariation, iphase, trig) {
     return makeUgen('Vibrato', 1, rateAr, 0, [freq, rate, depth, delay, onset, rateVariation, depthVariation, iphase, trig]);
@@ -1993,7 +2017,7 @@ function PenY(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 2); }
 function PenZ(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 3); }
 function PenAngle(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 4); }
 function PenRadius(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 5); }
-// sc3-graph.ts ; requires: sc3-pseudo sc3-ugen
+// sc3-graph.ts
 // traverse graph from p adding leaf nodes to the set c
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
 function ugenTraverseCollecting(p, c, w) {
@@ -2003,11 +2027,12 @@ function ugenTraverseCollecting(p, c, w) {
     }
     else if (isUgenOutput(p)) {
         var pUgenOutput = p;
+        var mrgArray = queueToArray(pUgenOutput.ugen.mrg);
         consoleDebug('ugenTraverseCollecting: port', pUgenOutput);
         if (!setHas(w, pUgenOutput.ugen)) {
             setAdd(c, pUgenOutput.ugen);
             arrayForEach(pUgenOutput.ugen.inputValues, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, w));
-            arrayForEach(pUgenOutput.ugen.mrg, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
+            arrayForEach(mrgArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
         }
     }
     else {
@@ -2028,14 +2053,14 @@ function signalToUgenGraph(signal) {
     return signal;
 }
 // ugens are sorted by id, which is in applicative order. a maxlocalbufs ugen is always present.
-function Graph(name, signal) {
+function makeGraph(name, signal) {
     var graph = signalToUgenGraph(signal);
     var leafNodes = ugenGraphLeafNodes(graph);
     var ugens = arraySort(arrayFilter(leafNodes, isUgenPrimitive), ugenCompare);
     var constants = arrayFilter(leafNodes, isNumber);
     var numLocalBufs = arrayLength(arrayFilter(ugens, item => item.ugenName === 'LocalBuf'));
     var MaxLocalBufs = function (count) {
-        return Ugen('MaxLocalBufs', 1, rateIr, 0, [count]);
+        return makeUgenPrimitive('MaxLocalBufs', 1, rateIr, 0, [count]);
     };
     return {
         graphName: name,
@@ -2059,19 +2084,7 @@ function graphUgenInputSpec(graph, input) {
         return [-1, graphConstantIndex(graph, input)];
     }
 }
-function graphPrintUgenSpec(graph, ugen) {
-    console.log(ugen.ugenName, ugen.ugenRate, arrayLength(ugen.inputValues), ugen.numChan, ugen.specialIndex, arrayMap(ugen.inputValues, input => graphUgenInputSpec(graph, input)), arrayReplicate(ugen.numChan, ugen.ugenRate));
-}
 var SCgf = Number(1396926310);
-function graphPrintSyndef(graph) {
-    console.log(SCgf, 2, 1, graph.graphName, arrayLength(graph.constantSeq), graph.constantSeq, 0, [], 0, [], arrayLength(graph.ugenSeq));
-    arrayForEach(graph.ugenSeq, item => graphPrintUgenSpec(graph, item));
-    console.log(0, []);
-}
-function printSyndefOf(ugen) {
-    var graph = Graph('sc3.js', wrapOut(0, ugen));
-    graphPrintSyndef(graph);
-}
 function graphEncodeUgenSpec(graph, ugen) {
     return [
         encodePascalString(ugen.ugenName),
@@ -2098,7 +2111,19 @@ function graphEncodeSyndef(graph) {
         encodeInt16(0) // # variants
     ]);
 }
-// sc3-graph-print.ts ; requires: sc3-graph sc3-pseudo sc3-ugen
+// sc3-graph-print.ts
+function graphPrintUgenSpec(graph, ugen) {
+    consoleLog(ugen.ugenName, ugen.ugenRate, arrayLength(ugen.inputValues), ugen.numChan, ugen.specialIndex, arrayMap(ugen.inputValues, input => graphUgenInputSpec(graph, input)), arrayReplicate(ugen.numChan, ugen.ugenRate));
+}
+function graphPrintSyndef(graph) {
+    console.log(SCgf, 2, 1, graph.graphName, arrayLength(graph.constantSeq), graph.constantSeq, 0, [], 0, [], arrayLength(graph.ugenSeq));
+    arrayForEach(graph.ugenSeq, item => graphPrintUgenSpec(graph, item));
+    console.log(0, []);
+}
+function printSyndefOf(ugen) {
+    var graph = makeGraph('sc3.js', wrapOut(0, ugen));
+    graphPrintSyndef(graph);
+}
 function graphInputDisplayName(graph, input) {
     if (isUgenOutput(input)) {
         var id = String(graphUgenIndex(graph, input.ugen.ugenId));
@@ -2121,7 +2146,7 @@ function graphPrettyPrintSyndef(graph) {
     arrayForEach(graph.ugenSeq, item => graphPrettyPrintUgen(graph, item));
 }
 function prettyPrintSyndefOf(ugen) {
-    var graph = Graph('sc3.js', wrapOut(0, ugen));
+    var graph = makeGraph('sc3.js', wrapOut(0, ugen));
     graphPrettyPrintSyndef(graph);
 }
 // sc3-pointer.ts
@@ -2158,7 +2183,7 @@ function pointerMouseY(minval, maxval, warp, lag) {
 function pointerMouseButton(minval, maxval, lag) {
     return LinLin(Lag(PointerW(0), lag), 0, 1, minval, maxval);
 }
-// sc3-pseudo.ts ; requries: sc3-bindings sc3-envelope sc3-ugen
+// sc3-pseudo.ts ; requries:  sc3-envelope sc3-ugen
 // wrapOut(0, mul(SinOsc(440, 0), 0.1))
 function wrapOut(bus, ugen) {
     return isOutUgen(ugen) ? ugen : Out(bus, ugen);
@@ -2188,14 +2213,14 @@ function Splay(inArray, spread, level, center, levelComp) {
     var pos = arrayFromTo(0, n - 1).map(item => add(mul(sub(mul(item, fdiv(2, sub(n, 1))), 1), spread), center));
     var lvl = mul(level, levelComp ? sqrt(1 / n) : 1);
     consoleDebug('Splay', n, pos, lvl);
-    return sum(Pan2(inArray, pos, lvl));
+    return arrayReduce(Pan2(inArray, pos, lvl), add);
 }
 function Splay2(inArray) {
     var n = Math.max(2, signalLength(inArray));
     var pos = arrayFromTo(0, n - 1).map(item => item * (2 / (n - 1)) - 1);
     var lvl = Math.sqrt(1 / n);
     consoleDebug('Splay2', n, pos, lvl);
-    return sum(Pan2(inArray, pos, lvl));
+    return arrayReduce(Pan2(inArray, pos, lvl), add);
 }
 function LinLin(input, srclo, srchi, dstlo, dsthi) {
     var scale = fdiv(sub(dsthi, dstlo), sub(srchi, srclo));
@@ -2284,13 +2309,13 @@ function SinOscBank(freq, amp, time) {
 }
 function LinSeg(gate, coordArray) {
     var coord = arrayTranspose(arrayClump(coordArray, 2));
-    var levels = first(coord);
-    var times = second(coord);
+    var levels = arrayFirst(coord);
+    var times = arraySecond(coord);
     var env = Env(levels, times.slice(0, times.length - 1), 'lin', null, null, 0);
     return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 function SelectX(which, array) {
-    return XFade2(Select(roundTo(which, 2), array), Select(add(truncateTo(which, 2), 1), array), fold2(sub(mul(which, 2), 1), 1), 1);
+    return XFade2(Select(round(which, 2), array), Select(add(trunc(which, 2), 1), array), fold2(sub(mul(which, 2), 1), 1), 1);
 }
 function unitCps(a) {
     return midiCps(mul(a, 127));
@@ -2340,7 +2365,7 @@ function MultiTapDelay(timesArray, levelsArray, input) {
     var writer = DelayWrite(buf, input);
     var numReaders = timesArray.length;
     var readers = arrayFromTo(0, numReaders - 1).map(item => mul(DelayTap(buf, timesArray[item]), levelsArray[item]));
-    return mrg(sum(readers), writer);
+    return mrg(arrayReduce(readers, add), writer);
 }
 function Osc1(buf, dur) {
     var numChan = 1;
@@ -2487,7 +2512,7 @@ function value(proc, maybeArg1, maybeArg2) { return maybeArg2 ? proc(maybeArg1, 
 append([1, 2, 3], [4, 5]) //=> [1, 2, 3, 4, 5]
 
 */
-// sc3-soundfile.ts ; requires: sc3-array.ts, sc3-dictionary.ts
+// sc3-soundfile.ts
 // Return the header fields of an audioBuffer.  length is the number of frames.
 function audiobuffer_header(audioBuffer) {
     var keysArray = ['length', 'duration', 'sampleRate', 'numberOfChannels'];
@@ -2549,11 +2574,10 @@ function fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, proc) {
         audioContext.decodeAudioData(arrayBuffer).then(proc);
     });
 }
-// sc3-stc.ts ; requires: sc3-io.ts
+// sc3-stc.ts
 function stc_is_binary_selector(text) {
     var allowed = Array.from('!%&*+/<=>?@\\~|-');
     var answer = Array.from(text).every(item => allowed.includes(item));
-    consoleDebug('stc_is_binary_selector', text, answer);
     return answer;
 }
 function stc_binary_selector_from_operator(text) {
@@ -2595,12 +2619,11 @@ function OverlapTexture(graphFunc, sustainTime, transitionTime, overlap) {
         var snd = graphFunc(trg);
         var env = Env([0, 1, 1, 0], [transitionTime, sustainTime, transitionTime], 'sin', null, null, 0);
         var sig = mul(snd, EnvGen(trg, 1, 0, 1, 0, envCoord(env)));
-        consoleDebug('OverlapTexture', trg, snd, env, sig);
         return sig;
     };
-    return sum(collect(to(0, overlap - 1), voiceFunction));
+    return arrayReduce(arrayMap(arrayFromTo(0, overlap - 1), voiceFunction), add);
 }
-// sc3-u8.ts ; requires sc3-queue sc3-tree
+// sc3-u8.ts
 function isUint8Array(x) {
     return (x instanceof Uint8Array);
 }
@@ -2616,9 +2639,9 @@ function flattenByteEncoding(aTree) {
     flattenByteEncodingIntoQueue(aTree, numberQueue);
     return new Uint8Array(queueToArray(numberQueue));
 }
-// sc3-ugen.ts ; requires: sc3-counter sc3-error sc3-operators sc3-tree
+// sc3-ugen.ts
 var ugenCounter = counterNew();
-function Ugen(name, numChan, rate, specialIndex, inputs) {
+function makeUgenPrimitive(name, numChan, rate, specialIndex, inputs) {
     return {
         ugenName: name,
         numChan: numChan,
@@ -2626,7 +2649,7 @@ function Ugen(name, numChan, rate, specialIndex, inputs) {
         specialIndex: specialIndex,
         ugenId: ugenCounter(),
         inputValues: inputs,
-        mrg: []
+        mrg: queueNew()
     };
 }
 function isUgenPrimitive(obj) {
@@ -2684,11 +2707,11 @@ function makeUgen(name, numChan, rateSpec, specialIndex, inputs) {
     }
     else {
         var inputArray = inputs;
-        var ugen = Ugen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
+        var ugenPrimitive = makeUgenPrimitive(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
         switch (numChan) {
-            case 0: return (UgenOutput(ugen, -1));
-            case 1: return (UgenOutput(ugen, 0));
-            default: return arrayFillWithIndex(numChan, item => UgenOutput(ugen, item));
+            case 0: return (UgenOutput(ugenPrimitive, -1));
+            case 1: return (UgenOutput(ugenPrimitive, 0));
+            default: return arrayFillWithIndex(numChan, item => UgenOutput(ugenPrimitive, item));
         }
     }
 }
@@ -2720,11 +2743,11 @@ function mrg(lhs, rhs) {
     consoleDebug('mrg', lhs, rhs, ugen);
     if (ugen && ugen.mrg) {
         if (Array.isArray(rhs)) {
-            var mrgArray = (ugen.mrg);
-            arrayForEach(rhs, item => arrayPush(mrgArray, item));
+            var mrgQueue = (ugen.mrg);
+            arrayForEach(rhs, item => queuePush(mrgQueue, item));
         }
         else {
-            arrayPush(ugen.mrg, rhs);
+            queuePush(ugen.mrg, rhs);
         }
     }
     else {
@@ -2828,7 +2851,7 @@ function sc3_websocket_send_osc(msg) {
 }
 // Encode and play Ugen.
 function playUgen(ugen) {
-    var graph = Graph('sc3.js', wrapOut(0, ugen));
+    var graph = makeGraph('sc3.js', wrapOut(0, ugen));
     var syndef = graphEncodeSyndef(graph);
     console.log('play: scsyndef #', syndef.length);
     sc3_websocket_send_osc(d_recv_then(syndef, osc.writePacket(s_new0('sc3.js', -1, kAddToTail, 1))));

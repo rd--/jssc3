@@ -10,17 +10,19 @@ base = sc3-alias sc3-bindings sc3-buffer sc3-buffer-cache sc3-envelope sc3-event
 # .js files that are commonly required or at least not harmful
 rest = sc3-ui sc3-ui-actions sc3-ui-mouse sc3-ui-user
 
-all: base-ts base-js
+all: jssc3-base-js
 
-base-ts:
-	cat $(core:=.ts) $(base:=.ts) > jssc3-base.ts
+jssc3-base-ts:
+	cat $(core:=.ts) $(base:=.ts) | sed -r 's/^export //' | sed -r 's/import.*//' > jssc3-base.ts
 
-base-js:
-	make  jssc3-base.js
+jssc3-base-js: jssc3-base-ts
+	make jssc3-base.js
 	cat $(rest:=.js) >> jssc3-base.js
 	rm -f jssc3-base.ts
 
 core-ts: $(core:=.js)
+
+base-ts: $(base:=.js)
 
 clean:
 	rm -f $(core:=.js) $(base:=.js)

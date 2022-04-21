@@ -34,11 +34,12 @@ C.f.
 
 # Modules
 
-Some parts of this could be in organised as modules, which would help clarify inter-connections.
+The .ts files are written as modules.
+Each can be compiled to a .js module.
+This helps clarify inter-connections.
 However an important part of the system is exporting names to the _top-level_, for evaluation in the browser.
-For these parts it's much simpler to use a traditional load sequence.
-For the moment the simplest improvement would be to to _cat_ the various required files together in sequence.
-Files that are _optional_ would still need to be loaded separately as required.
+For the moment the solution is to _cat_ the various required files together in sequence, removing import and export instructions.
+Files that are _optional_ still need to be loaded separately as required.
 
 # Typescript
 
@@ -47,6 +48,7 @@ Files that are completely self contained are written with .ts annotations, and c
 These file are called _core_ files at the _Makefile_.
 Files that depend only on _core_ files, and that can be typed easily, are also written with .ts annotations.
 These file are called _base_ files at the _Makefile_.
+They include import statements so they can be compiled as well.
 The _core_ and _base_ .ts files are joined together into _jssc3-base.ts_, which is compiled to .js.
 If <https://github.com/tc39/proposal-type-annotations> proceeds these would be ordinary .js files with type comments.
 Note that .ts can use _Array.isArray_ to reason, but not _isArray_, even where _isArray = Array.isArray_.

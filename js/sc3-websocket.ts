@@ -1,6 +1,6 @@
 // sc3-websocket.ts
 
-function websocket_open(host: string, port: number): WebSocket | null {
+export function websocket_open(host: string, port: number): WebSocket | null {
     try {
         var ws_address = 'ws://' + host + ':' + Number(port).toString();
         return new WebSocket(ws_address);
@@ -11,7 +11,7 @@ function websocket_open(host: string, port: number): WebSocket | null {
 }
 
 // Prompt for websocket address (host and port) and call function on answer
-function websocket_address_dialog(receiveAddress: (host: string, port: number) => void): void {
+export function websocket_address_dialog(receiveAddress: (host: string, port: number) => void): void {
     var reply = window.prompt('Set WebSocket address as Host:Port', 'localhost:9160');
     if(reply) {
         var [host, port] = reply.split(':');
@@ -20,7 +20,7 @@ function websocket_address_dialog(receiveAddress: (host: string, port: number) =
 }
 
 // If websocket is not null and is connected, send data.
-function websocket_send(websocket: WebSocket | null, data : string | ArrayBuffer) : void {
+export function websocket_send(websocket: WebSocket | null, data : string | ArrayBuffer) : void {
     if(websocket && websocket.readyState === 1) {
         websocket.send(data);
     } else {
@@ -28,7 +28,7 @@ function websocket_send(websocket: WebSocket | null, data : string | ArrayBuffer
     }
 }
 
-function websocket_close(websocket: WebSocket | null) : void {
+export function websocket_close(websocket: WebSocket | null) : void {
     if(websocket) {
         websocket.close();
     } else {
@@ -36,18 +36,18 @@ function websocket_close(websocket: WebSocket | null) : void {
     }
 }
 
-var sc3_websocket: WebSocket | null;
+export var sc3_websocket: WebSocket | null;
 
 // Initialise WebSocket.  To send .stc to sclang as /eval message see 'blksc3 stc-to-osc'
-function sc3_websocket_init(host : string, port : number) : void {
+export function sc3_websocket_init(host : string, port : number) : void {
     websocket_close(sc3_websocket);
     sc3_websocket = websocket_open(host, port);
 }
 
-function sc3_websocket_dialog() : void {
+export function sc3_websocket_dialog() : void {
     websocket_address_dialog(sc3_websocket_init);
 }
 
-function sc3_websocket_send(data : string | ArrayBuffer) : void {
+export function sc3_websocket_send(data : string | ArrayBuffer) : void {
     websocket_send(sc3_websocket, data);
 }
