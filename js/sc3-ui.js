@@ -35,7 +35,7 @@ function sc3_ui_init(subDir, hasProgramMenu, hasHelpMenu, hasGuideMenu, hasEssay
     user_storage_key = storageKey;
     notation_format = '.stc';
     user_program_menu_init(editor_set_data);
-    actions_menu_init(text_editor_get_selected_text, editor_set_data);
+    actions_menu_init(editor_get_selected_text, editor_set_data);
     if(initMouse) {
         sc3_mouse_init();
     }
@@ -78,7 +78,7 @@ function playJsProgram() {
 
 // Sets the 's' url parameter of the window to the encoded form of the selected text.
 function set_url_to_encode_selection() {
-    window_url_set_param('s', text_editor_get_selected_text());
+    window_url_set_param('s', editor_get_selected_text());
 }
 
 function ui_boot_scsynth() {

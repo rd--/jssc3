@@ -1,6 +1,6 @@
 'use strict';
 
-var text_editor_get_selected_text;
+var editor_get_selected_text;
 var editor_get_data;
 var editor_set_data;
 
@@ -23,20 +23,21 @@ function jssc3_init(fileNameParamKey, defaultFileName, codeParamKey) {
 
 function jssc3_plaintext_init(parentId) {
     sc3_plaintext_init_in(parentId);
-    text_editor_get_selected_text = sc3_plaintext_get_selected_text;
+    editor_get_selected_text = sc3_plaintext_get_selected_text;
     editor_get_data = sc3_plaintext_get_complete_text;
     editor_set_data = sc3_plaintext_set_text;
 }
 
 function jssc3_superscript_init() {
     sc3_superscript_init();
-    text_editor_get_selected_text = sc3_superscript_get_selected_text;
+    editor_get_selected_text = sc3_superscript_get_selected_text;
     editor_get_data = sc3_superscript_get_html;
     editor_set_data = sc3_superscript_set_html;
 }
 
 function jssc3_supercalc_init(numCol, numRow) {
     sc3_supercalc_init (numCol, numRow);
+    editor_get_selected_text = function() => '';
     editor_get_data = sc3_supercalc_get_json;
     editor_set_data = sc3_supercalc_set_json;
 }
