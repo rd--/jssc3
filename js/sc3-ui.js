@@ -1,13 +1,3 @@
-var notation_format;
-var scsynth_hardware_buffer_size;
-var scsynth_block_size;
-var scsynth_num_inputs;
-var scsynth_num_outputs;
-
-function resolve_file_type(fileType) {
-    return fileType ? fileType : notation_format;
-}
-
 function graph_load(graphDir, graphName, fileType) {
     var graphFileName = 'help/' + graphDir + '/' + graphName + resolve_file_type(fileType);
     var graphUrl = url_append_timestamp(graphFileName);
@@ -22,12 +12,6 @@ function graph_menu_init(menuId, graphDir, fileType, loadProc) {
     } else {
         consoleWarn('graph_menu_init: no element', menuId);
     }
-}
-
-function set_notation_format() {
-    var notationFormat = document.getElementById('notationFormat');
-    notation_format = notationFormat.value;
-    consoleLogMessageFrom('set_notation_format', notation_format);
 }
 
 // subDir should be empty or should end with a '/'
@@ -50,15 +34,17 @@ function sc3_ui_init(subDir, hasProgramMenu, hasHelpMenu, hasGuideMenu, hasEssay
     }
     user_storage_key = storageKey;
     notation_format = '.stc';
-    user_program_menu_init();
-    actions_menu_init();
+    user_program_menu_init(editor_set_data);
+    actions_menu_init(text_editor_get_selected_text, editor_set_data);
     if(initMouse) {
         sc3_mouse_init();
     }
-    scsynth_hardware_buffer_size = hardwareBufferSize;
-    scsynth_block_size = blockSize;
-    scsynth_num_inputs = 0;
-    scsynth_num_outputs = 2;
+    scsynth_options = {
+        hardwareBufferSize: hardwareBufferSize,
+        blockSize: blockSize,
+        numInputs: 0,
+        numOutputs: 2
+    };
 }
 
 function setStatusDisplay(text) {
@@ -67,14 +53,6 @@ function setStatusDisplay(text) {
         statusText.innerHTML = text;
     } else {
         console.log(text);
-    }
-}
-
-function translate_if_required_and_then(userText, proc) {
-    switch(notation_format) {
-    case '.js': proc(userText); break;
-    case '.stc': stc_to_js_and_then(userText, proc); break;
-    default: consoleError('translate_if_required_and_then: unknown format', notation_format);
     }
 }
 
@@ -98,11 +76,15 @@ function playJsProgram() {
     });
 }
 
-// Sets the 's' url parameter of the window to the encdoded form of the selected text.
+// Sets the 's' url parameter of the window to the encoded form of the selected text.
 function set_url_to_encode_selection() {
     window_url_set_param('s', text_editor_get_selected_text());
 }
 
 function ui_boot_scsynth() {
-    bootScsynth(scsynth_num_inputs, scsynth_num_outputs, scsynth_hardware_buffer_size, scsynth_block_size);
+    bootScsynth(scsynth_options);
+}
+
+function ui_save_program() {
+    user_program_save_to(editor_get_data());
 }

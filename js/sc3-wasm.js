@@ -19,14 +19,14 @@ function sendOsc(oscMessage) {
     }
 }
 
-function bootScsynth(numInputs, numOutputs, hardwareBufferSize, blockSize) {
-    console.log('-i', numInputs, '-o', numOutputs, '-Z', hardwareBufferSize, '-z', blockSize);
+function bootScsynth(options) {
+    scsynthOptionsPrint(options);
     if(!scsynth_alive) {
         var args = Module['arguments'];
-        args[args.indexOf('-i') + 1] = String(numInputs);
-        args[args.indexOf('-o') + 1] = String(numOutputs);
-        args.push('-Z', String(hardwareBufferSize)); // audio driver block size (frames)
-        args.push('-z', String(blockSize)); // # block size (for sample-rate of 48000 gives blocks of 1ms)
+        args[args.indexOf('-i') + 1] = String(options.numInputs);
+        args[args.indexOf('-o') + 1] = String(options.numOutputs);
+        args.push('-Z', String(options.hardwareBufferSize)); // audio driver block size (frames)
+        args.push('-z', String(options.blockSize)); // # block size (for sample-rate of 48000 gives blocks of 1ms)
         args.push('-w', '512'); // # wire buffers
         args.push('-m', '32768'); // real time memory (Kb), total memory is fixed at scsynth/wasm compile time, see README_WASM
         Module.callMain(args);

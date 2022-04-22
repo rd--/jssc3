@@ -1,3 +1,5 @@
+// osc.js ; node.js
+
 function defaultSc3Udp() {
     return new osc.UDPPort({
         localAddress: '127.0.0.1',

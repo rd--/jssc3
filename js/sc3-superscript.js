@@ -1,3 +1,4 @@
+// sc3-superscript.js ; requires quill
 'use strict';
 
 // https://quilljs.com/
@@ -47,14 +48,10 @@ function editor_get_js_notation_and_then(proc) {
     translate_if_required_and_then(sc3_superscript_get_selected_text(), proc);
 }
 
-var text_editor_get_selected_text = sc3_superscript_get_selected_text;
-
-// Get text (as .html)
-function editor_get_data() {
+function sc3_superscript_get_html() {
     return quill_text_editor.root.innerHTML;
 }
 
-// Set text (from .html)
-function editor_set_data(programData) {
-    quill_text_editor.root.innerHTML = programData;
+function sc3_superscript_set_html(htmlText) {
+    quill_text_editor.root.innerHTML = htmlText;
 }

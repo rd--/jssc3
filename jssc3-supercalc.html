@@ -21,7 +21,7 @@
 window.onload = function () {
     sc3_ui_init('supercalc/', true, true, false, false, '.json', 'jssc3SuperCalcUserPrograms/json', graph_load, true, 4096, 48);
     sc3_wasm_init();
-    sc3_supercalc_init(8, 8);
+    jssc3_supercalc_init(8, 8);
     jssc3_init('e', null, 's');
 };
     </script>
@@ -40,7 +40,7 @@ window.onload = function () {
       <input type="file" id="programInputFile" accept=".stc,.js" onchange="jssc3_read_input_program()" style="display:none">
       <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
       <button title="Copy json to clipboard (c)"  accesskey="c" onclick="navigator.clipboard.writeText(sc3_supercalc_get_json())">Copy</button>
-      <button title="Save document to local storage (s)" accesskey="s" onclick="user_program_save_to()">Save</button>
+      <button title="Save document to local storage (s)" accesskey="s" onclick="ui_save_program()">Save</button>
       <select id="actionsMenu" title="Actions">
         <option value="">&#x2630;</option>
         <option value='setBlockSize'>Block Size</option>

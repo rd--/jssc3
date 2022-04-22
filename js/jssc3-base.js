@@ -270,16 +270,24 @@ function setter_for_inner_html_of(elemId) {
         }
     };
 }
+function get_select_element_and_then(selectId, proc) {
+    var selectElement = document.getElementById(selectId);
+    if (!selectElement) {
+        console.error('get_select_element: not found: ', selectId);
+    }
+    else {
+        proc(selectElement);
+    }
+}
 // Set onchange handler of selectId, guards against absence of selection (proc is only called if value is set).
 function select_on_change(selectId, proc) {
-    var select = document.getElementById(selectId);
     var guardedProc = function (anEvent) {
         var target = anEvent.target;
         if (target && target.value) {
-            proc(target.value);
+            proc(target, target.value);
         }
     };
-    select.addEventListener('change', guardedProc);
+    get_select_element_and_then(selectId, selectElement => selectElement.addEventListener('change', guardedProc));
 }
 // Create option element and add to select element.
 function select_add_option_to(selectElement, optionValue, optionText) {
@@ -290,25 +298,26 @@ function select_add_option_to(selectElement, optionValue, optionText) {
 }
 // Add option to selectId
 function select_add_option_at_id(selectId, optionValue, optionText) {
-    var selectElement = document.getElementById(selectId);
-    select_add_option_to(selectElement, optionValue, optionText);
+    get_select_element_and_then(selectId, selectElement => select_add_option_to(selectElement, optionValue, optionText));
 }
 // Delete all options at selectId from startIndex
 function select_clear_from(selectId, startIndex) {
-    var selectElement = document.getElementById(selectId);
-    var endIndex = selectElement.length;
-    for (var i = startIndex; i < endIndex; i++) {
-        selectElement.remove(startIndex);
-    }
+    get_select_element_and_then(selectId, function (selectElement) {
+        var endIndex = selectElement.length;
+        for (var i = startIndex; i < endIndex; i++) {
+            selectElement.remove(startIndex);
+        }
+    });
 }
 // Add all keys as entries, both value and text, at selectId
 function select_add_keys_as_options(selectId, keyArray) {
-    var select = document.getElementById(selectId);
-    keyArray.forEach(function (key) {
-        var option = document.createElement('option');
-        option.value = key;
-        option.text = key;
-        select.add(option, null);
+    get_select_element_and_then(selectId, function (selectElement) {
+        keyArray.forEach(function (key) {
+            var option = document.createElement('option');
+            option.value = key;
+            option.text = key;
+            selectElement.add(option, null);
+        });
     });
 }
 // Add a listener to buttonId that passes click events to inputId.
@@ -350,6 +359,21 @@ function parse_int_or_alert(integerText, errorText, defaultAnswer) {
     }
     else {
         return answer;
+    }
+}
+function parse_int_or_alert_and_then(integerText, errorText, proc) {
+    var answer = Number.parseInt(integerText, 10);
+    if (isNaN(answer)) {
+        window.alert(errorText);
+    }
+    else {
+        proc(answer);
+    }
+}
+function prompt_for_int_and_then(promptText, defaultValue, proc) {
+    var integerText = window.prompt(promptText, String(defaultValue));
+    if (integerText) {
+        parse_int_or_alert_and_then(integerText, 'Not an integer?', proc);
     }
 }
 // sc3-encode.ts
@@ -721,18 +745,22 @@ function setToArray(aSet) {
 }
 // sc3-string.ts
 // isString('string') === true
-function isString(x) {
-    return typeof x === 'string';
+function isString(aValue) {
+    return typeof aValue === 'string';
 }
-// The split method accepts regular expressions, this is a simpler function.
-function stringSplitOn(aString, delimiter) {
-    return aString.split(delimiter);
+// stringIsPrefixOf('str', 'string') === true
+function stringIsPrefixOf(aPrefix, aString) {
+    return aString.slice(0, aPrefix.length) === aPrefix;
 }
 function stringLines(aString) {
     return aString.split('\n');
 }
-function stringIsPrefixOf(lhs, rhs) {
-    return rhs.slice(0, lhs.length) === lhs;
+// The split method accepts regular expressions, this is a simpler function.
+function stringSplitOn(aString, aDelimiter) {
+    return aString.split(aDelimiter);
+}
+function stringUnlines(anArray) {
+    return anArray.join('\n');
 }
 function treeVisit(aTree, visitFunction) {
     if (Array.isArray(aTree)) {
@@ -2149,6 +2177,70 @@ function prettyPrintSyndefOf(ugen) {
     var graph = makeGraph('sc3.js', wrapOut(0, ugen));
     graphPrettyPrintSyndef(graph);
 }
+// column_index_to_letter(6) === 'g'
+function column_index_to_letter(column_index) {
+    if (isNumber(column_index)) {
+        var column_letter = String.fromCharCode(column_index + 97); // 0 -> a
+        return column_letter;
+    }
+    else {
+        console.error('column_index_to_letter: not a number?', column_index);
+        return '?';
+    }
+}
+// column_letter_to_index('g') === 6
+function column_letter_to_index(column_letter) {
+    if (isString(column_letter)) {
+        var column_index = column_letter.charCodeAt(0) - 97;
+        return column_index;
+    }
+    else {
+        console.error('sc3_supercalc_column_letter_to_index: not a string?', column_letter);
+        return -1;
+    }
+}
+// cellref_to_bus(10, 'a', 4)
+function cellref_to_linear_index(number_of_columns, column_letter, row_number) {
+    var column_index = column_letter_to_index(column_letter);
+    return ((row_number - 1) * number_of_columns) + column_index;
+}
+// apply proc (column_letter, row_number) for each cell in evaluation order (right to left in each row descending)
+function all_cellref_do(number_of_columns, number_of_rows, proc) {
+    for (var row_number = 1; row_number <= number_of_rows; row_number++) {
+        for (var column_index = 0; column_index < number_of_columns; column_index++) {
+            var column_letter = column_index_to_letter(column_index);
+            proc(column_letter, row_number);
+        }
+    }
+}
+var sc3_plaintext;
+function sc3_plaintext_init_in(parentId) {
+    var parentElement = document.getElementById(parentId);
+    if (parentElement) {
+        sc3_plaintext = document.createElement('textarea');
+        sc3_plaintext.setAttribute("id", "jsProgram");
+        parentElement.appendChild(sc3_plaintext);
+    }
+    else {
+        console.error('sc3_plaintext_init_in');
+    }
+}
+function sc3_plaintext_get_complete_text() {
+    return sc3_plaintext ? sc3_plaintext.value : '';
+}
+function sc3_plaintext_get_selected_text() {
+    var currentText = textarea_get_selection_or_contents(sc3_plaintext).trim();
+    if (currentText.length === 0) {
+        console.warn('sc3_plaintext_get_selected_text: empty text');
+    }
+    return currentText;
+}
+function sc3_plaintext_set_text(programText) {
+    sc3_plaintext.value = programText;
+}
+function editor_get_js_notation_and_then(proc) {
+    translate_if_required_and_then(sc3_plaintext_get_selected_text(), proc);
+}
 // sc3-pointer.ts
 function PointerW(n) {
     return ControlIn(1, 15001 + (n * 10));
@@ -2845,6 +2937,123 @@ function isOutUgen(aValue) {
 function isControlRateUgen(aValue) {
     return isUgenInput(aValue) && (inputRate(aValue) == 1);
 }
+function action_set_hardware_buffer_size() {
+    prompt_for_int_and_then('Set hardware buffer size', scsynth_options.hardwareBufferSize, function (aNumber) { scsynth_options.hardwareBufferSize = aNumber; });
+}
+function action_set_block_size() {
+    prompt_for_int_and_then('Set block size', scsynth_options.blockSize, function (aNumber) { scsynth_options.blockSize = aNumber; });
+}
+function action_set_num_inputs() {
+    prompt_for_int_and_then('Set number of inputs', scsynth_options.numInputs, function (aNumber) { scsynth_options.numInputs = aNumber; });
+}
+// Copy user programs as .json to clipboard
+function action_user_backup() {
+    navigator.clipboard.writeText(JSON.stringify(user_programs));
+}
+// Click (invisible) file select input.
+function action_user_restore() {
+    var inputElement = document.getElementById('userProgramArchiveFile');
+    inputElement.click();
+}
+function actions_menu_do(editor_get_selected, editor_set, menuElement, entryName) {
+    console.log('actions_menu_do', entryName);
+    switch (entryName) {
+        case 'setBlockSize':
+            action_set_block_size();
+            break;
+        case 'setHardwareBufferSize':
+            action_set_hardware_buffer_size();
+            break;
+        case 'setNumInputs':
+            action_set_num_inputs();
+            break;
+        case 'userBackup':
+            action_user_backup();
+            break;
+        case 'userRestore':
+            action_user_restore();
+            break;
+        case 'userPurge':
+            user_program_clear();
+            break;
+        case 'documentVisit':
+            load_utf8_and_then(editor_get_selected(), editor_set);
+            break;
+        // case 'midiMpeStart': sc3_midi_mpe_init(); break;
+        default: console.error('actions_menu_do: unknown action', entryName);
+    }
+    menuElement.selectedIndex = 0;
+}
+function actions_menu_init(editor_get_selected, editor_set) {
+    select_on_change('actionsMenu', (menuElement, entryName) => actions_menu_do(editor_get_selected, editor_set, menuElement, entryName));
+}
+var notation_format;
+function resolve_file_type(fileType) {
+    return fileType ? fileType : notation_format;
+}
+function set_notation_format() {
+    get_select_element_and_then('notationFormat', selectElement => notation_format = selectElement.value);
+}
+function translate_if_required_and_then(userText, proc) {
+    switch (notation_format) {
+        case '.js':
+            proc(userText);
+            break;
+        case '.stc':
+            stc_to_js_and_then(userText, proc);
+            break;
+        default: console.error('translate_if_required_and_then: unknown format', notation_format);
+    }
+}
+var scsynth_options;
+function scsynthOptionsPrint(options) {
+    console.log('-i', options.numInputs, '-o', options.numOutputs, '-Z', options.hardwareBufferSize, '-z', options.blockSize);
+}
+var user_programs;
+var user_storage_key;
+function user_program_menu_init(editor_set_program) {
+    var stored = localStorage.getItem(user_storage_key);
+    user_programs = stored ? JSON.parse(stored) : {};
+    select_on_change('userMenu', (menuElement, programName) => editor_set_program(user_programs[programName]));
+    select_add_keys_as_options('userMenu', Object.keys(user_programs));
+}
+function user_program_save_to(program_text) {
+    var timeStamp = (new Date()).toISOString();
+    var programName = window.prompt('Set program name', timeStamp);
+    if (programName) {
+        user_programs[programName] = program_text;
+        localStorage.setItem(user_storage_key, JSON.stringify(user_programs));
+        select_add_option_at_id('userMenu', programName, programName);
+    }
+}
+function user_program_clear() {
+    if (window.confirm("Clear user program storage?")) {
+        select_clear_from('userMenu', 1);
+        localStorage.removeItem(user_storage_key);
+    }
+}
+function user_storage_sync() {
+    localStorage.setItem(user_storage_key, JSON.stringify(user_programs));
+    select_clear_from('userMenu', 1);
+    select_add_keys_as_options('userMenu', Object.keys(user_programs));
+}
+// Read selected .json user program archive file.
+function user_program_read_archive() {
+    var fileInput = document.getElementById('userProgramArchiveFile');
+    var fileList = fileInput.files;
+    var jsonFile = fileList[0];
+    if (fileInput && fileList && jsonFile) {
+        consoleDebug('user_program_read_archive', jsonFile);
+        read_json_file_and_then(jsonFile, function (obj) {
+            consoleDebug('user_program_read_archive', obj);
+            Object.assign(user_programs, obj);
+            user_storage_sync();
+        });
+    }
+    else {
+        console.error('user_program_read_archive');
+    }
+}
 // Encode and send OpenSoundControl message to sc3_websocket.
 function sc3_websocket_send_osc(msg) {
     sc3_websocket_send(osc.writePacket(msg));
@@ -2860,16 +3069,6 @@ function playUgen(ugen) {
 function reset() {
     sc3_websocket_send_osc(g_freeAll1(1));
 }
-var notation_format;
-var scsynth_hardware_buffer_size;
-var scsynth_block_size;
-var scsynth_num_inputs;
-var scsynth_num_outputs;
-
-function resolve_file_type(fileType) {
-    return fileType ? fileType : notation_format;
-}
-
 function graph_load(graphDir, graphName, fileType) {
     var graphFileName = 'help/' + graphDir + '/' + graphName + resolve_file_type(fileType);
     var graphUrl = url_append_timestamp(graphFileName);
@@ -2884,12 +3083,6 @@ function graph_menu_init(menuId, graphDir, fileType, loadProc) {
     } else {
         consoleWarn('graph_menu_init: no element', menuId);
     }
-}
-
-function set_notation_format() {
-    var notationFormat = document.getElementById('notationFormat');
-    notation_format = notationFormat.value;
-    consoleLogMessageFrom('set_notation_format', notation_format);
 }
 
 // subDir should be empty or should end with a '/'
@@ -2912,15 +3105,17 @@ function sc3_ui_init(subDir, hasProgramMenu, hasHelpMenu, hasGuideMenu, hasEssay
     }
     user_storage_key = storageKey;
     notation_format = '.stc';
-    user_program_menu_init();
-    actions_menu_init();
+    user_program_menu_init(editor_set_data);
+    actions_menu_init(text_editor_get_selected_text, editor_set_data);
     if(initMouse) {
         sc3_mouse_init();
     }
-    scsynth_hardware_buffer_size = hardwareBufferSize;
-    scsynth_block_size = blockSize;
-    scsynth_num_inputs = 0;
-    scsynth_num_outputs = 2;
+    scsynth_options = {
+        hardwareBufferSize: hardwareBufferSize,
+        blockSize: blockSize,
+        numInputs: 0,
+        numOutputs: 2
+    };
 }
 
 function setStatusDisplay(text) {
@@ -2929,14 +3124,6 @@ function setStatusDisplay(text) {
         statusText.innerHTML = text;
     } else {
         console.log(text);
-    }
-}
-
-function translate_if_required_and_then(userText, proc) {
-    switch(notation_format) {
-    case '.js': proc(userText); break;
-    case '.stc': stc_to_js_and_then(userText, proc); break;
-    default: consoleError('translate_if_required_and_then: unknown format', notation_format);
     }
 }
 
@@ -2960,67 +3147,20 @@ function playJsProgram() {
     });
 }
 
-// Sets the 's' url parameter of the window to the encdoded form of the selected text.
+// Sets the 's' url parameter of the window to the encoded form of the selected text.
 function set_url_to_encode_selection() {
     window_url_set_param('s', text_editor_get_selected_text());
 }
 
 function ui_boot_scsynth() {
-    bootScsynth(scsynth_num_inputs, scsynth_num_outputs, scsynth_hardware_buffer_size, scsynth_block_size);
-}
-function action_set_hardware_buffer_size() {
-    var replyText = window.prompt('Set hardware buffer size', String(scsynth_hardware_buffer_size));
-    if(replyText) {
-        scsynth_block_size = parse_int_or_alert(replyText, 'Hardware buffer size not an integer', scsynth_hardware_buffer_size);
-    }
+    bootScsynth(scsynth_options);
 }
 
-function action_set_block_size() {
-    var replyText = window.prompt('Set block size', String(scsynth_block_size));
-    if(replyText) {
-        scsynth_block_size = parse_int_or_alert(replyText, 'Block size not an integer', scsynth_block_size);
-    }
+function ui_save_program() {
+    user_program_save_to(editor_get_data());
 }
+// sc3-ui-mouse.js ; requires sc3-wasm
 
-function action_set_num_inputs() {
-    var replyText = window.prompt('Set number of inputs', String(scsynth_num_inputs));
-    if(replyText) {
-        scsynth_num_inputs = parse_int_or_alert(replyText, 'Number of inputs not an integer', scsynth_num_inputs);
-    }
-}
-
-// Copy user programs as .json to clipboard
-function action_user_backup() {
-    navigator.clipboard.writeText(JSON.stringify(user_programs));
-}
-
-// Click (invisible) file select input.
-function action_user_restore() {
-    document.getElementById('userProgramArchiveFile').click();
-}
-
-function actions_menu_do(menu, entryName) {
-    console.log('actions_menu_do', entryName);
-    switch(entryName) {
-    case 'setBlockSize': action_set_block_size(); break;
-    case 'setHardwareBufferSize': action_set_hardware_buffer_size(); break;
-    case 'setNumInputs': action_set_num_inputs(); break;
-    case 'userBackup': action_user_backup(); break;
-    case 'userRestore': action_user_restore(); break;
-    case 'userPurge': user_program_clear(); break;
-    case 'documentVisit': load_utf8_and_then(text_editor_get_selected_text(), editor_set_data); break;
-    case 'midiMpeStart': sc3_midi_mpe_init(); break;
-    default: console.error('actions_menu_do: unknown action', entryName);
-    }
-    menu.selectedIndex = 0;
-}
-
-function actions_menu_init() {
-    var menu = document.getElementById('actionsMenu');
-    if(menu) {
-        menu.addEventListener('change', e => e.target.value ? actions_menu_do(menu, e.target.value) : null);
-    }
-}
 // w is button state, x and y are unit scaled co-ordinates within window where y points up.
 var sc3_mouse = { w: 0, x: 0, y: 0 };
 
@@ -3029,7 +3169,6 @@ function recv_document_mouse_event(e) {
     sc3_mouse.x = event.pageX / window.innerWidth;
     sc3_mouse.y = 1 - (e.pageY / window.innerHeight);
     sc3_mouse.w = e.buttons === 1 ? 1 : 0;
-    consoleDebug('recv_document_mouse_event', sc3_mouse); // sc3-error
     setPointerControls(0, sc3_mouse.w, sc3_mouse.x, sc3_mouse.y); // sc3-wasm
 }
 
@@ -3038,53 +3177,4 @@ function sc3_mouse_init() {
     document.onmousedown = recv_document_mouse_event;
     document.onmousemove = recv_document_mouse_event;
     document.onmouseup = recv_document_mouse_event;
-}
-var user_programs;
-var user_storage_key;
-
-function user_program_menu_init() {
-    var stored = localStorage.getItem(user_storage_key);
-    user_programs = stored ? JSON.parse(stored) : {};
-    select_on_change('userMenu', user_program_load);
-    select_add_keys_as_options('userMenu', Object.keys(user_programs));
-}
-
-function user_program_save_to() {
-    var timeStamp = (new Date()).toISOString();
-    var programName = window.prompt('Set program name', timeStamp);
-    if(programName) {
-        user_programs[programName] = editor_get_data();
-        localStorage.setItem(user_storage_key, JSON.stringify(user_programs));
-        select_add_option_at_id('userMenu', programName, programName);
-    }
-}
-
-function user_program_load(programName) {
-    editor_set_data(user_programs[programName]);
-}
-
-function user_program_clear() {
-    if (window.confirm("Clear user program storage?")) {
-        select_clear_from('userMenu', 1);
-        localStorage.removeItem(user_storage_key);
-    }
-}
-
-function user_storage_sync() {
-    localStorage.setItem(user_storage_key, JSON.stringify(user_programs));
-    select_clear_from('userMenu', 1);
-    select_add_keys_as_options('userMenu', Object.keys(user_programs));
-}
-
-// Read selected .json user program archive file.
-function user_program_read_archive() {
-    var jsonFile = document.getElementById('userProgramArchiveFile').files[0];
-    consoleDebug('user_program_read_archive', jsonFile);
-    if (jsonFile) {
-        read_json_file_and_then(jsonFile, function(obj) {
-            consoleDebug('user_program_read_archive', obj);
-            Object.assign(user_programs, obj);
-            user_storage_sync();
-        });
-    }
 }

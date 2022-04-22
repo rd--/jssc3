@@ -1,8 +1,10 @@
+// sc3-supercalc.js ; requires jspreadsheet
 'use strict';
 
 var sc3_supercalc_num_col;
 var sc3_supercalc_num_row;
 var sc3_supercalc_bus_offset;
+var sc3_supercalc_group_offset;
 var sc3_supercalc_data;
 var sc3_supercalc_sheet;
 
@@ -13,45 +15,14 @@ row_number = 1 - 8
 row_index = 0 - 7
 */
 
-// sc3_supercalc_col_index_to_letter(6) === 'g'
-function sc3_supercalc_col_index_to_letter(col_index) {
-    if(isNumber(col_index)) {
-        var col_letter = String.fromCharCode(col_index + 97); // 0 -> a
-        consoleDebug('sc3_supercalc_col_index_to_letter', col_index, '"' + col_letter + '"');
-        return col_letter;
-    } else {
-        console.error('sc3_supercalc_col_index_to_letter: not a number?', col_index);
-    }
-}
-
-// sc3_supercalc_col_letter_to_index('g') === 6
-function sc3_supercalc_col_letter_to_index(col_letter) {
-    if(isString(col_letter)) {
-        var col_index = col_letter.charCodeAt(0) - 97;
-        return col_index;
-    } else {
-        console.error('sc3_supercalc_col_letter_to_index: not a string?', col_letter);
-    }
-}
-
-// sc3_supercalc_cellref_to_bus('a', 4)
+// sc3_supercalc_cellref_to_bus('g', 4)
 function sc3_supercalc_cellref_to_bus(col_letter, row_number) {
-    consoleDebug('sc3_supercalc_cellref_to_bus', col_letter, row_number);
-    var col_index = sc3_supercalc_col_letter_to_index(col_letter);
-    return sc3_supercalc_bus_offset + ((row_number - 1) * sc3_supercalc_num_col) + col_index;
+    return sc3_supercalc_bus_offset + cellref_to_linear_index(sc3_supercalc_num_col, col_letter, row_number);
 }
 
 // sc3_supercalc_cellref_to_group('g', 4)
-var sc3_supercalc_cellref_to_group = sc3_supercalc_cellref_to_bus;
-
-// apply proc (col_letter, row_number) for each cell in evaluation order (right to left in each row descending)
-function sc3_supercalc_all_cellref_do(proc) {
-    for(var row_number = 1; row_number <= sc3_supercalc_num_row; row_number++) {
-        for(var col_index = 0; col_index < sc3_supercalc_num_col; col_index++) {
-            var col_letter = sc3_supercalc_col_index_to_letter(col_index);
-            proc(col_letter, row_number);
-        }
-    }
+function sc3_supercalc_cellref_to_group(col_letter, row_number) {
+    return sc3_supercalc_group_offset + cellref_to_linear_index(sc3_supercalc_num_col, col_letter, row_number);
 }
 
 function sc3_supercalc_set_cell_colour(col_letter, row_number, colour_string) {
@@ -95,8 +66,12 @@ function sc3_supercalc_eval_cell(col_letter, row_number, cell_text) {
 }
 
 function sc3_supercalc_get_cell_text(col_letter, row_number) {
-    var col_index = sc3_supercalc_col_letter_to_index(col_letter);
+    var col_index = column_letter_to_index(col_letter);
     return sc3_supercalc_sheet.getCellFromCoords(col_index, row_number - 1).textContent;
+}
+
+function sc3_supercalc_all_cellref_do(proc) {
+    all_cellref_do(sc3_supercalc_num_col, sc3_supercalc_num_row, proc);
 }
 
 function sc3_supercalc_eval_sheet() {
@@ -107,7 +82,7 @@ function sc3_supercalc_eval_sheet() {
 }
 
 function sc3_supercalc_on_change (instance, cell, col_index, row_index, cell_text) {
-    var col_letter = sc3_supercalc_col_index_to_letter(Number(col_index));
+    var col_letter = column_index_to_letter(Number(col_index));
     var row_number = Number(row_index) + 1;
     consoleDebug('sc3_supercalc_on_change', col_letter, row_number, cell_text);
     sc3_supercalc_eval_cell(col_letter, row_number, cell_text.trim());
@@ -140,10 +115,11 @@ function sc3_supercalc_init (numCol, numRow) {
     sc3_supercalc_num_col = numCol;
     sc3_supercalc_num_row = numRow;
     sc3_supercalc_bus_offset = 24;
+    sc3_supercalc_group_offset = 12;
     sc3_supercalc_sheet = jspreadsheet(document.getElementById('sc3_supercalc'), {
         data: sc3_supercalc_data,
         columns: arrayFillWithIndex(numCol, function(col_index) {
-                return { type: 'text', title: sc3_supercalc_col_index_to_letter(col_index), width: 200 };
+                return { type: 'text', title: column_index_to_letter(col_index), width: 200 };
         }),
         onchange: sc3_supercalc_on_change,
         allowInsertRow: false,
@@ -201,7 +177,3 @@ function sc3_supercalc_server_setup() {
     sc3_supercalc_define_cell_variables(sc3_supercalc_num_col, sc3_supercalc_num_row);
     sc3_supercalc_create_and_init_cell_groups(sc3_supercalc_num_col, sc3_supercalc_num_row);
 }
-
-var editor_get_data = sc3_supercalc_get_json;
-
-var editor_set_data = sc3_supercalc_set_json;

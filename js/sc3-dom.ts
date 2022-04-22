@@ -12,16 +12,24 @@ export function setter_for_inner_html_of(elemId: string): (innerHtml: string) =>
     };
 }
 
+export function get_select_element_and_then(selectId: string, proc: (selectElement: HTMLSelectElement) => void): void {
+    var selectElement = <HTMLSelectElement>document.getElementById(selectId);
+    if(!selectElement) {
+        console.error('get_select_element: not found: ', selectId);
+    } else {
+        proc(selectElement);
+    }
+}
+
 // Set onchange handler of selectId, guards against absence of selection (proc is only called if value is set).
-export function select_on_change(selectId: string, proc: (aString: string) => void): void {
-    var select = <HTMLSelectElement>document.getElementById(selectId);
+export function select_on_change(selectId: string, proc: (anElement: HTMLSelectElement, aString: string) => void): void {
     var guardedProc = function(anEvent: Event) {
         var target = <HTMLSelectElement>anEvent.target;
         if(target && target.value) {
-            proc(target.value);
+            proc(target, target.value);
         }
     };
-    select.addEventListener('change', guardedProc);
+    get_select_element_and_then(selectId, selectElement => selectElement.addEventListener('change', guardedProc));
 }
 
 // Create option element and add to select element.
@@ -34,27 +42,28 @@ export function select_add_option_to(selectElement: HTMLSelectElement, optionVal
 
 // Add option to selectId
 export function select_add_option_at_id(selectId: string, optionValue: string, optionText: string): void {
-    var selectElement = <HTMLSelectElement>document.getElementById(selectId);
-    select_add_option_to(selectElement, optionValue, optionText);
+    get_select_element_and_then(selectId, selectElement => select_add_option_to(selectElement, optionValue, optionText));
 }
 
 // Delete all options at selectId from startIndex
 export function select_clear_from(selectId: string, startIndex: number): void {
-    var selectElement = <HTMLSelectElement>document.getElementById(selectId);
-    var endIndex = selectElement.length;
-    for(var i = startIndex; i < endIndex; i++) {
-        selectElement.remove(startIndex);
-    }
+    get_select_element_and_then(selectId, function(selectElement) {
+        var endIndex = selectElement.length;
+        for(var i = startIndex; i < endIndex; i++) {
+            selectElement.remove(startIndex);
+        }
+    });
 }
 
 // Add all keys as entries, both value and text, at selectId
 export function select_add_keys_as_options(selectId: string, keyArray: string[]): void {
-    var select = <HTMLSelectElement>document.getElementById(selectId);
-    keyArray.forEach(function(key) {
-        var option = document.createElement('option');
-        option.value = key;
-        option.text = key;
-        select.add(option, null);
+    get_select_element_and_then(selectId, function(selectElement) {
+        keyArray.forEach(function(key) {
+            var option = document.createElement('option');
+            option.value = key;
+            option.text = key;
+            selectElement.add(option, null);
+        });
     });
 }
 
@@ -98,5 +107,21 @@ export function parse_int_or_alert(integerText: string, errorText: string, defau
         return defaultAnswer;
     } else {
         return answer;
+    }
+}
+
+export function parse_int_or_alert_and_then(integerText: string, errorText: string, proc: (aNumber: number) => void): void {
+    var answer = Number.parseInt(integerText, 10);
+    if(isNaN(answer)) {
+        window.alert(errorText);
+    } else {
+        proc(answer);
+    }
+}
+
+export function prompt_for_int_and_then(promptText: string, defaultValue: number, proc: (aNumber: number) => void): void {
+    var integerText = window.prompt(promptText, String(defaultValue));
+    if(integerText) {
+        parse_int_or_alert_and_then(integerText, 'Not an integer?', proc);
     }
 }

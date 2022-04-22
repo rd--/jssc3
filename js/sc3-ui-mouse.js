@@ -1,3 +1,5 @@
+// sc3-ui-mouse.js ; requires sc3-wasm
+
 // w is button state, x and y are unit scaled co-ordinates within window where y points up.
 var sc3_mouse = { w: 0, x: 0, y: 0 };
 
@@ -6,7 +8,6 @@ function recv_document_mouse_event(e) {
     sc3_mouse.x = event.pageX / window.innerWidth;
     sc3_mouse.y = 1 - (e.pageY / window.innerHeight);
     sc3_mouse.w = e.buttons === 1 ? 1 : 0;
-    consoleDebug('recv_document_mouse_event', sc3_mouse); // sc3-error
     setPointerControls(0, sc3_mouse.w, sc3_mouse.x, sc3_mouse.y); // sc3-wasm
 }
 
