@@ -171,6 +171,10 @@ export function arrayPush(anArray: any[], aValue: any): number {
     return anArray.push(aValue);
 }
 
+export function arrayPut(anArray: any[], anIndex: number, aValue: any): void {
+    anArray[anIndex] = aValue;
+}
+
 // arrayReplicate(5, 1) //= [1, 1, 1, 1, 1]
 export function arrayReplicate(k: number, v: any): any[] {
     return arrayIota(k).map(unusedItem => v);

@@ -2,7 +2,7 @@
 
 import { arrayAtWrap, arrayLength } from './sc3-array.js'
 import { mul } from './sc3-bindings.js'
-import { Queue, queueNew, queuePush, queueToArray } from './sc3-queue.js'
+import { Queue, queueNew, queuePush, queueAsArray } from './sc3-queue.js'
 import { isString } from './sc3-string.js'
 import { Tree } from './sc3-tree.js'
 import { Signal } from './sc3-ugen.js'
@@ -53,7 +53,7 @@ export function envCoord(env: Env): Signal[] {
         store(isString(c) ? envCurveDictionary[<string>c] : 5);
         store(isString(c) ? 0 : c);
     }
-    return queueToArray(answerQueue);
+    return queueAsArray(answerQueue);
 }
 
 export function EnvADSR(attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, peakLevel: Signal, curve: Signal): Env {

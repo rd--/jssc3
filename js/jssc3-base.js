@@ -140,6 +140,9 @@ function arrayNub(anArray) {
 function arrayPush(anArray, aValue) {
     return anArray.push(aValue);
 }
+function arrayPut(anArray, anIndex, aValue) {
+    anArray[anIndex] = aValue;
+}
 // arrayReplicate(5, 1) //= [1, 1, 1, 1, 1]
 function arrayReplicate(k, v) {
     return arrayIota(k).map(unusedItem => v);
@@ -707,8 +710,8 @@ function queuePush(aQueue, aValue) {
 function queuePop(aQueue) {
     return aQueue.pop;
 }
-// q = queueNew(); [1, 2, 3].forEach(item => queuePush(q, item)); queueToArray(q) //= [1, 2, 3]
-function queueToArray(aQueue) {
+// q = queueNew(); [1, 2, 3].forEach(item => queuePush(q, item)); queueAsArray(q) //= [1, 2, 3]
+function queueAsArray(aQueue) {
     return aQueue;
 }
 // sc3-rate.ts
@@ -727,20 +730,22 @@ function rateSelector(aRate) {
     return rateSelectorTable[String(aRate)];
 }
 // sc3-set.ts
+function isSet(aValue) {
+    return aValue.toString() == '[object Set]';
+}
 function setNew() {
     return new Set();
-}
-function setAdd(aSet, aValue) {
-    aSet.add(aValue);
-}
-var setPut = setAdd;
-function setHas(aSet, aValue) {
-    return aSet.has(aValue);
 }
 function setFromArray(anArray) {
     return new Set(anArray);
 }
-function setToArray(aSet) {
+function setPut(aSet, aValue) {
+    aSet.add(aValue);
+}
+function setIncludes(aSet, aValue) {
+    return aSet.has(aValue);
+}
+function setAsArray(aSet) {
     return Array.from(aSet);
 }
 // sc3-string.ts
@@ -1977,7 +1982,7 @@ function envCoord(env) {
         store(isString(c) ? envCurveDictionary[c] : 5);
         store(isString(c) ? 0 : c);
     }
-    return queueToArray(answerQueue);
+    return queueAsArray(answerQueue);
 }
 function EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, peakLevel, curve) {
     return Env([0, peakLevel, mul(peakLevel, sustainLevel), 0], [attackTime, decayTime, releaseTime], curve, 2, null, 0);
@@ -2055,12 +2060,12 @@ function ugenTraverseCollecting(p, c, w) {
     }
     else if (isUgenOutput(p)) {
         var pUgenOutput = p;
-        var mrgArray = queueToArray(pUgenOutput.ugen.mrg);
+        var mrgArray = queueAsArray(pUgenOutput.ugen.mrg);
         consoleDebug('ugenTraverseCollecting: port', pUgenOutput);
-        if (!setHas(w, pUgenOutput.ugen)) {
-            setAdd(c, pUgenOutput.ugen);
-            arrayForEach(pUgenOutput.ugen.inputValues, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, w));
-            arrayForEach(mrgArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
+        if (!setIncludes(w, pUgenOutput.ugen)) {
+            setPut(c, pUgenOutput.ugen);
+            arrayForEach(pUgenOutput.ugen.inputValues, item => isNumber(item) ? setPut(c, item) : ugenTraverseCollecting(item, c, w));
+            arrayForEach(mrgArray, item => isNumber(item) ? setPut(c, item) : ugenTraverseCollecting(item, c, c));
         }
     }
     else {
@@ -2071,7 +2076,7 @@ function ugenTraverseCollecting(p, c, w) {
 function ugenGraphLeafNodes(p) {
     var c = setNew();
     ugenTraverseCollecting(p, c, setNew());
-    return setToArray(c);
+    return setAsArray(c);
 }
 function ugenCompare(i, j) {
     return i.ugenId - j.ugenId;
@@ -2729,7 +2734,7 @@ function flattenByteEncodingIntoQueue(aTree, numberQueue) {
 function flattenByteEncoding(aTree) {
     var numberQueue = queueNew();
     flattenByteEncodingIntoQueue(aTree, numberQueue);
-    return new Uint8Array(queueToArray(numberQueue));
+    return new Uint8Array(queueAsArray(numberQueue));
 }
 // sc3-ugen.ts
 var ugenCounter = counterNew();

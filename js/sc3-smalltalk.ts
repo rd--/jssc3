@@ -14,7 +14,7 @@ export function clump(anArray: any[], n: number) { return arrayClump(anArray, n)
 export function collect(anArray: any[], proc: (aValue: any) => any): any[] { return anArray.map(proc); }
 export function concatenation(anArray: any[]) { return arrayConcatenation(anArray); }
 export function coord(anEnvelope: Dictionary): Signal[] { return envCoord(anEnvelope); }
-export function dup(proc: (aValue: void) => any, count: number): any[] { return arrayFill(nullFix('dup: count?', count, 2), proc); }
+export function dup(proc: (aValue: void) => any, count?: number): any[] { return arrayFill(nullFix('dup: count?', count, 2), proc); }
 export function first(anArray: any[]): any { return anArray[0]; }
 export function mean(anArray: Signal[]): Signal { return fdiv(sum(anArray), anArray.length); }
 export function negated(aNumber: Signal): Signal { return neg(aNumber); }

@@ -59,3 +59,15 @@ It would be nice if jssc3 and rsc3 could be translated into one another.
 It's not straightforwards to do this for any expressions using _this_.
 _p.q_ means _dictionaryAt(p, 'q')_ and _p.q = r_ means _dictionaryPut(p, 'q', r)_.
 These should be the only uses of _._.
+
+# Smalltalk
+
+The file _sc3-smalltalk.ts_ implements various messages that are common in SuperCollider _.stc_ programs.
+This works to the degree that the types are simple and non-overlapping.
+Another approach is to translate _p.q_ as _p.q_ instead of _q(p)_, and _0_ as _Number(0)_ and so on.
+There is [Object.defineProperty](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)
+to add methods to prototypes as required.
+This can interact badly with other code, in particular adding methods to the array protoype in the past has caused scsynth.wasm to crash.
+Another approach is to translate _p.q(r...)_ as _performWithArguments(p, 'q', r...)_.
+This would allow dispatching on the type of _p_ without altering any Js objects, and is also translateable to scheme.
+The file _sc3-perform.js_ has a sketch for this.

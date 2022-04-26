@@ -4,9 +4,9 @@ import { arrayAppend, arrayFilter, arrayFindIndex, arrayForEach, arrayIndexOf, a
 import { encodeInt8, encodeInt16, encodeInt32, encodeFloat32, encodePascalString } from './sc3-encode.js'
 import { consoleDebug } from './sc3-error.js'
 import { isNumber } from './sc3-number.js'
-import { queueToArray } from './sc3-queue.js'
+import { queueAsArray } from './sc3-queue.js'
 import { rateIr } from './sc3-rate.js'
-import { setHas, setNew, setAdd, setToArray } from './sc3-set.js'
+import { setIncludes, setNew, setPut, setAsArray } from './sc3-set.js'
 import { Tree } from './sc3-tree.js'
 import { flattenByteEncoding } from './sc3-u8.js'
 import { UgenInput, UgenOutput, UgenPrimitive, Signal, isUgenOutput, isUgenPrimitive, makeUgenPrimitive } from './sc3-ugen.js'
@@ -19,12 +19,12 @@ export function ugenTraverseCollecting(p: Tree<UgenOutput>, c: Set<number | Ugen
         arrayForEach(p, item => ugenTraverseCollecting(item, c, w));
     } else if(isUgenOutput(p)) {
         var pUgenOutput = <UgenOutput>p;
-        var mrgArray = queueToArray(pUgenOutput.ugen.mrg);
+        var mrgArray = queueAsArray(pUgenOutput.ugen.mrg);
         consoleDebug('ugenTraverseCollecting: port', pUgenOutput);
-        if(!setHas(w, pUgenOutput.ugen)) {
-            setAdd(c, pUgenOutput.ugen);
-            arrayForEach(pUgenOutput.ugen.inputValues, item => isNumber(item) ? setAdd(c, item)  : ugenTraverseCollecting(item, c, w));
-            arrayForEach(mrgArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
+        if(!setIncludes(w, pUgenOutput.ugen)) {
+            setPut(c, pUgenOutput.ugen);
+            arrayForEach(pUgenOutput.ugen.inputValues, item => isNumber(item) ? setPut(c, item)  : ugenTraverseCollecting(item, c, w));
+            arrayForEach(mrgArray, item => isNumber(item) ? setPut(c, item) : ugenTraverseCollecting(item, c, c));
         }
     } else {
         console.error('ugenTraverseCollecting', p, c, w);
@@ -35,7 +35,7 @@ export function ugenTraverseCollecting(p: Tree<UgenOutput>, c: Set<number | Ugen
 export function ugenGraphLeafNodes(p: Tree<UgenOutput>): Array<number | UgenPrimitive> {
     var c = setNew();
     ugenTraverseCollecting(p, c, setNew());
-    return setToArray(c);
+    return setAsArray(c);
 }
 
 export function ugenCompare(i: UgenPrimitive, j: UgenPrimitive): number {

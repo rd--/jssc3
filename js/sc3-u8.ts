@@ -1,6 +1,6 @@
 // sc3-u8.ts
 
-import { Queue, queueNew, queuePush, queueToArray } from './sc3-queue.js'
+import { Queue, queueNew, queuePush, queueAsArray } from './sc3-queue.js'
 import { Tree, treeVisit } from './sc3-tree.js'
 
 export function isUint8Array(x : any) : boolean {
@@ -19,5 +19,5 @@ export function flattenByteEncodingIntoQueue(aTree : Tree<Uint8Array>, numberQue
 export function flattenByteEncoding(aTree : Tree<Uint8Array>) :  Uint8Array {
     var numberQueue = queueNew();
     flattenByteEncodingIntoQueue(aTree, numberQueue);
-    return new Uint8Array(queueToArray(numberQueue));
+    return new Uint8Array(queueAsArray(numberQueue));
 }
