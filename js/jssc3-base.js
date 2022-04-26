@@ -117,11 +117,11 @@ function arrayFromTo(from, to) {
 }
 // arrayFromToBy(1, 9, 2) //= [1, 3, 5, 7, 9]
 function arrayFromToBy(from, to, by) {
-    var r = [];
+    var answer = [];
     for (var i = from; i <= to; i += by) {
-        r.push(i);
+        answer.push(i);
     }
-    return r;
+    return answer;
 }
 function arrayIndexOf(anArray, aValue) {
     return anArray.indexOf(aValue);
@@ -3216,4 +3216,218 @@ function sc3_mouse_init() {
     document.onmousedown = recv_document_mouse_event;
     document.onmousemove = recv_document_mouse_event;
     document.onmouseup = recv_document_mouse_event;
+}
+// sc3-obj.js
+
+class Obj {
+    constructor (aValue) {
+    }
+    isArray() {
+        return new Bool(false);
+    }
+    isBoolean() {
+        return new Bool(false);
+    }
+    isFloat() {
+        return new Bool(false);
+    }
+    isInt() {
+        return new Bool(false);
+    }
+}
+// sc3-bool.js
+
+class Bool extends Obj {
+    constructor(aBoolean) {
+        super(aBoolean);
+        this.boolean = aBoolean;
+    }
+    and(aBool) {
+        return new Bool(this.boolean && aBool.boolean);
+    }
+    asString() {
+        return new Str(String(this.aBoolean));
+    }
+    isBoolean() {
+        return new Bool(true);
+    }
+    not() {
+        return new Bool(!this.boolean);
+    }
+    or(aBool) {
+        return new Bool(this.boolean || aBool.boolean);
+    }
+}
+
+function bool(aBoolean) {
+    return new Bool(aBoolean);
+}
+// sc3-int.js
+
+class Int extends Obj {
+    constructor(aNumber) {
+        super(aNumber);
+        this.number = aNumber;
+    }
+    add(aValue) {
+        return aValue.isInt() ? this.addInt(aValue) : aValue.addInt(this);
+    }
+    addInt(anInt) {
+        return new Int(this.number + anInt.number);
+    }
+    asFloat() {
+        return new Float(this.number);
+    }
+    asInt() {
+        return this;
+    }
+    asString() {
+        return new Str(String(this.number));
+    }
+    isInt() {
+        return new Bool(true);
+    }
+    negated() {
+        return new Int(0 - this.number);
+    }
+    to(anInt) {
+        var answer = [];
+        for(var i = this.number; i <= anInt.number; i += 1) {
+            answer.push(new Int(i));
+        }
+        return new Vector(answer);
+    }
+}
+
+function int(aNumber) {
+    return new Int(aNumber);
+}
+// sc3-float.js
+
+class Float extends Obj {
+    constructor(aNumber) {
+        super(aNumber);
+        this.number = aNumber;
+    }
+    add(aValue) {
+        return aValue.isFloat() ? this.addFloat(aValue) : aValue.addFloat(this);
+    }
+    addFloat(aFloat) {
+        return new Float(this.number + aFloat.number);
+    }
+    asFloat() {
+        return this;
+    }
+    asInt() {
+        return new Int(Math.round(this.number));
+    }
+    asString() {
+        return new Str(String(this.number));
+    }
+    isFloat() {
+        return new Bool(true);
+    }
+    negated() {
+        return new Float(0 - this.number);
+    }
+    rand(aFloat) {
+        if(aFloat) {
+            return new Float(Math.random() * (aFloat.number - this.number) + this.number);
+        } else {
+            return new Float(Math.random() * this.number);
+        }
+    }
+    rand2() {
+        return this.negated().rand(this);
+    }
+    sin() {
+        return new Float(Math.sin(this.number));
+    }
+}
+
+function float(aNumber) {
+    return new Float(aNumber);
+}
+// sc3-str.js
+
+class Str extends Obj {
+    constructor(aString) {
+        super(aString);
+        this.string = aString;
+    }
+    asString() {
+        return this;
+    }
+    size() {
+        return new Int(this.string.length);
+    }
+}
+
+function str(aString) {
+    return new Str(aString);
+}
+// sc3-sym.js
+
+class Sym extends Obj {
+    constructor(aString) {
+        super(aString);
+        this.string = aString;
+    }
+    asString() {
+        return new Str(this.string);
+    }
+    size() {
+        return new Int(this.string.length);
+    }
+}
+
+function sym(aString) {
+    return new Sym(aString);
+}
+// sc3-vector.js ; one-indexed
+
+class Vector extends Obj {
+    constructor(anArray) {
+        super(anArray);
+        this.array = anArray;
+    }
+    isArray() {
+        return new Bool(true);
+    }
+    append(aVector) {
+        return new Vector(this.array.concat(aVector.array));
+    }
+    at(anIndex) {
+        return this.array[anIndex.number - 1];
+    }
+    collect(aBlock) {
+        return new Vector(this.array.map(aBlock));
+    }
+    copy() {
+        return new Vector(this.array.slice(0, this.array.length));
+    }
+    negated() {
+        return new Vector(this.array.map(item => item.negated()));
+    }
+    put(anIndex, aValue) {
+        this.array[anIndex.number - 1] = aValue;
+    }
+    reversed() {
+        var answer = this.copy()
+        answer.reverseInPlace();
+        return answer;
+    }
+    reverseInPlace() {
+        this.array.reverse();
+    }
+    sin() {
+        return new Vector(this.array.map(item => item.sin()));
+    }
+    size() {
+        return new Int(this.array.length);
+    }
+}
+
+function vector(anArray) {
+    return new Vector(anArray);
 }

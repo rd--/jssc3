@@ -142,11 +142,11 @@ export function arrayFromTo(from: number, to: number): number[] {
 
 // arrayFromToBy(1, 9, 2) //= [1, 3, 5, 7, 9]
 export function arrayFromToBy(from: number, to: number, by: number): number[] {
-    var r = [];
+    var answer = [];
     for(var i = from; i <= to; i += by) {
-        r.push(i);
+        answer.push(i);
     }
-    return r;
+    return answer;
 }
 
 export function arrayIndexOf(anArray: any[], aValue: any): number {
