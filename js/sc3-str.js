@@ -5,8 +5,17 @@ class Str extends Obj {
         super(aString);
         this.string = aString;
     }
+    isString() {
+        return new Bool(true);
+    }
     asString() {
         return this;
+    }
+    asSymbol() {
+        return new Sym(this.string);
+    }
+    equalTo(aValue) {
+        return new Bool(aValue.isString().boolean ? this.string === aValue.string : false);
     }
     size() {
         return new Int(this.string.length);

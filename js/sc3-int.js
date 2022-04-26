@@ -1,15 +1,18 @@
 // sc3-int.js
 
-class Int extends Obj {
+class Int extends Num {
     constructor(aNumber) {
         super(aNumber);
-        this.number = aNumber;
     }
-    add(aValue) {
-        return aValue.isInt() ? this.addInt(aValue) : aValue.addInt(this);
+    isInt() {
+        return new Bool(true);
     }
-    addInt(anInt) {
-        return new Int(this.number + anInt.number);
+    adaptToIntAndSend(aValue, aSelector) {
+        return aValue.performWithInt(aSelector, this);
+    }
+    adaptToFloatAndSend(aValue, aSelector) {
+        console.log('Int>>adaptToFloatAndSend', this, aValue, aSelector);
+        return aValue.performWithFloat(aSelector, this.asFloat());
     }
     asFloat() {
         return new Float(this.number);
@@ -17,14 +20,33 @@ class Int extends Obj {
     asInt() {
         return this;
     }
-    asString() {
-        return new Str(String(this.number));
+    perform(aSelector) {
+        switch(aSelector) {
+        case 'negated': return new Int(0 - this.number);
+        case 'rand': return new Int(Math.floor(Math.random() * this.number));
+        default: return this.asFloat().perform(aSelector);
+        }
     }
-    isInt() {
-        return new Bool(true);
+    performWith(aSelector, aValue) {
+        return aValue.isInt().boolean ? this.performWithInt(aSelector, aValue) : aValue.adaptToIntAndSend(this, aSelector);
     }
-    negated() {
-        return new Int(0 - this.number);
+    performWithInt(aSelector, anInt) {
+        console.log('Int>>performWithInt', this, aSelector, anInt);
+        switch(aSelector) {
+        case 'add': return new Int(this.number + anInt.number);
+        case 'div': return new Float(this.number / anInt.number);
+        case 'equalTo': return new Bool(this.number === anInt.number);
+        case 'mul': return new Int(this.number * anInt.number);
+        case 'pow': return new Int(this.number ** anInt.number);
+        case 'rand': return new Int(Math.floor(Math.random() * (anInt.number - this.number) + this.number));
+        case 'sub': return new Int(this.number - anInt.number);
+        default: console.error('Int>>performWithInt', this, aSelector, anInt); return null;
+        }
+    }
+    timesRepeat(aBlock) {
+        for(var i = 0; i < this.number; i++) {
+            aBlock.value();
+        }
     }
     to(anInt) {
         var answer = [];

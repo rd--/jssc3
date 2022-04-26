@@ -5,20 +5,32 @@ class Bool extends Obj {
         super(aBoolean);
         this.boolean = aBoolean;
     }
+    isBoolean() {
+        return new Bool(true);
+    }
     and(aBool) {
         return new Bool(this.boolean && aBool.boolean);
     }
     asString() {
         return new Str(String(this.aBoolean));
     }
-    isBoolean() {
-        return new Bool(true);
+    static false() {
+            return new Bool(false);
+    }
+    equalTo(aValue) {
+        return new Bool(aValue.isBoolean().boolean ? this.boolean === aValue.boolean : false);
     }
     not() {
         return new Bool(!this.boolean);
     }
     or(aBool) {
         return new Bool(this.boolean || aBool.boolean);
+    }
+    rand() {
+        return Bool(Math.random()  > 0.5);
+    }
+    static true() {
+            return new Bool(true);
     }
 }
 

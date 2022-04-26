@@ -1,43 +1,61 @@
 // sc3-float.js
 
-class Float extends Obj {
+class Float extends Num {
     constructor(aNumber) {
         super(aNumber);
-        this.number = aNumber;
     }
-    add(aValue) {
-        return aValue.isFloat() ? this.addFloat(aValue) : aValue.addFloat(this);
+    isFloat() {
+        return new Bool(true);
     }
-    addFloat(aFloat) {
-        return new Float(this.number + aFloat.number);
+    adaptToIntAndSend(aValue, aSelector) {
+        console.log('Float>>adaptToIntAndSend', this, aValue, aSelector);
+        return aValue.asFloat().performWithFloat(aSelector, this);
+    }
+    adaptToFloatAndSend(aValue, aSelector) {
+        console.log('Float>>adaptToFloatAndSend', this, aValue, aSelector);
+        return aValue.performWithFloat(aSelector, this);
     }
     asFloat() {
         return this;
     }
     asInt() {
-        return new Int(Math.round(this.number));
+        return new Int(Math.trunc(this.number));
     }
-    asString() {
-        return new Str(String(this.number));
+    coin() {
+        return new Bool(Math.random() > this.number);
     }
-    isFloat() {
-        return new Bool(true);
+    static inf() {
+            return new Float(Infinity);
     }
-    negated() {
-        return new Float(0 - this.number);
-    }
-    rand(aFloat) {
-        if(aFloat) {
-            return new Float(Math.random() * (aFloat.number - this.number) + this.number);
-        } else {
-            return new Float(Math.random() * this.number);
+    perform(aSelector) {
+        switch(aSelector) {
+        case 'cos': return new Float(Math.cos(this.number));
+        case 'negated': return new Float(0 - this.number);
+        case 'sign': return new Int(this.number > 0 ? 1 : (this.number < 0 ? -1 : 0));
+        case 'sin': return new Float(Math.sin(this.number));
+        case 'sqrt': return new Float(Math.sqrt(this.number));
+        case 'rand': return new Float(Math.random() * this.number);
+        case 'tan': return new Float(Math.tan(this.number));
+        default: console.error('Float>>perform', this, aSelector); return null;
         }
     }
-    rand2() {
-        return this.negated().rand(this);
+    performWith(aSelector, aValue) {
+        return aValue.isFloat().boolean ? this.performWithFloat(aSelector, aValue) : aValue.adaptToFloatAndSend(this, aSelector);
     }
-    sin() {
-        return new Float(Math.sin(this.number));
+    performWithFloat(aSelector, aFloat) {
+        switch(aSelector) {
+        case 'add': return new Float(this.number + aFloat.number);
+        case 'div': return new Float(this.number / aFloat.number);
+        case 'equalTo': return new Bool(this.number === aFloat.number);
+        case 'mul': return new Float(this.number * aFloat.number);
+        case 'pow': return new Float(this.number ** aFloat.number);
+        case 'rand': return new Float(Math.random() * (aFloat.number - this.number) + this.number);
+        case 'sub': return new Float(this.number - aFloat.number);
+        default: console.error('Float>>performWithFloat', this, aSelector, aFloat); return null;
+        }
+    }
+    static pi() {
+        return new Float(Math.PI);
     }
 }
 

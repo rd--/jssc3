@@ -64,10 +64,8 @@ These should be the only uses of _._.
 
 The file _sc3-smalltalk.ts_ implements various messages that are common in SuperCollider _.stc_ programs.
 This works to the degree that the types are simple and non-overlapping.
-Another approach is to translate _p.q_ as _p.q_ instead of _q(p)_, and _0_ as _Number(0)_ and so on.
-There is [Object.defineProperty](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)
-to add methods to prototypes as required.
-This can interact badly with other code, in particular adding methods to the array protoype can cause scsynth.wasm to crash.
+Another approach is to translate _p.q_ as _p.q_ instead of _q(p)_, and _0_ as _int(0)_ and so on.
+The file _sc3-obj.js_ (and related files) has a sketch for this.
 Another approach is to translate _p.q(r...)_ as _performWithArguments(p, 'q', r...)_.
-This would allow dispatching on the type of _p_ without altering any Js objects, and is also translatable to scheme.
+This would allow dispatching on the type of _p_ and can be translated to scheme.
 The file _sc3-perform.js_ has a sketch for this.

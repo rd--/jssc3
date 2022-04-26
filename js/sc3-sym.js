@@ -5,8 +5,17 @@ class Sym extends Obj {
         super(aString);
         this.string = aString;
     }
+    isSymbol() {
+        return new Bool(true);
+    }
     asString() {
         return new Str(this.string);
+    }
+    asSymbol() {
+        return this;
+    }
+    equalTo(aValue) {
+        return new Bool(aValue.isSymbol().boolean ? this.string === aValue.string : false);
     }
     size() {
         return new Int(this.string.length);

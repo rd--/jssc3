@@ -3225,8 +3225,14 @@ class Obj {
     isArray() {
         return new Bool(false);
     }
+    isBlock() {
+        return new Bool(false);
+    }
     isBoolean() {
         return new Bool(false);
+    }
+    isEmpty() {
+        return this.size().isZero();
     }
     isFloat() {
         return new Bool(false);
@@ -3234,6 +3240,61 @@ class Obj {
     isInt() {
         return new Bool(false);
     }
+    isNumber() {
+        return new Bool(false);
+    }
+    isString() {
+        return new Bool(false);
+    }
+    isSymbol() {
+        return new Bool(false);
+    }
+    adaptToCollectionAndSend(aValue, aSelector) {
+        console.log('Obj>>adaptToCollectionAndSend', this, aValue, aSelector);
+        return aValue.collect(item => this.performWith(aSelector, item));
+    }
+    add(aValue) {
+        return this.performWith('add', aValue);
+    }
+    div(aValue) {
+        return this.performWith('div', aValue);
+    }
+    mul(aValue) {
+        return this.performWith('mul', aValue);
+    }
+    pow(aValue) {
+        return this.performWith('pow', aValue);
+    }
+    sub(aValue) {
+        return this.performWith('sub', aValue);
+    }
+    value() {
+        return this;
+    }
+}
+// sc3-block.js
+
+class Block extends Obj {
+    constructor(aFunction) {
+        super(aFunction);
+        this.function = aFunction;
+    }
+    isBlock() {
+        return new Bool(true);
+    }
+    value(p1, p2) {
+        if(p1 && p2) {
+            return this.function(p1, p2);
+        } else if(p1) {
+            return this.function(p1);
+        } else {
+            return this.function();
+        }
+    }
+}
+
+function block(aFunction) {
+    return new Block(aFunction);
 }
 // sc3-bool.js
 
@@ -3242,20 +3303,32 @@ class Bool extends Obj {
         super(aBoolean);
         this.boolean = aBoolean;
     }
+    isBoolean() {
+        return new Bool(true);
+    }
     and(aBool) {
         return new Bool(this.boolean && aBool.boolean);
     }
     asString() {
         return new Str(String(this.aBoolean));
     }
-    isBoolean() {
-        return new Bool(true);
+    static false() {
+            return new Bool(false);
+    }
+    equalTo(aValue) {
+        return new Bool(aValue.isBoolean().boolean ? this.boolean === aValue.boolean : false);
     }
     not() {
         return new Bool(!this.boolean);
     }
     or(aBool) {
         return new Bool(this.boolean || aBool.boolean);
+    }
+    rand() {
+        return Bool(Math.random()  > 0.5);
+    }
+    static true() {
+            return new Bool(true);
     }
 }
 
@@ -3269,11 +3342,18 @@ class Int extends Obj {
         super(aNumber);
         this.number = aNumber;
     }
-    add(aValue) {
-        return aValue.isInt() ? this.addInt(aValue) : aValue.addInt(this);
+    isInt() {
+        return new Bool(true);
     }
-    addInt(anInt) {
-        return new Int(this.number + anInt.number);
+    isNumber() {
+        return new Bool(true);
+    }
+    adaptToIntAndSend(aValue, aSelector) {
+        return aValue.performWithInt(aSelector, this);
+    }
+    adaptToFloatAndSend(aValue, aSelector) {
+        console.log('Int>>adaptToFloatAndSend', this, aValue, aSelector);
+        return aValue.performWithFloat(aSelector, this.asFloat());
     }
     asFloat() {
         return new Float(this.number);
@@ -3284,11 +3364,34 @@ class Int extends Obj {
     asString() {
         return new Str(String(this.number));
     }
-    isInt() {
-        return new Bool(true);
+    equalTo(aValue) {
+        return aValue.isNumber().boolean ? this.performWith('equalTo', aValue) : new Bool(false);
+    }
+    isZero() {
+        return new Bool(this.number === 0);
+    }
+    performWith(aSelector, aValue) {
+        return aValue.isInt().boolean ? this.performWithInt(aSelector, aValue) : aValue.adaptToIntAndSend(this, aSelector);
+    }
+    performWithInt(aSelector, anInt) {
+        console.log('Int>>performWithInt', this, aSelector, anInt);
+        switch(aSelector) {
+        case 'add': return new Int(this.number + anInt.number);
+        case 'div': return new Float(this.number / anInt.number);
+        case 'equalTo': return new Bool(this.number === anInt.number);
+        case 'mul': return new Int(this.number * anInt.number);
+        case 'pow': return new Int(this.number ** anInt.number);
+        case 'sub': return new Int(this.number - anInt.number);
+        default: console.error('Int>>performWithInt', this, aSelector, anInt); return null;
+        }
     }
     negated() {
         return new Int(0 - this.number);
+    }
+    timesRepeat(aBlock) {
+        for(var i = 0; i < this.number; i++) {
+            aBlock.value();
+        }
     }
     to(anInt) {
         var answer = [];
@@ -3309,26 +3412,60 @@ class Float extends Obj {
         super(aNumber);
         this.number = aNumber;
     }
-    add(aValue) {
-        return aValue.isFloat() ? this.addFloat(aValue) : aValue.addFloat(this);
+    isFloat() {
+        return new Bool(true);
     }
-    addFloat(aFloat) {
-        return new Float(this.number + aFloat.number);
+    isNumber() {
+        return new Bool(true);
+    }
+    adaptToIntAndSend(aValue, aSelector) {
+        console.log('Float>>adaptToIntAndSend', this, aValue, aSelector);
+        return aValue.asFloat().performWithFloat(aSelector, this);
+    }
+    adaptToFloatAndSend(aValue, aSelector) {
+        console.log('Float>>adaptToFloatAndSend', this, aValue, aSelector);
+        return aValue.performWithFloat(aSelector, this);
     }
     asFloat() {
         return this;
     }
     asInt() {
-        return new Int(Math.round(this.number));
+        return new Int(Math.trunc(this.number));
     }
     asString() {
         return new Str(String(this.number));
     }
-    isFloat() {
-        return new Bool(true);
+    coin() {
+        return new Bool(Math.random() > this.number);
+    }
+    equalTo(aValue) {
+        return aValue.isNumber().boolean ? this.performWith('equalTo', aValue) : new Bool(false);
+    }
+    static inf() {
+            return new Float(Infinity);
+    }
+    isZero() {
+        return new Bool(this.number === 0);
     }
     negated() {
         return new Float(0 - this.number);
+    }
+    performWith(aSelector, aValue) {
+        return aValue.isFloat().boolean ? this.performWithFloat(aSelector, aValue) : aValue.adaptToFloatAndSend(this, aSelector);
+    }
+    performWithFloat(aSelector, aFloat) {
+        switch(aSelector) {
+        case 'add': return new Float(this.number + aFloat.number);
+        case 'div': return new Float(this.number / aFloat.number);
+        case 'equalTo': return new Bool(this.number === aFloat.number);
+        case 'mul': return new Float(this.number * aFloat.number);
+        case 'pow': return new Float(this.number ** aFloat.number);
+        case 'sub': return new Float(this.number - aFloat.number);
+        default: console.error('Float>>performWithFloat', this, aSelector, aFloat); return null;
+        }
+    }
+    static pi() {
+        return new Float(Math.PI);
     }
     rand(aFloat) {
         if(aFloat) {
@@ -3355,8 +3492,17 @@ class Str extends Obj {
         super(aString);
         this.string = aString;
     }
+    isString() {
+        return new Bool(true);
+    }
     asString() {
         return this;
+    }
+    asSymbol() {
+        return new Sym(this.string);
+    }
+    equalTo(aValue) {
+        return new Bool(aValue.isString().boolean ? this.string === aValue.string : false);
     }
     size() {
         return new Int(this.string.length);
@@ -3373,8 +3519,17 @@ class Sym extends Obj {
         super(aString);
         this.string = aString;
     }
+    isSymbol() {
+        return new Bool(true);
+    }
     asString() {
         return new Str(this.string);
+    }
+    asSymbol() {
+        return this;
+    }
+    equalTo(aValue) {
+        return new Bool(aValue.isSymbol().boolean ? this.string === aValue.string : false);
     }
     size() {
         return new Int(this.string.length);
@@ -3394,20 +3549,34 @@ class Vector extends Obj {
     isArray() {
         return new Bool(true);
     }
+    adaptToIntAndSend(aValue, aSelector) {
+        console.log('Vector>>adaptToIntAndSend', this, aValue, aSelector);
+        return this.collect(block(item => aValue.performWith(aSelector, item)));
+    }
+    adaptToFloatAndSend(aValue, aSelector) {
+        console.log('Vector>>adaptToFloatAndSend', this, aValue, aSelector);
+        return this.collect(block(item => aValue.performWith(aSelector, item)));
+    }
     append(aVector) {
         return new Vector(this.array.concat(aVector.array));
     }
     at(anIndex) {
         return this.array[anIndex.number - 1];
     }
+    atWrap(anIndex) {
+        return this.array[(anIndex.number - 1)  % this.array.length];
+    }
     collect(aBlock) {
-        return new Vector(this.array.map(aBlock));
+        return new Vector(this.array.map(aBlock.function));
     }
     copy() {
         return new Vector(this.array.slice(0, this.array.length));
     }
     negated() {
         return new Vector(this.array.map(item => item.negated()));
+    }
+    performWith(aSelector, aValue) {
+        return aValue.isArray().boolean ? this.withCollect(aValue, block((p, q) => p.performWith(aSelector, q))) : aValue.adaptToCollectionAndSend(this, aSelector);
     }
     put(anIndex, aValue) {
         this.array[anIndex.number - 1] = aValue;
@@ -3425,6 +3594,10 @@ class Vector extends Obj {
     }
     size() {
         return new Int(this.array.length);
+    }
+    withCollect(aVector, aBlock) {
+        console.log('Vector>>withCollect', this, aVector, aBlock);
+        return new Vector(this.array.map((item, index) => aBlock.function(item, aVector.array[index])));
     }
 }
 
