@@ -4,6 +4,11 @@ export function isArray(aValue: (aValue: any) => boolean) {
     return Array.isArray(aValue);
 }
 
+export function arrayNew(size: number): any[] {
+    return new Array(size);
+}
+
+// arrayAppend([1, 2, 3], [4, 5]) //=> [1, 2, 3, 4, 5]
 export function arrayAppend(lhs: any[], rhs: any[]): any[] {
     return lhs.concat(rhs);
 }
@@ -26,6 +31,11 @@ export function arrayAtIndices(anArray: any[], indices: number[]): any[] {
 // arrayAtWrap([1, 2, 3], 5) === 3
 export function arrayAtWrap(anArray: any[], index: number): any {
     return anArray[index % anArray.length];
+}
+
+// arrayChoose([1, 2, 3, 4, 5])
+export function arrayChoose(anArray: any[]): any {
+    return anArray[Math.floor(Math.random() * anArray.length)];
 }
 
 // arrayClump(arrayIota(20), 5)
@@ -51,6 +61,11 @@ export function arrayCons(anArray: any[], aValue: any): number {
 // arrayContainsarray([1, 2, [3, 4]]) === true
 export function arrayContainsArray(anArray: any[]): boolean {
     return anArray.some(item => Array.isArray(item));
+}
+
+// x = [1, 2, 3, 4, 5]; y = arrayCopy(x); x[0] = -1; [x, y]
+export function arrayCopy(anArray: any[]): any[] {
+    return anArray.slice(0, anArray.length);
 }
 
 // arrayDropWhile([1, 2, 3, 4], x => x < 3) //= [3, 4]
@@ -180,8 +195,18 @@ export function arrayReplicate(k: number, v: any): any[] {
     return arrayIota(k).map(unusedItem => v);
 }
 
-export function arrayReduce(anArray: any[], aFunction : (previousValue: any, currentValue: any) => any): any {
+export function arrayReduce(anArray: any[], aFunction: (previousValue: any, currentValue: any) => any): any {
     return anArray.reduce(aFunction);
+}
+
+// x = [1, 2, 3, 4, 5]; arrayReverseInPlace(x); x
+export function arrayReverseInPlace(anArray: any[]): void {
+    anArray.reverse();
+}
+
+// x = [1, 2, 3, 4, 5]; y = arrayReverse(x); [x, y]
+export function arrayReverse(anArray: any[]): any[] {
+    return arrayCopy(anArray).reverse();
 }
 
 export function arraySecond(anArray: any[]): any {
@@ -202,6 +227,10 @@ export function arrayShallowEq(lhs: any[], rhs: any[]): boolean {
         }
     }
     return true;
+}
+
+export function arraySize(anArray: any[]): number {
+    return anArray.length;
 }
 
 export function arraySort(anArray: any[], aFunction: (lhs: any, rhs: any) => number): any[] {

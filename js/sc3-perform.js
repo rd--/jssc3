@@ -9,6 +9,16 @@ function arrayPerformWithArguments(receiver, selector, argumentArray) {
     }
 }
 
+function numberPerformWithArguments(receiver, selector, argumentArray) {
+    switch (selector) {
+        case 'rand': return randomFloat(receiver, argumentArray[0]);
+        case 'rand2': return randomFloat(0 - receiver, receiver);
+        case 'timesRepeat': return numberTimesRepeat(receiver, argumentArray[0]);
+        case 'to': return arrayFromTo(receiver, argumentArray[0]);
+        default: console.error('numberPerformWithArguments?'); return undefined;
+    }
+}
+
 function queuePerformWithArguments(receiver, selector, argumentArray) {
     switch (selector) {
         case 'push': return queuePush(receiver, argumentArray[0]);
@@ -28,12 +38,18 @@ function setPerformWithArguments(receiver, selector, argumentArray) {
 }
 
 function performWithArguments(receiver, selector, argumentArray) {
+    var performFunction;
     if(isArray(receiver)) {
-        return arrayPerformWithArguments(receiver, selector, argumentArray);
+        performFunction = arrayPerformWithArguments;
+    } else if(isNumber(receiver)) {
+        performFunction = numberPerformWithArguments;
+    } else if(isQueue(receiver)) {
+        performFunction = queuePerformWithArguments;
     } else if(isSet(receiver)) {
-        return setPerformWithArguments(receiver, selector, argumentArray);
+        performFunction = setPerformWithArguments;
     } else {
         console.error('performWithArguments?');
         return null;
     }
+    return performFunction(receiver, selector, argumentArray);
 }

@@ -3,6 +3,10 @@
 function isArray(aValue) {
     return Array.isArray(aValue);
 }
+function arrayNew(size) {
+    return new Array(size);
+}
+// arrayAppend([1, 2, 3], [4, 5]) //=> [1, 2, 3, 4, 5]
 function arrayAppend(lhs, rhs) {
     return lhs.concat(rhs);
 }
@@ -21,6 +25,10 @@ function arrayAtIndices(anArray, indices) {
 // arrayAtWrap([1, 2, 3], 5) === 3
 function arrayAtWrap(anArray, index) {
     return anArray[index % anArray.length];
+}
+// arrayChoose([1, 2, 3, 4, 5])
+function arrayChoose(anArray) {
+    return anArray[Math.floor(Math.random() * anArray.length)];
 }
 // arrayClump(arrayIota(20), 5)
 function arrayClump(anArray, clumpSize) {
@@ -41,6 +49,10 @@ function arrayCons(anArray, aValue) {
 // arrayContainsarray([1, 2, [3, 4]]) === true
 function arrayContainsArray(anArray) {
     return anArray.some(item => Array.isArray(item));
+}
+// x = [1, 2, 3, 4, 5]; y = arrayCopy(x); x[0] = -1; [x, y]
+function arrayCopy(anArray) {
+    return anArray.slice(0, anArray.length);
 }
 // arrayDropWhile([1, 2, 3, 4], x => x < 3) //= [3, 4]
 function arrayDropWhile(anArray, predicate) {
@@ -150,6 +162,14 @@ function arrayReplicate(k, v) {
 function arrayReduce(anArray, aFunction) {
     return anArray.reduce(aFunction);
 }
+// x = [1, 2, 3, 4, 5]; arrayReverseInPlace(x); x
+function arrayReverseInPlace(anArray) {
+    anArray.reverse();
+}
+// x = [1, 2, 3, 4, 5]; y = arrayReverse(x); [x, y]
+function arrayReverse(anArray) {
+    return arrayCopy(anArray).reverse();
+}
 function arraySecond(anArray) {
     return anArray[1];
 }
@@ -167,6 +187,9 @@ function arrayShallowEq(lhs, rhs) {
         }
     }
     return true;
+}
+function arraySize(anArray) {
+    return anArray.length;
 }
 function arraySort(anArray, aFunction) {
     return anArray.sort(aFunction);
@@ -561,11 +584,21 @@ function randomInteger(minNumber, maxNumber) {
     var max = Math.floor(maxNumber);
     return Math.floor(Math.random() * (max - min) + min); // the maximum is exclusive and the minimum is inclusive
 }
+function randomIntegerInclusive(minNumber, maxNumber) {
+    var min = Math.ceil(minNumber);
+    var max = Math.floor(maxNumber);
+    return Math.floor(Math.random() * (max - min + 1) + min); // the maximum is inclusive and the minimum is inclusive
+}
 function randomFloat(min, max) {
     return Math.random() * (max - min) + min;
 }
 function randomBoolean() {
     return Math.random() > 0.5;
+}
+function numberTimesRepeat(count, proc) {
+    for (var i = 0; i < count; i++) {
+        proc();
+    }
 }
 function numberToString(aNumber) {
     return Number(aNumber).toString();
@@ -699,20 +732,23 @@ function binaryOperatorName(specialIndex) {
     return Object.keys(binaryOperators).find(key => binaryOperators[key] === specialIndex) || 'unknown binary operator name?';
 }
 function isQueue(aValue) {
-    return Array.isArray(aValue);
+    return aValue.typeString === 'queue';
 }
 function queueNew() {
-    return [];
+    return {
+        typeString: 'queue',
+        queue: []
+    };
 }
 function queuePush(aQueue, aValue) {
-    aQueue.push(aValue);
+    aQueue.queue.push(aValue);
 }
 function queuePop(aQueue) {
-    return aQueue.pop;
+    return aQueue.queue.pop;
 }
 // q = queueNew(); [1, 2, 3].forEach(item => queuePush(q, item)); queueAsArray(q) //= [1, 2, 3]
 function queueAsArray(aQueue) {
-    return aQueue;
+    return aQueue.queue;
 }
 // sc3-rate.ts
 var rateIr = 0;
@@ -2580,35 +2616,33 @@ function choose(anArray) { return anArray[randomInteger(0, anArray.length)]; }
 function clump(anArray, n) { return arrayClump(anArray, n); }
 function collect(anArray, proc) { return anArray.map(proc); }
 function concatenation(anArray) { return arrayConcatenation(anArray); }
-function coord(anEnvelope) { return envCoord(anEnvelope); }
-function dup(proc, count) { return arrayFill(nullFix('dup: count?', count, 2), proc); }
 function first(anArray) { return anArray[0]; }
-function mean(anArray) { return fdiv(sum(anArray), anArray.length); }
-function negated(aNumber) { return neg(aNumber); }
 function nth(anArray, index) { return anArray[index - 1]; }
-function product(anArray) { return anArray.reduce(mul); }
-function rand(min, max) { return randomFloat(min, max); }
-function rand2(n) { return randomFloat(0 - n, n); }
-function reciprocal(a) { return recip(a); }
 function reverse(anArray) { return anArray.reverse(); }
-function roundTo(a, b) { return round(a, b); }
-function rounded(a) { return round(a, 1); }
 function second(anArray) { return anArray[1]; }
 function size(anArray) { return anArray.length; }
-function sum(anArray) { return anArray.reduce(add); }
 function third(anArray) { return anArray[2]; }
-function timesRepeat(count, proc) { for (var i = 0; i < count; i++) {
-    proc();
-} }
-function to(from, to) { return arrayFromTo(from, to); }
 function transpose(anArray) { return arrayTranspose(anArray); }
+function mean(anArray) { return fdiv(sum(anArray), anArray.length); }
+function product(anArray) { return anArray.reduce(mul); }
+function sum(anArray) { return anArray.reduce(add); }
+function negated(aNumber) { return neg(aNumber); }
+function reciprocal(a) { return recip(a); }
+function roundTo(a, b) { return round(a, b); }
+function rounded(a) { return round(a, 1); }
 function truncateTo(a, b) { return trunc(a, b); }
-function value(proc, maybeArg1, maybeArg2) { return maybeArg2 ? proc(maybeArg1, maybeArg2) : (maybeArg1 ? proc(maybeArg1) : proc()); }
-/*
-
-append([1, 2, 3], [4, 5]) //=> [1, 2, 3, 4, 5]
-
-*/
+function rand(min, max) { return randomFloat(min, max); }
+function rand2(n) { return randomFloat(0 - n, n); }
+function timesRepeat(count, proc) { return numberTimesRepeat(count, proc); }
+;
+function to(from, to) { return arrayFromTo(from, to); }
+function dup(proc, count) {
+    return arrayFill(nullFix('dup: count?', count, 2), proc);
+}
+function value(proc, maybeArg1, maybeArg2) {
+    return maybeArg2 ? proc(maybeArg1, maybeArg2) : (maybeArg1 ? proc(maybeArg1) : proc());
+}
+function coord(anEnvelope) { return envCoord(anEnvelope); }
 // sc3-soundfile.ts
 // Return the header fields of an audioBuffer.  length is the number of frames.
 function audiobuffer_header(audioBuffer) {
