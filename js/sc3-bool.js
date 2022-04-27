@@ -17,7 +17,7 @@ class Bool extends Obj {
     static false() {
             return new Bool(false);
     }
-    equalTo(aValue) {
+    isEqualTo(aValue) {
         return new Bool(aValue.isBoolean().boolean ? this.boolean === aValue.boolean : false);
     }
     not() {

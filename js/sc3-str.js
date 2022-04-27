@@ -14,7 +14,7 @@ class Str extends Obj {
     asSymbol() {
         return new Sym(this.string);
     }
-    equalTo(aValue) {
+    isEqualTo(aValue) {
         return new Bool(aValue.isString().boolean ? this.string === aValue.string : false);
     }
     size() {

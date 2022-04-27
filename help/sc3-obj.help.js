@@ -23,6 +23,7 @@ int(1).equalTo(sym('x')) // bool(false)
 int(9).rand()
 int(3).rand(int(7))
 int(9).rand2()
+int(10).mod(int(3)) // int(1)
 
 x = int(1).to(int(3));
 y = int(4).to(int(6));
@@ -42,6 +43,7 @@ float(1).equalTo(float(1)) // bool(true)
 float(1).equalTo(int(1)) // bool(true)
 float(1).equalTo(int(2)) // bool(false)
 float(1).equalTo(sym('x')) // bool(false)
+float(8.9).mod(float(3.4)) // float(2.1)
 
 int(1).add(int(2)) // int(3)
 int(1).add(float(2.3)) // float(3.3)

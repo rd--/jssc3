@@ -3,6 +3,7 @@
 class Int extends Num {
     constructor(aNumber) {
         super(aNumber);
+        this.number = aNumber;
     }
     isInt() {
         return new Bool(true);
@@ -17,13 +18,20 @@ class Int extends Num {
     asFloat() {
         return new Float(this.number);
     }
+    asString() {
+        return new Str(String(this.number));
+    }
     asInt() {
         return this;
+    }
+    isZero() {
+        return new Bool(this.number === 0);
     }
     perform(aSelector) {
         switch(aSelector) {
         case 'negated': return new Int(0 - this.number);
         case 'rand': return new Int(Math.floor(Math.random() * this.number));
+        case 'squared': return new Int(this.number * this.number);
         default: return this.asFloat().perform(aSelector);
         }
     }
@@ -35,7 +43,8 @@ class Int extends Num {
         switch(aSelector) {
         case 'add': return new Int(this.number + anInt.number);
         case 'div': return new Float(this.number / anInt.number);
-        case 'equalTo': return new Bool(this.number === anInt.number);
+        case 'isEqualTo': return new Bool(this.number === anInt.number);
+        case 'mod': return new Int(this.number % anInt.number);
         case 'mul': return new Int(this.number * anInt.number);
         case 'pow': return new Int(this.number ** anInt.number);
         case 'rand': return new Int(Math.floor(Math.random() * (anInt.number - this.number) + this.number));

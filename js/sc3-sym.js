@@ -14,7 +14,7 @@ class Sym extends Obj {
     asSymbol() {
         return this;
     }
-    equalTo(aValue) {
+    isEqualTo(aValue) {
         return new Bool(aValue.isSymbol().boolean ? this.string === aValue.string : false);
     }
     size() {

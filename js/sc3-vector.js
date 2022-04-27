@@ -1,6 +1,6 @@
 // sc3-vector.js ; zero indexed
 
-class Vector extends Obj {
+class Vector extends Num {
     constructor(anArray) {
         super(anArray);
         this.array = anArray;
@@ -35,7 +35,12 @@ class Vector extends Obj {
         return this.collect(block((p) => p.perform(aSelector)));
     }
     performWith(aSelector, aValue) {
-        return aValue.isArray().boolean ? this.withCollect(aValue, block((p, q) => p.performWith(aSelector, q))) : aValue.adaptToCollectionAndSend(this, aSelector);
+        console.log('Vector>>performWith', this, aSelector, aValue);
+        if(aValue.isArray().boolean) {
+            return this.withCollect(aValue, block((p, q) => p.performWith(aSelector, q)));
+        } else {
+            return aValue.adaptToCollectionAndSend(this, aSelector);
+        }
     }
     put(anIndex, aValue) {
         this.array[anIndex.number] = aValue;
@@ -47,9 +52,6 @@ class Vector extends Obj {
     }
     reverseInPlace() {
         this.array.reverse();
-    }
-    sin() {
-        return new Vector(this.array.map(item => item.sin()));
     }
     size() {
         return new Int(this.array.length);
