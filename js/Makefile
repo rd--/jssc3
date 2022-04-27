@@ -13,7 +13,7 @@ base = sc3-alias sc3-bindings sc3-buffer sc3-buffer-cache sc3-envelope sc3-event
 rest = sc3-ui sc3-ui-mouse
 
 # .js files for simple non-core js objects for .stc translator
-obj = sc3-obj sc3-num sc3-block sc3-bool sc3-dictionary sc3-int sc3-float sc3-str sc3-sym sc3-vector
+obj = sc3-obj sc3-num sc3-block sc3-bool sc3-dict sc3-int sc3-float sc3-nil sc3-str sc3-sym sc3-vector
 
 all: jssc3-base-js
 

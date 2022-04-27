@@ -1,6 +1,6 @@
-// sc3-dictionary.js
+// sc3-dict.js ; Dict = Dictionary
 
-class Dictionary extends Obj {
+class Dict extends Obj {
     constructor(aDictionary) {
         super(aDictionary);
         this.dictionary = aDictionary;
@@ -21,6 +21,6 @@ class Dictionary extends Obj {
     }
 }
 
-function dictionary(aDictionary) {
-    return new Dictionary(aDictionary);
+function dict(aDictionary) {
+    return new Dict(aDictionary);
 }
