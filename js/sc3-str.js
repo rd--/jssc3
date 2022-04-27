@@ -1,4 +1,4 @@
-// sc3-str.js
+// sc3-str.js ; Str = String
 
 class Str extends Obj {
     constructor(aString) {

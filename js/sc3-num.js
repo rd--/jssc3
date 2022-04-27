@@ -1,4 +1,4 @@
-// sc3-num.js
+// sc3-num.js ; Num = Number
 
 class Num extends Obj {
     constructor(aNumber) {

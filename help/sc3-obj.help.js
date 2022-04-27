@@ -85,3 +85,11 @@ int(1).to(int(4)).add(int(5).to(int(8))) // [6, 8, 10, 12]
 
 block(() => int(9).rand()).dup()
 block(() => float(3).rand()).dup(9)
+
+d = dictionary({x: int(1)})
+d.at(sym('x')) // int(1)
+d.put(sym('y'), float(2.3))
+d.at(sym('y')) // float(2.3)
+d.size() // 2
+d.isEmpty() // bool(false)
+d.at(sym('z')) // nil()

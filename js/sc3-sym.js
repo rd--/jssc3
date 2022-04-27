@@ -1,4 +1,4 @@
-// sc3-sym.js
+// sc3-sym.js ; Sym = Symbol
 
 class Sym extends Obj {
     constructor(aString) {

@@ -1,4 +1,4 @@
-// sc3-vector.js ; zero indexed
+// sc3-vector.js ; Vector = Array ; zero indexed
 
 class Vector extends Num {
     constructor(anArray) {

@@ -1,4 +1,4 @@
-// sc3-bool.js
+// sc3-bool.js ; Bool = Boolean
 
 class Bool extends Obj {
     constructor(aBoolean) {

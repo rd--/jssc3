@@ -1,4 +1,4 @@
-// sc3-obj.js
+// sc3-obj.js ; Obj = Object
 
 class Obj {
     constructor (aValue) {
@@ -12,6 +12,9 @@ class Obj {
     isBoolean() {
         return new Bool(false);
     }
+    isDictionary() {
+        return new Bool(true);
+    }
     isEmpty() {
         return this.size().isZero();
     }
@@ -19,6 +22,9 @@ class Obj {
         return new Bool(false);
     }
     isInt() {
+        return new Bool(false);
+    }
+    isNil() {
         return new Bool(false);
     }
     isNumber() {

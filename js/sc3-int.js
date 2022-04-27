@@ -1,4 +1,4 @@
-// sc3-int.js
+// sc3-int.js ; Int = Integer
 
 class Int extends Num {
     constructor(aNumber) {
