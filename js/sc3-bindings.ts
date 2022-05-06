@@ -938,10 +938,6 @@ export function Bezier(haltAfter: Signal, dx: Signal, freq: Signal, phase: Signa
 export function Freezer(bufnum: Signal, left: Signal, right: Signal, gain: Signal, increment: Signal, incrementOffset: Signal, incrementRandom: Signal, rightRandom: Signal, syncPhaseTrigger: Signal, randomizePhaseTrigger: Signal, numberOfLoops: Signal): Signal {
     return makeUgen('Freezer', 1, rateAr, 0, [bufnum, left, right, gain, increment, incrementOffset, incrementRandom, rightRandom, syncPhaseTrigger, randomizePhaseTrigger, numberOfLoops]);
 }
-// (Undocumented class)
-export function ShufflerB(bufnum: Signal, readLocationMinima: Signal, readLocationMaxima: Signal, readIncrementMinima: Signal, readIncrementMaxima: Signal, durationMinima: Signal, durationMaxima: Signal, envelopeAmplitudeMinima: Signal, envelopeAmplitudeMaxima: Signal, envelopeShapeMinima: Signal, envelopeShapeMaxima: Signal, envelopeSkewMinima: Signal, envelopeSkewMaxima: Signal, stereoLocationMinima: Signal, stereoLocationMaxima: Signal, interOffsetTimeMinima: Signal, interOffsetTimeMaxima: Signal, ftableReadLocationIncrement: Signal, readIncrementQuanta: Signal, interOffsetTimeQuanta: Signal): Signal {
-    return makeUgen('ShufflerB', 2, rateAr, 0, [bufnum, readLocationMinima, readLocationMaxima, readIncrementMinima, readIncrementMaxima, durationMinima, durationMaxima, envelopeAmplitudeMinima, envelopeAmplitudeMaxima, envelopeShapeMinima, envelopeShapeMaxima, envelopeSkewMinima, envelopeSkewMaxima, stereoLocationMinima, stereoLocationMaxima, interOffsetTimeMinima, interOffsetTimeMaxima, ftableReadLocationIncrement, readIncrementQuanta, interOffsetTimeQuanta]);
-}
 
 export function add(a: Signal, b: Signal): Signal { return BinaryOp(0, a, b); }
 export function sub(a: Signal, b: Signal): Signal { return BinaryOp(1, a, b); }

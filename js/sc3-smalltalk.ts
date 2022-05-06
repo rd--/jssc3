@@ -8,7 +8,7 @@ import { nullFix } from './sc3-null.js'
 import { numberTimesRepeat, randomFloat, randomInteger } from './sc3-number.js'
 import { Signal } from './sc3-ugen.js'
 
-export function append(lhs: any[], rhs: any[]): any[] { return lhs.concat(rhs); }
+export function append(lhs: any[], rhs: any[]): any[] { return lhs.concat(rhs); } // smalltalk = ,
 export function choose(anArray: any[]): any { return anArray[randomInteger(0, anArray.length)]; }
 export function clump(anArray: any[], n: number) { return arrayClump(anArray, n); }
 export function collect(anArray: any[], proc: (aValue: any) => any): any[] { return anArray.map(proc); }

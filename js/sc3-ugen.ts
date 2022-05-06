@@ -7,7 +7,7 @@ import { consoleDebug, consoleError } from './sc3-error.js'
 import { isNumber } from './sc3-number.js'
 import { binaryOperatorName, unaryOperatorName } from './sc3-operators.js'
 import { Queue, queueNew, queuePush } from './sc3-queue.js'
-import { rateIr } from './sc3-rate.js'
+import { rateAr, rateIr, rateKr } from './sc3-rate.js'
 import { Tree } from './sc3-tree.js'
 
 var ugenCounter: Counter = counterNew();
@@ -164,7 +164,7 @@ export function krMutateInPlace(input: Tree<UgenInput | UgenPrimitive>): void {
     } else if(isUgenPrimitive(input)) {
         var inputUgen = <UgenPrimitive>input;
         consoleDebug('kr: ugen', inputUgen);
-        inputUgen.ugenRate = inputUgen.ugenRate === 2 ? 1 : inputUgen.ugenRate;
+        inputUgen.ugenRate = inputUgen.ugenRate === rateAr ? rateKr : inputUgen.ugenRate;
         arrayForEach(inputUgen.inputValues, item => krMutateInPlace(item));
     } else if(Array.isArray(input)) {
         consoleDebug('kr: array', input);
@@ -247,5 +247,5 @@ export function isOutUgen(aValue: any): boolean {
 
 // isControlRateUgen(MouseX(0, 1, 0, 0.2))
 export function isControlRateUgen(aValue: any): boolean {
-    return isUgenInput(aValue) && (inputRate(aValue) == 1);
+    return isUgenInput(aValue) && (inputRate(aValue) == rateKr);
 }

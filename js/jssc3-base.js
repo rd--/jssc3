@@ -1814,10 +1814,6 @@ function Bezier(haltAfter, dx, freq, phase, param) {
 function Freezer(bufnum, left, right, gain, increment, incrementOffset, incrementRandom, rightRandom, syncPhaseTrigger, randomizePhaseTrigger, numberOfLoops) {
     return makeUgen('Freezer', 1, rateAr, 0, [bufnum, left, right, gain, increment, incrementOffset, incrementRandom, rightRandom, syncPhaseTrigger, randomizePhaseTrigger, numberOfLoops]);
 }
-// (Undocumented class)
-function ShufflerB(bufnum, readLocationMinima, readLocationMaxima, readIncrementMinima, readIncrementMaxima, durationMinima, durationMaxima, envelopeAmplitudeMinima, envelopeAmplitudeMaxima, envelopeShapeMinima, envelopeShapeMaxima, envelopeSkewMinima, envelopeSkewMaxima, stereoLocationMinima, stereoLocationMaxima, interOffsetTimeMinima, interOffsetTimeMaxima, ftableReadLocationIncrement, readIncrementQuanta, interOffsetTimeQuanta) {
-    return makeUgen('ShufflerB', 2, rateAr, 0, [bufnum, readLocationMinima, readLocationMaxima, readIncrementMinima, readIncrementMaxima, durationMinima, durationMaxima, envelopeAmplitudeMinima, envelopeAmplitudeMaxima, envelopeShapeMinima, envelopeShapeMaxima, envelopeSkewMinima, envelopeSkewMaxima, stereoLocationMinima, stereoLocationMaxima, interOffsetTimeMinima, interOffsetTimeMaxima, ftableReadLocationIncrement, readIncrementQuanta, interOffsetTimeQuanta]);
-}
 function add(a, b) { return BinaryOp(0, a, b); }
 function sub(a, b) { return BinaryOp(1, a, b); }
 function mul(a, b) { return BinaryOp(2, a, b); }
@@ -2611,7 +2607,7 @@ function s_new0(name, nodeId, addAction, target) {
     };
 }
 // sc3-smalltalk.ts
-function append(lhs, rhs) { return lhs.concat(rhs); }
+function append(lhs, rhs) { return lhs.concat(rhs); } // smalltalk = ,
 function choose(anArray) { return anArray[randomInteger(0, anArray.length)]; }
 function clump(anArray, n) { return arrayClump(anArray, n); }
 function collect(anArray, proc) { return anArray.map(proc); }
@@ -2896,7 +2892,7 @@ function krMutateInPlace(input) {
     else if (isUgenPrimitive(input)) {
         var inputUgen = input;
         consoleDebug('kr: ugen', inputUgen);
-        inputUgen.ugenRate = inputUgen.ugenRate === 2 ? 1 : inputUgen.ugenRate;
+        inputUgen.ugenRate = inputUgen.ugenRate === rateAr ? rateKr : inputUgen.ugenRate;
         arrayForEach(inputUgen.inputValues, item => krMutateInPlace(item));
     }
     else if (Array.isArray(input)) {
@@ -2974,7 +2970,7 @@ function isOutUgen(aValue) {
 }
 // isControlRateUgen(MouseX(0, 1, 0, 0.2))
 function isControlRateUgen(aValue) {
-    return isUgenInput(aValue) && (inputRate(aValue) == 1);
+    return isUgenInput(aValue) && (inputRate(aValue) == rateKr);
 }
 function action_set_hardware_buffer_size() {
     prompt_for_int_and_then('Set hardware buffer size', scsynth_options.hardwareBufferSize, function (aNumber) { scsynth_options.hardwareBufferSize = aNumber; });
