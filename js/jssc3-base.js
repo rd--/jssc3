@@ -2096,7 +2096,7 @@ function ugenTraverseCollecting(p, c, w) {
         consoleDebug('ugenTraverseCollecting: port', pUgen);
         if (!setIncludes(w, pUgen.scUgen)) {
             setAdd(c, pUgen.scUgen);
-            arrayForEach(pUgen.scUgen.inputValues, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, w));
+            arrayForEach(pUgen.scUgen.inputArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, w));
             arrayForEach(mrgArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
         }
     }
@@ -2125,7 +2125,7 @@ function makeGraph(name, signal) {
     var constants = arrayFilter(leafNodes, isNumber);
     var numLocalBufs = arrayLength(arrayFilter(ugens, item => item.name === 'LocalBuf'));
     var MaxLocalBufs = function (count) {
-        return makeScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
+        return ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
     };
     return {
         graphName: name,
@@ -2154,10 +2154,10 @@ function graphEncodeUgenSpec(graph, ugen) {
     return [
         encodePascalString(ugen.name),
         encodeInt8(ugen.rate),
-        encodeInt32(arrayLength(ugen.inputValues)),
+        encodeInt32(arrayLength(ugen.inputArray)),
         encodeInt32(ugen.numChan),
         encodeInt16(ugen.specialIndex),
-        arrayMap(ugen.inputValues, input => arrayMap(graphUgenInputSpec(graph, input), index => encodeInt32(index))),
+        arrayMap(ugen.inputArray, input => arrayMap(graphUgenInputSpec(graph, input), index => encodeInt32(index))),
         arrayReplicate(ugen.numChan, encodeInt8(ugen.rate))
     ];
 }
@@ -2178,7 +2178,7 @@ function graphEncodeSyndef(graph) {
 }
 // sc3-graph-print.ts
 function graphPrintUgenSpec(graph, ugen) {
-    consoleLog(ugen.name, ugen.rate, arrayLength(ugen.inputValues), ugen.numChan, ugen.specialIndex, arrayMap(ugen.inputValues, input => graphUgenInputSpec(graph, input)), arrayReplicate(ugen.numChan, ugen.rate));
+    consoleLog(ugen.name, ugen.rate, arrayLength(ugen.inputArray), ugen.numChan, ugen.specialIndex, arrayMap(ugen.inputArray, input => graphUgenInputSpec(graph, input)), arrayReplicate(ugen.numChan, ugen.rate));
 }
 function graphPrintSyndef(graph) {
     console.log(SCgf, 2, 1, graph.graphName, arrayLength(graph.constantSeq), graph.constantSeq, 0, [], 0, [], arrayLength(graph.ugenSeq));
@@ -2205,7 +2205,7 @@ function graphInputDisplayName(graph, input) {
     }
 }
 function graphPrettyPrintUgen(graph, ugen) {
-    console.log(graphUgenIndex(graph, ugen.id) + '_' + ugenDisplayName(ugen), rateSelector(ugen.rate), '[' + String(arrayMap(ugen.inputValues, input => graphInputDisplayName(graph, input))) + ']');
+    console.log(graphUgenIndex(graph, ugen.id) + '_' + ugenDisplayName(ugen), rateSelector(ugen.rate), '[' + String(arrayMap(ugen.inputArray, input => graphInputDisplayName(graph, input))) + ']');
 }
 function graphPrettyPrintSyndef(graph) {
     arrayForEach(graph.ugenSeq, item => graphPrettyPrintUgen(graph, item));
@@ -2768,14 +2768,14 @@ function flattenByteEncoding(aTree) {
 }
 // sc3-ugen.ts
 var ugenCounter = counterNew();
-function makeScUgen(name, numChan, rate, specialIndex, inputArray) {
+function ScUgen(name, numChan, rate, specialIndex, inputArray) {
     return {
         name: name,
         numChan: numChan,
         rate: rate,
         specialIndex: specialIndex,
         id: ugenCounter(),
-        inputValues: inputArray,
+        inputArray: inputArray,
         mrg: setNew()
     };
 }
@@ -2835,7 +2835,7 @@ function makeUgen(name, numChan, rateSpec, specialIndex, signalArray) {
     }
     else {
         var inputArray = signalArray;
-        var scUgen = makeScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
+        var scUgen = ScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
         switch (numChan) {
             case 0: return (Ugen(scUgen, nilPort));
             case 1: return (Ugen(scUgen, 0));
@@ -2896,7 +2896,7 @@ function krMutateInPlace(input) {
         if (inputUgen.rate === rateAr) {
             inputUgen.rate = rateKr;
         }
-        arrayForEach(inputUgen.inputValues, item => krMutateInPlace(item));
+        arrayForEach(inputUgen.inputArray, item => krMutateInPlace(item));
     }
     else if (Array.isArray(input)) {
         consoleDebug('kr: array', input);

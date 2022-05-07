@@ -8,7 +8,7 @@ import { rateIr } from './sc3-rate.js'
 import { setIncludes, setNew, setAdd, setAsArray } from './sc3-set.js'
 import { Tree } from './sc3-tree.js'
 import { flattenByteEncoding } from './sc3-u8.js'
-import { UgenInput, Ugen, ScUgen, Signal, isUgen, isScUgen, makeScUgen } from './sc3-ugen.js'
+import { UgenInput, Ugen, ScUgen, Signal, isUgen, isScUgen, ScUgen } from './sc3-ugen.js'
 
 // traverse graph from p adding leaf nodes to the set c
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
@@ -22,7 +22,7 @@ export function ugenTraverseCollecting(p: Tree<Ugen>, c: Set<number | ScUgen>, w
         consoleDebug('ugenTraverseCollecting: port', pUgen);
         if(!setIncludes(w, pUgen.scUgen)) {
             setAdd(c, pUgen.scUgen);
-            arrayForEach(pUgen.scUgen.inputValues, item => isNumber(item) ? setAdd(c, item)  : ugenTraverseCollecting(item, c, w));
+            arrayForEach(pUgen.scUgen.inputArray, item => isNumber(item) ? setAdd(c, item)  : ugenTraverseCollecting(item, c, w));
             arrayForEach(mrgArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
         }
     } else {
@@ -60,7 +60,7 @@ export function makeGraph(name: string, signal: Signal): Graph {
     var constants = arrayFilter(leafNodes, isNumber);
     var numLocalBufs = arrayLength(arrayFilter(ugens, item => item.name === 'LocalBuf'));
     var MaxLocalBufs = function(count: number): ScUgen {
-        return makeScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
+        return ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
     };
     return {
         graphName: name,
@@ -93,10 +93,10 @@ export function graphEncodeUgenSpec(graph: Graph, ugen: ScUgen): Tree<Uint8Array
     return [
         encodePascalString(ugen.name),
         encodeInt8(ugen.rate),
-        encodeInt32(arrayLength(ugen.inputValues)),
+        encodeInt32(arrayLength(ugen.inputArray)),
         encodeInt32(ugen.numChan),
         encodeInt16(ugen.specialIndex),
-        arrayMap(ugen.inputValues, input => arrayMap(graphUgenInputSpec(graph, input), index => encodeInt32(index))),
+        arrayMap(ugen.inputArray, input => arrayMap(graphUgenInputSpec(graph, input), index => encodeInt32(index))),
         arrayReplicate(ugen.numChan, encodeInt8(ugen.rate))
     ];
 }

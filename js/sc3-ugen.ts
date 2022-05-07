@@ -18,7 +18,7 @@ export type ScUgen = {
     rate: number,
     specialIndex: number,
     id: number,
-    inputValues: UgenInput[],
+    inputArray: UgenInput[],
     mrg: Set<UgenInput>
 };
 
@@ -31,14 +31,14 @@ export type UgenInput = number | Ugen;
 
 export type Signal = Tree<UgenInput>;
 
-export function makeScUgen(name: string, numChan: number, rate: number, specialIndex: number, inputArray: UgenInput[]): ScUgen {
+export function ScUgen(name: string, numChan: number, rate: number, specialIndex: number, inputArray: UgenInput[]): ScUgen {
     return {
         name: name,
         numChan: numChan,
         rate: rate,
         specialIndex: specialIndex,
         id: ugenCounter(),
-        inputValues: inputArray,
+        inputArray: inputArray,
         mrg: setNew()
     };
 }
@@ -107,7 +107,7 @@ export function makeUgen(name: string, numChan: number, rateSpec: RateSpec, spec
         return arrayMap(mceInputTransform(signalArray), item => makeUgen(name, numChan, rateSpec, specialIndex, item));
     } else {
         var inputArray = <UgenInput[]>signalArray;
-        var scUgen = makeScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
+        var scUgen = ScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
         switch (numChan) {
             case 0: return (Ugen(scUgen, nilPort));
             case 1: return (Ugen(scUgen, 0));
@@ -169,7 +169,7 @@ export function krMutateInPlace(input: Tree<UgenInput | ScUgen>): void {
         if(inputUgen.rate === rateAr) {
             inputUgen.rate =  rateKr;
         }
-        arrayForEach(inputUgen.inputValues, item => krMutateInPlace(item));
+        arrayForEach(inputUgen.inputArray, item => krMutateInPlace(item));
     } else if(Array.isArray(input)) {
         consoleDebug('kr: array', input);
         arrayForEach(input, item => krMutateInPlace(item));

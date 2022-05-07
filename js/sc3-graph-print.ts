@@ -12,10 +12,10 @@ function graphPrintUgenSpec(graph: Graph, ugen: ScUgen): void {
     consoleLog(
         ugen.name,
         ugen.rate,
-        arrayLength(ugen.inputValues),
+        arrayLength(ugen.inputArray),
         ugen.numChan,
         ugen.specialIndex,
-        arrayMap(ugen.inputValues, input => graphUgenInputSpec(graph, input)),
+        arrayMap(ugen.inputArray, input => graphUgenInputSpec(graph, input)),
         arrayReplicate(ugen.numChan, ugen.rate)
     );
 }
@@ -49,7 +49,7 @@ function graphPrettyPrintUgen(graph: Graph, ugen: ScUgen): void {
     console.log(
         graphUgenIndex(graph, ugen.id) + '_' + ugenDisplayName(ugen),
         rateSelector(ugen.rate),
-        '[' + String(arrayMap(ugen.inputValues, input => graphInputDisplayName(graph, input))) + ']'
+        '[' + String(arrayMap(ugen.inputArray, input => graphInputDisplayName(graph, input))) + ']'
     );
 }
 
