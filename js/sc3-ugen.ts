@@ -1,71 +1,73 @@
 // sc3-ugen.ts
 
-import { arrayAsArray, arrayAtIndices, arrayContainsArray, arrayEvery, arrayExtendToBeOfEqualSize, arrayFillWithIndex, arrayFind, arrayForEach, arrayMap, arrayMaxItem, arrayTranspose } from './sc3-array.js'
+import { asArray, arrayAtIndices, arrayContainsArray, arrayEvery, arrayExtendToBeOfEqualSize, arrayFillWithIndex, arrayFind, arrayForEach, arrayMap, arrayMaxItem, arrayTranspose } from './sc3-array.js'
 import { Counter, counterNew } from './sc3-counter.js'
 import { dictionaryHasKey } from './sc3-dictionary.js'
 import { consoleDebug, consoleError } from './sc3-error.js'
 import { isNumber } from './sc3-number.js'
 import { binaryOperatorName, unaryOperatorName } from './sc3-operators.js'
-import { Queue, queueNew, queuePush } from './sc3-queue.js'
 import { rateAr, rateIr, rateKr } from './sc3-rate.js'
+import { Set, setNew, setAdd } from './sc3-set.js'
 import { Tree } from './sc3-tree.js'
 
 var ugenCounter: Counter = counterNew();
 
-export type UgenPrimitive = {
-    ugenName: string,
+export type ScUgen = {
+    name: string,
     numChan: number,
-    ugenRate: number,
+    rate: number,
     specialIndex: number,
-    ugenId: number,
+    id: number,
     inputValues: UgenInput[],
-    mrg: Queue<UgenInput>
+    mrg: Set<UgenInput>
 };
 
-export type UgenOutput = {
-    ugen: UgenPrimitive,
-    index: number
+export type Ugen = {
+    scUgen: ScUgen,
+    port: number
 };
 
-export type UgenInput = number | UgenOutput;
+export type UgenInput = number | Ugen;
 
 export type Signal = Tree<UgenInput>;
 
-export function makeUgenPrimitive(name: string, numChan: number, rate: number, specialIndex: number, inputArray: UgenInput[]): UgenPrimitive {
+export function makeScUgen(name: string, numChan: number, rate: number, specialIndex: number, inputArray: UgenInput[]): ScUgen {
     return {
-        ugenName: name,
+        name: name,
         numChan: numChan,
-        ugenRate: rate,
+        rate: rate,
         specialIndex: specialIndex,
-        ugenId: ugenCounter(),
+        id: ugenCounter(),
         inputValues: inputArray,
-        mrg: queueNew()
+        mrg: setNew()
     };
 }
 
-export function isUgenPrimitive(obj: any): boolean {
-    return obj && obj.ugenName !== undefined;
+export function isScUgen(obj: any): boolean {
+    return obj && dictionaryHasKey(obj, 'specialIndex') && dictionaryHasKey(obj, 'mrg'); // ...
 }
 
-// Ugens with no outputs, such as Out, set index to -1.
-export function UgenOutput(ugen: UgenPrimitive, index: number): UgenOutput {
+// Ugens with no outputs, such as Out, set port to -1.
+export var nilPort = -1;
+
+export function Ugen(scUgen: ScUgen, port: number): Ugen {
     return {
-        ugen: ugen,
-        index: index
+        scUgen: scUgen,
+        port: port
     };
 }
 
-export function isUgenOutput(obj: any): boolean {
-    return obj && dictionaryHasKey(obj, 'ugen') && dictionaryHasKey(obj, 'index');
+export function isUgen(obj: any): boolean {
+    return obj && dictionaryHasKey(obj, 'scUgen') && dictionaryHasKey(obj, 'port');
 }
 
 export function isUgenInput(aValue: any): boolean {
-    return isNumber(aValue) || isUgenOutput(aValue);
+    return isNumber(aValue) || isUgen(aValue);
 }
 
-export function inputBranch(input: UgenInput, onUgenOutput: (aUgenOutput: UgenOutput) => any, onNumber: (aNumber: number) => any, onError: () => any): any {
-    if(isUgenOutput(input)) {
-        return onUgenOutput(<UgenOutput>input);
+export function inputBranch(input: UgenInput, onUgen: (aUgen: Ugen) => any, onNumber: (aNumber: number) => any, onError: () => any): any {
+    if(isUgen(input)) {
+        return onUgen(<Ugen>input);
     } else if(isNumber(input)) {
         return onNumber(<number>input);
     } else {
@@ -76,7 +78,7 @@ export function inputBranch(input: UgenInput, onUgenOutput: (aUgenOutput: UgenOu
 
 export function inputRate(input: UgenInput): number {
     consoleDebug('inputRate', input);
-    return inputBranch(input, port => port.ugen.ugenRate, unusedNumber => rateIr, () => -1);
+    return inputBranch(input, port => port.scUgen.rate, unusedNumber => rateIr, () => -1);
 }
 
 export type RateSpec = number | number[];
@@ -105,33 +107,33 @@ export function makeUgen(name: string, numChan: number, rateSpec: RateSpec, spec
         return arrayMap(mceInputTransform(signalArray), item => makeUgen(name, numChan, rateSpec, specialIndex, item));
     } else {
         var inputArray = <UgenInput[]>signalArray;
-        var ugenPrimitive = makeUgenPrimitive(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
-        switch(numChan) {
-            case 0: return (UgenOutput(ugenPrimitive, -1));
-            case 1: return (UgenOutput(ugenPrimitive, 0));
-            default: return arrayFillWithIndex(numChan, item => UgenOutput(ugenPrimitive, item));
+        var scUgen = makeScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
+        switch (numChan) {
+            case 0: return (Ugen(scUgen, nilPort));
+            case 1: return (Ugen(scUgen, 0));
+            default: return arrayFillWithIndex(numChan, item => Ugen(scUgen, item));
         }
     }
 }
 
-export function ugenDisplayName(ugen: UgenPrimitive): string {
-    switch(ugen.ugenName) {
+export function ugenDisplayName(ugen: ScUgen): string {
+    switch(ugen.name) {
     case 'UnaryOpUGen': return unaryOperatorName(ugen.specialIndex);
     case 'BinaryOpUGen': return binaryOperatorName(ugen.specialIndex);
-    default: return ugen.ugenName;
+    default: return ugen.name;
     }
 }
 
 // Mrg
 
 // inputFirstUgen([0, SinOsc([440, 441], 0), SinOsc(442, 0)])
-export function inputFirstUgen(input: Signal): UgenPrimitive | null {
+export function inputFirstUgen(input: Signal): ScUgen | null {
     if(Array.isArray(input)) {
         consoleDebug('inputFirstUgen: array', input);
-        return arrayFind(arrayMap(input, inputFirstUgen), isUgenPrimitive) || null;
-    } else if(isUgenOutput(input)) {
+        return arrayFind(arrayMap(input, inputFirstUgen), isScUgen) || null;
+    } else if(isUgen(input)) {
         consoleDebug('inputFirstUgen: port', input);
-        return (<UgenOutput>input).ugen;
+        return (<Ugen>input).scUgen;
     } else {
         consoleDebug('inputFirstUgen: number?', input);
         return null;
@@ -143,10 +145,10 @@ export function mrg(lhs: Signal,rhs: Signal): Signal {
     consoleDebug('mrg', lhs, rhs, ugen);
     if(ugen && ugen.mrg) {
         if(Array.isArray(rhs)) {
-            var mrgQueue = <Queue<UgenInput>>(ugen.mrg);
-            arrayForEach(rhs, item => queuePush(mrgQueue, item));
+            var mrgSet = <Set<UgenInput>>(ugen.mrg);
+            arrayForEach(rhs, item => setAdd(mrgSet, item));
         } else {
-            queuePush(ugen.mrg, rhs);
+            setAdd(ugen.mrg, rhs);
         }
     } else {
         consoleError("mrg: no ugen or ugen.mrg is null?");
@@ -156,15 +158,17 @@ export function mrg(lhs: Signal,rhs: Signal): Signal {
 
 // Kr
 
-export function krMutateInPlace(input: Tree<UgenInput | UgenPrimitive>): void {
-    if(isUgenOutput(input)) {
-        var inputPort = <UgenOutput>input;
+export function krMutateInPlace(input: Tree<UgenInput | ScUgen>): void {
+    if(isUgen(input)) {
+        var inputPort = <Ugen>input;
         consoleDebug('kr: port', inputPort);
-        krMutateInPlace(inputPort.ugen);
-    } else if(isUgenPrimitive(input)) {
-        var inputUgen = <UgenPrimitive>input;
+        krMutateInPlace(inputPort.scUgen);
+    } else if(isScUgen(input)) {
+        var inputUgen = <ScUgen>input;
         consoleDebug('kr: ugen', inputUgen);
-        inputUgen.ugenRate = inputUgen.ugenRate === rateAr ? rateKr : inputUgen.ugenRate;
+        if(inputUgen.rate === rateAr) {
+            inputUgen.rate =  rateKr;
+        }
         arrayForEach(inputUgen.inputValues, item => krMutateInPlace(item));
     } else if(Array.isArray(input)) {
         consoleDebug('kr: array', input);
@@ -232,7 +236,7 @@ export function BinaryOpWithConstantOptimiser(specialIndex: number, lhs: UgenInp
 
 export function BinaryOp(specialIndex: number, lhs: Signal, rhs: Signal): any {
     if(Array.isArray(lhs) || Array.isArray(rhs)) {
-        var expanded = mceInputTransform([arrayAsArray(lhs), arrayAsArray(rhs)]);
+        var expanded = mceInputTransform([asArray(lhs), asArray(rhs)]);
         consoleDebug('BinaryOp: array constant', expanded);
         return arrayMap(expanded, item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]));
     } else {
@@ -242,7 +246,7 @@ export function BinaryOp(specialIndex: number, lhs: Signal, rhs: Signal): any {
 
 // isOutUgen(Out(0, mul(SinOsc(440, 0), 0.1)))
 export function isOutUgen(aValue: any): boolean {
-    return isUgenOutput(aValue) && (<UgenOutput>aValue).ugen.ugenName == 'Out';
+    return isUgen(aValue) && (<Ugen>aValue).scUgen.name == 'Out';
 }
 
 // isControlRateUgen(MouseX(0, 1, 0, 0.2))

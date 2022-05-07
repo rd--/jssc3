@@ -30,7 +30,7 @@ function queuePerformWithArguments(receiver, selector, argumentArray) {
 
 function setPerformWithArguments(receiver, selector, argumentArray) {
     switch (selector) {
-        case 'put': return setPut(receiver, argumentArray[0]);
+        case 'add': return setAdd(receiver, argumentArray[0]);
         case 'includes': return setIncludes(receiver, argumentArray[0]);
         case 'asArray': return setAsArray(receiver);
         default: console.error('setPerformWithArguments?'); return undefined;

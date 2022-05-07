@@ -1,4 +1,4 @@
-import { arrayAsArray, arrayConcat, arrayLength} from './sc3-array.js'
+import { asArray, arrayConcat, arrayLength} from './sc3-array.js'
 import { rateAr, rateDr, rateIr, rateKr } from './sc3-rate.js'
 import { BinaryOp, Signal, UnaryOp, makeUgen } from './sc3-ugen.js'
 
@@ -96,7 +96,7 @@ export function BufSampleRate(bufnum: Signal): Signal {
 }
 // Buffer writing oscillator.
 export function BufWr(bufnum: Signal, phase: Signal, loop: Signal, inputArray: Signal): Signal {
-    return makeUgen('BufWr', 1, [3], 0, arrayConcat([bufnum, phase, loop], (arrayAsArray(inputArray))));
+    return makeUgen('BufWr', 1, [3], 0, arrayConcat([bufnum, phase, loop], (asArray(inputArray))));
 }
 // (Undocumented class)
 export function ClearBuf(buf: Signal): Signal {
@@ -192,7 +192,7 @@ export function DelayN(input: Signal, maxdelaytime: Signal, delaytime: Signal): 
 }
 // Demand results from demand rate UGens.
 export function Demand(trig: Signal, reset: Signal, demandUGens: Signal): Signal {
-    return makeUgen('Demand', arrayLength(arrayAsArray(demandUGens)), [0], 0, arrayConcat([trig, reset], (arrayAsArray(demandUGens))));
+    return makeUgen('Demand', arrayLength(asArray(demandUGens)), [0], 0, arrayConcat([trig, reset], (asArray(demandUGens))));
 }
 // Detect when input falls below an amplitude threshold
 export function DetectSilence(input: Signal, amp: Signal, time: Signal, doneAction: Signal): Signal {
@@ -204,11 +204,11 @@ export function Diwhite(length: Signal, lo: Signal, hi: Signal): Signal {
 }
 // Demand rate random sequence generator.
 export function Drand(repeats: Signal, list: Signal): Signal {
-    return makeUgen('Drand', 1, rateDr, 0, arrayConcat([repeats], (arrayAsArray(list))));
+    return makeUgen('Drand', 1, rateDr, 0, arrayConcat([repeats], (asArray(list))));
 }
 // Demand rate sequence generator.
 export function Dseq(repeats: Signal, list: Signal): Signal {
-    return makeUgen('Dseq', 1, rateDr, 0, arrayConcat([repeats], (arrayAsArray(list))));
+    return makeUgen('Dseq', 1, rateDr, 0, arrayConcat([repeats], (asArray(list))));
 }
 // Demand rate arithmetic series UGen.
 export function Dseries(length: Signal, start: Signal, step: Signal): Signal {
@@ -216,7 +216,7 @@ export function Dseries(length: Signal, start: Signal, step: Signal): Signal {
 }
 // Demand rate random sequence generator
 export function Dshuf(repeats: Signal, list: Signal): Signal {
-    return makeUgen('Dshuf', 1, rateDr, 0, arrayConcat([repeats], (arrayAsArray(list))));
+    return makeUgen('Dshuf', 1, rateDr, 0, arrayConcat([repeats], (asArray(list))));
 }
 // Random impulses.
 export function Dust(density: Signal): Signal {
@@ -236,7 +236,7 @@ export function DWGPluckedStiff(freq: Signal, amp: Signal, gate: Signal, pos: Si
 }
 // Envelope generator
 export function EnvGen(gate: Signal, levelScale: Signal, levelBias: Signal, timeScale: Signal, doneAction: Signal, envelope: Signal): Signal {
-    return makeUgen('EnvGen', 1, rateAr, 0, arrayConcat([gate, levelScale, levelBias, timeScale, doneAction], (arrayAsArray(envelope))));
+    return makeUgen('EnvGen', 1, rateAr, 0, arrayConcat([gate, levelScale, levelBias, timeScale, doneAction], (asArray(envelope))));
 }
 // Exponential single random number generator.
 export function ExpRand(lo: Signal, hi: Signal): Signal {
@@ -380,11 +380,11 @@ export function KeyState(keycode: Signal, minval: Signal, maxval: Signal, lag: S
 }
 // Sine oscillator bank
 export function Klang(freqscale: Signal, freqoffset: Signal, specificationsArrayRef: Signal): Signal {
-    return makeUgen('Klang', 1, rateAr, 0, arrayConcat([freqscale, freqoffset], (arrayAsArray(specificationsArrayRef))));
+    return makeUgen('Klang', 1, rateAr, 0, arrayConcat([freqscale, freqoffset], (asArray(specificationsArrayRef))));
 }
 // Bank of resonators
 export function Klank(input: Signal, freqscale: Signal, freqoffset: Signal, decayscale: Signal, specificationsArrayRef: Signal): Signal {
-    return makeUgen('Klank', 1, [0], 0, arrayConcat([input, freqscale, freqoffset, decayscale], (arrayAsArray(specificationsArrayRef))));
+    return makeUgen('Klank', 1, [0], 0, arrayConcat([input, freqscale, freqoffset, decayscale], (asArray(specificationsArrayRef))));
 }
 // random walk linear interp
 export function LFBrownNoise1(freq: Signal, dev: Signal, dist: Signal): Signal {
@@ -512,11 +512,11 @@ export function LocalBuf(numChannels: Signal, numFrames: Signal): Signal {
 }
 // Define and read from buses local to a synth.
 export function LocalIn(numChan: number, defaultValue: Signal): Signal {
-    return makeUgen('LocalIn', numChan, rateAr, 0, arrayConcat([], (arrayAsArray(defaultValue))));
+    return makeUgen('LocalIn', numChan, rateAr, 0, arrayConcat([], (asArray(defaultValue))));
 }
 // Write to buses local to a synth.
 export function LocalOut(channelsArray: Signal): Signal {
-    return makeUgen('LocalOut', 0, [0], 0, arrayConcat([], (arrayAsArray(channelsArray))));
+    return makeUgen('LocalOut', 0, [0], 0, arrayConcat([], (asArray(channelsArray))));
 }
 // Lorenz chaotic generator
 export function LorenzL(freq: Signal, s: Signal, r: Signal, b: Signal, h: Signal, xi: Signal, yi: Signal, zi: Signal): Signal {
@@ -592,7 +592,7 @@ export function Osc(bufnum: Signal, freq: Signal, phase: Signal): Signal {
 }
 // Write a signal to a bus.
 export function Out(bus: Signal, channelsArray: Signal): Signal {
-    return makeUgen('Out', 0, [1], 0, arrayConcat([bus], (arrayAsArray(channelsArray))));
+    return makeUgen('Out', 0, [1], 0, arrayConcat([bus], (asArray(channelsArray))));
 }
 // Two channel equal power pan.
 export function Pan2(input: Signal, pos: Signal, level: Signal): Signal {
@@ -676,11 +676,11 @@ export function Rand(lo: Signal, hi: Signal): Signal {
 }
 // Record or overdub into a Buffer.
 export function RecordBuf(bufnum: Signal, offset: Signal, recLevel: Signal, preLevel: Signal, run: Signal, loop: Signal, trigger: Signal, doneAction: Signal, inputArray: Signal): Signal {
-    return makeUgen('RecordBuf', 1, rateAr, 0, arrayConcat([bufnum, offset, recLevel, preLevel, run, loop, trigger, doneAction], (arrayAsArray(inputArray))));
+    return makeUgen('RecordBuf', 1, rateAr, 0, arrayConcat([bufnum, offset, recLevel, preLevel, run, loop, trigger, doneAction], (asArray(inputArray))));
 }
 // Send signal to a bus, overwriting previous contents.
 export function ReplaceOut(bus: Signal, channelsArray: Signal): Signal {
-    return makeUgen('ReplaceOut', 0, [1], 0, arrayConcat([bus], (arrayAsArray(channelsArray))));
+    return makeUgen('ReplaceOut', 0, [1], 0, arrayConcat([bus], (asArray(channelsArray))));
 }
 // Resonant filter.
 export function Resonz(input: Signal, freq: Signal, bwr: Signal): Signal {
@@ -720,11 +720,11 @@ export function Schmidt(input: Signal, lo: Signal, hi: Signal): Signal {
 }
 // Select output from an array of inputs.
 export function Select(which: Signal, array: Signal): Signal {
-    return makeUgen('Select', 1, [0, 1], 0, arrayConcat([which], (arrayAsArray(array))));
+    return makeUgen('Select', 1, [0, 1], 0, arrayConcat([which], (asArray(array))));
 }
 // Set local buffer
 export function SetBuf(buf: Signal, offset: Signal, length: Signal, array: Signal): Signal {
-    return makeUgen('SetBuf', 1, rateIr, 0, arrayConcat([buf, offset, length], (arrayAsArray(array))));
+    return makeUgen('SetBuf', 1, rateIr, 0, arrayConcat([buf, offset, length], (asArray(array))));
 }
 // Set-reset flip flop.
 export function SetResetFF(trig: Signal, reset: Signal): Signal {
@@ -904,7 +904,7 @@ export function RandN(numChan: number, lo: Signal, hi: Signal): Signal {
 }
 // (Undocumented class)
 export function TScramble(trigger: Signal, inputs: Signal): Signal {
-    return makeUgen('TScramble', arrayLength(arrayAsArray(inputs)), [0], 0, arrayConcat([trigger], (arrayAsArray(inputs))));
+    return makeUgen('TScramble', arrayLength(asArray(inputs)), [0], 0, arrayConcat([trigger], (asArray(inputs))));
 }
 // (Undocumented class)
 export function DX7(bufnum: Signal, on: Signal, off: Signal, data: Signal, vc: Signal, mnn: Signal, vel: Signal, pw: Signal, mw: Signal, bc: Signal, fc: Signal): Signal {
@@ -932,7 +932,7 @@ export function SvfLp(input: Signal, freq: Signal, q: Signal): Signal {
 }
 // (Undocumented class)
 export function Bezier(haltAfter: Signal, dx: Signal, freq: Signal, phase: Signal, param: Signal): Signal {
-    return makeUgen('Bezier', 1, rateAr, 0, arrayConcat([haltAfter, dx, freq, phase], (arrayAsArray(param))));
+    return makeUgen('Bezier', 1, rateAr, 0, arrayConcat([haltAfter, dx, freq, phase], (asArray(param))));
 }
 // (Undocumented class)
 export function Freezer(bufnum: Signal, left: Signal, right: Signal, gain: Signal, increment: Signal, incrementOffset: Signal, incrementRandom: Signal, rightRandom: Signal, syncPhaseTrigger: Signal, randomizePhaseTrigger: Signal, numberOfLoops: Signal): Signal {

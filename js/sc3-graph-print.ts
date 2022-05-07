@@ -6,17 +6,17 @@ import { Graph, graphUgenIndex, graphUgenInputSpec, makeGraph, SCgf } from './sc
 import { isNumber } from './sc3-number.js'
 import { wrapOut } from './sc3-pseudo.js'
 import { rateSelector } from './sc3-rate.js'
-import { Signal, UgenOutput, UgenPrimitive, isUgenOutput, ugenDisplayName } from './sc3-ugen.js'
+import { Signal, Ugen, ScUgen, isUgen, ugenDisplayName } from './sc3-ugen.js'
 
-function graphPrintUgenSpec(graph: Graph, ugen: UgenPrimitive): void {
+function graphPrintUgenSpec(graph: Graph, ugen: ScUgen): void {
     consoleLog(
-        ugen.ugenName,
-        ugen.ugenRate,
+        ugen.name,
+        ugen.rate,
         arrayLength(ugen.inputValues),
         ugen.numChan,
         ugen.specialIndex,
         arrayMap(ugen.inputValues, input => graphUgenInputSpec(graph, input)),
-        arrayReplicate(ugen.numChan, ugen.ugenRate)
+        arrayReplicate(ugen.numChan, ugen.rate)
     );
 }
 
@@ -31,11 +31,11 @@ function printSyndefOf(ugen: Signal): void {
     graphPrintSyndef(graph);
 }
 
-function graphInputDisplayName(graph: Graph, input: UgenOutput): string {
-    if(isUgenOutput(input)) {
-        var id = String(graphUgenIndex(graph, input.ugen.ugenId));
-        var nm = ugenDisplayName(input.ugen);
-        var ix = input.ugen.numChan > 1 ? ('[' + String(input.index) + ']') : '';
+function graphInputDisplayName(graph: Graph, input: Ugen): string {
+    if(isUgen(input)) {
+        var id = String(graphUgenIndex(graph, input.scUgen.id));
+        var nm = ugenDisplayName(input.scUgen);
+        var ix = input.scUgen.numChan > 1 ? ('[' + String(input.port) + ']') : '';
         return id + '_' + nm + ix;
     } else if(isNumber(input)) {
         return String(input);
@@ -45,10 +45,10 @@ function graphInputDisplayName(graph: Graph, input: UgenOutput): string {
     }
 }
 
-function graphPrettyPrintUgen(graph: Graph, ugen: UgenPrimitive): void {
+function graphPrettyPrintUgen(graph: Graph, ugen: ScUgen): void {
     console.log(
-        graphUgenIndex(graph, ugen.ugenId) + '_' + ugenDisplayName(ugen),
-        rateSelector(ugen.ugenRate),
+        graphUgenIndex(graph, ugen.id) + '_' + ugenDisplayName(ugen),
+        rateSelector(ugen.rate),
         '[' + String(arrayMap(ugen.inputValues, input => graphInputDisplayName(graph, input))) + ']'
     );
 }

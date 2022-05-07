@@ -1,6 +1,6 @@
-// sc3-pseudo.ts ; requries:  sc3-envelope sc3-ugen
+// sc3-pseudo.ts
 
-import { arrayAsArray, arrayClump, arrayConcatenation, arrayExtendToBeOfEqualSize, arrayFirst, arrayFromTo, arrayMaxItem, arrayReduce, arrayReplicate, arraySecond, arrayTranspose } from './sc3-array.js'
+import { asArray, arrayClump, arrayConcatenation, arrayExtendToBeOfEqualSize, arrayFirst, arrayFromTo, arrayMaxItem, arrayReduce, arrayReplicate, arraySecond, arrayTranspose } from './sc3-array.js'
 import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, SampleRate, Select, SetBuf, SinOsc, TDuty, TIRand, Wrap, XFade2, XLine, add, fdiv, fold2, midiCps, mul, round, shiftRight, sqrt, sub, trunc } from './sc3-bindings.js'
 import { Env, EnvADSR, EnvASR, EnvCutoff, envCoord } from './sc3-envelope.js'
 import { consoleDebug } from './sc3-error.js'
@@ -185,19 +185,19 @@ export function ControlIn(numChan: number, bus: Signal): Signal {
 }
 
 export function SfFrames(sfBufferArray: Signal): Signal {
-    return BufFrames(arrayFirst(arrayAsArray(sfBufferArray)));
+    return BufFrames(arrayFirst(asArray(sfBufferArray)));
 }
 
 export function SfDur(sfBufferArray: Signal): Signal {
-    return BufDur(arrayFirst(arrayAsArray(sfBufferArray)));
+    return BufDur(arrayFirst(asArray(sfBufferArray)));
 }
 
 export function SfSampleRate(sfBufferArray: Signal): Signal {
-    return BufSampleRate(arrayFirst(arrayAsArray(sfBufferArray)));
+    return BufSampleRate(arrayFirst(asArray(sfBufferArray)));
 }
 
 export function SfRateScale(sfBufferArray: Signal): Signal {
-    return BufRateScale(arrayFirst(arrayAsArray(sfBufferArray)));
+    return BufRateScale(arrayFirst(asArray(sfBufferArray)));
 }
 
 export function SfRead(sfBufferArray: Signal, phase: Signal, loop: Signal, interpolation: Signal): Signal {

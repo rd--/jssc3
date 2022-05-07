@@ -12,7 +12,7 @@ export function setFromArray(anArray: Array<any>): Set<any> {
     return new Set(anArray);
 }
 
-export function setPut(aSet: Set<any>, aValue: any): void {
+export function setAdd(aSet: Set<any>, aValue: any): void {
     aSet.add(aValue);
 }
 

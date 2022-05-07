@@ -3,16 +3,16 @@
 function isArray(aValue) {
     return Array.isArray(aValue);
 }
+// [1, [1, 2]].map(asArray) //= [[1], [1, 2]]
+function asArray(maybeArray) {
+    return Array.isArray(maybeArray) ? maybeArray : [maybeArray];
+}
 function arrayNew(size) {
     return new Array(size);
 }
 // arrayAppend([1, 2, 3], [4, 5]) //=> [1, 2, 3, 4, 5]
 function arrayAppend(lhs, rhs) {
     return lhs.concat(rhs);
-}
-// [1, [1, 2]].map(arrayAsArray) //= [[1], [1, 2]]
-function arrayAsArray(maybeArray) {
-    return Array.isArray(maybeArray) ? maybeArray : [maybeArray];
 }
 // arrayAt([1, 2, 3, 4], 3) === 4
 function arrayAt(anArray, index) {
@@ -775,7 +775,7 @@ function setNew() {
 function setFromArray(anArray) {
     return new Set(anArray);
 }
-function setPut(aSet, aValue) {
+function setAdd(aSet, aValue) {
     aSet.add(aValue);
 }
 function setIncludes(aSet, aValue) {
@@ -972,7 +972,7 @@ function BufSampleRate(bufnum) {
 }
 // Buffer writing oscillator.
 function BufWr(bufnum, phase, loop, inputArray) {
-    return makeUgen('BufWr', 1, [3], 0, arrayConcat([bufnum, phase, loop], (arrayAsArray(inputArray))));
+    return makeUgen('BufWr', 1, [3], 0, arrayConcat([bufnum, phase, loop], (asArray(inputArray))));
 }
 // (Undocumented class)
 function ClearBuf(buf) {
@@ -1068,7 +1068,7 @@ function DelayN(input, maxdelaytime, delaytime) {
 }
 // Demand results from demand rate UGens.
 function Demand(trig, reset, demandUGens) {
-    return makeUgen('Demand', arrayLength(arrayAsArray(demandUGens)), [0], 0, arrayConcat([trig, reset], (arrayAsArray(demandUGens))));
+    return makeUgen('Demand', arrayLength(asArray(demandUGens)), [0], 0, arrayConcat([trig, reset], (asArray(demandUGens))));
 }
 // Detect when input falls below an amplitude threshold
 function DetectSilence(input, amp, time, doneAction) {
@@ -1080,11 +1080,11 @@ function Diwhite(length, lo, hi) {
 }
 // Demand rate random sequence generator.
 function Drand(repeats, list) {
-    return makeUgen('Drand', 1, rateDr, 0, arrayConcat([repeats], (arrayAsArray(list))));
+    return makeUgen('Drand', 1, rateDr, 0, arrayConcat([repeats], (asArray(list))));
 }
 // Demand rate sequence generator.
 function Dseq(repeats, list) {
-    return makeUgen('Dseq', 1, rateDr, 0, arrayConcat([repeats], (arrayAsArray(list))));
+    return makeUgen('Dseq', 1, rateDr, 0, arrayConcat([repeats], (asArray(list))));
 }
 // Demand rate arithmetic series UGen.
 function Dseries(length, start, step) {
@@ -1092,7 +1092,7 @@ function Dseries(length, start, step) {
 }
 // Demand rate random sequence generator
 function Dshuf(repeats, list) {
-    return makeUgen('Dshuf', 1, rateDr, 0, arrayConcat([repeats], (arrayAsArray(list))));
+    return makeUgen('Dshuf', 1, rateDr, 0, arrayConcat([repeats], (asArray(list))));
 }
 // Random impulses.
 function Dust(density) {
@@ -1112,7 +1112,7 @@ function DWGPluckedStiff(freq, amp, gate, pos, c1, c3, inp, release, fB) {
 }
 // Envelope generator
 function EnvGen(gate, levelScale, levelBias, timeScale, doneAction, envelope) {
-    return makeUgen('EnvGen', 1, rateAr, 0, arrayConcat([gate, levelScale, levelBias, timeScale, doneAction], (arrayAsArray(envelope))));
+    return makeUgen('EnvGen', 1, rateAr, 0, arrayConcat([gate, levelScale, levelBias, timeScale, doneAction], (asArray(envelope))));
 }
 // Exponential single random number generator.
 function ExpRand(lo, hi) {
@@ -1256,11 +1256,11 @@ function KeyState(keycode, minval, maxval, lag) {
 }
 // Sine oscillator bank
 function Klang(freqscale, freqoffset, specificationsArrayRef) {
-    return makeUgen('Klang', 1, rateAr, 0, arrayConcat([freqscale, freqoffset], (arrayAsArray(specificationsArrayRef))));
+    return makeUgen('Klang', 1, rateAr, 0, arrayConcat([freqscale, freqoffset], (asArray(specificationsArrayRef))));
 }
 // Bank of resonators
 function Klank(input, freqscale, freqoffset, decayscale, specificationsArrayRef) {
-    return makeUgen('Klank', 1, [0], 0, arrayConcat([input, freqscale, freqoffset, decayscale], (arrayAsArray(specificationsArrayRef))));
+    return makeUgen('Klank', 1, [0], 0, arrayConcat([input, freqscale, freqoffset, decayscale], (asArray(specificationsArrayRef))));
 }
 // random walk linear interp
 function LFBrownNoise1(freq, dev, dist) {
@@ -1388,11 +1388,11 @@ function LocalBuf(numChannels, numFrames) {
 }
 // Define and read from buses local to a synth.
 function LocalIn(numChan, defaultValue) {
-    return makeUgen('LocalIn', numChan, rateAr, 0, arrayConcat([], (arrayAsArray(defaultValue))));
+    return makeUgen('LocalIn', numChan, rateAr, 0, arrayConcat([], (asArray(defaultValue))));
 }
 // Write to buses local to a synth.
 function LocalOut(channelsArray) {
-    return makeUgen('LocalOut', 0, [0], 0, arrayConcat([], (arrayAsArray(channelsArray))));
+    return makeUgen('LocalOut', 0, [0], 0, arrayConcat([], (asArray(channelsArray))));
 }
 // Lorenz chaotic generator
 function LorenzL(freq, s, r, b, h, xi, yi, zi) {
@@ -1468,7 +1468,7 @@ function Osc(bufnum, freq, phase) {
 }
 // Write a signal to a bus.
 function Out(bus, channelsArray) {
-    return makeUgen('Out', 0, [1], 0, arrayConcat([bus], (arrayAsArray(channelsArray))));
+    return makeUgen('Out', 0, [1], 0, arrayConcat([bus], (asArray(channelsArray))));
 }
 // Two channel equal power pan.
 function Pan2(input, pos, level) {
@@ -1552,11 +1552,11 @@ function Rand(lo, hi) {
 }
 // Record or overdub into a Buffer.
 function RecordBuf(bufnum, offset, recLevel, preLevel, run, loop, trigger, doneAction, inputArray) {
-    return makeUgen('RecordBuf', 1, rateAr, 0, arrayConcat([bufnum, offset, recLevel, preLevel, run, loop, trigger, doneAction], (arrayAsArray(inputArray))));
+    return makeUgen('RecordBuf', 1, rateAr, 0, arrayConcat([bufnum, offset, recLevel, preLevel, run, loop, trigger, doneAction], (asArray(inputArray))));
 }
 // Send signal to a bus, overwriting previous contents.
 function ReplaceOut(bus, channelsArray) {
-    return makeUgen('ReplaceOut', 0, [1], 0, arrayConcat([bus], (arrayAsArray(channelsArray))));
+    return makeUgen('ReplaceOut', 0, [1], 0, arrayConcat([bus], (asArray(channelsArray))));
 }
 // Resonant filter.
 function Resonz(input, freq, bwr) {
@@ -1596,11 +1596,11 @@ function Schmidt(input, lo, hi) {
 }
 // Select output from an array of inputs.
 function Select(which, array) {
-    return makeUgen('Select', 1, [0, 1], 0, arrayConcat([which], (arrayAsArray(array))));
+    return makeUgen('Select', 1, [0, 1], 0, arrayConcat([which], (asArray(array))));
 }
 // Set local buffer
 function SetBuf(buf, offset, length, array) {
-    return makeUgen('SetBuf', 1, rateIr, 0, arrayConcat([buf, offset, length], (arrayAsArray(array))));
+    return makeUgen('SetBuf', 1, rateIr, 0, arrayConcat([buf, offset, length], (asArray(array))));
 }
 // Set-reset flip flop.
 function SetResetFF(trig, reset) {
@@ -1780,7 +1780,7 @@ function RandN(numChan, lo, hi) {
 }
 // (Undocumented class)
 function TScramble(trigger, inputs) {
-    return makeUgen('TScramble', arrayLength(arrayAsArray(inputs)), [0], 0, arrayConcat([trigger], (arrayAsArray(inputs))));
+    return makeUgen('TScramble', arrayLength(asArray(inputs)), [0], 0, arrayConcat([trigger], (asArray(inputs))));
 }
 // (Undocumented class)
 function DX7(bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc) {
@@ -1808,7 +1808,7 @@ function SvfLp(input, freq, q) {
 }
 // (Undocumented class)
 function Bezier(haltAfter, dx, freq, phase, param) {
-    return makeUgen('Bezier', 1, rateAr, 0, arrayConcat([haltAfter, dx, freq, phase], (arrayAsArray(param))));
+    return makeUgen('Bezier', 1, rateAr, 0, arrayConcat([haltAfter, dx, freq, phase], (asArray(param))));
 }
 // (Undocumented class)
 function Freezer(bufnum, left, right, gain, increment, incrementOffset, incrementRandom, rightRandom, syncPhaseTrigger, randomizePhaseTrigger, numberOfLoops) {
@@ -1961,7 +1961,7 @@ var sc3_buffer_cache = {};
 var sc3_buffer_next = 100;
 // Fetch buffer index from cache, allocate and load if required.  Resolve soundFileId against dictionary.
 function SfAcquire(urlOrKey, numberOfChannels, channelSelector) {
-    var channelIndices = arrayAsArray(channelSelector);
+    var channelIndices = asArray(channelSelector);
     var soundFileUrl = sc3_buffer_dict[urlOrKey] || urlOrKey;
     var cacheValue = sc3_buffer_cache[soundFileUrl];
     if (!cacheValue) {
@@ -2090,14 +2090,14 @@ function ugenTraverseCollecting(p, c, w) {
         consoleDebug('ugenTraverseCollecting: array', p);
         arrayForEach(p, item => ugenTraverseCollecting(item, c, w));
     }
-    else if (isUgenOutput(p)) {
-        var pUgenOutput = p;
-        var mrgArray = queueAsArray(pUgenOutput.ugen.mrg);
-        consoleDebug('ugenTraverseCollecting: port', pUgenOutput);
-        if (!setIncludes(w, pUgenOutput.ugen)) {
-            setPut(c, pUgenOutput.ugen);
-            arrayForEach(pUgenOutput.ugen.inputValues, item => isNumber(item) ? setPut(c, item) : ugenTraverseCollecting(item, c, w));
-            arrayForEach(mrgArray, item => isNumber(item) ? setPut(c, item) : ugenTraverseCollecting(item, c, c));
+    else if (isUgen(p)) {
+        var pUgen = p;
+        var mrgArray = setAsArray(pUgen.scUgen.mrg);
+        consoleDebug('ugenTraverseCollecting: port', pUgen);
+        if (!setIncludes(w, pUgen.scUgen)) {
+            setAdd(c, pUgen.scUgen);
+            arrayForEach(pUgen.scUgen.inputValues, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, w));
+            arrayForEach(mrgArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
         }
     }
     else {
@@ -2111,7 +2111,7 @@ function ugenGraphLeafNodes(p) {
     return setAsArray(c);
 }
 function ugenCompare(i, j) {
-    return i.ugenId - j.ugenId;
+    return i.id - j.id;
 }
 // This should check that signal is not a tree of numbers...
 function signalToUgenGraph(signal) {
@@ -2121,11 +2121,11 @@ function signalToUgenGraph(signal) {
 function makeGraph(name, signal) {
     var graph = signalToUgenGraph(signal);
     var leafNodes = ugenGraphLeafNodes(graph);
-    var ugens = arraySort(arrayFilter(leafNodes, isUgenPrimitive), ugenCompare);
+    var ugens = arraySort(arrayFilter(leafNodes, isScUgen), ugenCompare);
     var constants = arrayFilter(leafNodes, isNumber);
-    var numLocalBufs = arrayLength(arrayFilter(ugens, item => item.ugenName === 'LocalBuf'));
+    var numLocalBufs = arrayLength(arrayFilter(ugens, item => item.name === 'LocalBuf'));
     var MaxLocalBufs = function (count) {
-        return makeUgenPrimitive('MaxLocalBufs', 1, rateIr, 0, [count]);
+        return makeScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
     };
     return {
         graphName: name,
@@ -2136,14 +2136,14 @@ function makeGraph(name, signal) {
 function graphConstantIndex(graph, constantValue) {
     return arrayIndexOf(graph.constantSeq, constantValue);
 }
-// lookup ugen index at graph given ugenId
-function graphUgenIndex(graph, ugenId) {
-    return arrayFindIndex(graph.ugenSeq, ugen => ugen.ugenId === ugenId);
+// lookup ugen index at graph given ugen id
+function graphUgenIndex(graph, id) {
+    return arrayFindIndex(graph.ugenSeq, ugen => ugen.id === id);
 }
 function graphUgenInputSpec(graph, input) {
-    if (isUgenOutput(input)) {
-        var port = input;
-        return [graphUgenIndex(graph, port.ugen.ugenId), port.index];
+    if (isUgen(input)) {
+        var ugen = input;
+        return [graphUgenIndex(graph, ugen.scUgen.id), ugen.port];
     }
     else {
         return [-1, graphConstantIndex(graph, input)];
@@ -2152,13 +2152,13 @@ function graphUgenInputSpec(graph, input) {
 var SCgf = Number(1396926310);
 function graphEncodeUgenSpec(graph, ugen) {
     return [
-        encodePascalString(ugen.ugenName),
-        encodeInt8(ugen.ugenRate),
+        encodePascalString(ugen.name),
+        encodeInt8(ugen.rate),
         encodeInt32(arrayLength(ugen.inputValues)),
         encodeInt32(ugen.numChan),
         encodeInt16(ugen.specialIndex),
         arrayMap(ugen.inputValues, input => arrayMap(graphUgenInputSpec(graph, input), index => encodeInt32(index))),
-        arrayReplicate(ugen.numChan, encodeInt8(ugen.ugenRate))
+        arrayReplicate(ugen.numChan, encodeInt8(ugen.rate))
     ];
 }
 function graphEncodeSyndef(graph) {
@@ -2178,7 +2178,7 @@ function graphEncodeSyndef(graph) {
 }
 // sc3-graph-print.ts
 function graphPrintUgenSpec(graph, ugen) {
-    consoleLog(ugen.ugenName, ugen.ugenRate, arrayLength(ugen.inputValues), ugen.numChan, ugen.specialIndex, arrayMap(ugen.inputValues, input => graphUgenInputSpec(graph, input)), arrayReplicate(ugen.numChan, ugen.ugenRate));
+    consoleLog(ugen.name, ugen.rate, arrayLength(ugen.inputValues), ugen.numChan, ugen.specialIndex, arrayMap(ugen.inputValues, input => graphUgenInputSpec(graph, input)), arrayReplicate(ugen.numChan, ugen.rate));
 }
 function graphPrintSyndef(graph) {
     console.log(SCgf, 2, 1, graph.graphName, arrayLength(graph.constantSeq), graph.constantSeq, 0, [], 0, [], arrayLength(graph.ugenSeq));
@@ -2190,10 +2190,10 @@ function printSyndefOf(ugen) {
     graphPrintSyndef(graph);
 }
 function graphInputDisplayName(graph, input) {
-    if (isUgenOutput(input)) {
-        var id = String(graphUgenIndex(graph, input.ugen.ugenId));
-        var nm = ugenDisplayName(input.ugen);
-        var ix = input.ugen.numChan > 1 ? ('[' + String(input.index) + ']') : '';
+    if (isUgen(input)) {
+        var id = String(graphUgenIndex(graph, input.scUgen.id));
+        var nm = ugenDisplayName(input.scUgen);
+        var ix = input.scUgen.numChan > 1 ? ('[' + String(input.port) + ']') : '';
         return id + '_' + nm + ix;
     }
     else if (isNumber(input)) {
@@ -2205,7 +2205,7 @@ function graphInputDisplayName(graph, input) {
     }
 }
 function graphPrettyPrintUgen(graph, ugen) {
-    console.log(graphUgenIndex(graph, ugen.ugenId) + '_' + ugenDisplayName(ugen), rateSelector(ugen.ugenRate), '[' + String(arrayMap(ugen.inputValues, input => graphInputDisplayName(graph, input))) + ']');
+    console.log(graphUgenIndex(graph, ugen.id) + '_' + ugenDisplayName(ugen), rateSelector(ugen.rate), '[' + String(arrayMap(ugen.inputValues, input => graphInputDisplayName(graph, input))) + ']');
 }
 function graphPrettyPrintSyndef(graph) {
     arrayForEach(graph.ugenSeq, item => graphPrettyPrintUgen(graph, item));
@@ -2312,7 +2312,7 @@ function pointerMouseY(minval, maxval, warp, lag) {
 function pointerMouseButton(minval, maxval, lag) {
     return LinLin(Lag(PointerW(0), lag), 0, 1, minval, maxval);
 }
-// sc3-pseudo.ts ; requries:  sc3-envelope sc3-ugen
+// sc3-pseudo.ts
 // wrapOut(0, mul(SinOsc(440, 0), 0.1))
 function wrapOut(bus, ugen) {
     return isOutUgen(ugen) ? ugen : Out(bus, ugen);
@@ -2454,16 +2454,16 @@ function ControlIn(numChan, bus) {
     return kr(In(numChan, bus));
 }
 function SfFrames(sfBufferArray) {
-    return BufFrames(arrayFirst(arrayAsArray(sfBufferArray)));
+    return BufFrames(arrayFirst(asArray(sfBufferArray)));
 }
 function SfDur(sfBufferArray) {
-    return BufDur(arrayFirst(arrayAsArray(sfBufferArray)));
+    return BufDur(arrayFirst(asArray(sfBufferArray)));
 }
 function SfSampleRate(sfBufferArray) {
-    return BufSampleRate(arrayFirst(arrayAsArray(sfBufferArray)));
+    return BufSampleRate(arrayFirst(asArray(sfBufferArray)));
 }
 function SfRateScale(sfBufferArray) {
-    return BufRateScale(arrayFirst(arrayAsArray(sfBufferArray)));
+    return BufRateScale(arrayFirst(asArray(sfBufferArray)));
 }
 function SfRead(sfBufferArray, phase, loop, interpolation) {
     return BufRd(1, sfBufferArray, phase, loop, interpolation);
@@ -2768,36 +2768,37 @@ function flattenByteEncoding(aTree) {
 }
 // sc3-ugen.ts
 var ugenCounter = counterNew();
-function makeUgenPrimitive(name, numChan, rate, specialIndex, inputArray) {
+function makeScUgen(name, numChan, rate, specialIndex, inputArray) {
     return {
-        ugenName: name,
+        name: name,
         numChan: numChan,
-        ugenRate: rate,
+        rate: rate,
         specialIndex: specialIndex,
-        ugenId: ugenCounter(),
+        id: ugenCounter(),
         inputValues: inputArray,
-        mrg: queueNew()
+        mrg: setNew()
     };
 }
-function isUgenPrimitive(obj) {
-    return obj && obj.ugenName !== undefined;
+function isScUgen(obj) {
+    return obj && dictionaryHasKey(obj, 'specialIndex') && dictionaryHasKey(obj, 'mrg'); // ...
 }
-// Ugens with no outputs, such as Out, set index to -1.
-function UgenOutput(ugen, index) {
+// Ugens with no outputs, such as Out, set port to -1.
+var nilPort = -1;
+function Ugen(scUgen, port) {
     return {
-        ugen: ugen,
-        index: index
+        scUgen: scUgen,
+        port: port
     };
 }
-function isUgenOutput(obj) {
-    return obj && dictionaryHasKey(obj, 'ugen') && dictionaryHasKey(obj, 'index');
+function isUgen(obj) {
+    return obj && dictionaryHasKey(obj, 'scUgen') && dictionaryHasKey(obj, 'port');
 }
 function isUgenInput(aValue) {
-    return isNumber(aValue) || isUgenOutput(aValue);
+    return isNumber(aValue) || isUgen(aValue);
 }
-function inputBranch(input, onUgenOutput, onNumber, onError) {
-    if (isUgenOutput(input)) {
-        return onUgenOutput(input);
+function inputBranch(input, onUgen, onNumber, onError) {
+    if (isUgen(input)) {
+        return onUgen(input);
     }
     else if (isNumber(input)) {
         return onNumber(input);
@@ -2809,7 +2810,7 @@ function inputBranch(input, onUgenOutput, onNumber, onError) {
 }
 function inputRate(input) {
     consoleDebug('inputRate', input);
-    return inputBranch(input, port => port.ugen.ugenRate, unusedNumber => rateIr, () => -1);
+    return inputBranch(input, port => port.scUgen.rate, unusedNumber => rateIr, () => -1);
 }
 // If scalar it is the operating rate, if an array it is indices into the inputs telling how to derive the rate.
 function deriveRate(rateOrFilterUgenInputs, inputArray) {
@@ -2834,19 +2835,19 @@ function makeUgen(name, numChan, rateSpec, specialIndex, signalArray) {
     }
     else {
         var inputArray = signalArray;
-        var ugenPrimitive = makeUgenPrimitive(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
+        var scUgen = makeScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
         switch (numChan) {
-            case 0: return (UgenOutput(ugenPrimitive, -1));
-            case 1: return (UgenOutput(ugenPrimitive, 0));
-            default: return arrayFillWithIndex(numChan, item => UgenOutput(ugenPrimitive, item));
+            case 0: return (Ugen(scUgen, nilPort));
+            case 1: return (Ugen(scUgen, 0));
+            default: return arrayFillWithIndex(numChan, item => Ugen(scUgen, item));
         }
     }
 }
 function ugenDisplayName(ugen) {
-    switch (ugen.ugenName) {
+    switch (ugen.name) {
         case 'UnaryOpUGen': return unaryOperatorName(ugen.specialIndex);
         case 'BinaryOpUGen': return binaryOperatorName(ugen.specialIndex);
-        default: return ugen.ugenName;
+        default: return ugen.name;
     }
 }
 // Mrg
@@ -2854,11 +2855,11 @@ function ugenDisplayName(ugen) {
 function inputFirstUgen(input) {
     if (Array.isArray(input)) {
         consoleDebug('inputFirstUgen: array', input);
-        return arrayFind(arrayMap(input, inputFirstUgen), isUgenPrimitive) || null;
+        return arrayFind(arrayMap(input, inputFirstUgen), isScUgen) || null;
     }
-    else if (isUgenOutput(input)) {
+    else if (isUgen(input)) {
         consoleDebug('inputFirstUgen: port', input);
-        return input.ugen;
+        return input.scUgen;
     }
     else {
         consoleDebug('inputFirstUgen: number?', input);
@@ -2870,11 +2871,11 @@ function mrg(lhs, rhs) {
     consoleDebug('mrg', lhs, rhs, ugen);
     if (ugen && ugen.mrg) {
         if (Array.isArray(rhs)) {
-            var mrgQueue = (ugen.mrg);
-            arrayForEach(rhs, item => queuePush(mrgQueue, item));
+            var mrgSet = (ugen.mrg);
+            arrayForEach(rhs, item => setAdd(mrgSet, item));
         }
         else {
-            queuePush(ugen.mrg, rhs);
+            setAdd(ugen.mrg, rhs);
         }
     }
     else {
@@ -2884,15 +2885,17 @@ function mrg(lhs, rhs) {
 }
 // Kr
 function krMutateInPlace(input) {
-    if (isUgenOutput(input)) {
+    if (isUgen(input)) {
         var inputPort = input;
         consoleDebug('kr: port', inputPort);
-        krMutateInPlace(inputPort.ugen);
+        krMutateInPlace(inputPort.scUgen);
     }
-    else if (isUgenPrimitive(input)) {
+    else if (isScUgen(input)) {
         var inputUgen = input;
         consoleDebug('kr: ugen', inputUgen);
-        inputUgen.ugenRate = inputUgen.ugenRate === rateAr ? rateKr : inputUgen.ugenRate;
+        if (inputUgen.rate === rateAr) {
+            inputUgen.rate = rateKr;
+        }
         arrayForEach(inputUgen.inputValues, item => krMutateInPlace(item));
     }
     else if (Array.isArray(input)) {
@@ -2956,7 +2959,7 @@ function BinaryOpWithConstantOptimiser(specialIndex, lhs, rhs) {
 }
 function BinaryOp(specialIndex, lhs, rhs) {
     if (Array.isArray(lhs) || Array.isArray(rhs)) {
-        var expanded = mceInputTransform([arrayAsArray(lhs), arrayAsArray(rhs)]);
+        var expanded = mceInputTransform([asArray(lhs), asArray(rhs)]);
         consoleDebug('BinaryOp: array constant', expanded);
         return arrayMap(expanded, item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]));
     }
@@ -2966,7 +2969,7 @@ function BinaryOp(specialIndex, lhs, rhs) {
 }
 // isOutUgen(Out(0, mul(SinOsc(440, 0), 0.1)))
 function isOutUgen(aValue) {
-    return isUgenOutput(aValue) && aValue.ugen.ugenName == 'Out';
+    return isUgen(aValue) && aValue.scUgen.name == 'Out';
 }
 // isControlRateUgen(MouseX(0, 1, 0, 0.2))
 function isControlRateUgen(aValue) {

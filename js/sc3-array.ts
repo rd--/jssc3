@@ -4,6 +4,11 @@ export function isArray(aValue: (aValue: any) => boolean) {
     return Array.isArray(aValue);
 }
 
+// [1, [1, 2]].map(asArray) //= [[1], [1, 2]]
+export function asArray(maybeArray: any): any[] {
+    return Array.isArray(maybeArray) ? maybeArray: [maybeArray];
+}
+
 export function arrayNew(size: number): any[] {
     return new Array(size);
 }
@@ -11,11 +16,6 @@ export function arrayNew(size: number): any[] {
 // arrayAppend([1, 2, 3], [4, 5]) //=> [1, 2, 3, 4, 5]
 export function arrayAppend(lhs: any[], rhs: any[]): any[] {
     return lhs.concat(rhs);
-}
-
-// [1, [1, 2]].map(arrayAsArray) //= [[1], [1, 2]]
-export function arrayAsArray(maybeArray: any): any[] {
-    return Array.isArray(maybeArray) ? maybeArray: [maybeArray];
 }
 
 // arrayAt([1, 2, 3, 4], 3) === 4
