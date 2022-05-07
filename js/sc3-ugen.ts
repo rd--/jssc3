@@ -31,14 +31,14 @@ export type UgenInput = number | UgenOutput;
 
 export type Signal = Tree<UgenInput>;
 
-export function makeUgenPrimitive(name: string, numChan: number, rate: number, specialIndex: number, inputs: UgenInput[]): UgenPrimitive {
+export function makeUgenPrimitive(name: string, numChan: number, rate: number, specialIndex: number, inputArray: UgenInput[]): UgenPrimitive {
     return {
         ugenName: name,
         numChan: numChan,
         ugenRate: rate,
         specialIndex: specialIndex,
         ugenId: ugenCounter(),
-        inputValues: inputs,
+        inputValues: inputArray,
         mrg: queueNew()
     };
 }
@@ -82,12 +82,12 @@ export function inputRate(input: UgenInput): number {
 export type RateSpec = number | number[];
 
 // If scalar it is the operating rate, if an array it is indices into the inputs telling how to derive the rate.
-export function deriveRate(rateOrFilterUgenInputs: RateSpec, inputsArray: UgenInput[]): number {
-    consoleDebug('deriveRate', rateOrFilterUgenInputs, inputsArray);
+export function deriveRate(rateOrFilterUgenInputs: RateSpec, inputArray: UgenInput[]): number {
+    consoleDebug('deriveRate', rateOrFilterUgenInputs, inputArray);
     if(isNumber(rateOrFilterUgenInputs)) {
         return <number>rateOrFilterUgenInputs;
     } else {
-        return arrayMaxItem(arrayMap(arrayAtIndices(inputsArray, <number[]>rateOrFilterUgenInputs), inputRate));
+        return arrayMaxItem(arrayMap(arrayAtIndices(inputArray, <number[]>rateOrFilterUgenInputs), inputRate));
     }
 }
 
@@ -99,12 +99,12 @@ export function mceInputTransform(aSignal: Signal[]): Signal[] {
     return arrayTranspose(arrayExtendToBeOfEqualSize(<any[][]>aSignal));
 }
 
-export function makeUgen(name: string, numChan: number, rateSpec: RateSpec, specialIndex: number, inputs: Signal[]): Signal {
-    consoleDebug('makeUgen', name, numChan, rateSpec, specialIndex, inputs);
-    if(requiresMce(inputs)) {
-        return arrayMap(mceInputTransform(inputs), item => makeUgen(name, numChan, rateSpec, specialIndex, item));
+export function makeUgen(name: string, numChan: number, rateSpec: RateSpec, specialIndex: number, signalArray: Signal[]): Signal {
+    consoleDebug('makeUgen', name, numChan, rateSpec, specialIndex, signalArray);
+    if(requiresMce(signalArray)) {
+        return arrayMap(mceInputTransform(signalArray), item => makeUgen(name, numChan, rateSpec, specialIndex, item));
     } else {
-        var inputArray = <UgenInput[]>inputs;
+        var inputArray = <UgenInput[]>signalArray;
         var ugenPrimitive = makeUgenPrimitive(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
         switch(numChan) {
             case 0: return (UgenOutput(ugenPrimitive, -1));

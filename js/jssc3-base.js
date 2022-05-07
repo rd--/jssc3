@@ -2768,14 +2768,14 @@ function flattenByteEncoding(aTree) {
 }
 // sc3-ugen.ts
 var ugenCounter = counterNew();
-function makeUgenPrimitive(name, numChan, rate, specialIndex, inputs) {
+function makeUgenPrimitive(name, numChan, rate, specialIndex, inputArray) {
     return {
         ugenName: name,
         numChan: numChan,
         ugenRate: rate,
         specialIndex: specialIndex,
         ugenId: ugenCounter(),
-        inputValues: inputs,
+        inputValues: inputArray,
         mrg: queueNew()
     };
 }
@@ -2812,13 +2812,13 @@ function inputRate(input) {
     return inputBranch(input, port => port.ugen.ugenRate, unusedNumber => rateIr, () => -1);
 }
 // If scalar it is the operating rate, if an array it is indices into the inputs telling how to derive the rate.
-function deriveRate(rateOrFilterUgenInputs, inputsArray) {
-    consoleDebug('deriveRate', rateOrFilterUgenInputs, inputsArray);
+function deriveRate(rateOrFilterUgenInputs, inputArray) {
+    consoleDebug('deriveRate', rateOrFilterUgenInputs, inputArray);
     if (isNumber(rateOrFilterUgenInputs)) {
         return rateOrFilterUgenInputs;
     }
     else {
-        return arrayMaxItem(arrayMap(arrayAtIndices(inputsArray, rateOrFilterUgenInputs), inputRate));
+        return arrayMaxItem(arrayMap(arrayAtIndices(inputArray, rateOrFilterUgenInputs), inputRate));
     }
 }
 function requiresMce(inputs) {
@@ -2827,13 +2827,13 @@ function requiresMce(inputs) {
 function mceInputTransform(aSignal) {
     return arrayTranspose(arrayExtendToBeOfEqualSize(aSignal));
 }
-function makeUgen(name, numChan, rateSpec, specialIndex, inputs) {
-    consoleDebug('makeUgen', name, numChan, rateSpec, specialIndex, inputs);
-    if (requiresMce(inputs)) {
-        return arrayMap(mceInputTransform(inputs), item => makeUgen(name, numChan, rateSpec, specialIndex, item));
+function makeUgen(name, numChan, rateSpec, specialIndex, signalArray) {
+    consoleDebug('makeUgen', name, numChan, rateSpec, specialIndex, signalArray);
+    if (requiresMce(signalArray)) {
+        return arrayMap(mceInputTransform(signalArray), item => makeUgen(name, numChan, rateSpec, specialIndex, item));
     }
     else {
-        var inputArray = inputs;
+        var inputArray = signalArray;
         var ugenPrimitive = makeUgenPrimitive(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
         switch (numChan) {
             case 0: return (UgenOutput(ugenPrimitive, -1));
