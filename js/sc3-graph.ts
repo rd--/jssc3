@@ -8,7 +8,7 @@ import { rateIr } from './sc3-rate.js'
 import { setIncludes, setNew, setAdd, setAsArray } from './sc3-set.js'
 import { Tree } from './sc3-tree.js'
 import { flattenByteEncoding } from './sc3-u8.js'
-import { UgenInput, Ugen, ScUgen, Signal, isUgen, isScUgen, ScUgen } from './sc3-ugen.js'
+import { UgenInput, Ugen, ScUgen, scUgenCompare, Signal, isUgen, isScUgen, ScUgen } from './sc3-ugen.js'
 
 // traverse graph from p adding leaf nodes to the set c
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
@@ -30,19 +30,14 @@ export function ugenTraverseCollecting(p: Tree<Ugen>, c: Set<number | ScUgen>, w
     }
 }
 
-// all leaf nodes of p
 export function ugenGraphLeafNodes(p: Tree<Ugen>): Array<number | ScUgen> {
     var c = setNew();
     ugenTraverseCollecting(p, c, setNew());
     return setAsArray(c);
 }
 
-export function ugenCompare(i: ScUgen, j: ScUgen): number {
-    return i.id - j.id;
-}
-
 export type Graph = {
-    graphName: string,
+    name: string,
     ugenSeq: ScUgen[],
     constantSeq: number[]
 };
@@ -56,14 +51,14 @@ export function signalToUgenGraph(signal: Signal): Tree<Ugen> {
 export function makeGraph(name: string, signal: Signal): Graph {
     var graph = signalToUgenGraph(signal);
     var leafNodes = ugenGraphLeafNodes(graph);
-    var ugens = arraySort(arrayFilter(leafNodes, isScUgen), ugenCompare);
+    var ugens = arraySort(arrayFilter(leafNodes, isScUgen), scUgenCompare);
     var constants = arrayFilter(leafNodes, isNumber);
     var numLocalBufs = arrayLength(arrayFilter(ugens, item => item.name === 'LocalBuf'));
     var MaxLocalBufs = function(count: number): ScUgen {
         return ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
     };
     return {
-        graphName: name,
+        name: name,
         ugenSeq: arrayAppend([MaxLocalBufs(numLocalBufs)], ugens),
         constantSeq: arraySort(arrayNub(arrayAppend([numLocalBufs], constants)), (i, j) => i - j)
     };
@@ -73,7 +68,6 @@ export function graphConstantIndex(graph: Graph, constantValue: number): number 
     return arrayIndexOf(graph.constantSeq, constantValue);
 }
 
-// lookup ugen index at graph given ugen id
 export function graphUgenIndex(graph: Graph, id: number): number {
     return arrayFindIndex(graph.ugenSeq, ugen => ugen.id === id);
 }
@@ -106,7 +100,7 @@ export function graphEncodeSyndef(graph: Graph): Uint8Array {
         encodeInt32(SCgf),
         encodeInt32(2), // file version
         encodeInt16(1), // # synth definitions
-        encodePascalString(graph.graphName), // pstring
+        encodePascalString(graph.name), // pstring
         encodeInt32(arrayLength(graph.constantSeq)),
         arrayMap(graph.constantSeq, item => encodeFloat32(item)),
         encodeInt32(0), // # param

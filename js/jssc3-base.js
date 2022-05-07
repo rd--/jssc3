@@ -2104,14 +2104,10 @@ function ugenTraverseCollecting(p, c, w) {
         console.error('ugenTraverseCollecting', p, c, w);
     }
 }
-// all leaf nodes of p
 function ugenGraphLeafNodes(p) {
     var c = setNew();
     ugenTraverseCollecting(p, c, setNew());
     return setAsArray(c);
-}
-function ugenCompare(i, j) {
-    return i.id - j.id;
 }
 // This should check that signal is not a tree of numbers...
 function signalToUgenGraph(signal) {
@@ -2121,14 +2117,14 @@ function signalToUgenGraph(signal) {
 function makeGraph(name, signal) {
     var graph = signalToUgenGraph(signal);
     var leafNodes = ugenGraphLeafNodes(graph);
-    var ugens = arraySort(arrayFilter(leafNodes, isScUgen), ugenCompare);
+    var ugens = arraySort(arrayFilter(leafNodes, isScUgen), scUgenCompare);
     var constants = arrayFilter(leafNodes, isNumber);
     var numLocalBufs = arrayLength(arrayFilter(ugens, item => item.name === 'LocalBuf'));
     var MaxLocalBufs = function (count) {
         return ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
     };
     return {
-        graphName: name,
+        name: name,
         ugenSeq: arrayAppend([MaxLocalBufs(numLocalBufs)], ugens),
         constantSeq: arraySort(arrayNub(arrayAppend([numLocalBufs], constants)), (i, j) => i - j)
     };
@@ -2136,7 +2132,6 @@ function makeGraph(name, signal) {
 function graphConstantIndex(graph, constantValue) {
     return arrayIndexOf(graph.constantSeq, constantValue);
 }
-// lookup ugen index at graph given ugen id
 function graphUgenIndex(graph, id) {
     return arrayFindIndex(graph.ugenSeq, ugen => ugen.id === id);
 }
@@ -2166,7 +2161,7 @@ function graphEncodeSyndef(graph) {
         encodeInt32(SCgf),
         encodeInt32(2),
         encodeInt16(1),
-        encodePascalString(graph.graphName),
+        encodePascalString(graph.name),
         encodeInt32(arrayLength(graph.constantSeq)),
         arrayMap(graph.constantSeq, item => encodeFloat32(item)),
         encodeInt32(0),
@@ -2181,7 +2176,7 @@ function graphPrintUgenSpec(graph, ugen) {
     consoleLog(ugen.name, ugen.rate, arrayLength(ugen.inputArray), ugen.numChan, ugen.specialIndex, arrayMap(ugen.inputArray, input => graphUgenInputSpec(graph, input)), arrayReplicate(ugen.numChan, ugen.rate));
 }
 function graphPrintSyndef(graph) {
-    console.log(SCgf, 2, 1, graph.graphName, arrayLength(graph.constantSeq), graph.constantSeq, 0, [], 0, [], arrayLength(graph.ugenSeq));
+    console.log(SCgf, 2, 1, graph.name, arrayLength(graph.constantSeq), graph.constantSeq, 0, [], 0, [], arrayLength(graph.ugenSeq));
     arrayForEach(graph.ugenSeq, item => graphPrintUgenSpec(graph, item));
     console.log(0, []);
 }
@@ -2781,6 +2776,9 @@ function ScUgen(name, numChan, rate, specialIndex, inputArray) {
 }
 function isScUgen(obj) {
     return obj && dictionaryHasKey(obj, 'specialIndex') && dictionaryHasKey(obj, 'mrg'); // ...
+}
+function scUgenCompare(i, j) {
+    return i.id - j.id;
 }
 // Ugens with no outputs, such as Out, set port to -1.
 var nilPort = -1;

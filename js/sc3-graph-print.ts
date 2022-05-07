@@ -21,7 +21,7 @@ function graphPrintUgenSpec(graph: Graph, ugen: ScUgen): void {
 }
 
 function graphPrintSyndef(graph: Graph): void {
-    console.log(SCgf, 2, 1, graph.graphName, arrayLength(graph.constantSeq), graph.constantSeq, 0, [], 0, [], arrayLength(graph.ugenSeq));
+    console.log(SCgf, 2, 1, graph.name, arrayLength(graph.constantSeq), graph.constantSeq, 0, [], 0, [], arrayLength(graph.ugenSeq));
     arrayForEach(graph.ugenSeq, item => graphPrintUgenSpec(graph, item));
     console.log(0, []);
 }

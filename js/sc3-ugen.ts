@@ -47,6 +47,10 @@ export function isScUgen(obj: any): boolean {
     return obj && dictionaryHasKey(obj, 'specialIndex') && dictionaryHasKey(obj, 'mrg'); // ...
 }
 
+export function scUgenCompare(i: ScUgen, j: ScUgen): number {
+    return i.id - j.id;
+}
+
 // Ugens with no outputs, such as Out, set port to -1.
 export var nilPort = -1;
 
