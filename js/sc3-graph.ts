@@ -97,7 +97,7 @@ export function graphEncodeUgenSpec(graph: Graph, ugen: ScUgen): Tree<Uint8Array
 
 export function graphEncodeSyndef(graph: Graph): Uint8Array {
     return flattenByteEncoding([
-        encodeInt32(SCgf),
+        encodeInt32(SCgf), // magic number
         encodeInt32(2), // file version
         encodeInt16(1), // # synth definitions
         encodePascalString(graph.name), // pstring

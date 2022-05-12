@@ -1,0 +1,4 @@
+Allow symlinks to local trees for local use.
+
+git submodule deinit -f scsynth-wasm-builds/
+git submodule deinit -f stsc3/
