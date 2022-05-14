@@ -69,3 +69,25 @@ The file _sc3-obj.js_ (and related files) has a sketch for this.
 Another approach is to translate _p.q(r...)_ as _performWithArguments(p, 'q', r...)_.
 This would allow dispatching on the type of _p_ and can be translated to scheme.
 The file _sc3-perform.js_ has a sketch for this.
+
+# Smalltalk in Js
+
+[Squeak.js](https://squeak.js.org/) is an implementation of the Squeak virtual machine in Js.
+It can run most Squeak images.
+The _Mini Squeak 2.2_ image is very elegant and very fast.
+It can also run images without the user interface.
+It should be possible to arrange to send text from Js to St for evaluation, and to retrieve the answer.
+
+[JsSom](https://github.com/SOM-st/JsSOM) is an implementation of the Simple Object Model in Js.
+It could be modified to more handle primitives in the Smalltalk manner,
+and a subset of the St-80 class library could be printed as Som classes.
+
+Js could be used directly to model a simple Smalltalk system.
+The printer would need to rewrite names to avoid reserved words,
+to qualify references to instance and class variables, and
+to implement non-local returns as exceptions.
+
+The [Gnu Smalltalk](https://www.gnu.org/software/smalltalk/) interpreter is written in C and could possibly be compiled using Emscripten.
+
+[Squeak](https://squeak.org/) implements a web server.
+It's very simple to set up an evaluator.

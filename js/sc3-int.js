@@ -12,7 +12,6 @@ class Int extends Num {
         return aValue.performWithInt(aSelector, this);
     }
     adaptToFloatAndSend(aValue, aSelector) {
-        console.log('Int>>adaptToFloatAndSend', this, aValue, aSelector);
         return aValue.performWithFloat(aSelector, this.asFloat());
     }
     asFloat() {
