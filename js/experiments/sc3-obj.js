@@ -15,9 +15,6 @@ class Obj {
     isDictionary() {
         return new Bool(true);
     }
-    isEmpty() {
-        return this.size().isZero();
-    }
     isFloat() {
         return new Bool(false);
     }
