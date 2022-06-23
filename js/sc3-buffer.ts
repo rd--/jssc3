@@ -30,7 +30,7 @@ export function fetch_soundfile_to_scsynth_buffer(soundFileUrl: string, numberOf
     });
 }
 
-// Fetch single channels of sound file data to mono ssynth buffers.  The channel numbers are one-indexed.
+// Fetch single channels of sound file data to mono scsynth buffers.  The channel numbers are one-indexed.
 export function fetch_soundfile_channels_to_scsynth_buffers(soundFileUrl: string, bufferNumbers: number[], channelIndices: number[]): void {
     fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, function (audioBuffer) {
         for(var i = 0; i < bufferNumbers.length; i++) {
