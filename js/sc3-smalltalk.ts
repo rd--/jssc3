@@ -33,14 +33,14 @@ export function truncateTo(a: Signal, b: Signal): Signal { return trunc(a, b); }
 
 export function rand(min: number, max: number): number { return randomFloat(min, max); }
 export function rand2(n: number): number { return randomFloat(0 - n, n); }
-export function timesRepeat(count: number, proc: (aValue: void) => void): void { return numberTimesRepeat(count, proc) };
+export function timesRepeat(count: number, proc: (aValue: void) => void): void { return numberTimesRepeat(count, proc) }
 export function to(from: number, to: number): number[] { return arrayFromTo(from, to); }
 
 export function dup(proc: (aValue: void) => any, count?: number): any[] {
-    return arrayFill(nullFix('dup: count?', count, 2), proc);
+	return arrayFill(nullFix('dup: count?', count, 2), proc);
 }
 export function value(proc: (p1?: any, p2?: any) => any, maybeArg1?: any, maybeArg2?: any): any {
-    return maybeArg2 ? proc(maybeArg1, maybeArg2) : (maybeArg1 ? proc(maybeArg1) : proc());
+	return maybeArg2 ? proc(maybeArg1, maybeArg2) : (maybeArg1 ? proc(maybeArg1) : proc());
 }
 
 export function coord(anEnvelope: Dictionary): Signal[] { return envCoord(anEnvelope); }

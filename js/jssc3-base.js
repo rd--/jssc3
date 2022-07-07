@@ -1935,7 +1935,7 @@ function fetch_soundfile_to_scsynth_buffer(soundFileUrl, numberOfChannels, buffe
         }
     });
 }
-// Fetch single channels of sound file data to mono ssynth buffers.  The channel numbers are one-indexed.
+// Fetch single channels of sound file data to mono scsynth buffers.  The channel numbers are one-indexed.
 function fetch_soundfile_channels_to_scsynth_buffers(soundFileUrl, bufferNumbers, channelIndices) {
     fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, function (audioBuffer) {
         for (var i = 0; i < bufferNumbers.length; i++) {
@@ -2625,7 +2625,6 @@ function truncateTo(a, b) { return trunc(a, b); }
 function rand(min, max) { return randomFloat(min, max); }
 function rand2(n) { return randomFloat(0 - n, n); }
 function timesRepeat(count, proc) { return numberTimesRepeat(count, proc); }
-;
 function to(from, to) { return arrayFromTo(from, to); }
 function dup(proc, count) {
     return arrayFill(nullFix('dup: count?', count, 2), proc);
@@ -3106,94 +3105,94 @@ function reset() {
     sc3_websocket_send_osc(g_freeAll1(1));
 }
 function graph_load(graphDir, graphName, fileType) {
-    var graphFileName = 'help/' + graphDir + '/' + graphName + resolve_file_type(fileType);
-    var graphUrl = url_append_timestamp(graphFileName);
-    consoleLogMessageFrom('load_graph', graphName);
-    fetch_url_and_then(graphUrl, 'text', programText => editor_set_data(programText));
+	var graphFileName = 'help/' + graphDir + '/' + graphName + resolve_file_type(fileType);
+	var graphUrl = url_append_timestamp(graphFileName);
+	consoleLogMessageFrom('load_graph', graphName);
+	fetch_url_and_then(graphUrl, 'text', programText => editor_set_data(programText));
 }
 
 function graph_menu_init(menuId, graphDir, fileType, loadProc) {
-    var menu = document.getElementById(menuId);
-    if(menu) {
-        menu.addEventListener('change', e => e.target.value ? loadProc(graphDir, e.target.value, resolve_file_type(fileType)) : null);
-    } else {
-        consoleWarn('graph_menu_init: no element', menuId);
-    }
+	var menu = document.getElementById(menuId);
+	if(menu) {
+		menu.addEventListener('change', e => e.target.value ? loadProc(graphDir, e.target.value, resolve_file_type(fileType)) : null);
+	} else {
+		consoleWarn('graph_menu_init: no element', menuId);
+	}
 }
 
 // subDir should be empty or should end with a '/'
 function sc3_ui_init(subDir, hasProgramMenu, hasHelpMenu, hasGuideMenu, hasEssayMenu, fileExt, storageKey, loadProc, initMouse, hardwareBufferSize, blockSize) {
-    if(hasProgramMenu) {
-        graph_menu_init('programMenu', subDir + 'graph', fileExt, loadProc);
-        load_utf8_and_then('html/' + subDir + 'program-menu.html', setter_for_inner_html_of('programMenu'));
-    }
-    if(hasHelpMenu) {
-        graph_menu_init('helpMenu', subDir + 'ugen', fileExt, loadProc);
-        load_utf8_and_then('html/' + subDir + 'help-menu.html', setter_for_inner_html_of('helpMenu'));
-    }
-    if(hasGuideMenu) {
-        graph_menu_init('guideMenu', subDir + 'guide', fileExt, loadProc);
-        load_utf8_and_then('html/' + subDir + 'guide-menu.html', setter_for_inner_html_of('guideMenu'));
-    }
-    if(hasEssayMenu) {
-        graph_menu_init('essayMenu', subDir + 'essay', fileExt, loadProc);
-        load_utf8_and_then('html/' + subDir + 'essay-menu.html', setter_for_inner_html_of('essayMenu'));
-    }
-    user_storage_key = storageKey;
-    notation_format = '.stc';
-    user_program_menu_init(editor_set_data);
-    actions_menu_init(editor_get_selected_text, editor_set_data);
-    if(initMouse) {
-        sc3_mouse_init();
-    }
-    scsynth_options = {
-        hardwareBufferSize: hardwareBufferSize,
-        blockSize: blockSize,
-        numInputs: 0,
-        numOutputs: 2
-    };
+	if(hasProgramMenu) {
+		graph_menu_init('programMenu', subDir + 'graph', fileExt, loadProc);
+		load_utf8_and_then('html/' + subDir + 'program-menu.html', setter_for_inner_html_of('programMenu'));
+	}
+	if(hasHelpMenu) {
+		graph_menu_init('helpMenu', subDir + 'ugen', fileExt, loadProc);
+		load_utf8_and_then('html/' + subDir + 'help-menu.html', setter_for_inner_html_of('helpMenu'));
+	}
+	if(hasGuideMenu) {
+		graph_menu_init('guideMenu', subDir + 'guide', fileExt, loadProc);
+		load_utf8_and_then('html/' + subDir + 'guide-menu.html', setter_for_inner_html_of('guideMenu'));
+	}
+	if(hasEssayMenu) {
+		graph_menu_init('essayMenu', subDir + 'essay', fileExt, loadProc);
+		load_utf8_and_then('html/' + subDir + 'essay-menu.html', setter_for_inner_html_of('essayMenu'));
+	}
+	user_storage_key = storageKey;
+	notation_format = '.stc';
+	user_program_menu_init(editor_set_data);
+	actions_menu_init(editor_get_selected_text, editor_set_data);
+	if(initMouse) {
+		sc3_mouse_init();
+	}
+	scsynth_options = {
+		hardwareBufferSize: hardwareBufferSize,
+		blockSize: blockSize,
+		numInputs: 0,
+		numOutputs: 2
+	};
 }
 
 function setStatusDisplay(text) {
-    var status = document.getElementById('statusText');
-    if(status) {
-        statusText.innerHTML = text;
-    } else {
-        console.log(text);
-    }
+	var status = document.getElementById('statusText');
+	if(status) {
+		statusText.innerHTML = text;
+	} else {
+		console.log(text);
+	}
 }
 
 function prettyPrintSyndef() {
-    editor_get_js_notation_and_then(function(programText) {
-        prettyPrintSyndefOf(eval(programText));
-    });
+	editor_get_js_notation_and_then(function(programText) {
+		prettyPrintSyndefOf(eval(programText));
+	});
 }
 
 function evalJsProgram() {
-    editor_get_js_notation_and_then(function(programText) {
-        var result = eval(programText);
-        console.log(result);
-    });
+	editor_get_js_notation_and_then(function(programText) {
+		var result = eval(programText);
+		console.log(result);
+	});
 }
 
 function playJsProgram() {
-    editor_get_js_notation_and_then(function(programText) {
-        var result = eval(programText);
-        playUgen(result);
-    });
+	editor_get_js_notation_and_then(function(programText) {
+		var result = eval(programText);
+		playUgen(result);
+	});
 }
 
 // Sets the 's' url parameter of the window to the encoded form of the selected text.
 function set_url_to_encode_selection() {
-    window_url_set_param('s', editor_get_selected_text());
+	window_url_set_param('s', editor_get_selected_text());
 }
 
 function ui_boot_scsynth() {
-    bootScsynth(scsynth_options);
+	bootScsynth(scsynth_options);
 }
 
 function ui_save_program() {
-    user_program_save_to(editor_get_data());
+	user_program_save_to(editor_get_data());
 }
 // sc3-ui-mouse.js ; requires sc3-wasm
 
@@ -3202,15 +3201,15 @@ var sc3_mouse = { w: 0, x: 0, y: 0 };
 
 // Event handler for mouse event.
 function recv_document_mouse_event(e) {
-    sc3_mouse.x = event.pageX / window.innerWidth;
-    sc3_mouse.y = 1 - (e.pageY / window.innerHeight);
-    sc3_mouse.w = e.buttons === 1 ? 1 : 0;
-    setPointerControls(0, sc3_mouse.w, sc3_mouse.x, sc3_mouse.y); // sc3-wasm
+	sc3_mouse.x = event.pageX / window.innerWidth;
+	sc3_mouse.y = 1 - (e.pageY / window.innerHeight);
+	sc3_mouse.w = e.buttons === 1 ? 1 : 0;
+	setPointerControls(0, sc3_mouse.w, sc3_mouse.x, sc3_mouse.y); // sc3-wasm
 }
 
 // Install mouse event handler.
 function sc3_mouse_init() {
-    document.onmousedown = recv_document_mouse_event;
-    document.onmousemove = recv_document_mouse_event;
-    document.onmouseup = recv_document_mouse_event;
+	document.onmousedown = recv_document_mouse_event;
+	document.onmousemove = recv_document_mouse_event;
+	document.onmouseup = recv_document_mouse_event;
 }

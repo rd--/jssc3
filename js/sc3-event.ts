@@ -9,18 +9,18 @@ import { Signal } from './sc3-ugen.js'
 type event<T> = { v: number, w: T, x: T, y: T, z: T, o: T, rx: T, ry: T, p: T, px: T };
 
 function EventParam(v: number, u: any[]): event<any> {
-    return {
-        v: v,
-        w: u[0],
-        x: u[1],
-        y: u[2],
-        z: u[3],
-        o: u[4],
-        rx: u[5],
-        ry: u[6],
-        p: u[7],
-        px: u[8]
-    };
+	return {
+		v: v,
+		w: u[0],
+		x: u[1],
+		y: u[2],
+		z: u[3],
+		o: u[4],
+		rx: u[5],
+		ry: u[6],
+		p: u[7],
+		px: u[8]
+	};
 }
 
 function eventV(e: event<any>): number { return e.v; }
@@ -35,27 +35,27 @@ function eventP(e: event<any>): any { return e.p; }
 
 // Control bus address of voiceNumber (indexed from one).
 function voiceAddr(voiceNumber: number): number {
-    var eventAddr = 13000;
-    var eventIncr = 10;
-    var eventZero = 0;
-    var voiceAddr = eventAddr + ((voiceNumber - 1 + eventZero) * eventIncr);
-    return voiceAddr;
+	var eventAddr = 13000;
+	var eventIncr = 10;
+	var eventZero = 0;
+	var voiceAddr = eventAddr + ((voiceNumber - 1 + eventZero) * eventIncr);
+	return voiceAddr;
 }
 
 function Voicer(numVoices: number, voiceFunc: (e: event<Signal>) => Signal): Signal[] {
-    var voiceOffset = 0;
-    return arrayFromTo(1, numVoices).map(function(c) {
-        var controlArray = <Signal[]>ControlIn(9, voiceAddr(c + voiceOffset));
-        return voiceFunc(EventParam(c + voiceOffset, controlArray));
-    });
+	var voiceOffset = 0;
+	return arrayFromTo(1, numVoices).map(function(c) {
+		var controlArray = <Signal[]>ControlIn(9, voiceAddr(c + voiceOffset));
+		return voiceFunc(EventParam(c + voiceOffset, controlArray));
+	});
 }
 
 function eventParamSetMessage(e: event<number>): ServerMessage {
-    return c_setn1(voiceAddr(e.v), [e.w, e.x, e.y, e.z, e.o, e.rx, e.ry, e.p, e.px]);
+	return c_setn1(voiceAddr(e.v), [e.w, e.x, e.y, e.z, e.o, e.rx, e.ry, e.p, e.px]);
 }
 
 function voiceEndMessage(voiceNumber: number): ServerMessage {
-    return c_set1(voiceAddr(voiceNumber), 0);
+	return c_set1(voiceAddr(voiceNumber), 0);
 }
 
 // Kyma keyboard names, all values are 0-1

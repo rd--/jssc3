@@ -2,23 +2,23 @@
 export var sc3_debug: boolean = false;
 
 export function consoleDebug(...args: any[]): void {
-    if(sc3_debug) {
-        console.debug(...args);
-    }
+	if(sc3_debug) {
+		console.debug(...args);
+	}
 }
 
 export function consoleWarn(...args: any[]): void {
-    console.warn(...args);
+	console.warn(...args);
 }
 
 export function consoleError(...args: any[]): void {
-    console.error(...args);
+	console.error(...args);
 }
 
 export function consoleLog(...args: any[]): void {
-    console.log(...args);
+	console.log(...args);
 }
 
 export function consoleLogMessageFrom(from: string, text: string): void {
-    console.log(from + ': ', text);
+	console.log(from + ': ', text);
 }
