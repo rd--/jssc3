@@ -2,13 +2,13 @@
 
 // Append timestamp to URL to defeat cache
 export function url_append_timestamp(url: string): string {
-	var ext = ((/\?/).test(url) ? '&': '?') + (new Date()).getTime();
+	const ext = ((/\?/).test(url) ? '&': '?') + (new Date()).getTime();
 	return url + ext;
 }
 
 // Fetch url with indicated responseType and run proc on result.
-export function fetch_url_and_then(url: string, responseType: XMLHttpRequestResponseType, proc: (x: any) => void): void {
-	var request = new XMLHttpRequest();
+export function fetch_url_and_then<T>(url: string, responseType: XMLHttpRequestResponseType, proc: (x: T) => void): void {
+	const request = new XMLHttpRequest();
 	request.addEventListener('load', () => proc(request.response));
 	request.open('GET', url);
 	request.responseType = responseType;
@@ -24,7 +24,7 @@ export function handle_fetch_error(response: Response): Response {
 }
 
 // Log error and return default value
-export function log_error_and_return(fromWhere: string, reason: string, defaultValue: any): any {
+export function log_error_and_return<T>(fromWhere: string, reason: string, defaultValue: T): T {
 	console.debug(fromWhere, ': ', reason);
 	return defaultValue;
 }
@@ -56,16 +56,16 @@ export function load_arraybuffer_and_then(fileName: string, processFunc: (x: Arr
 
 // Read text file and run proc on result.
 export function read_text_file_and_then(textFile: File, proc: (x: string) => void): void {
-	var reader = new FileReader();
+	const reader = new FileReader();
 	reader.addEventListener('load', () => proc(<string>reader.result), false);
 	reader.readAsText(textFile);
 }
 
 // Read file from input/file at indicated inputId and fileIndex and run proc.
 export function read_text_file_from_file_input_and_then(inputId: string, fileIndex: number, proc: (x: string) => void): void {
-	var inputElement = <HTMLInputElement>document.getElementById(inputId);
+	const inputElement = <HTMLInputElement>document.getElementById(inputId);
 	if(inputElement.files) {
-		var inputFile = <File>inputElement.files[fileIndex];
+		const inputFile = <File>inputElement.files[fileIndex];
 		if (inputFile) {
 			read_text_file_and_then(inputFile, proc);
 		} else {

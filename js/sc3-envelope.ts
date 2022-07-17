@@ -2,14 +2,14 @@
 
 import { arrayAtWrap, arrayLength } from './sc3-array.js'
 import { mul } from './sc3-bindings.js'
-import { Queue, queueNew, queuePush, queueAsArray } from './sc3-queue.js'
+import { queueNew, queuePush, queueAsArray } from './sc3-queue.js'
 import { isString } from './sc3-string.js'
 import { Tree } from './sc3-tree.js'
 import { Signal } from './sc3-ugen.js'
 
 export type EnvCurveDictionary = { [key: string]: number };
 
-export var envCurveDictionary: EnvCurveDictionary = {
+export const envCurveDictionary: EnvCurveDictionary = {
 	step: 0,
 	lin: 1, linear: 1,
 	exp: 2, exponential: 2,
@@ -39,15 +39,15 @@ export function Env(levels: Signal[], times: Signal[], curves: EnvCurves, releas
 }
 
 export function envCoord(env: Env): Signal[] {
-	var segmentCount = arrayLength(env.levels) - 1;
-	var answerQueue = queueNew();
-	var store = function(aValue: any) { queuePush(answerQueue, aValue); };
+	const segmentCount = arrayLength(env.levels) - 1;
+	const answerQueue = queueNew();
+	const store = function(aValue: any) { queuePush(answerQueue, aValue); };
 	store(env.levels[0]);
 	store(segmentCount);
 	store(env.releaseNode || -99);
 	store(env.loopNode || -99);
-	for(var i = 0; i < segmentCount; i++) {
-		var c = arrayAtWrap(env.curves, i);
+	for(let i = 0; i < segmentCount; i++) {
+		const c = arrayAtWrap(env.curves, i);
 		store(env.levels[i + 1]);
 		store(arrayAtWrap(env.times, i));
 		store(isString(c) ? envCurveDictionary[<string>c] : 5);

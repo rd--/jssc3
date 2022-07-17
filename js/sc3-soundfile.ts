@@ -6,7 +6,7 @@ import { load_arraybuffer_and_then } from './sc3-io.js'
 
 // Return the header fields of an audioBuffer.  length is the number of frames.
 export function audiobuffer_header(audioBuffer: AudioBuffer): Dictionary {
-	var keysArray = ['length', 'duration', 'sampleRate', 'numberOfChannels'];
+	const keysArray = ['length', 'duration', 'sampleRate', 'numberOfChannels'];
 	return dictionaryCopyKeys(audioBuffer, keysArray);
 }
 
@@ -22,8 +22,8 @@ export function audiobuffer_channel_data_array(audioBuffer: AudioBuffer): Float3
 
 // Interleave data from channelsArray into outputArray.
 export function interleave_sample_data(numberOfFrames: number, numberOfChannels: number, channelsArray: Float32Array[], outputArray: Float32Array): void {
-	for(var i = 0; i < numberOfFrames; i++) {
-		for(var j = 0; j < numberOfChannels; j++) {
+	for(let i = 0; i < numberOfFrames; i++) {
+		for(let j = 0; j < numberOfChannels; j++) {
 			outputArray[i * numberOfChannels + j] = channelsArray[j][i];
 		}
 	}
@@ -34,20 +34,20 @@ export function audiobuffer_interleaved_channel_data(audioBuffer: AudioBuffer): 
 	if(audioBuffer.numberOfChannels === 1) {
 		return audioBuffer.getChannelData(0);
 	} else {
-		var channelsArray = arrayIota(audioBuffer.numberOfChannels).map(i => audioBuffer.getChannelData(i));
-		var outputArray = new Float32Array(audioBuffer.length * audioBuffer.numberOfChannels);
+		const channelsArray = arrayIota(audioBuffer.numberOfChannels).map(i => audioBuffer.getChannelData(i));
+		const outputArray = new Float32Array(audioBuffer.length * audioBuffer.numberOfChannels);
 		interleave_sample_data(audioBuffer.length, audioBuffer.numberOfChannels, channelsArray, outputArray);
 		return outputArray;
 	}
 }
 
 export function audiobuffer_maximum_absolute_value_and_frame_number_of(audioBuffer: AudioBuffer): number[] {
-	var channelsArray = arrayIota(audioBuffer.numberOfChannels).map(i => audioBuffer.getChannelData(i));
-	var maximumValue = 0;
-	var frameNumber = 0;
-	for(var i = 0; i < audioBuffer.length; i++) {
-		for(var j = 0; j < audioBuffer.numberOfChannels; j++) {
-			var nextValue = Math.abs(channelsArray[j][i]);
+	const channelsArray = arrayIota(audioBuffer.numberOfChannels).map(i => audioBuffer.getChannelData(i));
+	let maximumValue = 0;
+	let frameNumber = 0;
+	for(let i = 0; i < audioBuffer.length; i++) {
+		for(let j = 0; j < audioBuffer.numberOfChannels; j++) {
+			const nextValue = Math.abs(channelsArray[j][i]);
 			if (nextValue > maximumValue) {
 				maximumValue = nextValue;
 				frameNumber = i;
@@ -59,14 +59,14 @@ export function audiobuffer_maximum_absolute_value_and_frame_number_of(audioBuff
 
 // Get the sample rate of the audio context
 export function system_samplerate(): number {
-	var audioContext = new window.AudioContext();
+	const audioContext = new window.AudioContext();
 	console.log('audioContext.sampleRate', audioContext.sampleRate);
 	return audioContext.sampleRate;
 }
 
 // Load soundfile from url, decode it, and call proc on the resulting AudioBuffer.
 export function fetch_soundfile_to_audiobuffer_and_then(soundFileUrl: string, proc: (x: AudioBuffer) => void): void {
-	var audioContext = new window.AudioContext();
+	const audioContext = new window.AudioContext();
 	load_arraybuffer_and_then(soundFileUrl, function(arrayBuffer) {
 		audioContext.decodeAudioData(arrayBuffer).then(proc);
 	});

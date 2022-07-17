@@ -1,19 +1,19 @@
 // sc3-null.ts
 
-export function isNull(x : any) : boolean {
-	return x === null;
+export function isNull<T>(aValue : T) : boolean {
+	return aValue === null;
 }
 
-export function isUndefined(x : any) : boolean {
-	return x === undefined;
+export function isUndefined<T>(aValue : T) : boolean {
+	return aValue === undefined;
 }
 
 // If inputValue is null or undefined log message and return defaultValue, else return inputValue
-export function nullFix(message : string, inputValue : any, defaultValue : any) : any {
+export function nullFix<T>(message : string, inputValue : (T | null | undefined), defaultValue : T) : T {
 	if(isNull(inputValue) || isUndefined(inputValue)) {
 		console.warn('nullFix', message, inputValue, defaultValue);
 		return defaultValue;
 	} else {
-		return inputValue;
+		return <T>inputValue;
 	}
 }

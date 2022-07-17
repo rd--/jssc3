@@ -2,7 +2,7 @@
 
 export function websocket_open(host: string, port: number): WebSocket | null {
 	try {
-		var ws_address = 'ws://' + host + ':' + Number(port).toString();
+		const ws_address = 'ws://' + host + ':' + Number(port).toString();
 		return new WebSocket(ws_address);
 	} catch(err) {
 		console.error('websocket_open: ' + err);
@@ -12,9 +12,9 @@ export function websocket_open(host: string, port: number): WebSocket | null {
 
 // Prompt for websocket address (host and port) and call function on answer
 export function websocket_address_dialog(receiveAddress: (host: string, port: number) => void): void {
-	var reply = window.prompt('Set WebSocket address as Host:Port', 'localhost:9160');
+	const reply = window.prompt('Set WebSocket address as Host:Port', 'localhost:9160');
 	if(reply) {
-		var [host, port] = reply.split(':');
+		const [host, port] = reply.split(':');
 		receiveAddress(host, Number(port));
 	}
 }
@@ -36,7 +36,7 @@ export function websocket_close(websocket: WebSocket | null) : void {
 	}
 }
 
-export var sc3_websocket: WebSocket | null;
+export let sc3_websocket: WebSocket | null;
 
 // Initialise WebSocket.  To send .stc to sclang as /eval message see 'blksc3 stc-to-osc'
 export function sc3_websocket_init(host : string, port : number) : void {

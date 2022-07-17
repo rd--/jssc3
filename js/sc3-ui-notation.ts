@@ -1,7 +1,7 @@
 import { get_select_element_and_then } from './sc3-dom.js'
 import { stc_to_js_and_then } from './sc3-stc.js'
 
-export var notation_format: string;
+export let notation_format: string;
 
 export function resolve_file_type(fileType: string | null) {
 	return fileType ? fileType : notation_format;

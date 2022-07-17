@@ -5,7 +5,7 @@ export type ScsynthOptions = {
 	numOutputs: number
 };
 
-export var scsynth_options: ScsynthOptions;
+export let scsynth_options: ScsynthOptions;
 
 export function scsynthOptionsPrint(options: ScsynthOptions):void {
 	console.log('-i', options.numInputs, '-o', options.numOutputs, '-Z', options.hardwareBufferSize, '-z', options.blockSize);

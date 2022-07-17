@@ -3,8 +3,8 @@
 import { fetch_url_and_then } from './sc3-io.js'
 
 export function stc_is_binary_selector(text: string): boolean {
-	var allowed = Array.from('!%&*+/<=>?@\\~|-');
-	var answer = Array.from(text).every(item => allowed.includes(item));
+	const allowed = Array.from('!%&*+/<=>?@\\~|-');
+	const answer = Array.from(text).every(item => allowed.includes(item));
 	return answer;
 }
 
@@ -35,8 +35,8 @@ export function stc_to_js_and_then(stcText: string, proc: (x: string) => void): 
 	if(stcText.trim() === '') {
 		proc('');
 	} else {
-		var urlPrefix = 'cgi-bin/stsc3-cgi.py?cmd=stc-to-js&stc=';
-		var encodedStcText = encodeURIComponent(stcText);
+		const urlPrefix = 'cgi-bin/stsc3-cgi.py?cmd=stc-to-js&stc=';
+		const encodedStcText = encodeURIComponent(stcText);
 		fetch_url_and_then(urlPrefix + encodedStcText, 'text', proc);
 	}
 }

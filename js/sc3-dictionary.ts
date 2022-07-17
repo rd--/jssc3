@@ -2,7 +2,7 @@
 
 export type Dictionary = { [key: string]: any };
 
-export function isDictionary(aValue: any): boolean {
+export function isDictionary<T>(aValue: T): boolean {
 	return (typeof aValue) == 'object';
 }
 
@@ -29,7 +29,7 @@ export function dictionaryCopyAllFromTo(sourceDictionary: Dictionary, destinatio
 
 // Find key at aDictionary that holds aValue.
 export function dictionaryFindKeyOfValue(aDictionary: Dictionary, aValue: any): string | undefined {
-	var predicateFunction: (aKey: string) => boolean = function(aKey) {
+	const predicateFunction: (aKey: string) => boolean = function(aKey) {
 		return aDictionary[aKey] === aValue;
 	};
 	return Object.keys(aDictionary).find(predicateFunction);
@@ -38,7 +38,7 @@ export function dictionaryFindKeyOfValue(aDictionary: Dictionary, aValue: any): 
 // Make a new dictionary having only the indicated fields copied from the input.
 // dictionaryCopyKeys({a: 1, b: 2, c: 3}, ['a', 'c']) //= {a: 1, c: 3}
 export function dictionaryCopyKeys(aDictionary: Dictionary, keysArray: string[]): Dictionary {
-	var answer = dictionaryNew();
+	const answer = dictionaryNew();
 	keysArray.forEach(key => answer[key] = aDictionary[key]);
 	return answer;
 }

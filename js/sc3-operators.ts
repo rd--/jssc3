@@ -2,7 +2,7 @@
 
 export type OperatorDictionary = { [key: string]: number };
 
-export var unaryOperators: OperatorDictionary = {
+export const unaryOperators: OperatorDictionary = {
 	neg: 0,
 	not: 1,
 	isNil: 2,
@@ -59,7 +59,7 @@ export var unaryOperators: OperatorDictionary = {
 	scurve: 53,
 };
 
-export var binaryOperators: OperatorDictionary = {
+export const binaryOperators: OperatorDictionary = {
 	add: 0,
 	sub: 1,
 	mul: 2,

@@ -1,7 +1,7 @@
 // sc3-string.ts
 
 // isString('string') === true
-export function isString(aValue: any): boolean {
+export function isString<T>(aValue: T): boolean {
 	return typeof aValue === 'string';
 }
 

@@ -17,13 +17,13 @@ export function ugenTraverseCollecting(p: Tree<Ugen>, c: Set<number | ScUgen>, w
 		consoleDebug('ugenTraverseCollecting: array', p);
 		arrayForEach(p, item => ugenTraverseCollecting(item, c, w));
 	} else if(isUgen(p)) {
-		var pUgen = <Ugen>p;
-		var mrgArray = setAsArray(pUgen.scUgen.mrg);
+		const pUgen = <Ugen>p;
+		const mrgArray = setAsArray(pUgen.scUgen.mrg);
 		consoleDebug('ugenTraverseCollecting: port', pUgen);
 		if(!setIncludes(w, pUgen.scUgen)) {
 			setAdd(c, pUgen.scUgen);
-			arrayForEach(pUgen.scUgen.inputArray, item => isNumber(item) ? setAdd(c, item)  : ugenTraverseCollecting(item, c, w));
-			arrayForEach(mrgArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
+			arrayForEach(pUgen.scUgen.inputArray, item => isNumber(item) ? setAdd(c, <number>item)  : ugenTraverseCollecting(<Ugen>item, c, w));
+			arrayForEach(mrgArray, item => isNumber(item) ? setAdd(c, <number>item) : ugenTraverseCollecting(<Ugen>item, c, c));
 		}
 	} else {
 		console.error('ugenTraverseCollecting', p, c, w);
@@ -31,7 +31,7 @@ export function ugenTraverseCollecting(p: Tree<Ugen>, c: Set<number | ScUgen>, w
 }
 
 export function ugenGraphLeafNodes(p: Tree<Ugen>): Array<number | ScUgen> {
-	var c = setNew();
+	const c = <Set<number | ScUgen>>setNew();
 	ugenTraverseCollecting(p, c, setNew());
 	return setAsArray(c);
 }
@@ -49,12 +49,12 @@ export function signalToUgenGraph(signal: Signal): Tree<Ugen> {
 
 // ugens are sorted by id, which is in applicative order. a maxlocalbufs ugen is always present.
 export function makeGraph(name: string, signal: Signal): Graph {
-	var graph = signalToUgenGraph(signal);
-	var leafNodes = ugenGraphLeafNodes(graph);
-	var ugens = arraySort(arrayFilter(leafNodes, isScUgen), scUgenCompare);
-	var constants = arrayFilter(leafNodes, isNumber);
-	var numLocalBufs = arrayLength(arrayFilter(ugens, item => item.name === 'LocalBuf'));
-	var MaxLocalBufs = function(count: number): ScUgen {
+	const graph = signalToUgenGraph(signal);
+	const leafNodes = ugenGraphLeafNodes(graph);
+	const ugens = arraySort(arrayFilter(leafNodes, isScUgen), scUgenCompare);
+	const constants = arrayFilter(leafNodes, isNumber);
+	const numLocalBufs = arrayLength(arrayFilter(ugens, item => item.name === 'LocalBuf'));
+	const MaxLocalBufs = function(count: number): ScUgen {
 		return ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
 	};
 	return {
@@ -74,14 +74,14 @@ export function graphUgenIndex(graph: Graph, id: number): number {
 
 export function graphUgenInputSpec(graph: Graph, input: UgenInput): number[] {
 	if(isUgen(input)) {
-		var ugen = <Ugen>input;
+		const ugen = <Ugen>input;
 		return [graphUgenIndex(graph, ugen.scUgen.id), ugen.port];
 	} else {
 		return [-1, graphConstantIndex(graph, <number>input)];
 	}
 }
 
-export var SCgf: number = Number(1396926310);
+export const SCgf = Number(1396926310);
 
 export function graphEncodeUgenSpec(graph: Graph, ugen: ScUgen): Tree<Uint8Array> {
 	return [

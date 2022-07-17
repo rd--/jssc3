@@ -1,10 +1,10 @@
 import { textarea_get_selection_or_contents } from './sc3-dom.js'
 import { translate_if_required_and_then } from './sc3-ui-notation.js'
 
-export var sc3_plaintext: HTMLTextAreaElement;
+export let sc3_plaintext: HTMLTextAreaElement;
 
 export function sc3_plaintext_init_in(parentId: string): void {
-	var parentElement = document.getElementById(parentId);
+	const parentElement = document.getElementById(parentId);
 	if(parentElement) {
 		sc3_plaintext = document.createElement('textarea');
 		sc3_plaintext.setAttribute("id", "jsProgram");
@@ -19,7 +19,7 @@ export function sc3_plaintext_get_complete_text(): string {
 }
 
 export function sc3_plaintext_get_selected_text(): string {
-	var currentText = textarea_get_selection_or_contents(sc3_plaintext).trim();
+	const currentText = textarea_get_selection_or_contents(sc3_plaintext).trim();
 	if(currentText.length === 0) {
 		console.warn('sc3_plaintext_get_selected_text: empty text');
 	}

@@ -3,23 +3,22 @@
 import { arrayClump, arrayConcatenation, arrayFill, arrayFromTo, arrayTranspose } from './sc3-array.js'
 import { add, fdiv, mul, neg, recip, round, trunc } from './sc3-bindings.js'
 import { envCoord } from './sc3-envelope.js'
-import { Dictionary } from './sc3-dictionary.js'
 import { nullFix } from './sc3-null.js'
 import { numberTimesRepeat, randomFloat, randomInteger } from './sc3-number.js'
 import { Signal } from './sc3-ugen.js'
 
-export function append(lhs: any[], rhs: any[]): any[] { return lhs.concat(rhs); } // smalltalk = ,
-export function choose(anArray: any[]): any { return anArray[randomInteger(0, anArray.length)]; }
-export function clump(anArray: any[], n: number) { return arrayClump(anArray, n); }
-export function collect(anArray: any[], proc: (aValue: any) => any): any[] { return anArray.map(proc); }
-export function concatenation(anArray: any[]) { return arrayConcatenation(anArray); }
-export function first(anArray: any[]): any { return anArray[0]; }
-export function nth(anArray: any[], index: number): any { return anArray[index - 1]; }
-export function reverse(anArray: any[]): any[] { return anArray.reverse(); }
-export function second(anArray: any[]): any { return anArray[1]; }
-export function size(anArray: any[]): any { return anArray.length; }
-export function third(anArray: any[]): any { return anArray[2]; }
-export function transpose(anArray: any[]) { return arrayTranspose(anArray); }
+export function append<T>(lhs: T[], rhs: T[]): T[] { return lhs.concat(rhs); } // smalltalk = ,
+export function choose<T>(anArray: T[]): T { return anArray[randomInteger(0, anArray.length)]; }
+export function clump<T>(anArray: T[], n: number): T[][] { return arrayClump(anArray, n); }
+export function collect<T, U>(anArray: T[], proc: (aValue: T) => U): U[] { return anArray.map(proc); }
+export function concatenation<T>(anArray: T[][]): T[] { return arrayConcatenation(anArray); }
+export function first<T>(anArray: T[]): T { return anArray[0]; }
+export function nth<T>(anArray: T[], index: number): T { return anArray[index - 1]; }
+export function reverse<T>(anArray: T[]): T[] { return anArray.reverse(); }
+export function second<T>(anArray: T[]): T { return anArray[1]; }
+export function size<T>(anArray: T[]): number { return anArray.length; }
+export function third<T>(anArray: T[]): T { return anArray[2]; }
+export function transpose<T>(anArray: T[][]): T[][] { return arrayTranspose(anArray); }
 
 export function mean(anArray: Signal[]): Signal { return fdiv(sum(anArray), anArray.length); }
 export function product(anArray: Signal[]): Signal { return anArray.reduce(mul); }
@@ -36,11 +35,11 @@ export function rand2(n: number): number { return randomFloat(0 - n, n); }
 export function timesRepeat(count: number, proc: (aValue: void) => void): void { return numberTimesRepeat(count, proc) }
 export function to(from: number, to: number): number[] { return arrayFromTo(from, to); }
 
-export function dup(proc: (aValue: void) => any, count?: number): any[] {
+export function dup<T>(proc: (aValue: void) => T, count?: number): T[] {
 	return arrayFill(nullFix('dup: count?', count, 2), proc);
 }
 export function value(proc: (p1?: any, p2?: any) => any, maybeArg1?: any, maybeArg2?: any): any {
 	return maybeArg2 ? proc(maybeArg1, maybeArg2) : (maybeArg1 ? proc(maybeArg1) : proc());
 }
 
-export function coord(anEnvelope: Dictionary): Signal[] { return envCoord(anEnvelope); }
+export function coord(anEnvelope: Env): Signal[] { return envCoord(anEnvelope); }

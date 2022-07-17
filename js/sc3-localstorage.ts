@@ -2,10 +2,10 @@
 
 // Array of all keys at local storage
 export function local_storage_keys(): string[] {
-	var arrayLength = localStorage.length;
-	var answer = Array(arrayLength);
-	for(var i = 0; i < arrayLength; i++) {
-		var key = localStorage.key(i);
+	const arrayLength = localStorage.length;
+	const answer = Array(arrayLength);
+	for(let i = 0; i < arrayLength; i++) {
+		const key = localStorage.key(i);
 		if(key) {
 			answer[i] = key;
 		} else {

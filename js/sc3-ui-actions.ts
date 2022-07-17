@@ -34,7 +34,7 @@ export function action_user_backup(): void {
 
 // Click (invisible) file select input.
 export function action_user_restore(): void {
-	var inputElement = <HTMLInputElement>document.getElementById('userProgramArchiveFile');
+	const inputElement = <HTMLInputElement>document.getElementById('userProgramArchiveFile');
 	inputElement.click();
 }
 

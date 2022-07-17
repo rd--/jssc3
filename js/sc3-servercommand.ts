@@ -13,8 +13,8 @@ export type ServerMessage = {
 
 // k = constant
 
-export var kAddToHead: number = 0;
-export var kAddToTail: number = 1;
+export const kAddToHead = 0;
+export const kAddToTail = 1;
 
 // b = buffer
 
@@ -40,7 +40,7 @@ export function b_memcpy(bufferNumber: number, numFrames: number, numChannels: n
 }
 
 export function b_alloc_then_memcpy(bufferNumber: number, numberOfFrames: number, numberOfChannels: number, sampleRate: number, bufferData: Uint8Array): ServerMessage {
-	var allocBytes = numberOfFrames * numberOfChannels * 4;
+	const allocBytes = numberOfFrames * numberOfChannels * 4;
 	if(allocBytes != bufferData.length) {
 		console.error('b_alloc_then_memcpy: array size error', allocBytes, bufferData.length);
 	}
@@ -116,7 +116,7 @@ export function g_freeAll1(groupId: number): ServerMessage {
 
 // m = meta
 
-var m_status: ServerMessage = {address: '/status', args: []};
+export const m_status: ServerMessage = {address: '/status', args: []};
 
 export function m_dumpOsc(code: number): ServerMessage {
 	return {

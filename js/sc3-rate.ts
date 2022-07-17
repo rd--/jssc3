@@ -1,11 +1,11 @@
 // sc3-rate.ts
 
-export var rateIr = 0;
-export var rateKr = 1;
-export var rateAr = 2;
-export var rateDr = 3;
+export const rateIr = 0;
+export const rateKr = 1;
+export const rateAr = 2;
+export const rateDr = 3;
 
-export var rateSelectorTable : { [key: string]: string } = {
+export const rateSelectorTable : { [key: string]: string } = {
 	0: 'ir',
 	1: 'kr',
 	2: 'ar',

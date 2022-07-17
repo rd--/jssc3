@@ -12,17 +12,17 @@ export function wrapOut(bus: Signal, ugen: Signal): Signal {
 }
 
 export function ADSR(gate: Signal, attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, curve: Signal): Signal {
-	var env = EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, 1, curve);
+	const env = EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, 1, curve);
 	return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 
 export function ASR(gate: Signal, attackTime: Signal, releaseTime: Signal, curve: Signal): Signal {
-	var env = EnvASR(attackTime, 1, releaseTime, curve);
+	const env = EnvASR(attackTime, 1, releaseTime, curve);
 	return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 
 export function Cutoff(sustainTime: Signal, releaseTime: Signal, curve: Signal): Signal {
-	var env = EnvCutoff(sustainTime, releaseTime, curve);
+	const env = EnvCutoff(sustainTime, releaseTime, curve);
 	return EnvGen(1, 1, 0, 1, 0, envCoord(env));
 }
 
@@ -35,24 +35,24 @@ export function signalLength(aSignal: Signal): number {
 }
 
 export function Splay(inArray: Signal, spread: Signal, level: Signal, center: Signal, levelComp: Signal): Signal {
-	var n = Math.max(2, signalLength(inArray));
-	var pos = arrayFromTo(0, n - 1).map(item => add(mul(sub(mul(item, fdiv(2, sub(n, 1))), 1), spread), center));
-	var lvl = mul(level, levelComp ? sqrt(1 / n) : 1);
+	const n = Math.max(2, signalLength(inArray));
+	const pos = arrayFromTo(0, n - 1).map(item => add(mul(sub(mul(item, fdiv(2, sub(n, 1))), 1), spread), center));
+	const lvl = mul(level, levelComp ? sqrt(1 / n) : 1);
 	consoleDebug('Splay', n, pos, lvl);
 	return arrayReduce(<Signal[]>Pan2(inArray, pos, lvl), add);
 }
 
 export function Splay2(inArray: Signal): Signal {
-	var n = Math.max(2, signalLength(inArray));
-	var pos = arrayFromTo(0, n - 1).map(item => item * (2 / (n - 1)) - 1);
-	var lvl = Math.sqrt(1 / n);
+	const n = Math.max(2, signalLength(inArray));
+	const pos = arrayFromTo(0, n - 1).map(item => item * (2 / (n - 1)) - 1);
+	const lvl = Math.sqrt(1 / n);
 	consoleDebug('Splay2', n, pos, lvl);
 	return arrayReduce(<Signal[]>Pan2(inArray, pos, lvl), add);
 }
 
 export function LinLin(input: Signal, srclo: Signal, srchi: Signal, dstlo: Signal, dsthi: Signal): Signal {
-	var scale  = fdiv(sub(dsthi, dstlo), sub(srchi, srclo));
-	var offset = sub(dstlo, mul(scale, srclo));
+	const scale  = fdiv(sub(dsthi, dstlo), sub(srchi, srclo));
+	const offset = sub(dstlo, mul(scale, srclo));
 	return add(mul(input, scale), offset);
 }
 
@@ -88,22 +88,22 @@ export function DmdOn(trig: Signal, reset: Signal, demandUGens: Signal): Signal 
 	return Demand(trig, reset, demandUGens);
 }
 
-var Seq = Dseq;
-var Ser = Dseries;
-var Shuf = Dshuf;
-var Choose = Drand;
+export const Seq = Dseq;
+export const Ser = Dseries;
+export const Shuf = Dshuf;
+export const Choose = Drand;
 
 export function Ln(start: Signal, end: Signal, dur: Signal): Signal {
 		return Line(start, end, dur, 0);
 }
 
 export function TLine(start: Signal, end: Signal, dur: Signal, trig: Signal): Signal {
-	var env = Env([start, start, end], [0, dur], 'lin', null, null, 0);
+	const env = Env([start, start, end], [0, dur], 'lin', null, null, 0);
 	return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
 }
 
 export function TXLine(start: Signal, end: Signal, dur: Signal, trig: Signal): Signal {
-	var env = Env([start, start, end], [0, dur], 'exp', null, null, 0);
+	const env = Env([start, start, end], [0, dur], 'exp', null, null, 0);
 	return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
 }
 
@@ -126,9 +126,9 @@ b = asLocalBuf([0, 2, 4, 5, 7, 9, 11]);
 ugenTraverseCollecting(b, ...)
 */
 export function asLocalBuf(array: Signal): Signal {
-	var k = signalLength(array);
-	var p = LocalBuf(1, k);
-	var q = SetBuf(p, 0, k, array);
+	const k = signalLength(array);
+	const p = LocalBuf(1, k);
+	const q = SetBuf(p, 0, k, array);
 	return mrg(p, q);
 }
 
@@ -140,12 +140,12 @@ export function BufRec(bufnum: Signal, reset: Signal, inputArray: Signal): Signa
 	return RecordBuf(bufnum, 0, 1, 0, 1, 1, reset, 0, inputArray);
 }
 
-var BufAlloc = LocalBuf;
+const BufAlloc = LocalBuf;
 
 // Reshape input arrays, and allow amp and time to be null (defaulting to 1)
 export function asKlankSpec(freq: Signal, amp: Signal | null, time: Signal | null): Signal {
-	var n = signalLength(freq);
-	var a = [freq, amp || arrayReplicate(n, 1), time || arrayReplicate(n, 1)];
+	const n = signalLength(freq);
+	const a = [freq, amp || arrayReplicate(n, 1), time || arrayReplicate(n, 1)];
 	consoleDebug('asKlankSpec', a);
 	return arrayConcatenation(arrayTranspose(arrayExtendToBeOfEqualSize(a)));
 }
@@ -159,10 +159,10 @@ export function SinOscBank(freq: Signal, amp: Signal, time: Signal): Signal {
 }
 
 export function LinSeg(gate: Signal, coordArray: Signal[]): Signal {
-	var coord = arrayTranspose(arrayClump(coordArray, 2));
-	var levels = arrayFirst(coord);
-	var times = arraySecond(coord);
-	var env = Env(levels, times.slice(0, times.length - 1), 'lin', null, null, 0);
+	const coord = arrayTranspose(arrayClump(coordArray, 2));
+	const levels = arrayFirst(coord);
+	const times = arraySecond(coord);
+	const env = Env(levels, times.slice(0, times.length - 1), 'lin', null, null, 0);
 	return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 
@@ -217,30 +217,30 @@ export function DelayTap(bufnum: Signal, delayTime: Signal): Signal {
 }
 
 export function PingPongDelay(left: Signal, right: Signal, maxDelayTime: Signal, delayTime: Signal, feedback: Signal): Signal {
-	var delaySize = mul(maxDelayTime, SampleRate());
-	var phase = Phasor(0, 1, 0, delaySize, 0);
-	var leftBuffer = clearBuf(BufAlloc(1, delaySize)); // allocate a buffer for the left delay line
-	var rightBuffer = clearBuf(BufAlloc(1, delaySize)); // allocate a buffer for the right delay line
-	var leftDelayedSignal = BufRd(1, leftBuffer, Wrap(sub(phase, mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
-	var rightDelayedSignal = BufRd(1, rightBuffer, Wrap(sub(phase, mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
-	var output = [add(leftDelayedSignal, left), add(rightDelayedSignal, right)]; // mix the delayed signal with the input
-	var writer = DelayWrite([rightBuffer, leftBuffer], mul(output, 0.8)); // feedback to buffers in reverse order
+	const delaySize = mul(maxDelayTime, SampleRate());
+	const phase = Phasor(0, 1, 0, delaySize, 0);
+	const leftBuffer = clearBuf(BufAlloc(1, delaySize)); // allocate a buffer for the left delay line
+	const rightBuffer = clearBuf(BufAlloc(1, delaySize)); // allocate a buffer for the right delay line
+	const leftDelayedSignal = BufRd(1, leftBuffer, Wrap(sub(phase, mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
+	const rightDelayedSignal = BufRd(1, rightBuffer, Wrap(sub(phase, mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
+	const output = [add(leftDelayedSignal, left), add(rightDelayedSignal, right)]; // mix the delayed signal with the input
+	const writer = DelayWrite([rightBuffer, leftBuffer], mul(output, feedback)); // feedback to buffers in reverse order
 	return mrg(output, writer);  // output the mixed signal and force the DelayWr into the call graph
 }
 
 export function MultiTapDelay(timesArray: number[], levelsArray: Signal[], input: Signal): Signal {
-	var delayFrames = mul(arrayMaxItem(timesArray), SampleRate());
-	var buf = clearBuf(BufAlloc(1, delayFrames));
-	var writer = DelayWrite(buf, input);
-	var numReaders = timesArray.length;
-	var readers = arrayFromTo(0, numReaders - 1).map(item => mul(DelayTap(buf, timesArray[item]), levelsArray[item]));
+	const delayFrames = mul(arrayMaxItem(timesArray), SampleRate());
+	const buf = clearBuf(BufAlloc(1, delayFrames));
+	const writer = DelayWrite(buf, input);
+	const numReaders = timesArray.length;
+	const readers = arrayFromTo(0, numReaders - 1).map(item => mul(DelayTap(buf, timesArray[item]), levelsArray[item]));
 	return mrg(arrayReduce(readers, add), writer);
 }
 
 export function Osc1(buf: Signal, dur: Signal): Signal {
-	var numChan = 1;
-	var phase = Ln(0, sub(BufFrames(buf), 1), dur);
-	var loop = 0;
-	var interpolation = 2;
+	const numChan = 1;
+	const phase = Ln(0, sub(BufFrames(buf), 1), dur);
+	const loop = 0;
+	const interpolation = 2;
 	return BufRd(numChan, buf, phase, loop, interpolation);
 }

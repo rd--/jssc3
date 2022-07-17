@@ -1,5 +1,5 @@
 // Printing to to the console is slow, even if debugging messages aren't displayed
-export var sc3_debug: boolean = false;
+export const sc3_debug = false;
 
 export function consoleDebug(...args: any[]): void {
 	if(sc3_debug) {

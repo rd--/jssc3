@@ -10,7 +10,7 @@ import { rateAr, rateIr, rateKr } from './sc3-rate.js'
 import { Set, setNew, setAdd } from './sc3-set.js'
 import { Tree } from './sc3-tree.js'
 
-var ugenCounter: Counter = counterNew();
+const ugenCounter: Counter = counterNew();
 
 export type ScUgen = {
 	name: string,
@@ -43,7 +43,7 @@ export function ScUgen(name: string, numChan: number, rate: number, specialIndex
 	};
 }
 
-export function isScUgen(obj: any): boolean {
+export function isScUgen<T>(obj: T): boolean {
 	return obj && dictionaryHasKey(obj, 'specialIndex') && dictionaryHasKey(obj, 'mrg'); // ...
 }
 
@@ -52,7 +52,7 @@ export function scUgenCompare(i: ScUgen, j: ScUgen): number {
 }
 
 // Ugens with no outputs, such as Out, set port to -1.
-export var nilPort = -1;
+export const nilPort = -1;
 
 export function Ugen(scUgen: ScUgen, port: number): Ugen {
 	return {
@@ -61,15 +61,15 @@ export function Ugen(scUgen: ScUgen, port: number): Ugen {
 	};
 }
 
-export function isUgen(obj: any): boolean {
+export function isUgen<T>(obj: T): boolean {
 	return obj && dictionaryHasKey(obj, 'scUgen') && dictionaryHasKey(obj, 'port');
 }
 
-export function isUgenInput(aValue: any): boolean {
+export function isUgenInput<T>(aValue: T): boolean {
 	return isNumber(aValue) || isUgen(aValue);
 }
 
-export function inputBranch(input: UgenInput, onUgen: (aUgen: Ugen) => any, onNumber: (aNumber: number) => any, onError: () => any): any {
+export function inputBranch<T>(input: UgenInput, onUgen: (aUgen: Ugen) => T, onNumber: (aNumber: number) => T, onError: () => T): T {
 	if(isUgen(input)) {
 		return onUgen(<Ugen>input);
 	} else if(isNumber(input)) {
@@ -82,7 +82,7 @@ export function inputBranch(input: UgenInput, onUgen: (aUgen: Ugen) => any, onNu
 
 export function inputRate(input: UgenInput): number {
 	consoleDebug('inputRate', input);
-	return inputBranch(input, port => port.scUgen.rate, unusedNumber => rateIr, () => -1);
+	return inputBranch(input, port => port.scUgen.rate, _unusedNumber => rateIr, () => -1);
 }
 
 export type RateSpec = number | number[];
@@ -110,8 +110,8 @@ export function makeUgen(name: string, numChan: number, rateSpec: RateSpec, spec
 	if(requiresMce(signalArray)) {
 		return arrayMap(mceInputTransform(signalArray), item => makeUgen(name, numChan, rateSpec, specialIndex, item));
 	} else {
-		var inputArray = <UgenInput[]>signalArray;
-		var scUgen = ScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
+		const inputArray = <UgenInput[]>signalArray;
+		const scUgen = ScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
 		switch (numChan) {
 		    case 0: return (Ugen(scUgen, nilPort));
 		    case 1: return (Ugen(scUgen, 0));
@@ -145,11 +145,11 @@ export function inputFirstUgen(input: Signal): ScUgen | null {
 }
 
 export function mrg(lhs: Signal,rhs: Signal): Signal {
-	var ugen = inputFirstUgen(lhs);
+	const ugen = inputFirstUgen(lhs);
 	consoleDebug('mrg', lhs, rhs, ugen);
 	if(ugen && ugen.mrg) {
 		if(Array.isArray(rhs)) {
-		    var mrgSet = <Set<UgenInput>>(ugen.mrg);
+		    const mrgSet = <Set<UgenInput>>(ugen.mrg);
 		    arrayForEach(rhs, item => setAdd(mrgSet, item));
 		} else {
 		    setAdd(ugen.mrg, rhs);
@@ -164,11 +164,11 @@ export function mrg(lhs: Signal,rhs: Signal): Signal {
 
 export function krMutateInPlace(input: Tree<UgenInput | ScUgen>): void {
 	if(isUgen(input)) {
-		var inputPort = <Ugen>input;
+		const inputPort = <Ugen>input;
 		consoleDebug('kr: port', inputPort);
 		krMutateInPlace(inputPort.scUgen);
 	} else if(isScUgen(input)) {
-		var inputUgen = <ScUgen>input;
+		const inputUgen = <ScUgen>input;
 		consoleDebug('kr: ugen', inputUgen);
 		if(inputUgen.rate === rateAr) {
 		    inputUgen.rate =  rateKr;
@@ -193,7 +193,7 @@ export function kr(input: Signal): Signal {
 
 export function UnaryOpWithConstantOptimiser(specialIndex: number, input: Signal): Signal {
 	if(isNumber(input)) {
-		var aNumber = <number>input;
+		const aNumber = <number>input;
 		switch(specialIndex) {
 			case 0: return 0 - aNumber;
 			case 5: return Math.abs(aNumber);
@@ -212,7 +212,7 @@ export function UnaryOpWithConstantOptimiser(specialIndex: number, input: Signal
 }
 
 // [1, [], [1], [1, 2], [1, null], SinOsc(440, 0), [SinOsc(440, 0)]].map(isArrayConstant)
-export function isArrayConstant(aValue: any): boolean {
+export function isArrayConstant<T>(aValue: T): boolean {
 	return Array.isArray(aValue) && arrayEvery(aValue, isNumber);
 }
 
@@ -226,8 +226,8 @@ export function UnaryOp(specialIndex: number, input: Signal): Signal {
 
 export function BinaryOpWithConstantOptimiser(specialIndex: number, lhs: UgenInput, rhs: UgenInput): Signal {
 	if(isNumber(lhs) && isNumber(rhs)) {
-		var lhsNumber = <number>lhs;
-		var rhsNumber = <number>rhs;
+		const lhsNumber = <number>lhs;
+		const rhsNumber = <number>rhs;
 		switch(specialIndex) {
 			case 0: return lhsNumber + rhsNumber;
 			case 1: return lhsNumber - rhsNumber;
@@ -238,9 +238,9 @@ export function BinaryOpWithConstantOptimiser(specialIndex: number, lhs: UgenInp
 	return makeUgen('BinaryOpUGen', 1, [0, 1], specialIndex, [lhs, rhs]);
 }
 
-export function BinaryOp(specialIndex: number, lhs: Signal, rhs: Signal): any {
+export function BinaryOp(specialIndex: number, lhs: Signal, rhs: Signal): Signal {
 	if(Array.isArray(lhs) || Array.isArray(rhs)) {
-		var expanded = mceInputTransform([asArray(lhs), asArray(rhs)]);
+		const expanded = mceInputTransform([asArray(lhs), asArray(rhs)]);
 		consoleDebug('BinaryOp: array constant', expanded);
 		return arrayMap(expanded, item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]));
 	} else {

@@ -1,25 +1,25 @@
 // sc3-set.ts
 
-export function isSet(aValue: (aValue: any) => boolean) {
+export function isSet<T>(aValue: (aValue: T) => boolean) {
 	return aValue.toString() == '[object Set]';
 }
 
-export function setNew(): Set<any> {
+export function setNew<T>(): Set<T> {
 	return new Set();
 }
 
-export function setFromArray(anArray: Array<any>): Set<any> {
+export function setFromArray<T>(anArray: Array<T>): Set<T> {
 	return new Set(anArray);
 }
 
-export function setAdd(aSet: Set<any>, aValue: any): void {
+export function setAdd<T>(aSet: Set<T>, aValue: T): void {
 	aSet.add(aValue);
 }
 
-export function setIncludes(aSet: Set<any>, aValue: any): boolean {
+export function setIncludes<T>(aSet: Set<T>, aValue: T): boolean {
 	return aSet.has(aValue);
 }
 
-export function setAsArray(aSet: Set<any>): Array<any> {
+export function setAsArray<T>(aSet: Set<T>): Array<T> {
 	return Array.from(aSet);
 }

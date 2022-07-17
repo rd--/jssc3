@@ -3,7 +3,7 @@
 export type Counter = (() => number);
 
 export function counterNewFromBy(start: number, by: number): Counter {
-	var x = start;
+	let x = start;
 	return function() {
 		x = x + by;
 		return x;

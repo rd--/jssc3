@@ -71,7 +71,7 @@ function arrayEvery(anArray, aPredicate) {
 function arrayExtendCyclically(anArray, size) {
     var initialSize = anArray.length;
     var result = anArray.slice(0, initialSize);
-    for (var x = 0; x < size - initialSize; x += 1) {
+    for (let x = 0; x < size - initialSize; x += 1) {
         result.push(arrayAtWrap(anArray, x));
     }
     return result;
@@ -118,7 +118,7 @@ function arrayFromTo(from, to) {
 // arrayFromToBy(1, 9, 2) //= [1, 3, 5, 7, 9]
 function arrayFromToBy(from, to, by) {
     var answer = [];
-    for (var i = from; i <= to; i += by) {
+    for (let i = from; i <= to; i += by) {
         answer.push(i);
     }
     return answer;
@@ -156,8 +156,8 @@ function arrayPut(anArray, anIndex, aValue) {
     anArray[anIndex] = aValue;
 }
 // arrayReplicate(5, 1) //= [1, 1, 1, 1, 1]
-function arrayReplicate(k, v) {
-    return arrayIota(k).map(unusedItem => v);
+function arrayReplicate(count, value) {
+    return arrayIota(count).map(unusedItem => value);
 }
 function arrayReduce(anArray, aFunction) {
     return anArray.reduce(aFunction);
@@ -181,7 +181,7 @@ function arrayShallowEq(lhs, rhs) {
     if (!Array.isArray(rhs) || (lhs.length !== rhs.length)) {
         return false;
     }
-    for (var i = 0; i < lhs.length; i++) {
+    for (let i = 0; i < lhs.length; i++) {
         if (lhs[i] !== rhs[i]) {
             return false;
         }
@@ -203,7 +203,7 @@ function arrayTail(anArray) {
 }
 // arrayTakeWhile([1, 2, 3, 4], x => x < 3) //= [1, 2]
 function arrayTakeWhile(anArray, predicate) {
-    var [x, ...xs] = anArray;
+    const [x, ...xs] = anArray;
     if (anArray.length > 0 && predicate(x)) {
         return [x, ...arrayTakeWhile(xs, predicate)];
     }
@@ -213,7 +213,7 @@ function arrayTakeWhile(anArray, predicate) {
 }
 // arrayTranspose([[1, 2, 3], [4, 5, 6]]) //= [[1, 4], [2, 5], [3, 6]]
 function arrayTranspose(anArray) {
-    return anArray[0].map((col, i) => anArray.map(row => row[i]));
+    return anArray[0].map((_col, i) => anArray.map(row => row[i]));
 }
 // arrayTreeEq([1, 2, [3, [4, 5]]], [1, 2, [3, [4, 5]]])
 function arrayTreeEq(lhs, rhs) {
@@ -223,7 +223,7 @@ function arrayTreeEq(lhs, rhs) {
     if (!Array.isArray(rhs) || (lhs.length !== rhs.length)) {
         return false;
     }
-    for (var i = 0; i < lhs.length; i++) {
+    for (let i = 0; i < lhs.length; i++) {
         if (Array.isArray(lhs[i])) {
             if (!arrayTreeEq(lhs[i], rhs[i])) {
                 return false;
@@ -241,7 +241,7 @@ function arrayUnlines(anArray) {
     return anArray.join('\n');
 }
 function counterNewFromBy(start, by) {
-    var x = start;
+    let x = start;
     return function () {
         x = x + by;
         return x;
@@ -271,7 +271,7 @@ function dictionaryCopyAllFromTo(sourceDictionary, destinationDictionary) {
 }
 // Find key at aDictionary that holds aValue.
 function dictionaryFindKeyOfValue(aDictionary, aValue) {
-    var predicateFunction = function (aKey) {
+    const predicateFunction = function (aKey) {
         return aDictionary[aKey] === aValue;
     };
     return Object.keys(aDictionary).find(predicateFunction);
@@ -279,14 +279,14 @@ function dictionaryFindKeyOfValue(aDictionary, aValue) {
 // Make a new dictionary having only the indicated fields copied from the input.
 // dictionaryCopyKeys({a: 1, b: 2, c: 3}, ['a', 'c']) //= {a: 1, c: 3}
 function dictionaryCopyKeys(aDictionary, keysArray) {
-    var answer = dictionaryNew();
+    const answer = dictionaryNew();
     keysArray.forEach(key => answer[key] = aDictionary[key]);
     return answer;
 }
 // sc3-dom.ts
 // Return a function to set the inner Html of elemId
 function setter_for_inner_html_of(elemId) {
-    var elem = document.getElementById(elemId);
+    const elem = document.getElementById(elemId);
     return function (innerHtml) {
         if (elem) {
             elem.innerHTML = innerHtml;
@@ -297,7 +297,7 @@ function setter_for_inner_html_of(elemId) {
     };
 }
 function get_select_element_and_then(selectId, proc) {
-    var selectElement = document.getElementById(selectId);
+    const selectElement = document.getElementById(selectId);
     if (!selectElement) {
         console.error('get_select_element: not found: ', selectId);
     }
@@ -307,8 +307,8 @@ function get_select_element_and_then(selectId, proc) {
 }
 // Set onchange handler of selectId, guards against absence of selection (proc is only called if value is set).
 function select_on_change(selectId, proc) {
-    var guardedProc = function (anEvent) {
-        var target = anEvent.target;
+    const guardedProc = function (anEvent) {
+        const target = anEvent.target;
         if (target && target.value) {
             proc(target, target.value);
         }
@@ -317,7 +317,7 @@ function select_on_change(selectId, proc) {
 }
 // Create option element and add to select element.
 function select_add_option_to(selectElement, optionValue, optionText) {
-    var optionElement = document.createElement('option');
+    const optionElement = document.createElement('option');
     optionElement.value = optionValue;
     optionElement.text = optionText;
     selectElement.add(optionElement, null);
@@ -329,8 +329,8 @@ function select_add_option_at_id(selectId, optionValue, optionText) {
 // Delete all options at selectId from startIndex
 function select_clear_from(selectId, startIndex) {
     get_select_element_and_then(selectId, function (selectElement) {
-        var endIndex = selectElement.length;
-        for (var i = startIndex; i < endIndex; i++) {
+        const endIndex = selectElement.length;
+        for (let i = startIndex; i < endIndex; i++) {
             selectElement.remove(startIndex);
         }
     });
@@ -339,7 +339,7 @@ function select_clear_from(selectId, startIndex) {
 function select_add_keys_as_options(selectId, keyArray) {
     get_select_element_and_then(selectId, function (selectElement) {
         keyArray.forEach(function (key) {
-            var option = document.createElement('option');
+            const option = document.createElement('option');
             option.value = key;
             option.text = key;
             selectElement.add(option, null);
@@ -348,13 +348,13 @@ function select_add_keys_as_options(selectId, keyArray) {
 }
 // Add a listener to buttonId that passes click events to inputId.
 function connect_button_to_input(buttonId, inputId) {
-    var button = document.getElementById(buttonId);
-    var input = document.getElementById(inputId);
+    const button = document.getElementById(buttonId);
+    const input = document.getElementById(inputId);
     if (!button || !input) {
         console.warn('connect_button_to_input: element not located?');
     }
     else {
-        button.addEventListener('click', e => input.click(), false);
+        button.addEventListener('click', _unusedEvent => input.click(), false);
     }
 }
 // If some text is selected, get only the selected text, else get the entire text.
@@ -368,17 +368,17 @@ function textarea_get_selection_or_contents(textareaElement) {
 }
 // Lookup key in parameters of Url of current document.  (C.f. window.location)
 function url_get_param(key) {
-    var params = new URLSearchParams(document.location.search);
+    const params = new URLSearchParams(document.location.search);
     return params.get(key);
 }
 // Set key to value in window location url.
 function window_url_set_param(key, value) {
-    var windowUrl = new URL(window.location.href);
+    const windowUrl = new URL(window.location.href);
     windowUrl.searchParams.set(key, value);
     window.history.pushState({}, '', windowUrl);
 }
 function parse_int_or_alert(integerText, errorText, defaultAnswer) {
-    var answer = Number.parseInt(integerText, 10);
+    const answer = Number.parseInt(integerText, 10);
     if (isNaN(answer)) {
         window.alert(errorText);
         return defaultAnswer;
@@ -388,7 +388,7 @@ function parse_int_or_alert(integerText, errorText, defaultAnswer) {
     }
 }
 function parse_int_or_alert_and_then(integerText, errorText, proc) {
-    var answer = Number.parseInt(integerText, 10);
+    const answer = Number.parseInt(integerText, 10);
     if (isNaN(answer)) {
         window.alert(errorText);
     }
@@ -397,14 +397,14 @@ function parse_int_or_alert_and_then(integerText, errorText, proc) {
     }
 }
 function prompt_for_int_and_then(promptText, defaultValue, proc) {
-    var integerText = window.prompt(promptText, String(defaultValue));
+    const integerText = window.prompt(promptText, String(defaultValue));
     if (integerText) {
         parse_int_or_alert_and_then(integerText, 'Not an integer?', proc);
     }
 }
 // sc3-encode.ts
 function encodeUsing(byteCount, writerFunction) {
-    var arrayBuffer = new ArrayBuffer(byteCount);
+    const arrayBuffer = new ArrayBuffer(byteCount);
     writerFunction(new DataView(arrayBuffer));
     return new Uint8Array(arrayBuffer);
 }
@@ -425,25 +425,25 @@ function encodeFloat32(aNumber) {
     return encodeUsing(4, b => b.setFloat32(0, aNumber));
 }
 function encodeFloat32Array(inputArray) {
-    var arrayBuffer = new ArrayBuffer(inputArray.length * 4);
-    var dataView = new DataView(arrayBuffer);
-    for (var i = 0; i < inputArray.length; i++) {
+    const arrayBuffer = new ArrayBuffer(inputArray.length * 4);
+    const dataView = new DataView(arrayBuffer);
+    for (let i = 0; i < inputArray.length; i++) {
         dataView.setFloat32(i * 4, inputArray[i]);
     }
-    var uint8Array = new Uint8Array(arrayBuffer);
+    const uint8Array = new Uint8Array(arrayBuffer);
     return uint8Array;
 }
 // encodePascalString('string') //= [6, 115, 116, 114, 105, 110, 103]
 function encodePascalString(aString) {
-    var uint8Array = new Uint8Array(aString.length + 1);
+    const uint8Array = new Uint8Array(aString.length + 1);
     uint8Array[0] = aString.length;
-    for (var i = 1; i < aString.length + 1; i++) {
+    for (let i = 1; i < aString.length + 1; i++) {
         uint8Array[i] = aString.charCodeAt(i - 1);
     }
     return uint8Array;
 }
 // Printing to to the console is slow, even if debugging messages aren't displayed
-var sc3_debug = false;
+const sc3_debug = false;
 function consoleDebug(...args) {
     if (sc3_debug) {
         console.debug(...args);
@@ -468,12 +468,12 @@ function functionArity(aFunction) {
 // sc3-io.ts
 // Append timestamp to URL to defeat cache
 function url_append_timestamp(url) {
-    var ext = ((/\?/).test(url) ? '&' : '?') + (new Date()).getTime();
+    const ext = ((/\?/).test(url) ? '&' : '?') + (new Date()).getTime();
     return url + ext;
 }
 // Fetch url with indicated responseType and run proc on result.
 function fetch_url_and_then(url, responseType, proc) {
-    var request = new XMLHttpRequest();
+    const request = new XMLHttpRequest();
     request.addEventListener('load', () => proc(request.response));
     request.open('GET', url);
     request.responseType = responseType;
@@ -512,15 +512,15 @@ function load_arraybuffer_and_then(fileName, processFunc) {
 }
 // Read text file and run proc on result.
 function read_text_file_and_then(textFile, proc) {
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.addEventListener('load', () => proc(reader.result), false);
     reader.readAsText(textFile);
 }
 // Read file from input/file at indicated inputId and fileIndex and run proc.
 function read_text_file_from_file_input_and_then(inputId, fileIndex, proc) {
-    var inputElement = document.getElementById(inputId);
+    const inputElement = document.getElementById(inputId);
     if (inputElement.files) {
-        var inputFile = inputElement.files[fileIndex];
+        const inputFile = inputElement.files[fileIndex];
         if (inputFile) {
             read_text_file_and_then(inputFile, proc);
         }
@@ -539,10 +539,10 @@ function read_json_file_and_then(jsonFile, proc) {
 // sc3-localstorage.ts
 // Array of all keys at local storage
 function local_storage_keys() {
-    var arrayLength = localStorage.length;
-    var answer = Array(arrayLength);
-    for (var i = 0; i < arrayLength; i++) {
-        var key = localStorage.key(i);
+    const arrayLength = localStorage.length;
+    const answer = Array(arrayLength);
+    for (let i = 0; i < arrayLength; i++) {
+        const key = localStorage.key(i);
         if (key) {
             answer[i] = key;
         }
@@ -557,11 +557,11 @@ function local_storage_delete_matching(predicate) {
     local_storage_keys().forEach(entry => predicate(entry) ? localStorage.removeItem(entry) : null);
 }
 // sc3-null.ts
-function isNull(x) {
-    return x === null;
+function isNull(aValue) {
+    return aValue === null;
 }
-function isUndefined(x) {
-    return x === undefined;
+function isUndefined(aValue) {
+    return aValue === undefined;
 }
 // If inputValue is null or undefined log message and return defaultValue, else return inputValue
 function nullFix(message, inputValue, defaultValue) {
@@ -577,16 +577,16 @@ function nullFix(message, inputValue, defaultValue) {
 function isNumber(x) {
     return (typeof x === 'number');
 }
-var pi = Math.PI;
-var inf = Infinity;
+const pi = Math.PI;
+const inf = Infinity;
 function randomInteger(minNumber, maxNumber) {
-    var min = Math.ceil(minNumber);
-    var max = Math.floor(maxNumber);
+    const min = Math.ceil(minNumber);
+    const max = Math.floor(maxNumber);
     return Math.floor(Math.random() * (max - min) + min); // the maximum is exclusive and the minimum is inclusive
 }
 function randomIntegerInclusive(minNumber, maxNumber) {
-    var min = Math.ceil(minNumber);
-    var max = Math.floor(maxNumber);
+    const min = Math.ceil(minNumber);
+    const max = Math.floor(maxNumber);
     return Math.floor(Math.random() * (max - min + 1) + min); // the maximum is inclusive and the minimum is inclusive
 }
 function randomFloat(min, max) {
@@ -596,15 +596,15 @@ function randomBoolean() {
     return Math.random() > 0.5;
 }
 function numberTimesRepeat(count, proc) {
-    for (var i = 0; i < count; i++) {
+    for (let i = 0; i < count; i++) {
         proc();
     }
 }
 function numberToString(aNumber) {
     return Number(aNumber).toString();
 }
-function oscData(t, x) {
-    return { type: t, value: x };
+function oscData(oscType, oscValue) {
+    return { type: oscType, value: oscValue };
 }
 function oscInt32(x) {
     return oscData('i', x);
@@ -618,7 +618,7 @@ function oscString(x) {
 function oscBlob(x) {
     return oscData('b', x);
 }
-var unaryOperators = {
+const unaryOperators = {
     neg: 0,
     not: 1,
     isNil: 2,
@@ -674,7 +674,7 @@ var unaryOperators = {
     ramp_: 52,
     scurve: 53,
 };
-var binaryOperators = {
+const binaryOperators = {
     add: 0,
     sub: 1,
     mul: 2,
@@ -751,11 +751,11 @@ function queueAsArray(aQueue) {
     return aQueue.queue;
 }
 // sc3-rate.ts
-var rateIr = 0;
-var rateKr = 1;
-var rateAr = 2;
-var rateDr = 3;
-var rateSelectorTable = {
+const rateIr = 0;
+const rateKr = 1;
+const rateAr = 2;
+const rateDr = 3;
+const rateSelectorTable = {
     0: 'ir',
     1: 'kr',
     2: 'ar',
@@ -817,7 +817,7 @@ function treeFlattenIntoArray(aTree, anArray) {
 // treeFlatten(1) //= [1]
 // treeFlatten([1, [2, [3, 4], 5], 6]) //= [1, 2, 3, 4, 5, 6]
 function treeFlatten(aTree) {
-    var anArray = [];
+    const anArray = [];
     treeFlattenIntoArray(aTree, anArray);
     return anArray;
 }
@@ -827,7 +827,7 @@ function forestFlatten(aForest) {
 // sc3-websocket.ts
 function websocket_open(host, port) {
     try {
-        var ws_address = 'ws://' + host + ':' + Number(port).toString();
+        const ws_address = 'ws://' + host + ':' + Number(port).toString();
         return new WebSocket(ws_address);
     }
     catch (err) {
@@ -837,9 +837,9 @@ function websocket_open(host, port) {
 }
 // Prompt for websocket address (host and port) and call function on answer
 function websocket_address_dialog(receiveAddress) {
-    var reply = window.prompt('Set WebSocket address as Host:Port', 'localhost:9160');
+    const reply = window.prompt('Set WebSocket address as Host:Port', 'localhost:9160');
     if (reply) {
-        var [host, port] = reply.split(':');
+        const [host, port] = reply.split(':');
         receiveAddress(host, Number(port));
     }
 }
@@ -860,7 +860,7 @@ function websocket_close(websocket) {
         console.warn('websocket_close: websocket nil?');
     }
 }
-var sc3_websocket;
+let sc3_websocket;
 // Initialise WebSocket.  To send .stc to sclang as /eval message see 'blksc3 stc-to-osc'
 function sc3_websocket_init(host, port) {
     websocket_close(sc3_websocket);
@@ -1918,9 +1918,9 @@ function triWindow(a) { return UnaryOp(51, a); }
 function ramp_(a) { return UnaryOp(52, a); }
 function scurve(a) { return UnaryOp(53, a); }
 function audiobuffer_to_scsynth_buffer(audioBuffer, bufferNumber, numberOfChannels, bufferData) {
-    var numberOfFrames = audioBuffer.length;
-    var sampleRate = audioBuffer.sampleRate;
-    var oscMessage = b_alloc_then_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, encodeFloat32Array(bufferData));
+    const numberOfFrames = audioBuffer.length;
+    const sampleRate = audioBuffer.sampleRate;
+    const oscMessage = b_alloc_then_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, encodeFloat32Array(bufferData));
     console.log('audiobuffer_to_scsynth_buffer', oscMessage);
     sendOsc(oscMessage);
 }
@@ -1938,9 +1938,9 @@ function fetch_soundfile_to_scsynth_buffer(soundFileUrl, numberOfChannels, buffe
 // Fetch single channels of sound file data to mono scsynth buffers.  The channel numbers are one-indexed.
 function fetch_soundfile_channels_to_scsynth_buffers(soundFileUrl, bufferNumbers, channelIndices) {
     fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, function (audioBuffer) {
-        for (var i = 0; i < bufferNumbers.length; i++) {
-            var bufferNumber = bufferNumbers[i];
-            var channelIndex = channelIndices[i];
+        for (let i = 0; i < bufferNumbers.length; i++) {
+            const bufferNumber = bufferNumbers[i];
+            const channelIndex = channelIndices[i];
             if (channelIndex >= 1 && channelIndex <= audioBuffer.numberOfChannels) {
                 audiobuffer_to_scsynth_buffer(audioBuffer, bufferNumber, 1, audioBuffer.getChannelData(channelIndex - 1));
             }
@@ -1950,7 +1950,7 @@ function fetch_soundfile_channels_to_scsynth_buffers(soundFileUrl, bufferNumbers
         }
     });
 }
-var sc3_buffer_dict = {
+const sc3_buffer_dict = {
     'crotale-d6': 'https://rohandrape.net/pub/jssc3/flac/crotale-d6.flac',
     'harp-a4': 'https://rohandrape.net/pub/jssc3/flac/harp-a4.flac',
     'piano-c5': 'https://rohandrape.net/pub/jssc3/flac/piano-c5.flac',
@@ -1961,11 +1961,11 @@ var sc3_buffer_cache = {};
 var sc3_buffer_next = 100;
 // Fetch buffer index from cache, allocate and load if required.  Resolve soundFileId against dictionary.
 function SfAcquire(urlOrKey, numberOfChannels, channelSelector) {
-    var channelIndices = asArray(channelSelector);
-    var soundFileUrl = sc3_buffer_dict[urlOrKey] || urlOrKey;
-    var cacheValue = sc3_buffer_cache[soundFileUrl];
+    const channelIndices = asArray(channelSelector);
+    const soundFileUrl = sc3_buffer_dict[urlOrKey] || urlOrKey;
+    let cacheValue = sc3_buffer_cache[soundFileUrl];
     if (!cacheValue) {
-        var bufferNumberArray = arrayFromTo(sc3_buffer_next, sc3_buffer_next + numberOfChannels - 1);
+        const bufferNumberArray = arrayFromTo(sc3_buffer_next, sc3_buffer_next + numberOfChannels - 1);
         fetch_soundfile_channels_to_scsynth_buffers(soundFileUrl, bufferNumberArray, channelIndices);
         sc3_buffer_cache[soundFileUrl] = bufferNumberArray;
         sc3_buffer_next += numberOfChannels;
@@ -1978,7 +1978,7 @@ function SfAcquire(urlOrKey, numberOfChannels, channelSelector) {
         return [arrayAtWrap(cacheValue, channelIndices - 1)];
     }
 }
-var envCurveDictionary = {
+const envCurveDictionary = {
     step: 0,
     lin: 1, linear: 1,
     exp: 2, exponential: 2,
@@ -2000,15 +2000,15 @@ function Env(levels, times, curves, releaseNode, loopNode, offset) {
     };
 }
 function envCoord(env) {
-    var segmentCount = arrayLength(env.levels) - 1;
-    var answerQueue = queueNew();
-    var store = function (aValue) { queuePush(answerQueue, aValue); };
+    const segmentCount = arrayLength(env.levels) - 1;
+    const answerQueue = queueNew();
+    const store = function (aValue) { queuePush(answerQueue, aValue); };
     store(env.levels[0]);
     store(segmentCount);
     store(env.releaseNode || -99);
     store(env.loopNode || -99);
-    for (var i = 0; i < segmentCount; i++) {
-        var c = arrayAtWrap(env.curves, i);
+    for (let i = 0; i < segmentCount; i++) {
+        const c = arrayAtWrap(env.curves, i);
         store(env.levels[i + 1]);
         store(arrayAtWrap(env.times, i));
         store(isString(c) ? envCurveDictionary[c] : 5);
@@ -2050,16 +2050,16 @@ function eventRy(e) { return e.ry; }
 function eventP(e) { return e.p; }
 // Control bus address of voiceNumber (indexed from one).
 function voiceAddr(voiceNumber) {
-    var eventAddr = 13000;
-    var eventIncr = 10;
-    var eventZero = 0;
-    var voiceAddr = eventAddr + ((voiceNumber - 1 + eventZero) * eventIncr);
+    const eventAddr = 13000;
+    const eventIncr = 10;
+    const eventZero = 0;
+    const voiceAddr = eventAddr + ((voiceNumber - 1 + eventZero) * eventIncr);
     return voiceAddr;
 }
 function Voicer(numVoices, voiceFunc) {
-    var voiceOffset = 0;
+    const voiceOffset = 0;
     return arrayFromTo(1, numVoices).map(function (c) {
-        var controlArray = ControlIn(9, voiceAddr(c + voiceOffset));
+        const controlArray = ControlIn(9, voiceAddr(c + voiceOffset));
         return voiceFunc(EventParam(c + voiceOffset, controlArray));
     });
 }
@@ -2091,8 +2091,8 @@ function ugenTraverseCollecting(p, c, w) {
         arrayForEach(p, item => ugenTraverseCollecting(item, c, w));
     }
     else if (isUgen(p)) {
-        var pUgen = p;
-        var mrgArray = setAsArray(pUgen.scUgen.mrg);
+        const pUgen = p;
+        const mrgArray = setAsArray(pUgen.scUgen.mrg);
         consoleDebug('ugenTraverseCollecting: port', pUgen);
         if (!setIncludes(w, pUgen.scUgen)) {
             setAdd(c, pUgen.scUgen);
@@ -2105,7 +2105,7 @@ function ugenTraverseCollecting(p, c, w) {
     }
 }
 function ugenGraphLeafNodes(p) {
-    var c = setNew();
+    const c = setNew();
     ugenTraverseCollecting(p, c, setNew());
     return setAsArray(c);
 }
@@ -2115,12 +2115,12 @@ function signalToUgenGraph(signal) {
 }
 // ugens are sorted by id, which is in applicative order. a maxlocalbufs ugen is always present.
 function makeGraph(name, signal) {
-    var graph = signalToUgenGraph(signal);
-    var leafNodes = ugenGraphLeafNodes(graph);
-    var ugens = arraySort(arrayFilter(leafNodes, isScUgen), scUgenCompare);
-    var constants = arrayFilter(leafNodes, isNumber);
-    var numLocalBufs = arrayLength(arrayFilter(ugens, item => item.name === 'LocalBuf'));
-    var MaxLocalBufs = function (count) {
+    const graph = signalToUgenGraph(signal);
+    const leafNodes = ugenGraphLeafNodes(graph);
+    const ugens = arraySort(arrayFilter(leafNodes, isScUgen), scUgenCompare);
+    const constants = arrayFilter(leafNodes, isNumber);
+    const numLocalBufs = arrayLength(arrayFilter(ugens, item => item.name === 'LocalBuf'));
+    const MaxLocalBufs = function (count) {
         return ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
     };
     return {
@@ -2137,14 +2137,14 @@ function graphUgenIndex(graph, id) {
 }
 function graphUgenInputSpec(graph, input) {
     if (isUgen(input)) {
-        var ugen = input;
+        const ugen = input;
         return [graphUgenIndex(graph, ugen.scUgen.id), ugen.port];
     }
     else {
         return [-1, graphConstantIndex(graph, input)];
     }
 }
-var SCgf = Number(1396926310);
+const SCgf = Number(1396926310);
 function graphEncodeUgenSpec(graph, ugen) {
     return [
         encodePascalString(ugen.name),
@@ -2181,14 +2181,15 @@ function graphPrintSyndef(graph) {
     console.log(0, []);
 }
 function printSyndefOf(ugen) {
-    var graph = makeGraph('sc3.js', wrapOut(0, ugen));
+    const graph = makeGraph('sc3.js', wrapOut(0, ugen));
     graphPrintSyndef(graph);
 }
 function graphInputDisplayName(graph, input) {
     if (isUgen(input)) {
-        var id = String(graphUgenIndex(graph, input.scUgen.id));
-        var nm = ugenDisplayName(input.scUgen);
-        var ix = input.scUgen.numChan > 1 ? ('[' + String(input.port) + ']') : '';
+        const inputUgen = input;
+        const id = String(graphUgenIndex(graph, inputUgen.scUgen.id));
+        const nm = ugenDisplayName(inputUgen.scUgen);
+        const ix = inputUgen.scUgen.numChan > 1 ? ('[' + String(inputUgen.port) + ']') : '';
         return id + '_' + nm + ix;
     }
     else if (isNumber(input)) {
@@ -2206,13 +2207,13 @@ function graphPrettyPrintSyndef(graph) {
     arrayForEach(graph.ugenSeq, item => graphPrettyPrintUgen(graph, item));
 }
 function prettyPrintSyndefOf(ugen) {
-    var graph = makeGraph('sc3.js', wrapOut(0, ugen));
+    const graph = makeGraph('sc3.js', wrapOut(0, ugen));
     graphPrettyPrintSyndef(graph);
 }
 // column_index_to_letter(6) === 'g'
 function column_index_to_letter(column_index) {
     if (isNumber(column_index)) {
-        var column_letter = String.fromCharCode(column_index + 97); // 0 -> a
+        const column_letter = String.fromCharCode(column_index + 97); // 0 -> a
         return column_letter;
     }
     else {
@@ -2223,7 +2224,7 @@ function column_index_to_letter(column_index) {
 // column_letter_to_index('g') === 6
 function column_letter_to_index(column_letter) {
     if (isString(column_letter)) {
-        var column_index = column_letter.charCodeAt(0) - 97;
+        const column_index = column_letter.charCodeAt(0) - 97;
         return column_index;
     }
     else {
@@ -2233,21 +2234,21 @@ function column_letter_to_index(column_letter) {
 }
 // cellref_to_bus(10, 'a', 4)
 function cellref_to_linear_index(number_of_columns, column_letter, row_number) {
-    var column_index = column_letter_to_index(column_letter);
+    const column_index = column_letter_to_index(column_letter);
     return ((row_number - 1) * number_of_columns) + column_index;
 }
 // apply proc (column_letter, row_number) for each cell in evaluation order (right to left in each row descending)
 function all_cellref_do(number_of_columns, number_of_rows, proc) {
-    for (var row_number = 1; row_number <= number_of_rows; row_number++) {
-        for (var column_index = 0; column_index < number_of_columns; column_index++) {
-            var column_letter = column_index_to_letter(column_index);
+    for (let row_number = 1; row_number <= number_of_rows; row_number++) {
+        for (let column_index = 0; column_index < number_of_columns; column_index++) {
+            const column_letter = column_index_to_letter(column_index);
             proc(column_letter, row_number);
         }
     }
 }
-var sc3_plaintext;
+let sc3_plaintext;
 function sc3_plaintext_init_in(parentId) {
-    var parentElement = document.getElementById(parentId);
+    const parentElement = document.getElementById(parentId);
     if (parentElement) {
         sc3_plaintext = document.createElement('textarea');
         sc3_plaintext.setAttribute("id", "jsProgram");
@@ -2261,7 +2262,7 @@ function sc3_plaintext_get_complete_text() {
     return sc3_plaintext ? sc3_plaintext.value : '';
 }
 function sc3_plaintext_get_selected_text() {
-    var currentText = textarea_get_selection_or_contents(sc3_plaintext).trim();
+    const currentText = textarea_get_selection_or_contents(sc3_plaintext).trim();
     if (currentText.length === 0) {
         console.warn('sc3_plaintext_get_selected_text: empty text');
     }
@@ -2313,15 +2314,15 @@ function wrapOut(bus, ugen) {
     return isOutUgen(ugen) ? ugen : Out(bus, ugen);
 }
 function ADSR(gate, attackTime, decayTime, sustainLevel, releaseTime, curve) {
-    var env = EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, 1, curve);
+    const env = EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, 1, curve);
     return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 function ASR(gate, attackTime, releaseTime, curve) {
-    var env = EnvASR(attackTime, 1, releaseTime, curve);
+    const env = EnvASR(attackTime, 1, releaseTime, curve);
     return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 function Cutoff(sustainTime, releaseTime, curve) {
-    var env = EnvCutoff(sustainTime, releaseTime, curve);
+    const env = EnvCutoff(sustainTime, releaseTime, curve);
     return EnvGen(1, 1, 0, 1, 0, envCoord(env));
 }
 function signalLength(aSignal) {
@@ -2333,22 +2334,22 @@ function signalLength(aSignal) {
     }
 }
 function Splay(inArray, spread, level, center, levelComp) {
-    var n = Math.max(2, signalLength(inArray));
-    var pos = arrayFromTo(0, n - 1).map(item => add(mul(sub(mul(item, fdiv(2, sub(n, 1))), 1), spread), center));
-    var lvl = mul(level, levelComp ? sqrt(1 / n) : 1);
+    const n = Math.max(2, signalLength(inArray));
+    const pos = arrayFromTo(0, n - 1).map(item => add(mul(sub(mul(item, fdiv(2, sub(n, 1))), 1), spread), center));
+    const lvl = mul(level, levelComp ? sqrt(1 / n) : 1);
     consoleDebug('Splay', n, pos, lvl);
     return arrayReduce(Pan2(inArray, pos, lvl), add);
 }
 function Splay2(inArray) {
-    var n = Math.max(2, signalLength(inArray));
-    var pos = arrayFromTo(0, n - 1).map(item => item * (2 / (n - 1)) - 1);
-    var lvl = Math.sqrt(1 / n);
+    const n = Math.max(2, signalLength(inArray));
+    const pos = arrayFromTo(0, n - 1).map(item => item * (2 / (n - 1)) - 1);
+    const lvl = Math.sqrt(1 / n);
     consoleDebug('Splay2', n, pos, lvl);
     return arrayReduce(Pan2(inArray, pos, lvl), add);
 }
 function LinLin(input, srclo, srchi, dstlo, dsthi) {
-    var scale = fdiv(sub(dsthi, dstlo), sub(srchi, srclo));
-    var offset = sub(dstlo, mul(scale, srclo));
+    const scale = fdiv(sub(dsthi, dstlo), sub(srchi, srclo));
+    const offset = sub(dstlo, mul(scale, srclo));
     return add(mul(input, scale), offset);
 }
 function InFb(numChannels, bus) {
@@ -2375,19 +2376,19 @@ function TDmdFor(dur, reset, level) {
 function DmdOn(trig, reset, demandUGens) {
     return Demand(trig, reset, demandUGens);
 }
-var Seq = Dseq;
-var Ser = Dseries;
-var Shuf = Dshuf;
-var Choose = Drand;
+const Seq = Dseq;
+const Ser = Dseries;
+const Shuf = Dshuf;
+const Choose = Drand;
 function Ln(start, end, dur) {
     return Line(start, end, dur, 0);
 }
 function TLine(start, end, dur, trig) {
-    var env = Env([start, start, end], [0, dur], 'lin', null, null, 0);
+    const env = Env([start, start, end], [0, dur], 'lin', null, null, 0);
     return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
 }
 function TXLine(start, end, dur, trig) {
-    var env = Env([start, start, end], [0, dur], 'exp', null, null, 0);
+    const env = Env([start, start, end], [0, dur], 'exp', null, null, 0);
     return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
 }
 function bitShiftRight(a, b) {
@@ -2406,9 +2407,9 @@ b = asLocalBuf([0, 2, 4, 5, 7, 9, 11]);
 ugenTraverseCollecting(b, ...)
 */
 function asLocalBuf(array) {
-    var k = signalLength(array);
-    var p = LocalBuf(1, k);
-    var q = SetBuf(p, 0, k, array);
+    const k = signalLength(array);
+    const p = LocalBuf(1, k);
+    const q = SetBuf(p, 0, k, array);
     return mrg(p, q);
 }
 function clearBuf(buf) {
@@ -2417,11 +2418,11 @@ function clearBuf(buf) {
 function BufRec(bufnum, reset, inputArray) {
     return RecordBuf(bufnum, 0, 1, 0, 1, 1, reset, 0, inputArray);
 }
-var BufAlloc = LocalBuf;
+const BufAlloc = LocalBuf;
 // Reshape input arrays, and allow amp and time to be null (defaulting to 1)
 function asKlankSpec(freq, amp, time) {
-    var n = signalLength(freq);
-    var a = [freq, amp || arrayReplicate(n, 1), time || arrayReplicate(n, 1)];
+    const n = signalLength(freq);
+    const a = [freq, amp || arrayReplicate(n, 1), time || arrayReplicate(n, 1)];
     consoleDebug('asKlankSpec', a);
     return arrayConcatenation(arrayTranspose(arrayExtendToBeOfEqualSize(a)));
 }
@@ -2432,10 +2433,10 @@ function SinOscBank(freq, amp, time) {
     return Klang(1, 0, asKlankSpec(freq, amp, time));
 }
 function LinSeg(gate, coordArray) {
-    var coord = arrayTranspose(arrayClump(coordArray, 2));
-    var levels = arrayFirst(coord);
-    var times = arraySecond(coord);
-    var env = Env(levels, times.slice(0, times.length - 1), 'lin', null, null, 0);
+    const coord = arrayTranspose(arrayClump(coordArray, 2));
+    const levels = arrayFirst(coord);
+    const times = arraySecond(coord);
+    const env = Env(levels, times.slice(0, times.length - 1), 'lin', null, null, 0);
     return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 function SelectX(which, array) {
@@ -2473,34 +2474,34 @@ function DelayTap(bufnum, delayTime) {
     return PlayBuf(1, bufnum, 1, 1, mul(sub(BufDur(bufnum), delayTime), SampleRate()), 1, 0);
 }
 function PingPongDelay(left, right, maxDelayTime, delayTime, feedback) {
-    var delaySize = mul(maxDelayTime, SampleRate());
-    var phase = Phasor(0, 1, 0, delaySize, 0);
-    var leftBuffer = clearBuf(BufAlloc(1, delaySize)); // allocate a buffer for the left delay line
-    var rightBuffer = clearBuf(BufAlloc(1, delaySize)); // allocate a buffer for the right delay line
-    var leftDelayedSignal = BufRd(1, leftBuffer, Wrap(sub(phase, mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
-    var rightDelayedSignal = BufRd(1, rightBuffer, Wrap(sub(phase, mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
-    var output = [add(leftDelayedSignal, left), add(rightDelayedSignal, right)]; // mix the delayed signal with the input
-    var writer = DelayWrite([rightBuffer, leftBuffer], mul(output, 0.8)); // feedback to buffers in reverse order
+    const delaySize = mul(maxDelayTime, SampleRate());
+    const phase = Phasor(0, 1, 0, delaySize, 0);
+    const leftBuffer = clearBuf(BufAlloc(1, delaySize)); // allocate a buffer for the left delay line
+    const rightBuffer = clearBuf(BufAlloc(1, delaySize)); // allocate a buffer for the right delay line
+    const leftDelayedSignal = BufRd(1, leftBuffer, Wrap(sub(phase, mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
+    const rightDelayedSignal = BufRd(1, rightBuffer, Wrap(sub(phase, mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
+    const output = [add(leftDelayedSignal, left), add(rightDelayedSignal, right)]; // mix the delayed signal with the input
+    const writer = DelayWrite([rightBuffer, leftBuffer], mul(output, feedback)); // feedback to buffers in reverse order
     return mrg(output, writer); // output the mixed signal and force the DelayWr into the call graph
 }
 function MultiTapDelay(timesArray, levelsArray, input) {
-    var delayFrames = mul(arrayMaxItem(timesArray), SampleRate());
-    var buf = clearBuf(BufAlloc(1, delayFrames));
-    var writer = DelayWrite(buf, input);
-    var numReaders = timesArray.length;
-    var readers = arrayFromTo(0, numReaders - 1).map(item => mul(DelayTap(buf, timesArray[item]), levelsArray[item]));
+    const delayFrames = mul(arrayMaxItem(timesArray), SampleRate());
+    const buf = clearBuf(BufAlloc(1, delayFrames));
+    const writer = DelayWrite(buf, input);
+    const numReaders = timesArray.length;
+    const readers = arrayFromTo(0, numReaders - 1).map(item => mul(DelayTap(buf, timesArray[item]), levelsArray[item]));
     return mrg(arrayReduce(readers, add), writer);
 }
 function Osc1(buf, dur) {
-    var numChan = 1;
-    var phase = Ln(0, sub(BufFrames(buf), 1), dur);
-    var loop = 0;
-    var interpolation = 2;
+    const numChan = 1;
+    const phase = Ln(0, sub(BufFrames(buf), 1), dur);
+    const loop = 0;
+    const interpolation = 2;
     return BufRd(numChan, buf, phase, loop, interpolation);
 }
 // k = constant
-var kAddToHead = 0;
-var kAddToTail = 1;
+const kAddToHead = 0;
+const kAddToTail = 1;
 // b = buffer
 function b_alloc_then(bufferNumber, numberOfFrames, numberOfChannels, onCompletion) {
     return {
@@ -2523,7 +2524,7 @@ function b_memcpy(bufferNumber, numFrames, numChannels, sampleRate, bufferData) 
     };
 }
 function b_alloc_then_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, bufferData) {
-    var allocBytes = numberOfFrames * numberOfChannels * 4;
+    const allocBytes = numberOfFrames * numberOfChannels * 4;
     if (allocBytes != bufferData.length) {
         console.error('b_alloc_then_memcpy: array size error', allocBytes, bufferData.length);
     }
@@ -2581,7 +2582,7 @@ function g_freeAll1(groupId) {
     };
 }
 // m = meta
-var m_status = { address: '/status', args: [] };
+const m_status = { address: '/status', args: [] };
 function m_dumpOsc(code) {
     return {
         address: '/dumpOSC',
@@ -2636,7 +2637,7 @@ function coord(anEnvelope) { return envCoord(anEnvelope); }
 // sc3-soundfile.ts
 // Return the header fields of an audioBuffer.  length is the number of frames.
 function audiobuffer_header(audioBuffer) {
-    var keysArray = ['length', 'duration', 'sampleRate', 'numberOfChannels'];
+    const keysArray = ['length', 'duration', 'sampleRate', 'numberOfChannels'];
     return dictionaryCopyKeys(audioBuffer, keysArray);
 }
 // Number of frames multiplied by the number of channels.
@@ -2649,8 +2650,8 @@ function audiobuffer_channel_data_array(audioBuffer) {
 }
 // Interleave data from channelsArray into outputArray.
 function interleave_sample_data(numberOfFrames, numberOfChannels, channelsArray, outputArray) {
-    for (var i = 0; i < numberOfFrames; i++) {
-        for (var j = 0; j < numberOfChannels; j++) {
+    for (let i = 0; i < numberOfFrames; i++) {
+        for (let j = 0; j < numberOfChannels; j++) {
             outputArray[i * numberOfChannels + j] = channelsArray[j][i];
         }
     }
@@ -2661,19 +2662,19 @@ function audiobuffer_interleaved_channel_data(audioBuffer) {
         return audioBuffer.getChannelData(0);
     }
     else {
-        var channelsArray = arrayIota(audioBuffer.numberOfChannels).map(i => audioBuffer.getChannelData(i));
-        var outputArray = new Float32Array(audioBuffer.length * audioBuffer.numberOfChannels);
+        const channelsArray = arrayIota(audioBuffer.numberOfChannels).map(i => audioBuffer.getChannelData(i));
+        const outputArray = new Float32Array(audioBuffer.length * audioBuffer.numberOfChannels);
         interleave_sample_data(audioBuffer.length, audioBuffer.numberOfChannels, channelsArray, outputArray);
         return outputArray;
     }
 }
 function audiobuffer_maximum_absolute_value_and_frame_number_of(audioBuffer) {
-    var channelsArray = arrayIota(audioBuffer.numberOfChannels).map(i => audioBuffer.getChannelData(i));
-    var maximumValue = 0;
-    var frameNumber = 0;
-    for (var i = 0; i < audioBuffer.length; i++) {
-        for (var j = 0; j < audioBuffer.numberOfChannels; j++) {
-            var nextValue = Math.abs(channelsArray[j][i]);
+    const channelsArray = arrayIota(audioBuffer.numberOfChannels).map(i => audioBuffer.getChannelData(i));
+    let maximumValue = 0;
+    let frameNumber = 0;
+    for (let i = 0; i < audioBuffer.length; i++) {
+        for (let j = 0; j < audioBuffer.numberOfChannels; j++) {
+            const nextValue = Math.abs(channelsArray[j][i]);
             if (nextValue > maximumValue) {
                 maximumValue = nextValue;
                 frameNumber = i;
@@ -2684,21 +2685,21 @@ function audiobuffer_maximum_absolute_value_and_frame_number_of(audioBuffer) {
 }
 // Get the sample rate of the audio context
 function system_samplerate() {
-    var audioContext = new window.AudioContext();
+    const audioContext = new window.AudioContext();
     console.log('audioContext.sampleRate', audioContext.sampleRate);
     return audioContext.sampleRate;
 }
 // Load soundfile from url, decode it, and call proc on the resulting AudioBuffer.
 function fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, proc) {
-    var audioContext = new window.AudioContext();
+    const audioContext = new window.AudioContext();
     load_arraybuffer_and_then(soundFileUrl, function (arrayBuffer) {
         audioContext.decodeAudioData(arrayBuffer).then(proc);
     });
 }
 // sc3-stc.ts
 function stc_is_binary_selector(text) {
-    var allowed = Array.from('!%&*+/<=>?@\\~|-');
-    var answer = Array.from(text).every(item => allowed.includes(item));
+    const allowed = Array.from('!%&*+/<=>?@\\~|-');
+    const answer = Array.from(text).every(item => allowed.includes(item));
     return answer;
 }
 function stc_binary_selector_from_operator(text) {
@@ -2728,18 +2729,18 @@ function stc_to_js_and_then(stcText, proc) {
         proc('');
     }
     else {
-        var urlPrefix = 'cgi-bin/stsc3-cgi.py?cmd=stc-to-js&stc=';
-        var encodedStcText = encodeURIComponent(stcText);
+        const urlPrefix = 'cgi-bin/stsc3-cgi.py?cmd=stc-to-js&stc=';
+        const encodedStcText = encodeURIComponent(stcText);
         fetch_url_and_then(urlPrefix + encodedStcText, 'text', proc);
     }
 }
 // sc3-texture.ts
 function OverlapTexture(graphFunc, sustainTime, transitionTime, overlap) {
-    var voiceFunction = function (i) {
-        var trg = kr(Impulse(1 / (sustainTime + (transitionTime * 2)), i / overlap));
-        var snd = graphFunc(trg);
-        var env = Env([0, 1, 1, 0], [transitionTime, sustainTime, transitionTime], 'sin', null, null, 0);
-        var sig = mul(snd, EnvGen(trg, 1, 0, 1, 0, envCoord(env)));
+    const voiceFunction = function (i) {
+        const trg = kr(Impulse(1 / (sustainTime + (transitionTime * 2)), i / overlap));
+        const snd = graphFunc(trg);
+        const env = Env([0, 1, 1, 0], [transitionTime, sustainTime, transitionTime], 'sin', null, null, 0);
+        const sig = mul(snd, EnvGen(trg, 1, 0, 1, 0, envCoord(env)));
         return sig;
     };
     return arrayReduce(arrayMap(arrayFromTo(0, overlap - 1), voiceFunction), add);
@@ -2756,12 +2757,12 @@ function flattenByteEncodingIntoQueue(aTree, numberQueue) {
     treeVisit(aTree, item => uint8ArrayIntoQueue(item, numberQueue));
 }
 function flattenByteEncoding(aTree) {
-    var numberQueue = queueNew();
+    const numberQueue = queueNew();
     flattenByteEncodingIntoQueue(aTree, numberQueue);
     return new Uint8Array(queueAsArray(numberQueue));
 }
 // sc3-ugen.ts
-var ugenCounter = counterNew();
+const ugenCounter = counterNew();
 function ScUgen(name, numChan, rate, specialIndex, inputArray) {
     return {
         name: name,
@@ -2780,7 +2781,7 @@ function scUgenCompare(i, j) {
     return i.id - j.id;
 }
 // Ugens with no outputs, such as Out, set port to -1.
-var nilPort = -1;
+const nilPort = -1;
 function Ugen(scUgen, port) {
     return {
         scUgen: scUgen,
@@ -2807,7 +2808,7 @@ function inputBranch(input, onUgen, onNumber, onError) {
 }
 function inputRate(input) {
     consoleDebug('inputRate', input);
-    return inputBranch(input, port => port.scUgen.rate, unusedNumber => rateIr, () => -1);
+    return inputBranch(input, port => port.scUgen.rate, _unusedNumber => rateIr, () => -1);
 }
 // If scalar it is the operating rate, if an array it is indices into the inputs telling how to derive the rate.
 function deriveRate(rateOrFilterUgenInputs, inputArray) {
@@ -2831,8 +2832,8 @@ function makeUgen(name, numChan, rateSpec, specialIndex, signalArray) {
         return arrayMap(mceInputTransform(signalArray), item => makeUgen(name, numChan, rateSpec, specialIndex, item));
     }
     else {
-        var inputArray = signalArray;
-        var scUgen = ScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
+        const inputArray = signalArray;
+        const scUgen = ScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
         switch (numChan) {
             case 0: return (Ugen(scUgen, nilPort));
             case 1: return (Ugen(scUgen, 0));
@@ -2864,11 +2865,11 @@ function inputFirstUgen(input) {
     }
 }
 function mrg(lhs, rhs) {
-    var ugen = inputFirstUgen(lhs);
+    const ugen = inputFirstUgen(lhs);
     consoleDebug('mrg', lhs, rhs, ugen);
     if (ugen && ugen.mrg) {
         if (Array.isArray(rhs)) {
-            var mrgSet = (ugen.mrg);
+            const mrgSet = (ugen.mrg);
             arrayForEach(rhs, item => setAdd(mrgSet, item));
         }
         else {
@@ -2883,12 +2884,12 @@ function mrg(lhs, rhs) {
 // Kr
 function krMutateInPlace(input) {
     if (isUgen(input)) {
-        var inputPort = input;
+        const inputPort = input;
         consoleDebug('kr: port', inputPort);
         krMutateInPlace(inputPort.scUgen);
     }
     else if (isScUgen(input)) {
-        var inputUgen = input;
+        const inputUgen = input;
         consoleDebug('kr: ugen', inputUgen);
         if (inputUgen.rate === rateAr) {
             inputUgen.rate = rateKr;
@@ -2912,7 +2913,7 @@ function kr(input) {
 // Operators
 function UnaryOpWithConstantOptimiser(specialIndex, input) {
     if (isNumber(input)) {
-        var aNumber = input;
+        const aNumber = input;
         switch (specialIndex) {
             case 0: return 0 - aNumber;
             case 5: return Math.abs(aNumber);
@@ -2943,8 +2944,8 @@ function UnaryOp(specialIndex, input) {
 }
 function BinaryOpWithConstantOptimiser(specialIndex, lhs, rhs) {
     if (isNumber(lhs) && isNumber(rhs)) {
-        var lhsNumber = lhs;
-        var rhsNumber = rhs;
+        const lhsNumber = lhs;
+        const rhsNumber = rhs;
         switch (specialIndex) {
             case 0: return lhsNumber + rhsNumber;
             case 1: return lhsNumber - rhsNumber;
@@ -2956,7 +2957,7 @@ function BinaryOpWithConstantOptimiser(specialIndex, lhs, rhs) {
 }
 function BinaryOp(specialIndex, lhs, rhs) {
     if (Array.isArray(lhs) || Array.isArray(rhs)) {
-        var expanded = mceInputTransform([asArray(lhs), asArray(rhs)]);
+        const expanded = mceInputTransform([asArray(lhs), asArray(rhs)]);
         consoleDebug('BinaryOp: array constant', expanded);
         return arrayMap(expanded, item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]));
     }
@@ -2987,7 +2988,7 @@ function action_user_backup() {
 }
 // Click (invisible) file select input.
 function action_user_restore() {
-    var inputElement = document.getElementById('userProgramArchiveFile');
+    const inputElement = document.getElementById('userProgramArchiveFile');
     inputElement.click();
 }
 function actions_menu_do(editor_get_selected, editor_set, menuElement, entryName) {
@@ -3022,7 +3023,7 @@ function actions_menu_do(editor_get_selected, editor_set, menuElement, entryName
 function actions_menu_init(editor_get_selected, editor_set) {
     select_on_change('actionsMenu', (menuElement, entryName) => actions_menu_do(editor_get_selected, editor_set, menuElement, entryName));
 }
-var notation_format;
+let notation_format;
 function resolve_file_type(fileType) {
     return fileType ? fileType : notation_format;
 }
@@ -3040,21 +3041,21 @@ function translate_if_required_and_then(userText, proc) {
         default: console.error('translate_if_required_and_then: unknown format', notation_format);
     }
 }
-var scsynth_options;
+let scsynth_options;
 function scsynthOptionsPrint(options) {
     console.log('-i', options.numInputs, '-o', options.numOutputs, '-Z', options.hardwareBufferSize, '-z', options.blockSize);
 }
-var user_programs;
-var user_storage_key;
+let user_programs;
+let user_storage_key;
 function user_program_menu_init(editor_set_program) {
-    var stored = localStorage.getItem(user_storage_key);
+    const stored = localStorage.getItem(user_storage_key);
     user_programs = stored ? JSON.parse(stored) : {};
-    select_on_change('userMenu', (menuElement, programName) => editor_set_program(user_programs[programName]));
+    select_on_change('userMenu', (_menuElement, programName) => editor_set_program(user_programs[programName]));
     select_add_keys_as_options('userMenu', Object.keys(user_programs));
 }
 function user_program_save_to(program_text) {
-    var timeStamp = (new Date()).toISOString();
-    var programName = window.prompt('Set program name', timeStamp);
+    const timeStamp = (new Date()).toISOString();
+    const programName = window.prompt('Set program name', timeStamp);
     if (programName) {
         user_programs[programName] = program_text;
         localStorage.setItem(user_storage_key, JSON.stringify(user_programs));
@@ -3074,9 +3075,9 @@ function user_storage_sync() {
 }
 // Read selected .json user program archive file.
 function user_program_read_archive() {
-    var fileInput = document.getElementById('userProgramArchiveFile');
-    var fileList = fileInput.files;
-    var jsonFile = fileList[0];
+    const fileInput = document.getElementById('userProgramArchiveFile');
+    const fileList = fileInput.files;
+    const jsonFile = fileList[0];
     if (fileInput && fileList && jsonFile) {
         consoleDebug('user_program_read_archive', jsonFile);
         read_json_file_and_then(jsonFile, function (obj) {
@@ -3095,8 +3096,8 @@ function sc3_websocket_send_osc(msg) {
 }
 // Encode and play Ugen.
 function playUgen(ugen) {
-    var graph = makeGraph('sc3.js', wrapOut(0, ugen));
-    var syndef = graphEncodeSyndef(graph);
+    const graph = makeGraph('sc3.js', wrapOut(0, ugen));
+    const syndef = graphEncodeSyndef(graph);
     console.log('play: scsyndef #', syndef.length);
     sc3_websocket_send_osc(d_recv_then(syndef, osc.writePacket(s_new0('sc3.js', -1, kAddToTail, 1))));
 }

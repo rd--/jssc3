@@ -16,7 +16,7 @@ export function queueNew():Queue<any> {
 	};
 }
 
-export function queuePush(aQueue: Queue<any>, aValue: any): void {
+export function queuePush<T>(aQueue: Queue<T>, aValue: T): void {
 	aQueue.queue.push(aValue);
 }
 
@@ -25,6 +25,6 @@ export function queuePop(aQueue: Queue<any>): any {
 }
 
 // q = queueNew(); [1, 2, 3].forEach(item => queuePush(q, item)); queueAsArray(q) //= [1, 2, 3]
-export function queueAsArray(aQueue: Queue<any>): Array<any> {
+export function queueAsArray<T>(aQueue: Queue<T>): Array<T> {
 	return aQueue.queue;
 }

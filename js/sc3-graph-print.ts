@@ -8,7 +8,7 @@ import { wrapOut } from './sc3-pseudo.js'
 import { rateSelector } from './sc3-rate.js'
 import { Signal, Ugen, ScUgen, isUgen, ugenDisplayName } from './sc3-ugen.js'
 
-function graphPrintUgenSpec(graph: Graph, ugen: ScUgen): void {
+export function graphPrintUgenSpec(graph: Graph, ugen: ScUgen): void {
 	consoleLog(
 		ugen.name,
 		ugen.rate,
@@ -20,32 +20,33 @@ function graphPrintUgenSpec(graph: Graph, ugen: ScUgen): void {
 	);
 }
 
-function graphPrintSyndef(graph: Graph): void {
+export function graphPrintSyndef(graph: Graph): void {
 	console.log(SCgf, 2, 1, graph.name, arrayLength(graph.constantSeq), graph.constantSeq, 0, [], 0, [], arrayLength(graph.ugenSeq));
 	arrayForEach(graph.ugenSeq, item => graphPrintUgenSpec(graph, item));
 	console.log(0, []);
 }
 
-function printSyndefOf(ugen: Signal): void {
-	var graph = makeGraph('sc3.js', wrapOut(0, ugen));
+export function printSyndefOf(ugen: Signal): void {
+	const graph = makeGraph('sc3.js', wrapOut(0, ugen));
 	graphPrintSyndef(graph);
 }
 
-function graphInputDisplayName(graph: Graph, input: Ugen): string {
+export function graphInputDisplayName(graph: Graph, input: (Ugen | number)): string {
 	if(isUgen(input)) {
-		var id = String(graphUgenIndex(graph, input.scUgen.id));
-		var nm = ugenDisplayName(input.scUgen);
-		var ix = input.scUgen.numChan > 1 ? ('[' + String(input.port) + ']') : '';
+		const inputUgen = <Ugen>input;
+		const id = String(graphUgenIndex(graph, inputUgen.scUgen.id));
+		const nm = ugenDisplayName(inputUgen.scUgen);
+		const ix = inputUgen.scUgen.numChan > 1 ? ('[' + String(inputUgen.port) + ']') : '';
 		return id + '_' + nm + ix;
 	} else if(isNumber(input)) {
-		return String(input);
+		return String(<number>input);
 	} else {
 		console.error('graphInputDisplayName', input);
 		return '?';
 	}
 }
 
-function graphPrettyPrintUgen(graph: Graph, ugen: ScUgen): void {
+export function graphPrettyPrintUgen(graph: Graph, ugen: ScUgen): void {
 	console.log(
 		graphUgenIndex(graph, ugen.id) + '_' + ugenDisplayName(ugen),
 		rateSelector(ugen.rate),
@@ -53,11 +54,11 @@ function graphPrettyPrintUgen(graph: Graph, ugen: ScUgen): void {
 	);
 }
 
-function graphPrettyPrintSyndef(graph: Graph): void {
+export function graphPrettyPrintSyndef(graph: Graph): void {
 	arrayForEach(graph.ugenSeq, item => graphPrettyPrintUgen(graph, item));
 }
 
-function prettyPrintSyndefOf(ugen: Signal): void {
-	var graph = makeGraph('sc3.js', wrapOut(0, ugen));
+export function prettyPrintSyndefOf(ugen: Signal): void {
+	const graph = makeGraph('sc3.js', wrapOut(0, ugen));
 	graphPrettyPrintSyndef(graph);
 }

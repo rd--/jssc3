@@ -1,12 +1,14 @@
 // sc3-opensoundcontrol.ts
 
+export type OscValue = number | string | Uint8Array;
+
 export type OscData = {
 	type: string,
-	value: number | string | Uint8Array
+	value: OscValue
 };
 
-export function oscData(t: string, x: any): OscData {
-	return {type: t, value: x};
+export function oscData(oscType: string, oscValue: OscValue): OscData {
+	return {type: oscType, value: oscValue};
 }
 
 export function oscInt32(x : number): OscData {
