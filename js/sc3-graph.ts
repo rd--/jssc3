@@ -51,16 +51,17 @@ export function signalToUgenGraph(signal: Signal): Tree<Ugen> {
 export function makeGraph(name: string, signal: Signal): Graph {
 	const graph = signalToUgenGraph(signal);
 	const leafNodes = ugenGraphLeafNodes(graph);
-	const ugens = arraySort(arrayFilter(leafNodes, isScUgen), scUgenCompare);
-	const constants = arrayFilter(leafNodes, isNumber);
-	const numLocalBufs = arrayLength(arrayFilter(ugens, item => item.name === 'LocalBuf'));
+	const constantNodes = <number[]>arrayFilter(leafNodes, isNumber);
+	const ugenNodes = <ScUgen[]>arrayFilter(leafNodes, isScUgen);
+	const ugenSeq = arraySort(ugenNodes, scUgenCompare);
+	const numLocalBufs = arrayLength(arrayFilter(ugenSeq, item => item.name === 'LocalBuf'));
 	const MaxLocalBufs = function(count: number): ScUgen {
 		return ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
 	};
 	return {
 		name: name,
-		ugenSeq: arrayAppend([MaxLocalBufs(numLocalBufs)], ugens),
-		constantSeq: arraySort(arrayNub(arrayAppend([numLocalBufs], constants)), (i, j) => i - j)
+		ugenSeq: arrayAppend([MaxLocalBufs(numLocalBufs)], ugenSeq),
+		constantSeq: arraySort(arrayNub(arrayAppend([numLocalBufs], constantNodes)), (i, j) => i - j)
 	};
 }
 

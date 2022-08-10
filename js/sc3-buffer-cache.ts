@@ -15,9 +15,9 @@ export const sc3_buffer_dict: BufferDictionary = {
 
 export type BufferCache = { [key: string]: number[] };
 
-export var sc3_buffer_cache: BufferCache = {};
+export const sc3_buffer_cache: BufferCache = {};
 
-export var sc3_buffer_next = 100;
+export let sc3_buffer_next = 100;
 
 // Fetch buffer index from cache, allocate and load if required.  Resolve soundFileId against dictionary.
 export function SfAcquire(urlOrKey: string, numberOfChannels: number, channelSelector: number | number[]): number | number[] {

@@ -32,7 +32,7 @@ function arrayChoose(anArray) {
 }
 // arrayClump(arrayIota(20), 5)
 function arrayClump(anArray, clumpSize) {
-    var clumpCount = Math.ceil(anArray.length / clumpSize);
+    const clumpCount = Math.ceil(anArray.length / clumpSize);
     return arrayIota(clumpCount).map(i => anArray.slice(i * clumpSize, i * clumpSize + clumpSize));
 }
 // arrayConcat([1, 2, 3], [4, 5, 6]) //= [1, 2, 3, 4, 5, 6] ; c.f. arrayAppend
@@ -56,9 +56,9 @@ function arrayCopy(anArray) {
 }
 // arrayDropWhile([1, 2, 3, 4], x => x < 3) //= [3, 4]
 function arrayDropWhile(anArray, predicate) {
-    var [x, ...xs] = anArray;
-    if (anArray.length > 0 && predicate(x)) {
-        return arrayDropWhile(xs, predicate);
+    const startIndex = anArray.findIndex(item => !predicate(item));
+    if (anArray.length > 0 && startIndex > 0) {
+        return anArray.slice(startIndex, anArray.length);
     }
     else {
         return anArray;
@@ -69,8 +69,8 @@ function arrayEvery(anArray, aPredicate) {
 }
 // arrayExtendCyclically([1, 2, 3], 8) //= [1, 2, 3, 1, 2, 3, 1, 2]
 function arrayExtendCyclically(anArray, size) {
-    var initialSize = anArray.length;
-    var result = anArray.slice(0, initialSize);
+    const initialSize = anArray.length;
+    const result = anArray.slice(0, initialSize);
     for (let x = 0; x < size - initialSize; x += 1) {
         result.push(arrayAtWrap(anArray, x));
     }
@@ -79,7 +79,7 @@ function arrayExtendCyclically(anArray, size) {
 // arrayExtendToBeOfEqualSize([[1, 2], [3, 4, 5]]) //= [[1, 2, 1], [3, 4, 5]]
 // arrayExtendToBeOfEqualSize([[440, 550], 0]) //= [[440, 550], [0, 0]]
 function arrayExtendToBeOfEqualSize(anArray) {
-    var maxSize = arrayMaxItem(anArray.map(item => Array.isArray(item) ? item.length : 1));
+    const maxSize = arrayMaxItem(anArray.map(item => Array.isArray(item) ? item.length : 1));
     return anArray.map(item => arrayExtendCyclically(Array.isArray(item) ? item : [item], maxSize));
 }
 // arrayFill(5, () => Math.random())
@@ -87,7 +87,7 @@ function arrayFill(size, elemProc) {
     if (elemProc.length != 0) {
         console.error('arrayFill: arity error');
     }
-    return arrayIota(size).map(unusedItem => elemProc());
+    return arrayIota(size).map(_unusedItem => elemProc());
 }
 // arrayFillWithIndex(5, i => i * i) //= [0, 1, 4, 9, 16]
 function arrayFillWithIndex(size, elemProc) {
@@ -117,7 +117,7 @@ function arrayFromTo(from, to) {
 }
 // arrayFromToBy(1, 9, 2) //= [1, 3, 5, 7, 9]
 function arrayFromToBy(from, to, by) {
-    var answer = [];
+    const answer = [];
     for (let i = from; i <= to; i += by) {
         answer.push(i);
     }
@@ -157,7 +157,7 @@ function arrayPut(anArray, anIndex, aValue) {
 }
 // arrayReplicate(5, 1) //= [1, 1, 1, 1, 1]
 function arrayReplicate(count, value) {
-    return arrayIota(count).map(unusedItem => value);
+    return arrayIota(count).map(_unusedItem => value);
 }
 function arrayReduce(anArray, aFunction) {
     return anArray.reduce(aFunction);
@@ -203,9 +203,9 @@ function arrayTail(anArray) {
 }
 // arrayTakeWhile([1, 2, 3, 4], x => x < 3) //= [1, 2]
 function arrayTakeWhile(anArray, predicate) {
-    const [x, ...xs] = anArray;
-    if (anArray.length > 0 && predicate(x)) {
-        return [x, ...arrayTakeWhile(xs, predicate)];
+    const endIndex = anArray.findIndex(item => !predicate(item));
+    if (anArray.length > 0 && endIndex > 0) {
+        return anArray.slice(0, endIndex);
     }
     else {
         return [];
@@ -214,28 +214,6 @@ function arrayTakeWhile(anArray, predicate) {
 // arrayTranspose([[1, 2, 3], [4, 5, 6]]) //= [[1, 4], [2, 5], [3, 6]]
 function arrayTranspose(anArray) {
     return anArray[0].map((_col, i) => anArray.map(row => row[i]));
-}
-// arrayTreeEq([1, 2, [3, [4, 5]]], [1, 2, [3, [4, 5]]])
-function arrayTreeEq(lhs, rhs) {
-    if (lhs === rhs) {
-        return true;
-    }
-    if (!Array.isArray(rhs) || (lhs.length !== rhs.length)) {
-        return false;
-    }
-    for (let i = 0; i < lhs.length; i++) {
-        if (Array.isArray(lhs[i])) {
-            if (!arrayTreeEq(lhs[i], rhs[i])) {
-                return false;
-            }
-        }
-        else {
-            if (lhs[i] !== rhs[i]) {
-                return false;
-            }
-        }
-    }
-    return true;
 }
 function arrayUnlines(anArray) {
     return anArray.join('\n');
@@ -823,6 +801,28 @@ function treeFlatten(aTree) {
 }
 function forestFlatten(aForest) {
     return treeFlatten(aForest);
+}
+// forestEq([1, 2, [3, [4, 5]]], [1, 2, [3, [4, 5]]])
+function forestEq(lhs, rhs) {
+    if (lhs === rhs) {
+        return true;
+    }
+    if (!Array.isArray(rhs) || (lhs.length !== rhs.length)) {
+        return false;
+    }
+    for (let i = 0; i < lhs.length; i++) {
+        if (Array.isArray(lhs[i])) {
+            if (!forestEq(lhs[i], rhs[i])) {
+                return false;
+            }
+        }
+        else {
+            if (lhs[i] !== rhs[i]) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 // sc3-websocket.ts
 function websocket_open(host, port) {
@@ -1957,8 +1957,8 @@ const sc3_buffer_dict = {
     'floating_1': 'https://rohandrape.net/pub/jssc3/flac/floating_1.flac',
     'then': 'https://rohandrape.net/pub/jssc3/flac/then.flac'
 };
-var sc3_buffer_cache = {};
-var sc3_buffer_next = 100;
+const sc3_buffer_cache = {};
+let sc3_buffer_next = 100;
 // Fetch buffer index from cache, allocate and load if required.  Resolve soundFileId against dictionary.
 function SfAcquire(urlOrKey, numberOfChannels, channelSelector) {
     const channelIndices = asArray(channelSelector);
@@ -2117,16 +2117,17 @@ function signalToUgenGraph(signal) {
 function makeGraph(name, signal) {
     const graph = signalToUgenGraph(signal);
     const leafNodes = ugenGraphLeafNodes(graph);
-    const ugens = arraySort(arrayFilter(leafNodes, isScUgen), scUgenCompare);
-    const constants = arrayFilter(leafNodes, isNumber);
-    const numLocalBufs = arrayLength(arrayFilter(ugens, item => item.name === 'LocalBuf'));
+    const constantNodes = arrayFilter(leafNodes, isNumber);
+    const ugenNodes = arrayFilter(leafNodes, isScUgen);
+    const ugenSeq = arraySort(ugenNodes, scUgenCompare);
+    const numLocalBufs = arrayLength(arrayFilter(ugenSeq, item => item.name === 'LocalBuf'));
     const MaxLocalBufs = function (count) {
         return ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
     };
     return {
         name: name,
-        ugenSeq: arrayAppend([MaxLocalBufs(numLocalBufs)], ugens),
-        constantSeq: arraySort(arrayNub(arrayAppend([numLocalBufs], constants)), (i, j) => i - j)
+        ugenSeq: arrayAppend([MaxLocalBufs(numLocalBufs)], ugenSeq),
+        constantSeq: arraySort(arrayNub(arrayAppend([numLocalBufs], constantNodes)), (i, j) => i - j)
     };
 }
 function graphConstantIndex(graph, constantValue) {

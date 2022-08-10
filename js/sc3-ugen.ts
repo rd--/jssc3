@@ -108,7 +108,7 @@ export function mceInputTransform(aSignal: Signal[]): Signal[] {
 export function makeUgen(name: string, numChan: number, rateSpec: RateSpec, specialIndex: number, signalArray: Signal[]): Signal {
 	consoleDebug('makeUgen', name, numChan, rateSpec, specialIndex, signalArray);
 	if(requiresMce(signalArray)) {
-		return arrayMap(mceInputTransform(signalArray), item => makeUgen(name, numChan, rateSpec, specialIndex, item));
+		return arrayMap(mceInputTransform(signalArray), item => makeUgen(name, numChan, rateSpec, specialIndex, <Signal[]>item));
 	} else {
 		const inputArray = <UgenInput[]>signalArray;
 		const scUgen = ScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
@@ -242,7 +242,7 @@ export function BinaryOp(specialIndex: number, lhs: Signal, rhs: Signal): Signal
 	if(Array.isArray(lhs) || Array.isArray(rhs)) {
 		const expanded = mceInputTransform([asArray(lhs), asArray(rhs)]);
 		consoleDebug('BinaryOp: array constant', expanded);
-		return arrayMap(expanded, item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]));
+		return arrayMap(<UgenInput[][]>expanded, item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]));
 	} else {
 		return BinaryOpWithConstantOptimiser(specialIndex, lhs, rhs);
 	}

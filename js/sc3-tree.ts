@@ -27,3 +27,25 @@ export type Forest<T> = Tree<T>[];
 export function forestFlatten<T>(aForest: Forest<T>): T[] {
 	return treeFlatten(aForest);
 }
+
+// forestEq([1, 2, [3, [4, 5]]], [1, 2, [3, [4, 5]]])
+export function forestEq<T>(lhs: Forest<T>, rhs: Forest<T>): boolean {
+	if (lhs === rhs) {
+		return true;
+	}
+	if (!Array.isArray(rhs) || (lhs.length !== rhs.length)) {
+		return false;
+	}
+	for (let i = 0; i < lhs.length; i++) {
+		if(Array.isArray(lhs[i])) {
+			if (!forestEq(<Forest<T>>lhs[i], <Forest<T>>rhs[i])) {
+				return false;
+			}
+		} else {
+			if (lhs[i] !== rhs[i]) {
+				return false;
+			}
+		}
+	}
+	return true;
+}

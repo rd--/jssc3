@@ -40,7 +40,7 @@ export function arrayChoose<T>(anArray: T[]): T {
 
 // arrayClump(arrayIota(20), 5)
 export function arrayClump<T>(anArray: T[], clumpSize: number): T[][] {
-	var clumpCount = Math.ceil(anArray.length / clumpSize);
+	const clumpCount = Math.ceil(anArray.length / clumpSize);
 	return arrayIota(clumpCount).map(i => anArray.slice(i * clumpSize, i * clumpSize + clumpSize));
 }
 
@@ -70,9 +70,9 @@ export function arrayCopy<T>(anArray: T[]): T[] {
 
 // arrayDropWhile([1, 2, 3, 4], x => x < 3) //= [3, 4]
 export function arrayDropWhile<T>(anArray: T[], predicate: (aValue: T) => boolean): T[] {
-	var [x, ...xs] = anArray;
-	if (anArray.length > 0 && predicate(x)) {
-		return arrayDropWhile(xs, predicate);
+	const startIndex = anArray.findIndex(item => !predicate(item));
+	if (anArray.length > 0 && startIndex > 0) {
+		return anArray.slice(startIndex, anArray.length);
 	} else {
 		return anArray;
 	}
@@ -84,8 +84,8 @@ export function arrayEvery<T>(anArray: T[], aPredicate: (aValue: T) => boolean):
 
 // arrayExtendCyclically([1, 2, 3], 8) //= [1, 2, 3, 1, 2, 3, 1, 2]
 export function arrayExtendCyclically<T>(anArray: T[], size: number): T[] {
-	var initialSize = anArray.length;
-	var result = anArray.slice(0, initialSize);
+	const initialSize = anArray.length;
+	const result = anArray.slice(0, initialSize);
 	for(let x = 0; x < size - initialSize; x += 1) {
 		result.push(arrayAtWrap(anArray, x));
 	}
@@ -95,7 +95,7 @@ export function arrayExtendCyclically<T>(anArray: T[], size: number): T[] {
 // arrayExtendToBeOfEqualSize([[1, 2], [3, 4, 5]]) //= [[1, 2, 1], [3, 4, 5]]
 // arrayExtendToBeOfEqualSize([[440, 550], 0]) //= [[440, 550], [0, 0]]
 export function arrayExtendToBeOfEqualSize<T>(anArray: (T | T[])[]): T[][] {
-	var maxSize = arrayMaxItem(anArray.map(item => Array.isArray(item) ? item.length: 1));
+	const maxSize = arrayMaxItem(anArray.map(item => Array.isArray(item) ? item.length: 1));
 	return anArray.map(item => arrayExtendCyclically(Array.isArray(item) ? item: [item], maxSize));
 }
 
@@ -104,7 +104,7 @@ export function arrayFill<T>(size: number, elemProc: (noValue: void) => T): T[] 
 	if(elemProc.length != 0) {
 		console.error('arrayFill: arity error');
 	}
-	return arrayIota(size).map(unusedItem => elemProc());
+	return arrayIota(size).map(_unusedItem => elemProc());
 }
 
 // arrayFillWithIndex(5, i => i * i) //= [0, 1, 4, 9, 16]
@@ -142,7 +142,7 @@ export function arrayFromTo(from: number, to: number): number[] {
 
 // arrayFromToBy(1, 9, 2) //= [1, 3, 5, 7, 9]
 export function arrayFromToBy(from: number, to: number, by: number): number[] {
-	var answer = [];
+	const answer = [];
 	for(let i = from; i <= to; i += by) {
 		answer.push(i);
 	}
@@ -167,7 +167,7 @@ export function arrayLength<T>(anArray: T[]): number {
 	return anArray.length;
 }
 
-export function arrayMap(anArray: any[], aFunction: (aValue: any) => any): any[] {
+export function arrayMap<T, U>(anArray: T[], aFunction: (aValue: T) => U): U[] {
 	return anArray.map(aFunction);
 }
 
@@ -192,7 +192,7 @@ export function arrayPut<T>(anArray: T[], anIndex: number, aValue: T): void {
 
 // arrayReplicate(5, 1) //= [1, 1, 1, 1, 1]
 export function arrayReplicate<T>(count: number, value: T): T[] {
-	return arrayIota(count).map(unusedItem => value);
+	return arrayIota(count).map(_unusedItem => value);
 }
 
 export function arrayReduce<T>(anArray: T[], aFunction: (previousValue: T, currentValue: T) => T): T {
@@ -233,7 +233,7 @@ export function arraySize<T>(anArray: T[]): number {
 	return anArray.length;
 }
 
-export function arraySort(anArray: any[], aFunction: (lhs: any, rhs: any) => number): any[] {
+export function arraySort<T>(anArray: T[], aFunction: (lhs: T, rhs: T) => number): T[] {
 	return anArray.sort(aFunction);
 }
 
@@ -248,9 +248,9 @@ export function arrayTail<T>(anArray: T[]): T[] {
 
 // arrayTakeWhile([1, 2, 3, 4], x => x < 3) //= [1, 2]
 export function arrayTakeWhile<T>(anArray: T[], predicate: (aValue: T) => boolean): T[] {
-	const [x, ...xs] = anArray;
-	if (anArray.length > 0 && predicate(x)) {
-		return [x, ...arrayTakeWhile(xs, predicate)];
+	const endIndex = anArray.findIndex(item => !predicate(item));
+	if (anArray.length > 0 && endIndex > 0) {
+		return anArray.slice(0, endIndex);
 	} else {
 		return [];
 	}
@@ -259,28 +259,6 @@ export function arrayTakeWhile<T>(anArray: T[], predicate: (aValue: T) => boolea
 // arrayTranspose([[1, 2, 3], [4, 5, 6]]) //= [[1, 4], [2, 5], [3, 6]]
 export function arrayTranspose<T>(anArray: T[][]): T[][] {
 	return anArray[0].map((_col, i) => anArray.map(row => row[i]));
-}
-
-// arrayTreeEq([1, 2, [3, [4, 5]]], [1, 2, [3, [4, 5]]])
-export function arrayTreeEq(lhs: any[], rhs: any[]): boolean {
-	if (lhs === rhs) {
-		return true;
-	}
-	if (!Array.isArray(rhs) || (lhs.length !== rhs.length)) {
-		return false;
-	}
-	for (let i = 0; i < lhs.length; i++) {
-		if(Array.isArray(lhs[i])) {
-			if (!arrayTreeEq(lhs[i], rhs[i])) {
-				return false;
-			}
-		} else {
-			if (lhs[i] !== rhs[i]) {
-				return false;
-			}
-		}
-	}
-	return true;
 }
 
 export function arrayUnlines(anArray: string[]): string {

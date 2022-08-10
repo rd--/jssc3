@@ -15,6 +15,7 @@ doc = jssc3-1.html \
 	sc-help-ugens-oscillators.html \
 	sc-help-ugens-panners.html \
 	sc-help-ugens-random.html \
+	sc-help-ugens-samples.html \
 	sc-help-ugens-triggers.html \
 	sc-help-ugens-unary-operators.html \
 	nc-1.1.html nc-2.1.html nc-2.4.html nc-2.5.html nc-3.4.html nc-12.2.html

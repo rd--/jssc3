@@ -76,10 +76,18 @@ _Navigating_ to  a Url creates a new browser context, _visiting_ loads a file in
 
 ## Remainder
 
+- name case
+  + presently operators are in camelCase and unit generators are in TitleCase
+  + instead all could be in TitleCase, ie. Osc and Mul and MulAdd and Tanh
+  + there are some name collisions, document these
+- file extension for .md files that are literate .stc
+  + .stc.md or .md.stc
+  + .md as minor mode so that it displays nicely in emacs
 - ts
   + bindings, generate .ts variant
 - CsvAcquire
 - implement sc2 ugens for help
+- store help files as name.stc.md and reconstruct "composite" files
 - control param, singular constructor, p = Param({freq: 400, amp: 0.1}) and then SinOsc(p.freq, 0) to use
 - simple examples for scheduling s_new messages
 - proper help menus for pte & rte
@@ -93,3 +101,4 @@ _Navigating_ to  a Url creates a new browser context, _visiting_ loads a file in
 - document selection rules
 - note limited .js help files
 - document git submodules
+- denojs, allow use as ordinary local interpreter

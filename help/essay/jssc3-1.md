@@ -30,7 +30,7 @@ C-Smalltalk (Stc) is a [C](http://csapp.cs.cmu.edu/3e/docs/chistory.html)-like s
 
 StSc3 includes a [short description](https://rohandrape.net/?t=stsc3&e=md/c-smalltalk.md) of the notation, as well as the [lexer](https://gitlab.com/rd--/stsc3/-/blob/master/Language/Smalltalk/SuperCollider/Lexer.x) and [parser](https://gitlab.com/rd--/stsc3/-/blob/master/Language/Smalltalk/SuperCollider/Parser.y) definitions.
 
-There is a [translator]((https://rohandrape.net/pub/stsc3/html/stc-to-js.html)) from Stc to Js notation, and Stc is a simple and pleasant notation for JsSc3 programs.
+There is a [translator](https://rohandrape.net/pub/stsc3/html/stsc3.html) from Stc to Js notation, and Stc is a simple and pleasant notation for JsSc3 programs.
 
 ## Editing
 

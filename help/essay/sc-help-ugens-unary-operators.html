@@ -1,6 +1,8 @@
-<h1>abs</h1><p>Absolute value</p><pre><code>var a = Ln(-1, 1, 2);
+<h1>abs</h1><p>Absolute value, <em>-1.abs = 1.abs = 1</em>.</p><pre><code>var a = Ln(-1, 1, 2);
 var b = a.abs;
 SinOsc([a, b] * 220 + [220, 440], 0) * [a, a.abs] * 0.1
+</code></pre><p>Compare:</p><pre><code>var o = SyncSaw(100, 440);
+[o, o.abs] * 0.1
 </code></pre><h1>acos</h1><p>Arc cosine</p><pre><code>var x = (Ln(-1, 1, 2).acos / 0.5 * pi);
 SinOsc(x * 110 + 110, 0) * 0.1
 </code></pre><h1>ampdb</h1><p>Convert linear amplitude to decibels</p><pre><code>SinOsc([Ln(0, 1, 2).ampdb, Ln(-96, 0.001, 2)] * 110 + 110, 0) * 0.1

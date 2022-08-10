@@ -1,0 +1,17 @@
+<h1>AudioIn -  read audio input from ADC</h1><p><em>AudioIn(channel=1)</em></p><p>Reads audio from the sound input hardware.</p><ul><li>channel: input channel number to read. Channel numbers begin at 1.</li></ul><p>Stereo through patching from input to output:</p><pre><code>	AudioIn([1, 2])
+</code></pre><h1>BufRd - Buffer reading oscillator</h1><p>Read the content of a buffer at an index.</p><p>Where PlayBuf plays through the buffer by itself, BufRd only moves its read point by the phase input and therefore has no pitch input. BufRd has variable interpolation.</p><p><em>BufRd(numChannels, bufnum=0, phase=0, loop=1, interpolation=2)</em></p><ul><li>numChannels: number of channels</li><li>bufnum: signal buffer index</li><li>phase: index into the buffer</li><li>loop: 1 means true, 0 means false</li><li>interpolation: 1 means no interpolation, 2 is linear, 4 is cubic interpolation.</li></ul><p>Zig zag around sound:</p><pre><code>var sf = SfAcquire(&quot;floating_1&quot;, 1, [1]).first;
+var phase = LFNoise2(MouseX(2, 20, 1, 0.2)) * SfFrames(sf);
+BufRd(1, sf, phase, 1, 2)
+</code></pre><p>Ordinary playback, phase courtesy <em>LFSaw</em>:</p><pre><code>var sf = SfAcquire(&quot;floating_1&quot;, 1, [1]).first;
+BufRd(1, sf, LinLin(LFSaw(SfDur(sf).reciprocal, 0), -1, 1, 0, SfFrames(sf)), 1, 2)
+</code></pre><p>Ordinary playback, phase courtesy <em>Phasor</em>:</p><pre><code>var sf = SfAcquire(&quot;floating_1&quot;, 1, [1]).first;
+BufRd(1, sf, Phasor(0, SfRateScale(sf), 0, SfFrames(sf), 0), 1, 2)
+</code></pre><h1>PlayBuf - sample playback oscillator</h1><p><em>PlayBuf(numChannels, bufnum=0, rate=1, trigger=1, startPos=0, loop = 0, doneAction=0)</em></p><p>Plays back a memory resident sample.</p><ul><li>numChannels: number of channels</li><li>bufnum: a signal buffer</li><li>rate: playback rate, 1 is normal, 2 is one octave up, 0.5 is one octave down, -1 is backwards normal rate. Interpolation is cubic.</li><li>trigger: A trigger causes a jump to the startPos</li><li>startPos: sample frame to start playback</li><li>loop: 1 means true, 0 means false</li><li>doneAction: action to be executed when the buffer is finished playing</li></ul><p>Normal playback at same speed of recording:</p><pre><code>var sf = SfAcquire(&quot;floating_1&quot;, 1, [1]).first;
+PlayBuf(1, sf, 1, 0, 0, 1, 0)
+</code></pre><p>Accelerating pitch:</p><pre><code>var sf = SfAcquire(&quot;floating_1&quot;, 1, [1]).first;
+var rate = XLn(0.1, 100, 60);
+PlayBuf(1, sf, rate, 0, 0, 1, 0)
+</code></pre><p>Sine wave control of playback rate.  Negative rate plays backwards:</p><pre><code>var sf = SfAcquire(&quot;floating_1&quot;, 1, [1]).first;
+var rate = SinOsc(XLn(0.2, 8, 30), 0) * 2 + 0.1;
+PlayBuf(1, sf, rate, 0, 0, 1, 0)
+</code></pre>
