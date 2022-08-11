@@ -18,7 +18,6 @@ doc = jssc3-1.html \
 	sc-help-ugens-samples.html \
 	sc-help-ugens-triggers.html \
 	sc-help-ugens-unary-operators.html \
-	adc-tutorial-0.html adc-tutorial-1.html adc-tutorial-2.html adc-tutorial-7.html adc-tutorial-8.html \
 	nc-1.1.html nc-2.1.html nc-2.4.html nc-2.5.html nc-3.4.html nc-12.2.html
 
 all: $(doc)
@@ -26,9 +25,11 @@ all: $(doc)
 clean:
 	rm -f $(doc)
 
-cat:
+adc-cat:
 	cat ../tutorial/adc/0-*/*.md > adc-tutorial-0.md
 	cat ../tutorial/adc/1-*/*.md > adc-tutorial-1.md
 	cat ../tutorial/adc/2-*/*.md > adc-tutorial-2.md
 	cat ../tutorial/adc/7-*/*.md > adc-tutorial-7.md
 	cat ../tutorial/adc/8-*/*.md > adc-tutorial-8.md
+
+adc-mk: adc-tutorial-0.html adc-tutorial-1.html adc-tutorial-2.html adc-tutorial-7.html adc-tutorial-8.html
