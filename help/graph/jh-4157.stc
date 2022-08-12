@@ -1,8 +1,8 @@
 // jh ; https://scsynth.org/t/auditory-illusion-with-exponentially-spaced-frequencies/4157 ; rd (edit)
 var t = Impulse(0.1, 0);
 var sinosc = {
-    arg freq;
-    (Phasor(t, freq / SampleRate(), 0, 1, 0) * 2 * pi).sin
+	arg freq;
+	(Phasor(t, freq / SampleRate(), 0, 1, 0) * 2 * pi).sin
 };
 var k = 160;
 var b = TRand(2, 2.25, t);

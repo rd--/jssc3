@@ -11,11 +11,11 @@ var trig = Impulse(rate, 0);
 var sr = SampleRate();
 var x = Phasor(trig, rate / sr, 0, 1, 0);
 SinOsc(
-    [
-        LinLin(x, 0, 1, 600, 1000), // convert range from 0..1 to 600..1000
-        1000 // constant second frequency
-    ],
-    0
+	[
+		LinLin(x, 0, 1, 600, 1000), // convert range from 0..1 to 600..1000
+		1000 // constant second frequency
+	],
+	0
 ) * 0.1
 </code></pre><p>Two phasors control two sine frequencies.  <em>MouseX</em> controls trigger frequency and <em>MouseY</em> controls resetPos of the second:</p><pre><code>var rate = MouseX(1, 200, 1, 0.2);
 var trig = Impulse(rate, 0);

@@ -8,5 +8,5 @@ t = Impulse(4, 0);
 m = DegreeToKey(b, DmdOn(t, 0, Seq(inf, n)), 12);
 e = Decay2(t, TRand(0.05, 0.15, t), TRand(0.15, 0.5, t));
 dup(function() {
-    return mul(CombC(fdiv(tanh(mul(mul(Blip(midiCps(add(add(48, m), TRand(0, 0.05, t))), TRand(1, 7, t)), e), 8)), 8), 1, 1, 8), TRand(0.05, 0.15, t));
+	return mul(CombC(fdiv(tanh(mul(mul(Blip(midiCps(add(add(48, m), TRand(0, 0.05, t))), TRand(1, 7, t)), e), 8)), 8), 1, 1, 8), TRand(0.05, 0.15, t));
 }, 2)

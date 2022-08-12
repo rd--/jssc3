@@ -5,35 +5,35 @@ f.dup(n).sum / (8 * n) // array of n places, summed, scale amplitude
 </code></pre><p>One common structure used in reverbs is to mix several comb delays in parallel.  This example shows how you can use parallel structures to process a single input.</p><pre><code>var n = 8;
 // variable to hold the input, use a noise burst as an input signal
 var z = Decay2( // exponential decay envelope
-    Impulse(0.5, 0), // impulse to trigger the decay
-    0.01, // attack time
-    0.20 // decay time
+	Impulse(0.5, 0), // impulse to trigger the decay
+	0.01, // attack time
+	0.20 // decay time
 ) * PinkNoise() * 0.1;	// multiply envelope by pink noise
 {
-    // function to create comb delays with random delay times
-    CombC(
-        z, // input signal
-        0.1, // maximum delay time
-        Rand(0.01, 0.09), // random delay time from 0.01 to 0.09 seconds
-        3 // echo decay time
-    )
+	// function to create comb delays with random delay times
+	CombC(
+		z, // input signal
+		0.1, // maximum delay time
+		Rand(0.01, 0.09), // random delay time from 0.01 to 0.09 seconds
+		3 // echo decay time
+	)
 }.dup(n).sum
 </code></pre><h1>5.2 How to build series structures.</h1><p>Another structure used in reverbs is a series of allpass delays.  A series or chain of unit generators can be created by using a loop with an induction variable.  In the following loop the variable <em>z</em> gets reassigned each time through the loop creating a chain of allpass delays. The first time though the loop the variable <em>z</em> is the input signal generator.  <em>Z</em> is then assigned to the allpass delay, so that the next time through the loop the next allpass delay will have the previous allpass delay as its input.</p><pre><code>var n = 8;
 // variable to hold the input, use a noise burst as an input signal
 var z = Decay2( // exponential decay envelope
-    Impulse(0.5, 0), // impulse to trigger the decay
-    0.01, // attack time
-    0.20 // decay time
+	Impulse(0.5, 0), // impulse to trigger the decay
+	0.01, // attack time
+	0.20 // decay time
 ) * PinkNoise() * 0.1;	// multiply envelope by pink noise
 // z begins as the input and gets reassigned each time through the loop
 n.timesRepeat({ // do n times
-    // function to create allpass delays with random delay times
-    z = AllpassN(
-        z, // input to this allpass
-        0.05, // maximum delay time
-        Rand(0, 0.05), // random delay time
-        3 // echo decay time
-    )
+	// function to create allpass delays with random delay times
+	z = AllpassN(
+		z, // input to this allpass
+		0.05, // maximum delay time
+		Rand(0, 0.05), // random delay time
+		3 // echo decay time
+	)
 });
 z // return z as the output
 </code></pre><h1>5.3 Conditional patch construction</h1><p>Patches can be constructed conditionally at runtime.  The following example uses conditional code to randomly construct a patch each time.</p><pre><code>// frequency control

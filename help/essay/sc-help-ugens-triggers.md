@@ -9,7 +9,7 @@ Allows input signal value to pass when gate is positive, otherwise holds last va
 
 Frequency is a random curve for 1/4 of a cycle and a held tone for 3/4 of a cycle:
 
-    SinOsc(Gate(LFNoise2(4), LFPulse(1.333, 0, 0.25)) * 100 + 200, 0) * 0.1
+	SinOsc(Gate(LFNoise2(4), LFPulse(1.333, 0, 0.25)) * 100 + 200, 0) * 0.1
 
 # InRange - tests if a signal is within a given range
 
@@ -23,7 +23,7 @@ If in is >= lo and <= hi output 1.0, otherwise output 0.0. Output is initially z
 
 Trigger noise burst:
 
-    InRange(SinOsc(1, 0) *  0.2, [-0.15, -0.1], [0.15, 0.2]) * PinkNoise() * 0.1
+	InRange(SinOsc(1, 0) *  0.2, [-0.15, -0.1], [0.15, 0.2]) * PinkNoise() * 0.1
 
 # PeakFollower - track peak signal amplitude
 
@@ -46,12 +46,12 @@ A little decay:
 
 Mouse controls decay:
 
-    var decay = MouseX(0.99, 1.00001, 0, 0.1).min(1);
+	var decay = MouseX(0.99, 1.00001, 0, 0.1).min(1);
 	SinOsc(PeakFollower(Dust(20) * Ln(0, 1, 4), decay) * 1500 + 200, 0) * 0.1
 
 Follow a sine lfo, decay controlled by mouse:
 
-    var decay = MouseX(0, 1.1, 0, 0.1).min(1);
+	var decay = MouseX(0, 1.1, 0, 0.1).min(1);
 	SinOsc(PeakFollower(SinOsc(0.2, 0), decay) * 200 + 500, 0) * 0.1
 
 # Phasor - a resettable linear ramp between two levels
@@ -70,39 +70,39 @@ Phasor is commonly used as an index control with [BufRd] and [BufWr].
 
 Phasor controls sine frequency, end frequency matches a second sine wave:
 
-    var rate = MouseX(0.2, 2, 1, 0.2);
-    var trig = Impulse(rate, 0);
-    var sr = SampleRate();
-    var x = Phasor(trig, rate / sr, 0, 1, 0);
-    SinOsc(
-        [
-            LinLin(x, 0, 1, 600, 1000), // convert range from 0..1 to 600..1000
-            1000 // constant second frequency
-        ],
-        0
-    ) * 0.1
+	var rate = MouseX(0.2, 2, 1, 0.2);
+	var trig = Impulse(rate, 0);
+	var sr = SampleRate();
+	var x = Phasor(trig, rate / sr, 0, 1, 0);
+	SinOsc(
+		[
+			LinLin(x, 0, 1, 600, 1000), // convert range from 0..1 to 600..1000
+			1000 // constant second frequency
+		],
+		0
+	) * 0.1
 
 Two phasors control two sine frequencies.  _MouseX_ controls trigger frequency and _MouseY_ controls resetPos of the second:
 
-    var rate = MouseX(1, 200, 1, 0.2);
-    var trig = Impulse(rate, 0);
-    var sr = SampleRate();
-    var x = Phasor(trig, rate / sr, 0, 1, [0, MouseY(0, 1, 0, 0.2)]);
-    SinOsc(x * 500 + 500, 0) * 0.2
+	var rate = MouseX(1, 200, 1, 0.2);
+	var trig = Impulse(rate, 0);
+	var sr = SampleRate();
+	var x = Phasor(trig, rate / sr, 0, 1, [0, MouseY(0, 1, 0, 0.2)]);
+	SinOsc(x * 500 + 500, 0) * 0.2
 
 Use phasor to index into a sound file.  Start and end here are defined as 0 and the number of frames in the buffer.  This means that the Phasor will output values from 0 to numFrames - 1 before looping, which is perfect for driving BufRd.  (See note above)
 
-    var b = SfAcquire("crotale-d6", 1, [1]);
-    SfRead(b, Phasor(1, SfRateScale(b), 0, SfFrames(b)), 1, 2)
+	var b = SfAcquire("crotale-d6", 1, [1]);
+	SfRead(b, Phasor(1, SfRateScale(b), 0, SfFrames(b)), 1, 2)
 
 Two phasors control two sound file positions.  _MouseX_ controls trigger frequency and _MouseY_ controls resetPos of the second:
 
-    var b = SfAcquire("crotale-d6", 1, [1]);
-    var rate = MouseX(0.1, 100, 1, 0.2);
-    var trig = Impulse(rate, 0);
-    var framesInBuffer = SfFrames(b);
-    var x = Phasor(trig, SfRateScale(b), 0, framesInBuffer, [0, MouseY(0, framesInBuffer, 0, 0.2)]);
-    SfRead(b, x, 1, 2)
+	var b = SfAcquire("crotale-d6", 1, [1]);
+	var rate = MouseX(0.1, 100, 1, 0.2);
+	var trig = Impulse(rate, 0);
+	var framesInBuffer = SfFrames(b);
+	var x = Phasor(trig, SfRateScale(b), 0, framesInBuffer, [0, MouseY(0, framesInBuffer, 0, 0.2)]);
+	SfRead(b, x, 1, 2)
 
 # PulseCount - pulse counter
 
@@ -115,7 +115,7 @@ Each trigger increments a counter which is output as a signal.
 
 Pulse count as frequency input:
 
-    SinOsc(PulseCount(Impulse(10, 0), Impulse(0.4, 0)) * 200, 0) * 0.05
+	SinOsc(PulseCount(Impulse(10, 0), Impulse(0.4, 0)) * 200, 0) * 0.05
 
 # PulseDivider - pulse divider
 
@@ -129,19 +129,19 @@ Outputs one impulse each time it receives a certain number of triggers at its in
 
 Lower tone at quarter the clock rate:
 
-    var p = Impulse(8, 0);
-    var a = SinOsc(1200, 0) * Decay2(p, 0.005, 0.1);
-    var b = SinOsc(600,  0) * Decay2(PulseDivider(p, 4, 0), 0.005, 0.5);
-    (a + b) * 0.4
+	var p = Impulse(8, 0);
+	var a = SinOsc(1200, 0) * Decay2(p, 0.005, 0.1);
+	var b = SinOsc(600,  0) * Decay2(PulseDivider(p, 4, 0), 0.005, 0.5);
+	(a + b) * 0.4
 
 Four divisions:
 
-    var p = Impulse(8, 0);
-    var a = SinOsc(1200, 0) * Decay2(p, 0.005, 0.1);
-    var b = SinOsc(600,  0) * Decay2(PulseDivider(p, 4, 0), 0.005, 0.5);
-    var c = SinOsc(800,  0) * Decay2(PulseDivider(p, 2, 1), 0.005, 0.5);
-    var d = SinOsc(200,  0) * Decay2(PulseDivider(p, 16, 0), 0.005, 1.0);
-    (a + b + c + d) * 0.3
+	var p = Impulse(8, 0);
+	var a = SinOsc(1200, 0) * Decay2(p, 0.005, 0.1);
+	var b = SinOsc(600,  0) * Decay2(PulseDivider(p, 4, 0), 0.005, 0.5);
+	var c = SinOsc(800,  0) * Decay2(PulseDivider(p, 2, 1), 0.005, 0.5);
+	var d = SinOsc(200,  0) * Decay2(PulseDivider(p, 16, 0), 0.005, 1.0);
+	(a + b + c + d) * 0.3
 
 # Schmidt - Schmidt trigger
 
@@ -155,9 +155,9 @@ When in crosses to greater than hi, output 1.0, then when signal crosses lower t
 
 Threshold octave jumps:
 
-    var in = LFNoise1(3);
-    var octave = Schmidt(in, -0.15, 0.15) + 1;
-    SinOsc(in * 200 + 500 * octave, 0) * 0.1
+	var in = LFNoise1(3);
+	var octave = Schmidt(in, -0.15, 0.15) + 1;
+	SinOsc(in * 200 + 500 * octave, 0) * 0.1
 
 # Stepper - pulse counter
 
@@ -174,42 +174,42 @@ Each trigger increments a counter which is output as a signal. The counter wraps
 
 Count by 1:
 
-    SinOsc(Stepper(Impulse(10, 0), 0, 4, 16, 1, 0) * 100, 0) * 0.05
+	SinOsc(Stepper(Impulse(10, 0), 0, 4, 16, 1, 0) * 100, 0) * 0.05
 
 Count by -3:
 
-    SinOsc(Stepper(Impulse(10, 0), 0, 4, 16, -3, 0) * 100, 0) * 0.05
+	SinOsc(Stepper(Impulse(10, 0), 0, 4, 16, -3, 0) * 100, 0) * 0.05
 
 Count by 4:
 
-    SinOsc(Stepper(Impulse(10, 0), 0, 4, 16, 4, 0) * 100, 0) * 0.05
+	SinOsc(Stepper(Impulse(10, 0), 0, 4, 16, 4, 0) * 100, 0) * 0.05
 
 Count by mouse control:
 
-    SinOsc(Stepper(Impulse(10, 0), 0, 4, 16, MouseX(-9, 9, 0, 0.2), 0) * 100, 0) * 0.05
+	SinOsc(Stepper(Impulse(10, 0), 0, 4, 16, MouseX(-9, 9, 0, 0.2), 0) * 100, 0) * 0.05
 
 Using Stepper and BufRd for sequencing, mouse controls clock rate:
 
-    var b = [43, 55, 72, 70, 55, 58, 41, 67, 41, 60, 55, 39, 58, 55, 43, 51].asLocalBuf;
-    var rate = MouseX(1, 3, 1, 0.2);
-    var clock = Impulse(rate, 0);
-    var env = Decay2(clock, 0.002, 2.5);
-    var index = Stepper(clock, 0, 0, 15, 1, 0);
-    var freq = Lag2(BufRd(1, b, index, 1, 1).midiCps, 0.1) + [0, 0.3];
-    var ffreq = Lag2(freq, 0.1) + [0, 0.3];
-    var out, rev, lfo;
-    out = LFPulse(freq * [1, 3/2, 2], 0, 0.3).sum;
-    out = RLPF(out, ffreq, 0.3) * env;
-    out = RLPF(out, ffreq, 0.3) * env;
-    out = out * 0.02;
-    out = CombL(out, 1, 0.66 / rate, 2) * 0.8 + out; // echo
-    rev = out;
-    5.timesRepeat({ rev = AllpassN(rev, 0.05, { Rand(0, 0.05) }.dup(2), Rand(1.5, 2)) });
-    out = out + (0.3 * rev);
-    out = LeakDC(out, 0.995);
-    lfo = SinOsc(0.2, [0, 0.5 * pi]) * 0.0024 + 0.0025;
-    1.timesRepeat({ out = DelayL(out, 0.1, lfo) + out }); // flanger
-    OnePole(out, 0.9) * 0.5
+	var b = [43, 55, 72, 70, 55, 58, 41, 67, 41, 60, 55, 39, 58, 55, 43, 51].asLocalBuf;
+	var rate = MouseX(1, 3, 1, 0.2);
+	var clock = Impulse(rate, 0);
+	var env = Decay2(clock, 0.002, 2.5);
+	var index = Stepper(clock, 0, 0, 15, 1, 0);
+	var freq = Lag2(BufRd(1, b, index, 1, 1).midiCps, 0.1) + [0, 0.3];
+	var ffreq = Lag2(freq, 0.1) + [0, 0.3];
+	var out, rev, lfo;
+	out = LFPulse(freq * [1, 3/2, 2], 0, 0.3).sum;
+	out = RLPF(out, ffreq, 0.3) * env;
+	out = RLPF(out, ffreq, 0.3) * env;
+	out = out * 0.02;
+	out = CombL(out, 1, 0.66 / rate, 2) * 0.8 + out; // echo
+	rev = out;
+	5.timesRepeat({ rev = AllpassN(rev, 0.05, { Rand(0, 0.05) }.dup(2), Rand(1.5, 2)) });
+	out = out + (0.3 * rev);
+	out = LeakDC(out, 0.995);
+	lfo = SinOsc(0.2, [0, 0.5 * pi]) * 0.0024 + 0.0025;
+	1.timesRepeat({ out = DelayL(out, 0.1, lfo) + out }); // flanger
+	OnePole(out, 0.9) * 0.5
 
 # Sweep - triggered linear ramp
 
@@ -219,28 +219,28 @@ Starts a linear raise by rate/sec from zero when trig input crosses from non-pos
 
 Using sweep to modulate sine frequency:
 
-    var trig = Impulse(MouseX(0.5, 20, 1, 0.2), 0);
-    SinOsc(Sweep(trig, 700) + 500, 0) * 0.1
+	var trig = Impulse(MouseX(0.5, 20, 1, 0.2), 0);
+	SinOsc(Sweep(trig, 700) + 500, 0) * 0.1
 
 Using sweep to index into a buffer:
 
-    var trig = Impulse(MouseX(0.5, 10, 1, 0.2), 0);
-    var sf = SfAcquire("floating_1", 1, [1]).first;
-    BufRd(1, sf, Sweep(trig, BufSampleRate(sf)))
+	var trig = Impulse(MouseX(0.5, 10, 1, 0.2), 0);
+	var sf = SfAcquire("floating_1", 1, [1]).first;
+	BufRd(1, sf, Sweep(trig, BufSampleRate(sf)))
 
 Backwards, variable offset:
 
-    var trig = Impulse(MouseX(0.5, 10, 1, 0.2), 0);
-    var sf = SfAcquire("floating_1", 1, [1]).first;
-    var rate = BufSampleRate(sf);
-    BufRd(1, sf, Sweep(trig, rate.negated) + (BufFrames(sf) * LFNoise0(0.2)))
+	var trig = Impulse(MouseX(0.5, 10, 1, 0.2), 0);
+	var sf = SfAcquire("floating_1", 1, [1]).first;
+	var rate = BufSampleRate(sf);
+	BufRd(1, sf, Sweep(trig, rate.negated) + (BufFrames(sf) * LFNoise0(0.2)))
 
 Raising rate:
 
-    var trig = Impulse(MouseX(0.5, 10, 1, 0.2), 0);
-    var sf = SfAcquire("floating_1", 1, [1]).first;
-    var rate = Sweep(trig, 2) + 0.5;
-    BufRd(1, sf, Sweep(trig, BufSampleRate(sf) * rate))
+	var trig = Impulse(MouseX(0.5, 10, 1, 0.2), 0);
+	var sf = SfAcquire("floating_1", 1, [1]).first;
+	var rate = Sweep(trig, 2) + 0.5;
+	BufRd(1, sf, Sweep(trig, BufSampleRate(sf) * rate))
 
 # TDelay - trigger delay
 
@@ -267,9 +267,9 @@ _Timer(trig)_
 
 Using timer to modulate sine frequency, the slower the trigger is the higher the frequency:
 
-    var x = MouseX(0.5, 20, 1, 0.2);
-    var trig = Impulse(x, 0);
-    SinOsc([x * 20 + 100, Timer(trig) * 500 + 500], 0) * 0.1
+	var x = MouseX(0.5, 20, 1, 0.2);
+	var trig = Impulse(x, 0);
+	SinOsc([x * 20 + 100, Timer(trig) * 500 + 500], 0) * 0.1
 
 # ToggleFF - toggle flip flop
 
@@ -281,4 +281,4 @@ Toggles between zero and one upon receiving a trigger.
 
 Increasing density triggers frequency switcher:
 
-    SinOsc((ToggleFF(Dust(XLn(1, 1000, 60))) * 400) + 800, 0) * 0.1
+	SinOsc((ToggleFF(Dust(XLn(1, 1000, 60))) * 400) + 800, 0) * 0.1

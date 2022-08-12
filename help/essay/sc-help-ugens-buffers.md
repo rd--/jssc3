@@ -16,72 +16,72 @@ Triggers generate grains from a buffer. Each grain has a Hanning envelope (_sin^
 
 Sequences for _rate_ and _pan_ inputs, mouse control of _trigger_ rate and _pos_:
 
-    var trate = MouseY(2, 200, 1, 0.2);
-    var clk = Impulse(trate, 0);
-    var buf = SfAcquire("floating_1", 1, [1]).first;
-    var rate = Seq(inf, [10, 1, 1, 0.5, 0.5, 0.2, 0.1]);
-    var pos = MouseX(0, BufDur(buf), 0, 0.2);
-    var dur = 4 / trate;
-    var pan = Seq(inf, [-1, 1]);
-    TGrains(2, clk, buf, rate, pos, dur, pan, 0.25, 2)
+	var trate = MouseY(2, 200, 1, 0.2);
+	var clk = Impulse(trate, 0);
+	var buf = SfAcquire("floating_1", 1, [1]).first;
+	var rate = Seq(inf, [10, 1, 1, 0.5, 0.5, 0.2, 0.1]);
+	var pos = MouseX(0, BufDur(buf), 0, 0.2);
+	var dur = 4 / trate;
+	var pan = Seq(inf, [-1, 1]);
+	TGrains(2, clk, buf, rate, pos, dur, pan, 0.25, 2)
 
 Uniform unary rate, perturb _pos_ at clock rate
 
-    var trate = MouseY(8, 120, 1, 0.2);
-    var clk = Impulse(trate, 0);
-    var buf = SfAcquire("floating_1", 1, [1]).first;
-    var pos = MouseX(0,BufDur(buf), 0, 0.2) + TRand(0, 0.01, clk);
-    var dur = 12 / trate;
-    var pan = WhiteNoise() * 0.6;
-    TGrains(2, clk, buf, 1, pos, dur, pan, 0.2, 4)
+	var trate = MouseY(8, 120, 1, 0.2);
+	var clk = Impulse(trate, 0);
+	var buf = SfAcquire("floating_1", 1, [1]).first;
+	var pos = MouseX(0,BufDur(buf), 0, 0.2) + TRand(0, 0.01, clk);
+	var dur = 12 / trate;
+	var pan = WhiteNoise() * 0.6;
+	TGrains(2, clk, buf, 1, pos, dur, pan, 0.2, 4)
 
 Stochastic clock (_Dust_):
 
-    var trate = MouseY(8, 120, 1, 0.2);
-    var clk = Dust(trate);
-    var buf = SfAcquire("floating_1", 1, [1]).first;
-    var pos = MouseX(0, BufDur(buf), 0, 0.2) + TRand(0, 0.01, clk);
-    var dur = 4 / trate;
-    var pan = WhiteNoise() * 0.6;
-    TGrains(2, clk, buf, 1, pos, dur, pan, 0.1, 4)
+	var trate = MouseY(8, 120, 1, 0.2);
+	var clk = Dust(trate);
+	var buf = SfAcquire("floating_1", 1, [1]).first;
+	var pos = MouseX(0, BufDur(buf), 0, 0.2) + TRand(0, 0.01, clk);
+	var dur = 4 / trate;
+	var pan = WhiteNoise() * 0.6;
+	TGrains(2, clk, buf, 1, pos, dur, pan, 0.1, 4)
 
 Mouse control of _pos_ and _dur_:
 
-    var trate = 12;
-    var clk = Impulse(trate, 0);
-    var buf = SfAcquire("floating_1", 1, [1]).first;
-    var pos = MouseX(0, BufDur(buf), 0, 0.2) + TRand(0, 0.01, clk);
-    var dur = MouseY(0.2, 24, 1, 0.2) / trate;
-    var pan = WhiteNoise() * 0.6;
-    TGrains(2, clk, buf, 1, pos, dur, pan, 0.1, 4)
+	var trate = 12;
+	var clk = Impulse(trate, 0);
+	var buf = SfAcquire("floating_1", 1, [1]).first;
+	var pos = MouseX(0, BufDur(buf), 0, 0.2) + TRand(0, 0.01, clk);
+	var dur = MouseY(0.2, 24, 1, 0.2) / trate;
+	var pan = WhiteNoise() * 0.6;
+	TGrains(2, clk, buf, 1, pos, dur, pan, 0.1, 4)
 
 Stochastic _pos_, no external control:
 
-    var trate = 100;
-    var clk = Impulse(trate, 0);
-    var buf = SfAcquire("floating_1", 1, [1]).first;
-    var pos = Integrator(BrownNoise().kr * 0.001, 1);
-    var dur = 8 / trate;
-    var pan = WhiteNoise().kr * 0.6;
-    TGrains(2, clk, buf, 1, pos, dur, pan, 0.1, 4)
+	var trate = 100;
+	var clk = Impulse(trate, 0);
+	var buf = SfAcquire("floating_1", 1, [1]).first;
+	var pos = Integrator(BrownNoise().kr * 0.001, 1);
+	var dur = 8 / trate;
+	var pan = WhiteNoise().kr * 0.6;
+	TGrains(2, clk, buf, 1, pos, dur, pan, 0.1, 4)
 
 Stochastic _rate_:
 
-    var trate = MouseY(1, 400, 1, 0.2);
-    var clk = Impulse(trate, 0);
-    var buf = SfAcquire("floating_1", 1, [1]).first;
-    var rate = 2 ** (WhiteNoise().kr * 2);
-    var pos = MouseX(0, BufDur(buf), 0, 0.2);
-    var dur = 8 / trate;
-    var pan = WhiteNoise() * 0.8;
-    TGrains(2, clk, buf, rate, pos, dur, pan, 0.1, 4)
+	var trate = MouseY(1, 400, 1, 0.2);
+	var clk = Impulse(trate, 0);
+	var buf = SfAcquire("floating_1", 1, [1]).first;
+	var rate = 2 ** (WhiteNoise().kr * 2);
+	var pos = MouseX(0, BufDur(buf), 0, 0.2);
+	var dur = 8 / trate;
+	var pan = WhiteNoise() * 0.8;
+	TGrains(2, clk, buf, rate, pos, dur, pan, 0.1, 4)
 
 Stochastic _rate_, fixed clock rate:
 
-    var clk = Impulse(440, 0);
-    var buf = SfAcquire("floating_1", 1, [1]).first;
-    var rate = 1.2 ** (WhiteNoise() * 3).roundTo(1);
-    var pos = MouseX(0, BufDur(buf), 0, 0.2);
-    var dur = 1.2 / MouseY(2, 120, 1, 0.2);
-    var pan = WhiteNoise() * 0.6;
-    TGrains(2, clk, buf, rate, pos, dur, pan, 0.1, 4)
+	var clk = Impulse(440, 0);
+	var buf = SfAcquire("floating_1", 1, [1]).first;
+	var rate = 1.2 ** (WhiteNoise() * 3).roundTo(1);
+	var pos = MouseX(0, BufDur(buf), 0, 0.2);
+	var dur = 1.2 / MouseY(2, 120, 1, 0.2);
+	var pan = WhiteNoise() * 0.6;
+	TGrains(2, clk, buf, rate, pos, dur, pan, 0.1, 4)

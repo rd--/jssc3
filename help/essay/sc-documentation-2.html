@@ -19,15 +19,15 @@
 </code></pre><p>is equivalent to:</p><pre><code>// ...
 </code></pre><p>Currently it is not recursive. You cannot use Mix on arrays of arrays of arrays.</p><p>Here's a final example illustrating multi channel expansion and Mix.  By changing the variable 'n' you can change the number of voices in the patch. How many voices can your machine handle?</p><pre><code>var n = 8 * 12; // number of 'voices'
 Pan2( // pan the voice to a stereo position
-    CombL( // a comb filter used as a string resonator
-        Dust( // random impulses as an excitation function
-            { Rand(0.9, 1.1) }.dup(n) // array expands Dust to n channels, one impulse per second on average
-        ) * 0.3, // amplitude
-        0.01, // max delay time in seconds
-        { Rand(0.0003, 0.004) }.dup(n), // array of different random lengths for each 'string'
-        4 // decay time in seconds
-    ),
-    { Rand(-1, 1) }.dup(n), // give each voice a different pan position
-    1
+	CombL( // a comb filter used as a string resonator
+		Dust( // random impulses as an excitation function
+			{ Rand(0.9, 1.1) }.dup(n) // array expands Dust to n channels, one impulse per second on average
+		) * 0.3, // amplitude
+		0.01, // max delay time in seconds
+		{ Rand(0.0003, 0.004) }.dup(n), // array of different random lengths for each 'string'
+		4 // decay time in seconds
+	),
+	{ Rand(-1, 1) }.dup(n), // give each voice a different pan position
+	1
 ).sum
 </code></pre>

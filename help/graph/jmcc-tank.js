@@ -1,7 +1,7 @@
 // tank (jmcc)
 var p, z, l1, l2, l3, l4, l5, l6;
 p = function() {
-    return Pan2(mul(mul(Decay2(Dust(0.2), 0.1, 0.5), 0.1), cubed(SinOsc(ExpRand(300, 2200), 0))), Rand(-1, 1), 1);
+	return Pan2(mul(mul(Decay2(Dust(0.2), 0.1, 0.5), 0.1), cubed(SinOsc(ExpRand(300, 2200), 0))), Rand(-1, 1), 1);
 };
 z = add(sum(dup(p, 12)), Pan2(mul(Decay2(Dust(0.01), 0.04, 0.3), BrownNoise()), 0, 1));
 l1 = OnePole(mul(LocalIn(2, 0), 0.98), 0.33);

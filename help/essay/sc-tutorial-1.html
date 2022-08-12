@@ -2,15 +2,15 @@
 </code></pre><p>Now the same example with lots and lots of comments:</p><pre><code>// A UGen graph is a network of connected unit generators.
 // For this example the 'network' only has a single unit generator.
 {
-    // Function are defined within curly braces.
-    // This function contains the code to create a graph of ugens.
-    // In this case we'll only create a single sine oscillator
-    SinOsc( // SinOsc creates an audio rate oscillator. It takes two arguments:
-        800, // set its frequency to 800 Hertz
-        0) // set its phase to 0 radians
-    * 0.1 // multiply the sine wave by 0.1
-    // A function returns the value of its last expression.
-    // This function only has one expression, the call to SinOsc.
+	// Function are defined within curly braces.
+	// This function contains the code to create a graph of ugens.
+	// In this case we'll only create a single sine oscillator
+	SinOsc( // SinOsc creates an audio rate oscillator. It takes two arguments:
+		800, // set its frequency to 800 Hertz
+		0) // set its phase to 0 radians
+	* 0.1 // multiply the sine wave by 0.1
+	// A function returns the value of its last expression.
+	// This function only has one expression, the call to SinOsc.
 }.play // Close curly brace marks end of function definition.
 </code></pre><h2>1.2 How to plot output.</h2><p>A Synth can do more things than just play a sound.  You can plot a Synth's output using the 'plot' method.  We'll plot 10 milliseconds or 0.01 seconds of the sine wave.</p><pre><code>// { SinOsc(800, 0) * 0.1) }.plot
 </code></pre><p>Notice that there are eight cycles of the sine wave plotted.  800 cycles/second * 0.01 seconds = 8 cycles</p><p>A plot is held in a buffer in RAM so don't try to plot an hour long piece (that would be about 1.2 gigabytes for stereo 32 bit floats at 44.1 Khz).</p><h2>1.3 How to watch output in real time.</h2><p>More exciting than a plot of your output is to watch it in real time.  You can do this with the Synth 'scope' method.  The second argument is the duration seen in the scope. We'll use 0.01 seconds again.</p><p>This time we'll look at some BrownNoise since that changes more than a sine wave.  BrownNoise takes two arguments, a multiply and an add. We'll set the multiply to 0.1 just like with the SinOsc example and leave the add input at its default of zero.</p><pre><code>// { BrownNoise() * 0.1 }.plot

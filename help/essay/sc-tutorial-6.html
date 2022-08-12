@@ -4,20 +4,20 @@
 </code></pre><h2>6.3 How to play audio files in RAM</h2><p>Files loaded in RAM can be processed in more ways because the entire file is accessible.  Files in RAM can be played using the PlayBuf ugen. See the help file for PlayBuf for more info.</p><p>Normal playback at same speed of recording:</p><pre><code>var filename = &quot;floating_1&quot;; // the file's path name
 var file = SfAcquire(filename, 1, [1]); // create a SoundFile object
 SfPlay(
-    file, // sample buffer
-    1, // playback rate
-    1, // trigger playback
-    0, // starting offset sample
-    1, // loop
+	file, // sample buffer
+	1, // playback rate
+	1, // trigger playback
+	0, // starting offset sample
+	1, // loop
 );
 </code></pre><p>Mouse controls playback rate:</p><pre><code>var filename = &quot;floating_1&quot;; // the file's path name
 var file = SfAcquire(filename, 1, [1]); // create a SoundFile object
 var rateMultiplier = MouseX(0.25, 4, 1, 0.2);
 SfPlay(
-    file, // sample buffer
-    rateMultiplier, // playback rate
-    1, // trigger playback
-    0, // starting offset sample
-    1, // loop
+	file, // sample buffer
+	rateMultiplier, // playback rate
+	1, // trigger playback
+	0, // starting offset sample
+	1, // loop
 );
 </code></pre>

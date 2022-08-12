@@ -10,7 +10,7 @@ A second order low pass filter.
 
 Modulate frequency:
 
-    BPF(Saw(200) * 0.5, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000, 0.3)
+	BPF(Saw(200) * 0.5, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000, 0.3)
 
 # BPZ2 - two zero fixed midpass
 
@@ -22,11 +22,11 @@ This filter cuts out 0 Hz and the Nyquist frequency.
 
 Compare:
 
-    WhiteNoise() * 0.1
+	WhiteNoise() * 0.1
 
 and:
 
-    BPZ2(WhiteNoise() * 0.1)
+	BPZ2(WhiteNoise() * 0.1)
 
 # BRF - 2nd order Butterworth band reject filter
 
@@ -40,7 +40,7 @@ A second order low pass filter.
 
 Modulate frequency:
 
-    BRF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3800 + 4000, 0.3)
+	BRF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3800 + 4000, 0.3)
 
 # BRZ2 - two zero fixed midcut
 
@@ -52,11 +52,11 @@ This filter cuts out frequencies around 1/2 of the Nyquist frequency.
 
 Compare:
 
-    WhiteNoise() * 0.1
+	WhiteNoise() * 0.1
 
 and:
 
-    BRZ2(WhiteNoise() * 0.1)
+	BRZ2(WhiteNoise() * 0.1)
 
 # Formlet - FOF-like filter
 
@@ -77,20 +77,20 @@ The great advantage to this filter over FOF is that there is no limit to the num
 
 Fixed parameters:
 
-    Formlet(Impulse(20, 0) * 0.5, 1000, 0.01, 0.1)
+	Formlet(Impulse(20, 0) * 0.5, 1000, 0.01, 0.1)
 
 Fixed parameters, modulate frequency of input signal:
 
-    Formlet(Blip(XLn(10, 400, 8), 1000) * 0.1, 1000, 0.01, 0.1)
+	Formlet(Blip(XLn(10, 400, 8), 1000) * 0.1, 1000, 0.01, 0.1)
 
 Modulating formant frequency:
 
-    var input = Blip(SinOsc(5, 0) * 20 + 300, 1000) * 0.1;
-    Formlet(input, XLn(1500, 700, 8), 0.005, 0.04)
+	var input = Blip(SinOsc(5, 0) * 20 + 300, 1000) * 0.1;
+	Formlet(input, XLn(1500, 700, 8), 0.005, 0.04)
 
 Mouse control of frequency and decay time:
 
-    var input = Blip(SinOsc(5, 0) * 20 + 300, 1000) * 0.1;
+	var input = Blip(SinOsc(5, 0) * 20 + 300, 1000) * 0.1;
 	Formlet(input, MouseY(700, 2000, 1, 0.2), 0.005, MouseX(0.01, 0.2, 1, 0.2))
 
 # FOS - first order filter section
@@ -101,13 +101,13 @@ A standard first order filter section. Filter coefficients are given directly ra
 
 Same as OnePole:
 
-    var x = MouseX(-1, 1, 0, 0.2);
-    FOS(LFSaw(200, 0) * 0.1, 1 - x.abs, 0, x)
+	var x = MouseX(-1, 1, 0, 0.2);
+	FOS(LFSaw(200, 0) * 0.1, 1 - x.abs, 0, x)
 
 Same as OneZero:
 
-    var x = MouseX(-1, 1, 0, 0.2);
-    FOS(LFSaw(200, 0) * 0.1, 1 - x.abs, x, 0)
+	var x = MouseX(-1, 1, 0, 0.2);
+	FOS(LFSaw(200, 0) * 0.1, 1 - x.abs, x, 0)
 
 # HPF - 2nd order Butterworth highpass filter
 
@@ -120,7 +120,7 @@ A second order high pass filter.
 
 Modulate frequency, note makeup gain:
 
-    HPF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000) * 2
+	HPF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000) * 2
 
 # HPZ1 - two point difference filter
 
@@ -130,11 +130,11 @@ A special case fixed filter. Implements the formula _out(i) = 0.5 * (in(i) - in(
 
 Compare:
 
-    WhiteNoise() * 0.1
+	WhiteNoise() * 0.1
 
 and:
 
-    HPZ1(WhiteNoise() * 0.25)
+	HPZ1(WhiteNoise() * 0.25)
 
 # HPZ2 - two zero fixed highpass
 
@@ -144,11 +144,11 @@ A special case fixed filter. Implements the formula _out(i) = 0.25 * (in(i) - (2
 
 Compare:
 
-    WhiteNoise() * 0.1
+	WhiteNoise() * 0.1
 
 and:
 
-    HPZ2(WhiteNoise()) * 0.1
+	HPZ2(WhiteNoise()) * 0.1
 
 # LeakDC - remove DC
 
@@ -161,8 +161,8 @@ This filter removes a DC offset from a signal.
 
 Add DC to a pulse wave and then remove it:
 
-    var a = LFPulse(800, 0, 0.5) * 0.5 + 0.5;
-    [a * 0.1, LeakDC(a, 0.995) * 0.1]
+	var a = LFPulse(800, 0, 0.5) * 0.5 + 0.5;
+	[a * 0.1, LeakDC(a, 0.995) * 0.1]
 
 # Limiter - peak limiter
 
@@ -176,8 +176,8 @@ Limiter, unlike Compander, is completely transparent for an in range signal.
 - level: the peak output amplitude level to which to normalize the input.
 - lookAheadTime: the buffer delay time. Shorter times will produce smaller delays and quicker transient response times, but may introduce amplitude modulation artifacts.
 
-    var z = Decay2(Impulse(8, 0) * (LFSaw(0.25, 0) * -0.6 + 0.7), 0.001, 0.3) * FSinOsc(500, 0);
-    [z, Limiter(z, 0.4, 0.01)] * 0.2
+	var z = Decay2(Impulse(8, 0) * (LFSaw(0.25, 0) * -0.6 + 0.7), 0.001, 0.3) * FSinOsc(500, 0);
+	[z, Limiter(z, 0.4, 0.01)] * 0.2
 
 # LPF - 2nd order Butterworth lowpass filter
 
@@ -190,7 +190,7 @@ A second order low pass filter.
 
 Modulate frequency:
 
-    LPF(Saw(200) * 0.1, SinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000)
+	LPF(Saw(200) * 0.1, SinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000)
 
 # LPZ1 - two point average filter
 
@@ -200,11 +200,11 @@ A special case fixed filter. Implements the formula _out(i) = 0.5 * (in(i) + in(
 
 Compare:
 
-    WhiteNoise() * 0.1
+	WhiteNoise() * 0.1
 
 and:
 
-    LPZ1(WhiteNoise() * 0.1)
+	LPZ1(WhiteNoise() * 0.1)
 
 # LPZ2 two zero fixed lowpass
 
@@ -214,11 +214,11 @@ A special case fixed filter. Implements the formula _out(i) = 0.25 * (in(i) + (2
 
 Compare:
 
-    WhiteNoise() * 0.1
+	WhiteNoise() * 0.1
 
 and:
 
-    LPZ2(WhiteNoise() * 0.1)
+	LPZ2(WhiteNoise() * 0.1)
 
 # Median - median filter
 
@@ -231,28 +231,28 @@ Returns the median of the last length input points.  This non linear filter is g
 
 A signal with impulse noise.
 
-    Saw(500) * 0.1 + (Dust2(100) * 0.9)
+	Saw(500) * 0.1 + (Dust2(100) * 0.9)
 
 After applying median filter:
 
-    var z = Saw(500) * 0.1 + (Dust2(100) * 0.9);
-    Median(3, z)
+	var z = Saw(500) * 0.1 + (Dust2(100) * 0.9);
+	Median(3, z)
 
 The median length can be increased for longer duration noise.
 
 A signal with longer impulse noise:
 
-    Saw(500) * 0.1 + (LPZ1(Dust2(100) * 0.9))
+	Saw(500) * 0.1 + (LPZ1(Dust2(100) * 0.9))
 
 Length 3 doesn't help here because the impulses are 2 samples long.
 
-    var z = Saw(500) * 0.1 + (LPZ1(Dust2(100) * 0.9));
-    Median(3, z)
+	var z = Saw(500) * 0.1 + (LPZ1(Dust2(100) * 0.9));
+	Median(3, z)
 
 Length 5 does better:
 
-    var z = Saw(500) * 0.1 + (LPZ1(Dust2(100) * 0.9));
-    Median(5, z)
+	var z = Saw(500) * 0.1 + (LPZ1(Dust2(100) * 0.9));
+	Median(5, z)
 
 Long Median filters begin chopping off the peaks of the waveform:
 
@@ -261,17 +261,17 @@ Long Median filters begin chopping off the peaks of the waveform:
 
 Another noise reduction application:
 
-    WhiteNoise() + SinOsc(800, 0) * 0.1
+	WhiteNoise() + SinOsc(800, 0) * 0.1
 
 Use Median filter for high frequency noise:
 
-    var z = WhiteNoise() + SinOsc(800, 0) * 0.1;
-    Median(31, z)
+	var z = WhiteNoise() + SinOsc(800, 0) * 0.1;
+	Median(31, z)
 
 Use LeakDC for low frequency noise:
 
-    var z = WhiteNoise() + SinOsc(800, 0) * 0.1;
-    LeakDC(Median(31, z), 0.9)
+	var z = WhiteNoise() + SinOsc(800, 0) * 0.1;
+	LeakDC(Median(31, z), 0.9)
 
 # Normalizer - flattens dynamics
 
@@ -285,8 +285,8 @@ Normalizes the input amplitude to the given level. Normalize will not overshoot 
 
 Example signal to process:
 
-    var z = Decay2(Impulse(8, 0) * (LFSaw(0.25, 0) * -0.6 + 0.7), 0.001, 0.3) * FSinOsc(500, 0);
-    [z, Normalizer(z, 0.4, 0.01)] * 0.2
+	var z = Decay2(Impulse(8, 0) * (LFSaw(0.25, 0) * -0.6 + 0.7), 0.001, 0.3) * FSinOsc(500, 0);
+	[z, Normalizer(z, 0.4, 0.01)] * 0.2
 
 # OnePole - one pole filter
 
@@ -299,15 +299,15 @@ A one pole filter. Implements the formula _out(i) = ((1 - abs(coef)) * in(i)) + 
 
 Low pass:
 
-    OnePole(WhiteNoise() * 0.2, 0.95)
+	OnePole(WhiteNoise() * 0.2, 0.95)
 
 High pass:
 
-    OnePole(WhiteNoise() * 0.2, -0.95)
+	OnePole(WhiteNoise() * 0.2, -0.95)
 
 Modulate coeficient:
 
-    OnePole(WhiteNoise() * 0.2, Ln(0.95, -0.95, 10))
+	OnePole(WhiteNoise() * 0.2, Ln(0.95, -0.95, 10))
 
 # OneZero - one zero filter
 
@@ -320,15 +320,15 @@ A one zero filter. Implements the formula _out(i) = ((1 - abs(coef)) * in(i)) + 
 
 Low pass:
 
-    OneZero(WhiteNoise() * 0.2, 0.5)
+	OneZero(WhiteNoise() * 0.2, 0.5)
 
 High pass:
 
-    OneZero(WhiteNoise() * 0.2, -0.5)
+	OneZero(WhiteNoise() * 0.2, -0.5)
 
 Modulate coeficient:
 
-    OneZero(WhiteNoise() * 0.2, Ln(-0.5, 0.5, 10))
+	OneZero(WhiteNoise() * 0.2, Ln(-0.5, 0.5, 10))
 
 # Resonz - resonant filter
 
@@ -344,19 +344,19 @@ The reciprocal of Q is used rather than Q because it saves a divide operation in
 
 Fixed frequency:
 
-    Resonz(WhiteNoise() * 0.5, 2000, 0.1)
+	Resonz(WhiteNoise() * 0.5, 2000, 0.1)
 
 Modulate frequency:
 
-    Resonz(WhiteNoise() * 0.5, XLn(1000, 8000, 10), 0.05)
+	Resonz(WhiteNoise() * 0.5, XLn(1000, 8000, 10), 0.05)
 
 Modulate bandwidth:
 
-    Resonz(WhiteNoise() * 0.5, 2000, XLn(1, 0.001, 8))
+	Resonz(WhiteNoise() * 0.5, 2000, XLn(1, 0.001, 8))
 
 Modulate bandwidth opposite direction:
 
-    Resonz(WhiteNoise() * 0.5, 2000, XLn(0.001, 1, 8))
+	Resonz(WhiteNoise() * 0.5, 2000, XLn(0.001, 1, 8))
 
 # RHPF - resonant high pass filter
 
@@ -370,7 +370,7 @@ A resonant high pass filter.
 
 Modulate frequency:
 
-    RHPF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000, 0.2)
+	RHPF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000, 0.2)
 
 # Ringz - ringing filter
 
@@ -384,37 +384,37 @@ This is the same as Resonz, except that instead of a resonance parameter, the ba
 
 Resonant dust:
 
-    Ringz(Dust(3) *  0.1, 2000, 2)
+	Ringz(Dust(3) *  0.1, 2000, 2)
 
 Resonant noise:
 
-    Ringz(WhiteNoise() * 0.005, 2000, 0.5)
+	Ringz(WhiteNoise() * 0.005, 2000, 0.5)
 
 Modulate frequency:
 
-    var freq = XLn(100, 3000, 10);
-    [Ringz(WhiteNoise() * 0.005, freq, 0.5), Ringz(Impulse(6, 0) * 0.1,  freq, 0.5)]
+	var freq = XLn(100, 3000, 10);
+	[Ringz(WhiteNoise() * 0.005, freq, 0.5), Ringz(Impulse(6, 0) * 0.1,  freq, 0.5)]
 
 Modulate ring time:
 
-    Ringz(Impulse(6, 0) * 0.1,  2000, XLn(4, 0.04, 8))
+	Ringz(Impulse(6, 0) * 0.1,  2000, XLn(4, 0.04, 8))
 
 Modulate ring time opposite direction:
 
-    Ringz(Impulse(6, 0) * 0.1,  2000, XLn(0.04, 4, 8))
+	Ringz(Impulse(6, 0) * 0.1,  2000, XLn(0.04, 4, 8))
 
 Parallel filters with frequency ramps:
 
-    var exciter = WhiteNoise() * 0.001;
-    { Ringz(exciter, XLn(ExpRand(100, 5000), ExpRand(100, 5000), 20), 0.5) }.dup(10).splay2
+	var exciter = WhiteNoise() * 0.001;
+	{ Ringz(exciter, XLn(ExpRand(100, 5000), ExpRand(100, 5000), 20), 0.5) }.dup(10).splay2
 
 Texture of above:
 
-    OverlapTexture({
-        arg tr;
-        var exciter = WhiteNoise() * 0.001;
-        { Ringz(exciter, TXLine(TExpRand(100, 5000, tr), TExpRand(100, 5000, tr), 20, tr), 0.5) }.dup(10).splay2
-    }, 5, 10, 3)
+	OverlapTexture({
+		arg tr;
+		var exciter = WhiteNoise() * 0.001;
+		{ Ringz(exciter, TXLine(TExpRand(100, 5000, tr), TExpRand(100, 5000, tr), 20, tr), 0.5) }.dup(10).splay2
+	}, 5, 10, 3)
 
 # RingzBank - bank of resonators
 
@@ -429,32 +429,32 @@ RingzBank (_Klank_) is a bank of fixed frequency resonators which can be used to
 
 Four resonant filters, default amplitudes and decay times:
 
-    RingzBank(Impulse(2, 0) * 0.1, [800, 1071, 1153, 1723], nil, nil)
+	RingzBank(Impulse(2, 0) * 0.1, [800, 1071, 1153, 1723], nil, nil)
 
 With dust input:
 
-    RingzBank(Dust(8) * 0.1, [800, 1071, 1153, 1723], nil, nil)
+	RingzBank(Dust(8) * 0.1, [800, 1071, 1153, 1723], nil, nil)
 
 With noise input:
 
-    RingzBank(PinkNoise() * 0.007, [800, 1071, 1153, 1723], nil, nil)
+	RingzBank(PinkNoise() * 0.007, [800, 1071, 1153, 1723], nil, nil)
 
 With stereo input:
 
-    RingzBank({ PinkNoise() }.dup(2) * 0.005, [200, 671, 1153, 1723], nil, nil)
+	RingzBank({ PinkNoise() }.dup(2) * 0.005, [200, 671, 1153, 1723], nil, nil)
 
 With random frequencies input:
 
-    RingzBank(Decay(Impulse(4, 0), 0.03) * ClipNoise() * 0.005, { Rand(800, 4000) }.dup(12), nil, { Rand(0.1, 2) }.dup(12))
+	RingzBank(Decay(Impulse(4, 0), 0.03) * ClipNoise() * 0.005, { Rand(800, 4000) }.dup(12), nil, { Rand(0.1, 2) }.dup(12))
 
 Texture of variation of above:
 
-    OverlapTexture({
-        arg tr;
-        var z = Decay(Impulse(4, 0), TRand(0.03, 0.09, tr)) * ClipNoise() * 0.0025;
-        var r = RingzBank(z, { TRand(800, 4000, tr) }.dup(12), nil, { TRand(0.1, 2, tr) }.dup(12));
-        Pan2(r, TRand(-1, 1, tr), 1)
-    }, 8, 3, 4)
+	OverlapTexture({
+		arg tr;
+		var z = Decay(Impulse(4, 0), TRand(0.03, 0.09, tr)) * ClipNoise() * 0.0025;
+		var r = RingzBank(z, { TRand(800, 4000, tr) }.dup(12), nil, { TRand(0.1, 2, tr) }.dup(12));
+		Pan2(r, TRand(-1, 1, tr), 1)
+	}, 8, 3, 4)
 
 # RLPF - resonant low pass filter
 
@@ -468,7 +468,7 @@ A resonant low pass filter.
 
 Modulate frequency:
 
-    RLPF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000, 0.2)
+	RLPF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000, 0.2)
 
 # SOS - second order filter section (biquad)
 
@@ -478,11 +478,11 @@ A standard second order filter section. Filter coefficients are given directly r
 
 Same as TwoPole:
 
-    var theta = MouseX(0.2 * pi, pi, 0, 0.2);
-    var rho = MouseY(0.6, 0.99, 0, 0.2);
-    var b1 = 2 * rho * theta.cos;
-    var b2 = rho.squared.negated;
-    SOS(LFSaw(200, 0) * 0.1, 1, 0, 0, b1, b2)
+	var theta = MouseX(0.2 * pi, pi, 0, 0.2);
+	var rho = MouseY(0.6, 0.99, 0, 0.2);
+	var b1 = 2 * rho * theta.cos;
+	var b2 = rho.squared.negated;
+	SOS(LFSaw(200, 0) * 0.1, 1, 0, 0, b1, b2)
 
 # TwoPole - two pole filter
 
@@ -496,11 +496,11 @@ A two pole filter. This provides lower level access to setting of pole location.
 
 Fixed frequency:
 
-    TwoPole(WhiteNoise() * 0.005, 2000, 0.95)
+	TwoPole(WhiteNoise() * 0.005, 2000, 0.95)
 
 Modulate frequency:
 
-    TwoPole(WhiteNoise() * 0.005, XLn(800, 8000, 8), 0.95)
+	TwoPole(WhiteNoise() * 0.005, XLn(800, 8000, 8), 0.95)
 
 # TwoZero - two zero filter
 
@@ -514,4 +514,4 @@ A two zero filter.
 
 Modulate frequency:
 
-    TwoZero(WhiteNoise() * 0.125, XLn(20, 20000, 8), 1)
+	TwoZero(WhiteNoise() * 0.125, XLn(20, 20000, 8), 1)

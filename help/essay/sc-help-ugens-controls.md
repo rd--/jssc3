@@ -10,19 +10,19 @@ The input signal value is truncated to an integer value and used as an index int
 
 Modal space, mouse controls discrete pitch in dorian mode:
 
-    var b = [0, 2, 3.2, 5, 7, 9, 10].asLocalBuf;
-    var k = DegreeToKey(b, MouseX(0, 15, 0, 0.1), 12);
-    var c = {
-        arg n, r;
-        var o = SinOsc((r + k + (n * 0.04)).midiCps, 0) * 0.1;
-        var t = LFPulse([48, 55].midiCps, 0, 0.15);
-        var f = (SinOsc(0.1, 0) * 10 + r).midiCps;
-        var d = RLPF(t, f, 0.1) * 0.1;
-        var m = o + d;
-        CombN(m, 0.31, 0.31, 2) + m
-    };
-    var n = LFNoise1([3, 3]);
-    (c.value(n, 48) + c.value(n, 72)) * 0.25
+	var b = [0, 2, 3.2, 5, 7, 9, 10].asLocalBuf;
+	var k = DegreeToKey(b, MouseX(0, 15, 0, 0.1), 12);
+	var c = {
+		arg n, r;
+		var o = SinOsc((r + k + (n * 0.04)).midiCps, 0) * 0.1;
+		var t = LFPulse([48, 55].midiCps, 0, 0.15);
+		var f = (SinOsc(0.1, 0) * 10 + r).midiCps;
+		var d = RLPF(t, f, 0.1) * 0.1;
+		var m = o + d;
+		CombN(m, 0.31, 0.31, 2) + m
+	};
+	var n = LFNoise1([3, 3]);
+	(c.value(n, 48) + c.value(n, 72)) * 0.25
 
 # GetTempo - continuous tempo
 
@@ -30,11 +30,11 @@ _GetTempo()_
 
 Gives the current tempo as a control rate signal.  Tempo is always in beats per second.
 
-    SetTempo(MouseX(0.25, 4, 1, 0.2))
+	SetTempo(MouseX(0.25, 4, 1, 0.2))
 
 Use the tempo to modulate an oscillator:
 
-    SinOsc(400 * GetTempo(), 0, 0.2);
+	SinOsc(400 * GetTempo(), 0, 0.2);
 
 # Impulse - impulse oscillator
 
@@ -47,11 +47,11 @@ Outputs non band limited single sample impulses.
 
 Constant frequency:
 
-    Impulse(800, 0) * 0.2
+	Impulse(800, 0) * 0.2
 
 Modulate frequency:
 
-    Impulse(XLn(800, 100, 5), 0) * 0.2
+	Impulse(XLn(800, 100, 5), 0) * 0.2
 
 # Index - index into a table with a signal
 
@@ -64,9 +64,9 @@ The input signal value is truncated to an integer value and used as an index int
 
 Index buffer for frequency values:
 
-    var b = [50, 100, 200, 400, 800, 1600].asLocalBuf;
-    var f = Index(b, LinLin(LFSaw(2, 0), -1, 1, 0, 6));
-    SinOsc([f, f * 9], 0) * 0.1
+	var b = [50, 100, 200, 400, 800, 1600].asLocalBuf;
+	var f = Index(b, LinLin(LFSaw(2, 0), -1, 1, 0, 6));
+	SinOsc([f, f * 9], 0) * 0.1
 
 # Integrator - leaky integrator
 
@@ -79,11 +79,11 @@ Integrates an input signal with a leak. The formula implemented is: _out(0) = in
 
 As filter:
 
-    Integrator(LFPulse(300, 0, 0.2) * 0.1, 0.9)
+	Integrator(LFPulse(300, 0, 0.2) * 0.1, 0.9)
 
 Used as an envelope:
 
-    Integrator(LFPulse(3, 0, 0.2) * 0.0004, 0.999) * FSinOsc(700, 0)
+	Integrator(LFPulse(3, 0, 0.2) * 0.0004, 0.999) * FSinOsc(700, 0)
 
 # K2A - control rate to audio rate converter
 
@@ -95,7 +95,7 @@ Control rate signals are not legal outputs. If you want to output a control sign
 
 Control rate white noise interpolated to audio rate.
 
-    K2A(WhiteNoise().kr * 0.2)
+	K2A(WhiteNoise().kr * 0.2)
 
 # Lag - exponential lag
 
@@ -108,18 +108,18 @@ This is essentially the same as OnePole except that instead of supplying the coe
 
 As filter:
 
-    var x = LFPulse(300, 0, 0.5) * 0.1;
-    [x, Lag(x, 0.002)]
+	var x = LFPulse(300, 0, 0.5) * 0.1;
+	[x, Lag(x, 0.002)]
 
 Used to lag pitch:
 
-    SinOsc( // sine wave
-      Lag( // lag the modulator
-        LFPulse(4, 0, 0.5) * 50 + 400, // frequency modulator
-        Ln(0, 1, 15) // modulate lag time
-      ),
-    0) // phase
-    * 0.3 // sine amplitude
+	SinOsc( // sine wave
+	  Lag( // lag the modulator
+		LFPulse(4, 0, 0.5) * 50 + 400, // frequency modulator
+		Ln(0, 1, 15) // modulate lag time
+	  ),
+	0) // phase
+	* 0.3 // sine amplitude
 
 # Latch - sample and hold
 
@@ -132,15 +132,15 @@ Holds input signal value when triggered.
 
 Step noise:
 
-    Latch(WhiteNoise(), Impulse(900, 0)) * 0.1
+	Latch(WhiteNoise(), Impulse(900, 0)) * 0.1
 
 Step noise as frequency input:
 
-    Blip(Latch(WhiteNoise(), Impulse(9, 0)) * 400 + 500, 4) * 0.1
+	Blip(Latch(WhiteNoise(), Impulse(9, 0)) * 400 + 500, 4) * 0.1
 
 The above are just meant as examples. LFNoise0 is a faster way to generate random steps:
 
-    Blip(LFNoise0(9) * 400 + 500, 4) * 0.1
+	Blip(LFNoise0(9) * 400 + 500, 4) * 0.1
 
 # LFPulse - pulse oscillator
 
@@ -153,11 +153,11 @@ A non-band-limited pulse oscillator. Outputs a high value of one and a low value
 
 Fixed frequency:
 
-    LFPulse(500, 0, 0.3) * 0.1
+	LFPulse(500, 0, 0.3) * 0.1
 
 Used as both Oscillator and LFO:
 
-    LFPulse(LFPulse(3, 0, 0.3) * 200 + 200, 0, 0.2) * 0.1
+	LFPulse(LFPulse(3, 0, 0.3) * 200 + 200, 0, 0.2) * 0.1
 
 # LFSaw - sawtooth oscillator
 
@@ -169,11 +169,11 @@ A non-band-limited sawtooth oscillator. Output ranges from -1 to +1.
 
 Fixed frequency:
 
-    LFSaw(500, 0) * 0.1
+	LFSaw(500, 0) * 0.1
 
 Used as both Oscillator and LFO:
 
-    LFSaw(LFSaw(4, 0) * 400 + 400, 0) * 0.1
+	LFSaw(LFSaw(4, 0) * 400 + 400, 0) * 0.1
 
 # LFTri - triangle wave oscillator
 
@@ -185,7 +185,7 @@ A non-band-limited triangle wave oscillator. Output ranges from -1 to +1.
 
 Used as both Oscillator and LFO:
 
-    LFTri(LFTri(1, 0) * 400 + 400, 0) * 0.1
+	LFTri(LFTri(1, 0) * 400 + 400, 0) * 0.1
 
 # LinExp - convert a linear range to an exponential range
 
@@ -201,13 +201,13 @@ Converts a linear range of values to an exponential range of values.  The dstlo 
 
 Convert -1 to +1 sawtooth into 0.01 to 1.0 exponential:
 
-    var s = LFSaw(500, 0);
-    [s * 0.1, LinExp(s, -1, 1, 0.001, 0.1)]
+	var s = LFSaw(500, 0);
+	[s * 0.1, LinExp(s, -1, 1, 0.001, 0.1)]
 
 Convert oscillator output to frequency input:
 
-    var mod = SinOsc(Line(1, 10, 10, 0), 0);
-    [SinOsc(mod * 400 + 500, 0), SinOsc(LinExp(mod, -1, 1, 100, 900), 0)] * 0.1
+	var mod = SinOsc(Line(1, 10, 10, 0), 0);
+	[SinOsc(mod * 400 + 500, 0), SinOsc(LinExp(mod, -1, 1, 100, 900), 0)] * 0.1
 
 # MouseX, MouseY - cursor unit generators
 
@@ -222,15 +222,15 @@ See also _MouseButton_.
 
 Mouse control of frequency:
 
-    SinOsc(MouseX(40, 10000, 1, 0.2), 0) * 0.1
+	SinOsc(MouseX(40, 10000, 1, 0.2), 0) * 0.1
 
 Same as above but with a two second lag:
 
-    SinOsc(MouseX(40, 10000, 1, 2), 0) * 0.1
+	SinOsc(MouseX(40, 10000, 1, 2), 0) * 0.1
 
 Two oscillators:
 
-    SinOsc([MouseX(40, 10000, 1, 0.2), MouseY(40, 10000, 1, 0.2)], 0) * 0.1
+	SinOsc([MouseX(40, 10000, 1, 0.2), MouseY(40, 10000, 1, 0.2)], 0) * 0.1
 
 # Osc1 - one-shot oscillator
 
@@ -243,8 +243,8 @@ An oscillator that reads through a table only once.
 
 Pitch class table, linear interpolation, first slowly, then quickly, then slowly again:
 
-    var tbl = [0, 2, 10, 12].asLocalBuf;
-    SinOsc((Osc1(tbl, 5) + 48).midiCps, 0) * 0.1
+	var tbl = [0, 2, 10, 12].asLocalBuf;
+	SinOsc((Osc1(tbl, 5) + 48).midiCps, 0) * 0.1
 
 # Slew - slew rate limiter
 
@@ -258,8 +258,8 @@ Limits the slope of an input signal. The slope is expressed in units per second.
 
 Slew square wave:
 
-    var z = LFPulse(800, 0, 0.5) * 0.1;
-    [z, Slew(z, 4000, 4000)]
+	var z = LFPulse(800, 0, 0.5) * 0.1;
+	[z, Slew(z, 4000, 4000)]
 
 # WrapIndex - index into a table with a signal
 
@@ -272,5 +272,5 @@ The input signal value is truncated to an integer value and used as an index int
 
 Indexing into a table:
 
-    var buf = [200, 300, 400, 500, 600, 800].asLocalBuf;
-    SinOsc(WrapIndex(buf, MouseX(0, 6 * 3, 0, 0.1)), 0) * 0.1
+	var buf = [200, 300, 400, 500, 600, 800].asLocalBuf;
+	SinOsc(WrapIndex(buf, MouseX(0, 6 * 3, 0, 0.1)), 0) * 0.1

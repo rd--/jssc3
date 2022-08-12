@@ -8,21 +8,21 @@ This is a better pitch follower than ZeroCrossing, but more costly of CPU. For m
 
 Track sine oscillator:
 
-    var x = MouseX(220, 660, 0, 0.1);
-    var y = MouseY(0.01, 0.1, 0, 0.1);
-    var s = SinOsc(x, 0) * y;
-    var f = Pitch(s, 440, 60, 4000, 100, 16, 7, 0.02, 0.5, 1, 0);
-    [s, SinOsc(f.nth(1) / 2, 0) * 0.1]
+	var x = MouseX(220, 660, 0, 0.1);
+	var y = MouseY(0.01, 0.1, 0, 0.1);
+	var s = SinOsc(x, 0) * y;
+	var f = Pitch(s, 440, 60, 4000, 100, 16, 7, 0.02, 0.5, 1, 0);
+	[s, SinOsc(f.nth(1) / 2, 0) * 0.1]
 
 Track audio input, **use headphones**:
 
 	var input = AudioIn([1, 2]).sum;
-    var freq = Pitch(input, 440, 60, 4000, 100, 16, 7, 0.02, 0.5, 1, 0).nth(1);
+	var freq = Pitch(input, 440, 60, 4000, 100, 16, 7, 0.02, 0.5, 1, 0).nth(1);
 	var s = VarSaw(freq * [0.5, 1, 2], 0, LFNoise1(0.3) * 0.1 + 0.1) * 0.1;
 	6.timesRepeat({
 		s = AllpassN(s, 0.040, { Rand(0, 0.04) }.dup(2), 2)
 	});
-    s
+	s
 
 ## How it works
 
@@ -57,25 +57,25 @@ A running sum over a user specified number of samples, useful for running RMS po
 
 Overloads of course - would need scaling:
 
-    RunningSum(AudioIn([1]), 40) / 40
+	RunningSum(AudioIn([1]), 40) / 40
 
 Running Average over _x_ samples:
 
-    var x = 100;
-    RunningSum(LFSaw(440, 0), x) / x
+	var x = 100;
+	RunningSum(LFSaw(440, 0), x) / x
 
 Rms power:
 
-    var input= LFSaw(440, 0);
-    var numsamp = 30;
-    (RunningSum(input.squared, numsamp) / numsamp).sqrt
+	var input= LFSaw(440, 0);
+	var numsamp = 30;
+	(RunningSum(input.squared, numsamp) / numsamp).sqrt
 
 Play around:
 
-    var input = AudioIn([1]);
-    var numsamp = 500;
-    var power= MouseX(0.1, 4, 0, 0.2);
-    (RunningSum(input ** power, numsamp) / numsamp) ** power.reciprocal
+	var input = AudioIn([1]);
+	var numsamp = 500;
+	var power= MouseX(0.1, 4, 0, 0.2);
+	(RunningSum(input ** power, numsamp) / numsamp) ** power.reciprocal
 
 # Slope - slope of signal
 
@@ -87,11 +87,11 @@ Measures the rate of change per second of a signal.  Formula implemented is: _ou
 
 Noise and derivatives control frequency of sine oscillator:
 
-    var a = LFNoise2(2); // quadratic noise
-    var b = Slope(a); // first derivative produces line segments
-    var c = Slope(b); // second derivative produces constant segments
-    var scale = 0.2; // needed to scale back to +/- 1.0
-    Splay2(SinOsc([a, b * scale, c * scale.squared] * 100 + 200, 0)) * 0.1
+	var a = LFNoise2(2); // quadratic noise
+	var b = Slope(a); // first derivative produces line segments
+	var c = Slope(b); // second derivative produces constant segments
+	var scale = 0.2; // needed to scale back to +/- 1.0
+	Splay2(SinOsc([a, b * scale, c * scale.squared] * 100 + 200, 0)) * 0.1
 
 For another example of Slope see [hypot].
 
@@ -105,5 +105,5 @@ Outputs a frequency based upon the distance between interceptions of the X axis.
 
 Track frequency of sine oscillator:
 
-    var a = SinOsc(SinOsc(1, 0) * 600 + 700, 0) * 0.1;
-    [a, ZeroCrossing(a) * 0.0005]
+	var a = SinOsc(SinOsc(1, 0) * 600 + 700, 0) * 0.1;
+	[a, ZeroCrossing(a) * 0.0005]

@@ -64,9 +64,9 @@ LeakDC(Median(31, z), 0.9)
 </code></pre><p>Parallel filters with frequency ramps:</p><pre><code>var exciter = WhiteNoise() * 0.001;
 { Ringz(exciter, XLn(ExpRand(100, 5000), ExpRand(100, 5000), 20), 0.5) }.dup(10).splay2
 </code></pre><p>Texture of above:</p><pre><code>OverlapTexture({
-    arg tr;
-    var exciter = WhiteNoise() * 0.001;
-    { Ringz(exciter, TXLine(TExpRand(100, 5000, tr), TExpRand(100, 5000, tr), 20, tr), 0.5) }.dup(10).splay2
+	arg tr;
+	var exciter = WhiteNoise() * 0.001;
+	{ Ringz(exciter, TXLine(TExpRand(100, 5000, tr), TExpRand(100, 5000, tr), 20, tr), 0.5) }.dup(10).splay2
 }, 5, 10, 3)
 </code></pre><h1>RingzBank - bank of resonators</h1><p><em>RingzBank(input, freqArray, ampArray, timeArray)</em></p><p>RingzBank (<em>Klank</em>) is a bank of fixed frequency resonators which can be used to simulate the resonant modes of an object. Each mode is given a ring time, which is the time for the mode to decay by 60 dB.</p><ul><li>input: the excitation input to the resonant filter bank.</li><li>frequencies: an Array of filter frequencies.</li><li>amplitudes: an Array of filter amplitudes. If <em>nil</em> default to 1.</li><li>ring times: an Array of 60 dB decay times for the filters. If <em>nil</em> default to 1.</li></ul><p>Four resonant filters, default amplitudes and decay times:</p><pre><code>RingzBank(Impulse(2, 0) * 0.1, [800, 1071, 1153, 1723], nil, nil)
 </code></pre><p>With dust input:</p><pre><code>RingzBank(Dust(8) * 0.1, [800, 1071, 1153, 1723], nil, nil)
@@ -74,10 +74,10 @@ LeakDC(Median(31, z), 0.9)
 </code></pre><p>With stereo input:</p><pre><code>RingzBank({ PinkNoise() }.dup(2) * 0.005, [200, 671, 1153, 1723], nil, nil)
 </code></pre><p>With random frequencies input:</p><pre><code>RingzBank(Decay(Impulse(4, 0), 0.03) * ClipNoise() * 0.005, { Rand(800, 4000) }.dup(12), nil, { Rand(0.1, 2) }.dup(12))
 </code></pre><p>Texture of variation of above:</p><pre><code>OverlapTexture({
-    arg tr;
-    var z = Decay(Impulse(4, 0), TRand(0.03, 0.09, tr)) * ClipNoise() * 0.0025;
-    var r = RingzBank(z, { TRand(800, 4000, tr) }.dup(12), nil, { TRand(0.1, 2, tr) }.dup(12));
-    Pan2(r, TRand(-1, 1, tr), 1)
+	arg tr;
+	var z = Decay(Impulse(4, 0), TRand(0.03, 0.09, tr)) * ClipNoise() * 0.0025;
+	var r = RingzBank(z, { TRand(800, 4000, tr) }.dup(12), nil, { TRand(0.1, 2, tr) }.dup(12));
+	Pan2(r, TRand(-1, 1, tr), 1)
 }, 8, 3, 4)
 </code></pre><h1>RLPF - resonant low pass filter</h1><p><em>RLPF(in, freq, rq)</em></p><p>A resonant low pass filter.</p><ul><li>in: input signal to be processed</li><li>freq: cutoff frequency.</li><li>rq: the reciprocal of Q.  bandwidth / cutoffFreq.</li></ul><p>Modulate frequency:</p><pre><code>RLPF(Saw(200) * 0.1, FSinOsc(XLn(0.7, 300, 20), 0) * 3600 + 4000, 0.2)
 </code></pre><h1>SOS - second order filter section (biquad)</h1><p><em>SOS(in, a0, a1, a2, b1, b2)</em></p><p>A standard second order filter section. Filter coefficients are given directly rather than calculated for you. Formula is equivalent to <em>out(i) = (a0 * in(i)) + (a1 * in(i-1)) + (a2 * in(i-2)) + (b1 * out(i-1)) + (b2 * out(i-2))</em>.</p><p>Same as TwoPole:</p><pre><code>var theta = MouseX(0.2 * pi, pi, 0, 0.2);

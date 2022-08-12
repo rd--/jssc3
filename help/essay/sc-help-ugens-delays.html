@@ -51,18 +51,18 @@ PingPongDelay(left, right, 0.5, MouseX(0.1, 0.5, 0, 0.2), 0.7)
 </code></pre><h1>PitchShift</h1><p><em>PitchShift(in, windowSize, pitchRatio, pitchDispersion, timeDispersion)</em></p><p>A time domain granular pitch shifter. Grains have a triangular amplitude envelope and an overlap of 4:1.</p><ul><li>in: the input signal.</li><li>windowSize: the size of the grain window in seconds. This value cannot be modulated.</li><li>pitchRatio: the ratio of the pitch shift. Must be from 0.0 to 4.0.</li><li>pitchDispersion: the maximum random deviation of the pitch from the pitchRatio.</li><li>timeDispersion: a random offset of from zero to timeDispersion seconds is added to the delay of each grain. Use of some dispersion can alleviate a hard comb filter effect due to uniform grain placement. It can also be an effect in itself. timeDispersion can be no larger than windowSize.</li></ul><p>Modulate pitch ratio:</p><pre><code>var z = Blip(800, 6) * 0.1;
 PitchShift(z, 0.02, Ln(0.1, 4, 20), 0, 0.0001)
 </code></pre><p>Pitch shift input.  <strong>Use headphones</strong> to prevent feedback:</p><pre><code>PitchShift(
-    AudioIn([1, 2]), // stereo audio input
-    0.1, // grain size
-    MouseX(0, 2, 0, 0.2), // mouse x controls pitch shift ratio
-    0, // pitch dispersion
-    0.004 // time dispersion
+	AudioIn([1, 2]), // stereo audio input
+	0.1, // grain size
+	MouseX(0, 2, 0, 0.2), // mouse x controls pitch shift ratio
+	0, // pitch dispersion
+	0.004 // time dispersion
 )
 </code></pre><p>Use PitchShift to granulate input.  <strong>Use headphones</strong> to prevent feedback.  Upper left corner is normal playback. x = pitch dispersion, y = time dispersion.</p><pre><code>var grainSize = 0.5;
 PitchShift(
-   AudioIn([1, 2]),
-   grainSize,
-   1, // nominal pitch rate = 1
-   MouseX(0, 1, 0, 0.2), // pitch dispersion
-   MouseY(0, grainSize, 0, 0.2) // time dispersion
+	AudioIn([1, 2]),
+	grainSize,
+	1, // nominal pitch rate = 1
+	MouseX(0, 1, 0, 0.2), // pitch dispersion
+	MouseY(0, grainSize, 0, 0.2) // time dispersion
 )
 </code></pre>

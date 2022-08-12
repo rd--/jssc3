@@ -4,7 +4,7 @@ _BrownNoise()_
 
 Generates noise whose spectrum falls off in power by 6 dB per octave.
 
-    BrownNoise() * 0.1
+	BrownNoise() * 0.1
 
 # ClipNoise
 
@@ -12,7 +12,7 @@ _ClipNoise()_
 
 Generates noise whose values are either -1 or 1.  This produces the maximum energy for the least peak to peak amplitude.
 
-    ClipNoise() * 0.1
+	ClipNoise() * 0.1
 
 # Crackle - chaotic noise function
 
@@ -24,11 +24,11 @@ A noise generator based on a chaotic function.
 
 Fixed param:
 
-    Crackle(1.95) * 0.1
+	Crackle(1.95) * 0.1
 
 Modulate param:
 
-    Crackle(Ln(1, 2, 10)) * 0.1
+	Crackle(Ln(1, 2, 10)) * 0.1
 
 # Dust - random impulses
 
@@ -40,11 +40,11 @@ Generates random impulses from 0 to +1.
 
 Fixed density:
 
-    Dust(200) * 0.1
+	Dust(200) * 0.1
 
 Modulate density:
 
-    Dust(XLn(20000, 2, 10)) * 0.1
+	Dust(XLn(20000, 2, 10)) * 0.1
 
 # Dust2 - bipolar random impulses
 
@@ -56,11 +56,11 @@ Generates random impulses from -1 to +1. There is no noticeable difference in so
 
 Fixed density:
 
-    Dust2(200) * 0.1
+	Dust2(200) * 0.1
 
 Modulate density:
 
-    Dust2(XLn(20000, 2, 10)) * 0.1
+	Dust2(XLn(20000, 2, 10)) * 0.1
 
 # GrayNoise
 
@@ -68,7 +68,7 @@ _GrayNoise()_
 
 Generates noise which results from flipping random bits in a word.  This type of noise has a high RMS level relative to its peak to peak level.  The spectrum is emphasized towards lower frequencies.
 
-    GrayNoise() * 0.125
+	GrayNoise() * 0.125
 
 # LatoocarfianC - chaotic function
 
@@ -78,16 +78,16 @@ This is a function given inClifford Pickover's book Chaos In Wonderland, pg 26. 
 
 According to Pickover, parameters a and b should be in the range from -3 to +3, and parameters c and d should be in the range from 0.5 to 1.5.  The function can, depending on the parameters given, give continuous chaotic output, converge to a single value (silence) or oscillate in a cycle (tone).  This UGen is experimental and not optimized currently, so is rather hoggish of CPU.
 
-    // LatoocarfianC ; texture
-    OverlapTexture({
-        arg tr;
-        var freq = TRand(400, SampleRate() / 3, tr);
-        var a = TRand(-3, 3, tr);
-        var b = TRand(-3, 3, tr);
-        var c = TRand(0.5, 1.5, tr);
-        var d = TRand(0.5, 1.5, tr);
-        SinOsc(freq, 0) * 0.05 + Pan2(LatoocarfianC(freq, a, b, c, d, 0.5, 0.5), TRand(-1, 1, tr), 0.05)
-    }, 1, 4, 8)
+	// LatoocarfianC ; texture
+	OverlapTexture({
+		arg tr;
+		var freq = TRand(400, SampleRate() / 3, tr);
+		var a = TRand(-3, 3, tr);
+		var b = TRand(-3, 3, tr);
+		var c = TRand(0.5, 1.5, tr);
+		var d = TRand(0.5, 1.5, tr);
+		SinOsc(freq, 0) * 0.05 + Pan2(LatoocarfianC(freq, a, b, c, d, 0.5, 0.5), TRand(-1, 1, tr), 0.05)
+	}, 1, 4, 8)
 
 # LFClipNoise - clipped noise
 
@@ -99,11 +99,11 @@ Randomly generates the values -1 or +1 at a rate given by the nearest integer di
 
 Fixed frequency:
 
-    LFClipNoise(1000) * 0.05
+	LFClipNoise(1000) * 0.05
 
 Modulate frequency:
 
-    LFClipNoise(XLn(1000, 10000, 10)) * 0.05
+	LFClipNoise(XLn(1000, 10000, 10)) * 0.05
 
 # LFNoise0 - step noise
 
@@ -115,11 +115,11 @@ Generates random values at a rate given by the nearest integer division of the s
 
 Fixed frequency:
 
-    LFNoise0(1000) * 0.05
+	LFNoise0(1000) * 0.05
 
 Modulate frequency:
 
-    LFNoise0(XLn(1000, 10000, 10)) * 0.05
+	LFNoise0(XLn(1000, 10000, 10)) * 0.05
 
 # LFNoise1 - ramp noise
 
@@ -131,11 +131,11 @@ Generates linearly interpolated random values at a rate given by the nearest int
 
 Fixed frequency:
 
-    LFNoise1(1000) * 0.05
+	LFNoise1(1000) * 0.05
 
 Modulate frequency:
 
-    LFNoise1(XLn(1000, 10000, 10)) * 0.05
+	LFNoise1(XLn(1000, 10000, 10)) * 0.05
 
 # LFNoise2 - quadratic noise
 
@@ -147,11 +147,11 @@ Generates quadratically interpolated random values at a rate given by the neares
 
 Fixed frequency:
 
-    LFNoise2(1000) * 0.05
+	LFNoise2(1000) * 0.05
 
 Modulate frequency:
 
-    LFNoise2(XLn(1000, 10000, 10)) * 0.05
+	LFNoise2(XLn(1000, 10000, 10)) * 0.05
 
 # LinCongC - linear congruential generator
 
@@ -168,14 +168,14 @@ All of the parameters are integers and cannot be modulated.
 
 Texture:
 
-    OverlapTexture({
-        arg tr;
-        var freq = SampleRate() / 2;
-        var m = TIRand(0, 1000000, tr);
-        var a = TIRand(1, 2000, tr);
-        var c = TIRand(1, 30000, tr);
-        LinCongC(freq, a, c, m, { TIRand(0, m, tr) }.dup(2)) * 0.05
-    }, 1, 2, 4)
+	OverlapTexture({
+		arg tr;
+		var freq = SampleRate() / 2;
+		var m = TIRand(0, 1000000, tr);
+		var a = TIRand(1, 2000, tr);
+		var c = TIRand(1, 30000, tr);
+		LinCongC(freq, a, c, m, { TIRand(0, m, tr) }.dup(2)) * 0.05
+	}, 1, 2, 4)
 
 # PinkNoise
 
@@ -183,7 +183,7 @@ _PinkNoise()_
 
 Generates noise whose spectrum falls off in power by 3 dB per octave.  This gives equal power over the span of each octave.
 
-    PinkNoise() * 0.1
+	PinkNoise() * 0.1
 
 # WhiteNoise
 
@@ -191,4 +191,4 @@ _WhiteNoise()_
 
 Generates noise whose spectrum has equal power at all frequencies.
 
-    WhiteNoise() * 0.1
+	WhiteNoise() * 0.1

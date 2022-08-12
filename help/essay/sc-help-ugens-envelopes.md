@@ -10,7 +10,7 @@ Apply a cutoff envelope to a continuous sound.
 
 Cutoff sine oscillator after four seconds with one second release time:
 
-    Cutoff(4, 1, -4) * SinOsc(220, 0) * 0.1
+	Cutoff(4, 1, -4) * SinOsc(220, 0) * 0.1
 
 # Decay - exponential decay
 
@@ -23,11 +23,11 @@ This is essentially the same as _Integrator_ except that instead of supplying th
 
 Decay time of one centisecond:
 
-    Decay(Impulse(1, 0) * 0.25, 0.01)
+	Decay(Impulse(1, 0) * 0.25, 0.01)
 
 Used as an envelope:
 
-    Decay(Impulse(XLn(1, 50, 20), 0) * 0.25, 0.2) * PinkNoise()
+	Decay(Impulse(XLn(1, 50, 20), 0) * 0.25, 0.2) * PinkNoise()
 
 # Decay2 - exponential decay
 
@@ -41,19 +41,19 @@ _Decay_ has a very sharp attack and can produce clicks. _Decay2_ rounds off the 
 
 One millisecond attack, one centisecond decay:
 
-    Decay2(Impulse(1, 0), 0.001, 0.01)
+	Decay2(Impulse(1, 0), 0.001, 0.01)
 
 Since attack and decay are a difference of two Decays, if you swap the values, then the envelope turns upside down:
 
-    Decay2(Impulse(1, 0), 0.01, 0.001)
+	Decay2(Impulse(1, 0), 0.01, 0.001)
 
 Used as an envelope:
 
-    Decay2(Impulse(XLn(1, 50, 20), 0) * 0.25, 0.01, 0.2) * FSinOsc(600, 0)
+	Decay2(Impulse(XLn(1, 50, 20), 0) * 0.25, 0.01, 0.2) * FSinOsc(600, 0)
 
 Compare the above with Decay used as the envelope:
 
-    Decay(Impulse(XLn(1, 50, 20), 0) * 0.25, 0.2) * FSinOsc(600, 0)
+	Decay(Impulse(XLn(1, 50, 20), 0) * 0.25, 0.2) * FSinOsc(600, 0)
 
 # Ln - line generator
 
@@ -67,7 +67,7 @@ Generates a line from the start value to the end value.
 
 XLn is usually better than Line for frequency:
 
-    SinOsc(Ln(200, 17000, 10), 0) * 0.1
+	SinOsc(Ln(200, 17000, 10), 0) * 0.1
 
 # XLn - exponential line generator
 
@@ -81,4 +81,4 @@ Generates an exponential curve from the start value to the end value. Both the s
 
 Control frequency of sine oscillator:
 
-    SinOsc(XLn(200, 17000, 10), 0) * 0.1
+	SinOsc(XLn(200, 17000, 10), 0) * 0.1

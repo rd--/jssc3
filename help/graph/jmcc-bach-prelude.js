@@ -4,9 +4,9 @@ p1 = [[60, 64, 67, 72, 76], [60, 62, 69, 74, 77], [59, 62, 67, 74, 77], [60, 64,
 p2 = [[36, 48, 53, 57, 60, 65, 60, 57, 60, 57, 53, 57, 53, 50, 53, 50], [36, 47, 67, 71, 74, 77, 74, 71, 74, 71, 67, 71, 62, 65, 64, 62], dup(function() {  return 60;
 }, 16)];
 p = append(concatenation(collect(p1, function(x) {
-    var y;
-    y = append(x, collect(to(3, 5), function(i) {  return nth(x, i); }));
-    return concatenation([y, y]);
+	var y;
+	y = append(x, collect(to(3, 5), function(i) {  return nth(x, i); }));
+	return concatenation([y, y]);
 })), concatenation(p2));
 tr = Impulse(5, 0);
 freq = DmdOn(tr, 0, Seq(1, midiCps(p)));

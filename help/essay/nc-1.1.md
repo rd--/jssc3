@@ -29,29 +29,29 @@ You need to know three specific things before you dare to run any code: (Mac ver
 
 Here are some warm up examples.  Select the code and run _Eval_.  Firstly some maths.
 
-    2 + 2 // a four should appear in the posting (console) window
+	2 + 2 // a four should appear in the posting (console) window
 
 Then a sound.
 
-    { Pan2(SinOsc(440,0), 0, 0.1) }.play // concert A sine tone (works only if server booted)
+	{ Pan2(SinOsc(440,0), 0, 0.1) }.play // concert A sine tone (works only if server booted)
 
 One powerful feature of SuperCollider is the ease with which you might bring in interaction: here I substitute a Mouse controller for frequency rather than having a constant
 
-    { Pan2(SinOsc(MouseX(440, 880, 0, 0.2), 0), 0, 0.1) }.play
+	{ Pan2(SinOsc(MouseX(440, 880, 0, 0.2), 0), 0, 0.1) }.play
 
 Another traffic moment, more involved example (don't worry if you don't understand everything here yet!). Double click on the initial bracket to select this whole block of text, which needs to be run at once. You can't use evaluate on a single line of this example since it's a program consisting of more than one line.
 
-    {
-      var n = 11; // try changing me to 34, or 3, and then re-running...
-      var f = {
-        var freq = Rand(50, 560.3);
-        var numcps = Rand(2, 20);
-        var knum = MulAdd(SinOsc(ExpRand(0.02, 0.2),  0), numcps / 2,  numcps / 2);
-        var osc = Gendy1(Rand(0, 6), Rand(0, 6), Rand(0, 1), Rand(0, 1), freq , freq,  Rand(0, 1),  Rand(0, 1),  numcps,  knum.kr);
-        Pan2(osc, Rand(-1, 1), 0.5 / n.sqrt)
-      };
-      Resonz(f.dup(n).sum, MouseX(100,  2000, 0, 0.2), MouseY(0.01,  1.0, 0, 0.2))
-    }.play
+	{
+	  var n = 11; // try changing me to 34, or 3, and then re-running...
+	  var f = {
+		var freq = Rand(50, 560.3);
+		var numcps = Rand(2, 20);
+		var knum = MulAdd(SinOsc(ExpRand(0.02, 0.2),  0), numcps / 2,  numcps / 2);
+		var osc = Gendy1(Rand(0, 6), Rand(0, 6), Rand(0, 1), Rand(0, 1), freq , freq,  Rand(0, 1),  Rand(0, 1),  numcps,  knum.kr);
+		Pan2(osc, Rand(-1, 1), 0.5 / n.sqrt)
+	  };
+	  Resonz(f.dup(n).sum, MouseX(100,  2000, 0, 0.2), MouseY(0.01,  1.0, 0, 0.2))
+	}.play
 
 SuperCollider is very powerful and much loved because it is easy to do real time synthesis, interaction and algorithmic composition, within one package.
 
@@ -65,7 +65,7 @@ SuperCollider has similar control structures to programming languages you may al
 
 In this course we shall try to get you to pick up the syntax as we go along, and get on to making sounds as quickly as possible!
 
-    // this is a comment
+	// this is a comment
 
 Comments are very useful to annotate programs so they make sense to other people or when you return to them yourself six months later on!
 
@@ -73,7 +73,7 @@ To do audio synthesis, we give SuperCollider a list of instructions for building
 
 This code plugs a sine oscillator into a panner; don't worry, this will be further explained as we go along!
 
-    { Pan2(SinOsc(440,0), 0, 0.1) }.play
+	{ Pan2(SinOsc(440,0), 0, 0.1) }.play
 
 A hint as to the plugging together: frequency 440  ->  SinOsc -> Pan2 -> output
 
@@ -83,11 +83,11 @@ Plugging in SuperCollider appears through nesting brackets, e.g. _SinOsc(440, 0)
 
 Double click on the inside of any bracket to highlight the code contained within.  Select this code within the outer parentheses then press the evalute key command.
 
-    {
-      (SinOsc(440,0) * 0.1)
-      +
-      (Pulse(443, 0.6) * 0.05)
-    }.play
+	{
+	  (SinOsc(440,0) * 0.1)
+	  +
+	  (Pulse(443, 0.6) * 0.05)
+	}.play
 
 A selection is either a whole highlighted area, or the current line of the cursor.
 
@@ -99,23 +99,23 @@ A selection is either a whole highlighted area, or the current line of the curso
 
 SuperCollider code can get full of nested expressions: you look at the selections within brackets to check on the scope (level of nesting) of code fragments. Try double clicking around any of the brackets in the following code:
 
-    (
-    if(4==4, {
-        if(3==3, {
-            "correct!".postln
-        });
-    });
-    )
+	(
+	if(4==4, {
+		if(3==3, {
+			"correct!".postln
+		});
+	});
+	)
 
 ## How do I find out about strange new code objects?
 
 Use Cmd+d on its own to bring up a general help window (F1 on Windows) or on selected text (that has an associated help file)
 
-    LFSaw // select and use Cmd+d
+	LFSaw // select and use Cmd+d
 
 You can also use Cmd+j (3.5) or Cmd+i (3.6) to go to source code to find out more:
 
-    LFSaw // select and use Cmd+j (3.5 or earlier) Cmd+i (3.6)
+	LFSaw // select and use Cmd+j (3.5 or earlier) Cmd+i (3.6)
 
 You will use this more later on, but start with reading help files.
 
@@ -125,14 +125,14 @@ You'll often see the postln and Post instructions, which are useful for checking
 
 Run these lines of code with the cursor on each line
 
-    2.postln;
-    Post << [2,3,4,5] <<nl;
+	2.postln;
+	Post << [2,3,4,5] <<nl;
 
 The reason you see more than one thing posted is that when you execute some code, SuperCollider always posts the last object it dealt with. This is the object '2' in the first example and the special 'Post' operator in the second. If you run this:
 
-    var freq;
-    freq = Rand(300, 600);
-    { SinOsc(freq, 0) * 0.1 }.play
+	var freq;
+	freq = Rand(300, 600);
+	{ SinOsc(freq, 0) * 0.1 }.play
 
 You'll see something posted about a Synth (the object that represents the sound synthesis asked for in the last line). You'll get used to all this, don't worry!
 
@@ -140,11 +140,11 @@ You'll see something posted about a Synth (the object that represents the sound 
 
 This will crash:
 
-    { SinOsc(nil) }.play
+	{ SinOsc(nil) }.play
 
 So will this:
 
-    Array.series(9,0,1)+nil
+	Array.series(9,0,1)+nil
 
 (A nil is like an empty object; it represents missing information, so no wonder it doesn't work in the expressions above!)
 
@@ -180,6 +180,6 @@ However, one area of difference is the GUIs. Under the surface, things run diffe
 
 MouseX and MouseY should now work on all platforms.
 
-    { SinOsc(MouseX(400, 800, 0, 0.2), 0) * 0.1 }.play
+	{ SinOsc(MouseX(400, 800, 0, 0.2), 0) * 0.1 }.play
 
 NC: [1.1](https://composerprogrammer.com/teaching/supercollider/sctutorial/1.1%20Getting%20Started.html)
