@@ -19,6 +19,13 @@ function sendOsc(oscMessage) {
 	}
 }
 
+var scsynthDefaultOptions = {
+	numInputs: 0,
+	numOutputs: 2,
+	hardwareBufferSize: 8192,
+	blockSize: 48
+}
+
 function bootScsynth(options) {
 	scsynthOptionsPrint(options);
 	if(!scsynth_alive) {
