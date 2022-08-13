@@ -3,7 +3,7 @@
 
 doc = jssc3-1.html \
 	sc-documentation-1.html sc-documentation-2.html sc-documentation-3.html \
-	sc-tutorial-1.html sc-tutorial-2.html sc-tutorial-5.html sc-tutorial-6.html \
+	sc-tutorials-1.html \
 	sc-help-ugens-analysis.html \
 	sc-help-ugens-buffers.html \
 	sc-help-ugens-controls.html \
@@ -19,7 +19,19 @@ doc = jssc3-1.html \
 	sc-help-ugens-triggers.html \
 	sc-help-ugens-unary-operators.html
 
-all: $(doc)
+all:
+	make mk-md mk-html
 
 clean:
 	rm -f $(doc)
+
+mk-md:
+	cat $(HOME)/sw/stsc3/help/sc2/documentation/intro/*.md > sc-documentation-1.md
+	cat $(HOME)/sw/stsc3/help/sc2/documentation/audio-basics/*.md > sc-documentation-2.md
+	cat $(HOME)/sw/stsc3/help/sc2/documentation/other-topics/*.md > sc-documentation-3.md
+	cat $(HOME)/sw/stsc3/help/sc2/tutorials/*.md > sc-tutorials-1.md
+
+rm-md:
+	rm -f sc-documentation-*.md sc-tutorials-*.md
+
+mk-html: $(doc)

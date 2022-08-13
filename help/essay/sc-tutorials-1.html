@@ -1,0 +1,161 @@
+<h1>1. How to use the Synth class</h1><p>In this tutorial you'll find out what you can do with the Synth class.</p><h2>1.1 How to play a sound</h2><p>This first example explains in detail how to play a very simple sound, an 800 Hertz sine wave at amplitude 0.1 (-20dB).</p><p>First the uncommented version:</p><pre><code>{ SinOsc(800, 0) * 0.1 }.play
+</code></pre><p>Now the same example with lots and lots of comments:</p><pre><code>// A UGen graph is a network of connected unit generators.
+// For this example the 'network' only has a single unit generator.
+{
+	// Function are defined within curly braces.
+	// This function contains the code to create a graph of ugens.
+	// In this case we'll only create a single sine oscillator
+	SinOsc( // SinOsc creates an audio rate oscillator. It takes two arguments:
+		800, // set its frequency to 800 Hertz
+		0) // set its phase to 0 radians
+	* 0.1 // multiply the sine wave by 0.1
+	// A function returns the value of its last expression.
+	// This function only has one expression, the call to SinOsc.
+}.play // Close curly brace marks end of function definition.
+</code></pre><h2>1.2 How to plot output.</h2><p>A Synth can do more things than just play a sound.  You can plot a Synth's output using the 'plot' method.  We'll plot 10 milliseconds or 0.01 seconds of the sine wave.</p><pre><code>// { SinOsc(800, 0) * 0.1) }.plot
+</code></pre><p>Notice that there are eight cycles of the sine wave plotted.  800 cycles/second * 0.01 seconds = 8 cycles</p><p>A plot is held in a buffer in RAM so don't try to plot an hour long piece (that would be about 1.2 gigabytes for stereo 32 bit floats at 44.1 Khz).</p><h2>1.3 How to watch output in real time.</h2><p>More exciting than a plot of your output is to watch it in real time.  You can do this with the Synth 'scope' method.  The second argument is the duration seen in the scope. We'll use 0.01 seconds again.</p><p>This time we'll look at some BrownNoise since that changes more than a sine wave.  BrownNoise takes two arguments, a multiply and an add. We'll set the multiply to 0.1 just like with the SinOsc example and leave the add input at its default of zero.</p><pre><code>// { BrownNoise() * 0.1 }.plot
+</code></pre><p>Now let's see a 0.2 seconds window which is 20 times longer than the above.</p><pre><code>// { BrownNoise() * 0.1 }.plot(0.2)
+</code></pre><h2>1.4 How to create a buffer of samples</h2><p>You can write your output samples to a buffer. Buffers of audio are represented by the class Signal.  The Synth 'collect' method returns an instance of Signal which is filled with the Synth output for the duration specified.  This lets you do non real time operations on the sound.</p><pre><code>// ...
+</code></pre><h2>1.5 How to write output to disk</h2><p>The Synth 'write' method lets you write output to a sound file in non real time.  The write method takes three more arguments than 'play'. The first is the path name of the file. Second is a Symbol giving the header format or type of sound file to write.  The third additional argument is the sample format. See the SoundFile help file for a list of all the formats available. We'll use 'AIFF' for the header format and '16 big endian signed' for the sample format.</p><pre><code>// ...
+</code></pre><p>It happens that 'AIFF' and '16 big endian signed' are the default values for the sound file format arguments, so they may be left off if that is what you want.</p><pre><code>// ...
+</code></pre><h2>1.6 How to play a sound file from disk</h2><p>The SoundFile 'play' method will stream a file off of disk.  The first argument is the pathname.  The following example assumes the existence of the file &quot;sine800&quot; created in the previous example.</p><pre><code>// ...
+</code></pre><p>If you want to loop the file, set the loop flag to true.</p><pre><code>// ...
+</code></pre><h2>1.7 How to write output to disk while playing</h2><p>You can write a sound to disk in real time while you monitor it by using the Synth 'record' method. This method has the same arguments as 'write'.</p><pre><code>// ...
+</code></pre><p>Synth 'record' has the same defaults for the file format that Synth 'write' does, so if you want a 16 bit AIFF file then you can leave those arguments off.</p><pre><code>// ...
+</code></pre><h1>2. How to use UGens</h1><h2>2.1 What is a UGen?</h2><p>A unit generator is an object that processes or generates sound.  There are many classes of unit generators, all of which derive from the class UGen.</p><p>All of the UGen classes are listed in the help file [UGen_Ref_Sheet].  From there you can get help on any unit generator by double clicking on the class name and doing cmd-H.  Each UGen class help file has executable examples of its use.</p><h2>2.2 How to create a UGen</h2><p>A unit generator is created by sending the 'ar' or 'kr' message to the unit generator's class object. The 'ar' message creates a unit generator that runs at audio rate. The 'kr' message creates a unit generator that runs at control rate. Control rate unit generators are used for low frequency or slowly changing control signals. Control rate unit generators produce only a single sample per block and therefore use less processing power than audio rate unit generators. Since block sizes are typically 64 samples, a control rate unit generator could theoretically be 1/64 the cost, however the savings is not quite that great due to setup overhead. The savings is significant though, so anytime a control rate ugen will serve, it should be used.</p><pre><code>SinOsc(800, 0) * 0.1 // create an audio rate sine oscillator
+SinOsc(800, 0) * SinOsc(2, 0).kr * 0.1; // create a control rate sine oscillator
+</code></pre><p>The input parameters for a unit generator are given in the documentation for that class.</p><p>In order to create sound, a UGen must be created inside of a Synth's ugenGraphFunction.</p><pre><code>{ SinOsc(800, 0) * 0.1 }.play
+</code></pre><h2>2.3 Doing math with UGens</h2><p>You can do math operations on unit generators and the result will be another unit generator. Doing math on unit generators is not doing any signal calculation itself - it is building the network of unit generators that will execute once they are played in a Synth. This is the essential thing to understand: Synthesis networks, or in other words signal flow graphs are created by executing expressions of unit generators.  The following expression creates a flow graph whose root is an instance of BinaryOpUGen which performs the '+' operation. Its inputs are the FSinOsc and BrownNoise unit generators. FSinOsc is a fast fixed frequency sine oscillator and BrownNoise is a noise generator that emphasizes lower frequencies.</p><pre><code>(FSinOsc(800, 0) * 0.2) + (BrownNoise() * 0.2) // (use cmd-P)
+{ (FSinOsc(800, 0) * 0.2) + (BrownNoise() * 0.2) }.play // play it
+(FSinOsc(800, 0) * 0.4) * (BrownNoise() * 0.5) // multiply them
+</code></pre><h2>2.4 Signal level</h2><p>The output signal level of most unit generators that generate audio is from -1 to +1.  There are a few exceptions like COsc which ranges from -2 to +2, or LFPulse which ranges from 0 to +1. You can use the Synth plot method to check the range of any UGen.</p><pre><code>Synth.plot({ FSinOsc.ar(200) }); // 200 Hz sine wave
+Synth.plot({ WhiteNoise.ar });
+Synth.plot({ BrownNoise.ar });
+</code></pre><p>Pink noise is capable of -1 to +1 but is statistically unlikely to acheive it</p><pre><code>Synth.plot({ PinkNoise.ar });
+</code></pre><p>500 Hz pulse wave with a 30% duty cycle:</p><pre><code>Synth.plot({ LFPulse.ar(500, 0.3) });
+</code></pre><p>The output signal level of UGens that process their input such as filters and delays depend on the level of the input and the settings of the UGen's particular controls.</p><h2>2.5 Mul and Add inputs</h2><p>Many unit generators have inputs named mul and add which allow you to multiply and add signals to that UGen's output. Using mul and add is more efficient that using an explicit * or + operator.  Also it is often desirable to scale and offset the values of control UGens to match some specific range for purposes of modulation.  The values for mul and add default to 1 and 0 respectively, which leaves the output unchanged.  With these defaults, the multiply and add are optimized out and there is no computational cost for them.</p><pre><code>Synth.plot({ FSinOsc.ar(200) }); // a 200 Hz sine wave
+Synth.plot({ FSinOsc.ar(200, 0.2) }); // 200 Hz sine wave with mul=0.2
+Synth.plot({ FSinOsc.ar(200, 0.2, 0.2) }); // 200 Hz sine wave with mul=0.2 and add=0.2
+Synth.plot({ FSinOsc.ar(200, 0.5, 0.5) }); // 200 Hz sine wave with mul=0.5 and add=0.5
+Synth.plot({ FSinOsc.ar(200, 0.5, -0.5) }); // 200 Hz sine wave with mul=0.5 and add=-0.5
+</code></pre><p>Add can be used to mix signals.  This example is equivalent to one given in 2.3 above.  The noise generator is plugged into the add input of FSinOsc</p><pre><code>Synth.scope({ FSinOsc.ar(800, 0.2, BrownNoise.ar(0.2)) });
+</code></pre><p>Mul can be used to ring modulate signals.  This example is equivalent to another one given in 2.3 above.  The noise generator is plugged into the mul input of FSinOsc</p><pre><code>Synth.scope({ FSinOsc.ar(800, BrownNoise.ar(0.2)) });
+</code></pre><p>You can plug control rate UGens into the mul and add inputs of an audio rate UGen.  While plugging an audio rate UGen into the mul or add input of a control rate UGen is possible, it is wasteful of CPU since a control rate UGen will sub-sample any audio rate input.</p><h2>2.6 Modulation</h2><p>A unit generator's signal inputs can be other unit generators, scalars, or Arrays of unit generators and scalars. Using Arrays as inputs will be covered in the section on multiple channels.  Here we show some examples of using unit generators as inputs to other unit generators.</p><p>This example modulates a sine oscillator's frequency with a linear function, a simple frequency sweep:</p><pre><code>SinOsc( // create a sine oscillator
+	Ln( // modulate the frequency with a Line unit generator
+		2000, // the line begins at 2000
+		300, // and ends at 300
+		10 // in 10 seconds
+	),
+	0 // zero phase
+) * 0.1 // amplitude 0.1
+</code></pre><p>The short version of the above:</p><pre><code>SinOsc(Ln(2000, 300, 10), 0) * 0.1
+</code></pre><p>In the following example the frequency modulator is changed from a line to a sine oscillator.</p><pre><code>SinOsc( // create a sine oscillator
+	SinOsc( // modulate the frequency with another sine oscillator
+		0.5, // the modulating sine freq is 1 cycle per 2 seconds
+		0, // zero phase
+	) * 300 // mul = 300
+	+ 700, // add = 700
+	// These settings of mul and add will cause the
+	// frequency to vary from -300+700 to +300+700 Hz
+	// which equals from 400 to 1000 Hz
+	0) // zero phase
+* 0.1 // amplitude 0.1
+</code></pre><p>Now we'll modulate the modulator to cause the frequency modulation to speed up over time, i.e. sweep the frequency of an <em>LFO</em></p><pre><code>SinOsc( // create a sine oscillator
+	SinOsc( // modulate the frequency with another sine oscillator
+		// make the freq modulator speed up exponentially
+		// by modulating its frequency with another UGen
+		XLn( // make an exponential line generator
+			0.5, // begin at 0.5 Hz
+			100, // end at 100 Hz
+			30 // in 30 seconds
+		),
+		0) // zero phase
+	* 300 // mul = 300
+	+ 700, // add = 700
+	// These settings of mul and add will cause the
+	// frequency to vary from -300+700 to +300+700 Hz
+	// which equals from 400 to 1000 Hz
+	0) // zero phase
+* 0.1 // amplitude 0.1
+</code></pre><p>The nested style used above can become hard to read, so often it is preferable to use variables to make it more readable.</p><pre><code>var lfofreq, freq; // declare the variables we will use in this function.
+lfofreq = XLn( // make an exponential line generator
+	0.5, // begin at 0.5 Hz
+	100, // end at 100 Hz
+	30 // in 30 seconds
+);
+freq = SinOsc( // modulate the frequency with another sine oscillator
+	lfofreq, // use exponential line to modulate the lfo freq
+	0) // zero phase
+* 300 // mul = 300
++ 700; // add = 700
+SinOsc( // create a sine oscillator
+	freq, // frequency modulator
+	0) // zero phase
+* 0.1 // amplitude 0.1
+</code></pre><h1>5. Parallel &amp; Series - Programmatic Patch Construction</h1><p>The ability to construct patches programmatically is one of the unique and powerful features of SuperCollider. It allows you to create structures whose size and complexity are determined at runtime.</p><h2>5.1 How to build parallel structures</h2><p>As discussed in the previous section Mix can be used to mix parallel structures.  We can use Array.fill to fill an Array with a number of variations of some structure which we mix together using Mix.</p><p>Mixing sine oscillators in parallel:</p><pre><code>var n = 16; // number of structures to make
+var f = { FSinOsc(Rand(200, 1200), 0) }; // function to create an oscillator at a random frequency
+f.dup(n).sum / (8 * n) // array of n places, summed, scale amplitude
+</code></pre><p>Filling an Array and mixing it is a common idiom:</p><pre><code>{ ... }.dup(n).sum
+</code></pre><p>One common structure used in reverbs is to mix several comb delays in parallel.  This example shows how you can use parallel structures to process a single input.</p><pre><code>var n = 8;
+// variable to hold the input, use a noise burst as an input signal
+var z = Decay2( // exponential decay envelope
+	Impulse(0.5, 0), // impulse to trigger the decay
+	0.01, // attack time
+	0.20 // decay time
+) * PinkNoise() * 0.1;	// multiply envelope by pink noise
+{
+	// function to create comb delays with random delay times
+	CombC(
+		z, // input signal
+		0.1, // maximum delay time
+		Rand(0.01, 0.09), // random delay time from 0.01 to 0.09 seconds
+		3 // echo decay time
+	)
+}.dup(n).sum
+</code></pre><h1>5.2 How to build series structures.</h1><p>Another structure used in reverbs is a series of allpass delays.  A series or chain of unit generators can be created by using a loop with an induction variable.  In the following loop the variable <em>z</em> gets reassigned each time through the loop creating a chain of allpass delays. The first time though the loop the variable <em>z</em> is the input signal generator.  <em>Z</em> is then assigned to the allpass delay, so that the next time through the loop the next allpass delay will have the previous allpass delay as its input.</p><pre><code>var n = 8;
+// variable to hold the input, use a noise burst as an input signal
+var z = Decay2( // exponential decay envelope
+	Impulse(0.5, 0), // impulse to trigger the decay
+	0.01, // attack time
+	0.20 // decay time
+) * PinkNoise() * 0.1;	// multiply envelope by pink noise
+// z begins as the input and gets reassigned each time through the loop
+n.timesRepeat({ // do n times
+	// function to create allpass delays with random delay times
+	z = AllpassN(
+		z, // input to this allpass
+		0.05, // maximum delay time
+		Rand(0, 0.05), // random delay time
+		3 // echo decay time
+	)
+});
+z // return z as the output
+</code></pre><h1>5.3 Conditional patch construction</h1><p>Patches can be constructed conditionally at runtime.  The following example uses conditional code to randomly construct a patch each time.</p><pre><code>// frequency control
+var freq = [LFNoise0(3), FSinOsc(3, 0)].choose * 500 + 800;
+// amplitude control
+var amp = [LFNoise1(2.2).max(0) * 0.5, FSinOsc(2.2, 0) * 0.25 + 0.25].choose;
+// sound source
+[SinOsc(freq, 0), Blip(freq, 8)].choose * amp * 0.2
+</code></pre><h1>6. Accessing Audio</h1><h2>6.1 How to access live audio input.</h2><p>The AudioIn unit generator gets a channel of audio from the currently active sound hardware.  It takes a single parameter which is the logical input channel number.  The physical input channel number is determined by the input routing in effect.</p><p>To prevent feedback you may want to use headphones.  Play audio from channel 1.</p><pre><code>AudioIn(1)
+</code></pre><p>Play audio from channels 1 &amp; 2.  The array [1, 2] causes multichannel expansion resulting in an array of two AudioIn ugens.</p><pre><code>AudioIn([1, 2])
+</code></pre><h2>6.2 How to play audio files from disk.</h2><p>The DiskIn unit generator can stream audio from a disk file. It can be used in a number of ways.  For more information look at the DiskIn help file.</p><pre><code>// ...
+</code></pre><h2>6.3 How to play audio files in RAM</h2><p>Files loaded in RAM can be processed in more ways because the entire file is accessible.  Files in RAM can be played using the PlayBuf ugen. See the help file for PlayBuf for more info.</p><p>Normal playback at same speed of recording:</p><pre><code>var filename = &quot;floating_1&quot;; // the file's path name
+var file = SfAcquire(filename, 1, [1]); // create a SoundFile object
+SfPlay(
+	file, // sample buffer
+	1, // playback rate
+	1, // trigger playback
+	0, // starting offset sample
+	1, // loop
+);
+</code></pre><p>Mouse controls playback rate:</p><pre><code>var filename = &quot;floating_1&quot;; // the file's path name
+var file = SfAcquire(filename, 1, [1]); // create a SoundFile object
+var rateMultiplier = MouseX(0.25, 4, 1, 0.2);
+SfPlay(
+	file, // sample buffer
+	rateMultiplier, // playback rate
+	1, // trigger playback
+	0, // starting offset sample
+	1, // loop
+);
+</code></pre>
