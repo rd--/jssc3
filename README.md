@@ -14,6 +14,10 @@ Online editors:
 - [SuperScript](https://archive.org/details/SuperScript_Word_Processor_for_the_128_1995_Precision_Software/mode/2up), _Precision Software_, 1985
 - [SuperCalc](https://museum.syssrc.com/artifact/exhibits/807/) _Sorcim_, 1980.
 
+Related:
+[Block SuperCollider](https://blksc3.rohandrape.net/)
+[Polyglot SuperCollider](https://rohandrape.net/pub/hsc3-graphs/polyglot-wasm.html)
+
 Requires:
 [osc.js](https://github.com/colinbdclark/osc.js),
 [scsynth-wasm-builds](https://gitlab.com/rd--/scsynth-wasm-builds),
