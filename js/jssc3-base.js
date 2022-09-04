@@ -420,24 +420,24 @@ function encodePascalString(aString) {
     }
     return uint8Array;
 }
-// Printing to to the console is slow, even if debugging messages aren't displayed
+// Printing to the console is slow, even if debugging messages aren't displayed
 const sc3_debug = false;
-function consoleDebug(...args) {
+function consoleDebug(text) {
     if (sc3_debug) {
-        console.debug(...args);
+        console.debug(text);
     }
 }
-function consoleWarn(...args) {
-    console.warn(...args);
+function consoleWarn(text) {
+    console.warn(text);
 }
-function consoleError(...args) {
-    console.error(...args);
+function consoleError(text) {
+    console.error(text);
 }
-function consoleLog(...args) {
-    console.log(...args);
+function consoleLog(text) {
+    console.log(text);
 }
 function consoleLogMessageFrom(from, text) {
-    console.log(from + ': ', text);
+    console.log(`${from}: ${text}`);
 }
 // [() => null, Math.abs, Math.pow, console.log].map(functionArity) //= [0, 1, 2, 0]
 function functionArity(aFunction) {
@@ -466,7 +466,7 @@ function handle_fetch_error(response) {
 }
 // Log error and return default value
 function log_error_and_return(fromWhere, reason, defaultValue) {
-    console.debug(fromWhere, ': ', reason);
+    console.error(`${fromWhere}: ${reason}`);
     return defaultValue;
 }
 function load_and_extract_and_then(fileName, typeString, extractFunc, processFunc) {
@@ -544,7 +544,7 @@ function isUndefined(aValue) {
 // If inputValue is null or undefined log message and return defaultValue, else return inputValue
 function nullFix(message, inputValue, defaultValue) {
     if (isNull(inputValue) || isUndefined(inputValue)) {
-        console.warn('nullFix', message, inputValue, defaultValue);
+        console.warn(`nullFix: ${message}: input = ${inputValue}, default = ${defaultValue}`);
         return defaultValue;
     }
     else {
@@ -635,7 +635,7 @@ const unaryOperators = {
     cosH: 35,
     tanH: 36,
     rand_: 37,
-    rand2: 38,
+    rand2_: 38,
     linRand_: 39,
     biLinRand: 40,
     sum3Rand: 41,
@@ -672,7 +672,7 @@ const binaryOperators = {
     bitXor: 16,
     lcm: 17,
     gcd: 18,
-    round: 19,
+    roundTo: 19,
     roundUp: 20,
     trunc: 21,
     atan2: 22,
@@ -827,11 +827,11 @@ function forestEq(lhs, rhs) {
 // sc3-websocket.ts
 function websocket_open(host, port) {
     try {
-        const ws_address = 'ws://' + host + ':' + Number(port).toString();
+        const ws_address = `ws://${host}:${Number(port).toString()}`;
         return new WebSocket(ws_address);
     }
-    catch (err) {
-        console.error('websocket_open: ' + err);
+    catch (error) {
+        console.error(`websocket_open: error = ${error}`);
         return null;
     }
 }
@@ -913,6 +913,10 @@ function BBandPass(input, freq, bw) {
 // Band reject filter
 function BBandStop(input, freq, bw) {
     return makeUgen('BBandStop', 1, [0], 0, [input, freq, bw]);
+}
+// 12db/oct rolloff - 2nd order resonant  Hi Pass Filter
+function BHiPass(input, freq, rq) {
+    return makeUgen('BHiPass', 1, [0], 0, [input, freq, rq]);
 }
 // Band limited impulse oscillator.
 function Blip(freq, numharm) {
@@ -1002,6 +1006,10 @@ function CombL(input, maxdelaytime, delaytime, decaytime) {
 function CombN(input, maxdelaytime, delaytime, decaytime) {
     return makeUgen('CombN', 1, [0], 0, [input, maxdelaytime, delaytime, decaytime]);
 }
+// Compressor, expander, limiter, gate, ducker
+function Compander(input, control, thresh, slopeBelow, slopeAbove, clampTime, relaxTime) {
+    return makeUgen('Compander', 1, [0], 0, [input, control, thresh, slopeBelow, slopeAbove, clampTime, relaxTime]);
+}
 // Duration of one block
 function ControlDur() {
     return makeUgen('ControlDur', 1, rateIr, 0, []);
@@ -1021,6 +1029,10 @@ function Crackle(chaosParam) {
 // Cusp map chaotic generator
 function CuspL(freq, a, b, xi) {
     return makeUgen('CuspL', 1, rateAr, 0, [freq, a, b, xi]);
+}
+// Cusp map chaotic generator
+function CuspN(freq, a, b, xi) {
+    return makeUgen('CuspN', 1, rateAr, 0, [freq, a, b, xi]);
 }
 // Buffer read demand ugen
 function Dbufrd(bufnum, phase, loop) {
@@ -1074,6 +1086,10 @@ function Demand(trig, reset, demandUGens) {
 function DetectSilence(input, amp, time, doneAction) {
     return makeUgen('DetectSilence', 1, [0], 0, [input, amp, time, doneAction]);
 }
+// Digitally modelled analog filter
+function DFM1(input, freq, res, inputgain, type, noiselevel) {
+    return makeUgen('DFM1', 1, [0], 0, [input, freq, res, inputgain, type, noiselevel]);
+}
 // Demand rate white noise random generator.
 function Diwhite(length, lo, hi) {
     return makeUgen('Diwhite', 1, rateDr, 0, [length, lo, hi]);
@@ -1109,6 +1125,14 @@ function Duty(dur, reset, doneAction, level) {
 // Plucked physical model.
 function DWGPluckedStiff(freq, amp, gate, pos, c1, c3, inp, release, fB) {
     return makeUgen('DWGPluckedStiff', 1, rateAr, 0, [freq, amp, gate, pos, c1, c3, inp, release, fB]);
+}
+// Demand rate white noise random generator.
+function Dwhite(length, lo, hi) {
+    return makeUgen('Dwhite', 1, rateDr, 0, [length, lo, hi]);
+}
+// Demand rate random sequence generator.
+function Dxrand(repeats, list) {
+    return makeUgen('Dxrand', 1, rateDr, 0, arrayConcat([repeats], (asArray(list))));
 }
 // Envelope generator
 function EnvGen(gate, levelScale, levelBias, timeScale, doneAction, envelope) {
@@ -1170,6 +1194,10 @@ function Gate(input, trig) {
 function Gendy1(ampdist, durdist, adparam, ddparam, minfreq, maxfreq, ampscale, durscale, initCPs, knum) {
     return makeUgen('Gendy1', 1, rateAr, 0, [ampdist, durdist, adparam, ddparam, minfreq, maxfreq, ampscale, durscale, initCPs, knum]);
 }
+// Granular synthesis with sound stored in a buffer
+function GrainBuf(numChan, trigger, dur, sndbuf, rate, pos, interp, pan, envbufnum, maxGrains) {
+    return makeUgen('GrainBuf', numChan, rateAr, 0, [trigger, dur, sndbuf, rate, pos, interp, pan, envbufnum, maxGrains]);
+}
 // Granular synthesis with frequency modulated sine tones
 function GrainFM(numChan, trigger, dur, carfreq, modfreq, index, pan, envbufnum, maxGrains) {
     return makeUgen('GrainFM', numChan, rateAr, 0, [trigger, dur, carfreq, modfreq, index, pan, envbufnum, maxGrains]);
@@ -1191,12 +1219,16 @@ function Hasher(input) {
     return makeUgen('Hasher', 1, [0], 0, [input]);
 }
 // Henon map chaotic generator
+function HenonC(freq, a, b, x0, x1) {
+    return makeUgen('HenonC', 1, rateAr, 0, [freq, a, b, x0, x1]);
+}
+// Henon map chaotic generator
 function HenonL(freq, a, b, x0, x1) {
     return makeUgen('HenonL', 1, rateAr, 0, [freq, a, b, x0, x1]);
 }
 // Henon map chaotic generator
-function HenonC(freq, a, b, x0, x1) {
-    return makeUgen('HenonC', 1, rateAr, 0, [freq, a, b, x0, x1]);
+function HenonN(freq, a, b, x0, x1) {
+    return makeUgen('HenonN', 1, rateAr, 0, [freq, a, b, x0, x1]);
 }
 // 2nd order Butterworth highpass filter.
 function HPF(input, freq) {
@@ -1394,6 +1426,10 @@ function LocalIn(numChan, defaultValue) {
 function LocalOut(channelsArray) {
     return makeUgen('LocalOut', 0, [0], 0, arrayConcat([], (asArray(channelsArray))));
 }
+// Chaotic noise function
+function Logistic(chaosParam, freq, init) {
+    return makeUgen('Logistic', 1, rateAr, 0, [chaosParam, freq, init]);
+}
 // Lorenz chaotic generator
 function LorenzL(freq, s, r, b, h, xi, yi, zi) {
     return makeUgen('LorenzL', 1, rateAr, 0, [freq, s, r, b, h, xi, yi, zi]);
@@ -1417,6 +1453,10 @@ function MaxLocalBufs(count) {
 // Median filter.
 function Median(length, input) {
     return makeUgen('Median', 1, [1], 0, [length, input]);
+}
+// Parametric filter.
+function MidEQ(input, freq, rq, db) {
+    return makeUgen('MidEQ', 1, [0], 0, [input, freq, rq, db]);
 }
 // Minimum difference of two values in modulo arithmetics
 function ModDif(x, y, mod) {
@@ -1526,6 +1566,10 @@ function PulseCount(trig, reset) {
 function PulseDivider(trig, div, start) {
     return makeUgen('PulseDivider', 1, [0], 0, [trig, div, start]);
 }
+// Random phase shifting.
+function PV_Diffuser(buffer, trig) {
+    return makeUgen('PV_Diffuser', 1, rateKr, 0, [buffer, trig]);
+}
 // Pass random bins.
 function PV_RandComb(buffer, wipe, trig) {
     return makeUgen('PV_RandComb', 1, rateKr, 0, [buffer, wipe, trig]);
@@ -1586,6 +1630,10 @@ function SampleDur() {
 function SampleRate() {
     return makeUgen('SampleRate', 1, rateIr, 0, []);
 }
+// Remove infinity, NaN, and denormals
+function Sanitize(input, replace) {
+    return makeUgen('Sanitize', 1, [0], 0, [input, replace]);
+}
 // Band limited sawtooth.
 function Saw(freq) {
     return makeUgen('Saw', 1, rateAr, 0, [freq]);
@@ -1610,6 +1658,10 @@ function SetResetFF(trig, reset) {
 function SinOsc(freq, phase) {
     return makeUgen('SinOsc', 1, rateAr, 0, [freq, phase]);
 }
+// Granular synthesis with sinusoidal grains
+function SinGrain(trigger, dur, freq) {
+    return makeUgen('SinGrain', 1, rateAr, 0, [trigger, dur, freq]);
+}
 // Feedback FM oscillator
 function SinOscFB(freq, feedback) {
     return makeUgen('SinOscFB', 1, rateAr, 0, [freq, feedback]);
@@ -1626,17 +1678,33 @@ function Slope(input) {
 function SOS(input, a0, a1, a2, b1, b2) {
     return makeUgen('SOS', 1, [0], 0, [input, a0, a1, a2, b1, b2]);
 }
+// physical model of resonating spring
+function Spring(input, spring, damp) {
+    return makeUgen('Spring', 1, rateAr, 0, [input, spring, damp]);
+}
+// Standard map chaotic generator
+function StandardL(freq, k, xi, yi) {
+    return makeUgen('StandardL', 1, rateAr, 0, [freq, k, xi, yi]);
+}
+// Standard map chaotic generator
+function StandardN(freq, k, xi, yi) {
+    return makeUgen('StandardN', 1, rateAr, 0, [freq, k, xi, yi]);
+}
 // Pulse counter.
 function Stepper(trig, reset, min, max, step, resetval) {
     return makeUgen('Stepper', 1, [0], 0, [trig, reset, min, max, step, resetval]);
 }
 // Triggered linear ramp
 function Sweep(trig, rate) {
-    return makeUgen('Sweep', 1, [0], 0, [trig, rate]);
+    return makeUgen('Sweep', 1, rateAr, 0, [trig, rate]);
 }
 // Hard sync sawtooth wave.
 function SyncSaw(syncFreq, sawFreq) {
     return makeUgen('SyncSaw', 1, rateAr, 0, [syncFreq, sawFreq]);
+}
+// Trigger delay.
+function TDelay(input, dur) {
+    return makeUgen('TDelay', 1, [0], 0, [input, dur]);
 }
 // Demand results as trigger from demand rate UGens.
 function TDuty(dur, reset, doneAction, level, gapFirst) {
@@ -1746,6 +1814,14 @@ function MembraneCircle(excitation, tension, loss) {
 function VOSIM(trig, freq, nCycles, decay) {
     return makeUgen('VOSIM', 1, rateAr, 0, [trig, freq, nCycles, decay]);
 }
+// a macro oscillator
+function MiBraids(pitch, timbre, color, model, trig, resamp, decim, bits, ws) {
+    return makeUgen('MiBraids', 1, rateAr, 0, [pitch, timbre, color, model, trig, resamp, decim, bits, ws]);
+}
+// granular audio processor and texture synthesizer
+function MiClouds(pit, pos, size, dens, tex, drywet, in_gain, spread, rvb, fb, freeze, mode, lofi, trig, inputArray) {
+    return makeUgen('MiClouds', 2, rateAr, 0, arrayConcat([pit, pos, size, dens, tex, drywet, in_gain, spread, rvb, fb, freeze, mode, lofi, trig], (asArray(inputArray))));
+}
 // a resonator
 function MiRings(input, trig, pit, struct, bright, damp, pos, model, poly, intern_exciter, easteregg, bypass) {
     return makeUgen('MiRings', 2, rateAr, 0, [input, trig, pit, struct, bright, damp, pos, model, poly, intern_exciter, easteregg, bypass]);
@@ -1779,16 +1855,20 @@ function RandN(numChan, lo, hi) {
     return makeUgen('RandN', numChan, rateIr, 0, [lo, hi]);
 }
 // (Undocumented class)
+function TLinRand(lo, hi, minmax, trigger) {
+    return makeUgen('TLinRand', 1, rateKr, 0, [lo, hi, minmax, trigger]);
+}
+// (Undocumented class)
 function TScramble(trigger, inputs) {
     return makeUgen('TScramble', arrayLength(asArray(inputs)), [0], 0, arrayConcat([trigger], (asArray(inputs))));
 }
 // (Undocumented class)
-function DX7(bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc) {
-    return makeUgen('DX7', 1, rateAr, 0, [bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc]);
+function Dx7(bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc) {
+    return makeUgen('Dx7', 1, rateAr, 0, [bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc]);
 }
 // (Undocumented class)
-function RDX7Env(gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol) {
-    return makeUgen('RDX7Env', 1, rateAr, 0, [gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol]);
+function Dx7Env(gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol) {
+    return makeUgen('Dx7Env', 1, rateAr, 0, [gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol]);
 }
 // (Undocumented class)
 function ObxdFilter(input, cutoff, resonance, multimode, bandpass, fourpole) {
@@ -1833,7 +1913,7 @@ function bitOr(a, b) { return BinaryOp(15, a, b); }
 function bitXor(a, b) { return BinaryOp(16, a, b); }
 function lcm(a, b) { return BinaryOp(17, a, b); }
 function gcd(a, b) { return BinaryOp(18, a, b); }
-function round(a, b) { return BinaryOp(19, a, b); }
+function roundTo(a, b) { return BinaryOp(19, a, b); }
 function roundUp(a, b) { return BinaryOp(20, a, b); }
 function trunc(a, b) { return BinaryOp(21, a, b); }
 function atan2(a, b) { return BinaryOp(22, a, b); }
@@ -1921,7 +2001,7 @@ function audiobuffer_to_scsynth_buffer(audioBuffer, bufferNumber, numberOfChanne
     const numberOfFrames = audioBuffer.length;
     const sampleRate = audioBuffer.sampleRate;
     const oscMessage = b_alloc_then_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, encodeFloat32Array(bufferData));
-    console.log('audiobuffer_to_scsynth_buffer', oscMessage);
+    console.log(`audiobuffer_to_scsynth_buffer: ${oscMessage}`);
     sendOsc(oscMessage);
 }
 // Fetch sound file data, and then allocate a buffer and memcpy all interleaved channel data.
@@ -1945,7 +2025,7 @@ function fetch_soundfile_channels_to_scsynth_buffers(soundFileUrl, bufferNumbers
                 audiobuffer_to_scsynth_buffer(audioBuffer, bufferNumber, 1, audioBuffer.getChannelData(channelIndex - 1));
             }
             else {
-                console.error('fetch_soundfile_channels_to_scsynth_buffers: channelIndex out of bounds', channelIndex, audioBuffer.numberOfChannels);
+                console.error(`fetch_soundfile_channels_to_scsynth_buffers: index out of bounds: ${channelIndex}, ${audioBuffer.numberOfChannels}`);
             }
         }
     });
@@ -2087,13 +2167,13 @@ function PenRadius(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 5
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
 function ugenTraverseCollecting(p, c, w) {
     if (Array.isArray(p)) {
-        consoleDebug('ugenTraverseCollecting: array', p);
+        consoleDebug(`ugenTraverseCollecting: array: ${p}`);
         arrayForEach(p, item => ugenTraverseCollecting(item, c, w));
     }
     else if (isUgen(p)) {
         const pUgen = p;
         const mrgArray = setAsArray(pUgen.scUgen.mrg);
-        consoleDebug('ugenTraverseCollecting: port', pUgen);
+        consoleDebug(`ugenTraverseCollecting: port: ${pUgen}`);
         if (!setIncludes(w, pUgen.scUgen)) {
             setAdd(c, pUgen.scUgen);
             arrayForEach(pUgen.scUgen.inputArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, w));
@@ -2174,7 +2254,7 @@ function graphEncodeSyndef(graph) {
 }
 // sc3-graph-print.ts
 function graphPrintUgenSpec(graph, ugen) {
-    consoleLog(ugen.name, ugen.rate, arrayLength(ugen.inputArray), ugen.numChan, ugen.specialIndex, arrayMap(ugen.inputArray, input => graphUgenInputSpec(graph, input)), arrayReplicate(ugen.numChan, ugen.rate));
+    console.log(ugen.name, ugen.rate, arrayLength(ugen.inputArray), ugen.numChan, ugen.specialIndex, arrayMap(ugen.inputArray, input => graphUgenInputSpec(graph, input)), arrayReplicate(ugen.numChan, ugen.rate));
 }
 function graphPrintSyndef(graph) {
     console.log(SCgf, 2, 1, graph.name, arrayLength(graph.constantSeq), graph.constantSeq, 0, [], 0, [], arrayLength(graph.ugenSeq));
@@ -2218,7 +2298,7 @@ function column_index_to_letter(column_index) {
         return column_letter;
     }
     else {
-        console.error('column_index_to_letter: not a number?', column_index);
+        console.error(`column_index_to_letter: not a number: ${column_index}`);
         return '?';
     }
 }
@@ -2229,7 +2309,7 @@ function column_letter_to_index(column_letter) {
         return column_index;
     }
     else {
-        console.error('sc3_supercalc_column_letter_to_index: not a string?', column_letter);
+        console.error(`column_letter_to_index: not a string: ${column_letter}`);
         return -1;
     }
 }
@@ -2293,7 +2373,7 @@ function pointerMouseX(minval, maxval, warp, lag) {
         case 0: return LinLin(Lag(PointerX(0), lag), 0, 1, minval, maxval);
         case 1: return LinExp(Lag(PointerX(0), lag), 0, 1, minval, maxval);
         default:
-            console.error('MouseX: unknown warp', warp);
+            console.error(`MouseX: unknown warp: ${warp}`);
             return 0;
     }
 }
@@ -2302,7 +2382,7 @@ function pointerMouseY(minval, maxval, warp, lag) {
         case 0: return LinLin(Lag(PointerY(0), lag), 0, 1, minval, maxval);
         case 1: return LinExp(Lag(PointerY(0), lag), 0, 1, minval, maxval);
         default:
-            console.error('MouseY: unknown warp', warp);
+            console.error(`MouseY: unknown warp: ${warp}`);
             return 0;
     }
 }
@@ -2338,14 +2418,14 @@ function Splay(inArray, spread, level, center, levelComp) {
     const n = Math.max(2, signalLength(inArray));
     const pos = arrayFromTo(0, n - 1).map(item => add(mul(sub(mul(item, fdiv(2, sub(n, 1))), 1), spread), center));
     const lvl = mul(level, levelComp ? sqrt(1 / n) : 1);
-    consoleDebug('Splay', n, pos, lvl);
+    consoleDebug(`Splay: ${[n, pos, lvl]}`);
     return arrayReduce(Pan2(inArray, pos, lvl), add);
 }
 function Splay2(inArray) {
     const n = Math.max(2, signalLength(inArray));
     const pos = arrayFromTo(0, n - 1).map(item => item * (2 / (n - 1)) - 1);
     const lvl = Math.sqrt(1 / n);
-    consoleDebug('Splay2', n, pos, lvl);
+    consoleDebug(`Splay2: ${[n, pos, lvl]}`);
     return arrayReduce(Pan2(inArray, pos, lvl), add);
 }
 function LinLin(input, srclo, srchi, dstlo, dsthi) {
@@ -2424,7 +2504,7 @@ const BufAlloc = LocalBuf;
 function asKlankSpec(freq, amp, time) {
     const n = signalLength(freq);
     const a = [freq, amp || arrayReplicate(n, 1), time || arrayReplicate(n, 1)];
-    consoleDebug('asKlankSpec', a);
+    consoleDebug(`asKlankSpec: ${a}`);
     return arrayConcatenation(arrayTranspose(arrayExtendToBeOfEqualSize(a)));
 }
 function RingzBank(input, freq, amp, time) {
@@ -2441,7 +2521,7 @@ function LinSeg(gate, coordArray) {
     return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 function SelectX(which, array) {
-    return XFade2(Select(round(which, 2), array), Select(add(trunc(which, 2), 1), array), fold2(sub(mul(which, 2), 1), 1), 1);
+    return XFade2(Select(roundTo(which, 2), array), Select(add(trunc(which, 2), 1), array), fold2(sub(mul(which, 2), 1), 1), 1);
 }
 function unitCps(a) {
     return midiCps(mul(a, 127));
@@ -2621,8 +2701,7 @@ function product(anArray) { return anArray.reduce(mul); }
 function sum(anArray) { return anArray.reduce(add); }
 function negated(aNumber) { return neg(aNumber); }
 function reciprocal(a) { return recip(a); }
-function roundTo(a, b) { return round(a, b); }
-function rounded(a) { return round(a, 1); }
+function rounded(a) { return roundTo(a, 1); }
 function truncateTo(a, b) { return trunc(a, b); }
 function rand(min, max) { return randomFloat(min, max); }
 function rand2(n) { return randomFloat(0 - n, n); }
@@ -2803,17 +2882,17 @@ function inputBranch(input, onUgen, onNumber, onError) {
         return onNumber(input);
     }
     else {
-        consoleError('inputBranch: unknown input type?', input);
+        consoleError(`inputBranch: unknown input type: ${input}`);
         return onError();
     }
 }
 function inputRate(input) {
-    consoleDebug('inputRate', input);
+    consoleDebug(`inputRate: ${input}`);
     return inputBranch(input, port => port.scUgen.rate, _unusedNumber => rateIr, () => -1);
 }
 // If scalar it is the operating rate, if an array it is indices into the inputs telling how to derive the rate.
 function deriveRate(rateOrFilterUgenInputs, inputArray) {
-    consoleDebug('deriveRate', rateOrFilterUgenInputs, inputArray);
+    consoleDebug(`deriveRate: ${rateOrFilterUgenInputs} ${inputArray}`);
     if (isNumber(rateOrFilterUgenInputs)) {
         return rateOrFilterUgenInputs;
     }
@@ -2828,7 +2907,7 @@ function mceInputTransform(aSignal) {
     return arrayTranspose(arrayExtendToBeOfEqualSize(aSignal));
 }
 function makeUgen(name, numChan, rateSpec, specialIndex, signalArray) {
-    consoleDebug('makeUgen', name, numChan, rateSpec, specialIndex, signalArray);
+    consoleDebug(`makeUgen: ${name} ${numChan} ${rateSpec} ${specialIndex} ${signalArray}`);
     if (requiresMce(signalArray)) {
         return arrayMap(mceInputTransform(signalArray), item => makeUgen(name, numChan, rateSpec, specialIndex, item));
     }
@@ -2853,21 +2932,21 @@ function ugenDisplayName(ugen) {
 // inputFirstUgen([0, SinOsc([440, 441], 0), SinOsc(442, 0)])
 function inputFirstUgen(input) {
     if (Array.isArray(input)) {
-        consoleDebug('inputFirstUgen: array', input);
+        consoleDebug(`inputFirstUgen: array: ${input}`);
         return arrayFind(arrayMap(input, inputFirstUgen), isScUgen) || null;
     }
     else if (isUgen(input)) {
-        consoleDebug('inputFirstUgen: port', input);
+        consoleDebug(`inputFirstUgen: port: ${input}`);
         return input.scUgen;
     }
     else {
-        consoleDebug('inputFirstUgen: number?', input);
+        consoleDebug(`inputFirstUgen: number: ${input}`);
         return null;
     }
 }
 function mrg(lhs, rhs) {
     const ugen = inputFirstUgen(lhs);
-    consoleDebug('mrg', lhs, rhs, ugen);
+    consoleDebug(`mrg: ${lhs}, ${rhs}, ${ugen}`);
     if (ugen && ugen.mrg) {
         if (Array.isArray(rhs)) {
             const mrgSet = (ugen.mrg);
@@ -2878,7 +2957,7 @@ function mrg(lhs, rhs) {
         }
     }
     else {
-        consoleError("mrg: no ugen or ugen.mrg is null?");
+        consoleError('mrg: no ugen or ugen.mrg is null?');
     }
     return lhs;
 }
@@ -2886,24 +2965,24 @@ function mrg(lhs, rhs) {
 function krMutateInPlace(input) {
     if (isUgen(input)) {
         const inputPort = input;
-        consoleDebug('kr: port', inputPort);
+        consoleDebug(`kr: port: ${inputPort}`);
         krMutateInPlace(inputPort.scUgen);
     }
     else if (isScUgen(input)) {
         const inputUgen = input;
-        consoleDebug('kr: ugen', inputUgen);
+        consoleDebug(`kr: ugen: ${inputUgen}`);
         if (inputUgen.rate === rateAr) {
             inputUgen.rate = rateKr;
         }
         arrayForEach(inputUgen.inputArray, item => krMutateInPlace(item));
     }
     else if (Array.isArray(input)) {
-        consoleDebug('kr: array', input);
+        consoleDebug(`kr: array: ${input}`);
         arrayForEach(input, item => krMutateInPlace(item));
     }
     else {
         if (!isNumber(input)) {
-            consoleError('krMutateInPlace', input);
+            consoleError(`krMutateInPlace: ${input}`);
         }
     }
 }
@@ -2959,7 +3038,7 @@ function BinaryOpWithConstantOptimiser(specialIndex, lhs, rhs) {
 function BinaryOp(specialIndex, lhs, rhs) {
     if (Array.isArray(lhs) || Array.isArray(rhs)) {
         const expanded = mceInputTransform([asArray(lhs), asArray(rhs)]);
-        consoleDebug('BinaryOp: array constant', expanded);
+        consoleDebug(`BinaryOp: array constant: ${expanded}`);
         return arrayMap(expanded, item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]));
     }
     else {
@@ -3080,9 +3159,9 @@ function user_program_read_archive() {
     const fileList = fileInput.files;
     const jsonFile = fileList[0];
     if (fileInput && fileList && jsonFile) {
-        consoleDebug('user_program_read_archive', jsonFile);
+        consoleDebug(`user_program_read_archive: ${jsonFile}`);
         read_json_file_and_then(jsonFile, function (obj) {
-            consoleDebug('user_program_read_archive', obj);
+            consoleDebug(`user_program_read_archive: ${obj}`);
             Object.assign(user_programs, obj);
             user_storage_sync();
         });
@@ -3097,10 +3176,11 @@ function sc3_websocket_send_osc(msg) {
 }
 // Encode and play Ugen.
 function playUgen(ugen) {
-    const graph = makeGraph('sc3.js', wrapOut(0, ugen));
+    const name = 'sc3.js';
+    const graph = makeGraph(name, wrapOut(0, ugen));
     const syndef = graphEncodeSyndef(graph);
-    console.log('play: scsyndef #', syndef.length);
-    sc3_websocket_send_osc(d_recv_then(syndef, osc.writePacket(s_new0('sc3.js', -1, kAddToTail, 1))));
+    console.log(`playUgen: scsyndef.length = ${syndef.length}`);
+    sc3_websocket_send_osc(d_recv_then(syndef, osc.writePacket(s_new0(name, -1, kAddToTail, 1))));
 }
 // Free all.
 function reset() {

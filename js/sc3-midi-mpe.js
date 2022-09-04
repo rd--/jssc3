@@ -48,7 +48,7 @@ function set_event_ctl(note) {
 		var useVelocityForZ = true;
 		var z = useVelocityForZ ? note.noteOnVelocity : note.pressure;
 		var event = { v: voice, w: 1, x: x, y: y, z: z, o: 0.5, rx: 0.5, ry: 0.5, p: x, px: 0 };
-		consoleDebug('set_event_ctl', event, eventParamSetMessage(event));
+		consoleDebug(`set_event_ctl: ${event} ${eventParamSetMessage(event)}`);
 		sendOsc(eventParamSetMessage(event));
 	} else {
 		sendOsc(voiceEndMessage(voice));

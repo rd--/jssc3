@@ -14,12 +14,12 @@ import { UgenInput, Ugen, ScUgen, scUgenCompare, Signal, isUgen, isScUgen, ScUge
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
 export function ugenTraverseCollecting(p: Tree<Ugen>, c: Set<number | ScUgen>, w: Set<number | ScUgen>): void {
 	if(Array.isArray(p)) {
-		consoleDebug('ugenTraverseCollecting: array', p);
+		consoleDebug(`ugenTraverseCollecting: array: ${p}`);
 		arrayForEach(p, item => ugenTraverseCollecting(item, c, w));
 	} else if(isUgen(p)) {
 		const pUgen = <Ugen>p;
 		const mrgArray = setAsArray(pUgen.scUgen.mrg);
-		consoleDebug('ugenTraverseCollecting: port', pUgen);
+		consoleDebug(`ugenTraverseCollecting: port: ${pUgen}`);
 		if(!setIncludes(w, pUgen.scUgen)) {
 			setAdd(c, pUgen.scUgen);
 			arrayForEach(pUgen.scUgen.inputArray, item => isNumber(item) ? setAdd(c, <number>item)  : ugenTraverseCollecting(<Ugen>item, c, w));

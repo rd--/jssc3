@@ -7,14 +7,14 @@ Parts of this code are shared between:
 
 The common editor operations are:
 
-1. editor\_get\_js\_notation\_and\_then(proc), to fetch the .js notation that is to be compiled and call proc
-2. editor\_get\_data(), to fetch the storable data from the editor (.xml or .text or .html)
-3. editor\_set\_data(programData), to load stored data into the editor (.xml or .text or .html)
-4. editor\_get\_selected\_text, to get any _currently selected_ text, to be used by context sensitive actions
+1. `editor_get_js_notation_and_then(proc)`, to fetch the .js notation that is to be compiled and call proc
+2. `editor_get_data()`, to fetch the storable data from the editor (.xml or .text or .html)
+3. `editor_set_data(programData)`, to load stored data into the editor (.xml or .text or .html)
+4. `editor_get_selected_text()`, to get any _currently selected_ text, to be used by context sensitive actions
 
 In addition some text editor contexts allow a translation stage, from .stc notation to .js notation.
-This translation is handled prior to editor\_get\_js\_notation\_and\_then(), which returns .js notation.
-The variable notation\_format says which format the user notation is in.
+This translation is handled prior to `editor_get_js_notation_and_then()`, which returns .js notation.
+The variable `notation_format` says which format the user notation is in.
 
 There are also functions that must be implemented for each mode of communicating with scsynth.
 

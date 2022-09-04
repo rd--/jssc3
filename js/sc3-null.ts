@@ -11,7 +11,7 @@ export function isUndefined<T>(aValue : T) : boolean {
 // If inputValue is null or undefined log message and return defaultValue, else return inputValue
 export function nullFix<T>(message : string, inputValue : (T | null | undefined), defaultValue : T) : T {
 	if(isNull(inputValue) || isUndefined(inputValue)) {
-		console.warn('nullFix', message, inputValue, defaultValue);
+		console.warn(`nullFix: ${message}: input = ${inputValue}, default = ${defaultValue}`);
 		return defaultValue;
 	} else {
 		return <T>inputValue;

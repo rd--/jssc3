@@ -126,6 +126,10 @@ export function CombL(input: Signal, maxdelaytime: Signal, delaytime: Signal, de
 export function CombN(input: Signal, maxdelaytime: Signal, delaytime: Signal, decaytime: Signal): Signal {
     return makeUgen('CombN', 1, [0], 0, [input, maxdelaytime, delaytime, decaytime]);
 }
+// Compressor, expander, limiter, gate, ducker
+export function Compander(input: Signal, control: Signal, thresh: Signal, slopeBelow: Signal, slopeAbove: Signal, clampTime: Signal, relaxTime: Signal): Signal {
+    return makeUgen('Compander', 1, [0], 0, [input, control, thresh, slopeBelow, slopeAbove, clampTime, relaxTime]);
+}
 // Duration of one block
 export function ControlDur(): Signal {
     return makeUgen('ControlDur', 1, rateIr, 0, []);
@@ -145,6 +149,10 @@ export function Crackle(chaosParam: Signal): Signal {
 // Cusp map chaotic generator
 export function CuspL(freq: Signal, a: Signal, b: Signal, xi: Signal): Signal {
     return makeUgen('CuspL', 1, rateAr, 0, [freq, a, b, xi]);
+}
+// Cusp map chaotic generator
+export function CuspN(freq: Signal, a: Signal, b: Signal, xi: Signal): Signal {
+    return makeUgen('CuspN', 1, rateAr, 0, [freq, a, b, xi]);
 }
 // Buffer read demand ugen
 export function Dbufrd(bufnum: Signal, phase: Signal, loop: Signal): Signal {
@@ -238,6 +246,10 @@ export function Duty(dur: Signal, reset: Signal, doneAction: Signal, level: Sign
 export function DWGPluckedStiff(freq: Signal, amp: Signal, gate: Signal, pos: Signal, c1: Signal, c3: Signal, inp: Signal, release: Signal, fB: Signal): Signal {
     return makeUgen('DWGPluckedStiff', 1, rateAr, 0, [freq, amp, gate, pos, c1, c3, inp, release, fB]);
 }
+// Demand rate white noise random generator.
+export function Dwhite(length: Signal, lo: Signal, hi: Signal): Signal {
+    return makeUgen('Dwhite', 1, rateDr, 0, [length, lo, hi]);
+}
 // Demand rate random sequence generator.
 export function Dxrand(repeats: Signal, list: Signal): Signal {
     return makeUgen('Dxrand', 1, rateDr, 0, arrayConcat([repeats], (asArray(list))));
@@ -327,12 +339,16 @@ export function Hasher(input: Signal): Signal {
     return makeUgen('Hasher', 1, [0], 0, [input]);
 }
 // Henon map chaotic generator
+export function HenonC(freq: Signal, a: Signal, b: Signal, x0: Signal, x1: Signal): Signal {
+    return makeUgen('HenonC', 1, rateAr, 0, [freq, a, b, x0, x1]);
+}
+// Henon map chaotic generator
 export function HenonL(freq: Signal, a: Signal, b: Signal, x0: Signal, x1: Signal): Signal {
     return makeUgen('HenonL', 1, rateAr, 0, [freq, a, b, x0, x1]);
 }
 // Henon map chaotic generator
-export function HenonC(freq: Signal, a: Signal, b: Signal, x0: Signal, x1: Signal): Signal {
-    return makeUgen('HenonC', 1, rateAr, 0, [freq, a, b, x0, x1]);
+export function HenonN(freq: Signal, a: Signal, b: Signal, x0: Signal, x1: Signal): Signal {
+    return makeUgen('HenonN', 1, rateAr, 0, [freq, a, b, x0, x1]);
 }
 // 2nd order Butterworth highpass filter.
 export function HPF(input: Signal, freq: Signal): Signal {
@@ -762,6 +778,10 @@ export function SetResetFF(trig: Signal, reset: Signal): Signal {
 export function SinOsc(freq: Signal, phase: Signal): Signal {
     return makeUgen('SinOsc', 1, rateAr, 0, [freq, phase]);
 }
+// Granular synthesis with sinusoidal grains
+export function SinGrain(trigger: Signal, dur: Signal, freq: Signal): Signal {
+    return makeUgen('SinGrain', 1, rateAr, 0, [trigger, dur, freq]);
+}
 // Feedback FM oscillator
 export function SinOscFB(freq: Signal, feedback: Signal): Signal {
     return makeUgen('SinOscFB', 1, rateAr, 0, [freq, feedback]);
@@ -786,6 +806,10 @@ export function Spring(input: Signal, spring: Signal, damp: Signal): Signal {
 export function StandardL(freq: Signal, k: Signal, xi: Signal, yi: Signal): Signal {
     return makeUgen('StandardL', 1, rateAr, 0, [freq, k, xi, yi]);
 }
+// Standard map chaotic generator
+export function StandardN(freq: Signal, k: Signal, xi: Signal, yi: Signal): Signal {
+    return makeUgen('StandardN', 1, rateAr, 0, [freq, k, xi, yi]);
+}
 // Pulse counter.
 export function Stepper(trig: Signal, reset: Signal, min: Signal, max: Signal, step: Signal, resetval: Signal): Signal {
     return makeUgen('Stepper', 1, [0], 0, [trig, reset, min, max, step, resetval]);
@@ -797,6 +821,10 @@ export function Sweep(trig: Signal, rate: Signal): Signal {
 // Hard sync sawtooth wave.
 export function SyncSaw(syncFreq: Signal, sawFreq: Signal): Signal {
     return makeUgen('SyncSaw', 1, rateAr, 0, [syncFreq, sawFreq]);
+}
+// Trigger delay.
+export function TDelay(input: Signal, dur: Signal): Signal {
+    return makeUgen('TDelay', 1, [0], 0, [input, dur]);
 }
 // Demand results as trigger from demand rate UGens.
 export function TDuty(dur: Signal, reset: Signal, doneAction: Signal, level: Signal, gapFirst: Signal): Signal {
@@ -948,7 +976,7 @@ export function RandN(numChan: number, lo: Signal, hi: Signal): Signal {
 }
 // (Undocumented class)
 export function TLinRand(lo: Signal, hi: Signal, minmax: Signal, trigger: Signal): Signal {
-    return makeUgen('TLinRand', 2, rateKr, 0, [lo, hi, minmax, trigger]);
+    return makeUgen('TLinRand', 1, rateKr, 0, [lo, hi, minmax, trigger]);
 }
 // (Undocumented class)
 export function TScramble(trigger: Signal, inputs: Signal): Signal {
@@ -1006,7 +1034,7 @@ export function bitOr(a: Signal, b: Signal): Signal { return BinaryOp(15, a, b);
 export function bitXor(a: Signal, b: Signal): Signal { return BinaryOp(16, a, b); }
 export function lcm(a: Signal, b: Signal): Signal { return BinaryOp(17, a, b); }
 export function gcd(a: Signal, b: Signal): Signal { return BinaryOp(18, a, b); }
-export function round(a: Signal, b: Signal): Signal { return BinaryOp(19, a, b); }
+export function roundTo(a: Signal, b: Signal): Signal { return BinaryOp(19, a, b); }
 export function roundUp(a: Signal, b: Signal): Signal { return BinaryOp(20, a, b); }
 export function trunc(a: Signal, b: Signal): Signal { return BinaryOp(21, a, b); }
 export function atan2(a: Signal, b: Signal): Signal { return BinaryOp(22, a, b); }
@@ -1075,7 +1103,7 @@ export function sinh(a: Signal): Signal { return UnaryOp(34, a); }
 export function cosh(a: Signal): Signal { return UnaryOp(35, a); }
 export function tanh(a: Signal): Signal { return UnaryOp(36, a); }
 export function rand_(a: Signal): Signal { return UnaryOp(37, a); }
-export function rand2(a: Signal): Signal { return UnaryOp(38, a); }
+export function rand2_(a: Signal): Signal { return UnaryOp(38, a); }
 export function linRand_(a: Signal): Signal { return UnaryOp(39, a); }
 export function biLinRand(a: Signal): Signal { return UnaryOp(40, a); }
 export function sum3Rand(a: Signal): Signal { return UnaryOp(41, a); }

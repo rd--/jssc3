@@ -1,7 +1,7 @@
 // sc3-pseudo.ts
 
 import { asArray, arrayClump, arrayConcatenation, arrayExtendToBeOfEqualSize, arrayFirst, arrayFromTo, arrayMaxItem, arrayReduce, arrayReplicate, arraySecond, arrayTranspose } from './sc3-array.js'
-import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, SampleRate, Select, SetBuf, SinOsc, TDuty, TIRand, Wrap, XFade2, XLine, add, fdiv, fold2, midiCps, mul, round, shiftRight, sqrt, sub, trunc } from './sc3-bindings.js'
+import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, SampleRate, Select, SetBuf, SinOsc, TDuty, TIRand, Wrap, XFade2, XLine, add, fdiv, fold2, midiCps, mul, roundTo, shiftRight, sqrt, sub, trunc } from './sc3-bindings.js'
 import { Env, EnvADSR, EnvASR, EnvCutoff, envCoord } from './sc3-envelope.js'
 import { consoleDebug } from './sc3-error.js'
 import { Signal, isOutUgen, kr, mrg } from './sc3-ugen.js'
@@ -38,7 +38,7 @@ export function Splay(inArray: Signal, spread: Signal, level: Signal, center: Si
 	const n = Math.max(2, signalLength(inArray));
 	const pos = arrayFromTo(0, n - 1).map(item => add(mul(sub(mul(item, fdiv(2, sub(n, 1))), 1), spread), center));
 	const lvl = mul(level, levelComp ? sqrt(1 / n) : 1);
-	consoleDebug('Splay', n, pos, lvl);
+	consoleDebug(`Splay: ${[n, pos, lvl]}`);
 	return arrayReduce(<Signal[]>Pan2(inArray, pos, lvl), add);
 }
 
@@ -46,7 +46,7 @@ export function Splay2(inArray: Signal): Signal {
 	const n = Math.max(2, signalLength(inArray));
 	const pos = arrayFromTo(0, n - 1).map(item => item * (2 / (n - 1)) - 1);
 	const lvl = Math.sqrt(1 / n);
-	consoleDebug('Splay2', n, pos, lvl);
+	consoleDebug(`Splay2: ${[n, pos, lvl]}`);
 	return arrayReduce(<Signal[]>Pan2(inArray, pos, lvl), add);
 }
 
@@ -146,7 +146,7 @@ const BufAlloc = LocalBuf;
 export function asKlankSpec(freq: Signal, amp: Signal | null, time: Signal | null): Signal {
 	const n = signalLength(freq);
 	const a = [freq, amp || arrayReplicate(n, 1), time || arrayReplicate(n, 1)];
-	consoleDebug('asKlankSpec', a);
+	consoleDebug(`asKlankSpec: ${a}`);
 	return arrayConcatenation(arrayTranspose(arrayExtendToBeOfEqualSize(a)));
 }
 
@@ -168,7 +168,7 @@ export function LinSeg(gate: Signal, coordArray: Signal[]): Signal {
 
 export function SelectX(which: Signal, array: Signal): Signal {
 	return XFade2(
-		Select(round(which, 2), array),
+		Select(roundTo(which, 2), array),
 		Select(add(trunc(which, 2), 1), array),
 		fold2(sub(mul(which, 2), 1), 1),
 		1

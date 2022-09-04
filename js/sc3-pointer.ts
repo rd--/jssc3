@@ -24,7 +24,7 @@ export function pointerMouseX(minval: Signal, maxval: Signal, warp: Signal, lag:
 	switch(warp) {
 		case 0: return LinLin(Lag(PointerX(0), lag), 0, 1, minval, maxval);
 		case 1: return LinExp(Lag(PointerX(0), lag), 0, 1, minval, maxval);
-		default: console.error('MouseX: unknown warp', warp); return 0;
+		default: console.error(`MouseX: unknown warp: ${warp}`); return 0;
 	}
 }
 
@@ -32,7 +32,7 @@ export function pointerMouseY(minval: Signal, maxval: Signal, warp: Signal, lag:
 	switch(warp) {
 		case 0: return LinLin(Lag(PointerY(0), lag), 0, 1, minval, maxval);
 		case 1: return LinExp(Lag(PointerY(0), lag), 0, 1, minval, maxval);
-		default: console.error('MouseY: unknown warp', warp); return 0;
+		default: console.error(`MouseY: unknown warp: ${warp}`); return 0;
 	}
 }
 

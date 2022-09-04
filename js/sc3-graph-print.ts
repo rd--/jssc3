@@ -1,7 +1,6 @@
 // sc3-graph-print.ts
 
 import { arrayForEach, arrayLength, arrayMap, arrayReplicate } from './sc3-array.js'
-import { consoleLog } from './sc3-error.js'
 import { Graph, graphUgenIndex, graphUgenInputSpec, makeGraph, SCgf } from './sc3-graph.js'
 import { isNumber } from './sc3-number.js'
 import { wrapOut } from './sc3-pseudo.js'
@@ -9,7 +8,7 @@ import { rateSelector } from './sc3-rate.js'
 import { Signal, Ugen, ScUgen, isUgen, ugenDisplayName } from './sc3-ugen.js'
 
 export function graphPrintUgenSpec(graph: Graph, ugen: ScUgen): void {
-	consoleLog(
+	console.log(
 		ugen.name,
 		ugen.rate,
 		arrayLength(ugen.inputArray),

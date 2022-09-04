@@ -5,7 +5,7 @@ var scsynth_port;
 var sclang_port;
 
 function sendOsc(oscMessage) {
-	consoleDebug('sendOsc', oscMessage);
+	consoleDebug(`sendOsc: ${oscMessage}`);
 	if(scsynth_alive && Module.oscDriver) {
 		var port = Module.oscDriver[scsynth_port];
 		var recv = port && port.receive;

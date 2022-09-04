@@ -7,7 +7,7 @@ function column_index_to_letter(column_index: number): string {
 		const column_letter = String.fromCharCode(column_index + 97); // 0 -> a
 		return column_letter;
 	} else {
-		console.error('column_index_to_letter: not a number?', column_index);
+		console.error(`column_index_to_letter: not a number: ${column_index}`);
 		return '?';
 	}
 }
@@ -18,7 +18,7 @@ function column_letter_to_index(column_letter: string): number {
 		const column_index = column_letter.charCodeAt(0) - 97;
 		return column_index;
 	} else {
-		console.error('sc3_supercalc_column_letter_to_index: not a string?', column_letter);
+		console.error(`column_letter_to_index: not a string: ${column_letter}`);
 		return -1;
 	}
 }

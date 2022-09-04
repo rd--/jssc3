@@ -2,10 +2,10 @@
 
 export function websocket_open(host: string, port: number): WebSocket | null {
 	try {
-		const ws_address = 'ws://' + host + ':' + Number(port).toString();
+		const ws_address = `ws://${host}:${Number(port).toString()}`;
 		return new WebSocket(ws_address);
-	} catch(err) {
-		console.error('websocket_open: ' + err);
+	} catch(error) {
+		console.error(`websocket_open: error = ${error}`);
 		return null;
 	}
 }

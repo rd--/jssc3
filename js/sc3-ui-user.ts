@@ -41,9 +41,9 @@ export function user_program_read_archive(): void {
 	const fileList = <FileList>fileInput.files;
 	const jsonFile = fileList[0];
 	if(fileInput && fileList && jsonFile) {
-		consoleDebug('user_program_read_archive', jsonFile);
+		consoleDebug(`user_program_read_archive: ${jsonFile}`);
 		read_json_file_and_then(jsonFile, function(obj) {
-			consoleDebug('user_program_read_archive', obj);
+			consoleDebug(`user_program_read_archive: ${obj}`);
 			Object.assign(user_programs, obj);
 			user_storage_sync();
 		});

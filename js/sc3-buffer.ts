@@ -10,7 +10,7 @@ export function audiobuffer_to_scsynth_buffer(audioBuffer: AudioBuffer, bufferNu
 	const numberOfFrames = audioBuffer.length;
 	const sampleRate = audioBuffer.sampleRate;
 	const oscMessage = b_alloc_then_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, encodeFloat32Array(bufferData));
-	console.log('audiobuffer_to_scsynth_buffer', oscMessage);
+	console.log(`audiobuffer_to_scsynth_buffer: ${oscMessage}`);
 	sendOsc(oscMessage);
 }
 
@@ -39,7 +39,7 @@ export function fetch_soundfile_channels_to_scsynth_buffers(soundFileUrl: string
 			if(channelIndex >= 1 && channelIndex <= audioBuffer.numberOfChannels) {
 				audiobuffer_to_scsynth_buffer(audioBuffer, bufferNumber, 1, audioBuffer.getChannelData(channelIndex - 1));
 			} else {
-				console.error('fetch_soundfile_channels_to_scsynth_buffers: channelIndex out of bounds', channelIndex, audioBuffer.numberOfChannels);
+				console.error(`fetch_soundfile_channels_to_scsynth_buffers: index out of bounds: ${channelIndex}, ${audioBuffer.numberOfChannels}`);
 			}
 		}
 	});

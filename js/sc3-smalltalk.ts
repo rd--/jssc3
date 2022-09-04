@@ -26,8 +26,7 @@ export function sum(anArray: Signal[]): Signal { return anArray.reduce(add); }
 
 export function negated(aNumber: Signal): Signal { return neg(aNumber); }
 export function reciprocal(a: Signal): Signal { return recip(a); }
-export function roundTo(a: Signal, b: Signal): Signal { return round(a, b); }
-export function rounded(a: Signal): Signal { return round(a, 1); }
+export function rounded(a: Signal): Signal { return roundTo(a, 1); }
 export function truncateTo(a: Signal, b: Signal): Signal { return trunc(a, b); }
 
 export function rand(min: number, max: number): number { return randomFloat(min, max); }
