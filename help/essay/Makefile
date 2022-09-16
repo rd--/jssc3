@@ -1,37 +1,25 @@
 %.html : %.md
-	cmark < $<  | runhaskell rw.hs > $@
+	cmark < $<  | runhaskell ../../hs/quill-rewrite.hs > $@
 
 doc = jssc3-1.html \
-	sc-documentation-1.html sc-documentation-2.html sc-documentation-3.html \
-	sc-tutorials-1.html \
-	sc-help-ugens-analysis.html \
-	sc-help-ugens-buffers.html \
-	sc-help-ugens-controls.html \
-	sc-help-ugens-delays.html \
-	sc-help-ugens-envelopes.html \
-	sc-help-ugens-events.html \
-	sc-help-ugens-filters.html \
-	sc-help-ugens-noise.html \
-	sc-help-ugens-oscillators.html \
-	sc-help-ugens-panners.html \
-	sc-help-ugens-random.html \
-	sc-help-ugens-samples.html \
-	sc-help-ugens-triggers.html \
-	sc-help-ugens-unary-operators.html
+	sc2-documentation-1.html sc2-documentation-2.html sc2-documentation-3.html \
+	sc2-tutorials-1.html
 
 all:
-	make mk-md mk-html
+	make mk-sc2-doc mk-sc2-help
 
 clean:
 	rm -f $(doc)
 
-mk-md:
-	cat $(HOME)/sw/stsc3/help/sc2/documentation/intro/*.md > sc-documentation-1.md
-	cat $(HOME)/sw/stsc3/help/sc2/documentation/audio-basics/*.md > sc-documentation-2.md
-	cat $(HOME)/sw/stsc3/help/sc2/documentation/other-topics/*.md > sc-documentation-3.md
-	cat $(HOME)/sw/stsc3/help/sc2/tutorials/*.md > sc-tutorials-1.md
+sc2 = $(HOME)/sw/stsc3/help/sc2
 
-rm-md:
-	rm -f sc-documentation-*.md sc-tutorials-*.md
+mk-sc2-doc:
+	cat $(sc2)/documentation/intro/*.md > sc2-documentation-1.md
+	cat $(sc2)/documentation/audio-basics/*.md > sc2-documentation-2.md
+	cat $(sc2)/documentation/other-topics/*.md > sc2-documentation-3.md
+	cat $(sc2)/tutorials/*.md > sc2-tutorials-1.md
+	make $(doc)
+	rm -f sc2-documentation-*.md sc2-tutorials-*.md
 
-mk-html: $(doc)
+mk-sc2-help:
+	sh ../../sh/help-sc2.sh
