@@ -11,12 +11,12 @@ export function wrapOut(bus: Signal, ugen: Signal): Signal {
 	return isOutUgen(ugen) ? ugen : Out(bus, ugen);
 }
 
-export function ADSR(gate: Signal, attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, curve: Signal): Signal {
+export function Adsr(gate: Signal, attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, curve: Signal): Signal {
 	const env = EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, 1, curve);
 	return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 
-export function ASR(gate: Signal, attackTime: Signal, releaseTime: Signal, curve: Signal): Signal {
+export function Asr(gate: Signal, attackTime: Signal, releaseTime: Signal, curve: Signal): Signal {
 	const env = EnvASR(attackTime, 1, releaseTime, curve);
 	return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
