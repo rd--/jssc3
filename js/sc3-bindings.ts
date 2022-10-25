@@ -882,6 +882,10 @@ export function VBJonVerb(input: Signal, decay: Signal, damping: Signal, inputbw
 export function Vibrato(freq: Signal, rate: Signal, depth: Signal, delay: Signal, onset: Signal, rateVariation: Signal, depthVariation: Signal, iphase: Signal, trig: Signal): Signal {
     return makeUgen('Vibrato', 1, rateAr, 0, [freq, rate, depth, delay, onset, rateVariation, depthVariation, iphase, trig]);
 }
+// Warp a buffer with a time pointer
+export function Warp1(numChan: number, bufnum: Signal, pointer: Signal, freqScale: Signal, windowSize: Signal, envbufnum: Signal, overlaps: Signal, windowRandRatio: Signal, interp: Signal): Signal {
+    return makeUgen('Warp1', numChan, rateAr, 0, [bufnum, pointer, freqScale, windowSize, envbufnum, overlaps, windowRandRatio, interp]);
+}
 // Lose bits of your waves
 export function WaveLoss(input: Signal, drop: Signal, outof: Signal, mode: Signal): Signal {
     return makeUgen('WaveLoss', 1, rateAr, 0, [input, drop, outof, mode]);

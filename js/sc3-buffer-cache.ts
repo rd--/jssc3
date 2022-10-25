@@ -1,6 +1,6 @@
 // sc3-buffer-cache.ts
 
-import { asArray, arrayAtWrap, arrayFromTo } from './sc3-array.js'
+import { isArray, asArray, arrayAtWrap, arrayFromTo } from './sc3-array.js'
 import { fetch_soundfile_channels_to_scsynth_buffers } from './sc3-buffer.js'
 
 export type BufferDictionary = { [key: string]: string };
@@ -31,7 +31,7 @@ export function SfAcquire(urlOrKey: string, numberOfChannels: number, channelSel
 		sc3_buffer_next += numberOfChannels;
 		cacheValue = bufferNumberArray;
 	}
-	if(Array.isArray(channelIndices)) {
+	if(isArray(channelIndices)) {
 		return channelIndices.map(item => arrayAtWrap(cacheValue, item - 1));
 	} else {
 		return [arrayAtWrap(cacheValue, channelIndices - 1)];

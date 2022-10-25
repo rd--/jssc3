@@ -1,7 +1,7 @@
 // sc3-smalltalk.ts
 
 import { arrayClump, arrayConcatenation, arrayFill, arrayFromTo, arrayTranspose } from './sc3-array.js'
-import { add, fdiv, mul, neg, recip, round, trunc } from './sc3-bindings.js'
+import { add, fdiv, mul, neg, recip, roundTo, trunc } from './sc3-bindings.js'
 import { envCoord } from './sc3-envelope.js'
 import { nullFix } from './sc3-null.js'
 import { numberTimesRepeat, randomFloat, randomInteger } from './sc3-number.js'
@@ -37,7 +37,7 @@ export function to(from: number, to: number): number[] { return arrayFromTo(from
 export function dup<T>(proc: (aValue: void) => T, count?: number): T[] {
 	return arrayFill(nullFix('dup: count?', count, 2), proc);
 }
-export function value(proc: (p1?: any, p2?: any) => any, maybeArg1?: any, maybeArg2?: any): any {
+export function value(proc: (p1?: unknown, p2?: unknown) => unknown, maybeArg1?: unknown, maybeArg2?: unknown): unknown {
 	return maybeArg2 ? proc(maybeArg1, maybeArg2) : (maybeArg1 ? proc(maybeArg1) : proc());
 }
 

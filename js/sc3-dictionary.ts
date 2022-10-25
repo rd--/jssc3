@@ -1,34 +1,34 @@
 // sc3-dictionary.ts
 
-export type Dictionary = { [key: string]: any };
+export type Dictionary<T> = Record<string, T>;
 
-export function isDictionary<T>(aValue: T): boolean {
+export function isDictionary<T>(aValue: unknown): aValue is Dictionary<T> {
 	return (typeof aValue) == 'object';
 }
 
-export function dictionaryNew(): Dictionary {
+export function dictionaryNew<T>(): Dictionary<T> {
 	return {};
 }
 
-export function dictionaryAt(aDictionary: Dictionary, aKey: string): any {
+export function dictionaryAt<T>(aDictionary: Dictionary<T>, aKey: string): T {
 	return aDictionary[aKey];
 }
 
-export function dictionaryPut(aDictionary: Dictionary, aKey: string, aValue: any): void {
+export function dictionaryPut<T>(aDictionary: Dictionary<T>, aKey: string, aValue: T): void {
 	aDictionary[aKey] = aValue;
 }
 
-export function dictionaryHasKey(aDictionary: Dictionary, aKey: string): boolean {
+export function dictionaryHasKey<T>(aDictionary: Dictionary<T>, aKey: string): boolean {
 	return aDictionary[aKey] !== undefined;
 }
 
 // Copy all entries from sourceDictionary to destinationDictionary.
-export function dictionaryCopyAllFromTo(sourceDictionary: Dictionary, destinationDictionary: Dictionary): void {
+export function dictionaryCopyAllFromTo<T>(sourceDictionary: Dictionary<T>, destinationDictionary: Dictionary<T>): void {
 	Object.entries(sourceDictionary).forEach(([key, value]) => destinationDictionary[key] = value);
 }
 
 // Find key at aDictionary that holds aValue.
-export function dictionaryFindKeyOfValue(aDictionary: Dictionary, aValue: any): string | undefined {
+export function dictionaryFindKeyOfValue<T>(aDictionary: Dictionary<T>, aValue: T): string | undefined {
 	const predicateFunction: (aKey: string) => boolean = function(aKey) {
 		return aDictionary[aKey] === aValue;
 	};
@@ -37,8 +37,8 @@ export function dictionaryFindKeyOfValue(aDictionary: Dictionary, aValue: any): 
 
 // Make a new dictionary having only the indicated fields copied from the input.
 // dictionaryCopyKeys({a: 1, b: 2, c: 3}, ['a', 'c']) //= {a: 1, c: 3}
-export function dictionaryCopyKeys(aDictionary: Dictionary, keysArray: string[]): Dictionary {
-	const answer = dictionaryNew();
+export function dictionaryCopyKeys<T>(aDictionary: Dictionary<T>, keysArray: string[]): Dictionary<T> {
+	const answer = dictionaryNew<T>();
 	keysArray.forEach(key => answer[key] = aDictionary[key]);
 	return answer;
 }

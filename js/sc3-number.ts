@@ -1,7 +1,7 @@
 // sc3-number.ts
 
-export function isNumber<T>(x: T): boolean {
-	return (typeof x === 'number');
+export function isNumber(aValue: unknown): aValue is number {
+	return (typeof aValue === 'number');
 }
 
 export const pi: number = Math.PI;

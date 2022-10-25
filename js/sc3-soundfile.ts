@@ -1,13 +1,17 @@
 // sc3-soundfile.ts
 
 import { arrayIota } from './sc3-array.js'
-import { Dictionary, dictionaryCopyKeys } from './sc3-dictionary.js'
+import { Dictionary, dictionaryNew } from './sc3-dictionary.js'
 import { load_arraybuffer_and_then } from './sc3-io.js'
 
 // Return the header fields of an audioBuffer.  length is the number of frames.
-export function audiobuffer_header(audioBuffer: AudioBuffer): Dictionary {
-	const keysArray = ['length', 'duration', 'sampleRate', 'numberOfChannels'];
-	return dictionaryCopyKeys(audioBuffer, keysArray);
+export function audiobuffer_header(audioBuffer: AudioBuffer): Dictionary<number> {
+	const answer = dictionaryNew<number>();
+	answer.length = audioBuffer.length;
+	answer.duration = audioBuffer.duration;
+	answer.sampleRate = audioBuffer.sampleRate;
+	answer.numberOfChannels = audioBuffer.numberOfChannels;
+	return answer;
 }
 
 // Number of frames multiplied by the number of channels.

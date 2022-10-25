@@ -1,12 +1,12 @@
 // sc3-array.ts
 
-export function isArray<T>(aValue: (aValue: T) => boolean) {
+export function isArray<T>(aValue: unknown): aValue is Array<T> {
 	return Array.isArray(aValue);
 }
 
 // [1, [1, 2]].map(asArray) //= [[1], [1, 2]]
 export function asArray<T>(maybeArray: (T | T[])): T[] {
-	return Array.isArray(maybeArray) ? maybeArray: [maybeArray];
+	return isArray(maybeArray) ? maybeArray: [maybeArray];
 }
 
 export function arrayNew<T>(size: number): T[] {
@@ -60,7 +60,7 @@ export function arrayCons<T>(anArray: T[], aValue: T): number {
 
 // arrayContainsarray([1, 2, [3, 4]]) === true
 export function arrayContainsArray<T>(anArray: T[]): boolean {
-	return anArray.some(item => Array.isArray(item));
+	return anArray.some(item => isArray(item));
 }
 
 // x = [1, 2, 3, 4, 5]; y = arrayCopy(x); x[0] = -1; [x, y]
@@ -95,8 +95,8 @@ export function arrayExtendCyclically<T>(anArray: T[], size: number): T[] {
 // arrayExtendToBeOfEqualSize([[1, 2], [3, 4, 5]]) //= [[1, 2, 1], [3, 4, 5]]
 // arrayExtendToBeOfEqualSize([[440, 550], 0]) //= [[440, 550], [0, 0]]
 export function arrayExtendToBeOfEqualSize<T>(anArray: (T | T[])[]): T[][] {
-	const maxSize = arrayMaxItem(anArray.map(item => Array.isArray(item) ? item.length: 1));
-	return anArray.map(item => arrayExtendCyclically(Array.isArray(item) ? item: [item], maxSize));
+	const maxSize = arrayMaxItem(anArray.map(item => isArray(item) ? item.length: 1));
+	return anArray.map(item => arrayExtendCyclically(isArray(item) ? item: [item], maxSize));
 }
 
 // arrayFill(5, () => Math.random())
@@ -218,7 +218,7 @@ export function arrayShallowEq<T>(lhs: T[], rhs: T[]): boolean {
 	if (lhs === rhs) {
 		return true;
 	}
-	if (!Array.isArray(rhs) || (lhs.length !== rhs.length)) {
+	if (!isArray(rhs) || (lhs.length !== rhs.length)) {
 		return false;
 	}
 	for (let i = 0; i < lhs.length; i++) {

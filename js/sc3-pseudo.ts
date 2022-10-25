@@ -1,9 +1,10 @@
 // sc3-pseudo.ts
 
-import { asArray, arrayClump, arrayConcatenation, arrayExtendToBeOfEqualSize, arrayFirst, arrayFromTo, arrayMaxItem, arrayReduce, arrayReplicate, arraySecond, arrayTranspose } from './sc3-array.js'
+import { isArray, asArray, arrayClump, arrayConcatenation, arrayExtendToBeOfEqualSize, arrayFirst, arrayFromTo, arrayMaxItem, arrayReduce, arrayReplicate, arraySecond, arrayTranspose } from './sc3-array.js'
 import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, SampleRate, Select, SetBuf, SinOsc, TDuty, TIRand, Wrap, XFade2, XLine, add, fdiv, fold2, midiCps, mul, roundTo, shiftRight, sqrt, sub, trunc } from './sc3-bindings.js'
-import { Env, EnvADSR, EnvASR, EnvCutoff, envCoord } from './sc3-envelope.js'
+import { Env, EnvAdsr, EnvAsr, EnvCutoff, envCoord } from './sc3-envelope.js'
 import { consoleDebug } from './sc3-error.js'
+import { Maybe, fromMaybe } from './sc3-maybe.js'
 import { Signal, isOutUgen, kr, mrg } from './sc3-ugen.js'
 
 // wrapOut(0, mul(SinOsc(440, 0), 0.1))
@@ -12,12 +13,12 @@ export function wrapOut(bus: Signal, ugen: Signal): Signal {
 }
 
 export function Adsr(gate: Signal, attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, curve: Signal): Signal {
-	const env = EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, 1, curve);
+	const env = EnvAdsr(attackTime, decayTime, sustainLevel, releaseTime, 1, curve);
 	return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 
 export function Asr(gate: Signal, attackTime: Signal, releaseTime: Signal, curve: Signal): Signal {
-	const env = EnvASR(attackTime, 1, releaseTime, curve);
+	const env = EnvAsr(attackTime, 1, releaseTime, curve);
 	return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 
@@ -27,7 +28,7 @@ export function Cutoff(sustainTime: Signal, releaseTime: Signal, curve: Signal):
 }
 
 export function signalLength(aSignal: Signal): number {
-	if(Array.isArray(aSignal)) {
+	if(isArray(aSignal)) {
 		return (aSignal).length;
 	} else {
 		return 1;
@@ -143,9 +144,9 @@ export function BufRec(bufnum: Signal, reset: Signal, inputArray: Signal): Signa
 const BufAlloc = LocalBuf;
 
 // Reshape input arrays, and allow amp and time to be null (defaulting to 1)
-export function asKlankSpec(freq: Signal, amp: Signal | null, time: Signal | null): Signal {
+export function asKlankSpec(freq: Signal, amp: Maybe<Signal>, time: Maybe<Signal>): Signal {
 	const n = signalLength(freq);
-	const a = [freq, amp || arrayReplicate(n, 1), time || arrayReplicate(n, 1)];
+	const a = [freq, fromMaybe(amp, arrayReplicate(n, 1)), fromMaybe(time, arrayReplicate(n, 1))];
 	consoleDebug(`asKlankSpec: ${a}`);
 	return arrayConcatenation(arrayTranspose(arrayExtendToBeOfEqualSize(a)));
 }

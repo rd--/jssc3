@@ -1,7 +1,11 @@
 // sc3-set.ts
 
-export function isSet<T>(aValue: (aValue: T) => boolean) {
-	return aValue.toString() == '[object Set]';
+export function isSet<T>(aValue: unknown): aValue is Set<T> {
+	if (aValue && typeof aValue === 'object') {
+		return aValue.toString() === '[object Set]';
+	} else {
+		return false;
+	}
 }
 
 export function setNew<T>(): Set<T> {

@@ -5,7 +5,7 @@ function isArray(aValue) {
 }
 // [1, [1, 2]].map(asArray) //= [[1], [1, 2]]
 function asArray(maybeArray) {
-    return Array.isArray(maybeArray) ? maybeArray : [maybeArray];
+    return isArray(maybeArray) ? maybeArray : [maybeArray];
 }
 function arrayNew(size) {
     return new Array(size);
@@ -48,7 +48,7 @@ function arrayCons(anArray, aValue) {
 }
 // arrayContainsarray([1, 2, [3, 4]]) === true
 function arrayContainsArray(anArray) {
-    return anArray.some(item => Array.isArray(item));
+    return anArray.some(item => isArray(item));
 }
 // x = [1, 2, 3, 4, 5]; y = arrayCopy(x); x[0] = -1; [x, y]
 function arrayCopy(anArray) {
@@ -79,8 +79,8 @@ function arrayExtendCyclically(anArray, size) {
 // arrayExtendToBeOfEqualSize([[1, 2], [3, 4, 5]]) //= [[1, 2, 1], [3, 4, 5]]
 // arrayExtendToBeOfEqualSize([[440, 550], 0]) //= [[440, 550], [0, 0]]
 function arrayExtendToBeOfEqualSize(anArray) {
-    const maxSize = arrayMaxItem(anArray.map(item => Array.isArray(item) ? item.length : 1));
-    return anArray.map(item => arrayExtendCyclically(Array.isArray(item) ? item : [item], maxSize));
+    const maxSize = arrayMaxItem(anArray.map(item => isArray(item) ? item.length : 1));
+    return anArray.map(item => arrayExtendCyclically(isArray(item) ? item : [item], maxSize));
 }
 // arrayFill(5, () => Math.random())
 function arrayFill(size, elemProc) {
@@ -178,7 +178,7 @@ function arrayShallowEq(lhs, rhs) {
     if (lhs === rhs) {
         return true;
     }
-    if (!Array.isArray(rhs) || (lhs.length !== rhs.length)) {
+    if (!isArray(rhs) || (lhs.length !== rhs.length)) {
         return false;
     }
     for (let i = 0; i < lhs.length; i++) {
@@ -474,7 +474,7 @@ function load_and_extract_and_then(fileName, typeString, extractFunc, processFun
         .then(response => handle_fetch_error(response))
         .then(response => extractFunc(response))
         .then(text => processFunc(text))
-        .catch(reason => processFunc(log_error_and_return('load' + typeString, reason, '')));
+        .catch(reason => console.error(`load: ${typeString}: ${reason}`));
 }
 // Fetch fileName and apply processFunc to the text read (stored as UTF-8).
 function load_utf8_and_then(fileName, processFunc) {
@@ -534,6 +534,21 @@ function local_storage_keys() {
 function local_storage_delete_matching(predicate) {
     local_storage_keys().forEach(entry => predicate(entry) ? localStorage.removeItem(entry) : null);
 }
+function isObject(aValue) {
+    const type = typeof aValue;
+    return type === 'function' || (type === 'object' && !!aValue);
+}
+function objectHasKey(anObject, aKey) {
+    return anObject[aKey] !== undefined;
+}
+function fromMaybe(aMaybe, defaultValue) {
+    if (aMaybe === null) {
+        return defaultValue;
+    }
+    else {
+        return aMaybe;
+    }
+}
 // sc3-null.ts
 function isNull(aValue) {
     return aValue === null;
@@ -552,8 +567,8 @@ function nullFix(message, inputValue, defaultValue) {
     }
 }
 // sc3-number.ts
-function isNumber(x) {
-    return (typeof x === 'number');
+function isNumber(aValue) {
+    return (typeof aValue === 'number');
 }
 const pi = Math.PI;
 const inf = Infinity;
@@ -722,7 +737,7 @@ function queuePush(aQueue, aValue) {
     aQueue.queue.push(aValue);
 }
 function queuePop(aQueue) {
-    return aQueue.queue.pop;
+    return aQueue.queue.pop();
 }
 // q = queueNew(); [1, 2, 3].forEach(item => queuePush(q, item)); queueAsArray(q) //= [1, 2, 3]
 function queueAsArray(aQueue) {
@@ -745,7 +760,12 @@ function rateSelector(aRate) {
 }
 // sc3-set.ts
 function isSet(aValue) {
-    return aValue.toString() == '[object Set]';
+    if (aValue && typeof aValue === 'object') {
+        return aValue.toString() === '[object Set]';
+    }
+    else {
+        return false;
+    }
 }
 function setNew() {
     return new Set();
@@ -782,7 +802,7 @@ function stringUnlines(anArray) {
     return anArray.join('\n');
 }
 function treeVisit(aTree, visitFunction) {
-    if (Array.isArray(aTree)) {
+    if (isArray(aTree)) {
         aTree.forEach(item => treeVisit(item, visitFunction));
     }
     else {
@@ -807,11 +827,11 @@ function forestEq(lhs, rhs) {
     if (lhs === rhs) {
         return true;
     }
-    if (!Array.isArray(rhs) || (lhs.length !== rhs.length)) {
+    if (!isArray(rhs) || (lhs.length !== rhs.length)) {
         return false;
     }
     for (let i = 0; i < lhs.length; i++) {
-        if (Array.isArray(lhs[i])) {
+        if (isArray(lhs[i])) {
             if (!forestEq(lhs[i], rhs[i])) {
                 return false;
             }
@@ -1762,6 +1782,10 @@ function VBJonVerb(input, decay, damping, inputbw, erfl, tail) {
 function Vibrato(freq, rate, depth, delay, onset, rateVariation, depthVariation, iphase, trig) {
     return makeUgen('Vibrato', 1, rateAr, 0, [freq, rate, depth, delay, onset, rateVariation, depthVariation, iphase, trig]);
 }
+// Warp a buffer with a time pointer
+function Warp1(numChan, bufnum, pointer, freqScale, windowSize, envbufnum, overlaps, windowRandRatio, interp) {
+    return makeUgen('Warp1', numChan, rateAr, 0, [bufnum, pointer, freqScale, windowSize, envbufnum, overlaps, windowRandRatio, interp]);
+}
 // Lose bits of your waves
 function WaveLoss(input, drop, outof, mode) {
     return makeUgen('WaveLoss', 1, rateAr, 0, [input, drop, outof, mode]);
@@ -2051,13 +2075,19 @@ function SfAcquire(urlOrKey, numberOfChannels, channelSelector) {
         sc3_buffer_next += numberOfChannels;
         cacheValue = bufferNumberArray;
     }
-    if (Array.isArray(channelIndices)) {
+    if (isArray(channelIndices)) {
         return channelIndices.map(item => arrayAtWrap(cacheValue, item - 1));
     }
     else {
         return [arrayAtWrap(cacheValue, channelIndices - 1)];
     }
 }
+/*
+
+SfAcquire('piano-c5', 2, [100, 101])
+
+*/
+// sc3-envelope.ts
 const envCurveDictionary = {
     step: 0,
     lin: 1, linear: 1,
@@ -2073,9 +2103,9 @@ function Env(levels, times, curves, releaseNode, loopNode, offset) {
     return {
         levels: levels,
         times: times,
-        curves: Array.isArray(curves) ? curves : [curves],
-        releaseNode: releaseNode,
-        loopNode: loopNode,
+        curves: asArray(curves),
+        releaseNode: fromMaybe(releaseNode, -99),
+        loopNode: fromMaybe(loopNode, -99),
         offset: offset
     };
 }
@@ -2085,8 +2115,8 @@ function envCoord(env) {
     const store = function (aValue) { queuePush(answerQueue, aValue); };
     store(env.levels[0]);
     store(segmentCount);
-    store(env.releaseNode || -99);
-    store(env.loopNode || -99);
+    store(env.releaseNode);
+    store(env.loopNode);
     for (let i = 0; i < segmentCount; i++) {
         const c = arrayAtWrap(env.curves, i);
         store(env.levels[i + 1]);
@@ -2096,10 +2126,10 @@ function envCoord(env) {
     }
     return queueAsArray(answerQueue);
 }
-function EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, peakLevel, curve) {
+function EnvAdsr(attackTime, decayTime, sustainLevel, releaseTime, peakLevel, curve) {
     return Env([0, peakLevel, mul(peakLevel, sustainLevel), 0], [attackTime, decayTime, releaseTime], curve, 2, null, 0);
 }
-function EnvASR(attackTime, sustainLevel, releaseTime, curve) {
+function EnvAsr(attackTime, sustainLevel, releaseTime, curve) {
     return Env([0, sustainLevel, 0], [attackTime, releaseTime], curve, 1, null, 0);
 }
 function EnvCutoff(sustainTime, releaseTime, curve) {
@@ -2166,17 +2196,16 @@ function PenRadius(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 5
 // traverse graph from p adding leaf nodes to the set c
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
 function ugenTraverseCollecting(p, c, w) {
-    if (Array.isArray(p)) {
+    if (isArray(p)) {
         consoleDebug(`ugenTraverseCollecting: array: ${p}`);
         arrayForEach(p, item => ugenTraverseCollecting(item, c, w));
     }
     else if (isUgen(p)) {
-        const pUgen = p;
-        const mrgArray = setAsArray(pUgen.scUgen.mrg);
-        consoleDebug(`ugenTraverseCollecting: port: ${pUgen}`);
-        if (!setIncludes(w, pUgen.scUgen)) {
-            setAdd(c, pUgen.scUgen);
-            arrayForEach(pUgen.scUgen.inputArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, w));
+        const mrgArray = setAsArray(p.scUgen.mrg);
+        consoleDebug(`ugenTraverseCollecting: port: ${p}`);
+        if (!setIncludes(w, p.scUgen)) {
+            setAdd(c, p.scUgen);
+            arrayForEach(p.scUgen.inputArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, w));
             arrayForEach(mrgArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
         }
     }
@@ -2218,8 +2247,7 @@ function graphUgenIndex(graph, id) {
 }
 function graphUgenInputSpec(graph, input) {
     if (isUgen(input)) {
-        const ugen = input;
-        return [graphUgenIndex(graph, ugen.scUgen.id), ugen.port];
+        return [graphUgenIndex(graph, input.scUgen.id), input.port];
     }
     else {
         return [-1, graphConstantIndex(graph, input)];
@@ -2267,10 +2295,9 @@ function printSyndefOf(ugen) {
 }
 function graphInputDisplayName(graph, input) {
     if (isUgen(input)) {
-        const inputUgen = input;
-        const id = String(graphUgenIndex(graph, inputUgen.scUgen.id));
-        const nm = ugenDisplayName(inputUgen.scUgen);
-        const ix = inputUgen.scUgen.numChan > 1 ? ('[' + String(inputUgen.port) + ']') : '';
+        const id = String(graphUgenIndex(graph, input.scUgen.id));
+        const nm = ugenDisplayName(input.scUgen);
+        const ix = input.scUgen.numChan > 1 ? ('[' + String(input.port) + ']') : '';
         return id + '_' + nm + ix;
     }
     else if (isNumber(input)) {
@@ -2394,12 +2421,12 @@ function pointerMouseButton(minval, maxval, lag) {
 function wrapOut(bus, ugen) {
     return isOutUgen(ugen) ? ugen : Out(bus, ugen);
 }
-function ADSR(gate, attackTime, decayTime, sustainLevel, releaseTime, curve) {
-    const env = EnvADSR(attackTime, decayTime, sustainLevel, releaseTime, 1, curve);
+function Adsr(gate, attackTime, decayTime, sustainLevel, releaseTime, curve) {
+    const env = EnvAdsr(attackTime, decayTime, sustainLevel, releaseTime, 1, curve);
     return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
-function ASR(gate, attackTime, releaseTime, curve) {
-    const env = EnvASR(attackTime, 1, releaseTime, curve);
+function Asr(gate, attackTime, releaseTime, curve) {
+    const env = EnvAsr(attackTime, 1, releaseTime, curve);
     return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 function Cutoff(sustainTime, releaseTime, curve) {
@@ -2407,7 +2434,7 @@ function Cutoff(sustainTime, releaseTime, curve) {
     return EnvGen(1, 1, 0, 1, 0, envCoord(env));
 }
 function signalLength(aSignal) {
-    if (Array.isArray(aSignal)) {
+    if (isArray(aSignal)) {
         return (aSignal).length;
     }
     else {
@@ -2503,7 +2530,7 @@ const BufAlloc = LocalBuf;
 // Reshape input arrays, and allow amp and time to be null (defaulting to 1)
 function asKlankSpec(freq, amp, time) {
     const n = signalLength(freq);
-    const a = [freq, amp || arrayReplicate(n, 1), time || arrayReplicate(n, 1)];
+    const a = [freq, fromMaybe(amp, arrayReplicate(n, 1)), fromMaybe(time, arrayReplicate(n, 1))];
     consoleDebug(`asKlankSpec: ${a}`);
     return arrayConcatenation(arrayTranspose(arrayExtendToBeOfEqualSize(a)));
 }
@@ -2717,8 +2744,12 @@ function coord(anEnvelope) { return envCoord(anEnvelope); }
 // sc3-soundfile.ts
 // Return the header fields of an audioBuffer.  length is the number of frames.
 function audiobuffer_header(audioBuffer) {
-    const keysArray = ['length', 'duration', 'sampleRate', 'numberOfChannels'];
-    return dictionaryCopyKeys(audioBuffer, keysArray);
+    const answer = dictionaryNew();
+    answer.length = audioBuffer.length;
+    answer.duration = audioBuffer.duration;
+    answer.sampleRate = audioBuffer.sampleRate;
+    answer.numberOfChannels = audioBuffer.numberOfChannels;
+    return answer;
 }
 // Number of frames multiplied by the number of channels.
 function audiobuffer_number_of_samples(audioBuffer) {
@@ -2826,8 +2857,8 @@ function OverlapTexture(graphFunc, sustainTime, transitionTime, overlap) {
     return arrayReduce(arrayMap(arrayFromTo(0, overlap - 1), voiceFunction), add);
 }
 // sc3-u8.ts
-function isUint8Array(x) {
-    return (x instanceof Uint8Array);
+function isUint8Array(aValue) {
+    return (aValue instanceof Uint8Array);
 }
 function uint8ArrayIntoQueue(u8Array, numberQueue) {
     u8Array.forEach(aNumber => queuePush(numberQueue, aNumber));
@@ -2854,8 +2885,8 @@ function ScUgen(name, numChan, rate, specialIndex, inputArray) {
         mrg: setNew()
     };
 }
-function isScUgen(obj) {
-    return obj && dictionaryHasKey(obj, 'specialIndex') && dictionaryHasKey(obj, 'mrg'); // ...
+function isScUgen(aValue) {
+    return isObject(aValue) && objectHasKey(aValue, 'specialIndex') && objectHasKey(aValue, 'mrg');
 }
 function scUgenCompare(i, j) {
     return i.id - j.id;
@@ -2868,8 +2899,8 @@ function Ugen(scUgen, port) {
         port: port
     };
 }
-function isUgen(obj) {
-    return obj && dictionaryHasKey(obj, 'scUgen') && dictionaryHasKey(obj, 'port');
+function isUgen(aValue) {
+    return isObject(aValue) && objectHasKey(aValue, 'scUgen') && objectHasKey(aValue, 'port');
 }
 function isUgenInput(aValue) {
     return isNumber(aValue) || isUgen(aValue);
@@ -2931,13 +2962,13 @@ function ugenDisplayName(ugen) {
 // Mrg
 // inputFirstUgen([0, SinOsc([440, 441], 0), SinOsc(442, 0)])
 function inputFirstUgen(input) {
-    if (Array.isArray(input)) {
+    if (isArray(input)) {
         consoleDebug(`inputFirstUgen: array: ${input}`);
         return arrayFind(arrayMap(input, inputFirstUgen), isScUgen) || null;
     }
     else if (isUgen(input)) {
         consoleDebug(`inputFirstUgen: port: ${input}`);
-        return input.scUgen;
+        return (input).scUgen;
     }
     else {
         consoleDebug(`inputFirstUgen: number: ${input}`);
@@ -2948,7 +2979,7 @@ function mrg(lhs, rhs) {
     const ugen = inputFirstUgen(lhs);
     consoleDebug(`mrg: ${lhs}, ${rhs}, ${ugen}`);
     if (ugen && ugen.mrg) {
-        if (Array.isArray(rhs)) {
+        if (isArray(rhs)) {
             const mrgSet = (ugen.mrg);
             arrayForEach(rhs, item => setAdd(mrgSet, item));
         }
@@ -2976,7 +3007,7 @@ function krMutateInPlace(input) {
         }
         arrayForEach(inputUgen.inputArray, item => krMutateInPlace(item));
     }
-    else if (Array.isArray(input)) {
+    else if (isArray(input)) {
         consoleDebug(`kr: array: ${input}`);
         arrayForEach(input, item => krMutateInPlace(item));
     }
@@ -2993,29 +3024,28 @@ function kr(input) {
 // Operators
 function UnaryOpWithConstantOptimiser(specialIndex, input) {
     if (isNumber(input)) {
-        const aNumber = input;
         switch (specialIndex) {
-            case 0: return 0 - aNumber;
-            case 5: return Math.abs(aNumber);
-            case 8: return Math.ceil(aNumber);
-            case 9: return Math.floor(aNumber);
-            case 12: return aNumber * aNumber;
-            case 13: return aNumber * aNumber * aNumber;
-            case 14: return Math.sqrt(aNumber);
-            case 16: return 1 / aNumber;
-            case 28: return Math.sin(aNumber);
-            case 29: return Math.cos(aNumber);
-            case 30: return Math.tan(aNumber);
+            case 0: return 0 - input;
+            case 5: return Math.abs(input);
+            case 8: return Math.ceil(input);
+            case 9: return Math.floor(input);
+            case 12: return input * input;
+            case 13: return input * input * input;
+            case 14: return Math.sqrt(input);
+            case 16: return 1 / input;
+            case 28: return Math.sin(input);
+            case 29: return Math.cos(input);
+            case 30: return Math.tan(input);
         }
     }
     return makeUgen('UnaryOpUGen', 1, [0], specialIndex, [input]);
 }
 // [1, [], [1], [1, 2], [1, null], SinOsc(440, 0), [SinOsc(440, 0)]].map(isArrayConstant)
 function isArrayConstant(aValue) {
-    return Array.isArray(aValue) && arrayEvery(aValue, isNumber);
+    return isArray(aValue) && arrayEvery(aValue, isNumber);
 }
 function UnaryOp(specialIndex, input) {
-    if (Array.isArray(input) && arrayEvery(input, isNumber)) {
+    if (isArray(input) && arrayEvery(input, isNumber)) {
         return arrayMap(input, item => UnaryOpWithConstantOptimiser(specialIndex, item));
     }
     else {
@@ -3024,19 +3054,17 @@ function UnaryOp(specialIndex, input) {
 }
 function BinaryOpWithConstantOptimiser(specialIndex, lhs, rhs) {
     if (isNumber(lhs) && isNumber(rhs)) {
-        const lhsNumber = lhs;
-        const rhsNumber = rhs;
         switch (specialIndex) {
-            case 0: return lhsNumber + rhsNumber;
-            case 1: return lhsNumber - rhsNumber;
-            case 2: return lhsNumber * rhsNumber;
-            case 4: return lhsNumber / rhsNumber;
+            case 0: return lhs + rhs;
+            case 1: return lhs - rhs;
+            case 2: return lhs * rhs;
+            case 4: return lhs / rhs;
         }
     }
     return makeUgen('BinaryOpUGen', 1, [0, 1], specialIndex, [lhs, rhs]);
 }
 function BinaryOp(specialIndex, lhs, rhs) {
-    if (Array.isArray(lhs) || Array.isArray(rhs)) {
+    if (isArray(lhs) || isArray(rhs)) {
         const expanded = mceInputTransform([asArray(lhs), asArray(rhs)]);
         consoleDebug(`BinaryOp: array constant: ${expanded}`);
         return arrayMap(expanded, item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]));
@@ -3047,7 +3075,7 @@ function BinaryOp(specialIndex, lhs, rhs) {
 }
 // isOutUgen(Out(0, mul(SinOsc(440, 0), 0.1)))
 function isOutUgen(aValue) {
-    return isUgen(aValue) && aValue.scUgen.name == 'Out';
+    return isUgen(aValue) && (aValue).scUgen.name == 'Out';
 }
 // isControlRateUgen(MouseX(0, 1, 0, 0.2))
 function isControlRateUgen(aValue) {

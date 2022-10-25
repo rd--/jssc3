@@ -1,6 +1,6 @@
 // sc3-graph.ts
 
-import { arrayAppend, arrayFilter, arrayFindIndex, arrayForEach, arrayIndexOf, arrayLength, arrayMap, arrayNub, arrayReplicate, arraySort } from './sc3-array.js'
+import { isArray, arrayAppend, arrayFilter, arrayFindIndex, arrayForEach, arrayIndexOf, arrayLength, arrayMap, arrayNub, arrayReplicate, arraySort } from './sc3-array.js'
 import { encodeInt8, encodeInt16, encodeInt32, encodeFloat32, encodePascalString } from './sc3-encode.js'
 import { consoleDebug } from './sc3-error.js'
 import { isNumber } from './sc3-number.js'
@@ -13,17 +13,16 @@ import { UgenInput, Ugen, ScUgen, scUgenCompare, Signal, isUgen, isScUgen, ScUge
 // traverse graph from p adding leaf nodes to the set c
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
 export function ugenTraverseCollecting(p: Tree<Ugen>, c: Set<number | ScUgen>, w: Set<number | ScUgen>): void {
-	if(Array.isArray(p)) {
+	if(isArray(p)) {
 		consoleDebug(`ugenTraverseCollecting: array: ${p}`);
 		arrayForEach(p, item => ugenTraverseCollecting(item, c, w));
 	} else if(isUgen(p)) {
-		const pUgen = <Ugen>p;
-		const mrgArray = setAsArray(pUgen.scUgen.mrg);
-		consoleDebug(`ugenTraverseCollecting: port: ${pUgen}`);
-		if(!setIncludes(w, pUgen.scUgen)) {
-			setAdd(c, pUgen.scUgen);
-			arrayForEach(pUgen.scUgen.inputArray, item => isNumber(item) ? setAdd(c, <number>item)  : ugenTraverseCollecting(<Ugen>item, c, w));
-			arrayForEach(mrgArray, item => isNumber(item) ? setAdd(c, <number>item) : ugenTraverseCollecting(<Ugen>item, c, c));
+		const mrgArray = setAsArray(p.scUgen.mrg);
+		consoleDebug(`ugenTraverseCollecting: port: ${p}`);
+		if(!setIncludes(w, p.scUgen)) {
+			setAdd(c, p.scUgen);
+			arrayForEach(p.scUgen.inputArray, item => isNumber(item) ? setAdd(c, item)  : ugenTraverseCollecting(item, c, w));
+			arrayForEach(mrgArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
 		}
 	} else {
 		console.error('ugenTraverseCollecting', p, c, w);
@@ -75,10 +74,9 @@ export function graphUgenIndex(graph: Graph, id: number): number {
 
 export function graphUgenInputSpec(graph: Graph, input: UgenInput): number[] {
 	if(isUgen(input)) {
-		const ugen = <Ugen>input;
-		return [graphUgenIndex(graph, ugen.scUgen.id), ugen.port];
+		return [graphUgenIndex(graph, input.scUgen.id), input.port];
 	} else {
-		return [-1, graphConstantIndex(graph, <number>input)];
+		return [-1, graphConstantIndex(graph, input)];
 	}
 }
 

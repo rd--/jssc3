@@ -29,14 +29,14 @@ export function log_error_and_return<T>(fromWhere: string, reason: string, defau
 	return defaultValue;
 }
 
-type ExtractPromise = (x: Response) => Promise<any>;
+type ExtractPromise<T> = (x: Response) => Promise<T>;
 
-export function load_and_extract_and_then(fileName: string, typeString: string, extractFunc: ExtractPromise, processFunc: (x: any) => void): void {
+export function load_and_extract_and_then<T>(fileName: string, typeString: string, extractFunc: ExtractPromise<T>, processFunc: (x: T) => void): void {
 	fetch(fileName, { cache: 'no-cache' })
 		.then(response => handle_fetch_error(response))
 		.then(response => extractFunc(response))
 		.then(text => processFunc(text))
-		.catch(reason => processFunc(log_error_and_return('load' + typeString, reason, '')));
+		.catch(reason => console.error(`load: ${typeString}: ${reason}`));
 }
 
 // Fetch fileName and apply processFunc to the text read (stored as UTF-8).
@@ -45,7 +45,7 @@ export function load_utf8_and_then(fileName: string, processFunc: (x: string) =>
 }
 
 // Fetch fileName and apply processFunc to the object read (stored as JSON).
-export function load_json_and_then(fileName: string, processFunc: (x: object | []) => void): void {
+export function load_json_and_then(fileName: string, processFunc: (x: Record<string, unknown>) => void): void {
 	load_and_extract_and_then(fileName, 'text/json', r => r.json(), processFunc);
 }
 
@@ -77,6 +77,6 @@ export function read_text_file_from_file_input_and_then(inputId: string, fileInd
 }
 
 // Read json file and run proc on parsed result.
-export function read_json_file_and_then(jsonFile: File , proc: (aValue: object | []) => void): void {
+export function read_json_file_and_then(jsonFile: File , proc: (aValue: Record<string, unknown> | []) => void): void {
 	read_text_file_and_then(jsonFile, jsonText => proc(JSON.parse(jsonText)));
 }

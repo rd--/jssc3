@@ -32,13 +32,12 @@ export function printSyndefOf(ugen: Signal): void {
 
 export function graphInputDisplayName(graph: Graph, input: (Ugen | number)): string {
 	if(isUgen(input)) {
-		const inputUgen = <Ugen>input;
-		const id = String(graphUgenIndex(graph, inputUgen.scUgen.id));
-		const nm = ugenDisplayName(inputUgen.scUgen);
-		const ix = inputUgen.scUgen.numChan > 1 ? ('[' + String(inputUgen.port) + ']') : '';
+		const id = String(graphUgenIndex(graph, input.scUgen.id));
+		const nm = ugenDisplayName(input.scUgen);
+		const ix = input.scUgen.numChan > 1 ? ('[' + String(input.port) + ']') : '';
 		return id + '_' + nm + ix;
 	} else if(isNumber(input)) {
-		return String(<number>input);
+		return String(input);
 	} else {
 		console.error('graphInputDisplayName', input);
 		return '?';

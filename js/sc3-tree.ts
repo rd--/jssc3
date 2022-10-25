@@ -1,9 +1,11 @@
 // sc3-tree.ts
 
+import { isArray } from './sc3-array.js'
+
 export type Tree<T> = T | Tree<T>[];
 
 export function treeVisit<T>(aTree: Tree<T>, visitFunction: (x: T) => void): void {
-	if(Array.isArray(aTree)) {
+	if(isArray(aTree)) {
 		aTree.forEach(item => treeVisit(item, visitFunction));
 	} else {
 		visitFunction(aTree);
@@ -33,11 +35,11 @@ export function forestEq<T>(lhs: Forest<T>, rhs: Forest<T>): boolean {
 	if (lhs === rhs) {
 		return true;
 	}
-	if (!Array.isArray(rhs) || (lhs.length !== rhs.length)) {
+	if (!isArray(rhs) || (lhs.length !== rhs.length)) {
 		return false;
 	}
 	for (let i = 0; i < lhs.length; i++) {
-		if(Array.isArray(lhs[i])) {
+		if(isArray(lhs[i])) {
 			if (!forestEq(<Forest<T>>lhs[i], <Forest<T>>rhs[i])) {
 				return false;
 			}

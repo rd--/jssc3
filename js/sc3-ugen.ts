@@ -1,10 +1,10 @@
 // sc3-ugen.ts
 
-import { asArray, arrayAtIndices, arrayContainsArray, arrayEvery, arrayExtendToBeOfEqualSize, arrayFillWithIndex, arrayFind, arrayForEach, arrayMap, arrayMaxItem, arrayTranspose } from './sc3-array.js'
+import { isArray, asArray, arrayAtIndices, arrayContainsArray, arrayEvery, arrayExtendToBeOfEqualSize, arrayFillWithIndex, arrayFind, arrayForEach, arrayMap, arrayMaxItem, arrayTranspose } from './sc3-array.js'
 import { Counter, counterNew } from './sc3-counter.js'
-import { dictionaryHasKey } from './sc3-dictionary.js'
 import { consoleDebug, consoleError } from './sc3-error.js'
 import { isNumber } from './sc3-number.js'
+import { isObject } from './sc3-object.js'
 import { binaryOperatorName, unaryOperatorName } from './sc3-operators.js'
 import { rateAr, rateIr, rateKr } from './sc3-rate.js'
 import { Set, setNew, setAdd } from './sc3-set.js'
@@ -43,8 +43,8 @@ export function ScUgen(name: string, numChan: number, rate: number, specialIndex
 	};
 }
 
-export function isScUgen<T>(obj: T): boolean {
-	return obj && dictionaryHasKey(obj, 'specialIndex') && dictionaryHasKey(obj, 'mrg'); // ...
+export function isScUgen(aValue: unknown): aValue is ScUgen {
+	return isObject(aValue) && objectHasKey(aValue, 'specialIndex') && objectHasKey(aValue, 'mrg');
 }
 
 export function scUgenCompare(i: ScUgen, j: ScUgen): number {
@@ -61,19 +61,19 @@ export function Ugen(scUgen: ScUgen, port: number): Ugen {
 	};
 }
 
-export function isUgen<T>(obj: T): boolean {
-	return obj && dictionaryHasKey(obj, 'scUgen') && dictionaryHasKey(obj, 'port');
+export function isUgen(aValue: unknown): aValue is Ugen {
+	return isObject(aValue) && objectHasKey(aValue, 'scUgen') && objectHasKey(aValue, 'port');
 }
 
-export function isUgenInput<T>(aValue: T): boolean {
+export function isUgenInput(aValue: unknown): aValue is UgenInput {
 	return isNumber(aValue) || isUgen(aValue);
 }
 
 export function inputBranch<T>(input: UgenInput, onUgen: (aUgen: Ugen) => T, onNumber: (aNumber: number) => T, onError: () => T): T {
 	if(isUgen(input)) {
-		return onUgen(<Ugen>input);
+		return onUgen(input);
 	} else if(isNumber(input)) {
-		return onNumber(<number>input);
+		return onNumber(input);
 	} else {
 		consoleError(`inputBranch: unknown input type: ${input}`);
 		return onError();
@@ -91,7 +91,7 @@ export type RateSpec = number | number[];
 export function deriveRate(rateOrFilterUgenInputs: RateSpec, inputArray: UgenInput[]): number {
 	consoleDebug(`deriveRate: ${rateOrFilterUgenInputs} ${inputArray}`);
 	if(isNumber(rateOrFilterUgenInputs)) {
-		return <number>rateOrFilterUgenInputs;
+		return rateOrFilterUgenInputs;
 	} else {
 		return arrayMaxItem(arrayMap(arrayAtIndices(inputArray, <number[]>rateOrFilterUgenInputs), inputRate));
 	}
@@ -102,7 +102,7 @@ export function requiresMce(inputs: Signal[]) {
 }
 
 export function mceInputTransform(aSignal: Signal[]): Signal[] {
-	return arrayTranspose(arrayExtendToBeOfEqualSize(<any[][]>aSignal));
+	return arrayTranspose(arrayExtendToBeOfEqualSize(aSignal));
 }
 
 export function makeUgen(name: string, numChan: number, rateSpec: RateSpec, specialIndex: number, signalArray: Signal[]): Signal {
@@ -132,12 +132,12 @@ export function ugenDisplayName(ugen: ScUgen): string {
 
 // inputFirstUgen([0, SinOsc([440, 441], 0), SinOsc(442, 0)])
 export function inputFirstUgen(input: Signal): ScUgen | null {
-	if(Array.isArray(input)) {
+	if(isArray(input)) {
 		consoleDebug(`inputFirstUgen: array: ${input}`);
 		return arrayFind(arrayMap(input, inputFirstUgen), isScUgen) || null;
 	} else if(isUgen(input)) {
 		consoleDebug(`inputFirstUgen: port: ${input}`);
-		return (<Ugen>input).scUgen;
+		return (input).scUgen;
 	} else {
 		consoleDebug(`inputFirstUgen: number: ${input}`);
 		return null;
@@ -148,7 +148,7 @@ export function mrg(lhs: Signal,rhs: Signal): Signal {
 	const ugen = inputFirstUgen(lhs);
 	consoleDebug(`mrg: ${lhs}, ${rhs}, ${ugen}`);
 	if(ugen && ugen.mrg) {
-		if(Array.isArray(rhs)) {
+		if(isArray(rhs)) {
 		    const mrgSet = <Set<UgenInput>>(ugen.mrg);
 		    arrayForEach(rhs, item => setAdd(mrgSet, item));
 		} else {
@@ -164,17 +164,17 @@ export function mrg(lhs: Signal,rhs: Signal): Signal {
 
 export function krMutateInPlace(input: Tree<UgenInput | ScUgen>): void {
 	if(isUgen(input)) {
-		const inputPort = <Ugen>input;
+		const inputPort = input;
 		consoleDebug(`kr: port: ${inputPort}`);
 		krMutateInPlace(inputPort.scUgen);
 	} else if(isScUgen(input)) {
-		const inputUgen = <ScUgen>input;
+		const inputUgen = input;
 		consoleDebug(`kr: ugen: ${inputUgen}`);
 		if(inputUgen.rate === rateAr) {
 		    inputUgen.rate =  rateKr;
 		}
 		arrayForEach(inputUgen.inputArray, item => krMutateInPlace(item));
-	} else if(Array.isArray(input)) {
+	} else if(isArray(input)) {
 		consoleDebug(`kr: array: ${input}`);
 		arrayForEach(input, item => krMutateInPlace(item));
 	} else {
@@ -193,31 +193,30 @@ export function kr(input: Signal): Signal {
 
 export function UnaryOpWithConstantOptimiser(specialIndex: number, input: Signal): Signal {
 	if(isNumber(input)) {
-		const aNumber = <number>input;
 		switch(specialIndex) {
-			case 0: return 0 - aNumber;
-			case 5: return Math.abs(aNumber);
-			case 8: return Math.ceil(aNumber);
-			case 9: return Math.floor(aNumber);
-			case 12: return aNumber * aNumber;
-			case 13: return aNumber * aNumber * aNumber;
-			case 14: return Math.sqrt(aNumber);
-			case 16: return 1 / aNumber;
-			case 28: return Math.sin(aNumber);
-			case 29: return Math.cos(aNumber);
-			case 30: return Math.tan(aNumber);
+			case 0: return 0 - input;
+			case 5: return Math.abs(input);
+			case 8: return Math.ceil(input);
+			case 9: return Math.floor(input);
+			case 12: return input * input;
+			case 13: return input * input * input;
+			case 14: return Math.sqrt(input);
+			case 16: return 1 / input;
+			case 28: return Math.sin(input);
+			case 29: return Math.cos(input);
+			case 30: return Math.tan(input);
 		}
 	}
 	return makeUgen('UnaryOpUGen', 1, [0], specialIndex, [input]);
 }
 
 // [1, [], [1], [1, 2], [1, null], SinOsc(440, 0), [SinOsc(440, 0)]].map(isArrayConstant)
-export function isArrayConstant<T>(aValue: T): boolean {
-	return Array.isArray(aValue) && arrayEvery(aValue, isNumber);
+export function isArrayConstant(aValue: unknown): aValue is Array<number> {
+	return isArray(aValue) && arrayEvery(aValue, isNumber);
 }
 
 export function UnaryOp(specialIndex: number, input: Signal): Signal {
-	if(Array.isArray(input) && arrayEvery(input, isNumber)) {
+	if(isArray(input) && arrayEvery(input, isNumber)) {
 		return arrayMap(input, item => UnaryOpWithConstantOptimiser(specialIndex, item));
 	} else {
 		return UnaryOpWithConstantOptimiser(specialIndex, input);
@@ -226,20 +225,18 @@ export function UnaryOp(specialIndex: number, input: Signal): Signal {
 
 export function BinaryOpWithConstantOptimiser(specialIndex: number, lhs: UgenInput, rhs: UgenInput): Signal {
 	if(isNumber(lhs) && isNumber(rhs)) {
-		const lhsNumber = <number>lhs;
-		const rhsNumber = <number>rhs;
 		switch(specialIndex) {
-			case 0: return lhsNumber + rhsNumber;
-			case 1: return lhsNumber - rhsNumber;
-			case 2: return lhsNumber * rhsNumber;
-			case 4: return lhsNumber / rhsNumber;
+			case 0: return lhs + rhs;
+			case 1: return lhs - rhs;
+			case 2: return lhs * rhs;
+			case 4: return lhs / rhs;
 		}
 	}
 	return makeUgen('BinaryOpUGen', 1, [0, 1], specialIndex, [lhs, rhs]);
 }
 
 export function BinaryOp(specialIndex: number, lhs: Signal, rhs: Signal): Signal {
-	if(Array.isArray(lhs) || Array.isArray(rhs)) {
+	if(isArray(lhs) || isArray(rhs)) {
 		const expanded = mceInputTransform([asArray(lhs), asArray(rhs)]);
 		consoleDebug(`BinaryOp: array constant: ${expanded}`);
 		return arrayMap(<UgenInput[][]>expanded, item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]));
@@ -249,11 +246,11 @@ export function BinaryOp(specialIndex: number, lhs: Signal, rhs: Signal): Signal
 }
 
 // isOutUgen(Out(0, mul(SinOsc(440, 0), 0.1)))
-export function isOutUgen(aValue: any): boolean {
-	return isUgen(aValue) && (<Ugen>aValue).scUgen.name == 'Out';
+export function isOutUgen(aValue: unknown): boolean {
+	return isUgen(aValue) && (aValue).scUgen.name == 'Out';
 }
 
 // isControlRateUgen(MouseX(0, 1, 0, 0.2))
-export function isControlRateUgen(aValue: any): boolean {
+export function isControlRateUgen(aValue: unknown): boolean {
 	return isUgenInput(aValue) && (inputRate(aValue) == rateKr);
 }

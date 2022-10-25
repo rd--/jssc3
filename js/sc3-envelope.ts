@@ -1,15 +1,14 @@
 // sc3-envelope.ts
 
-import { arrayAtWrap, arrayLength } from './sc3-array.js'
+import { asArray, arrayAtWrap, arrayLength } from './sc3-array.js'
 import { mul } from './sc3-bindings.js'
+import { Maybe, fromMaybe } from './sc3-maybe.js'
 import { queueNew, queuePush, queueAsArray } from './sc3-queue.js'
 import { isString } from './sc3-string.js'
 import { Tree } from './sc3-tree.js'
 import { Signal } from './sc3-ugen.js'
 
-export type EnvCurveDictionary = { [key: string]: number };
-
-export const envCurveDictionary: EnvCurveDictionary = {
+export const envCurveDictionary: Record<string, number> = {
 	step: 0,
 	lin: 1, linear: 1,
 	exp: 2, exponential: 2,
@@ -20,43 +19,41 @@ export const envCurveDictionary: EnvCurveDictionary = {
 	hold: 8
 };
 
-export type Env = { [key: string]: any };
+export type Env = Record<string, any>;
 
-export type Maybe<T> = T | null;
-
-export type EnvCurves = Tree<string | Signal>;
+export type EnvCurve = string | UgenInput;
 
 // envCoord(Env([0, 1, 0], [0.1, 0.9], 'lin', null, null, 0)) // => [0, 2, -99, -99, 1, 0.1, 1, 0, 0, 0.9, 1, 0]
-export function Env(levels: Signal[], times: Signal[], curves: EnvCurves, releaseNode: Maybe<number>, loopNode: Maybe<number>, offset: number): Env {
+export function Env(levels: Signal[], times: Signal[], curves: Tree<EnvCurve>, releaseNode: Maybe<number>, loopNode: Maybe<number>, offset: number): Env {
 	return {
 		levels: levels,
 		times: times,
-		curves: Array.isArray(curves) ? curves : [curves],
-		releaseNode: releaseNode,
-		loopNode: loopNode,
+		curves: asArray(curves),
+		releaseNode: fromMaybe(releaseNode, -99),
+		loopNode: fromMaybe(loopNode, -99),
 		offset: offset
 	};
 }
 
 export function envCoord(env: Env): Signal[] {
 	const segmentCount = arrayLength(env.levels) - 1;
-	const answerQueue = queueNew();
-	const store = function(aValue: any) { queuePush(answerQueue, aValue); };
+	const answerQueue = queueNew<UgenInput>();
+	const store = function(aValue: UgenInput) { queuePush(answerQueue, aValue); };
 	store(env.levels[0]);
 	store(segmentCount);
-	store(env.releaseNode || -99);
-	store(env.loopNode || -99);
+	store(env.releaseNode);
+	store(env.loopNode);
 	for(let i = 0; i < segmentCount; i++) {
-		const c = arrayAtWrap(env.curves, i);
+		const c = <string | UgenInput>arrayAtWrap(env.curves, i);
 		store(env.levels[i + 1]);
 		store(arrayAtWrap(env.times, i));
-		store(isString(c) ? envCurveDictionary[<string>c] : 5);
+		store(isString(c) ? envCurveDictionary[c] : 5);
 		store(isString(c) ? 0 : c);
 	}
-	return queueAsArray(answerQueue);
+	return <Signal[]>queueAsArray(answerQueue);
 }
 
-export function EnvADSR(attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, peakLevel: Signal, curve: Signal): Env {
+export function EnvAdsr(attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, peakLevel: Signal, curve: Signal): Env {
 	 return Env(
 		[0, peakLevel, mul(peakLevel, sustainLevel), 0],
 		[attackTime, decayTime, releaseTime],
@@ -66,7 +63,7 @@ export function EnvADSR(attackTime: Signal, decayTime: Signal, sustainLevel: Sig
 		0);
 }
 
-export function EnvASR(attackTime: Signal, sustainLevel: Signal, releaseTime: Signal, curve: Signal): Env {
+export function EnvAsr(attackTime: Signal, sustainLevel: Signal, releaseTime: Signal, curve: Signal): Env {
 	return Env(
 		[0, sustainLevel, 0],
 		[attackTime, releaseTime],
