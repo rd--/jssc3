@@ -22,3 +22,7 @@ export function stringSplitOn(aString: string, aDelimiter: string): string[] {
 export function stringUnlines(anArray: string[]): string {
 	return anArray.join('\n');
 }
+
+export function stringAppend(lhs: string, rhs: string): string {
+	return lhs + rhs;
+}

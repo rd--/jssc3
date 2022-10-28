@@ -10,7 +10,7 @@ function asArray(maybeArray) {
 function arrayNew(size) {
     return new Array(size);
 }
-// arrayAppend([1, 2, 3], [4, 5]) //=> [1, 2, 3, 4, 5]
+// arrayAppend([1, 2, 3], [4, 5]) //= [1, 2, 3, 4, 5]
 function arrayAppend(lhs, rhs) {
     return lhs.concat(rhs);
 }
@@ -449,7 +449,7 @@ function url_append_timestamp(url) {
     const ext = ((/\?/).test(url) ? '&' : '?') + (new Date()).getTime();
     return url + ext;
 }
-// Fetch url with indicated responseType and run proc on result.
+// Fetch url with indicated responseType and run proc asynchronously on result.
 function fetch_url_and_then(url, responseType, proc) {
     const request = new XMLHttpRequest();
     request.addEventListener('load', () => proc(request.response));
@@ -801,6 +801,9 @@ function stringSplitOn(aString, aDelimiter) {
 function stringUnlines(anArray) {
     return anArray.join('\n');
 }
+function stringAppend(lhs, rhs) {
+    return lhs + rhs;
+}
 function treeVisit(aTree, visitFunction) {
     if (isArray(aTree)) {
         aTree.forEach(item => treeVisit(item, visitFunction));
@@ -871,6 +874,12 @@ function websocket_send(websocket, data) {
     else {
         console.warn('websocket_send: websocket nil or not ready?');
     }
+}
+function websocket_send_string(websocket, data) {
+    return websocket_send(websocket, data);
+}
+function websocket_send_binary(websocket, data) {
+    return websocket_send(websocket, data);
 }
 function websocket_close(websocket) {
     if (websocket) {

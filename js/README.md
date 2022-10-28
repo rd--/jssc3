@@ -50,7 +50,6 @@ These file are called _base_ files at the _Makefile_.
 They include import statements so they can be compiled as well.
 The _core_ and _base_ .ts files are joined together into _jssc3-base.ts_, which is compiled to .js.
 If <https://github.com/tc39/proposal-type-annotations> proceeds these would be ordinary .js files with type comments.
-Note that .ts can use _Array.isArray_ to reason, but not _isArray_, even where _isArray = Array.isArray_.
 
 # Relation to Scheme
 

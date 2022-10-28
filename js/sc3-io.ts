@@ -6,7 +6,7 @@ export function url_append_timestamp(url: string): string {
 	return url + ext;
 }
 
-// Fetch url with indicated responseType and run proc on result.
+// Fetch url with indicated responseType and run proc asynchronously on result.
 export function fetch_url_and_then<T>(url: string, responseType: XMLHttpRequestResponseType, proc: (x: T) => void): void {
 	const request = new XMLHttpRequest();
 	request.addEventListener('load', () => proc(request.response));

@@ -13,7 +13,7 @@ export function arrayNew<T>(size: number): T[] {
 	return new Array(size);
 }
 
-// arrayAppend([1, 2, 3], [4, 5]) //=> [1, 2, 3, 4, 5]
+// arrayAppend([1, 2, 3], [4, 5]) //= [1, 2, 3, 4, 5]
 export function arrayAppend<T>(lhs: T[], rhs: T[]): T[] {
 	return lhs.concat(rhs);
 }

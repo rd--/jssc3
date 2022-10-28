@@ -21,6 +21,17 @@ export const envCurveDictionary: Record<string, number> = {
 
 export type Env = Record<string, any>;
 
+/*
+export type Env = {
+	levels: Signal[],
+	times: Signal[],
+	curves: EnvCurve[],
+	releaseNode: number,
+	loopNode: number,
+	offset: number
+};
+*/
+
 export type EnvCurve = string | UgenInput;
 
 // envCoord(Env([0, 1, 0], [0.1, 0.9], 'lin', null, null, 0)) // => [0, 2, -99, -99, 1, 0.1, 1, 0, 0, 0.9, 1, 0]
