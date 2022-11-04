@@ -2,7 +2,7 @@
 
 import { arrayClump, arrayConcatenation, arrayFill, arrayFromTo, arrayTranspose } from './sc3-array.js'
 import { add, fdiv, mul, neg, recip, roundTo, trunc } from './sc3-bindings.js'
-import { envCoord } from './sc3-envelope.js'
+import { Env, envCoord } from './sc3-envelope.js'
 import { nullFix } from './sc3-null.js'
 import { numberTimesRepeat, randomFloat, randomInteger } from './sc3-number.js'
 import { Signal } from './sc3-ugen.js'

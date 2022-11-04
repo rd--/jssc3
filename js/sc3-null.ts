@@ -1,5 +1,3 @@
-// sc3-null.ts
-
 export function isNull(aValue: unknown): aValue is null {
 	return aValue === null;
 }

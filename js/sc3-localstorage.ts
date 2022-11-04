@@ -1,5 +1,3 @@
-// sc3-localstorage.ts
-
 // Array of all keys at local storage
 export function local_storage_keys(): string[] {
 	const arrayLength = localStorage.length;

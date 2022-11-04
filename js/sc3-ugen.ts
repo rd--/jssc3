@@ -4,10 +4,10 @@ import { isArray, asArray, arrayAtIndices, arrayContainsArray, arrayEvery, array
 import { Counter, counterNew } from './sc3-counter.js'
 import { consoleDebug, consoleError } from './sc3-error.js'
 import { isNumber } from './sc3-number.js'
-import { isObject } from './sc3-object.js'
+import { isObject, objectHasKey } from './sc3-object.js'
 import { binaryOperatorName, unaryOperatorName } from './sc3-operators.js'
 import { rateAr, rateIr, rateKr } from './sc3-rate.js'
-import { Set, setNew, setAdd } from './sc3-set.js'
+import { setNew, setAdd } from './sc3-set.js'
 import { Tree } from './sc3-tree.js'
 
 const ugenCounter: Counter = counterNew();

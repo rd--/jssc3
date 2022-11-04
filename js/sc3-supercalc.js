@@ -1,4 +1,5 @@
 // sc3-supercalc.js ; requires jspreadsheet
+
 'use strict';
 
 var sc3_supercalc_num_col;

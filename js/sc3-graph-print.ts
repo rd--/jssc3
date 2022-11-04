@@ -1,5 +1,3 @@
-// sc3-graph-print.ts
-
 import { arrayForEach, arrayLength, arrayMap, arrayReplicate } from './sc3-array.js'
 import { Graph, graphUgenIndex, graphUgenInputSpec, makeGraph, SCgf } from './sc3-graph.js'
 import { isNumber } from './sc3-number.js'

@@ -1,5 +1,3 @@
-// sc3-number.ts
-
 export function isNumber(aValue: unknown): aValue is number {
 	return (typeof aValue === 'number');
 }

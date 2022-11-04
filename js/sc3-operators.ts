@@ -1,6 +1,4 @@
-// sc3-operators.ts
-
-export type OperatorDictionary = { [key: string]: number };
+export type OperatorDictionary = Record<string, number>;
 
 export const unaryOperators: OperatorDictionary = {
 	neg: 0,

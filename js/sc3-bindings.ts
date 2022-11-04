@@ -1,3 +1,7 @@
+import { asArray, arrayConcat, arrayLength } from './sc3-array.js'
+import { rateAr, rateDr, rateIr, rateKr } from './sc3-rate.js'
+import { Signal, BinaryOp, UnaryOp, makeUgen } from './sc3-ugen.js'
+
 // Schroeder allpass delay line with cubic interpolation.
 export function AllpassC(input: Signal, maxdelaytime: Signal, delaytime: Signal, decaytime: Signal): Signal {
     return makeUgen('AllpassC', 1, [0], 0, [input, maxdelaytime, delaytime, decaytime]);

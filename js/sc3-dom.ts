@@ -1,5 +1,3 @@
-// sc3-dom.ts
-
 // Return a function to set the inner Html of elemId
 export function setter_for_inner_html_of(elemId: string): (innerHtml: string) => void {
 	const elem = document.getElementById(elemId);

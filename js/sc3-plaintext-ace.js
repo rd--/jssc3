@@ -1,4 +1,5 @@
 // https://ace.c9.io
+
 var sc3_ace;
 
 function sc3_ace_init_in(parentElement) {

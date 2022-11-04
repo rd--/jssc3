@@ -11,9 +11,6 @@ var Module = {
 	printErr: function(text) {
 		consoleLogMessageFrom('error', text);
 	},
-	consoleLogMessageFrom: function(text) {
-		consoleLogMessageFrom('status', text);
-	},
 	totalDependencies: 0,
 	monitorRunDependencies: function(left) {
 		consoleLogMessageFrom('monitorRunDependencies', '# ' + String(left));

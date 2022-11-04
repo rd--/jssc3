@@ -1,5 +1,3 @@
-// sc3-event.ts
-
 import { arrayFromTo } from './sc3-array.js'
 import { Latch } from './sc3-bindings.js'
 import { ControlIn } from './sc3-pseudo.js'

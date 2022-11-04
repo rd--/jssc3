@@ -1,12 +1,10 @@
-// sc3-envelope.ts
-
 import { asArray, arrayAtWrap, arrayLength } from './sc3-array.js'
 import { mul } from './sc3-bindings.js'
 import { Maybe, fromMaybe } from './sc3-maybe.js'
 import { queueNew, queuePush, queueAsArray } from './sc3-queue.js'
 import { isString } from './sc3-string.js'
 import { Tree } from './sc3-tree.js'
-import { Signal } from './sc3-ugen.js'
+import { Signal, UgenInput } from './sc3-ugen.js'
 
 export const envCurveDictionary: Record<string, number> = {
 	step: 0,

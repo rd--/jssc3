@@ -1,5 +1,3 @@
-// sc3-graph.ts
-
 import { isArray, arrayAppend, arrayFilter, arrayFindIndex, arrayForEach, arrayIndexOf, arrayLength, arrayMap, arrayNub, arrayReplicate, arraySort } from './sc3-array.js'
 import { encodeInt8, encodeInt16, encodeInt32, encodeFloat32, encodePascalString } from './sc3-encode.js'
 import { consoleDebug } from './sc3-error.js'
@@ -8,7 +6,7 @@ import { rateIr } from './sc3-rate.js'
 import { setIncludes, setNew, setAdd, setAsArray } from './sc3-set.js'
 import { Tree } from './sc3-tree.js'
 import { flattenByteEncoding } from './sc3-u8.js'
-import { UgenInput, Ugen, ScUgen, scUgenCompare, Signal, isUgen, isScUgen, ScUgen } from './sc3-ugen.js'
+import { UgenInput, Ugen, ScUgen, Signal, scUgenCompare, isUgen, isScUgen } from './sc3-ugen.js'
 
 // traverse graph from p adding leaf nodes to the set c
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).

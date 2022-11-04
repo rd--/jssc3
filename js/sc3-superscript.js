@@ -1,4 +1,5 @@
 // sc3-superscript.js ; requires quill
+
 'use strict';
 
 // https://quilljs.com/
