@@ -53,7 +53,7 @@ export function makeGraph(name: string, signal: Signal): Graph {
 	const ugenSeq = arraySort(ugenNodes, scUgenCompare);
 	const numLocalBufs = arrayLength(arrayFilter(ugenSeq, item => item.name === 'LocalBuf'));
 	const MaxLocalBufs = function(count: number): ScUgen {
-		return ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
+		return new ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
 	};
 	return {
 		name: name,

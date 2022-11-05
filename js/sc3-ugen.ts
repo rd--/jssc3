@@ -12,39 +12,31 @@ import { Tree } from './sc3-tree.js'
 
 const ugenCounter: Counter = counterNew();
 
-export type ScUgen = {
-	name: string,
-	numChan: number,
-	rate: number,
-	specialIndex: number,
-	id: number,
-	inputArray: UgenInput[],
-	mrg: Set<UgenInput>
-};
-
-export type Ugen = {
-	scUgen: ScUgen,
-	port: number
-};
-
 export type UgenInput = number | Ugen;
 
 export type Signal = Tree<UgenInput>;
 
-export function ScUgen(name: string, numChan: number, rate: number, specialIndex: number, inputArray: UgenInput[]): ScUgen {
-	return {
-		name: name,
-		numChan: numChan,
-		rate: rate,
-		specialIndex: specialIndex,
-		id: ugenCounter(),
-		inputArray: inputArray,
-		mrg: setNew()
-	};
+export class ScUgen {
+	name: string;
+	numChan: number;
+	rate: number;
+	specialIndex: number;
+	id: number;
+	inputArray: UgenInput[];
+	mrg: Set<UgenInput>;
+	constructor(name: string, numChan: number, rate: number, specialIndex: number, inputArray: UgenInput[]) {
+		this.name = name;
+		this.numChan = numChan;
+		this.rate = rate;
+		this.specialIndex = specialIndex;
+		this.id = ugenCounter();
+		this.inputArray = inputArray;
+		this.mrg = setNew();
+	}
 }
 
 export function isScUgen(aValue: unknown): aValue is ScUgen {
-	return isObject(aValue) && objectHasKey(aValue, 'specialIndex') && objectHasKey(aValue, 'mrg');
+	return isObject(aValue) && aValue.constructor == ScUgen;
 }
 
 export function scUgenCompare(i: ScUgen, j: ScUgen): number {
@@ -54,15 +46,17 @@ export function scUgenCompare(i: ScUgen, j: ScUgen): number {
 // Ugens with no outputs, such as Out, set port to -1.
 export const nilPort = -1;
 
-export function Ugen(scUgen: ScUgen, port: number): Ugen {
-	return {
-		scUgen: scUgen,
-		port: port
+export class Ugen {
+	scUgen: ScUgen;
+	port: number;
+	constructor(scUgen: ScUgen, port: number) {
+		this.scUgen = scUgen;
+		this.port = port;
 	};
 }
 
 export function isUgen(aValue: unknown): aValue is Ugen {
-	return isObject(aValue) && objectHasKey(aValue, 'scUgen') && objectHasKey(aValue, 'port');
+	return isObject(aValue) && aValue.constructor == Ugen;
 }
 
 export function isUgenInput(aValue: unknown): aValue is UgenInput {
@@ -111,11 +105,11 @@ export function makeUgen(name: string, numChan: number, rateSpec: RateSpec, spec
 		return arrayMap(mceInputTransform(signalArray), item => makeUgen(name, numChan, rateSpec, specialIndex, <Signal[]>item));
 	} else {
 		const inputArray = <UgenInput[]>signalArray;
-		const scUgen = ScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
+		const scUgen = new ScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
 		switch (numChan) {
-		    case 0: return (Ugen(scUgen, nilPort));
-		    case 1: return (Ugen(scUgen, 0));
-		    default: return arrayFillWithIndex(numChan, item => Ugen(scUgen, item));
+		    case 0: return new Ugen(scUgen, nilPort);
+		    case 1: return new Ugen(scUgen, 0);
+		    default: return arrayFillWithIndex(numChan, item => new Ugen(scUgen, item));
 		}
 	}
 }

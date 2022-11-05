@@ -261,7 +261,6 @@ function dictionaryCopyKeys(aDictionary, keysArray) {
     keysArray.forEach(key => answer[key] = aDictionary[key]);
     return answer;
 }
-// sc3-dom.ts
 // Return a function to set the inner Html of elemId
 function setter_for_inner_html_of(elemId) {
     const elem = document.getElementById(elemId);
@@ -380,7 +379,6 @@ function prompt_for_int_and_then(promptText, defaultValue, proc) {
         parse_int_or_alert_and_then(integerText, 'Not an integer?', proc);
     }
 }
-// sc3-encode.ts
 function encodeUsing(byteCount, writerFunction) {
     const arrayBuffer = new ArrayBuffer(byteCount);
     writerFunction(new DataView(arrayBuffer));
@@ -443,7 +441,6 @@ function consoleLogMessageFrom(from, text) {
 function functionArity(aFunction) {
     return aFunction.length;
 }
-// sc3-io.ts
 // Append timestamp to URL to defeat cache
 function url_append_timestamp(url) {
     const ext = ((/\?/).test(url) ? '&' : '?') + (new Date()).getTime();
@@ -514,7 +511,6 @@ function read_text_file_from_file_input_and_then(inputId, fileIndex, proc) {
 function read_json_file_and_then(jsonFile, proc) {
     read_text_file_and_then(jsonFile, jsonText => proc(JSON.parse(jsonText)));
 }
-// sc3-localstorage.ts
 // Array of all keys at local storage
 function local_storage_keys() {
     const arrayLength = localStorage.length;
@@ -549,7 +545,6 @@ function fromMaybe(aMaybe, defaultValue) {
         return aMaybe;
     }
 }
-// sc3-null.ts
 function isNull(aValue) {
     return aValue === null;
 }
@@ -566,7 +561,6 @@ function nullFix(message, inputValue, defaultValue) {
         return inputValue;
     }
 }
-// sc3-number.ts
 function isNumber(aValue) {
     return (typeof aValue === 'number');
 }
@@ -2096,7 +2090,6 @@ function SfAcquire(urlOrKey, numberOfChannels, channelSelector) {
 SfAcquire('piano-c5', 2, [100, 101])
 
 */
-// sc3-envelope.ts
 const envCurveDictionary = {
     step: 0,
     lin: 1, linear: 1,
@@ -2201,7 +2194,6 @@ function PenY(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 2); }
 function PenZ(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 3); }
 function PenAngle(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 4); }
 function PenRadius(voiceNumber) { return ControlIn(1, voiceAddr(voiceNumber) + 5); }
-// sc3-graph.ts
 // traverse graph from p adding leaf nodes to the set c
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
 function ugenTraverseCollecting(p, c, w) {
@@ -2240,7 +2232,7 @@ function makeGraph(name, signal) {
     const ugenSeq = arraySort(ugenNodes, scUgenCompare);
     const numLocalBufs = arrayLength(arrayFilter(ugenSeq, item => item.name === 'LocalBuf'));
     const MaxLocalBufs = function (count) {
-        return ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
+        return new ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
     };
     return {
         name: name,
@@ -2289,7 +2281,6 @@ function graphEncodeSyndef(graph) {
         encodeInt16(0) // # variants
     ]);
 }
-// sc3-graph-print.ts
 function graphPrintUgenSpec(graph, ugen) {
     console.log(ugen.name, ugen.rate, arrayLength(ugen.inputArray), ugen.numChan, ugen.specialIndex, arrayMap(ugen.inputArray, input => graphUgenInputSpec(graph, input)), arrayReplicate(ugen.numChan, ugen.rate));
 }
@@ -2883,33 +2874,34 @@ function flattenByteEncoding(aTree) {
 }
 // sc3-ugen.ts
 const ugenCounter = counterNew();
-function ScUgen(name, numChan, rate, specialIndex, inputArray) {
-    return {
-        name: name,
-        numChan: numChan,
-        rate: rate,
-        specialIndex: specialIndex,
-        id: ugenCounter(),
-        inputArray: inputArray,
-        mrg: setNew()
-    };
+class ScUgen {
+    constructor(name, numChan, rate, specialIndex, inputArray) {
+        this.name = name;
+        this.numChan = numChan;
+        this.rate = rate;
+        this.specialIndex = specialIndex;
+        this.id = ugenCounter();
+        this.inputArray = inputArray;
+        this.mrg = setNew();
+    }
 }
 function isScUgen(aValue) {
-    return isObject(aValue) && objectHasKey(aValue, 'specialIndex') && objectHasKey(aValue, 'mrg');
+    return isObject(aValue) && aValue.constructor == ScUgen;
 }
 function scUgenCompare(i, j) {
     return i.id - j.id;
 }
 // Ugens with no outputs, such as Out, set port to -1.
 const nilPort = -1;
-function Ugen(scUgen, port) {
-    return {
-        scUgen: scUgen,
-        port: port
-    };
+class Ugen {
+    constructor(scUgen, port) {
+        this.scUgen = scUgen;
+        this.port = port;
+    }
+    ;
 }
 function isUgen(aValue) {
-    return isObject(aValue) && objectHasKey(aValue, 'scUgen') && objectHasKey(aValue, 'port');
+    return isObject(aValue) && aValue.constructor == Ugen;
 }
 function isUgenInput(aValue) {
     return isNumber(aValue) || isUgen(aValue);
@@ -2953,11 +2945,11 @@ function makeUgen(name, numChan, rateSpec, specialIndex, signalArray) {
     }
     else {
         const inputArray = signalArray;
-        const scUgen = ScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
+        const scUgen = new ScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
         switch (numChan) {
-            case 0: return (Ugen(scUgen, nilPort));
-            case 1: return (Ugen(scUgen, 0));
-            default: return arrayFillWithIndex(numChan, item => Ugen(scUgen, item));
+            case 0: return new Ugen(scUgen, nilPort);
+            case 1: return new Ugen(scUgen, 0);
+            default: return arrayFillWithIndex(numChan, item => new Ugen(scUgen, item));
         }
     }
 }
