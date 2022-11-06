@@ -2,6 +2,7 @@
 
 import { isArray, asArray, arrayAtWrap, arrayFromTo } from './sc3-array.js'
 import { fetch_soundfile_channels_to_scsynth_buffers } from './sc3-buffer.js'
+import { getGlobalScsynth } from './sc3-scsynth.js'
 
 export type BufferDictionary = { [key: string]: string };
 

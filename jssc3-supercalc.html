@@ -19,8 +19,8 @@
     <script src="js/jssc3.js"></script>
     <script>
 window.onload = function () {
-    sc3_ui_init('supercalc/', true, true, false, false, '.json', 'jssc3SuperCalcUserPrograms/json', graph_load, true, 4096, 48);
     sc3_wasm_init();
+    sc3_ui_init(globalScsynth, 'supercalc/', true, true, false, false, '.json', 'jssc3SuperCalcUserPrograms/json', graph_load, true, 4096, 48);
     jssc3_supercalc_init(8, 8);
     jssc3_init('e', null, 's');
 };
@@ -50,7 +50,7 @@ window.onload = function () {
         <option value="userRestore" title="Load user programs from archive">Restore</option>
         <option value="userPurge" title="Delete all user programs">Purge</option>
       </select>
-      <button title="Boot" accesskey="b" onclick="ui_boot_scsynth()">⏻ (Boot)</button>
+      <button title="Boot" accesskey="b" onclick="bootScsynth(globalScsynth)">⏻ (Boot)</button>
       <span id="statusText"></span>
       <button title="Init" onclick="sc3_supercalc_server_setup()">Init</button>
     </div>

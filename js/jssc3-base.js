@@ -844,28 +844,11 @@ function playUgen(scsynth, ugen) {
     var graph = makeGraph(name, wrapOut(0, ugen));
     playSyndef(scsynth, name, graphEncodeSyndef(graph));
 }
-function play(scsynth, ugenFunction) {
+function playProcedure(scsynth, ugenFunction) {
     playUgen(scsynth, ugenFunction());
 }
-function reset(scsynth) {
+function resetScsynth(scsynth) {
     sendOsc(scsynth, g_freeAll1(0));
-}
-function monitorOsc(scsynth) {
-    scsynth.wasm.oscDriver[scsynth.sclangPort] = {
-        receive: function (addr, data) {
-            var msg = decodeServerMessage(data);
-            if (msg.address === '/status.reply') {
-                scsynth.status.ugenCount = msg.args[1].value;
-                scsynth.monitorDisplay('# ' + scsynth.status.ugenCount);
-            }
-            else if (msg.address === '/done') {
-                console.log('/done', msg.args[0]);
-            }
-            else {
-                console.log('monitorOsc', addr, JSON.stringify(msg, null, 4));
-            }
-        }
-    };
 }
 function requestStatus(scsynth) {
     sendOsc(scsynth, m_status);
@@ -880,6 +863,25 @@ function setPointerControls(scsynth, n, w, x, y) {
     if (scsynth.isAlive) {
         sendOsc(scsynth, c_setn1(15001 + (n * 10), [w, x, y]));
     }
+}
+function monitorOsc(scsynth) {
+    scsynth.wasm.oscDriver[scsynth.sclangPort] = {
+        receive: function (addr, data) {
+            var msg = decodeServerMessage(data);
+            if (msg.address === '/status.reply') {
+                const ugenCount = msg.args[1].value;
+                console.log('ugenCount', ugenCount, typeof ugenCount);
+                scsynth.status.ugenCount = ugenCount;
+                scsynth.monitorDisplay('# ' + ugenCount);
+            }
+            else if (msg.address === '/done') {
+                console.log('/done', msg.args[0]);
+            }
+            else {
+                console.log('monitorOsc', addr, JSON.stringify(msg, null, 4));
+            }
+        }
+    };
 }
 function makeScsynthModule(logFunction, displayFunction) {
     return {
@@ -2746,7 +2748,7 @@ function Osc1(buf, dur) {
     return BufRd(numChan, buf, phase, loop, interpolation);
 }
 function decodeServerMessage(packet) {
-    return osc.readPacket(packet, {});
+    return osc.readPacket(packet, { metadata: true });
 }
 function encodeServerMessage(message) {
     return osc.writePacket(message);

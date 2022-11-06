@@ -78,23 +78,41 @@ export function bootScsynth(scsynth: Scsynth): void {
 	}
 }
 
-function playSyndef(scsynth: Scsynth, syndefName: string, syndefData: Uint8Array): void {
+export function playSyndef(scsynth: Scsynth, syndefName: string, syndefData: Uint8Array): void {
 	console.log('playSyndef #', syndefData.length);
 	sendOsc(scsynth, d_recv_then(syndefData, encodeServerMessage(s_new0(syndefName, -1, kAddToTail, 0))));
 }
 
-function playUgen(scsynth: Scsynth, ugen: Signal): void {
+export function playUgen(scsynth: Scsynth, ugen: Signal): void {
 	var name = 'sc3.js';
 	var graph = makeGraph(name, wrapOut(0, ugen));
 	playSyndef(scsynth, name, graphEncodeSyndef(graph));
 }
 
-function play(scsynth: Scsynth, ugenFunction: () => Signal): void {
+export function playProcedure(scsynth: Scsynth, ugenFunction: () => Signal): void {
 	playUgen(scsynth, ugenFunction());
 }
 
-function reset(scsynth: Scsynth): void {
+export function resetScsynth(scsynth: Scsynth): void {
 	sendOsc(scsynth, g_freeAll1(0));
+}
+
+export function requestStatus(scsynth: Scsynth): void {
+	sendOsc(scsynth, m_status);
+}
+
+export function requestNotifications(scsynth: Scsynth): void {
+	sendOsc(scsynth, m_notify(1, 1));
+}
+
+export function requestPrintingOsc(scsynth: Scsynth): void {
+	sendOsc(scsynth, m_dumpOsc(1));
+}
+
+export function setPointerControls(scsynth: Scsynth, n: number, w: number, x: number, y: number): void {
+	if(scsynth.isAlive) {
+		sendOsc(scsynth, c_setn1(15001 + (n * 10), [w, x, y]));
+	}
 }
 
 function monitorOsc(scsynth: Scsynth): void {
@@ -102,8 +120,9 @@ function monitorOsc(scsynth: Scsynth): void {
 		receive: function(addr: string, data: Uint8Array) {
 			var msg = decodeServerMessage(data);
 			if(msg.address === '/status.reply') {
-				scsynth.status.ugenCount = <number>msg.args[1].value;
-				scsynth.monitorDisplay('# ' + scsynth.status.ugenCount);
+				const ugenCount = <number>msg.args[1].value;
+				scsynth.status.ugenCount = ugenCount;
+				scsynth.monitorDisplay('# ' + ugenCount);
 			} else if(msg.address === '/done') {
 				console.log('/done', msg.args[0]);
 			} else {
@@ -111,22 +130,4 @@ function monitorOsc(scsynth: Scsynth): void {
 			}
 		}
 	};
-}
-
-function requestStatus(scsynth: Scsynth): void {
-	sendOsc(scsynth, m_status);
-}
-
-function requestNotifications(scsynth: Scsynth): void {
-	sendOsc(scsynth, m_notify(1, 1));
-}
-
-function requestPrintingOsc(scsynth: Scsynth): void {
-	sendOsc(scsynth, m_dumpOsc(1));
-}
-
-function setPointerControls(scsynth: Scsynth, n: number, w: number, x: number, y: number): void {
-	if(scsynth.isAlive) {
-		sendOsc(scsynth, c_setn1(15001 + (n * 10), [w, x, y]));
-	}
 }

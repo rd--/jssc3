@@ -13,7 +13,7 @@ declare namespace osc {
 }
 
 export function decodeServerMessage(packet:  Uint8Array): ServerMessage {
-	return osc.readPacket(packet, {});
+	return osc.readPacket(packet, {metadata: true});
 }
 
 export function encodeServerMessage(message:  ServerMessage): Uint8Array {
