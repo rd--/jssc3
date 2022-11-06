@@ -113,7 +113,7 @@ export function graphEncodeSyndef(graph: Graph): Uint8Array {
 	]);
 }
 
-export function encodeUgen(name: string, ugen: Signal): Uint8Array {
+export function encodeSignal(name: string, ugen: Signal): Uint8Array {
 	const graph = makeGraph(name, ugen);
 	return graphEncodeSyndef(graph);
 }

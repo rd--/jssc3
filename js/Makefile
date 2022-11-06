@@ -32,9 +32,10 @@ base-ts:
 	tsc $(tsc_opt) $(base:=.ts)
 
 clean:
-	rm -f $(core:=.js) $(base:=.js)
+	rm -f *~ $(core:=.js) $(base:=.js)
 
 clean-base:
+	make clean
 	rm -f jssc3-base.*
 
 run-lint:

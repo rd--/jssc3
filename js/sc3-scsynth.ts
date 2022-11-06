@@ -1,5 +1,5 @@
 import { consoleDebug } from './sc3-error.js'
-import { graphEncodeSyndef, makeGraph } from './sc3-graph.js'
+import { encodeSignal } from './sc3-graph.js'
 import { wrapOut } from './sc3-pseudo.js'
 import { ServerMessage, c_setn1, d_recv_then, decodeServerMessage, encodeServerMessage, g_freeAll1, kAddToTail, m_dumpOsc, m_notify, m_status, s_new0 } from './sc3-servercommand.js'
 import { ScsynthModule } from './sc3-scsynth-module.js'
@@ -85,8 +85,8 @@ export function playSyndef(scsynth: Scsynth, syndefName: string, syndefData: Uin
 
 export function playUgen(scsynth: Scsynth, ugen: Signal): void {
 	var name = 'sc3.js';
-	var graph = makeGraph(name, wrapOut(0, ugen));
-	playSyndef(scsynth, name, graphEncodeSyndef(graph));
+	var syndef = encodeSignal(name, wrapOut(0, ugen));
+	playSyndef(scsynth, name, syndef);
 }
 
 export function playProcedure(scsynth: Scsynth, ugenFunction: () => Signal): void {

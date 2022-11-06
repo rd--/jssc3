@@ -841,8 +841,8 @@ function playSyndef(scsynth, syndefName, syndefData) {
 }
 function playUgen(scsynth, ugen) {
     var name = 'sc3.js';
-    var graph = makeGraph(name, wrapOut(0, ugen));
-    playSyndef(scsynth, name, graphEncodeSyndef(graph));
+    var syndef = encodeSignal(name, wrapOut(0, ugen));
+    playSyndef(scsynth, name, syndef);
 }
 function playProcedure(scsynth, ugenFunction) {
     playUgen(scsynth, ugenFunction());
@@ -870,7 +870,6 @@ function monitorOsc(scsynth) {
             var msg = decodeServerMessage(data);
             if (msg.address === '/status.reply') {
                 const ugenCount = msg.args[1].value;
-                console.log('ugenCount', ugenCount, typeof ugenCount);
                 scsynth.status.ugenCount = ugenCount;
                 scsynth.monitorDisplay('# ' + ugenCount);
             }
@@ -2417,7 +2416,7 @@ function graphEncodeSyndef(graph) {
         encodeInt16(0) // # variants
     ]);
 }
-function encodeUgen(name, ugen) {
+function encodeSignal(name, ugen) {
     const graph = makeGraph(name, ugen);
     return graphEncodeSyndef(graph);
 }
@@ -3370,7 +3369,7 @@ function sc3_websocket_send_osc(msg) {
 function playUgenWs(ugen) {
     const name = 'sc3.js';
     const bus = 0;
-    const syndef = encodeUgen(name, wrapOut(bus, ugen));
+    const syndef = encodeSignal(name, wrapOut(bus, ugen));
     console.log(`playUgen: scsyndef.length = ${syndef.length}`);
     sc3_websocket_send_osc(d_recv_then(syndef, encodeServerMessage(s_new0(name, -1, kAddToTail, 1))));
 }

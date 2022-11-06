@@ -1,4 +1,4 @@
-import { encodeUgen } from './sc3-graph.js'
+import { encodeSignal } from './sc3-graph.js'
 import { wrapOut } from './sc3-pseudo.js'
 import { ServerMessage, d_recv_then, encodeServerMessage, g_freeAll1, kAddToTail, s_new0 } from './sc3-servercommand.js'
 import { Signal } from './sc3-ugen.js'
@@ -13,7 +13,7 @@ export function sc3_websocket_send_osc(msg: ServerMessage): void {
 export function playUgenWs(ugen: Signal): void {
 	const name = 'sc3.js';
 	const bus = 0;
-	const syndef = encodeUgen(name, wrapOut(bus, ugen));
+	const syndef = encodeSignal(name, wrapOut(bus, ugen));
 	console.log(`playUgen: scsyndef.length = ${syndef.length}`);
 	sc3_websocket_send_osc(d_recv_then(syndef, encodeServerMessage(s_new0(name, -1, kAddToTail, 1))));
 }
