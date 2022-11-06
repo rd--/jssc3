@@ -39,8 +39,6 @@ export * from './sc3-string.js'
 export * from './sc3-websocket.js'
 
 /*
-export * from './sc3-midi-mpe.js'
-export * from './sc3-plaintext-ace.js'
 export * from './sc3-plaintext.js'
 export * from './sc3-pointer-rebind.js'
 export * from './sc3-supercalc.js'

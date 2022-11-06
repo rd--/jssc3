@@ -12,12 +12,10 @@
     <script src="js/jssc3-base.js"></script>
     <script src="js/sc3-pointer-rebind.js"></script>
     <script src="js/sc3-superscript.js"></script>
-    <script src="js/sc3-wasm.js"></script>
-    <script src="js/sc3-wasm-module.js"></script>
     <script src="js/jssc3.js"></script>
     <script>
 window.onload = function () {
-    sc3_wasm_init();
+    sc3_wasm_init(setStatusDisplay);
     sc3_ui_init(globalScsynth, '', false, false, false, true, '.html', 'jssc3UserPrograms/html', graph_load, true, 4096, 48);
     jssc3_superscript_init();
     jssc3_init('e', 'help/essay/jssc3-1.html', null);

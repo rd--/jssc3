@@ -29,7 +29,7 @@ export function makeScsynth(scsynthModule: ScsynthModule, scsynthOptions: Scsynt
 	};
 }
 
-let globalScsynth: Scsynth;
+export let globalScsynth: Scsynth;
 
 export function setGlobalScsynth(anScsynth: Scsynth): void {
 	globalScsynth = anScsynth;
@@ -44,11 +44,18 @@ export function getGlobalScsynth(): Scsynth | null {
 	}
 }
 
+export function withGlobalScsynth<T>(aProcedure: (scsynth: Scsynth) => T): T | null {
+	if(globalScsynth !== undefined) {
+		return aProcedure(globalScsynth);
+	}
+	return null;
+}
+
 export function sendOsc(scsynth: Scsynth, oscMessage: ServerMessage): void {
 	consoleDebug(`sendOsc: ${oscMessage}`);
 	if(scsynth.isAlive && scsynth.wasm.oscDriver) {
-		var port = scsynth.wasm.oscDriver[scsynth.port];
-		var recv = port && port.receive;
+		const port = scsynth.wasm.oscDriver[scsynth.port];
+		const recv = port && port.receive;
 		if(recv) {
 			recv(scsynth.sclangPort, encodeServerMessage(oscMessage));
 		} else {
@@ -62,7 +69,7 @@ export function sendOsc(scsynth: Scsynth, oscMessage: ServerMessage): void {
 export function bootScsynth(scsynth: Scsynth): void {
 	scsynthOptionsPrint(scsynth.options);
 	if(!scsynth.isAlive) {
-		var args = scsynth.wasm['arguments'];
+		const args = scsynth.wasm['arguments'];
 		args[args.indexOf('-i') + 1] = String(scsynth.options.numInputs);
 		args[args.indexOf('-o') + 1] = String(scsynth.options.numOutputs);
 		args.push('-Z', String(scsynth.options.hardwareBufferSize)); // audio driver block size (frames)
@@ -84,8 +91,8 @@ export function playSyndef(scsynth: Scsynth, syndefName: string, syndefData: Uin
 }
 
 export function playUgen(scsynth: Scsynth, ugen: Signal): void {
-	var name = 'sc3.js';
-	var syndef = encodeSignal(name, wrapOut(0, ugen));
+	const name = 'sc3.js';
+	const syndef = encodeSignal(name, wrapOut(0, ugen));
 	playSyndef(scsynth, name, syndef);
 }
 
@@ -118,7 +125,7 @@ export function setPointerControls(scsynth: Scsynth, n: number, w: number, x: nu
 function monitorOsc(scsynth: Scsynth): void {
 	scsynth.wasm.oscDriver[scsynth.sclangPort] = {
 		receive: function(addr: string, data: Uint8Array) {
-			var msg = decodeServerMessage(data);
+			const msg = decodeServerMessage(data);
 			if(msg.address === '/status.reply') {
 				const ugenCount = <number>msg.args[1].value;
 				scsynth.status.ugenCount = ugenCount;

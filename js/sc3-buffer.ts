@@ -2,7 +2,7 @@
 
 import { encodeFloat32Array } from './sc3-encode.js'
 import { Scsynth, sendOsc } from './sc3-scsynth.js'
-import { ServerMessage, b_alloc_then_memcpy } from './sc3-servercommand.js'
+import { b_alloc_then_memcpy } from './sc3-servercommand.js'
 import { audiobuffer_interleaved_channel_data, fetch_soundfile_to_audiobuffer_and_then } from './sc3-soundfile.js'
 
 export function audiobuffer_to_scsynth_buffer(scsynth: Scsynth, audioBuffer: AudioBuffer, bufferNumber: number, numberOfChannels: number, bufferData: Float32Array): void {

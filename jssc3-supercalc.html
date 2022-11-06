@@ -14,12 +14,10 @@
     <script src="js/jssc3-base.js"></script>
     <script src="js/sc3-pointer-rebind.js"></script>
     <script src="js/sc3-supercalc.js"></script>
-    <script src="js/sc3-wasm.js"></script>
-    <script src="js/sc3-wasm-module.js"></script>
     <script src="js/jssc3.js"></script>
     <script>
 window.onload = function () {
-    sc3_wasm_init();
+    sc3_wasm_init(setStatusDisplay);
     sc3_ui_init(globalScsynth, 'supercalc/', true, true, false, false, '.json', 'jssc3SuperCalcUserPrograms/json', graph_load, true, 4096, 48);
     jssc3_supercalc_init(8, 8);
     jssc3_init('e', null, 's');

@@ -7,7 +7,7 @@ export function sc3_plaintext_init_in(parentId: string): void {
 	const parentElement = document.getElementById(parentId);
 	if(parentElement) {
 		sc3_plaintext = document.createElement('textarea');
-		sc3_plaintext.setAttribute("id", "jsProgram");
+		sc3_plaintext.setAttribute('id', 'jsProgram');
 		parentElement.appendChild(sc3_plaintext);
 	} else {
 		console.error('sc3_plaintext_init_in');

@@ -1,4 +1,4 @@
-// osc.js ; node.js
+// osc.js ; node.js ; unused, require websocket bridge
 
 function defaultSc3Udp() {
 	return new osc.UDPPort({

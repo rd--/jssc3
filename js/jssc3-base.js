@@ -800,11 +800,17 @@ function getGlobalScsynth() {
         return globalScsynth;
     }
 }
+function withGlobalScsynth(aProcedure) {
+    if (globalScsynth !== undefined) {
+        return aProcedure(globalScsynth);
+    }
+    return null;
+}
 function sendOsc(scsynth, oscMessage) {
     consoleDebug(`sendOsc: ${oscMessage}`);
     if (scsynth.isAlive && scsynth.wasm.oscDriver) {
-        var port = scsynth.wasm.oscDriver[scsynth.port];
-        var recv = port && port.receive;
+        const port = scsynth.wasm.oscDriver[scsynth.port];
+        const recv = port && port.receive;
         if (recv) {
             recv(scsynth.sclangPort, encodeServerMessage(oscMessage));
         }
@@ -819,7 +825,7 @@ function sendOsc(scsynth, oscMessage) {
 function bootScsynth(scsynth) {
     scsynthOptionsPrint(scsynth.options);
     if (!scsynth.isAlive) {
-        var args = scsynth.wasm['arguments'];
+        const args = scsynth.wasm['arguments'];
         args[args.indexOf('-i') + 1] = String(scsynth.options.numInputs);
         args[args.indexOf('-o') + 1] = String(scsynth.options.numOutputs);
         args.push('-Z', String(scsynth.options.hardwareBufferSize)); // audio driver block size (frames)
@@ -840,8 +846,8 @@ function playSyndef(scsynth, syndefName, syndefData) {
     sendOsc(scsynth, d_recv_then(syndefData, encodeServerMessage(s_new0(syndefName, -1, kAddToTail, 0))));
 }
 function playUgen(scsynth, ugen) {
-    var name = 'sc3.js';
-    var syndef = encodeSignal(name, wrapOut(0, ugen));
+    const name = 'sc3.js';
+    const syndef = encodeSignal(name, wrapOut(0, ugen));
     playSyndef(scsynth, name, syndef);
 }
 function playProcedure(scsynth, ugenFunction) {
@@ -867,7 +873,7 @@ function setPointerControls(scsynth, n, w, x, y) {
 function monitorOsc(scsynth) {
     scsynth.wasm.oscDriver[scsynth.sclangPort] = {
         receive: function (addr, data) {
-            var msg = decodeServerMessage(data);
+            const msg = decodeServerMessage(data);
             if (msg.address === '/status.reply') {
                 const ugenCount = msg.args[1].value;
                 scsynth.status.ugenCount = ugenCount;
@@ -2498,7 +2504,7 @@ function sc3_plaintext_init_in(parentId) {
     const parentElement = document.getElementById(parentId);
     if (parentElement) {
         sc3_plaintext = document.createElement('textarea');
-        sc3_plaintext.setAttribute("id", "jsProgram");
+        sc3_plaintext.setAttribute('id', 'jsProgram');
         parentElement.appendChild(sc3_plaintext);
     }
     else {
@@ -3043,7 +3049,6 @@ class Ugen {
         this.scUgen = scUgen;
         this.port = port;
     }
-    ;
 }
 function isUgen(aValue) {
     return isObject(aValue) && aValue.constructor == Ugen;
@@ -3237,22 +3242,19 @@ function action_user_restore() {
     inputElement.click();
 }
 function action_set_hardware_buffer_size() {
-    const scsynth = getGlobalScsynth();
-    if (scsynth) {
+    withGlobalScsynth(function (scsynth) {
         prompt_for_int_and_then('Set hardware buffer size', scsynth.options.hardwareBufferSize, function (aNumber) { scsynth.options.hardwareBufferSize = aNumber; });
-    }
+    });
 }
 function action_set_block_size() {
-    const scsynth = getGlobalScsynth();
-    if (scsynth) {
+    withGlobalScsynth(function (scsynth) {
         prompt_for_int_and_then('Set block size', scsynth.options.blockSize, function (aNumber) { scsynth.options.blockSize = aNumber; });
-    }
+    });
 }
 function action_set_num_inputs() {
-    const scsynth = getGlobalScsynth();
-    if (scsynth) {
+    withGlobalScsynth(function (scsynth) {
         prompt_for_int_and_then('Set number of inputs', scsynth.options.numInputs, function (aNumber) { scsynth.options.numInputs = aNumber; });
-    }
+    });
 }
 function actions_menu_do(editor_get_selected, editor_set, menuElement, entryName) {
     console.log('actions_menu_do', entryName);
@@ -3348,6 +3350,18 @@ function user_program_read_archive() {
     else {
         console.error('user_program_read_archive');
     }
+}
+/*
+'Module' is the name of the global variable that scsynth-wasm-builds/ext/scsynth.js extends when it is loaded.
+This module initialises the required fields before that script is loaded.
+*/
+var Module = makeScsynthModule(consoleLogMessageFrom, function (_text) { return null; });
+function sc3_wasm_init(showStatus) {
+    setGlobalScsynth(makeScsynth(Module, scsynthDefaultOptions, showStatus));
+    console.log('sc3_wasm_init: Module', Module);
+    globalThis.onerror = function (event) {
+        consoleLogMessageFrom('globalThis.onerror', String(event));
+    };
 }
 let sc3_websocket;
 // Initialise WebSocket.  To send .stc to sclang as /eval message see 'blksc3 stc-to-osc'
@@ -3459,7 +3473,7 @@ function set_url_to_encode_selection() {
 function ui_save_program() {
 	user_program_save_to(editor_get_data());
 }
-// sc3-ui-mouse.js ; requires sc3-wasm
+// sc3-ui-mouse.js ; requires setPointerControls
 
 // w is button state, x and y are unit scaled co-ordinates within window where y points up.
 var sc3_mouse = { w: 0, x: 0, y: 0 };
@@ -3469,7 +3483,7 @@ function recv_document_mouse_event(e) {
 	sc3_mouse.x = event.pageX / window.innerWidth;
 	sc3_mouse.y = 1 - (e.pageY / window.innerHeight);
 	sc3_mouse.w = e.buttons === 1 ? 1 : 0;
-	setPointerControls(0, sc3_mouse.w, sc3_mouse.x, sc3_mouse.y); // sc3-wasm
+	setPointerControls(globalScsynth, 0, sc3_mouse.w, sc3_mouse.x, sc3_mouse.y); // sc3-scsynth.ts
 }
 
 // Install mouse event handler.
