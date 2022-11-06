@@ -21,20 +21,25 @@ export let sc3_buffer_next = 100;
 
 // Fetch buffer index from cache, allocate and load if required.  Resolve soundFileId against dictionary.
 export function SfAcquire(urlOrKey: string, numberOfChannels: number, channelSelector: number | number[]): number | number[] {
-	const channelIndices = asArray(channelSelector);
-	const soundFileUrl = sc3_buffer_dict[urlOrKey] || urlOrKey;
-	let cacheValue = sc3_buffer_cache[soundFileUrl];
-	if(!cacheValue) {
-		const bufferNumberArray = arrayFromTo(sc3_buffer_next, sc3_buffer_next + numberOfChannels - 1);
-		fetch_soundfile_channels_to_scsynth_buffers(soundFileUrl, bufferNumberArray, channelIndices);
-		sc3_buffer_cache[soundFileUrl] = bufferNumberArray;
-		sc3_buffer_next += numberOfChannels;
-		cacheValue = bufferNumberArray;
-	}
-	if(isArray(channelIndices)) {
-		return channelIndices.map(item => arrayAtWrap(cacheValue, item - 1));
+	const scsynth = getGlobalScsynth();
+	if(scsynth) {
+		const channelIndices = asArray(channelSelector);
+		const soundFileUrl = sc3_buffer_dict[urlOrKey] || urlOrKey;
+		let cacheValue = sc3_buffer_cache[soundFileUrl];
+		if(!cacheValue) {
+			const bufferNumberArray = arrayFromTo(sc3_buffer_next, sc3_buffer_next + numberOfChannels - 1);
+			fetch_soundfile_channels_to_scsynth_buffers(scsynth, soundFileUrl, bufferNumberArray, channelIndices);
+			sc3_buffer_cache[soundFileUrl] = bufferNumberArray;
+			sc3_buffer_next += numberOfChannels;
+			cacheValue = bufferNumberArray;
+		}
+		if(isArray(channelIndices)) {
+			return channelIndices.map(item => arrayAtWrap(cacheValue, item - 1));
+		} else {
+			return [arrayAtWrap(cacheValue, channelIndices - 1)];
+		}
 	} else {
-		return [arrayAtWrap(cacheValue, channelIndices - 1)];
+		return -1;
 	}
 }
 

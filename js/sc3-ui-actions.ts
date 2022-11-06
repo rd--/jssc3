@@ -1,31 +1,7 @@
 import { prompt_for_int_and_then, select_on_change } from 'sc3-dom.js'
 import { load_utf8_and_then } from 'sc3-io.js'
-import { scsynth_options } from 'sc3-ui-state.js'
+import { getGlobalScsynth } from 'sc3-scsynth.js'
 import { user_programs, user_program_clear } from 'sc3-ui-user.js'
-
-export function action_set_hardware_buffer_size(): void {
-	prompt_for_int_and_then(
-		'Set hardware buffer size',
-		scsynth_options.hardwareBufferSize,
-		function(aNumber) { scsynth_options.hardwareBufferSize = aNumber; }
-	);
-}
-
-export function action_set_block_size(): void {
-	prompt_for_int_and_then(
-		'Set block size',
-		scsynth_options.blockSize,
-		function(aNumber) { scsynth_options.blockSize = aNumber; }
-	);
-}
-
-export function action_set_num_inputs(): void {
-	prompt_for_int_and_then(
-		'Set number of inputs',
-		scsynth_options.numInputs,
-		function(aNumber) { scsynth_options.numInputs = aNumber; }
-	);
-}
 
 // Copy user programs as .json to clipboard
 export function action_user_backup(): void {
@@ -36,6 +12,39 @@ export function action_user_backup(): void {
 export function action_user_restore(): void {
 	const inputElement = <HTMLInputElement>document.getElementById('userProgramArchiveFile');
 	inputElement.click();
+}
+
+function action_set_hardware_buffer_size(): void {
+	const scsynth = getGlobalScsynth();
+	if(scsynth) {
+		prompt_for_int_and_then(
+			'Set hardware buffer size',
+			scsynth.options.hardwareBufferSize,
+			function(aNumber) { scsynth.options.hardwareBufferSize = aNumber; }
+		);
+	}
+}
+
+function action_set_block_size(): void {
+	const scsynth = getGlobalScsynth();
+	if(scsynth) {
+		prompt_for_int_and_then(
+			'Set block size',
+			scsynth.options.blockSize,
+			function(aNumber) { scsynth.options.blockSize = aNumber; }
+		);
+	}
+}
+
+function action_set_num_inputs(): void {
+	const scsynth = getGlobalScsynth();
+	if(scsynth) {
+		prompt_for_int_and_then(
+			'Set number of inputs',
+			scsynth.options.numInputs,
+			function(aNumber) { scsynth.options.numInputs = aNumber; }
+		);
+	}
 }
 
 export function actions_menu_do(editor_get_selected: () => string, editor_set: (aString: string) => void, menuElement: HTMLSelectElement, entryName: string): void {

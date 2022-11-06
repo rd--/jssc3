@@ -1,15 +1,24 @@
 // sc3-servercommand.ts ; requires: osc.js
 
-declare namespace osc {
-  function writePacket(message: ServerMessage): Uint8Array;
-}
-
 import { OscData, oscBlob, oscInt32, oscFloat, oscString } from './sc3-opensoundcontrol.js'
 
 export type ServerMessage = {
 	address: string,
 	args: OscData[]
 };
+
+declare namespace osc {
+  function readPacket(packet: Uint8Array, options: Record<string, unknown>): ServerMessage;
+  function writePacket(message: ServerMessage): Uint8Array;
+}
+
+export function decodeServerMessage(packet:  Uint8Array): ServerMessage {
+	return osc.readPacket(packet, {});
+}
+
+export function encodeServerMessage(message:  ServerMessage): Uint8Array {
+	return osc.writePacket(message);
+}
 
 // k = constant
 

@@ -33,11 +33,16 @@ export function ugenGraphLeafNodes(p: Tree<Ugen>): Array<number | ScUgen> {
 	return setAsArray(c);
 }
 
-export type Graph = {
-	name: string,
-	ugenSeq: ScUgen[],
-	constantSeq: number[]
-};
+export class Graph {
+	name: string;
+	ugenSeq: ScUgen[];
+	constantSeq: number[];
+	constructor(name: string, ugenSeq: ScUgen[], constantSeq: number[]) {
+		this.name = name;
+		this.ugenSeq = ugenSeq;
+		this.constantSeq = constantSeq;
+	}
+}
 
 // This should check that signal is not a tree of numbers...
 export function signalToUgenGraph(signal: Signal): Tree<Ugen> {
@@ -55,11 +60,11 @@ export function makeGraph(name: string, signal: Signal): Graph {
 	const MaxLocalBufs = function(count: number): ScUgen {
 		return new ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
 	};
-	return {
-		name: name,
-		ugenSeq: arrayAppend([MaxLocalBufs(numLocalBufs)], ugenSeq),
-		constantSeq: arraySort(arrayNub(arrayAppend([numLocalBufs], constantNodes)), (i, j) => i - j)
-	};
+	return new Graph(
+		name,
+		arrayAppend([MaxLocalBufs(numLocalBufs)], ugenSeq),
+		arraySort(arrayNub(arrayAppend([numLocalBufs], constantNodes)), (i, j) => i - j)
+	);
 }
 
 export function graphConstantIndex(graph: Graph, constantValue: number): number {
@@ -106,4 +111,9 @@ export function graphEncodeSyndef(graph: Graph): Uint8Array {
 		arrayMap(graph.ugenSeq, item => graphEncodeUgenSpec(graph, item)),
 		encodeInt16(0) // # variants
 	]);
+}
+
+export function encodeUgen(name: string, ugen: Signal): Uint8Array {
+	const graph = makeGraph(name, ugen);
+	return graphEncodeSyndef(graph);
 }

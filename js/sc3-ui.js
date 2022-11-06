@@ -15,7 +15,7 @@ function graph_menu_init(menuId, graphDir, fileType, loadProc) {
 }
 
 // subDir should be empty or should end with a '/'
-function sc3_ui_init(subDir, hasProgramMenu, hasHelpMenu, hasGuideMenu, hasEssayMenu, fileExt, storageKey, loadProc, initMouse, hardwareBufferSize, blockSize) {
+function sc3_ui_init(scsynth, subDir, hasProgramMenu, hasHelpMenu, hasGuideMenu, hasEssayMenu, fileExt, storageKey, loadProc, initMouse, hardwareBufferSize, blockSize) {
 	if(hasProgramMenu) {
 		graph_menu_init('programMenu', subDir + 'graph', fileExt, loadProc);
 		load_utf8_and_then('html/' + subDir + 'program-menu.html', setter_for_inner_html_of('programMenu'));
@@ -39,12 +39,8 @@ function sc3_ui_init(subDir, hasProgramMenu, hasHelpMenu, hasGuideMenu, hasEssay
 	if(initMouse) {
 		sc3_mouse_init();
 	}
-	scsynth_options = {
-		hardwareBufferSize: hardwareBufferSize,
-		blockSize: blockSize,
-		numInputs: 0,
-		numOutputs: 2
-	};
+	scsynth.options.hardwareBufferSize = hardwareBufferSize;
+	scsynth.options.blockSize = blockSize;
 }
 
 function setStatusDisplay(text) {
@@ -69,20 +65,16 @@ function evalJsProgram() {
 	});
 }
 
-function playJsProgram() {
+function playJsProgram(scsynth) {
 	editor_get_js_notation_and_then(function(programText) {
 		var result = eval(programText);
-		playUgen(result);
+		playUgen(scsynth, result);
 	});
 }
 
 // Sets the 's' url parameter of the window to the encoded form of the selected text.
 function set_url_to_encode_selection() {
 	window_url_set_param('s', editor_get_selected_text());
-}
-
-function ui_boot_scsynth() {
-	bootScsynth(scsynth_options);
 }
 
 function ui_save_program() {

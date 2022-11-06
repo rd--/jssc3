@@ -1,5 +1,3 @@
-// sc3-websocket.ts
-
 export function websocket_open(host: string, port: number): WebSocket | null {
 	try {
 		const ws_address = `ws://${host}:${Number(port).toString()}`;
@@ -42,20 +40,4 @@ export function websocket_close(websocket: WebSocket | null): void {
 	} else {
 		console.warn('websocket_close: websocket nil?');
 	}
-}
-
-export let sc3_websocket: WebSocket | null;
-
-// Initialise WebSocket.  To send .stc to sclang as /eval message see 'blksc3 stc-to-osc'
-export function sc3_websocket_init(host: string, port: number): void {
-	websocket_close(sc3_websocket);
-	sc3_websocket = websocket_open(host, port);
-}
-
-export function sc3_websocket_dialog(): void {
-	websocket_address_dialog(sc3_websocket_init);
-}
-
-export function sc3_websocket_send(data: string | ArrayBuffer): void {
-	websocket_send(sc3_websocket, data);
 }

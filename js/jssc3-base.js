@@ -776,6 +776,143 @@ function setIncludes(aSet, aValue) {
 function setAsArray(aSet) {
     return Array.from(aSet);
 }
+function makeScsynth(scsynthModule, scsynthOptions, monitorDisplay) {
+    return {
+        wasm: scsynthModule,
+        options: scsynthOptions,
+        isAlive: false,
+        status: { ugenCount: 0 },
+        port: 57110,
+        sclangPort: 57120,
+        monitorDisplay: monitorDisplay
+    };
+}
+let globalScsynth;
+function setGlobalScsynth(anScsynth) {
+    globalScsynth = anScsynth;
+}
+function getGlobalScsynth() {
+    if (globalScsynth === undefined) {
+        console.error('getGlobalScsynth: not defined');
+        return null;
+    }
+    else {
+        return globalScsynth;
+    }
+}
+function sendOsc(scsynth, oscMessage) {
+    consoleDebug(`sendOsc: ${oscMessage}`);
+    if (scsynth.isAlive && scsynth.wasm.oscDriver) {
+        var port = scsynth.wasm.oscDriver[scsynth.port];
+        var recv = port && port.receive;
+        if (recv) {
+            recv(scsynth.sclangPort, encodeServerMessage(oscMessage));
+        }
+        else {
+            console.warn('sendOsc: recv?');
+        }
+    }
+    else {
+        console.warn('sendOsc: scsynth not running');
+    }
+}
+function bootScsynth(scsynth) {
+    scsynthOptionsPrint(scsynth.options);
+    if (!scsynth.isAlive) {
+        var args = scsynth.wasm['arguments'];
+        args[args.indexOf('-i') + 1] = String(scsynth.options.numInputs);
+        args[args.indexOf('-o') + 1] = String(scsynth.options.numOutputs);
+        args.push('-Z', String(scsynth.options.hardwareBufferSize)); // audio driver block size (frames)
+        args.push('-z', String(scsynth.options.blockSize)); // # block size (for sample-rate of 48000 gives blocks of 1ms)
+        args.push('-w', '512'); // # wire buffers
+        args.push('-m', '32768'); // real time memory (Kb), total memory is fixed at scsynth/wasm compile time, see README_WASM
+        scsynth.wasm.callMain(args);
+        setTimeout(() => monitorOsc(scsynth), 1000);
+        setInterval(() => requestStatus(scsynth), 1000);
+        scsynth.isAlive = true;
+    }
+    else {
+        console.log('bootScsynth: already running');
+    }
+}
+function playSyndef(scsynth, syndefName, syndefData) {
+    console.log('playSyndef #', syndefData.length);
+    sendOsc(scsynth, d_recv_then(syndefData, encodeServerMessage(s_new0(syndefName, -1, kAddToTail, 0))));
+}
+function playUgen(scsynth, ugen) {
+    var name = 'sc3.js';
+    var graph = makeGraph(name, wrapOut(0, ugen));
+    playSyndef(scsynth, name, graphEncodeSyndef(graph));
+}
+function play(scsynth, ugenFunction) {
+    playUgen(scsynth, ugenFunction());
+}
+function reset(scsynth) {
+    sendOsc(scsynth, g_freeAll1(0));
+}
+function monitorOsc(scsynth) {
+    scsynth.wasm.oscDriver[scsynth.sclangPort] = {
+        receive: function (addr, data) {
+            var msg = decodeServerMessage(data);
+            if (msg.address === '/status.reply') {
+                scsynth.status.ugenCount = msg.args[1].value;
+                scsynth.monitorDisplay('# ' + scsynth.status.ugenCount);
+            }
+            else if (msg.address === '/done') {
+                console.log('/done', msg.args[0]);
+            }
+            else {
+                console.log('monitorOsc', addr, JSON.stringify(msg, null, 4));
+            }
+        }
+    };
+}
+function requestStatus(scsynth) {
+    sendOsc(scsynth, m_status);
+}
+function requestNotifications(scsynth) {
+    sendOsc(scsynth, m_notify(1, 1));
+}
+function requestPrintingOsc(scsynth) {
+    sendOsc(scsynth, m_dumpOsc(1));
+}
+function setPointerControls(scsynth, n, w, x, y) {
+    if (scsynth.isAlive) {
+        sendOsc(scsynth, c_setn1(15001 + (n * 10), [w, x, y]));
+    }
+}
+function makeScsynthModule(logFunction, displayFunction) {
+    return {
+        preRun: [],
+        postRun: [],
+        print: function (text) {
+            logFunction('wasm/print', text);
+        },
+        printErr: function (text) {
+            logFunction('wasm/error', text);
+        },
+        totalDependencies: 0,
+        monitorRunDependencies: function (left) {
+            logFunction('wasm/monitorRunDependencies', '# ' + String(left));
+            if (left > 0) {
+                displayFunction("Loading...");
+            }
+        },
+        onRuntimeInitialized: function () {
+            logFunction('wasm/onRuntimeInitialized', '...');
+            displayFunction("&nbsp;");
+        }
+    };
+}
+const scsynthDefaultOptions = {
+    numInputs: 0,
+    numOutputs: 2,
+    hardwareBufferSize: 8192,
+    blockSize: 48
+};
+function scsynthOptionsPrint(options) {
+    console.log('-i', options.numInputs, '-o', options.numOutputs, '-Z', options.hardwareBufferSize, '-z', options.blockSize);
+}
 // sc3-string.ts
 // isString('string') === true
 function isString(aValue) {
@@ -841,7 +978,6 @@ function forestEq(lhs, rhs) {
     }
     return true;
 }
-// sc3-websocket.ts
 function websocket_open(host, port) {
     try {
         const ws_address = `ws://${host}:${Number(port).toString()}`;
@@ -882,18 +1018,6 @@ function websocket_close(websocket) {
     else {
         console.warn('websocket_close: websocket nil?');
     }
-}
-let sc3_websocket;
-// Initialise WebSocket.  To send .stc to sclang as /eval message see 'blksc3 stc-to-osc'
-function sc3_websocket_init(host, port) {
-    websocket_close(sc3_websocket);
-    sc3_websocket = websocket_open(host, port);
-}
-function sc3_websocket_dialog() {
-    websocket_address_dialog(sc3_websocket_init);
-}
-function sc3_websocket_send(data) {
-    websocket_send(sc3_websocket, data);
 }
 function splay2(inArray) {
     return Splay2(inArray);
@@ -2024,18 +2148,19 @@ function welchWindow(a) { return UnaryOp(50, a); }
 function triWindow(a) { return UnaryOp(51, a); }
 function ramp_(a) { return UnaryOp(52, a); }
 function scurve(a) { return UnaryOp(53, a); }
-function audiobuffer_to_scsynth_buffer(audioBuffer, bufferNumber, numberOfChannels, bufferData) {
+// sc3-buffer.ts
+function audiobuffer_to_scsynth_buffer(scsynth, audioBuffer, bufferNumber, numberOfChannels, bufferData) {
     const numberOfFrames = audioBuffer.length;
     const sampleRate = audioBuffer.sampleRate;
     const oscMessage = b_alloc_then_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, encodeFloat32Array(bufferData));
     console.log(`audiobuffer_to_scsynth_buffer: ${oscMessage}`);
-    sendOsc(oscMessage);
+    sendOsc(scsynth, oscMessage);
 }
 // Fetch sound file data, and then allocate a buffer and memcpy all interleaved channel data.
-function fetch_soundfile_to_scsynth_buffer(soundFileUrl, numberOfChannels, bufferNumber) {
+function fetch_soundfile_to_scsynth_buffer(scsynth, soundFileUrl, numberOfChannels, bufferNumber) {
     fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, function (audioBuffer) {
         if (audioBuffer.numberOfChannels === numberOfChannels) {
-            audiobuffer_to_scsynth_buffer(audioBuffer, bufferNumber, numberOfChannels, audiobuffer_interleaved_channel_data(audioBuffer));
+            audiobuffer_to_scsynth_buffer(scsynth, audioBuffer, bufferNumber, numberOfChannels, audiobuffer_interleaved_channel_data(audioBuffer));
         }
         else {
             console.error('fetch_soundfile_to_scsynth_buffer: numberOfChannels mismatch');
@@ -2043,13 +2168,13 @@ function fetch_soundfile_to_scsynth_buffer(soundFileUrl, numberOfChannels, buffe
     });
 }
 // Fetch single channels of sound file data to mono scsynth buffers.  The channel numbers are one-indexed.
-function fetch_soundfile_channels_to_scsynth_buffers(soundFileUrl, bufferNumbers, channelIndices) {
+function fetch_soundfile_channels_to_scsynth_buffers(scsynth, soundFileUrl, bufferNumbers, channelIndices) {
     fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, function (audioBuffer) {
         for (let i = 0; i < bufferNumbers.length; i++) {
             const bufferNumber = bufferNumbers[i];
             const channelIndex = channelIndices[i];
             if (channelIndex >= 1 && channelIndex <= audioBuffer.numberOfChannels) {
-                audiobuffer_to_scsynth_buffer(audioBuffer, bufferNumber, 1, audioBuffer.getChannelData(channelIndex - 1));
+                audiobuffer_to_scsynth_buffer(scsynth, audioBuffer, bufferNumber, 1, audioBuffer.getChannelData(channelIndex - 1));
             }
             else {
                 console.error(`fetch_soundfile_channels_to_scsynth_buffers: index out of bounds: ${channelIndex}, ${audioBuffer.numberOfChannels}`);
@@ -2068,21 +2193,27 @@ const sc3_buffer_cache = {};
 let sc3_buffer_next = 100;
 // Fetch buffer index from cache, allocate and load if required.  Resolve soundFileId against dictionary.
 function SfAcquire(urlOrKey, numberOfChannels, channelSelector) {
-    const channelIndices = asArray(channelSelector);
-    const soundFileUrl = sc3_buffer_dict[urlOrKey] || urlOrKey;
-    let cacheValue = sc3_buffer_cache[soundFileUrl];
-    if (!cacheValue) {
-        const bufferNumberArray = arrayFromTo(sc3_buffer_next, sc3_buffer_next + numberOfChannels - 1);
-        fetch_soundfile_channels_to_scsynth_buffers(soundFileUrl, bufferNumberArray, channelIndices);
-        sc3_buffer_cache[soundFileUrl] = bufferNumberArray;
-        sc3_buffer_next += numberOfChannels;
-        cacheValue = bufferNumberArray;
-    }
-    if (isArray(channelIndices)) {
-        return channelIndices.map(item => arrayAtWrap(cacheValue, item - 1));
+    const scsynth = getGlobalScsynth();
+    if (scsynth) {
+        const channelIndices = asArray(channelSelector);
+        const soundFileUrl = sc3_buffer_dict[urlOrKey] || urlOrKey;
+        let cacheValue = sc3_buffer_cache[soundFileUrl];
+        if (!cacheValue) {
+            const bufferNumberArray = arrayFromTo(sc3_buffer_next, sc3_buffer_next + numberOfChannels - 1);
+            fetch_soundfile_channels_to_scsynth_buffers(scsynth, soundFileUrl, bufferNumberArray, channelIndices);
+            sc3_buffer_cache[soundFileUrl] = bufferNumberArray;
+            sc3_buffer_next += numberOfChannels;
+            cacheValue = bufferNumberArray;
+        }
+        if (isArray(channelIndices)) {
+            return channelIndices.map(item => arrayAtWrap(cacheValue, item - 1));
+        }
+        else {
+            return [arrayAtWrap(cacheValue, channelIndices - 1)];
+        }
     }
     else {
-        return [arrayAtWrap(cacheValue, channelIndices - 1)];
+        return -1;
     }
 }
 /*
@@ -2219,6 +2350,13 @@ function ugenGraphLeafNodes(p) {
     ugenTraverseCollecting(p, c, setNew());
     return setAsArray(c);
 }
+class Graph {
+    constructor(name, ugenSeq, constantSeq) {
+        this.name = name;
+        this.ugenSeq = ugenSeq;
+        this.constantSeq = constantSeq;
+    }
+}
 // This should check that signal is not a tree of numbers...
 function signalToUgenGraph(signal) {
     return signal;
@@ -2234,11 +2372,7 @@ function makeGraph(name, signal) {
     const MaxLocalBufs = function (count) {
         return new ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
     };
-    return {
-        name: name,
-        ugenSeq: arrayAppend([MaxLocalBufs(numLocalBufs)], ugenSeq),
-        constantSeq: arraySort(arrayNub(arrayAppend([numLocalBufs], constantNodes)), (i, j) => i - j)
-    };
+    return new Graph(name, arrayAppend([MaxLocalBufs(numLocalBufs)], ugenSeq), arraySort(arrayNub(arrayAppend([numLocalBufs], constantNodes)), (i, j) => i - j));
 }
 function graphConstantIndex(graph, constantValue) {
     return arrayIndexOf(graph.constantSeq, constantValue);
@@ -2280,6 +2414,10 @@ function graphEncodeSyndef(graph) {
         arrayMap(graph.ugenSeq, item => graphEncodeUgenSpec(graph, item)),
         encodeInt16(0) // # variants
     ]);
+}
+function encodeUgen(name, ugen) {
+    const graph = makeGraph(name, ugen);
+    return graphEncodeSyndef(graph);
 }
 function graphPrintUgenSpec(graph, ugen) {
     console.log(ugen.name, ugen.rate, arrayLength(ugen.inputArray), ugen.numChan, ugen.specialIndex, arrayMap(ugen.inputArray, input => graphUgenInputSpec(graph, input)), arrayReplicate(ugen.numChan, ugen.rate));
@@ -2606,6 +2744,12 @@ function Osc1(buf, dur) {
     const loop = 0;
     const interpolation = 2;
     return BufRd(numChan, buf, phase, loop, interpolation);
+}
+function decodeServerMessage(packet) {
+    return osc.readPacket(packet, {});
+}
+function encodeServerMessage(message) {
+    return osc.writePacket(message);
 }
 // k = constant
 const kAddToHead = 0;
@@ -3082,15 +3226,6 @@ function isOutUgen(aValue) {
 function isControlRateUgen(aValue) {
     return isUgenInput(aValue) && (inputRate(aValue) == rateKr);
 }
-function action_set_hardware_buffer_size() {
-    prompt_for_int_and_then('Set hardware buffer size', scsynth_options.hardwareBufferSize, function (aNumber) { scsynth_options.hardwareBufferSize = aNumber; });
-}
-function action_set_block_size() {
-    prompt_for_int_and_then('Set block size', scsynth_options.blockSize, function (aNumber) { scsynth_options.blockSize = aNumber; });
-}
-function action_set_num_inputs() {
-    prompt_for_int_and_then('Set number of inputs', scsynth_options.numInputs, function (aNumber) { scsynth_options.numInputs = aNumber; });
-}
 // Copy user programs as .json to clipboard
 function action_user_backup() {
     navigator.clipboard.writeText(JSON.stringify(user_programs));
@@ -3099,6 +3234,24 @@ function action_user_backup() {
 function action_user_restore() {
     const inputElement = document.getElementById('userProgramArchiveFile');
     inputElement.click();
+}
+function action_set_hardware_buffer_size() {
+    const scsynth = getGlobalScsynth();
+    if (scsynth) {
+        prompt_for_int_and_then('Set hardware buffer size', scsynth.options.hardwareBufferSize, function (aNumber) { scsynth.options.hardwareBufferSize = aNumber; });
+    }
+}
+function action_set_block_size() {
+    const scsynth = getGlobalScsynth();
+    if (scsynth) {
+        prompt_for_int_and_then('Set block size', scsynth.options.blockSize, function (aNumber) { scsynth.options.blockSize = aNumber; });
+    }
+}
+function action_set_num_inputs() {
+    const scsynth = getGlobalScsynth();
+    if (scsynth) {
+        prompt_for_int_and_then('Set number of inputs', scsynth.options.numInputs, function (aNumber) { scsynth.options.numInputs = aNumber; });
+    }
 }
 function actions_menu_do(editor_get_selected, editor_set, menuElement, entryName) {
     console.log('actions_menu_do', entryName);
@@ -3150,10 +3303,6 @@ function translate_if_required_and_then(userText, proc) {
         default: console.error('translate_if_required_and_then: unknown format', notation_format);
     }
 }
-let scsynth_options;
-function scsynthOptionsPrint(options) {
-    console.log('-i', options.numInputs, '-o', options.numOutputs, '-Z', options.hardwareBufferSize, '-z', options.blockSize);
-}
 let user_programs;
 let user_storage_key;
 function user_program_menu_init(editor_set_program) {
@@ -3199,20 +3348,32 @@ function user_program_read_archive() {
         console.error('user_program_read_archive');
     }
 }
+let sc3_websocket;
+// Initialise WebSocket.  To send .stc to sclang as /eval message see 'blksc3 stc-to-osc'
+function sc3_websocket_init(host, port) {
+    websocket_close(sc3_websocket);
+    sc3_websocket = websocket_open(host, port);
+}
+function sc3_websocket_dialog() {
+    websocket_address_dialog(sc3_websocket_init);
+}
+function sc3_websocket_send(data) {
+    websocket_send(sc3_websocket, data);
+}
 // Encode and send OpenSoundControl message to sc3_websocket.
 function sc3_websocket_send_osc(msg) {
-    sc3_websocket_send(osc.writePacket(msg));
+    sc3_websocket_send(encodeServerMessage(msg));
 }
-// Encode and play Ugen.
-function playUgen(ugen) {
+// Play Ugen.
+function playUgenWs(ugen) {
     const name = 'sc3.js';
-    const graph = makeGraph(name, wrapOut(0, ugen));
-    const syndef = graphEncodeSyndef(graph);
+    const bus = 0;
+    const syndef = encodeUgen(name, wrapOut(bus, ugen));
     console.log(`playUgen: scsyndef.length = ${syndef.length}`);
-    sc3_websocket_send_osc(d_recv_then(syndef, osc.writePacket(s_new0(name, -1, kAddToTail, 1))));
+    sc3_websocket_send_osc(d_recv_then(syndef, encodeServerMessage(s_new0(name, -1, kAddToTail, 1))));
 }
 // Free all.
-function reset() {
+function resetWs() {
     sc3_websocket_send_osc(g_freeAll1(1));
 }
 function graph_load(graphDir, graphName, fileType) {
@@ -3232,7 +3393,7 @@ function graph_menu_init(menuId, graphDir, fileType, loadProc) {
 }
 
 // subDir should be empty or should end with a '/'
-function sc3_ui_init(subDir, hasProgramMenu, hasHelpMenu, hasGuideMenu, hasEssayMenu, fileExt, storageKey, loadProc, initMouse, hardwareBufferSize, blockSize) {
+function sc3_ui_init(scsynth, subDir, hasProgramMenu, hasHelpMenu, hasGuideMenu, hasEssayMenu, fileExt, storageKey, loadProc, initMouse, hardwareBufferSize, blockSize) {
 	if(hasProgramMenu) {
 		graph_menu_init('programMenu', subDir + 'graph', fileExt, loadProc);
 		load_utf8_and_then('html/' + subDir + 'program-menu.html', setter_for_inner_html_of('programMenu'));
@@ -3256,12 +3417,8 @@ function sc3_ui_init(subDir, hasProgramMenu, hasHelpMenu, hasGuideMenu, hasEssay
 	if(initMouse) {
 		sc3_mouse_init();
 	}
-	scsynth_options = {
-		hardwareBufferSize: hardwareBufferSize,
-		blockSize: blockSize,
-		numInputs: 0,
-		numOutputs: 2
-	};
+	scsynth.options.hardwareBufferSize = hardwareBufferSize;
+	scsynth.options.blockSize = blockSize;
 }
 
 function setStatusDisplay(text) {
@@ -3286,20 +3443,16 @@ function evalJsProgram() {
 	});
 }
 
-function playJsProgram() {
+function playJsProgram(scsynth) {
 	editor_get_js_notation_and_then(function(programText) {
 		var result = eval(programText);
-		playUgen(result);
+		playUgen(scsynth, result);
 	});
 }
 
 // Sets the 's' url parameter of the window to the encoded form of the selected text.
 function set_url_to_encode_selection() {
 	window_url_set_param('s', editor_get_selected_text());
-}
-
-function ui_boot_scsynth() {
-	bootScsynth(scsynth_options);
 }
 
 function ui_save_program() {
