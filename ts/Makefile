@@ -17,13 +17,19 @@ ui = actions display editor graph init mouse notation plaintext user
 
 translate-ts:
 	(cd kernel ; tsc $(tsc_opt) $(kernel:=.ts))
-	(cd stdlib ; tsc $(tsc_opt) $(stdlib:=.ts))
 	(cd sc3 ; tsc $(tsc_opt) $(sc3:=.ts))
+	(cd stdlib ; tsc $(tsc_opt) $(stdlib:=.ts))
 	(cd ui ; tsc $(tsc_opt) $(ui:=.ts))
+
+install-js:
+	(cd kernel ; mv *.js ../../js/kernel)
+	(cd sc3 ; mv *.js ../../js/sc3)
+	(cd stdlib ; mv *.js ../../js/stdlib)
+	(cd ui ; mv *.js ../../js/ui)
 
 clean:
 	rm -f
 	(cd kernel ; rm -f $(kernel:=.js))
-	(cd stdlib ; rm -f $(stdlib:=.js))
 	(cd sc3 ; rm -f $(sc3:=.js))
+	(cd stdlib ; rm -f $(stdlib:=.js))
 	(cd ui ; rm -f $(ui:=.js))
