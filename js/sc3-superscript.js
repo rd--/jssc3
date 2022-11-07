@@ -20,10 +20,12 @@ var quill_options = {
 	theme: 'snow'
 };
 
-function sc3_superscript_init() {
+function sc3_superscript_init(editor) {
 	quill_text_editor = new Quill('#text_editor', quill_options);
 	quill_text_editor.root.setAttribute('spellcheck', false);
-	consoleDebug('sc3_superscript_init: finished');
+	editor.get_selected_text = sc3_superscript_get_selected_text;
+	editor.get_data = sc3_superscript_get_html;
+	editor.set_data = sc3_superscript_set_html;
 }
 
 function sc3_superscript_get_selected_text() {

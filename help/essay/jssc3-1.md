@@ -91,15 +91,15 @@ OverlapTexture({
 
 The _notation format_ menu selects which notation programs are written in.  At present the two notations are _.stc_ and _.js_.
 
-The simple Sc program given above is written as _mul(SinOsc(440, 0), 0.1)_  in Js notation.  If the notation format is set appropriately this text may be selected and executed by pressing Play.
+The simple Sc program given above is written as _sc.mul(sc.SinOsc(440, 0), 0.1)_  in Js notation.  If the notation format is set appropriately this text may be selected and executed by pressing Play.  Ordinarily the Sc functions are imported with a _sc_ prefix, however they can be added to the global namespace if required.
 
 Stc and Js notations are similar in many ways.  One significant difference is that some _infix_ operators are replaced by functions, here _*_ is replaced by _mul_.  This is because in Js operators are special forms and are not extensible, they apply only to simple numbers, not signals or arrays.
 
 The function syntax is also somewhat different, as can be seen in the program below, another Sc2 example by JMcC.  This program generates overlapping sine tones with random frequency and pan location parameters.
 
 ~~~~
-OverlapTexture(function(tr) {
-	return Pan2(SinOsc(TRand(20, 2000, tr), 0), TRand(-1, 1, tr), 0.05);
+sc.OverlapTexture(function(tr) {
+	return sc.Pan2(sc.SinOsc(sc.TRand(20, 2000, tr), 0), sc.TRand(-1, 1, tr), 0.05);
 }, 5, 2, 9)
 ~~~~
 
