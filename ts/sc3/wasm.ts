@@ -13,7 +13,9 @@ declare global {
   var Module: ScsynthModule;
 }
 
-initScsynthModule(globalThis.Module, consoleLogMessageFrom, function(_text: string) { return null; });
+if(globalThis.Module !== undefined) {
+	initScsynthModule(globalThis.Module, consoleLogMessageFrom, function(_text: string) { return null; });
+}
 
 export function sc3_wasm_init(showStatus: (text: string) => void): void {
 	setGlobalScsynth(makeScsynth(globalThis.Module, scsynthDefaultOptions, showStatus));
