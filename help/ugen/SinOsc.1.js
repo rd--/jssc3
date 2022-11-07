@@ -1,4 +1,4 @@
 // SinOsc ; random sine waves ; https://github.com/cianoc/supercollider_fragments
 var f;
-f = function() {  return Pan2(SinOsc(add(mul(SinOsc(fdiv(1, 10), Rand(0, 6)), 200), 600), 0), Rand(0, 1), 0.05); };
-Splay2(dup(f, 15))
+f = function() {  return sc.Pan2(sc.SinOsc(sc.add(sc.mul(sc.SinOsc(sc.fdiv(1, 10), sc.Rand(0, 6)), 200), 600), 0), sc.Rand(0, 1), 0.05); };
+sc.Splay2(sc.dup(f, 15))

@@ -6,17 +6,16 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
     <link rel="stylesheet" type="text/css" media="all" href="css/sc3.css" />
     <script src="lib/osc.js/dist/osc-browser.js"></script>
-    <!-- <script src="lib/mpejs/lib/mpe.js"></script> -->
-    <script src="js/jssc3-base.js"></script>
-    <!-- <script src="js/sc3-midi-mpe.js"></script> -->
-    <script src="js/sc3-pointer-rebind.js"></script>
-    <script src="js/jssc3.js"></script>
-    <script>
+    <script type="module">
+import * as sc from './js/sc3.js'
+import * as ui from './js/ui.js'
+window.sc = sc;
+window.ui = ui;
 window.onload = function () {
-    sc3_wasm_init(setStatusDisplay);
-    sc3_ui_init(globalScsynth, '', true, true, false, false, null, 'jssc3UserPrograms/js', graph_load, true, 4096, 48);
-    jssc3_plaintext_init('jsContainer');
-    jssc3_init('e', null, 's');
+    sc.sc3_wasm_init(ui.setStatusDisplay);
+    ui.sc3_ui_init(sc.globalScsynth, '', true, true, false, false, null, 'jssc3UserPrograms/js', ui.graph_load, true, 4096, 48);
+    ui.sc3_plaintext_init_in('jsContainer');
+    ui.jssc3_init('e', null, 's');
 };
     </script>
   </head>
@@ -29,13 +28,13 @@ window.onload = function () {
       <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select>
     </div>
     <div>
-      <input type="file" id="programInputFile" accept=".stc,.js" onchange="jssc3_read_input_program()" style="display:none">
+      <input type="file" id="programInputFile" accept=".stc,.js" onchange="ui.jssc3_read_input_program()" style="display:none">
       <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
-      <button title="Evaluate program (/)" accesskey="/" onclick="evalJsProgram()">Eval</button>
-      <button title="Play (,)" accesskey="," onclick="playJsProgram(globalScsynth)">Play</button>
-      <button title="Reset (.)" accesskey="." onclick="resetScsynth(globalScsynth)">Reset</button>
-      <button title="Save document to local storage (s)" accesskey="s" onclick="ui_save_program()">Save</button>
-      <button title="Print" onclick="prettyPrintSyndef()">Print</button>
+      <button title="Evaluate program (/)" accesskey="/" onclick="ui.evalJsProgram()">Eval</button>
+      <button title="Play (,)" accesskey="," onclick="ui.playJsProgram(sc.globalScsynth)">Play</button>
+      <button title="Reset (.)" accesskey="." onclick="sc.resetScsynth(sc.globalScsynth)">Reset</button>
+      <button title="Save document to local storage (s)" accesskey="s" onclick="ui.ui_save_program()">Save</button>
+      <button title="Print" onclick="ui.prettyPrintSyndef()">Print</button>
       <button title="Set address to encode selection (a)" accesskey="a" onclick="set_url_to_encode_selection()">Addr</button>
       <select id="actionsMenu" title="Actions">
         <option value="">&#x2630;</option>
@@ -48,11 +47,11 @@ window.onload = function () {
         <option value="documentVisit" title="Visit document named in selected text (v)" accesskey="v">Visit</option>
         <!-- <option value="midiMpeStart" title="Start listener for Midi Mpe input">Midi Mpe</option> -->
       </select>
-      <select id="notationFormat" title="Notation format" onchange="set_notation_format()">
+      <select id="notationFormat" title="Notation format" onchange="ui.set_notation_format()">
         <option value='.stc' accesskey="t">.stc</option>
         <option value='.js' accesskey="j">.js</option>
       </select>
-      <button title="Boot" accesskey="b" onclick="bootScsynth(globalScsynth)">⏻ (Boot)</button>
+      <button title="Boot" accesskey="b" onclick="sc.bootScsynth(sc.globalScsynth)">⏻ (Boot)</button>
       <span id="statusText"></span>
     </div>
     </div>

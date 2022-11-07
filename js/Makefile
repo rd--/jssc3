@@ -3,11 +3,17 @@ tsc_opt = --strict --lib dom,es2021 -t es2021
 %.js : %.ts
 	tsc $(tsc_opt) $<
 
-# .ts files that have no requirements
-core = sc3-array sc3-counter sc3-dictionary sc3-dom sc3-encode sc3-error sc3-function sc3-io sc3-localstorage sc3-object sc3-maybe sc3-null sc3-number sc3-opensoundcontrol sc3-operators sc3-queue sc3-rate sc3-set sc3-scsynth sc3-scsynth-module sc3-scsynth-options sc3-scsynth-status sc3-string sc3-tree sc3-websocket
+# kernel (.ts)
+kernel = array dictionary dom encode error function io localstorage object null number set  string websocket
 
-# .ts files that require .ts files in core
-base = sc3-alias sc3-bindings sc3-buffer sc3-buffer-cache sc3-envelope sc3-event sc3-graph sc3-graph-print sc3-grid sc3-plaintext sc3-pointer sc3-pseudo sc3-servercommand sc3-smalltalk sc3-soundfile sc3-stc sc3-texture sc3-u8 sc3-ugen sc3-ui-actions sc3-ui-notation  sc3-ui-user sc3-wasm sc3-websocket-global sc3-websocket-osc
+# stdlib (.ts)
+stdlib = counter grid maybe opensoundcontrol queue soundfile tree u8
+
+# sc3 (.ts)
+sc3 = alias bindings buffer buffer-cache cc-event envelope graph graph-print operators pointer pseudo rate scsynth scsynth-module scsynth-options scsynth-status servercommand smalltalk stc texture ugen wasm
+
+# ui (.ts)
+ui = display editor graph init plaintext actions notation user
 
 # .js files that are commonly required or at least not harmful
 rest = sc3-ui sc3-ui-mouse
@@ -25,8 +31,11 @@ jssc3-base-js: jssc3-base-ts
 	cat $(rest:=.js) >> jssc3-base.js # $(obj:=.js)
 	rm -f jssc3-base.ts
 
-core-ts:
-	tsc $(tsc_opt) $(core:=.ts)
+translate-ts:
+	(cd kernel ; tsc $(tsc_opt) $(kernel:=.ts))
+	(cd stdlib ; tsc $(tsc_opt) $(stdlib:=.ts))
+	(cd sc3 ; tsc $(tsc_opt) $(sc3:=.ts))
+	(cd ui ; tsc $(tsc_opt) $(ui:=.ts))
 
 base-ts:
 	tsc $(tsc_opt) $(base:=.ts)
