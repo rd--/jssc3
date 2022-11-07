@@ -41,7 +41,7 @@ export function user_storage_sync(): void {
 	select_add_keys_as_options('userMenu', Object.keys(user.programs));
 }
 
-// Read selected .json user program archive file.
+// Id: userProgramArchiveFile ; read selected .json user program archive file.
 export function user_program_read_archive(): void {
 	const fileInput = <HTMLInputElement>document.getElementById('userProgramArchiveFile');
 	const fileList = <FileList>fileInput.files;
@@ -58,6 +58,6 @@ export function user_program_read_archive(): void {
 	}
 }
 
-function ui_save_program() {
+export function ui_save_program() {
 	user_program_save_to(editor.get_data());
 }

@@ -17,6 +17,7 @@ export function editor_get_js_notation_and_then(proc: (aString: string) => void)
 	translate_if_required_and_then(editor.get_selected_text(), proc);
 }
 
+// Id: programInputFile
 export function jssc3_read_input_program(): void {
 	read_text_file_from_file_input_and_then('programInputFile', 0, editor.set_data);
 }
@@ -29,14 +30,14 @@ export function prettyPrintSyndef(): void {
 
 export function evalJsProgram(): void {
 	editor_get_js_notation_and_then(function(programText) {
-		var result = eval(programText);
+		const result = eval(programText);
 		console.log(result);
 	});
 }
 
 export function playJsProgram(scsynth: Scsynth) {
 	editor_get_js_notation_and_then(function(programText) {
-		var result = eval(programText);
+		const result = eval(programText);
 		playUgen(scsynth, result);
 	});
 }

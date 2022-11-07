@@ -1,41 +1,36 @@
-// sc3-superscript.js ; requires quill
-
-'use strict';
-
-// https://quilljs.com/
-var quill_text_editor;
-
-var quill_toolbar_config = [
-	['bold', 'italic', 'underline'],
-	['link'],
-	['blockquote', 'code-block'],
-	[{ 'header': 1 }, { 'header': 2 }],
-	[{ list: 'ordered' }, { list: 'bullet' }],
-	[{ 'script': 'sub'}, { 'script': 'super' }],
-	['clean']
-];
-
-var quill_options = {
-	modules: { toolbar: quill_toolbar_config },
-	theme: 'snow'
+const quill = {
+	options: {
+		modules: {
+			toolbar: [
+				['bold', 'italic', 'underline'],
+				['link'],
+				['blockquote', 'code-block'],
+				[{ 'header': 1 }, { 'header': 2 }],
+				[{ list: 'ordered' }, { list: 'bullet' }],
+				[{ 'script': 'sub'}, { 'script': 'super' }],
+				['clean']
+			]
+		},
+		theme: 'snow'
+	}
 };
 
-function sc3_superscript_init(editor) {
-	quill_text_editor = new Quill('#text_editor', quill_options);
-	quill_text_editor.root.setAttribute('spellcheck', false);
+export function sc3_superscript_init(editor) {
+	quill.editor = new Quill('#text_editor', quill.options);
+	quill.editor.root.setAttribute('spellcheck', false);
 	editor.get_selected_text = sc3_superscript_get_selected_text;
 	editor.get_data = sc3_superscript_get_html;
 	editor.set_data = sc3_superscript_set_html;
 }
 
 function sc3_superscript_get_selected_text() {
-	var range = quill_text_editor.getSelection();
-	var emptyString = '';
+	const range = quill.editor.getSelection();
+	const emptyString = '';
 	if (range) {
 		if (range.length === 0) {
 			return emptyString;
 		} else {
-			var text = quill_text_editor.getText(range.index, range.length);
+			const text = quill.editor.getText(range.index, range.length);
 			return text;
 		}
 	} else {
@@ -43,18 +38,10 @@ function sc3_superscript_get_selected_text() {
 	}
 }
 
-function sc3_superscript_set_text(programText) {
-	quill_text_editor.root.innerHTML = programText;
-}
-
-function editor_get_js_notation_and_then(proc) {
-	translate_if_required_and_then(sc3_superscript_get_selected_text(), proc);
-}
-
 function sc3_superscript_get_html() {
-	return quill_text_editor.root.innerHTML;
+	return quill.editor.root.innerHTML;
 }
 
 function sc3_superscript_set_html(htmlText) {
-	quill_text_editor.root.innerHTML = htmlText;
+	quill.editor.root.innerHTML = htmlText;
 }

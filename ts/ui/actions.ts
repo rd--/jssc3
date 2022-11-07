@@ -1,6 +1,8 @@
 import { prompt_for_int_and_then, select_on_change } from '../kernel/dom.js'
 import { load_utf8_and_then } from '../kernel/io.js'
+
 import { withGlobalScsynth } from '../sc3/scsynth.js'
+
 import { user, user_program_clear } from './user.js'
 
 // Copy user programs as .json to clipboard
@@ -8,7 +10,7 @@ export function action_user_backup(): void {
 	navigator.clipboard.writeText(JSON.stringify(user.programs));
 }
 
-// Click (invisible) file select input.
+// Id: userProgramArchiveFile ; click (invisible) file select input
 export function action_user_restore(): void {
 	const inputElement = <HTMLInputElement>document.getElementById('userProgramArchiveFile');
 	inputElement.click();
@@ -44,7 +46,11 @@ function action_set_num_inputs(): void {
 	});
 }
 
-export function actions_menu_do(editor_get_selected: () => string, editor_set: (aString: string) => void, menuElement: HTMLSelectElement, entryName: string): void {
+export function actions_menu_do(
+	editor_get_selected: () => string,
+	editor_set: (aString: string) => void,
+	menuElement: HTMLSelectElement, entryName: string
+): void {
 	console.log('actions_menu_do', entryName);
 	switch(entryName) {
 		case 'setBlockSize': action_set_block_size(); break;

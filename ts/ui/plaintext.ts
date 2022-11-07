@@ -1,10 +1,10 @@
 import { textarea_get_selection_or_contents } from '../kernel/dom.js'
 
 import { editor } from './editor.js'
-import { translate_if_required_and_then } from './notation.js'
 
-export let sc3_plaintext: HTMLTextAreaElement;
+let sc3_plaintext: HTMLTextAreaElement;
 
+// Id: jsProgram
 export function sc3_plaintext_init_in(parentId: string): void {
 	const parentElement = document.getElementById(parentId);
 	if(parentElement) {
@@ -19,11 +19,11 @@ export function sc3_plaintext_init_in(parentId: string): void {
 	editor.set_data = sc3_plaintext_set_text;
 }
 
-export function sc3_plaintext_get_complete_text(): string {
+function sc3_plaintext_get_complete_text(): string {
 	return sc3_plaintext ? sc3_plaintext.value : '';
 }
 
-export function sc3_plaintext_get_selected_text(): string {
+function sc3_plaintext_get_selected_text(): string {
 	const currentText = textarea_get_selection_or_contents(sc3_plaintext).trim();
 	if(currentText.length === 0) {
 		console.warn('sc3_plaintext_get_selected_text: empty text');
@@ -31,6 +31,6 @@ export function sc3_plaintext_get_selected_text(): string {
 	return currentText;
 }
 
-export function sc3_plaintext_set_text(programText: string): void {
+function sc3_plaintext_set_text(programText: string): void {
 	sc3_plaintext.value = programText;
 }

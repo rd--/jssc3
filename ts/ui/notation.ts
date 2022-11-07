@@ -1,12 +1,13 @@
 import { get_select_element_and_then } from '../kernel/dom.js'
 import { stc_to_js_and_then } from '../sc3/stc.js'
 
-export const notation = {format: '.stc'};
+export const notation = { format: '.stc' };
 
 export function resolve_file_type(fileType: string | null) {
 	return fileType ? fileType : notation.format;
 }
 
+// Id: notationFormat
 export function set_notation_format(): void {
 	get_select_element_and_then('notationFormat', selectElement => notation.format = selectElement.value);
 }

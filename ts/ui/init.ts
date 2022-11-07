@@ -11,7 +11,7 @@ import { sc3_mouse_init } from './mouse.js'
 import { notation } from './notation.js'
 import { user_program_menu_init, user } from './user.js'
 
-// subDir should be empty or should end with a '/'
+// Id: programMenu, helpMenu, guideMenu, essayMenu ; subDir should be empty or should end with a '/'
 export function sc3_ui_init(scsynth: Scsynth, subDir: string, hasProgramMenu: boolean, hasHelpMenu: boolean, hasGuideMenu: boolean, hasEssayMenu: boolean, fileExt: string, storageKey: string, loadProc: LoadProc, initMouse: boolean, hardwareBufferSize: number, blockSize: number) {
 	if(hasProgramMenu) {
 		graph_menu_init('programMenu', subDir + 'graph', fileExt, loadProc);
@@ -40,9 +40,10 @@ export function sc3_ui_init(scsynth: Scsynth, subDir: string, hasProgramMenu: bo
 	scsynth.options.blockSize = blockSize;
 }
 
+// Id: programInputFileSelect, programInputFile
 export function jssc3_init(fileNameParamKey: string, defaultFileName: string, codeParamKey: string) {
-	var fileName = url_get_param(fileNameParamKey) || defaultFileName;
-	var code = codeParamKey ? url_get_param(codeParamKey) : null;
+	const fileName = url_get_param(fileNameParamKey) || defaultFileName;
+	const code = codeParamKey ? url_get_param(codeParamKey) : null;
 	connect_button_to_input('programInputFileSelect', 'programInputFile');
 	consoleDebug(`jssc3_init: ${fileName}, ${code}`);
 	if(fileName) {
