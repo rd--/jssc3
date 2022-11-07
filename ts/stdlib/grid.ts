@@ -2,7 +2,7 @@ import { isNumber } from '../kernel/number.js'
 import { isString } from '../kernel/string.js'
 
 // column_index_to_letter(6) === 'g'
-function column_index_to_letter(column_index: number): string {
+export function column_index_to_letter(column_index: number): string {
 	if(isNumber(column_index)) {
 		const column_letter = String.fromCharCode(column_index + 97); // 0 -> a
 		return column_letter;
@@ -13,7 +13,7 @@ function column_index_to_letter(column_index: number): string {
 }
 
 // column_letter_to_index('g') === 6
-function column_letter_to_index(column_letter: string): number {
+export function column_letter_to_index(column_letter: string): number {
 	if(isString(column_letter)) {
 		const column_index = column_letter.charCodeAt(0) - 97;
 		return column_index;

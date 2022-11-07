@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" media="all" href="css/sc3-rte.css" />
     <script src="lib/osc.js/dist/osc-browser.js"></script>
     <script src="lib/quill/quill.js"></script>
-    <script src="js/sc3-superscript.js"></script>
+    <script src="js/superscript.js"></script>
     <script type="module">
 import * as sc from './js/sc3.js'
 import * as ui from './js/ui.js'
@@ -35,7 +35,7 @@ window.onload = function () {
     <div>
       <input type="file" id="programInputFile" accept=".html" onchange="ui.jssc3_read_input_program()" style="display:none">
       <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
-      <button title="Copy document to clipboard (c)" accesskey="c" onclick="navigator.clipboard.writeText(editor_get_data())">Copy</button>
+      <button title="Copy document to clipboard (c)" accesskey="c" onclick="navigator.clipboard.writeText(ui.editor.get_data())">Copy</button>
       <button title="Evaluate program (/)" accesskey="/" onclick="ui.evalJsProgram()">Eval</button>
       <button title="Play (,)" accesskey="," onclick="ui.playJsProgram(sc.globalScsynth)">Play</button>
       <button title="Reset (.)" accesskey="." onclick="sc.resetScsynth(sc.globalScsynth)">Reset</button>
