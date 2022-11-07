@@ -14,14 +14,12 @@
     <script type="module">
 import * as sc from './js/sc3.js'
 import * as ui from './js/ui.js'
-import * as calc from './js/supercalc.js'
 globalThis.sc = sc;
 globalThis.ui = ui;
-globalThis.calc = calc;
 window.onload = function () {
     sc.sc3_wasm_init(ui.setStatusDisplay);
     ui.sc3_ui_init(sc.globalScsynth, 'supercalc/', true, true, false, false, '.json', 'jssc3SuperCalcUserPrograms/json', ui.graph_load, true, 4096, 48);
-    calc.sc3_supercalc_init(ui.editor, 8, 8);
+    ui.sc3_supercalc_init(ui.editor, 8, 8);
     ui.jssc3_init('e', null, 's');
 };
     </script>
@@ -52,7 +50,7 @@ window.onload = function () {
       </select>
       <button title="Boot" accesskey="b" onclick="sc.bootScsynth(sc.globalScsynth)">⏻ (Boot)</button>
       <span id="statusText"></span>
-      <button title="Init" onclick="calc.sc3_supercalc_server_setup()">Init</button>
+      <button title="Init" onclick="ui.sc3_supercalc_server_setup()">Init</button>
     </div>
     <p>
       <strong>Instructions</strong>:

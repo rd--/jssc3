@@ -6,6 +6,10 @@ export function decodeServerMessage(packet:  Uint8Array): ServerMessage {
 	return osc.readPacket(packet, {metadata: true});
 }
 
+export function encodeServerPacket(message:  ServerPacket): Uint8Array {
+	return osc.writePacket(message);
+}
+
 export function encodeServerMessage(message:  ServerMessage): Uint8Array {
 	return osc.writePacket(message);
 }
@@ -15,9 +19,16 @@ export type ServerMessage = {
 	args: OscData[]
 };
 
+export type ServerBundle = {
+	timeTag: number,
+	packets: ServerMessage[]
+};
+
+export type ServerPacket = ServerMessage | ServerMessage;
+
 declare namespace osc {
-  function readPacket(packet: Uint8Array, options: Record<string, unknown>): ServerMessage;
-  function writePacket(message: ServerMessage): Uint8Array;
+  function readPacket(packet: Uint8Array, options: Record<string, unknown>): ServerPacket;
+  function writePacket(message: ServerPacket): Uint8Array;
 }
 
 // k = constant

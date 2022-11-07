@@ -2,7 +2,7 @@ import { consoleDebug } from '../kernel/error.js'
 
 import { encodeSignal } from './graph.js'
 import { wrapOut } from './pseudo.js'
-import { ServerMessage, c_setn1, d_recv_then, decodeServerMessage, encodeServerMessage, g_freeAll1, kAddToTail, m_dumpOsc, m_notify, m_status, s_new0 } from './servercommand.js'
+import { ServerMessage, ServerPacket, c_setn1, d_recv_then, decodeServerMessage, encodeServerMessage, encodeServerPacket, g_freeAll1, kAddToTail, m_dumpOsc, m_notify, m_status, s_new0 } from './servercommand.js'
 import { ScsynthModule } from './scsynth-module.js'
 import { ScsynthOptions, scsynthOptionsPrint } from './scsynth-options.js'
 import { ScsynthStatus } from './scsynth-status.js'
@@ -52,13 +52,13 @@ export function withGlobalScsynth<T>(aProcedure: (scsynth: Scsynth) => T): T | n
 	return null;
 }
 
-export function sendOsc(scsynth: Scsynth, oscMessage: ServerMessage): void {
-	consoleDebug(`sendOsc: ${oscMessage}`);
+export function sendOsc(scsynth: Scsynth, oscPacket: ServerPacket): void {
+	consoleDebug(`sendOsc: ${oscPacket}`);
 	if(scsynth.isAlive && scsynth.wasm.oscDriver) {
 		const port = scsynth.wasm.oscDriver[scsynth.port];
 		const recv = port && port.receive;
 		if(recv) {
-			recv(scsynth.sclangPort, encodeServerMessage(oscMessage));
+			recv(scsynth.sclangPort, encodeServerPacket(oscPacket));
 		} else {
 			console.warn('sendOsc: recv?');
 		}

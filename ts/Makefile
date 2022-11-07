@@ -13,7 +13,7 @@ stdlib = counter grid maybe opensoundcontrol queue soundfile tree u8
 sc3 = alias bindings buffer buffer-cache cc-event envelope graph graph-print operators pointer pseudo rate scsynth scsynth-module scsynth-options scsynth-status servercommand smalltalk stc texture ugen wasm
 
 # ui (.ts)
-ui = actions display editor graph init mouse notation plaintext user
+ui = actions display editor graph init mouse notation plaintext supercalc user
 
 translate-ts:
 	(cd kernel ; tsc $(tsc_opt) $(kernel:=.ts))
