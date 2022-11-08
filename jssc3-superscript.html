@@ -17,7 +17,19 @@ globalThis.sc = sc;
 globalThis.ui = ui;
 window.onload = function () {
     sc.sc3_wasm_init(ui.setStatusDisplay);
-    ui.sc3_ui_init(sc.globalScsynth, '', false, false, false, true, '.html', 'jssc3UserPrograms/html', ui.graph_load, true, 4096, 48);
+    ui.sc3_ui_init(sc.globalScsynth, {
+	subDir: '',
+	hasProgramMenu: false,
+	hasHelpMenu: false,
+	hasGuideMenu: false,
+	hasEssayMenu: true,
+	fileExt: '.html',
+	storageKey: 'jssc3UserPrograms/html',
+	loadProc: ui.graph_load,
+	initMouse: true,
+	hardwareBufferSize: 4096,
+	blockSize: 48
+    });
     sc3_superscript_init(ui.editor);
     ui.jssc3_init('e', 'help/essay/jssc3-1.html', null);
 };

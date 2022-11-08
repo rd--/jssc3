@@ -139,7 +139,7 @@ function sc3_supercalc_define_cell_variables() {
 	sc3_supercalc_all_cellref_do(function(col_letter, row_number) {
 		const code_text = sc3_supercalc_gen_cell_reader_bus_declaration(col_letter, row_number);
 		const global_eval = eval; // https://262.ecma-international.org/5.1/#sec-10.4.2
-		consoleDebug(code_text);
+		sc.consoleDebug(code_text);
 		global_eval(code_text);
 	});
 }

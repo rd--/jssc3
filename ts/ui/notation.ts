@@ -12,10 +12,18 @@ export function set_notation_format(): void {
 	get_select_element_and_then('notationFormat', selectElement => notation.format = selectElement.value);
 }
 
+export type AsyncTranslationProc = (text: string, proc: (translated: string) => void) => void;
+
+export const notationTranslationTable : Record<string, AsyncTranslationProc> = {
+	'.js': function(text, proc) { proc(text); },
+	'.stc': stc_to_js_and_then
+};
+
 export function translate_if_required_and_then(userText: string, proc: (aString: string) => void): void {
-	switch(notation.format) {
-		case '.js': proc(userText); break;
-		case '.stc': stc_to_js_and_then(userText, proc); break;
-		default: console.error(`translate_if_required_and_then: unknown format: ${notation.format}`);
+	const translator = notationTranslationTable[notation.format];
+	if(translator) {
+		translator(userText, proc);
+	} else {
+		console.error(`translate_if_required_and_then: unknown format: ${notation.format}`);
 	}
 }

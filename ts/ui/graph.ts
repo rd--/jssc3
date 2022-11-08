@@ -13,7 +13,7 @@ export function graph_load(graphDir: string, graphName: string, fileType: string
 	fetch_url_and_then(graphUrl, 'text', (programText: string) => editor.set_data(programText));
 }
 
-export function graph_menu_init(menuId: string, graphDir: string, fileType: string, loadProc: (dir: string, name: string, fileType: string) => void) {
+export function graph_menu_init(menuId: string, graphDir: string, fileType: string | null, loadProc: (dir: string, name: string, fileType: string) => void) {
 	const menu = document.getElementById(menuId);
 	if(menu) {
 		menu.addEventListener('change', function(anEvent: Event) {

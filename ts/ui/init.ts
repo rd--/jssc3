@@ -11,33 +11,61 @@ import { sc3_mouse_init } from './mouse.js'
 import { notation } from './notation.js'
 import { user_program_menu_init, user } from './user.js'
 
+export type UiInitOptions = {
+	subDir: string,
+	hasProgramMenu: boolean,
+	hasHelpMenu: boolean,
+	hasGuideMenu: boolean,
+	hasEssayMenu: boolean,
+	fileExt: string | null,
+	storageKey: string,
+	loadProc: LoadProc,
+	initMouse: boolean,
+	hardwareBufferSize: number,
+	blockSize: number
+};
+
+export const defaultUiInitOptions = {
+	subDir: '',
+	hasProgramMenu: false,
+	hasHelpMenu: false,
+	hasGuideMenu: false,
+	hasEssayMenu: false,
+	fileExt: null,
+	storageKey: '',
+	loadProc: null,
+	initMouse: true,
+	hardwareBufferSize: 4096,
+	blockSize: 48
+};
+
 // Id: programMenu, helpMenu, guideMenu, essayMenu ; subDir should be empty or should end with a '/'
-export function sc3_ui_init(scsynth: Scsynth, subDir: string, hasProgramMenu: boolean, hasHelpMenu: boolean, hasGuideMenu: boolean, hasEssayMenu: boolean, fileExt: string, storageKey: string, loadProc: LoadProc, initMouse: boolean, hardwareBufferSize: number, blockSize: number) {
-	if(hasProgramMenu) {
-		graph_menu_init('programMenu', subDir + 'graph', fileExt, loadProc);
-		load_utf8_and_then('html/' + subDir + 'program-menu.html', setter_for_inner_html_of('programMenu'));
+export function sc3_ui_init(scsynth: Scsynth, options: UiInitOptions) {
+	if(options.hasProgramMenu) {
+		graph_menu_init('programMenu', options.subDir + 'graph', options.fileExt, options.loadProc);
+		load_utf8_and_then('html/' + options.subDir + 'program-menu.html', setter_for_inner_html_of('programMenu'));
 	}
-	if(hasHelpMenu) {
-		graph_menu_init('helpMenu', subDir + 'ugen', fileExt, loadProc);
-		load_utf8_and_then('html/' + subDir + 'help-menu.html', setter_for_inner_html_of('helpMenu'));
+	if(options.hasHelpMenu) {
+		graph_menu_init('helpMenu', options.subDir + 'ugen', options.fileExt, options.loadProc);
+		load_utf8_and_then('html/' + options.subDir + 'help-menu.html', setter_for_inner_html_of('helpMenu'));
 	}
-	if(hasGuideMenu) {
-		graph_menu_init('guideMenu', subDir + 'guide', fileExt, loadProc);
-		load_utf8_and_then('html/' + subDir + 'guide-menu.html', setter_for_inner_html_of('guideMenu'));
+	if(options.hasGuideMenu) {
+		graph_menu_init('guideMenu', options.subDir + 'guide', options.fileExt, options.loadProc);
+		load_utf8_and_then('html/' + options.subDir + 'guide-menu.html', setter_for_inner_html_of('guideMenu'));
 	}
-	if(hasEssayMenu) {
-		graph_menu_init('essayMenu', subDir + 'essay', fileExt, loadProc);
-		load_utf8_and_then('html/' + subDir + 'essay-menu.html', setter_for_inner_html_of('essayMenu'));
+	if(options.hasEssayMenu) {
+		graph_menu_init('essayMenu', options.subDir + 'essay', options.fileExt, options.loadProc);
+		load_utf8_and_then('html/' + options.subDir + 'essay-menu.html', setter_for_inner_html_of('essayMenu'));
 	}
 	notation.format = '.stc';
-	user.storage_key = storageKey;
+	user.storage_key = options.storageKey;
 	user_program_menu_init(editor.set_data);
 	actions_menu_init(editor.get_selected_text, editor.set_data);
-	if(initMouse) {
+	if(options.initMouse) {
 		sc3_mouse_init();
 	}
-	scsynth.options.hardwareBufferSize = hardwareBufferSize;
-	scsynth.options.blockSize = blockSize;
+	scsynth.options.hardwareBufferSize = options.hardwareBufferSize;
+	scsynth.options.blockSize = options.blockSize;
 }
 
 // Id: programInputFileSelect, programInputFile
