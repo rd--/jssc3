@@ -12,7 +12,7 @@ var p2 = [[36,48,53,57,60,65,60,57,60,57,53,57,53,50,53,50]
 		 ,{ 60 }.dup(16)];
 var p = p1.collect({
 	arg x;
-	var y = x ++ 3.to(5).collect({ arg i; x.nth(i) });
+	var y = x ++ 3.to(5).collect({ arg i; x.at(i) });
 	[y, y].concatenation
 }).concatenation ++ p2.concatenation;
 var tr = Impulse(5, 0);

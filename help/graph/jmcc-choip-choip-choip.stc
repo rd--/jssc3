@@ -9,5 +9,5 @@ var z = OverlapTexture({
 	var s = Decay2(i * l, 0.01, 0.2) * o;
 	Pan2(s, TLine(TRand(-1, 1, tr), TRand(-1, 1, tr), dur, tr), 1)
 }, dur - 2, 1, 8);
-4.timesRepeat({ z = AllpassC(z, 0.1, { Rand(0, 0.05) }.dup(2), 4) });
+4.timesRepeat({ z := AllpassC(z, 0.1, { Rand(0, 0.05) }.dup(2), 4) });
 z

@@ -1,7 +1,7 @@
 // bowed string (jmcc)
 var root = 5;
-var scale = #[0, 2, 4, 5, 7, 9, 11] + root;
-var oct = #[24, 36, 48, 60, 72, 84];
+var scale = [0, 2, 4, 5, 7, 9, 11] + root;
+var oct = [24, 36, 48, 60, 72, 84];
 var f0 = (scale.choose + oct.choose).midiCps;
 var freq = 1.to(12).collect({ arg i; f0 * i });
 var a0 = Rand(0.7, 0.9);

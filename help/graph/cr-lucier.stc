@@ -28,6 +28,6 @@ OverlapTexture({
 	var l_out = ReplaceOut(bus, source * 0.2 + stringR);
 	var outL = pk1_L + pk1_R;
 	var outR = pk2_L + pk2_R;
-	bus = bus + 1;
+	bus := bus + 1;
 	[outL, outR].mrg(l_out).mrg(drv)
 }, 1, 5, 3) * 0.25
