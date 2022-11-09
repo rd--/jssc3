@@ -28,7 +28,7 @@ export function load_and_extract_and_then<T>(fileName: string, typeString: strin
 		.then(response => handle_fetch_error(response))
 		.then(response => extractFunc(response))
 		.then(text => processFunc(text))
-		.catch(reason => console.error(`load: ${typeString}: ${reason}`));
+		.catch(reason => console.error(`load_and_extract_and_then: ${typeString}: ${reason}`));
 }
 
 // Fetch fileName and apply processFunc to the text read (stored as UTF-8).
