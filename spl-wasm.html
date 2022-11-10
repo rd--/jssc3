@@ -11,11 +11,12 @@ import * as sc from './js/sc3.js'
 import * as ui from './js/ui.js'
 import * as sl from './lib/spl-js/js/sl-kernel.js'
 import * as rw from './lib/spl-js/js/sl-rewrite.js'
-import { } from './lib/spl-js/js/sl-load.js'
+import * as ld from './lib/spl-js/js/sl-load.js'
 globalThis.sc = sc;
 globalThis.ui = ui;
 globalThis.sl = sl;
 globalThis.rw = rw;
+ld.addLoadMethods();
 window.onload = function () {
     sc.sc3_wasm_init(ui.setStatusDisplay);
     ui.sc3_ui_init(sc.globalScsynth, {

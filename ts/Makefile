@@ -5,18 +5,19 @@ tsc_opt = --strict --lib dom,es2021 -t es2021
 
 # kernel (.ts)
 kernel = array dictionary dom encode error function io localstorage object null number set  string websocket
-
-# kernel (.ts)
 kernel_deno = udp
 
 # stdlib (.ts)
 stdlib = counter grid maybe opensoundcontrol queue soundfile tree u8
 
 # sc3 (.ts)
-sc3 = alias bindings buffer buffer-cache cc-event envelope graph graph-print operators pointer pseudo rate scsynth scsynth-module scsynth-options scsynth-status servercommand smalltalk stc texture ugen wasm
+sc3 = alias bindings buffer buffer-cache cc-event envelope graph graph-print operators pointer pseudo rate scsynth-options scsynth-status scsynth-wasm scsynth-wasm-init scsynth-wasm-module servercommand smalltalk stc texture ugen
+sc3_deno = scsynth-udp
 
 # ui (.ts)
 ui = actions display editor graph init mouse notation plaintext user
+
+all: translate-ts install-js
 
 translate-ts:
 	(cd kernel ; tsc $(tsc_opt) $(kernel:=.ts))
@@ -36,3 +37,6 @@ clean:
 	(cd sc3 ; rm -f $(sc3:=.js))
 	(cd stdlib ; rm -f $(stdlib:=.js))
 	(cd ui ; rm -f $(ui:=.js))
+
+test-udp:
+	deno run --allow-net --unstable kernel/udp.ts

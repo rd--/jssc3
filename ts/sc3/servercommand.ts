@@ -2,16 +2,22 @@
 
 import { OscData, oscBlob, oscInt32, oscFloat, oscString } from '../stdlib/opensoundcontrol.js'
 
+declare namespace osc {
+  function readPacket(packet: Uint8Array, options: Record<string, unknown>): ServerPacket;
+  function writePacket(message: ServerPacket, options: Record<string, unknown>): Uint8Array;
+}
+
 export function decodeServerMessage(packet:  Uint8Array): ServerMessage {
+	// https://github.com/colinbdclark/osc.js/issues/90
 	return osc.readPacket(packet, {metadata: true});
 }
 
 export function encodeServerPacket(message:  ServerPacket): Uint8Array {
-	return osc.writePacket(message);
+	return osc.writePacket(message, {metadata: true});
 }
 
 export function encodeServerMessage(message:  ServerMessage): Uint8Array {
-	return osc.writePacket(message);
+	return osc.writePacket(message, {metadata: true});
 }
 
 export type ServerMessage = {
@@ -25,11 +31,6 @@ export type ServerBundle = {
 };
 
 export type ServerPacket = ServerMessage | ServerMessage;
-
-declare namespace osc {
-  function readPacket(packet: Uint8Array, options: Record<string, unknown>): ServerPacket;
-  function writePacket(message: ServerPacket): Uint8Array;
-}
 
 // k = constant
 
@@ -68,7 +69,7 @@ export function b_alloc_then_memcpy(bufferNumber: number, numberOfFrames: number
 		bufferNumber,
 		numberOfFrames,
 		numberOfChannels,
-		osc.writePacket(b_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, bufferData))
+		encodeServerPacket(b_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, bufferData))
 	);
 }
 

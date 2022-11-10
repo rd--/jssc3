@@ -5,20 +5,21 @@ This module initialises the required fields before that script is loaded.
 
 import { consoleDebug, consoleLogMessageFrom } from '../kernel/error.js'
 
-import { ScsynthModule, initScsynthModule } from './scsynth-module.js'
+import { ScsynthWasmModule, initScsynthWasmModule } from './scsynth-wasm-module.js'
 import { scsynthDefaultOptions } from './scsynth-options.js'
-import { makeScsynth, setGlobalScsynth }from './scsynth.js'
+import { ScsynthWasm, makeScsynth }from './scsynth-wasm.js'
 
 declare global {
-  var Module: ScsynthModule;
+	var Module: ScsynthWasmModule;
+	var globalScsynth: ScsynthWasm;
 }
 
 if(globalThis.Module !== undefined) {
-	initScsynthModule(globalThis.Module, consoleLogMessageFrom, function(_text: string) { return null; });
+	initScsynthWasmModule(globalThis.Module, consoleLogMessageFrom, function(_text: string) { return null; });
 }
 
 export function sc3_wasm_init(showStatus: (text: string) => void): void {
-	setGlobalScsynth(makeScsynth(globalThis.Module, scsynthDefaultOptions, showStatus));
+	globalThis.globalScsynth = makeScsynth(globalThis.Module, scsynthDefaultOptions, showStatus);
     consoleDebug(`sc3_wasm_init: Module: ${globalThis.Module}`);
 	globalThis.onerror = function(event) {
 		consoleLogMessageFrom('globalThis.onerror', String(event));

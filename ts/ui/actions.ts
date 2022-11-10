@@ -1,7 +1,7 @@
 import { prompt_for_int_and_then, select_on_change } from '../kernel/dom.js'
 import { load_utf8_and_then } from '../kernel/io.js'
 
-import { withGlobalScsynth } from '../sc3/scsynth.js'
+import { ScsynthWasm } from '../sc3/scsynth-wasm.js'
 
 import { user, user_program_clear } from './user.js'
 
@@ -16,46 +16,41 @@ export function action_user_restore(): void {
 	inputElement.click();
 }
 
-function action_set_hardware_buffer_size(): void {
-	withGlobalScsynth(function(scsynth) {
-		prompt_for_int_and_then(
-			'Set hardware buffer size',
-			scsynth.options.hardwareBufferSize,
-			function(aNumber) { scsynth.options.hardwareBufferSize = aNumber; }
-		);
-	});
+function action_set_hardware_buffer_size(scsynth: ScsynthWasm): void {
+	prompt_for_int_and_then(
+		'Set hardware buffer size',
+		scsynth.options.hardwareBufferSize,
+		function(aNumber) { scsynth.options.hardwareBufferSize = aNumber; }
+	);
 }
 
-function action_set_block_size(): void {
-	withGlobalScsynth(function(scsynth) {
-		prompt_for_int_and_then(
-			'Set block size',
-			scsynth.options.blockSize,
-			function(aNumber) { scsynth.options.blockSize = aNumber; }
-		);
-	});
+function action_set_block_size(scsynth: ScsynthWasm): void {
+	prompt_for_int_and_then(
+		'Set block size',
+		scsynth.options.blockSize,
+		function(aNumber) { scsynth.options.blockSize = aNumber; }
+	);
 }
 
-function action_set_num_inputs(): void {
-	withGlobalScsynth(function(scsynth) {
-		prompt_for_int_and_then(
-			'Set number of inputs',
-			scsynth.options.numInputs,
-			function(aNumber) { scsynth.options.numInputs = aNumber; }
-		);
-	});
+function action_set_num_inputs(scsynth: ScsynthWasm): void {
+	prompt_for_int_and_then(
+		'Set number of inputs',
+		scsynth.options.numInputs,
+		function(aNumber) { scsynth.options.numInputs = aNumber; }
+	);
 }
 
 export function actions_menu_do(
+	scsynth: ScsynthWasm,
 	editor_get_selected: () => string,
 	editor_set: (aString: string) => void,
 	menuElement: HTMLSelectElement, entryName: string
 ): void {
 	console.log('actions_menu_do', entryName);
 	switch(entryName) {
-		case 'setBlockSize': action_set_block_size(); break;
-		case 'setHardwareBufferSize': action_set_hardware_buffer_size(); break;
-		case 'setNumInputs': action_set_num_inputs(); break;
+		case 'setBlockSize': action_set_block_size(scsynth); break;
+		case 'setHardwareBufferSize': action_set_hardware_buffer_size(scsynth); break;
+		case 'setNumInputs': action_set_num_inputs(scsynth); break;
 		case 'userBackup': action_user_backup(); break;
 		case 'userRestore': action_user_restore(); break;
 		case 'userPurge': user_program_clear(); break;
@@ -66,6 +61,6 @@ export function actions_menu_do(
 	menuElement.selectedIndex = 0;
 }
 
-export function actions_menu_init(editor_get_selected: () => string, editor_set: (aString: string) => void) {
-	select_on_change('actionsMenu', (menuElement, entryName) => actions_menu_do(editor_get_selected, editor_set, menuElement, entryName));
+export function actions_menu_init(scsynth: ScsynthWasm, editor_get_selected: () => string, editor_set: (aString: string) => void) {
+	select_on_change('actionsMenu', (menuElement, entryName) => actions_menu_do(scsynth, editor_get_selected, editor_set, menuElement, entryName));
 }

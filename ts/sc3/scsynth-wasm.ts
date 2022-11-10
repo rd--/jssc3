@@ -3,13 +3,13 @@ import { consoleDebug } from '../kernel/error.js'
 import { encodeSignal } from './graph.js'
 import { wrapOut } from './pseudo.js'
 import { ServerMessage, ServerPacket, c_setn1, d_recv_then, decodeServerMessage, encodeServerMessage, encodeServerPacket, g_freeAll1, kAddToTail, m_dumpOsc, m_notify, m_status, s_new0 } from './servercommand.js'
-import { ScsynthModule } from './scsynth-module.js'
+import { ScsynthWasmModule } from './scsynth-wasm-module.js'
 import { ScsynthOptions, scsynthOptionsPrint } from './scsynth-options.js'
 import { ScsynthStatus } from './scsynth-status.js'
 import { Signal } from './ugen.js'
 
-export type Scsynth = {
-	wasm: ScsynthModule,
+export type ScsynthWasm = {
+	wasm: ScsynthWasmModule,
 	options: ScsynthOptions,
 	isAlive: boolean,
 	status: ScsynthStatus,
@@ -18,9 +18,9 @@ export type Scsynth = {
 	monitorDisplay: (text: string) => void,
 };
 
-export function makeScsynth(scsynthModule: ScsynthModule, scsynthOptions: ScsynthOptions, monitorDisplay: (text: string) => void): Scsynth {
+export function makeScsynth(scsynthWasmModule: ScsynthWasmModule, scsynthOptions: ScsynthOptions, monitorDisplay: (text: string) => void): ScsynthWasm {
 	return {
-		wasm: scsynthModule,
+		wasm: scsynthWasmModule,
 		options: scsynthOptions,
 		isAlive: false,
 		status: {ugenCount: 0},
@@ -30,29 +30,7 @@ export function makeScsynth(scsynthModule: ScsynthModule, scsynthOptions: Scsynt
 	};
 }
 
-export let globalScsynth: Scsynth;
-
-export function setGlobalScsynth(anScsynth: Scsynth): void {
-	globalScsynth = anScsynth;
-}
-
-export function getGlobalScsynth(): Scsynth | null {
-	if(globalScsynth === undefined) {
-		console.error('getGlobalScsynth: not defined');
-		return null;
-	} else {
-		return globalScsynth;
-	}
-}
-
-export function withGlobalScsynth<T>(aProcedure: (scsynth: Scsynth) => T): T | null {
-	if(globalScsynth !== undefined) {
-		return aProcedure(globalScsynth);
-	}
-	return null;
-}
-
-export function sendOsc(scsynth: Scsynth, oscPacket: ServerPacket): void {
+export function sendOsc(scsynth: ScsynthWasm, oscPacket: ServerPacket): void {
 	consoleDebug(`sendOsc: ${oscPacket}`);
 	if(scsynth.isAlive && scsynth.wasm.oscDriver) {
 		const port = scsynth.wasm.oscDriver[scsynth.port];
@@ -67,7 +45,7 @@ export function sendOsc(scsynth: Scsynth, oscPacket: ServerPacket): void {
 	}
 }
 
-export function bootScsynth(scsynth: Scsynth): void {
+export function bootScsynth(scsynth: ScsynthWasm): void {
 	scsynthOptionsPrint(scsynth.options);
 	if(!scsynth.isAlive) {
 		const args = scsynth.wasm['arguments'];
@@ -86,44 +64,44 @@ export function bootScsynth(scsynth: Scsynth): void {
 	}
 }
 
-export function playSyndef(scsynth: Scsynth, syndefName: string, syndefData: Uint8Array): void {
+export function playSyndef(scsynth: ScsynthWasm, syndefName: string, syndefData: Uint8Array): void {
 	console.log('playSyndef #', syndefData.length);
 	sendOsc(scsynth, d_recv_then(syndefData, encodeServerMessage(s_new0(syndefName, -1, kAddToTail, 0))));
 }
 
-export function playUgen(scsynth: Scsynth, ugen: Signal): void {
+export function playUgen(scsynth: ScsynthWasm, ugen: Signal): void {
 	const name = 'sc3.js';
 	const syndef = encodeSignal(name, wrapOut(0, ugen));
 	playSyndef(scsynth, name, syndef);
 }
 
-export function playProcedure(scsynth: Scsynth, ugenFunction: () => Signal): void {
+export function playProcedure(scsynth: ScsynthWasm, ugenFunction: () => Signal): void {
 	playUgen(scsynth, ugenFunction());
 }
 
-export function resetScsynth(scsynth: Scsynth): void {
+export function resetScsynth(scsynth: ScsynthWasm): void {
 	sendOsc(scsynth, g_freeAll1(0));
 }
 
-export function requestStatus(scsynth: Scsynth): void {
+export function requestStatus(scsynth: ScsynthWasm): void {
 	sendOsc(scsynth, m_status);
 }
 
-export function requestNotifications(scsynth: Scsynth): void {
+export function requestNotifications(scsynth: ScsynthWasm): void {
 	sendOsc(scsynth, m_notify(1, 1));
 }
 
-export function requestPrintingOsc(scsynth: Scsynth): void {
+export function requestPrintingOsc(scsynth: ScsynthWasm): void {
 	sendOsc(scsynth, m_dumpOsc(1));
 }
 
-export function setPointerControls(scsynth: Scsynth, n: number, w: number, x: number, y: number): void {
+export function setPointerControls(scsynth: ScsynthWasm, n: number, w: number, x: number, y: number): void {
 	if(scsynth.isAlive) {
 		sendOsc(scsynth, c_setn1(15001 + (n * 10), [w, x, y]));
 	}
 }
 
-function monitorOsc(scsynth: Scsynth): void {
+function monitorOsc(scsynth: ScsynthWasm): void {
 	scsynth.wasm.oscDriver[scsynth.sclangPort] = {
 		receive: function(addr: string, data: Uint8Array) {
 			const msg = decodeServerMessage(data);
