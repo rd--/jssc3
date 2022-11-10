@@ -1,4 +1,4 @@
-// pm-crotale (dmc) #1.7 ; graph rewrite
+// pm-crotale (dmc) 1.7 ; graph rewrite
 OverlapTexture({
 	arg tr;
 	var midi = TIRand(48, 72, tr);

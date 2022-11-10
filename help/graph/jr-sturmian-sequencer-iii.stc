@@ -13,4 +13,4 @@ var strFunc = {
 	var dt = 1 / SampleRate() / (n - i + 2) * MouseX(1, SampleRate(), 1, 0.2);
 	TDmdFor(dt, 0, Seq(inf, str - 0.5))
 };
-0.to(n - 1).collect(strFunc).splay2 * 0.3
+0.to(n - 1).collect(strFunc).Splay2 * 0.3

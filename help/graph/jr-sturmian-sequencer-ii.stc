@@ -16,4 +16,4 @@ var strFunc = {
 	var trigFlt = BPF(trig, LFNoise2(0.1) * 0.02 + 1 * freq, 0.2);
 	Ringz(trigFlt, freq * [1, 1.1, 1.2], ExpRand(2 ** i.negated * 0.1, 0.5)).sum.distort
 };
-0.to(n - 1).collect(strFunc).splay2 * 0.3
+0.to(n - 1).collect(strFunc).Splay2 * 0.3
