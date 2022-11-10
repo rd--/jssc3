@@ -6,6 +6,9 @@ tsc_opt = --strict --lib dom,es2021 -t es2021
 # kernel (.ts)
 kernel = array dictionary dom encode error function io localstorage object null number set  string websocket
 
+# kernel (.ts)
+kernel_deno = udp
+
 # stdlib (.ts)
 stdlib = counter grid maybe opensoundcontrol queue soundfile tree u8
 
