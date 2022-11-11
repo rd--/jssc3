@@ -1,4 +1,4 @@
-import { consoleDebug } from './error.js'
+import { consoleDebug } from './error.ts'
 
 // Append timestamp to URL to defeat cache
 export function url_append_timestamp(url: string): string {

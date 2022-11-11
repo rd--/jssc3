@@ -1,5 +1,5 @@
-import { Queue, queueNew, queuePush, queueAsArray } from './queue.js'
-import { Tree, treeVisit } from './tree.js'
+import { Queue, queueNew, queuePush, queueAsArray } from './queue.ts'
+import { Tree, treeVisit } from './tree.ts'
 
 export function isUint8Array(aValue: unknown) : aValue is Uint8Array {
 	return (aValue instanceof Uint8Array);

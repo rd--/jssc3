@@ -1,6 +1,6 @@
 // requires: osc.js
 
-import { OscData, oscBlob, oscInt32, oscFloat, oscString } from '../stdlib/opensoundcontrol.js'
+import { OscData, oscBlob, oscInt32, oscFloat, oscString } from '../stdlib/opensoundcontrol.ts'
 
 declare namespace osc {
   function readPacket(packet: Uint8Array, options: Record<string, unknown>): ServerPacket;

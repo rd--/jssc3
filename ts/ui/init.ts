@@ -1,15 +1,15 @@
-import { connect_button_to_input, setter_for_inner_html_of, url_get_param } from '../kernel/dom.js'
-import { consoleDebug } from '../kernel/error.js'
-import { load_utf8_and_then } from '../kernel/io.js'
+import { connect_button_to_input, setter_for_inner_html_of, url_get_param } from '../kernel/dom.ts'
+import { consoleDebug } from '../kernel/error.ts'
+import { load_utf8_and_then } from '../kernel/io.ts'
 
-import { ScsynthWasm } from '../sc3/scsynth-wasm.js'
+import { ScsynthWasm } from '../sc3/scsynth-wasm.ts'
 
-import { actions_menu_init } from './actions.js'
-import { editor } from './editor.js'
-import { LoadProc, graph_menu_init } from './graph.js'
-import { sc3_mouse_init } from './mouse.js'
-import { notation } from './notation.js'
-import { user_program_menu_init, user } from './user.js'
+import { actions_menu_init } from './actions.ts'
+import { editor } from './editor.ts'
+import { LoadProc, graph_menu_init } from './graph.ts'
+import { sc3_mouse_init } from './mouse.ts'
+import { notation } from './notation.ts'
+import { user_program_menu_init, user } from './user.ts'
 
 export type UiInitOptions = {
 	subDir: string,

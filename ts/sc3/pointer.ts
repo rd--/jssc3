@@ -1,6 +1,6 @@
-import { Lag, LinExp } from './bindings.js'
-import { ControlIn, LinLin } from './pseudo.js'
-import { Signal } from './ugen.js'
+import { Lag, LinExp } from './bindings.ts'
+import { ControlIn, LinLin } from './pseudo.ts'
+import { Signal } from './ugen.ts'
 
 export function PointerW(n: number): Signal {
 	return ControlIn(1, 15001 + (n * 10));
@@ -38,6 +38,9 @@ export function pointerMouseButton(minval: Signal, maxval: Signal, lag: Signal):
 	return LinLin(Lag(PointerW(0), lag), 0, 1, minval, maxval);
 }
 
-export const MouseX = pointerMouseX;
-export const MouseY = pointerMouseY;
-export const MouseButton = pointerMouseButton;
+// Overwrite sc3-bindings definitions with the sc3-pointer definition
+export function pointerRebind(aModule: Record<string, unknown>) {
+	aModule.MouseX = pointerMouseX;
+	aModule.MouseY = pointerMouseY;
+	aModule.MouseButton = pointerMouseButton;
+}

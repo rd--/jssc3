@@ -8,7 +8,6 @@
     <script src="lib/osc.js/dist/osc-browser.js"></script>
     <script type="module">
 import * as sc from './js/sc3.js'
-import * as ui from './js/ui.js'
 import * as sl from './lib/spl-js/js/sl-kernel.js'
 import * as rw from './lib/spl-js/js/sl-rewrite.js'
 import * as ld from './lib/spl-js/js/sl-load.js'
@@ -16,10 +15,10 @@ globalThis.sc = sc;
 globalThis.ui = ui;
 globalThis.sl = sl;
 globalThis.rw = rw;
-ld.addLoadMethods();
+ld.addLoadUrlMethods();
 window.onload = function () {
-    sc.sc3_wasm_init(ui.setStatusDisplay);
-    ui.sc3_ui_init(sc.globalScsynth, {
+    sc.sc3_wasm_init(sc.setStatusDisplay);
+    sc.sc3_ui_init(sc.globalScsynth, {
 	subDir: '',
 	hasProgramMenu: true,
 	hasHelpMenu: true,
@@ -27,16 +26,16 @@ window.onload = function () {
 	hasEssayMenu: false,
 	fileExt: '.stc',
 	storageKey: 'splUserPrograms/stc',
-	loadProc: ui.graph_load,
+	loadProc: sc.graph_load,
 	initMouse: true,
 	hardwareBufferSize: 4096,
 	blockSize: 48
     });
-    ui.sc3_plaintext_init_in('splContainer');
-    ui.jssc3_init('e', null, 's');
-    ui.notation.format = '.stc';
-    ui.notationTranslationTable['.stc'] = function(text, proc) {  proc(rw.rewriteString(text)) };
-    eval(rw.rewriteString("loadPath('lib/spl-js/sl/'); load('prelude.sl'); load('sc.sl')"));
+    sc.sc3_plaintext_init_in('splContainer');
+    sc.jssc3_init('e', null, 's');
+    sc.notation.format = '.stc';
+    sc.notationTranslationTable['.stc'] = function(text, proc) {  proc(rw.rewriteString(text)) };
+    eval(rw.rewriteString("loadPath('lib/spl-js/sl'); load('prelude.sl'); load('sc.sl')"));
 };
     </script>
   </head>
@@ -49,14 +48,14 @@ window.onload = function () {
       <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select>
     </div>
     <div>
-      <input type="file" id="programInputFile" accept=".spl" onchange="ui.jssc3_read_input_program()" style="display:none">
+      <input type="file" id="programInputFile" accept=".spl" onchange="sc.jssc3_read_input_program()" style="display:none">
       <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
-      <button title="Evaluate program (/)" accesskey="/" onclick="ui.evalJsProgram()">Eval</button>
-      <button title="Play (,)" accesskey="," onclick="ui.playJsProgram(sc.globalScsynth)">Play</button>
+      <button title="Evaluate program (/)" accesskey="/" onclick="sc.evalJsProgram()">Eval</button>
+      <button title="Play (,)" accesskey="," onclick="sc.playJsProgram(sc.globalScsynth)">Play</button>
       <button title="Reset (.)" accesskey="." onclick="sc.resetScsynth(sc.globalScsynth)">Reset</button>
-      <button title="Save document to local storage (s)" accesskey="s" onclick="ui.ui_save_program()">Save</button>
-      <button title="Print" onclick="ui.prettyPrintSyndef()">Print</button>
-      <button title="Set address to encode selection (a)" accesskey="a" onclick="ui.set_url_to_encode_selection()">Addr</button>
+      <button title="Save document to local storage (s)" accesskey="s" onclick="sc.ui_save_program()">Save</button>
+      <button title="Print" onclick="sc.prettyPrintSyndef()">Print</button>
+      <button title="Set address to encode selection (a)" accesskey="a" onclick="sc.set_url_to_encode_selection()">Addr</button>
       <select id="actionsMenu" title="Actions">
         <option value="">&#x2630;</option>
         <option value='setBlockSize'>Block Size</option>

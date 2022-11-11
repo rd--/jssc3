@@ -1,6 +1,6 @@
-import { textarea_get_selection_or_contents } from '../kernel/dom.js'
+import { textarea_get_selection_or_contents } from '../kernel/dom.ts'
 
-import { editor } from './editor.js'
+import { editor } from './editor.ts'
 
 let sc3_plaintext: HTMLTextAreaElement;
 

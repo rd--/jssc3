@@ -1,7 +1,7 @@
-import { asArray, arrayConcat, arrayLength } from '../kernel/array.js'
+import { asArray, arrayConcat, arrayLength } from '../kernel/array.ts'
 
-import { rateAr, rateDr, rateIr, rateKr } from './rate.js'
-import { Signal, BinaryOp, UnaryOp, makeUgen } from './ugen.js'
+import { rateAr, rateDr, rateIr, rateKr } from './rate.ts'
+import { Signal, BinaryOp, UnaryOp, makeUgen } from './ugen.ts'
 
 // Schroeder allpass delay line with cubic interpolation.
 export function AllpassC(input: Signal, maxdelaytime: Signal, delaytime: Signal, decaytime: Signal): Signal {
@@ -590,6 +590,18 @@ export function ModDif(x: Signal, y: Signal, mod: Signal): Signal {
 // Moog VCF implementation, designed by Federico Fontana
 export function MoogFF(input: Signal, freq: Signal, gain: Signal, reset: Signal): Signal {
     return makeUgen('MoogFF', 1, [0], 0, [input, freq, gain, reset]);
+}
+// Mouse button UGen.
+export function MouseButton(minval: Signal, maxval: Signal, lag: Signal): Signal {
+	return makeUgen('MouseButton', 1, rateKr, 0, [minval, maxval, lag]);
+}
+// Cursor tracking UGen.
+export function MouseX(minval: Signal, maxval: Signal, warp: Signal, lag: Signal): Signal {
+	return makeUgen('MouseX', 1, rateKr, 0, [minval, maxval, warp, lag]);
+}
+// Cursor tracking UGen.
+export function MouseY(minval: Signal, maxval: Signal, warp: Signal, lag: Signal): Signal {
+	return makeUgen('MouseY', 1, rateKr, 0, [minval, maxval, warp, lag]);
 }
 // Multiply add
 export function MulAdd(input: Signal, mul: Signal, add: Signal): Signal {

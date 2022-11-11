@@ -1,5 +1,5 @@
-import { isNumber } from '../kernel/number.js'
-import { isString } from '../kernel/string.js'
+import { isNumber } from '../kernel/number.ts'
+import { isString } from '../kernel/string.ts'
 
 // column_index_to_letter(6) === 'g'
 export function column_index_to_letter(column_index: number): string {

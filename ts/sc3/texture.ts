@@ -1,8 +1,8 @@
-import { arrayFromTo, arrayMap, arrayReduce } from '../kernel/array.js'
+import { arrayFromTo, arrayMap, arrayReduce } from '../kernel/array.ts'
 
-import { EnvGen, Impulse, add, mul } from './bindings.js'
-import { Env, envCoord } from './envelope.js'
-import { Signal, kr } from './ugen.js'
+import { EnvGen, Impulse, add, mul } from './bindings.ts'
+import { Env, envCoord } from './envelope.ts'
+import { Signal, kr } from './ugen.ts'
 
 export function OverlapTexture(graphFunc: (tr: Signal) => Signal, sustainTime: number, transitionTime: number, overlap: number): Signal {
 	const voiceFunction = function(i: number): Signal {

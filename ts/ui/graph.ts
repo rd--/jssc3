@@ -1,8 +1,8 @@
-import { consoleLogMessageFrom, consoleWarn } from '../kernel/error.js'
-import { url_append_timestamp, fetch_url_and_then } from '../kernel/io.js'
+import { consoleLogMessageFrom, consoleWarn } from '../kernel/error.ts'
+import { url_append_timestamp, fetch_url_and_then } from '../kernel/io.ts'
 
-import { editor } from './editor.js'
-import { resolve_file_type } from './notation.js'
+import { editor } from './editor.ts'
+import { resolve_file_type } from './notation.ts'
 
 export type LoadProc = (graphDir: string, graphName: string, fileType: string) => void;
 

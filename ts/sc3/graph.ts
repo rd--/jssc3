@@ -1,18 +1,19 @@
-import { isArray, arrayAppend, arrayFilter, arrayFindIndex, arrayForEach, arrayIndexOf, arrayLength, arrayMap, arrayNub, arrayReplicate, arraySort } from '../kernel/array.js'
-import { encodeInt8, encodeInt16, encodeInt32, encodeFloat32, encodePascalString } from '../kernel/encode.js'
-import { consoleDebug } from '../kernel/error.js'
-import { isNumber } from '../kernel/number.js'
-import { setIncludes, setNew, setAdd, setAsArray } from '../kernel/set.js'
+import { isArray, arrayAppend, arrayFilter, arrayFindIndex, arrayForEach, arrayIndexOf, arrayLength, arrayMap, arrayNub, arrayReplicate, arraySort } from '../kernel/array.ts'
+import { encodeInt8, encodeInt16, encodeInt32, encodeFloat32, encodePascalString } from '../kernel/encode.ts'
+import { consoleDebug } from '../kernel/error.ts'
+import { isNumber } from '../kernel/number.ts'
+import { setIncludes, setNew, setAdd, setAsArray } from '../kernel/set.ts'
 
-import { Tree } from '../stdlib/tree.js'
-import { flattenByteEncoding } from '../stdlib/u8.js'
+import { Tree } from '../stdlib/tree.ts'
+import { flattenByteEncoding } from '../stdlib/u8.ts'
 
-import { rateIr } from './rate.js'
-import { UgenInput, Ugen, ScUgen, Signal, scUgenCompare, isUgen, isScUgen } from './ugen.js'
+import { rateIr } from './rate.ts'
+import { UgenInput, Ugen, ScUgen, Signal, scUgenCompare, isUgen, isScUgen } from './ugen.ts'
 
 // traverse graph from p adding leaf nodes to the set c
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
 export function ugenTraverseCollecting(p: Tree<Ugen>, c: Set<number | ScUgen>, w: Set<number | ScUgen>): void {
+	consoleDebug(`ugenTraverseCollecting: ${p}, ${c}, ${w}`);
 	if(isArray(p)) {
 		consoleDebug(`ugenTraverseCollecting: array: ${p}`);
 		arrayForEach(p, item => ugenTraverseCollecting(item, c, w));
@@ -25,11 +26,12 @@ export function ugenTraverseCollecting(p: Tree<Ugen>, c: Set<number | ScUgen>, w
 			arrayForEach(mrgArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
 		}
 	} else {
-		console.error('ugenTraverseCollecting', p, c, w);
+		console.error('ugenTraverseCollecting: unknown type', p, c, w);
 	}
 }
 
 export function ugenGraphLeafNodes(p: Tree<Ugen>): Array<number | ScUgen> {
+	consoleDebug(`ugenGraphLeafNodes: ${p}`);
 	const c = <Set<number | ScUgen>>setNew();
 	ugenTraverseCollecting(p, c, setNew());
 	return setAsArray(c);
@@ -48,11 +50,13 @@ export class Graph {
 
 // This should check that signal is not a tree of numbers...
 export function signalToUgenGraph(signal: Signal): Tree<Ugen> {
+	consoleDebug(`signalToUgenGraph: ${signal}`);
 	return <Tree<Ugen>>signal;
 }
 
 // ugens are sorted by id, which is in applicative order. a maxlocalbufs ugen is always present.
 export function makeGraph(name: string, signal: Signal): Graph {
+	consoleDebug(`makeGraph: ${name}, ${signal}`);
 	const graph = signalToUgenGraph(signal);
 	const leafNodes = ugenGraphLeafNodes(graph);
 	const constantNodes = <number[]>arrayFilter(leafNodes, isNumber);
@@ -115,7 +119,9 @@ export function graphEncodeSyndef(graph: Graph): Uint8Array {
 	]);
 }
 
-export function encodeSignal(name: string, ugen: Signal): Uint8Array {
-	const graph = makeGraph(name, ugen);
-	return graphEncodeSyndef(graph);
+export function encodeUgen(name: string, ugen: Signal): Uint8Array {
+	consoleDebug(`encodeUgen: ${name}, ${ugen}`);
+	return graphEncodeSyndef(makeGraph(name, ugen));
+	//const graph = makeGraph(name, ugen);
+	//return graphEncodeSyndef(graph);
 }

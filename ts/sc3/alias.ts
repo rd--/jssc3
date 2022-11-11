@@ -1,6 +1,6 @@
-import { shiftLeft } from './bindings.js'
-import { Splay2 } from './pseudo.js'
-import { Signal } from './ugen.js'
+import { shiftLeft } from './bindings.ts'
+import { Splay2 } from './pseudo.ts'
+import { Signal } from './ugen.ts'
 
 export function splay2(inArray: Signal): Signal {
 	return Splay2(inArray);

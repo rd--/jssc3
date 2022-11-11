@@ -1,10 +1,10 @@
-import { arrayForEach, arrayLength, arrayMap, arrayReplicate } from '../kernel/array.js'
-import { isNumber } from '../kernel/number.js'
+import { arrayForEach, arrayLength, arrayMap, arrayReplicate } from '../kernel/array.ts'
+import { isNumber } from '../kernel/number.ts'
 
-import { Graph, graphUgenIndex, graphUgenInputSpec, makeGraph, SCgf } from './graph.js'
-import { wrapOut } from './pseudo.js'
-import { rateSelector } from './rate.js'
-import { Signal, Ugen, ScUgen, isUgen, ugenDisplayName } from './ugen.js'
+import { Graph, graphUgenIndex, graphUgenInputSpec, makeGraph, SCgf } from './graph.ts'
+import { wrapOut } from './pseudo.ts'
+import { rateSelector } from './rate.ts'
+import { Signal, Ugen, ScUgen, isUgen, ugenDisplayName } from './ugen.ts'
 
 export function graphPrintUgenSpec(graph: Graph, ugen: ScUgen): void {
 	console.log(

@@ -1,6 +1,6 @@
-import { arrayIota } from '../kernel/array.js'
-import { Dictionary, dictionaryNew } from '../kernel/dictionary.js'
-import { load_arraybuffer_and_then } from '../kernel/io.js'
+import { arrayIota } from '../kernel/array.ts'
+import { Dictionary, dictionaryNew } from '../kernel/dictionary.ts'
+import { load_arraybuffer_and_then } from '../kernel/io.ts'
 
 // Return the header fields of an audioBuffer.  length is the number of frames.
 export function audiobuffer_header(audioBuffer: AudioBuffer): Dictionary<number> {

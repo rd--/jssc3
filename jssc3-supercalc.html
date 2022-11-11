@@ -12,15 +12,13 @@
     <link rel="stylesheet" type="text/css" media="all" href="css/sc3-supercalc.css" />
     <script src="lib/osc.js/dist/osc-browser.js"></script>
     <script type="module">
-import * as sc from './js/sc3.js'
-import * as ui from './js/ui.js'
+import * as sc from './js/jssc3.js'
 import * as calc from './js/supercalc.js'
 globalThis.sc = sc;
-globalThis.ui = ui;
 globalThis.calc = calc;
 window.onload = function () {
-    sc.sc3_wasm_init(ui.setStatusDisplay);
-    ui.sc3_ui_init(sc.globalScsynth, {
+    sc.sc3_wasm_init(sc.setStatusDisplay);
+    sc.sc3_ui_init(globalScsynth, {
 	subDir: 'supercalc/',
 	hasProgramMenu: true,
 	hasHelpMenu: true,
@@ -28,13 +26,13 @@ window.onload = function () {
 	hasEssayMenu: false,
 	fileExt: '.json',
 	storageKey: 'jssc3SuperCalcUserPrograms/json',
-	loadProc: ui.graph_load,
+	loadProc: sc.graph_load,
 	initMouse: true,
 	hardwareBufferSize: 4096,
 	blockSize: 48
     });
-    calc.sc3_supercalc_init(ui.editor, 8, 8);
-    ui.jssc3_init('e', null, 's');
+    calc.sc3_supercalc_init(sc.editor, 8, 8);
+    sc.jssc3_init('e', null, 's');
 };
     </script>
   </head>
@@ -49,10 +47,10 @@ window.onload = function () {
       <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select>
     </div>
     <div>
-      <input type="file" id="programInputFile" accept=".stc,.js" onchange="ui.jssc3_read_input_program()" style="display:none">
+      <input type="file" id="programInputFile" accept=".stc,.js" onchange="sc.jssc3_read_input_program()" style="display:none">
       <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
-      <button title="Copy json to clipboard (c)"  accesskey="c" onclick="navigator.clipboard.writeText(ui.editor.get_data())">Copy</button>
-      <button title="Save document to local storage (s)" accesskey="s" onclick="ui.ui_save_program()">Save</button>
+      <button title="Copy json to clipboard (c)"  accesskey="c" onclick="navigator.clipboard.writeText(sc.editor.get_data())">Copy</button>
+      <button title="Save document to local storage (s)" accesskey="s" onclick="sc.ui_save_program()">Save</button>
       <select id="actionsMenu" title="Actions">
         <option value="">&#x2630;</option>
         <option value='setBlockSize'>Block Size</option>
@@ -62,7 +60,7 @@ window.onload = function () {
         <option value="userRestore" title="Load user programs from archive">Restore</option>
         <option value="userPurge" title="Delete all user programs">Purge</option>
       </select>
-      <button title="Boot" accesskey="b" onclick="sc.bootScsynth(sc.globalScsynth)">⏻ (Boot)</button>
+      <button title="Boot" accesskey="b" onclick="sc.bootScsynthWasm(globalScsynth)">⏻ (Boot)</button>
       <span id="statusText"></span>
       <button title="Init" onclick="calc.sc3_supercalc_server_setup()">Init</button>
     </div>

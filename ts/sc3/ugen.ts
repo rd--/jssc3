@@ -1,14 +1,14 @@
-import { isArray, asArray, arrayAtIndices, arrayContainsArray, arrayEvery, arrayExtendToBeOfEqualSize, arrayFillWithIndex, arrayFind, arrayForEach, arrayMap, arrayMaxItem, arrayTranspose } from '../kernel/array.js'
-import { consoleDebug, consoleError } from '../kernel/error.js'
-import { isNumber } from '../kernel/number.js'
-import { isObject } from '../kernel/object.js'
-import { setNew, setAdd } from '../kernel/set.js'
+import { isArray, asArray, arrayAtIndices, arrayContainsArray, arrayEvery, arrayExtendToBeOfEqualSize, arrayFillWithIndex, arrayFind, arrayForEach, arrayMap, arrayMaxItem, arrayTranspose } from '../kernel/array.ts'
+import { consoleDebug } from '../kernel/error.ts'
+import { isNumber } from '../kernel/number.ts'
+import { isObject } from '../kernel/object.ts'
+import { setNew, setAdd } from '../kernel/set.ts'
 
-import { Counter, counterNew } from '../stdlib/counter.js'
-import { Tree } from '../stdlib/tree.js'
+import { Counter, counterNew } from '../stdlib/counter.ts'
+import { Tree } from '../stdlib/tree.ts'
 
-import { binaryOperatorName, unaryOperatorName } from './operators.js'
-import { rateAr, rateIr, rateKr } from './rate.js'
+import { binaryOperatorName, unaryOperatorName } from './operators.ts'
+import { rateAr, rateIr, rateKr } from './rate.ts'
 
 const ugenCounter: Counter = counterNew();
 
@@ -36,7 +36,8 @@ export class ScUgen {
 }
 
 export function isScUgen(aValue: unknown): aValue is ScUgen {
-	return isObject(aValue) && aValue.constructor == ScUgen;
+	return aValue instanceof ScUgen;
+	//return isObject(aValue) && aValue.constructor.name == 'ScUgen';
 }
 
 export function scUgenCompare(i: ScUgen, j: ScUgen): number {
@@ -56,7 +57,8 @@ export class Ugen {
 }
 
 export function isUgen(aValue: unknown): aValue is Ugen {
-	return isObject(aValue) && aValue.constructor == Ugen;
+	return aValue instanceof Ugen;
+	//return isObject(aValue) && aValue.constructor.name == 'Ugen';
 }
 
 export function isUgenInput(aValue: unknown): aValue is UgenInput {
@@ -69,7 +71,7 @@ export function inputBranch<T>(input: UgenInput, onUgen: (aUgen: Ugen) => T, onN
 	} else if(isNumber(input)) {
 		return onNumber(input);
 	} else {
-		consoleError(`inputBranch: unknown input type: ${input}`);
+		console.error('inputBranch: unknown input type', input, typeof input, isUgen(input), isNumber(input));
 		return onError();
 	}
 }
@@ -149,7 +151,7 @@ export function mrg(lhs: Signal,rhs: Signal): Signal {
 		    setAdd(ugen.mrg, rhs);
 		}
 	} else {
-		consoleError('mrg: no ugen or ugen.mrg is null?');
+		console.error('mrg: no ugen or ugen.mrg is null?', lhs, rhs);
 	}
 	return lhs;
 }
@@ -173,7 +175,7 @@ export function krMutateInPlace(input: Tree<UgenInput | ScUgen>): void {
 		arrayForEach(input, item => krMutateInPlace(item));
 	} else {
 		if(!isNumber(input)) {
-		    consoleError(`krMutateInPlace: ${input}`);
+		    console.error('krMutateInPlace', input);
 		}
 	}
 }

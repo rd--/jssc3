@@ -1,8 +1,8 @@
-import { consoleDebug } from '../kernel/error.js'
-import { select_add_keys_as_options, select_add_option_at_id, select_clear_from, select_on_change } from '../kernel/dom.js'
-import { read_json_file_and_then } from '../kernel/io.js'
+import { consoleDebug } from '../kernel/error.ts'
+import { select_add_keys_as_options, select_add_option_at_id, select_clear_from, select_on_change } from '../kernel/dom.ts'
+import { read_json_file_and_then } from '../kernel/io.ts'
 
-import { editor } from './editor.js'
+import { editor } from './editor.ts'
 
 export type User = {
 	programs: { [key: string]: string },

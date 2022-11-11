@@ -1,11 +1,11 @@
-import { isArray, asArray, arrayClump, arrayConcatenation, arrayExtendToBeOfEqualSize, arrayFirst, arrayFromTo, arrayMaxItem, arrayReduce, arrayReplicate, arraySecond, arrayTranspose } from '../kernel/array.js'
-import { consoleDebug } from '../kernel/error.js'
+import { isArray, asArray, arrayClump, arrayConcatenation, arrayExtendToBeOfEqualSize, arrayFirst, arrayFromTo, arrayMaxItem, arrayReduce, arrayReplicate, arraySecond, arrayTranspose } from '../kernel/array.ts'
+import { consoleDebug } from '../kernel/error.ts'
 
-import { Maybe, fromMaybe } from '../stdlib/maybe.js'
+import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 
-import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, SampleRate, Select, SetBuf, SinOsc, TDuty, TIRand, Wrap, XFade2, XLine, add, fdiv, fold2, midiCps, mul, roundTo, shiftRight, sqrt, sub, trunc } from './bindings.js'
-import { Env, EnvAdsr, EnvAsr, EnvCutoff, envCoord } from './envelope.js'
-import { Signal, isOutUgen, kr, mrg } from './ugen.js'
+import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, SampleRate, Select, SetBuf, SinOsc, TDuty, TIRand, Wrap, XFade2, XLine, add, fdiv, fold2, midiCps, mul, roundTo, shiftRight, sqrt, sub, trunc } from './bindings.ts'
+import { Env, EnvAdsr, EnvAsr, EnvCutoff, envCoord } from './envelope.ts'
+import { Signal, isOutUgen, kr, mrg } from './ugen.ts'
 
 // wrapOut(0, mul(SinOsc(440, 0), 0.1))
 export function wrapOut(bus: Signal, ugen: Signal): Signal {
@@ -85,8 +85,8 @@ export function TDmdFor(dur: Signal, reset: Signal, level: Signal): Signal {
 	return TDuty(dur, reset, 0, level, 0);
 }
 
-export function DmdOn(trig: Signal, reset: Signal, demandUGens: Signal): Signal {
-	return Demand(trig, reset, demandUGens);
+export function DmdOn(trig: Signal, reset: Signal, demandUgens: Signal): Signal {
+	return Demand(trig, reset, demandUgens);
 }
 
 export const Seq = Dseq;

@@ -1,5 +1,5 @@
-import { get_select_element_and_then } from '../kernel/dom.js'
-import { stc_to_js_and_then } from '../sc3/stc.js'
+import { get_select_element_and_then } from '../kernel/dom.ts'
+import { stc_to_js_and_then } from '../sc3/stc.ts'
 
 export const notation = { format: '.stc' };
 

@@ -1,10 +1,10 @@
-import { arrayClump, arrayConcatenation, arrayFill, arrayFromTo, arrayTranspose } from '../kernel/array.js'
-import { nullFix } from '../kernel/null.js'
-import { numberTimesRepeat, randomFloat, randomInteger } from '../kernel/number.js'
+import { arrayClump, arrayConcatenation, arrayFill, arrayFromTo, arrayTranspose } from '../kernel/array.ts'
+import { nullFix } from '../kernel/null.ts'
+import { numberTimesRepeat, randomFloat, randomInteger } from '../kernel/number.ts'
 
-import { add, fdiv, mul, neg, recip, roundTo, trunc } from './bindings.js'
-import { Env, envCoord } from './envelope.js'
-import { Signal } from './ugen.js'
+import { add, fdiv, mul, neg, recip, roundTo, trunc } from './bindings.ts'
+import { Env, envCoord } from './envelope.ts'
+import { Signal } from './ugen.ts'
 
 export function append<T>(lhs: T[], rhs: T[]): T[] { return lhs.concat(rhs); } // smalltalk = ,
 export function choose<T>(anArray: T[]): T { return anArray[randomInteger(0, anArray.length)]; }

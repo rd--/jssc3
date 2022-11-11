@@ -1,9 +1,9 @@
-import { arrayFromTo } from '../kernel/array.js'
+import { arrayFromTo } from '../kernel/array.ts'
 
-import { Latch } from './bindings.js'
-import { ControlIn } from './pseudo.js'
-import { ServerMessage, c_set1, c_setn1 } from './servercommand.js'
-import { Signal } from './ugen.js'
+import { Latch } from './bindings.ts'
+import { ControlIn } from './pseudo.ts'
+import { ServerMessage, c_set1, c_setn1 } from './servercommand.ts'
+import { Signal } from './ugen.ts'
 
 type event<T> = { v: number, w: T, x: T, y: T, z: T, o: T, rx: T, ry: T, p: T, px: T };
 

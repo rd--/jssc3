@@ -1,9 +1,9 @@
-import { prompt_for_int_and_then, select_on_change } from '../kernel/dom.js'
-import { load_utf8_and_then } from '../kernel/io.js'
+import { prompt_for_int_and_then, select_on_change } from '../kernel/dom.ts'
+import { load_utf8_and_then } from '../kernel/io.ts'
 
-import { ScsynthWasm } from '../sc3/scsynth-wasm.js'
+import { ScsynthWasm } from '../sc3/scsynth-wasm.ts'
 
-import { user, user_program_clear } from './user.js'
+import { user, user_program_clear } from './user.ts'
 
 // Copy user programs as .json to clipboard
 export function action_user_backup(): void {

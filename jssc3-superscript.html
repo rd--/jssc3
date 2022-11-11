@@ -10,14 +10,12 @@
     <script src="lib/osc.js/dist/osc-browser.js"></script>
     <script src="lib/quill/quill.js"></script>
     <script type="module">
-import * as sc from './js/sc3.js'
-import * as ui from './js/ui.js'
+import * as sc from './js/jssc3.js'
 import { sc3_superscript_init } from './js/superscript.js'
 globalThis.sc = sc;
-globalThis.ui = ui;
 window.onload = function () {
-    sc.sc3_wasm_init(ui.setStatusDisplay);
-    ui.sc3_ui_init(sc.globalScsynth, {
+    sc.sc3_wasm_init(sc.setStatusDisplay);
+    sc.sc3_ui_init(globalScsynth, {
 	subDir: '',
 	hasProgramMenu: false,
 	hasHelpMenu: false,
@@ -25,13 +23,13 @@ window.onload = function () {
 	hasEssayMenu: true,
 	fileExt: '.html',
 	storageKey: 'jssc3UserPrograms/html',
-	loadProc: ui.graph_load,
+	loadProc: sc.graph_load,
 	initMouse: true,
 	hardwareBufferSize: 4096,
 	blockSize: 48
     });
-    sc3_superscript_init(ui.editor);
-    ui.jssc3_init('e', 'help/essay/jssc3-1.html', null);
+    sc3_superscript_init(sc.editor);
+    sc.jssc3_init('e', 'help/essay/jssc3-1.html', null);
 };
     </script>
   </head>
@@ -45,15 +43,15 @@ window.onload = function () {
       <select id="userMenu" title="User (u)" accesskey="u"><option value="">--User--</option></select>
     </div>
     <div>
-      <input type="file" id="programInputFile" accept=".html" onchange="ui.jssc3_read_input_program()" style="display:none">
+      <input type="file" id="programInputFile" accept=".html" onchange="sc.jssc3_read_input_program()" style="display:none">
       <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
-      <button title="Copy document to clipboard (c)" accesskey="c" onclick="navigator.clipboard.writeText(ui.editor.get_data())">Copy</button>
-      <button title="Evaluate program (/)" accesskey="/" onclick="ui.evalJsProgram()">Eval</button>
-      <button title="Play (,)" accesskey="," onclick="ui.playJsProgram(sc.globalScsynth)">Play</button>
-      <button title="Reset (.)" accesskey="." onclick="sc.resetScsynth(sc.globalScsynth)">Reset</button>
-      <button title="Save document to local storage (s)" accesskey="s" onclick="ui.ui_save_program()">Save</button>
-      <button title="Print" onclick="ui.prettyPrintSyndef()">Print</button>
-      <select id="notationFormat" title="Notation format" onchange="ui.set_notation_format()">
+      <button title="Copy document to clipboard (c)" accesskey="c" onclick="navigator.clipboard.writeText(sc.editor.get_data())">Copy</button>
+      <button title="Evaluate program (/)" accesskey="/" onclick="sc.evalJsProgram()">Eval</button>
+      <button title="Play (,)" accesskey="," onclick="sc.playJsProgram(globalScsynth)">Play</button>
+      <button title="Reset (.)" accesskey="." onclick="sc.resetScsynthWasm(globalScsynth)">Reset</button>
+      <button title="Save document to local storage (s)" accesskey="s" onclick="sc.ui_save_program()">Save</button>
+      <button title="Print" onclick="sc.prettyPrintSyndef()">Print</button>
+      <select id="notationFormat" title="Notation format" onchange="sc.set_notation_format()">
         <option value=".stc" accesskey="t">.stc</option>
         <option value=".js" accesskey="j">.js</option>
       </select>
@@ -66,7 +64,7 @@ window.onload = function () {
         <option value="userPurge" title="Delete all user programs">Purge</option>
         <option value="documentVisit" title="Visit document named in selected text (v)" accesskey="v">Visit</option>
       </select>
-      <button title="Boot" accesskey="b" onclick="sc.bootScsynth(sc.globalScsynth)">⏻ (Boot)</button>
+      <button title="Boot" accesskey="b" onclick="sc.bootScsynthWasm(globalScsynth)">⏻ (Boot)</button>
       <span id="statusText"></span>
     </div>
     <script src="lib/quill/quill.js"></script>

@@ -1,4 +1,4 @@
-import { fetch_url_and_then } from '../kernel/io.js'
+import { fetch_url_and_then } from '../kernel/io.ts'
 
 export function stc_is_binary_selector(text: string): boolean {
 	const allowed = Array.from('!%&*+/<=>?@\\~|-');

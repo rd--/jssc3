@@ -1,12 +1,12 @@
-import { asArray, arrayAtWrap, arrayLength } from '../kernel/array.js'
-import { isString } from '../kernel/string.js'
+import { asArray, arrayAtWrap, arrayLength } from '../kernel/array.ts'
+import { isString } from '../kernel/string.ts'
 
-import { Maybe, fromMaybe } from '../stdlib/maybe.js'
-import { queueNew, queuePush, queueAsArray } from '../stdlib/queue.js'
-import { Tree } from '../stdlib/tree.js'
+import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
+import { queueNew, queuePush, queueAsArray } from '../stdlib/queue.ts'
+import { Tree } from '../stdlib/tree.ts'
 
-import { mul } from './bindings.js'
-import { Signal, UgenInput } from './ugen.js'
+import { mul } from './bindings.ts'
+import { Signal, UgenInput } from './ugen.ts'
 
 export const envCurveDictionary: Record<string, number> = {
 	step: 0,

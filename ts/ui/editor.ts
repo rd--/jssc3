@@ -1,9 +1,9 @@
-import { read_text_file_from_file_input_and_then } from '../kernel/io.js'
-import { window_url_set_param } from '../kernel/dom.js'
+import { read_text_file_from_file_input_and_then } from '../kernel/io.ts'
+import { window_url_set_param } from '../kernel/dom.ts'
 
-import { ScsynthWasm, playUgen } from '../sc3/scsynth-wasm.js'
-import { prettyPrintSyndefOf } from '../sc3/graph-print.js'
-import { translate_if_required_and_then } from './notation.js'
+import { ScsynthWasm, playUgenWasm } from '../sc3/scsynth-wasm.ts'
+import { prettyPrintSyndefOf } from '../sc3/graph-print.ts'
+import { translate_if_required_and_then } from './notation.ts'
 
 export type Editor = {
 	get_selected_text: () => string,
@@ -38,7 +38,7 @@ export function evalJsProgram(): void {
 export function playJsProgram(scsynth: ScsynthWasm) {
 	editor_get_js_notation_and_then(function(programText) {
 		const result = eval(programText);
-		playUgen(scsynth, result);
+		playUgenWasm(scsynth, result);
 	});
 }
 
