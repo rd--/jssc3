@@ -37,7 +37,10 @@ export class ScUgen {
 
 export function isScUgen(aValue: unknown): aValue is ScUgen {
 	return aValue instanceof ScUgen;
-	//return isObject(aValue) && aValue.constructor.name == 'ScUgen';
+}
+
+export function isScUgenByName(aValue: unknown): aValue is ScUgen {
+	return isObject(aValue) && aValue.constructor.name == 'ScUgen';
 }
 
 export function scUgenCompare(i: ScUgen, j: ScUgen): number {
@@ -58,7 +61,10 @@ export class Ugen {
 
 export function isUgen(aValue: unknown): aValue is Ugen {
 	return aValue instanceof Ugen;
-	//return isObject(aValue) && aValue.constructor.name == 'Ugen';
+}
+
+export function isUgenByName(aValue: unknown): aValue is Ugen {
+	return isObject(aValue) && aValue.constructor.name == 'Ugen';
 }
 
 export function isUgenInput(aValue: unknown): aValue is UgenInput {
