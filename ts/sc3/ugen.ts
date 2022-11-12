@@ -1,5 +1,5 @@
 import { isArray, asArray, arrayAtIndices, arrayContainsArray, arrayEvery, arrayExtendToBeOfEqualSize, arrayFillWithIndex, arrayFind, arrayForEach, arrayMap, arrayMaxItem, arrayTranspose } from '../kernel/array.ts'
-import { consoleDebug } from '../kernel/error.ts'
+import { consoleDebug, throwError } from '../kernel/error.ts'
 import { isNumber } from '../kernel/number.ts'
 import { isObject } from '../kernel/object.ts'
 import { setNew, setAdd } from '../kernel/set.ts'
@@ -77,7 +77,7 @@ export function inputBranch<T>(input: UgenInput, onUgen: (aUgen: Ugen) => T, onN
 	} else if(isNumber(input)) {
 		return onNumber(input);
 	} else {
-		console.error('inputBranch: unknown input type', input, typeof input, isUgen(input), isNumber(input));
+		throwError(`inputBranch: unknown input type: ${input}, ${typeof input}, ${isUgen(input)}, ${isNumber(input)}`);
 		return onError();
 	}
 }
@@ -157,7 +157,7 @@ export function mrg(lhs: Signal,rhs: Signal): Signal {
 		    setAdd(ugen.mrg, rhs);
 		}
 	} else {
-		console.error('mrg: no ugen or ugen.mrg is null?', lhs, rhs);
+		throwError(`mrg: no ugen or ugen.mrg is null: ${lhs}, ${rhs}`);
 	}
 	return lhs;
 }
@@ -181,7 +181,7 @@ export function krMutateInPlace(input: Tree<UgenInput | ScUgen>): void {
 		arrayForEach(input, item => krMutateInPlace(item));
 	} else {
 		if(!isNumber(input)) {
-		    console.error('krMutateInPlace', input);
+		    throwError(`krMutateInPlace: ${input}`);
 		}
 	}
 }

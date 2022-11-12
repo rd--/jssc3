@@ -15,6 +15,11 @@ export function consoleError(text: string): void {
 	console.error(text);
 }
 
+export function throwError(text: string): void {
+	console.error(text);
+	throw(Error(text));
+}
+
 export function consoleLog(text: string): void {
 	console.log(text);
 }
