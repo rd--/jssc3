@@ -11,7 +11,7 @@ import * as sc from './js/jssc3.js'
 globalThis.sc = sc;
 window.onload = function () {
     sc.sc3_wasm_init(sc.setStatusDisplay);
-    sc.sc3_ui_init(globalScsynth,	{
+    sc.sc3_ui_init(globalScsynth, {
 	subDir: '',
 	hasProgramMenu: true,
 	hasHelpMenu: true,
@@ -20,7 +20,7 @@ window.onload = function () {
 	fileExt: null,
 	storageKey: 'jssc3UserPrograms/js',
 	loadProc: sc.graph_load,
-	initMouse: true,
+	initWasm: true,
 	hardwareBufferSize: 4096,
 	blockSize: 48
     });

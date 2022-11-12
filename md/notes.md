@@ -1,3 +1,20 @@
+## SfAcquire
+
+This needs access the scsynth connection.
+It currenly reads globalScsynth.
+It should require an initial argument.
+Since programs are generally written in an "open" form,
+this value can be bound by the same mechanism that provides "play" and "draw" &etc.
+It needs to have a known name, perhaps "synth" or "sys:synth" in case there are others?
+
+## Pointer
+
+Scsynth Wasm does not implement the Mouse Ugens.
+The Pointer Ugens are unit based.
+There are pointerMouse functions to emulate Mouse using Pointer.
+In Js module exports cannot be mutated.
+Pointer is a record and Pointer.x can refer to either MouseX or PointerMouseX.
+
 ## Libraries
 
 _jssc3_ requires the following libraries:

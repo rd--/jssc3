@@ -18,7 +18,7 @@ export function PointerY(n: number): Signal {
 Web Assembly scsynth does not include the Mouse unit generators.
 */
 
-export function pointerMouseX(minval: Signal, maxval: Signal, warp: Signal, lag: Signal): Signal {
+export function PointerMouseX(minval: Signal, maxval: Signal, warp: Signal, lag: Signal): Signal {
 	switch(warp) {
 		case 0: return LinLin(Lag(PointerX(0), lag), 0, 1, minval, maxval);
 		case 1: return LinExp(Lag(PointerX(0), lag), 0, 1, minval, maxval);
@@ -26,7 +26,7 @@ export function pointerMouseX(minval: Signal, maxval: Signal, warp: Signal, lag:
 	}
 }
 
-export function pointerMouseY(minval: Signal, maxval: Signal, warp: Signal, lag: Signal): Signal {
+export function PointerMouseY(minval: Signal, maxval: Signal, warp: Signal, lag: Signal): Signal {
 	switch(warp) {
 		case 0: return LinLin(Lag(PointerY(0), lag), 0, 1, minval, maxval);
 		case 1: return LinExp(Lag(PointerY(0), lag), 0, 1, minval, maxval);
@@ -34,13 +34,12 @@ export function pointerMouseY(minval: Signal, maxval: Signal, warp: Signal, lag:
 	}
 }
 
-export function pointerMouseButton(minval: Signal, maxval: Signal, lag: Signal): Signal {
+export function PointerMouseButton(minval: Signal, maxval: Signal, lag: Signal): Signal {
 	return LinLin(Lag(PointerW(0), lag), 0, 1, minval, maxval);
 }
 
-// Overwrite sc3-bindings definitions with the sc3-pointer definition
-export function pointerRebind(aModule: Record<string, unknown>) {
-	aModule.MouseX = pointerMouseX;
-	aModule.MouseY = pointerMouseY;
-	aModule.MouseButton = pointerMouseButton;
-}
+export const Pointer = {
+	x: PointerMouseX,
+	y: PointerMouseY,
+	z: PointerMouseButton
+};
