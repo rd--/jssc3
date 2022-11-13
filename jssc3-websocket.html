@@ -31,8 +31,8 @@ window.onload = function () {
     <div>
       <input type="file" id="programInputFile" accept=".stc,.js" onchange="jssc3_read_input_program()" style="display:none">
       <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
-      <button title="Play (,)" accesskey="," onclick="playJsProgram()">Play</button>
-      <button title="Reset (.)" accesskey="." onclick="reset()">Reset</button>
+      <button title="Play (,)" accesskey="," onclick="sc.playJsProgramWasm(globalScynth)">Play</button>
+      <button title="Reset (.)" accesskey="." onclick="sc.resetScsynthWasm(globalScsynth)">Reset</button>
       <button title="Print" onclick="prettyPrintSyndef()">Print</button>
       <button title="Save document to local storage (s)" accesskey="s" onclick="ui_save_program()">Save</button>
       <select id="notationFormat" title="Notation format" onchange="set_notation_format()">

@@ -47,7 +47,7 @@ window.onload = function () {
       <input type="file" id="programInputFile" accept=".spl" onchange="sc.jssc3_read_input_program()" style="display:none">
       <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
       <button title="Evaluate program (/)" accesskey="/" onclick="sc.evalJsProgram()">Eval</button>
-      <button title="Play (,)" accesskey="," onclick="sc.playJsProgram(globalScsynth)">Play</button>
+      <button title="Play (,)" accesskey="," onclick="sc.playJsProgramWasm(globalScsynth)">Play</button>
       <button title="Reset (.)" accesskey="." onclick="sc.resetScsynthWasm(globalScsynth)">Reset</button>
       <button title="Save document to local storage (s)" accesskey="s" onclick="sc.ui_save_program()">Save</button>
       <button title="Print" onclick="sc.prettyPrintSyndef()">Print</button>

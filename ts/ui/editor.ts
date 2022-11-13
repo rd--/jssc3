@@ -35,7 +35,7 @@ export function evalJsProgram(): void {
 	});
 }
 
-export function playJsProgram(scsynth: ScsynthWasm) {
+export function playJsProgramWasm(scsynth: ScsynthWasm) {
 	editor_get_js_notation_and_then(function(programText) {
 		const result = eval(programText);
 		playUgenWasm(scsynth, result);
