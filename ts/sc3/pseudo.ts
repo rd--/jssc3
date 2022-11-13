@@ -3,7 +3,7 @@ import { consoleDebug } from '../kernel/error.ts'
 
 import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 
-import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, SampleRate, Select, SetBuf, SinOsc, TDuty, TIRand, Wrap, XFade2, XLine, add, fdiv, fold2, midiCps, mul, roundTo, shiftRight, sqrt, sub, trunc } from './bindings.ts'
+import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, SampleRate, Select, SetBuf, SinOsc, TDuty, TIRand, Wrap, XFade2, XLine, add, fdiv, fold2, midiCps, mul, roundTo, shiftRight, sqrt, sub, trunc } from './bindings.ts'
 import { Env, EnvAdsr, EnvAsr, EnvCutoff, envCoord } from './envelope.ts'
 import { Signal, isOutUgen, kr, mrg } from './ugen.ts'
 
@@ -141,7 +141,11 @@ export function BufRec(bufnum: Signal, reset: Signal, inputArray: Signal): Signa
 	return RecordBuf(bufnum, 0, 1, 0, 1, 1, reset, 0, inputArray);
 }
 
-const BufAlloc = LocalBuf;
+export const BufAlloc = LocalBuf;
+
+export function BufWrite(bufnum: Signal, phase: Signal, loop: Signal, inputArray: Signal): Signal {
+	return BufWr(inputArray, bufnum, phase, loop);
+}
 
 // Reshape input arrays, and allow amp and time to be null (defaulting to 1)
 export function asKlankSpec(freq: Signal, amp: Maybe<Signal>, time: Maybe<Signal>): Signal {

@@ -24,3 +24,11 @@ export function stringUnlines(anArray: string[]): string {
 export function stringAppend(lhs: string, rhs: string): string {
 	return lhs + rhs;
 }
+
+export function stringToCharCodeArray(aString: string): number[] {
+	const answer = [];
+	for (let i = 0; i < aString.length; i ++) {
+		answer.push(aString.charCodeAt(i));
+	}
+	return answer;
+}
