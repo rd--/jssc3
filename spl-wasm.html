@@ -31,7 +31,7 @@ window.onload = function () {
     sc.jssc3_init('e', null, 's');
     sc.notation.format = '.stc';
     sc.notationTranslationTable['.stc'] = function(text, proc) {  proc(sl.rewriteString(text)) };
-    eval(sl.rewriteString("loadPath('lib/spl-js/sl'); load('prelude.sl'); load('sc.sl')"));
+    sl.loadUrlArrayInSequence('lib/spl-js/sl', ['prelude.sl', 'sc.sl']);
 };
     </script>
   </head>
