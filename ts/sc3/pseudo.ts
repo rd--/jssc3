@@ -4,7 +4,7 @@ import { consoleDebug } from '../kernel/error.ts'
 import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 
 import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, SampleRate, Select, SetBuf, SinOsc, TDuty, TIRand, Wrap, XFade2, XLine, add, fdiv, fold2, midiCps, mul, roundTo, shiftRight, sqrt, sub, trunc } from './bindings.ts'
-import { Env, EnvAdsr, EnvAsr, EnvCutoff, envCoord } from './envelope.ts'
+import { Env, EnvAdsr, EnvAsr, EnvCutoff, EnvRelease, envCoord } from './envelope.ts'
 import { Signal, isOutUgen, kr, mrg } from './ugen.ts'
 
 // wrapOut(0, mul(SinOsc(440, 0), 0.1))
@@ -248,4 +248,9 @@ export function Osc1(buf: Signal, dur: Signal): Signal {
 	const loop = 0;
 	const interpolation = 2;
 	return BufRd(numChan, buf, phase, loop, interpolation);
+}
+
+export function Release(input: Signal, attackTime: Signal, dur: Signal, releaseTime: Signal): Signal {
+	const env = EnvRelease(attackTime, dur, releaseTime)
+	return mul(input, EnvGen(1, 1, 0, 1, 2, envCoord(env)));
 }

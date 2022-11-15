@@ -71,7 +71,8 @@ export function EnvAdsr(attackTime: Signal, decayTime: Signal, sustainLevel: Sig
 		curve,
 		2,
 		null,
-		0);
+		0
+	 );
 }
 
 export function EnvAsr(attackTime: Signal, sustainLevel: Signal, releaseTime: Signal, curve: Signal): Env {
@@ -81,7 +82,8 @@ export function EnvAsr(attackTime: Signal, sustainLevel: Signal, releaseTime: Si
 		curve,
 		1,
 		null,
-		0);
+		0
+	);
 }
 
 export function EnvCutoff(sustainTime: Signal, releaseTime: Signal, curve: Signal): Env {
@@ -91,5 +93,17 @@ export function EnvCutoff(sustainTime: Signal, releaseTime: Signal, curve: Signa
 		curve,
 		null,
 		null,
-		0);
+		0
+	);
+}
+
+export function EnvRelease(attackTime: Signal, dur: Signal, releaseTime: Signal): Env {
+	return Env(
+		[0, 1, 1, 0],
+		[attackTime, dur, releaseTime],
+		'lin',
+		null,
+		null,
+		0
+	);
 }
