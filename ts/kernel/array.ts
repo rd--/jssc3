@@ -42,6 +42,10 @@ export function arrayClump<T>(anArray: T[], clumpSize: number): T[][] {
 	return arrayIota(clumpCount).map(i => anArray.slice(i * clumpSize, i * clumpSize + clumpSize));
 }
 
+export function arrayCollect<T, U>(anArray: T[], aFunction: (aValue: T) => U): U[] {
+	return anArray.map(aFunction);
+}
+
 // arrayConcat([1, 2, 3], [4, 5, 6]) //= [1, 2, 3, 4, 5, 6] ; c.f. arrayAppend
 export function arrayConcat<T>(lhs: T[], rhs: T[]): T[] {
 	return lhs.concat(rhs);
@@ -165,7 +169,7 @@ export function arrayLength<T>(anArray: T[]): number {
 	return anArray.length;
 }
 
-export function arrayMap<T, U>(anArray: T[], aFunction: (aValue: T) => U): U[] {
+export function arrayMap<T, U>(aFunction: (aValue: T) => U, anArray: T[]): U[] {
 	return anArray.map(aFunction);
 }
 

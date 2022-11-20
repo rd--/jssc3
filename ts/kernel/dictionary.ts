@@ -1,7 +1,7 @@
 export type Dictionary<T> = Record<string, T>;
 
 export function isDictionary<T>(aValue: unknown): aValue is Dictionary<T> {
-	return (typeof aValue) == 'object';
+	return (typeof aValue) === 'object';
 }
 
 export function dictionaryNew<T>(): Dictionary<T> {

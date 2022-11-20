@@ -13,7 +13,7 @@ export function graphPrintUgenSpec(graph: Graph, ugen: ScUgen): void {
 		arrayLength(ugen.inputArray),
 		ugen.numChan,
 		ugen.specialIndex,
-		arrayMap(ugen.inputArray, input => graphUgenInputSpec(graph, input)),
+		arrayMap(input => graphUgenInputSpec(graph, input), ugen.inputArray),
 		arrayReplicate(ugen.numChan, ugen.rate)
 	);
 }
@@ -47,7 +47,7 @@ export function graphPrettyPrintUgen(graph: Graph, ugen: ScUgen): void {
 	console.log(
 		graphUgenIndex(graph, ugen.id) + '_' + ugenDisplayName(ugen),
 		rateSelector(ugen.rate),
-		'[' + String(arrayMap(ugen.inputArray, input => graphInputDisplayName(graph, input))) + ']'
+		'[' + String(arrayMap(input => graphInputDisplayName(graph, input), ugen.inputArray)) + ']'
 	);
 }
 

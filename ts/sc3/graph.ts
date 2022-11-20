@@ -98,7 +98,7 @@ export function graphEncodeUgenSpec(graph: Graph, ugen: ScUgen): Tree<Uint8Array
 		encodeInt32(arrayLength(ugen.inputArray)),
 		encodeInt32(ugen.numChan),
 		encodeInt16(ugen.specialIndex),
-		arrayMap(ugen.inputArray, input => arrayMap(graphUgenInputSpec(graph, input), index => encodeInt32(index))),
+		arrayMap(input => arrayMap(index => encodeInt32(index), graphUgenInputSpec(graph, input)), ugen.inputArray),
 		arrayReplicate(ugen.numChan, encodeInt8(ugen.rate))
 	];
 }
@@ -110,11 +110,11 @@ export function graphEncodeSyndef(graph: Graph): Uint8Array {
 		encodeInt16(1), // # synth definitions
 		encodePascalString(graph.name), // pstring
 		encodeInt32(arrayLength(graph.constantSeq)),
-		arrayMap(graph.constantSeq, item => encodeFloat32(item)),
+		arrayMap(item => encodeFloat32(item), graph.constantSeq),
 		encodeInt32(0), // # param
 		encodeInt32(0), // # param names
 		encodeInt32(arrayLength(graph.ugenSeq)),
-		arrayMap(graph.ugenSeq, item => graphEncodeUgenSpec(graph, item)),
+		arrayMap(item => graphEncodeUgenSpec(graph, item), graph.ugenSeq),
 		encodeInt16(0) // # variants
 	]);
 }

@@ -95,7 +95,7 @@ export function deriveRate(rateOrFilterUgenInputs: RateSpec, inputArray: UgenInp
 	if(isNumber(rateOrFilterUgenInputs)) {
 		return rateOrFilterUgenInputs;
 	} else {
-		return arrayMaxItem(arrayMap(arrayAtIndices(inputArray, <number[]>rateOrFilterUgenInputs), inputRate));
+		return arrayMaxItem(arrayMap(inputRate, arrayAtIndices(inputArray, <number[]>rateOrFilterUgenInputs)));
 	}
 }
 
@@ -110,7 +110,7 @@ export function mceInputTransform(aSignal: Signal[]): Signal[] {
 export function makeUgen(name: string, numChan: number, rateSpec: RateSpec, specialIndex: number, signalArray: Signal[]): Signal {
 	consoleDebug(`makeUgen: ${name} ${numChan} ${rateSpec} ${specialIndex} ${signalArray}`);
 	if(requiresMce(signalArray)) {
-		return arrayMap(mceInputTransform(signalArray), item => makeUgen(name, numChan, rateSpec, specialIndex, <Signal[]>item));
+		return arrayMap(item => makeUgen(name, numChan, rateSpec, specialIndex, <Signal[]>item), mceInputTransform(signalArray));
 	} else {
 		const inputArray = <UgenInput[]>signalArray;
 		const scUgen = new ScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
@@ -136,7 +136,7 @@ export function ugenDisplayName(ugen: ScUgen): string {
 export function inputFirstUgen(input: Signal): ScUgen | null {
 	if(isArray(input)) {
 		consoleDebug(`inputFirstUgen: array: ${input}`);
-		return arrayFind(arrayMap(input, inputFirstUgen), isScUgen) || null;
+		return arrayFind(arrayMap(inputFirstUgen, input), isScUgen) || null;
 	} else if(isUgen(input)) {
 		consoleDebug(`inputFirstUgen: port: ${input}`);
 		return (input).scUgen;
@@ -219,7 +219,7 @@ export function isArrayConstant(aValue: unknown): aValue is Array<number> {
 
 export function UnaryOp(specialIndex: number, input: Signal): Signal {
 	if(isArray(input) && arrayEvery(input, isNumber)) {
-		return arrayMap(input, item => UnaryOpWithConstantOptimiser(specialIndex, item));
+		return arrayMap(item => UnaryOpWithConstantOptimiser(specialIndex, item), input);
 	} else {
 		return UnaryOpWithConstantOptimiser(specialIndex, input);
 	}
@@ -241,7 +241,7 @@ export function BinaryOp(specialIndex: number, lhs: Signal, rhs: Signal): Signal
 	if(isArray(lhs) || isArray(rhs)) {
 		const expanded = mceInputTransform([asArray(lhs), asArray(rhs)]);
 		consoleDebug(`BinaryOp: array constant: ${expanded}`);
-		return arrayMap(<UgenInput[][]>expanded, item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]));
+		return arrayMap(item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]), <UgenInput[][]>expanded);
 	} else {
 		return BinaryOpWithConstantOptimiser(specialIndex, lhs, rhs);
 	}

@@ -99,12 +99,12 @@ export function Ln(start: Signal, end: Signal, dur: Signal): Signal {
 }
 
 export function TLine(start: Signal, end: Signal, dur: Signal, trig: Signal): Signal {
-	const env = Env([start, start, end], [0, dur], 'lin', null, null, 0);
+	const env = new Env([start, start, end], [0, dur], 'lin', null, null, 0);
 	return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
 }
 
 export function TXLine(start: Signal, end: Signal, dur: Signal, trig: Signal): Signal {
-	const env = Env([start, start, end], [0, dur], 'exp', null, null, 0);
+	const env = new Env([start, start, end], [0, dur], 'exp', null, null, 0);
 	return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
 }
 
@@ -167,7 +167,7 @@ export function LinSeg(gate: Signal, coordArray: Signal[]): Signal {
 	const coord = arrayTranspose(arrayClump(coordArray, 2));
 	const levels = arrayFirst(coord);
 	const times = arraySecond(coord);
-	const env = Env(levels, times.slice(0, times.length - 1), 'lin', null, null, 0);
+	const env = new Env(levels, times.slice(0, times.length - 1), 'lin', null, null, 0);
 	return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 
@@ -253,4 +253,16 @@ export function Osc1(buf: Signal, dur: Signal): Signal {
 export function Release(input: Signal, attackTime: Signal, dur: Signal, releaseTime: Signal): Signal {
 	const env = EnvRelease(attackTime, dur, releaseTime)
 	return mul(input, EnvGen(1, 1, 0, 1, 2, envCoord(env)));
+}
+
+export function Sine(trig: Signal, dur: Signal): Signal {
+	const env = new Env(
+		[0, 0, 1, 0],
+		[0, fdiv(dur, 2), fdiv(dur, 2)],
+		'sine',
+		null,
+		1,
+		0
+	);
+	return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
 }

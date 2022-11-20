@@ -1,9 +1,10 @@
 import { asArray, arrayAtWrap, arrayLength } from '../kernel/array.ts'
+import { throwError } from '../kernel/error.ts'
 import { isString } from '../kernel/string.ts'
 
 import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 import { queueNew, queuePush, queueAsArray } from '../stdlib/queue.ts'
-import { Tree } from '../stdlib/tree.ts'
+import { Tree, treeDepthFrom, treeFlatten } from '../stdlib/tree.ts'
 
 import { mul } from './bindings.ts'
 import { Signal, UgenInput } from './ugen.ts'
@@ -19,32 +20,29 @@ export const envCurveDictionary: Record<string, number> = {
 	hold: 8
 };
 
-export type Env = Record<string, any>;
-
-/*
-export type Env = {
-	levels: Signal[],
-	times: Signal[],
-	curves: EnvCurve[],
-	releaseNode: number,
-	loopNode: number,
-	offset: number
-};
-*/
-
-export type EnvCurve = string | UgenInput;
-
 // envCoord(Env([0, 1, 0], [0.1, 0.9], 'lin', null, null, 0)) // => [0, 2, -99, -99, 1, 0.1, 1, 0, 0, 0.9, 1, 0]
-export function Env(levels: Signal[], times: Signal[], curves: Tree<EnvCurve>, releaseNode: Maybe<number>, loopNode: Maybe<number>, offset: number): Env {
-	return {
-		levels: levels,
-		times: times,
-		curves: asArray(curves),
-		releaseNode: fromMaybe(releaseNode, -99),
-		loopNode: fromMaybe(loopNode, -99),
-		offset: offset
+export class Env {
+	levels: UgenInput[];
+	times: UgenInput[];
+	curves: EnvCurve[];
+	releaseNode: number;
+	loopNode: number;
+	offset: number;
+	constructor(levels: Signal[], times: Signal[], curves: Tree<EnvCurve>, releaseNode: Maybe<number>, loopNode: Maybe<number>, offset: number) {
+		// Placate typescript, this should be fixed properly but for the moment it's an error...
+		if(treeDepthFrom(levels, 0) > 1 || treeDepthFrom(times, 0) > 1 || treeDepthFrom(curves, 0) > 1) {
+			 throwError('Env: nested inputs?');
+		}
+		this.levels = treeFlatten(levels);
+		this.times = treeFlatten(times);
+		this.curves = treeFlatten(curves);
+		this.releaseNode = fromMaybe(releaseNode, -99);
+		this.loopNode = fromMaybe(loopNode, -99);
+		this.offset = offset;
 	};
 }
+
+export type EnvCurve = string | UgenInput;
 
 export function envCoord(env: Env): Signal[] {
 	const segmentCount = arrayLength(env.levels) - 1;
@@ -65,7 +63,7 @@ export function envCoord(env: Env): Signal[] {
 }
 
 export function EnvAdsr(attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, peakLevel: Signal, curve: Signal): Env {
-	 return Env(
+	 return new Env(
 		[0, peakLevel, mul(peakLevel, sustainLevel), 0],
 		[attackTime, decayTime, releaseTime],
 		curve,
@@ -76,7 +74,7 @@ export function EnvAdsr(attackTime: Signal, decayTime: Signal, sustainLevel: Sig
 }
 
 export function EnvAsr(attackTime: Signal, sustainLevel: Signal, releaseTime: Signal, curve: Signal): Env {
-	return Env(
+	return new Env(
 		[0, sustainLevel, 0],
 		[attackTime, releaseTime],
 		curve,
@@ -87,7 +85,7 @@ export function EnvAsr(attackTime: Signal, sustainLevel: Signal, releaseTime: Si
 }
 
 export function EnvCutoff(sustainTime: Signal, releaseTime: Signal, curve: Signal): Env {
-	return Env(
+	return new Env(
 		[1, 1, 0],
 		[sustainTime, releaseTime],
 		curve,
@@ -98,7 +96,7 @@ export function EnvCutoff(sustainTime: Signal, releaseTime: Signal, curve: Signa
 }
 
 export function EnvRelease(attackTime: Signal, dur: Signal, releaseTime: Signal): Env {
-	return Env(
+	return new Env(
 		[0, 1, 1, 0],
 		[attackTime, dur, releaseTime],
 		'lin',

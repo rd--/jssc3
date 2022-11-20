@@ -1,3 +1,5 @@
+import { isArray, arrayMap, arrayMaxItem } from '../kernel/array.ts'
+
 export type Tree<T> = T | Tree<T>[];
 
 export function treeVisit<T>(aTree: Tree<T>, visitFunction: (x: T) => void): void {
@@ -18,6 +20,20 @@ export function treeFlatten<T>(aTree: Tree<T>): T[] {
 	const anArray: T[] = [];
 	treeFlattenIntoArray(aTree, anArray);
 	return anArray;
+}
+
+export function treeDepthFrom<T>(aTree: Tree<T>, depth: number): number {
+	if(isArray(aTree)) {
+		return arrayMaxItem(arrayMap(item => treeDepthFrom(item, depth + 1), aTree));
+	} else {
+		return depth;
+	}
+}
+
+// t.treeDepth(1) === 0
+// t.treeDepth([1, [2, [3]]]) === 3
+export function treeDepth<T>(aTree: Tree<T>): number {
+	return treeDepthFrom(aTree, 0);
 }
 
 export type Forest<T> = Tree<T>[];
