@@ -10,6 +10,7 @@
 import * as sc from './js/jssc3.js'
 import * as sl from './lib/spl-js/js/sl.js'
 globalThis.sc = sc;
+globalThis.playUgen = (ugenGraph) => sc.playUgenWasm(globalScsynth, ugenGraph);
 globalThis.sl = sl;
 sl.addLoadUrlMethods();
 window.onload = function () {
@@ -31,6 +32,7 @@ window.onload = function () {
     sc.jssc3_init('e', null, 's');
     sc.notation.format = '.stc';
     sc.notationTranslationTable['.stc'] = function(text, proc) {  proc(sl.rewriteString(text)) };
+    sl.assignGlobals();
     sl.loadUrlArrayInSequence('lib/spl-js/sl', ['prelude.sl', 'sc.sl']);
 };
     </script>
@@ -49,6 +51,7 @@ window.onload = function () {
       <button title="Evaluate program (/)" accesskey="/" onclick="sc.evalJsProgram()">Eval</button>
       <button title="Play (,)" accesskey="," onclick="sc.playJsProgramWasm(globalScsynth)">Play</button>
       <button title="Reset (.)" accesskey="." onclick="sc.resetScsynthWasm(globalScsynth)">Reset</button>
+      <button title="Clear (\)" accesskey="\" onclick="_clear(_system.get('clock'))">Clear</button>
       <button title="Save document to local storage (s)" accesskey="s" onclick="sc.ui_save_program()">Save</button>
       <button title="Print" onclick="sc.prettyPrintSyndef()">Print</button>
       <button title="Set address to encode selection (a)" accesskey="a" onclick="sc.set_url_to_encode_selection()">Addr</button>
