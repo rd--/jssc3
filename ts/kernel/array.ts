@@ -31,6 +31,10 @@ export function arrayAtWrap<T>(anArray: T[], index: number): T {
 	return anArray[index % anArray.length];
 }
 
+export function arrayCheckIndex(anArray: unknown[], anInteger: number): boolean {
+	return Number.isInteger(anInteger) && anInteger >= 0  && anInteger < anArray.length;
+}
+
 // arrayChoose([1, 2, 3, 4, 5])
 export function arrayChoose<T>(anArray: T[]): T {
 	return anArray[Math.floor(Math.random() * anArray.length)];
