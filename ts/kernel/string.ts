@@ -32,3 +32,7 @@ export function stringToCharCodeArray(aString: string): number[] {
 	}
 	return answer;
 }
+
+export function stringCapitalizeFirstLetter(aString: string): string {
+	return aString.charAt(0).toUpperCase() + aString.slice(1);
+}
