@@ -3,8 +3,8 @@ import { consoleDebug } from '../kernel/error.ts'
 
 import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 
-import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, SampleRate, Select, SetBuf, SinOsc, TDuty, TIRand, Wrap, XFade2, XLine, add, fdiv, fold2, midiCps, mul, roundTo, shiftRight, sqrt, sub, trunc } from './bindings.ts'
-import { Env, EnvAdsr, EnvAsr, EnvCutoff, EnvRelease, envCoord } from './envelope.ts'
+import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TIRand, Wrap, XFade2, XLine, add, fdiv, fold2, midiCps, mul, roundTo, shiftRight, sqrt, sub, trunc } from './bindings.ts'
+import { Env, EnvAdsr, EnvAsr, EnvCutoff, EnvPerc, EnvRelease, EnvSine, envCoord } from './envelope.ts'
 import { Signal, isOutUgen, kr, mrg } from './ugen.ts'
 
 // wrapOut(0, mul(SinOsc(440, 0), 0.1))
@@ -189,6 +189,11 @@ export function ControlIn(numChan: number, bus: Signal): Signal {
 	return kr(In(numChan, bus));
 }
 
+// Write a signal to a control bus.
+export function ControlOut(bus: Signal, channelsArray: Signal): Signal {
+	return Out(bus, kr(channelsArray));
+}
+
 export function SfFrames(sfBufferArray: Signal): Signal {
 	return BufFrames(arrayFirst(asArray(sfBufferArray)));
 }
@@ -256,13 +261,13 @@ export function Release(input: Signal, attackTime: Signal, dur: Signal, releaseT
 }
 
 export function Sine(trig: Signal, dur: Signal): Signal {
-	const env = new Env(
-		[0, 0, 1, 0],
-		[0, fdiv(dur, 2), fdiv(dur, 2)],
-		'sine',
-		null,
-		1,
-		0
-	);
-	return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
+	return EnvGen(trig, 1, 0, 1, 0, envCoord(EnvSine(dur)));
+}
+
+export function Perc(trig: Signal, attackTime: Signal, releaseTime: Signal, curve: Signal): Signal {
+	return EnvGen(trig, 1, 0, 1, 0, envCoord(EnvPerc(attackTime, releaseTime, 1, curve)));
+}
+
+export function DynRingzBank(input, freq, amp, time) {
+	return arrayReduce(mul(Ringz(input, freq, time), amp), add);
 }
