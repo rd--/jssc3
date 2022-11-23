@@ -1,7 +1,7 @@
 import { read_text_file_from_file_input_and_then } from '../kernel/io.ts'
 import { window_url_set_param } from '../kernel/dom.ts'
 
-import { ScsynthWasm, playUgenWasm } from '../sc3/scsynth-wasm.ts'
+import { Scsynth, playUgen } from '../sc3/scsynth.ts'
 import { prettyPrintSyndefOf } from '../sc3/graph-print.ts'
 import { translate_if_required_and_then } from './notation.ts'
 
@@ -35,10 +35,10 @@ export function evalJsProgram(): void {
 	});
 }
 
-export function playJsProgramWasm(scsynth: ScsynthWasm) {
+export function playJsProgram(scsynth: Scsynth, groupId: number) {
 	editor_get_js_notation_and_then(function(programText) {
 		const result = eval(programText);
-		playUgenWasm(scsynth, result);
+		playUgen(scsynth, result, groupId);
 	});
 }
 

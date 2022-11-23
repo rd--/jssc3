@@ -2,7 +2,7 @@ import { connect_button_to_input, setter_for_inner_html_of, url_get_param } from
 import { consoleDebug } from '../kernel/error.ts'
 import { load_utf8_and_then } from '../kernel/io.ts'
 
-import { ScsynthWasm } from '../sc3/scsynth-wasm.ts'
+import { Scsynth } from '../sc3/scsynth.ts'
 
 import { actions_menu_init } from './actions.ts'
 import { editor } from './editor.ts'
@@ -40,7 +40,7 @@ export const defaultUiInitOptions = {
 };
 
 // Id: programMenu, helpMenu, guideMenu, essayMenu ; subDir should be empty or should end with a '/'
-export function sc3_ui_init(scsynth: ScsynthWasm | null, options: UiInitOptions) {
+export function sc3_ui_init(scsynth: Scsynth | null, options: UiInitOptions) {
 	if(options.hasProgramMenu) {
 		graph_menu_init('programMenu', options.subDir + 'graph', options.fileExt, options.loadProc);
 		load_utf8_and_then('html/' + options.subDir + 'program-menu.html', setter_for_inner_html_of('programMenu'));
@@ -61,7 +61,7 @@ export function sc3_ui_init(scsynth: ScsynthWasm | null, options: UiInitOptions)
 	user.storage_key = options.storageKey;
 	user_program_menu_init(editor.set_data);
 	if(options.initWasm && scsynth) {
-		actions_menu_init(scsynth, editor.get_selected_text, editor.set_data);
+		actions_menu_init(scsynth.options, editor.get_selected_text, editor.set_data);
 		sc3_mouse_init(scsynth);
 		scsynth.options.hardwareBufferSize = options.hardwareBufferSize;
 		scsynth.options.blockSize = options.blockSize;

@@ -24,7 +24,7 @@ window.onload = function () {
 	fileExt: '.html',
 	storageKey: 'jssc3UserPrograms/html',
 	loadProc: sc.graph_load,
-	initMouse: true,
+	initWasm: true,
 	hardwareBufferSize: 4096,
 	blockSize: 48
     });
@@ -47,8 +47,8 @@ window.onload = function () {
       <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
       <button title="Copy document to clipboard (c)" accesskey="c" onclick="navigator.clipboard.writeText(sc.editor.get_data())">Copy</button>
       <button title="Evaluate program (/)" accesskey="/" onclick="sc.evalJsProgram()">Eval</button>
-      <button title="Play (,)" accesskey="," onclick="sc.playJsProgramWasm(globalScsynth)">Play</button>
-      <button title="Reset (.)" accesskey="." onclick="sc.resetScsynthWasm(globalScsynth)">Reset</button>
+      <button title="Play (,)" accesskey="," onclick="sc.playJsProgram(globalScsynth, 0)">Play</button>
+      <button title="Reset (.)" accesskey="." onclick="sc.resetScsynth(globalScsynth)">Reset</button>
       <button title="Save document to local storage (s)" accesskey="s" onclick="sc.ui_save_program()">Save</button>
       <button title="Print" onclick="sc.prettyPrintSyndef()">Print</button>
       <select id="notationFormat" title="Notation format" onchange="sc.set_notation_format()">
@@ -64,7 +64,7 @@ window.onload = function () {
         <option value="userPurge" title="Delete all user programs">Purge</option>
         <option value="documentVisit" title="Visit document named in selected text (v)" accesskey="v">Visit</option>
       </select>
-      <button title="Boot" accesskey="b" onclick="sc.bootScsynthWasm(globalScsynth)">⏻ (Boot)</button>
+      <button title="Boot" accesskey="b" onclick="globalScsynth.boot()">⏻ (Boot)</button>
       <span id="statusText"></span>
     </div>
     <script src="lib/quill/quill.js"></script>

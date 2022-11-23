@@ -2,19 +2,19 @@ import { encodeFloat32Array } from '../kernel/encode.ts'
 
 import { audiobuffer_interleaved_channel_data, fetch_soundfile_to_audiobuffer_and_then } from '../stdlib/soundfile.ts'
 
-import { ScsynthWasm, sendOscWasm } from './scsynth-wasm.ts'
+import { Scsynth } from './scsynth.ts'
 import { b_alloc_then_memcpy } from './servercommand.ts'
 
-export function audiobuffer_to_scsynth_buffer(scsynth: ScsynthWasm, audioBuffer: AudioBuffer, bufferNumber: number, numberOfChannels: number, bufferData: Float32Array): void {
+export function audiobuffer_to_scsynth_buffer(scsynth: Scsynth, audioBuffer: AudioBuffer, bufferNumber: number, numberOfChannels: number, bufferData: Float32Array): void {
 	const numberOfFrames = audioBuffer.length;
 	const sampleRate = audioBuffer.sampleRate;
 	const oscMessage = b_alloc_then_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, encodeFloat32Array(bufferData));
 	console.log(`audiobuffer_to_scsynth_buffer: ${oscMessage}`);
-	sendOscWasm(scsynth, oscMessage);
+	scsynth.sendOsc(oscMessage);
 }
 
 // Fetch sound file data, and then allocate a buffer and memcpy all interleaved channel data.
-export function fetch_soundfile_to_scsynth_buffer(scsynth: ScsynthWasm, soundFileUrl: string, numberOfChannels: number, bufferNumber: number): void {
+export function fetch_soundfile_to_scsynth_buffer(scsynth: Scsynth, soundFileUrl: string, numberOfChannels: number, bufferNumber: number): void {
 	fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, function (audioBuffer) {
 		if(audioBuffer.numberOfChannels === numberOfChannels) {
 			audiobuffer_to_scsynth_buffer(
@@ -31,7 +31,7 @@ export function fetch_soundfile_to_scsynth_buffer(scsynth: ScsynthWasm, soundFil
 }
 
 // Fetch single channels of sound file data to mono scsynth buffers.  The channel numbers are one-indexed.
-export function fetch_soundfile_channels_to_scsynth_buffers(scsynth: ScsynthWasm, soundFileUrl: string, bufferNumbers: number[], channelIndices: number[]): void {
+export function fetch_soundfile_channels_to_scsynth_buffers(scsynth: Scsynth, soundFileUrl: string, bufferNumbers: number[], channelIndices: number[]): void {
 	fetch_soundfile_to_audiobuffer_and_then(soundFileUrl, function (audioBuffer) {
 		for(let i = 0; i < bufferNumbers.length; i++) {
 			const bufferNumber = bufferNumbers[i];

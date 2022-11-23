@@ -268,6 +268,6 @@ export function Perc(trig: Signal, attackTime: Signal, releaseTime: Signal, curv
 	return EnvGen(trig, 1, 0, 1, 0, envCoord(EnvPerc(attackTime, releaseTime, 1, curve)));
 }
 
-export function DynRingzBank(input, freq, amp, time) {
-	return arrayReduce(mul(Ringz(input, freq, time), amp), add);
+export function DynRingzBank(input: Signal, freq: Signal, amp: Signal, time: Signal): Signal {
+	return arrayReduce(<Signal[]>mul(Ringz(input, freq, time), amp), add);
 }

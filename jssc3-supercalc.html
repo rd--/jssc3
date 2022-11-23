@@ -27,7 +27,7 @@ window.onload = function () {
 	fileExt: '.json',
 	storageKey: 'jssc3SuperCalcUserPrograms/json',
 	loadProc: sc.graph_load,
-	initMouse: true,
+	initWasm: true,
 	hardwareBufferSize: 4096,
 	blockSize: 48
     });
@@ -60,7 +60,7 @@ window.onload = function () {
         <option value="userRestore" title="Load user programs from archive">Restore</option>
         <option value="userPurge" title="Delete all user programs">Purge</option>
       </select>
-      <button title="Boot" accesskey="b" onclick="sc.bootScsynthWasm(globalScsynth)">⏻ (Boot)</button>
+      <button title="Boot" accesskey="b" onclick="globalScsynth.boot()">⏻ (Boot)</button>
       <span id="statusText"></span>
       <button title="Init" onclick="calc.sc3_supercalc_server_setup()">Init</button>
     </div>

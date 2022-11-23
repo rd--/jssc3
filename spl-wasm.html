@@ -8,9 +8,9 @@
     <script src="lib/osc.js/dist/osc-browser.js"></script>
     <script type="module">
 import * as sc from './js/jssc3.js'
-import * as sl from './lib/spl-js/js/sl.js'
+import * as sl from './lib/spl/js/sl.js'
 globalThis.sc = sc;
-globalThis.playUgen = (ugenGraph) => sc.playUgenWasm(globalScsynth, ugenGraph);
+globalThis.playUgen = (ugenGraph) => sc.playUgen(globalScsynth, ugenGraph);
 globalThis.sl = sl;
 sl.addLoadUrlMethods();
 window.onload = function () {
@@ -24,7 +24,7 @@ window.onload = function () {
 	fileExt: '.stc',
 	storageKey: 'splUserPrograms/stc',
 	loadProc: sc.graph_load,
-	initMouse: true,
+	initWasm: true,
 	hardwareBufferSize: 4096,
 	blockSize: 48
     });
@@ -33,7 +33,7 @@ window.onload = function () {
     sc.notation.format = '.stc';
     sc.notationTranslationTable['.stc'] = function(text, proc) {  proc(sl.rewriteString(text)) };
     sl.assignGlobals();
-    sl.loadUrlArrayInSequence('lib/spl-js/sl', ['prelude.sl', 'sc.sl']);
+    sl.loadUrlArrayInSequence('lib/spl/sl', ['prelude.sl', 'sc.sl']);
 };
     </script>
   </head>
@@ -49,8 +49,8 @@ window.onload = function () {
       <input type="file" id="programInputFile" accept=".spl" onchange="sc.jssc3_read_input_program()" style="display:none">
       <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
       <button title="Evaluate program (/)" accesskey="/" onclick="sc.evalJsProgram()">Eval</button>
-      <button title="Play (,)" accesskey="," onclick="sc.playJsProgramWasm(globalScsynth)">Play</button>
-      <button title="Reset (.)" accesskey="." onclick="sc.resetScsynthWasm(globalScsynth)">Reset</button>
+      <button title="Play (,)" accesskey="," onclick="sc.playJsProgram(globalScsynth, 0)">Play</button>
+      <button title="Reset (.)" accesskey="." onclick="sc.resetScsynth(globalScsynth)">Reset</button>
       <button title="Clear (\)" accesskey="\" onclick="_clear(_system.get('clock'))">Clear</button>
       <button title="Save document to local storage (s)" accesskey="s" onclick="sc.ui_save_program()">Save</button>
       <button title="Print" onclick="sc.prettyPrintSyndef()">Print</button>
@@ -65,7 +65,7 @@ window.onload = function () {
         <option value="userPurge" title="Delete all user programs">Purge</option>
         <option value="documentVisit" title="Visit document named in selected text (v)" accesskey="v">Visit</option>
       </select>
-      <button title="Boot" accesskey="b" onclick="sc.bootScsynthWasm(globalScsynth)">⏻ (Boot)</button>
+      <button title="Boot" accesskey="b" onclick="globalScsynth.boot()">⏻ (Boot)</button>
       <span id="statusText"></span>
     </div>
     </div>

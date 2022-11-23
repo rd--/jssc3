@@ -10,6 +10,7 @@ export * from './sc3/operators.ts'
 export * from './sc3/pointer.ts'
 export * from './sc3/pseudo.ts'
 export * from './sc3/rate.ts'
+export * from './sc3/scsynth.ts'
 export * from './sc3/scsynth-options.ts'
 export * from './sc3/scsynth-status.ts'
 

@@ -41,8 +41,8 @@ window.onload = function () {
       <input type="file" id="programInputFile" accept=".stc,.js" onchange="sc.jssc3_read_input_program()" style="display:none">
       <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
       <button title="Evaluate program (/)" accesskey="/" onclick="sc.evalJsProgram()">Eval</button>
-      <button title="Play (,)" accesskey="," onclick="sc.playJsProgram(globalScsynth)">Play</button>
-      <button title="Reset (.)" accesskey="." onclick="sc.resetScsynthWasm(globalScsynth)">Reset</button>
+      <button title="Play (,)" accesskey="," onclick="sc.playJsProgram(globalScsynth, 0)">Play</button>
+      <button title="Reset (.)" accesskey="." onclick="sc.resetScsynth(globalScsynth)">Reset</button>
       <button title="Save document to local storage (s)" accesskey="s" onclick="sc.ui_save_program()">Save</button>
       <button title="Print" onclick="sc.prettyPrintSyndef()">Print</button>
       <button title="Set address to encode selection (a)" accesskey="a" onclick="sc.set_url_to_encode_selection()">Addr</button>
@@ -61,7 +61,7 @@ window.onload = function () {
         <option value='.stc' accesskey="t">.stc</option>
         <option value='.js' accesskey="j">.js</option>
       </select>
-      <button title="Boot" accesskey="b" onclick="sc.bootScsynthWasm(globalScsynth)">⏻ (Boot)</button>
+      <button title="Boot" accesskey="b" onclick="globalScsynth.boot()">⏻ (Boot)</button>
       <span id="statusText"></span>
     </div>
     </div>

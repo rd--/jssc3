@@ -7,11 +7,12 @@ import { consoleDebug, consoleLogMessageFrom } from '../kernel/error.ts'
 
 import { ScsynthWasmModule, initScsynthWasmModule } from './scsynth-wasm-module.ts'
 import { scsynthDefaultOptions } from './scsynth-options.ts'
-import { ScsynthWasm, makeScsynthWasm }from './scsynth-wasm.ts'
+import { Scsynth }from './scsynth.ts'
+import { scsynthWasm }from './scsynth-wasm.ts'
 
 declare global {
 	var Module: ScsynthWasmModule;
-	var globalScsynth: ScsynthWasm;
+	var globalScsynth: Scsynth;
 }
 
 if(globalThis.Module !== undefined) {
@@ -19,7 +20,7 @@ if(globalThis.Module !== undefined) {
 }
 
 export function sc3_wasm_init(showStatus: (text: string) => void): void {
-	globalThis.globalScsynth = makeScsynthWasm(globalThis.Module, scsynthDefaultOptions, showStatus);
+	globalThis.globalScsynth = scsynthWasm(scsynthDefaultOptions, globalThis.Module, showStatus);
     consoleDebug(`sc3_wasm_init: Module: ${globalThis.Module}`);
 	globalThis.onerror = function(event) {
 		consoleLogMessageFrom('globalThis.onerror', String(event));

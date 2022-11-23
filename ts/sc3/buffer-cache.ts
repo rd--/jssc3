@@ -1,7 +1,7 @@
 import { isArray, asArray, arrayAtWrap, arrayFromTo } from '../kernel/array.ts'
 
 import { fetch_soundfile_channels_to_scsynth_buffers } from './buffer.ts'
-import { ScsynthWasm } from './scsynth-wasm.ts'
+import { Scsynth } from './scsynth.ts'
 
 export type BufferDictionary = { [key: string]: string };
 export type BufferCache = { [key: string]: number[] };
@@ -19,7 +19,7 @@ export const sc3_buffer: { dict: BufferDictionary, cache: BufferCache, next: num
 };
 
 declare global {
-	var globalScsynth: ScsynthWasm;
+	var globalScsynth: Scsynth;
 }
 
 // Fetch buffer index from cache, allocate and load if required.  Resolve soundFileId against dictionary.

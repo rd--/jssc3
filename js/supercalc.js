@@ -57,7 +57,7 @@ function sc3_supercalc_eval_cell(col_letter, row_number, cell_text) {
 		const cell_value = sc3_supercalc_eval_or_zero(col_letter, row_number, translator_status, js_text);
 		const cell_ugen = sc.isNumber(cell_value) ? sc.DC(cell_value) : (sc.isControlRateUgen(cell_value) ? sc.K2A(cell_value) : cell_value);
 		const cell_packet = sc3_supercalc_cell_ugen_to_osc_packet(col_letter, row_number, cell_ugen);
-		sc.sendOscWasm(globalScsynth, cell_packet);
+		globalScsynth.sendOsc(cell_packet);
 	});
 }
 
@@ -166,8 +166,8 @@ function sc3_supercalc_create_and_init_cell_groups() {
 	sc3_supercalc_all_cellref_do(function(col_letter, row_number) {
 		const group_id = sc3_supercalc_cellref_to_group(col_letter, row_number);
 		const g_new_msg = sc.g_new1(group_id, sc.kAddToTail, 0);
-		sc.sendOscWasm(globalScsynth, g_new_msg);
-		sc.sendOscWasm(globalScsynth, sc3_supercalc_cell_ugen_to_osc_packet(col_letter, row_number, sc.DC(0)));
+		globalScsynth.sendOsc(g_new_msg);
+		globalScsynth.sendOsc(sc3_supercalc_cell_ugen_to_osc_packet(col_letter, row_number, sc.DC(0)));
 	});
 }
 
