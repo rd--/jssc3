@@ -1,26 +1,43 @@
 body {
-  margin: 1em 1em;
-  background-color: #98ece8 !important; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
+	margin: 1em 1em;
+	background-color: #98ece8 !important; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
 }
 
-textarea, select, button, span, pre, code, .ql-toolbar, .ql-container, .ql-syntax {
-  background-color: #ffffe8 !important; /* fffacd d0f0c0 fffacd f0fff0  */
-  color: #424242  !important;
+h1, h2 {
+	font-size: 1em;
 }
 
-body, textarea, select, button, span, pre, code, #text_editor, .ql-toolbar, .ql-container, .ql-syntax {
-    font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Palatino', 'Garamond', 'Bookman', serif !important;
-    font-size: 1em;
+textarea, select, button, span, pre, code {
+	background-color: #ffffe8 !important; /* fffacd d0f0c0 fffacd f0fff0  */
+	color: #424242  !important;
 }
 
-#jsProgram { height: 85vh; width: 95vw; }
-#text_editor { height: 85vh; width: 95vw; margin-bottom: 5px; }
-#jssc3Menu { margin-bottom: 5px; }
+body, textarea, select, button, span, pre, code, #text_editor {
+	  font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Palatino', 'Garamond', 'Bookman', serif !important;
+}
+
+button, select, textarea {
+	border: 1px dotted;
+}
+
+button:focus, select:focus, textarea:focus {
+    outline: 1px solid #999;
+}
+
+#programText {
+	height: 85vh;
+	width: 75vw;
+	max-width: 60em;
+}
+
+.menuContainer {
+	margin-bottom: 9px;
+}
 
 #statusText {
-  background-color: #ffffe8 !important;
-  display: inline-block;
-  border: 1px dotted black;
-  padding: 2px;
-  width: 75px;
+	background-color: #ffffe8 !important;
+	display: inline-block;
+	font-size: 0.9em;
+	width: 75px;
+	border: 1px dotted;
 }

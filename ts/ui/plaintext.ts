@@ -4,12 +4,13 @@ import { editor } from './editor.ts'
 
 let sc3_plaintext: HTMLTextAreaElement;
 
-// Id: jsProgram
+// Id: programText
 export function sc3_plaintext_init_in(parentId: string): void {
 	const parentElement = document.getElementById(parentId);
 	if(parentElement) {
 		sc3_plaintext = document.createElement('textarea');
-		sc3_plaintext.setAttribute('id', 'jsProgram');
+		sc3_plaintext.setAttribute('id', 'programText');
+		sc3_plaintext.setAttribute('spellcheck', 'false');
 		parentElement.appendChild(sc3_plaintext);
 	} else {
 		console.error('sc3_plaintext_init_in');
