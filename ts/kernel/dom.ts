@@ -1,5 +1,6 @@
 export function get_selected_text(): string {
-	return document.getSelection().toString();
+	const selection = document.getSelection();
+	return selection ? selection.toString() : '';
 }
 
 export function get_selected_text_or_contents_of(elemId: string): string {
@@ -7,7 +8,8 @@ export function get_selected_text_or_contents_of(elemId: string): string {
 	if(selectedText.length > 0) {
 		return selectedText;
 	} else {
-		return document.getElementById(elemId).innerText.trim()
+		var element = document.getElementById(elemId);
+		return element ? element.innerText.trim() : '';
 	}
 }
 

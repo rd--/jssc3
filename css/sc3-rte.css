@@ -1,3 +1,5 @@
+@import "sc3.css";
+
 h1 {
     font-size: 1.25em !important;
     text-decoration: none !important;
@@ -30,9 +32,9 @@ pre {
     border: 1px dotted #999;
 }
 
-.ql-toolbar, .ql-container, #text_editor {
-    font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Palatino', 'Garamond', 'Bookman', serif !important;
-    background-color: #ffffe8 !important; /* fffacd d0f0c0 fffacd f0fff0  */
+.ql-toolbar, .ql-container, .ql-syntax, #text_editor {
+    font-family: var(--font-family);
+    background-color: var(--paper-colour) !important;
     color: #424242  !important;
     width: 800px;
 }

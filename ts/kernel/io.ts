@@ -89,8 +89,11 @@ export function read_text_file_from_file_input_and_then(inputId: string, fileInd
 }
 
 export function read_text_file_from_file_input_and_set_element_text(inputId: string, fileIndex: number, textId: string): void {
-	sc.read_text_file_from_file_input_and_then(inputId, fileIndex, text => document.getElementById(textId).textContent = text);
-};
+	const element = document.getElementById(textId);
+	if(element) {
+		read_text_file_from_file_input_and_then(inputId, fileIndex, text => element.textContent = text);
+	}
+}
 
 // Read json file and run proc on parsed result.
 export function read_json_file_and_then(jsonFile: File , proc: (aValue: Record<string, unknown> | []) => void): void {

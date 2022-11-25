@@ -1,13 +1,13 @@
 :root {
 	--font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Palatino', 'Garamond', 'Bookman', serif !important;
-	--container-colour: #98ece8 !important; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
+	--body-colour: #98ece8 !important; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
 	--paper-colour: #ffffe8 !important; /* fffacd d0f0c0 fffacd f0fff0  */
 	--text-colour: #424242  !important;
 }
 
 body {
 	margin: 1em 1em;
-	background-color: var(--container-colour);
+	background-color: var(--body-colour);
 	font-family: var(--font-family);
 }
 
@@ -15,7 +15,7 @@ h1, h2 {
 	font-size: 1em;
 }
 
-span, pre, code, textarea, select, button, #programText {
+span, pre, code, textarea, select, button, #plaintextContainer, #documentContainer {
 	font-family: var(--font-family);
 	background-color: var(--paper-colour);
 	color: var(--text-colour);
@@ -29,17 +29,31 @@ button:focus, select:focus, div:focus, pre:focus {
     outline: 1px solid #999;
 }
 
-#programText {
+#documentContainer, #plaintextContainer {
+	position: absolute;
 	height: 85vh;
-	width: 75vw;
-	max-width: 60em;
+	width: 45vw;
 	font-size: 0.9em;
 	resize: both;
 	overflow: auto;
 }
 
-.menuContainer {
-	margin-bottom: 9px;
+#plaintextContainer {
+	left: 50vw;
+}
+
+#documentText {
+	margin: 1em;
+}
+
+#documentText pre {
+	margin: 1em;
+	padding: 1em;
+	border: 1px dotted #ccc;
+}
+
+#menuContainer, #plaintextContainer, #documentContainer {
+	margin-bottom: 1em;
 }
 
 #statusText {
