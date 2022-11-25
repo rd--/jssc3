@@ -14,7 +14,7 @@ globalThis.sc = sc;
 globalThis.sl = sl;
 globalThis.playUgen = (ugenGraph) => sc.playUgen(globalScsynth, ugenGraph);
 globalThis.splEval = () => eval(sl.rewriteString(sc.get_selected_text_or_contents_of('programText')));
-globalThis.splLoad = () => sc.read_text_file_from_file_input_and_then('programInputFile', 0, function(text) {
+globalThis.splInsertText = function(text) {
 	if(text[0] === '#') {
 		var reader = new commonmark.Parser();
 		var writer = new commonmark.HtmlRenderer();
@@ -22,7 +22,15 @@ globalThis.splLoad = () => sc.read_text_file_from_file_input_and_then('programIn
 	} else {
 		document.getElementById('programText').textContent = text;
 	}
-});
+};
+globalThis.splLoad = () => sc.read_text_file_from_file_input_and_then('programInputFile', 0, splInsertText);
+globalThis.splHelp = function() {
+	const name = sc.get_selected_text();
+	if(name.length > 0) {
+		const url = `https://rohandrape.net/sw/stsc3/help/sc2/help/unit-generators/${name}.help.md`;
+		sc.load_utf8_and_then(url, splInsertText);
+	}
+};
 globalThis.splKey = function(event) {
 	console.log('splKey', event.ctrlKey, event.shiftKey, event.key);
 	if(event.ctrlKey&& event.key === 'Enter') {
@@ -32,6 +40,8 @@ globalThis.splKey = function(event) {
 		_clear(_system.get('clock'));
 	} else if(event.ctrlKey&& event.shiftKey && event.key === 'L') {
 		document.getElementById('programInputFileSelect').click();
+	} else if(event.ctrlKey&& event.shiftKey && event.key === 'H') {
+		splHelp();
 	}
 };
 sl.addLoadUrlMethods();
