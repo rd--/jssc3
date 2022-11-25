@@ -17,6 +17,8 @@ export type UiInitOptions = {
 	hasHelpMenu: boolean,
 	hasGuideMenu: boolean,
 	hasEssayMenu: boolean,
+	hasUserMenu: boolean,
+	hasActionsMenu: boolean,
 	fileExt: string | null,
 	storageKey: string,
 	loadProc: LoadProc,
@@ -39,7 +41,7 @@ export const defaultUiInitOptions = {
 	blockSize: 48
 };
 
-// Id: programMenu, helpMenu, guideMenu, essayMenu ; subDir should be empty or should end with a '/'
+// Id: programMenu, helpMenu, guideMenu, essayMenu, userMenu ; subDir should be empty or should end with a '/'
 export function sc3_ui_init(scsynth: Scsynth | null, options: UiInitOptions) {
 	if(options.hasProgramMenu) {
 		graph_menu_init('programMenu', options.subDir + 'graph', options.fileExt, options.loadProc);
@@ -57,11 +59,15 @@ export function sc3_ui_init(scsynth: Scsynth | null, options: UiInitOptions) {
 		graph_menu_init('essayMenu', options.subDir + 'essay', options.fileExt, options.loadProc);
 		load_utf8_and_then('html/' + options.subDir + 'essay-menu.html', setter_for_inner_html_of('essayMenu'));
 	}
+	if(options.hasUserMenu) {
+		user.storage_key = options.storageKey;
+		user_program_menu_init(editor.set_data);
+	}
 	notation.format = '.stc';
-	user.storage_key = options.storageKey;
-	user_program_menu_init(editor.set_data);
 	if(options.initWasm && scsynth) {
-		actions_menu_init(scsynth.options, editor.get_selected_text, editor.set_data);
+		if(options.hasActionsMenu) {
+			actions_menu_init(scsynth.options, editor.get_selected_text, editor.set_data);
+		}
 		sc3_mouse_init(scsynth);
 		scsynth.options.hardwareBufferSize = options.hardwareBufferSize;
 		scsynth.options.blockSize = options.blockSize;

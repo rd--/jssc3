@@ -1,26 +1,31 @@
+:root {
+	--font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Palatino', 'Garamond', 'Bookman', serif !important;
+	--container-colour: #98ece8 !important; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
+	--paper-colour: #ffffe8 !important; /* fffacd d0f0c0 fffacd f0fff0  */
+	--text-colour: #424242  !important;
+}
+
 body {
 	margin: 1em 1em;
-	background-color: #98ece8 !important; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
+	background-color: var(--container-colour);
+	font-family: var(--font-family);
 }
 
 h1, h2 {
 	font-size: 1em;
 }
 
-textarea, select, button, span, pre, code {
-	background-color: #ffffe8 !important; /* fffacd d0f0c0 fffacd f0fff0  */
-	color: #424242  !important;
+span, pre, code, textarea, select, button, #programText {
+	font-family: var(--font-family);
+	background-color: var(--paper-colour);
+	color: var(--text-colour);
 }
 
-body, textarea, select, button, span, pre, code, #text_editor {
-	  font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Palatino', 'Garamond', 'Bookman', serif !important;
+button, select, #statusText {
+	border: 0px;
 }
 
-button, select, textarea {
-	border: 1px dotted;
-}
-
-button:focus, select:focus, textarea:focus {
+button:focus, select:focus, div:focus, pre:focus {
     outline: 1px solid #999;
 }
 
@@ -28,6 +33,9 @@ button:focus, select:focus, textarea:focus {
 	height: 85vh;
 	width: 75vw;
 	max-width: 60em;
+	font-size: 0.9em;
+	resize: both;
+	overflow: auto;
 }
 
 .menuContainer {
@@ -35,9 +43,9 @@ button:focus, select:focus, textarea:focus {
 }
 
 #statusText {
-	background-color: #ffffe8 !important;
-	display: inline-block;
+	background-color: var(--paper-colour);
 	font-size: 0.9em;
+	display: inline-block;
 	width: 75px;
-	border: 1px dotted;
+	border: 1px dotted #666;
 }

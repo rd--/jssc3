@@ -6,7 +6,7 @@ export type ScsynthOptions = {
 };
 
 export const scsynthDefaultOptions: ScsynthOptions = {
-	numInputs: 0,
+	numInputs: 2,
 	numOutputs: 2,
 	hardwareBufferSize: 8192,
 	blockSize: 48

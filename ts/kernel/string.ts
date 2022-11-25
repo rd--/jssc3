@@ -36,3 +36,7 @@ export function stringToCharCodeArray(aString: string): number[] {
 export function stringCapitalizeFirstLetter(aString: string): string {
 	return aString.charAt(0).toUpperCase() + aString.slice(1);
 }
+
+export function stringIsEmpty(aString: string): boolean {
+	return aString.length === 0;
+}

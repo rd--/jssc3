@@ -1,3 +1,16 @@
+export function get_selected_text(): string {
+	return document.getSelection().toString();
+}
+
+export function get_selected_text_or_contents_of(elemId: string): string {
+	var selectedText = get_selected_text().trim();
+	if(selectedText.length > 0) {
+		return selectedText;
+	} else {
+		return document.getElementById(elemId).innerText.trim()
+	}
+}
+
 // Return a function to set the inner Html of elemId
 export function setter_for_inner_html_of(elemId: string): (innerHtml: string) => void {
 	const elem = document.getElementById(elemId);
