@@ -2,7 +2,7 @@ import { encodeUgen } from './graph.ts'
 import { wrapOut } from './pseudo.ts'
 import { ScsynthOptions } from './scsynth-options.ts'
 import { ScsynthStatus } from './scsynth-status.ts'
-import { ServerMessage, ServerPacket, c_setn1, d_recv_then, decodeServerMessage, encodeServerMessage, encodeServerPacket, g_freeAll1, kAddToTail, m_dumpOsc, m_notify, m_status, s_new0 } from './servercommand.ts'
+import { ServerMessage, ServerPacket, c_setn1, d_recv_then, decodeServerMessage, encodeServerMessage, encodeServerPacket, g_freeAll, g_new, kAddToTail, m_dumpOsc, m_notify, m_status, s_new0 } from './servercommand.ts'
 import { Signal } from './ugen.ts'
 
 type StartSynth = () => void;
@@ -15,6 +15,7 @@ export class Scsynth {
 	sendOsc: SendOsc;
 	monitorDisplay: (text: string) => void;
 	isAlive: boolean;
+	isStarting: boolean;
 	synthPort: number;
 	langPort: number;
 	status: ScsynthStatus;
@@ -24,6 +25,7 @@ export class Scsynth {
 		this.sendOsc = sendOsc;
 		this.monitorDisplay = monitorDisplay;
 		this.isAlive = false;
+		this.isStarting = false;
 		this.synthPort = 57110;
 		this.langPort = 57120;
 		this.status = {ugenCount: 0};
@@ -45,8 +47,16 @@ export function playProcedure(scsynth: Scsynth, ugenFunction: () => Signal, grou
 	playUgen(scsynth, ugenFunction(), groupId);
 }
 
+export function initGroupStructure(scsynth: Scsynth): void {
+	scsynth.sendOsc(g_new([
+		[1, kAddToTail, 0],
+		[2, kAddToTail, 0]
+	]));
+}
+
 export function resetScsynth(scsynth: Scsynth): void {
-	scsynth.sendOsc(g_freeAll1(0));
+	scsynth.sendOsc(g_freeAll([1, 2]));
+	initGroupStructure(scsynth);
 }
 
 export function requestStatus(scsynth: Scsynth): void {

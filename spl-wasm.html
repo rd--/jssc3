@@ -12,7 +12,7 @@ import * as sc from './js/jssc3.js'
 import * as sl from './lib/spl/js/sl.js'
 globalThis.sc = sc;
 globalThis.sl = sl;
-globalThis.playUgen = (ugenGraph) => sc.playUgen(globalScsynth, ugenGraph);
+globalThis.playUgen = (ugenGraph) => sc.playUgen(globalScsynth, ugenGraph, 1);
 globalThis.splEval = () => eval(sl.rewriteString(sc.get_selected_text_or_contents_of('programText')));
 globalThis.splInsertText = function(text) {
 	if(text[0] === '#') {
@@ -27,14 +27,14 @@ globalThis.splLoad = () => sc.read_text_file_from_file_input_and_then('programIn
 globalThis.splHelp = function() {
 	const name = sc.get_selected_text();
 	if(name.length > 0) {
-		const url = `https://rohandrape.net/sw/stsc3/help/sc2/help/unit-generators/${name}.help.md`;
+		const url = `https://rohandrape.net/sw/stsc3/help/sc2/help/unit-generators/${name}.help.sl`;
 		sc.load_utf8_and_then(url, splInsertText);
 	}
 };
 globalThis.splKey = function(event) {
-	console.log('splKey', event.ctrlKey, event.shiftKey, event.key);
+	// console.log('splKey', event.ctrlKey, event.shiftKey, event.key);
 	if(event.ctrlKey&& event.key === 'Enter') {
-		event.shiftKey ? sc.playUgen(globalScsynth, splEval(), 0) : splEval();
+		event.shiftKey ? playUgen(splEval()) : splEval();
 	} else if(event.ctrlKey&& event.key === '.') {
 		sc.resetScsynth(globalScsynth);
 		_clear(_system.get('clock'));
@@ -64,7 +64,7 @@ window.onload = function () {
 			<input type="file" id="programInputFile" accept=".stc, .sl, .sld, .md" onchange="splLoad()" style="display:none">
 			<button id="programInputFileSelect" title="Load (l)" accesskey="l">Load</button>
 			<button title="Evaluate (/)" accesskey="/" onclick="splEval()">Eval</button>
-			<button title="Play (,)" accesskey="," onclick="sc.playUgen(globalScsynth, splEval(), 0)">Play</button>
+			<button title="Play (,)" accesskey="," onclick="playUgen(splEval())">Play</button>
 			<button title="Reset (.)" accesskey="." onclick="sc.resetScsynth(globalScsynth)">Reset</button>
 			<button title="Clear Schedule(\)" accesskey="\" onclick="_clear(_system.get('clock'))">Clear</button>
 			<button title="Print" onclick="sc.prettyPrintSyndefOf(splEval())">Text</button>

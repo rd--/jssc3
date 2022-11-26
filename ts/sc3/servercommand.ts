@@ -121,18 +121,28 @@ export function d_recv_then(syndefArray: Uint8Array, onCompletion: Uint8Array): 
 
 // g = group
 
-export function g_new1(groupId: number, addAction: number, nodeId: number): ServerMessage {
+export type G_new = [groupId: number, addAction: number, nodeId: number];
+
+export function g_new(groups: G_new[]): ServerMessage {
 	return {
 		address: '/g_new',
-		args: [oscInt32(groupId), oscInt32(addAction), oscInt32(nodeId)]
+		args: groups.map(group => group.map(oscInt32)).flat()
+	};
+}
+
+export function g_new1(groupId: number, addAction: number, nodeId: number): ServerMessage {
+	return g_new([[groupId, addAction, nodeId]]);
+}
+
+export function g_freeAll(groupIdArray: number[]): ServerMessage {
+	return {
+		address: '/g_freeAll',
+		args: groupIdArray.map(groupId => oscInt32(groupId))
 	};
 }
 
 export function g_freeAll1(groupId: number): ServerMessage {
-	return {
-		address: '/g_freeAll',
-		args: [oscInt32(groupId)]
-	};
+	return g_freeAll([groupId]);
 }
 
 // m = meta
