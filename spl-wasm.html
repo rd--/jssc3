@@ -12,7 +12,7 @@ import * as sc from './js/jssc3.js'
 import * as sl from './lib/spl/js/sl.js'
 globalThis.sc = sc;
 globalThis.sl = sl;
-globalThis.playUgen = (ugenGraph) => sc.playUgen(globalScsynth, ugenGraph, 1);
+globalThis.playUgen = (ugenGraph) => sc.scsynthEnsure(globalScsynth, () => sc.playUgen(globalScsynth, ugenGraph, 1));
 globalThis.splEval = () => eval(sl.rewriteString(sc.get_selected_text_or_contents_of('programText')));
 globalThis.splInsertText = function(text) {
 	if(text[0] === '#') {

@@ -407,10 +407,6 @@ export function Integrator(input: Signal, coef: Signal): Signal {
 export function K2A(input: Signal): Signal {
     return makeUgen('K2A', 1, rateAr, 0, [input]);
 }
-// Respond to the state of a key
-export function KeyState(keycode: Signal, minval: Signal, maxval: Signal, lag: Signal): Signal {
-    return makeUgen('KeyState', 1, rateKr, 0, [keycode, minval, maxval, lag]);
-}
 // Sine oscillator bank
 export function Klang(freqscale: Signal, freqoffset: Signal, specificationsArrayRef: Signal): Signal {
     return makeUgen('Klang', 1, rateAr, 0, arrayConcat([freqscale, freqoffset], (asArray(specificationsArrayRef))));
@@ -590,18 +586,6 @@ export function ModDif(x: Signal, y: Signal, mod: Signal): Signal {
 // Moog VCF implementation, designed by Federico Fontana
 export function MoogFF(input: Signal, freq: Signal, gain: Signal, reset: Signal): Signal {
     return makeUgen('MoogFF', 1, [0], 0, [input, freq, gain, reset]);
-}
-// Mouse button UGen.
-export function MouseButton(minval: Signal, maxval: Signal, lag: Signal): Signal {
-	return makeUgen('MouseButton', 1, rateKr, 0, [minval, maxval, lag]);
-}
-// Cursor tracking UGen.
-export function MouseX(minval: Signal, maxval: Signal, warp: Signal, lag: Signal): Signal {
-	return makeUgen('MouseX', 1, rateKr, 0, [minval, maxval, warp, lag]);
-}
-// Cursor tracking UGen.
-export function MouseY(minval: Signal, maxval: Signal, warp: Signal, lag: Signal): Signal {
-	return makeUgen('MouseY', 1, rateKr, 0, [minval, maxval, warp, lag]);
 }
 // Multiply add
 export function MulAdd(input: Signal, mul: Signal, add: Signal): Signal {

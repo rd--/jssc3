@@ -7,12 +7,11 @@ import { consoleDebug, consoleLogMessageFrom } from '../kernel/error.ts'
 
 import { ScsynthWasmModule, initScsynthWasmModule } from './scsynth-wasm-module.ts'
 import { scsynthDefaultOptions } from './scsynth-options.ts'
-import { Scsynth }from './scsynth.ts'
-import { scsynthWasm }from './scsynth-wasm.ts'
+import { Scsynth } from './scsynth.ts'
+import { scsynthWasm } from './scsynth-wasm.ts'
 
 declare global {
 	var Module: ScsynthWasmModule;
-	var globalScsynth: Scsynth;
 }
 
 if(globalThis.Module !== undefined) {

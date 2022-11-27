@@ -18,10 +18,6 @@ export const sc3_buffer: { dict: BufferDictionary, cache: BufferCache, next: num
 	next: 100
 };
 
-declare global {
-	var globalScsynth: Scsynth;
-}
-
 // Fetch buffer index from cache, allocate and load if required.  Resolve soundFileId against dictionary.
 export function SfAcquire(urlOrKey: string, numberOfChannels: number, channelSelector: number | number[]): number | number[] {
 	if(globalThis.globalScsynth) {

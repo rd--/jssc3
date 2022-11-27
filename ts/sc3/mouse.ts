@@ -1,4 +1,4 @@
-import { Scsynth, setPointerControls } from '../sc3/scsynth.ts'
+import { Scsynth, setPointerControls } from './scsynth.ts'
 
 // w is button state, x and y are unit scaled co-ordinates within window where y points up.
 const sc3_mouse = { w: 0, x: 0, y: 0 };

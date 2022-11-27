@@ -26,5 +26,6 @@ export function scsynthUdp(scsynthUdp: ScsynthUdp): Scsynth {
 		(aString) => console.log(`scsynthUdp: ${aString}`)
 	);
 	scsynth.isAlive = true;
+	scsynth.hasIoUgens = true;
 	return scsynth;
 }

@@ -1,3 +1,5 @@
+import { consoleDebug } from '../kernel/error.ts'
+
 import { encodeUgen } from './graph.ts'
 import { wrapOut } from './pseudo.ts'
 import { ScsynthOptions } from './scsynth-options.ts'
@@ -16,6 +18,7 @@ export class Scsynth {
 	monitorDisplay: (text: string) => void;
 	isAlive: boolean;
 	isStarting: boolean;
+	hasIoUgens: boolean;
 	synthPort: number;
 	langPort: number;
 	status: ScsynthStatus;
@@ -28,9 +31,29 @@ export class Scsynth {
 		this.isStarting = false;
 		this.synthPort = 57110;
 		this.langPort = 57120;
+		this.hasIoUgens = false;
 		this.status = {ugenCount: 0};
 	}
 }
+
+declare global {
+	var globalScsynth: Scsynth;
+}
+
+export function scsynthEnsure(scsynth: Scsynth, activity: () => void) {
+	if(scsynth.isAlive) {
+		consoleDebug('scsynthEnsure: alive, do activity');
+		activity();
+	} else if(scsynth.isStarting) {
+		console.log('scsynthEnsure: starting, schedule activity');
+		setTimeout(() => scsynthEnsure(scsynth, activity), 1000);
+	} else {
+		console.log('scsynthEnsure: offline, start and schedule activity');
+		scsynth.boot();
+		setTimeout(() => scsynthEnsure(scsynth, activity), 1000);
+	}
+}
+
 
 export function playSyndef(scsynth: Scsynth, syndefName: string, syndefData: Uint8Array, groupId: number): void {
 	console.log('playSyndef #', syndefData.length);
