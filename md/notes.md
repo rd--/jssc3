@@ -5,7 +5,11 @@ It currenly reads globalScsynth.
 It should require an initial argument.
 Since programs are generally written in an "open" form,
 this value can be bound by the same mechanism that provides "play" and "draw" &etc.
-It needs to have a known name, perhaps "synth" or "sys:synth" in case there are others?
+It needs to have a known name, perhaps "scsynth" or "system:scsynth" in case there are others?
+
+## Local Buffers
+
+For local use, i.e. deno on localhost, there should be a way use local disk files for buffer loading.
 
 ## Pointer
 

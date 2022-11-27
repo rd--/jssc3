@@ -2,9 +2,15 @@ export function isArray<T>(aValue: unknown): aValue is Array<T> {
 	return Array.isArray(aValue);
 }
 
+export type ScalarOrArray<T> = T | T[];
+
+export function scalarOrArray<T, U>(maybeArray: (ScalarOrArray<T>), scalarFunc: (aScalar: T) => U, arrayFunc: (anArray: T[]) => U): U {
+	return isArray(maybeArray) ? arrayFunc(maybeArray) : scalarFunc(maybeArray);
+}
+
 // [1, [1, 2]].map(asArray) //= [[1], [1, 2]]
-export function asArray<T>(maybeArray: (T | T[])): T[] {
-	return isArray(maybeArray) ? maybeArray: [maybeArray];
+export function asArray<T>(maybeArray: (ScalarOrArray<T>)): T[] {
+	return isArray(maybeArray) ? maybeArray : [maybeArray];
 }
 
 export function arrayNew<T>(size: number): T[] {
@@ -100,9 +106,9 @@ export function arrayExtendCyclically<T>(anArray: T[], size: number): T[] {
 
 // arrayExtendToBeOfEqualSize([[1, 2], [3, 4, 5]]) //= [[1, 2, 1], [3, 4, 5]]
 // arrayExtendToBeOfEqualSize([[440, 550], 0]) //= [[440, 550], [0, 0]]
-export function arrayExtendToBeOfEqualSize<T>(anArray: (T | T[])[]): T[][] {
-	const maxSize = arrayMaxItem(anArray.map(item => isArray(item) ? item.length: 1));
-	return anArray.map(item => arrayExtendCyclically(isArray(item) ? item: [item], maxSize));
+export function arrayExtendToBeOfEqualSize<T>(anArray: (ScalarOrArray<T>)[]): T[][] {
+	const maxSize = arrayMaxItem(anArray.map(item => isArray(item) ? item.length : 1));
+	return anArray.map(item => arrayExtendCyclically(isArray(item) ? item : [item], maxSize));
 }
 
 // arrayFill(5, () => Math.random())
