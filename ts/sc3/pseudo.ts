@@ -1,11 +1,12 @@
-import { isArray, asArray, arrayClump, arrayConcatenation, arrayExtendToBeOfEqualSize, arrayFirst, arrayFromTo, arrayMaxItem, arrayReduce, arrayReplicate, arraySecond, arrayTranspose } from '../kernel/array.ts'
-import { consoleDebug } from '../kernel/error.ts'
+import { isArray, asArray, arrayClump, arrayConcatenation, arrayExtendToBeOfEqualSize, arrayFirst, arrayFromTo, arrayMaxItem, arrayProduct, arrayReduce, arrayReplicate, arraySecond, arraySize, arrayTranspose } from '../kernel/array.ts'
+import { consoleDebug, throwError } from '../kernel/error.ts'
 
 import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
+import { Forest, treeShape } from '../stdlib/tree.ts'
 
-import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TIRand, Wrap, XFade2, XLine, add, fdiv, fold2, midiCps, mul, roundTo, shiftRight, sqrt, sub, trunc } from './bindings.ts'
+import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, HPZ1, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TIRand, Wrap, XFade2, XLine, abs, add, fdiv, fold2, gt, midiCps, mul, roundTo, shiftRight, sqrt, sub, trunc } from './bindings.ts'
 import { Env, EnvAdsr, EnvAsr, EnvCutoff, EnvPerc, EnvRelease, EnvSine, envCoord } from './envelope.ts'
-import { Signal, isOutUgen, kr, mrg } from './ugen.ts'
+import { Signal, isOutUgen, kr, mrg, signalSize } from './ugen.ts'
 
 // wrapOut(0, mul(SinOsc(440, 0), 0.1))
 export function wrapOut(bus: Signal, ugen: Signal): Signal {
@@ -27,16 +28,8 @@ export function Cutoff(sustainTime: Signal, releaseTime: Signal, curve: Signal):
 	return EnvGen(1, 1, 0, 1, 0, envCoord(env));
 }
 
-export function signalLength(aSignal: Signal): number {
-	if(isArray(aSignal)) {
-		return (aSignal).length;
-	} else {
-		return 1;
-	}
-}
-
 export function Splay(inArray: Signal, spread: Signal, level: Signal, center: Signal, levelComp: Signal): Signal {
-	const n = Math.max(2, signalLength(inArray));
+	const n = Math.max(2, signalSize(inArray));
 	const pos = arrayFromTo(0, n - 1).map(item => add(mul(sub(mul(item, fdiv(2, sub(n, 1))), 1), spread), center));
 	const lvl = mul(level, levelComp ? sqrt(1 / n) : 1);
 	consoleDebug(`Splay: ${[n, pos, lvl]}`);
@@ -44,7 +37,7 @@ export function Splay(inArray: Signal, spread: Signal, level: Signal, center: Si
 }
 
 export function Splay2(inArray: Signal): Signal {
-	const n = Math.max(2, signalLength(inArray));
+	const n = Math.max(2, signalSize(inArray));
 	const pos = arrayFromTo(0, n - 1).map(item => item * (2 / (n - 1)) - 1);
 	const lvl = Math.sqrt(1 / n);
 	consoleDebug(`Splay2: ${[n, pos, lvl]}`);
@@ -66,7 +59,7 @@ export function Select2(predicate: Signal, ifTrue: Signal, ifFalse: Signal): Sig
 }
 
 export function TChoose(trig: Signal, array: Signal): Signal {
-	return Select(TIRand(0, signalLength(array) - 1, trig), array);
+	return Select(TIRand(0, signalSize(array) - 1, trig), array);
 }
 
 export function PMOsc(carfreq: Signal, modfreq: Signal, pmindex: Signal, modphase: Signal): Signal {
@@ -126,11 +119,23 @@ note that mrg places q in p, and here q has a reference to p, so the traversal o
 b = asLocalBuf([0, 2, 4, 5, 7, 9, 11]);
 ugenTraverseCollecting(b, ...)
 */
-export function asLocalBuf(array: Signal): Signal {
-	const k = signalLength(array);
-	const p = LocalBuf(1, k);
-	const q = SetBuf(p, 0, k, array);
-	return mrg(p, q);
+export function asLocalBuf(aSignal: Forest<number>): Signal {
+	let shape = treeShape(aSignal);
+	if(arraySize(shape) > 2) {
+		throwError('LocalBuf: list has not the right shape');
+		return 0;
+	} else {
+		let array = null;
+		if(arraySize(shape) === 1) {
+			shape = [1, arraySize(aSignal)];
+			array = aSignal;
+		} else {
+			array = arrayConcatenation(arrayTranspose(<number[][]>aSignal));
+		}
+		const lhs = LocalBuf(shape[0], shape[1]);
+		const rhs = SetBuf(lhs, 0, arrayProduct(shape), array);
+		return mrg(lhs, rhs);
+	}
 }
 
 export function clearBuf(buf: Signal): Signal {
@@ -149,7 +154,7 @@ export function BufWrite(bufnum: Signal, phase: Signal, loop: Signal, inputArray
 
 // Reshape input arrays, and allow amp and time to be null (defaulting to 1)
 export function asKlankSpec(freq: Signal, amp: Maybe<Signal>, time: Maybe<Signal>): Signal {
-	const n = signalLength(freq);
+	const n = signalSize(freq);
 	const a = [freq, fromMaybe(amp, arrayReplicate(n, 1)), fromMaybe(time, arrayReplicate(n, 1))];
 	consoleDebug(`asKlankSpec: ${a}`);
 	return arrayConcatenation(arrayTranspose(arrayExtendToBeOfEqualSize(a)));
@@ -270,4 +275,8 @@ export function Perc(trig: Signal, attackTime: Signal, releaseTime: Signal, curv
 
 export function DynRingzBank(input: Signal, freq: Signal, amp: Signal, time: Signal): Signal {
 	return arrayReduce(<Signal[]>mul(Ringz(input, freq, time), amp), add);
+}
+
+export function Changed(input: Signal, threshold: Signal): Signal {
+	return gt(abs(HPZ1(input)), threshold);
 }

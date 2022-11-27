@@ -1,9 +1,9 @@
-import { isArray, arrayMap, arrayMaxItem } from '../kernel/array.ts'
+import { isArray, arrayAppend, arrayMap, arrayMaxItem, arraySize } from '../kernel/array.ts'
 
 export type Tree<T> = T | Tree<T>[];
 
 export function treeVisit<T>(aTree: Tree<T>, visitFunction: (x: T) => void): void {
-	if(Array.isArray(aTree)) {
+	if(isArray(aTree)) {
 		aTree.forEach(item => treeVisit(item, visitFunction));
 	} else {
 		visitFunction(aTree);
@@ -36,6 +36,14 @@ export function treeDepth<T>(aTree: Tree<T>): number {
 	return treeDepthFrom(aTree, 0);
 }
 
+export function treeRank(aTree: Tree<unknown>): number {
+	return isArray(aTree) ? (1 + treeRank(aTree[0])) : 0;
+}
+
+export function treeShape(aTree: Tree<unknown>): number[] {
+	return isArray(aTree) ? (arrayAppend([arraySize(aTree)], treeShape(aTree[0]))) : [];
+}
+
 export type Forest<T> = Tree<T>[];
 
 export function forestFlatten<T>(aForest: Forest<T>): T[] {
@@ -47,11 +55,11 @@ export function forestEq<T>(lhs: Forest<T>, rhs: Forest<T>): boolean {
 	if (lhs === rhs) {
 		return true;
 	}
-	if (!Array.isArray(rhs) || (lhs.length !== rhs.length)) {
+	if (!isArray(rhs) || (lhs.length !== rhs.length)) {
 		return false;
 	}
 	for (let i = 0; i < lhs.length; i++) {
-		if(Array.isArray(lhs[i])) {
+		if(isArray(lhs[i])) {
 			if (!forestEq(<Forest<T>>lhs[i], <Forest<T>>rhs[i])) {
 				return false;
 			}

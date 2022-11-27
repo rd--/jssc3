@@ -188,6 +188,10 @@ export function arrayNub<T>(anArray: T[]): T[] {
 	return anArray.filter((item, index) => anArray.indexOf(item) === index);
 }
 
+export function arrayProduct(anArray: number[]): number {
+	return anArray.reduce((lhs, rhs) => lhs * rhs);
+}
+
 export function arrayPush<T>(anArray: T[], aValue: T): number {
 	return anArray.push(aValue);
 }

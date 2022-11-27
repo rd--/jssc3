@@ -1,4 +1,4 @@
-import { isArray, asArray, arrayAtIndices, arrayContainsArray, arrayEvery, arrayExtendToBeOfEqualSize, arrayFillWithIndex, arrayFind, arrayForEach, arrayMap, arrayMaxItem, arrayTranspose } from '../kernel/array.ts'
+import { isArray, asArray, arrayAtIndices, arrayContainsArray, arrayEvery, arrayExtendToBeOfEqualSize, arrayFillWithIndex, arrayFind, arrayForEach, arrayMap, arrayMaxItem, arraySize, arrayTranspose } from '../kernel/array.ts'
 import { consoleDebug, throwError } from '../kernel/error.ts'
 import { isNumber } from '../kernel/number.ts'
 import { isObject } from '../kernel/object.ts'
@@ -255,4 +255,12 @@ export function isOutUgen(aValue: unknown): boolean {
 // isControlRateUgen(MouseX(0, 1, 0, 0.2))
 export function isControlRateUgen(aValue: unknown): boolean {
 	return isUgenInput(aValue) && (inputRate(aValue) == rateKr);
+}
+
+export function signalSize(aSignal: Signal): number {
+	if(isArray(aSignal)) {
+		return arraySize(aSignal);
+	} else {
+		return 1;
+	}
 }
