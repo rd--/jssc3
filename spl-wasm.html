@@ -27,7 +27,9 @@ globalThis.splLoad = () => sc.read_text_file_from_file_input_and_then('programIn
 globalThis.splHelp = function() {
 	const name = sc.get_selected_text();
 	if(name.length > 0) {
-		const url = `https://rohandrape.net/sw/stsc3/help/sc2/help/unit-generators/${name}.help.sl`;
+		const helpPrefix = 'https://rohandrape.net/sw/stsc3/help/sc2/help/unit-generators';
+		const docPrefix = 'https://rohandrape.net/sw/spl/doc';
+		const url = `${name.includes(' ') ? docPrefix : helpPrefix}/${name}.help.sl`;
 		sc.load_utf8_and_then(url, splInsertText);
 	}
 };
@@ -69,11 +71,11 @@ window.onload = function () {
 			<button title="Clear Schedule(\)" accesskey="\" onclick="_clear(_system.get('clock'))">Clear</button>
 			<button title="Print" onclick="sc.prettyPrintSyndefOf(splEval())">Text</button>
 		</div>
-		<div id="documentContainer" contenteditable="true" spellcheck="false">
-			<div id="documentText"></div>
+		<div id="documentContainer">
+			<div id="documentText" contenteditable="true" spellcheck="false"></div>
 		</div>
-		<div id="plaintextContainer" contenteditable="true" spellcheck="false">
-			<pre><code id="programText"></code></pre>
+		<div id="plaintextContainer">
+			<pre><code id="programText" contenteditable="true" spellcheck="false"></code></pre>
 		</div>
 		<script async src="lib/scsynth-wasm-builds/ext/scsynth.js"></script>
 	</body>
