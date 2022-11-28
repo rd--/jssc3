@@ -2,7 +2,7 @@ import { arrayClump, arrayConcatenation, arrayFill, arrayFromTo, arrayTranspose 
 import { nullFix } from '../kernel/null.ts'
 import { numberTimesRepeat, randomFloat, randomInteger } from '../kernel/number.ts'
 
-import { add, fdiv, mul, neg, recip, roundTo, trunc } from './bindings.ts'
+import { Add, Fdiv, Mul, Neg, Recip, RoundTo, Trunc } from './bindings.ts'
 import { Env, envCoord } from './envelope.ts'
 import { Signal } from './ugen.ts'
 
@@ -19,14 +19,14 @@ export function size<T>(anArray: T[]): number { return anArray.length; }
 export function third<T>(anArray: T[]): T { return anArray[2]; }
 export function transpose<T>(anArray: T[][]): T[][] { return arrayTranspose(anArray); }
 
-export function mean(anArray: Signal[]): Signal { return fdiv(sum(anArray), anArray.length); }
-export function product(anArray: Signal[]): Signal { return anArray.reduce(mul); }
-export function sum(anArray: Signal[]): Signal { return anArray.reduce(add); }
+export function mean(anArray: Signal[]): Signal { return Fdiv(sum(anArray), anArray.length); }
+export function product(anArray: Signal[]): Signal { return anArray.reduce(Mul); }
+export function sum(anArray: Signal[]): Signal { return anArray.reduce(Add); }
 
-export function negated(aNumber: Signal): Signal { return neg(aNumber); }
-export function reciprocal(a: Signal): Signal { return recip(a); }
-export function rounded(a: Signal): Signal { return roundTo(a, 1); }
-export function truncateTo(a: Signal, b: Signal): Signal { return trunc(a, b); }
+export function negated(aNumber: Signal): Signal { return Neg(aNumber); }
+export function reciprocal(a: Signal): Signal { return Recip(a); }
+export function rounded(a: Signal): Signal { return RoundTo(a, 1); }
+export function truncateTo(a: Signal, b: Signal): Signal { return Trunc(a, b); }
 
 export function rand(min: number, max: number): number { return randomFloat(min, max); }
 export function rand2(n: number): number { return randomFloat(0 - n, n); }

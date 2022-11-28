@@ -6,7 +6,7 @@ import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 import { queueNew, queuePush, queueAsArray } from '../stdlib/queue.ts'
 import { Tree, treeDepthFrom, treeFlatten } from '../stdlib/tree.ts'
 
-import { fdiv, mul } from './bindings.ts'
+import { Fdiv, Mul } from './bindings.ts'
 import { Signal, UgenInput } from './ugen.ts'
 
 export const envCurveDictionary: Record<string, number> = {
@@ -64,7 +64,7 @@ export function envCoord(env: Env): Signal[] {
 
 export function EnvAdsr(attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, peakLevel: Signal, curve: Signal): Env {
 	 return new Env(
-		[0, peakLevel, mul(peakLevel, sustainLevel), 0],
+		[0, peakLevel, Mul(peakLevel, sustainLevel), 0],
 		[attackTime, decayTime, releaseTime],
 		curve,
 		2,
@@ -109,7 +109,7 @@ export function EnvRelease(attackTime: Signal, dur: Signal, releaseTime: Signal)
 export function EnvSine(dur: Signal): Env {
 	return new Env(
 		[0, 0, 1, 0],
-		[0, fdiv(dur, 2), fdiv(dur, 2)],
+		[0, Fdiv(dur, 2), Fdiv(dur, 2)],
 		'sine',
 		null,
 		1,

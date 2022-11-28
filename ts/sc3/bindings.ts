@@ -56,23 +56,23 @@ export function BLowPass(input: Signal, freq: Signal, rq: Signal): Signal {
     return makeUgen('BLowPass', 1, [0], 0, [input, freq, rq]);
 }
 // Parametric equalizer
-export function BPeakEQ(input: Signal, freq: Signal, rq: Signal, db: Signal): Signal {
+export function BPeakEq(input: Signal, freq: Signal, rq: Signal, db: Signal): Signal {
     return makeUgen('BPeakEQ', 1, [0], 0, [input, freq, rq, db]);
 }
 // 2nd order Butterworth bandpass filter.
-export function BPF(input: Signal, freq: Signal, rq: Signal): Signal {
+export function Bpf(input: Signal, freq: Signal, rq: Signal): Signal {
     return makeUgen('BPF', 1, [0], 0, [input, freq, rq]);
 }
 // Two zero fixed midpass.
-export function BPZ2(input: Signal): Signal {
+export function Bpz2(input: Signal): Signal {
     return makeUgen('BPZ2', 1, [0], 0, [input]);
 }
 // 2nd order Butterworth band reject filter.
-export function BRF(input: Signal, freq: Signal, rq: Signal): Signal {
+export function Brf(input: Signal, freq: Signal, rq: Signal): Signal {
     return makeUgen('BRF', 1, [0], 0, [input, freq, rq]);
 }
 // Two zero fixed midcut.
-export function BRZ2(input: Signal): Signal {
+export function Brz2(input: Signal): Signal {
     return makeUgen('BRZ2', 1, [0], 0, [input]);
 }
 // Brown Noise.
@@ -168,7 +168,7 @@ export function Dbufwr(bufnum: Signal, phase: Signal, input: Signal, loop: Signa
     return makeUgen('Dbufwr', 1, rateDr, 0, [bufnum, phase, input, loop]);
 }
 // Create a constant amplitude signal
-export function DC(input: Signal): Signal {
+export function Dc(input: Signal): Signal {
     return makeUgen('DC', 1, rateAr, 0, [input]);
 }
 // Exponential decay
@@ -212,7 +212,7 @@ export function DetectSilence(input: Signal, amp: Signal, time: Signal, doneActi
     return makeUgen('DetectSilence', 1, [0], 0, [input, amp, time, doneAction]);
 }
 // Digitally modelled analog filter
-export function DFM1(input: Signal, freq: Signal, res: Signal, inputgain: Signal, type: Signal, noiselevel: Signal): Signal {
+export function Dfm1(input: Signal, freq: Signal, res: Signal, inputgain: Signal, type: Signal, noiselevel: Signal): Signal {
     return makeUgen('DFM1', 1, [0], 0, [input, freq, res, inputgain, type, noiselevel]);
 }
 // Demand rate white noise random generator.
@@ -248,7 +248,7 @@ export function Duty(dur: Signal, reset: Signal, doneAction: Signal, level: Sign
     return makeUgen('Duty', 1, rateAr, 0, [dur, reset, doneAction, level]);
 }
 // Plucked physical model.
-export function DWGPluckedStiff(freq: Signal, amp: Signal, gate: Signal, pos: Signal, c1: Signal, c3: Signal, inp: Signal, release: Signal, fB: Signal): Signal {
+export function DwgPluckedStiff(freq: Signal, amp: Signal, gate: Signal, pos: Signal, c1: Signal, c3: Signal, inp: Signal, release: Signal, fB: Signal): Signal {
     return makeUgen('DWGPluckedStiff', 1, rateAr, 0, [freq, amp, gate, pos, c1, c3, inp, release, fB]);
 }
 // Demand rate white noise random generator.
@@ -268,15 +268,15 @@ export function ExpRand(lo: Signal, hi: Signal): Signal {
     return makeUgen('ExpRand', 1, rateIr, 0, [lo, hi]);
 }
 // Feedback sine with chaotic phase indexing
-export function FBSineL(freq: Signal, im: Signal, fb: Signal, a: Signal, c: Signal, xi: Signal, yi: Signal): Signal {
+export function FbSineL(freq: Signal, im: Signal, fb: Signal, a: Signal, c: Signal, xi: Signal, yi: Signal): Signal {
     return makeUgen('FBSineL', 1, rateAr, 0, [freq, im, fb, a, c, xi, yi]);
 }
 // Feedback sine with chaotic phase indexing
-export function FBSineC(freq: Signal, im: Signal, fb: Signal, a: Signal, c: Signal, xi: Signal, yi: Signal): Signal {
+export function FbSineC(freq: Signal, im: Signal, fb: Signal, a: Signal, c: Signal, xi: Signal, yi: Signal): Signal {
     return makeUgen('FBSineC', 1, rateAr, 0, [freq, im, fb, a, c, xi, yi]);
 }
 // Fast Fourier Transform
-export function FFT(buffer: Signal, input: Signal, hop: Signal, wintype: Signal, active: Signal, winsize: Signal): Signal {
+export function Fft(buffer: Signal, input: Signal, hop: Signal, wintype: Signal, active: Signal, winsize: Signal): Signal {
     return makeUgen('FFT', 1, rateKr, 0, [buffer, input, hop, wintype, active, winsize]);
 }
 // Fold a signal outside given thresholds.
@@ -292,7 +292,7 @@ export function Formlet(input: Signal, freq: Signal, attacktime: Signal, decayti
     return makeUgen('Formlet', 1, [0], 0, [input, freq, attacktime, decaytime]);
 }
 // First order filter section.
-export function FOS(input: Signal, a0: Signal, a1: Signal, b1: Signal): Signal {
+export function Fos(input: Signal, a0: Signal, a1: Signal, b1: Signal): Signal {
     return makeUgen('FOS', 1, [0], 0, [input, a0, a1, b1]);
 }
 // Frequency Shifter.
@@ -324,7 +324,7 @@ export function GrainBuf(numChan: number, trigger: Signal, dur: Signal, sndbuf: 
     return makeUgen('GrainBuf', numChan, rateAr, 0, [trigger, dur, sndbuf, rate, pos, interp, pan, envbufnum, maxGrains]);
 }
 // Granular synthesis with frequency modulated sine tones
-export function GrainFM(numChan: number, trigger: Signal, dur: Signal, carfreq: Signal, modfreq: Signal, index: Signal, pan: Signal, envbufnum: Signal, maxGrains: Signal): Signal {
+export function GrainFm(numChan: number, trigger: Signal, dur: Signal, carfreq: Signal, modfreq: Signal, index: Signal, pan: Signal, envbufnum: Signal, maxGrains: Signal): Signal {
     return makeUgen('GrainFM', numChan, rateAr, 0, [trigger, dur, carfreq, modfreq, index, pan, envbufnum, maxGrains]);
 }
 // Granular synthesis with sine tones
@@ -356,19 +356,19 @@ export function HenonN(freq: Signal, a: Signal, b: Signal, x0: Signal, x1: Signa
     return makeUgen('HenonN', 1, rateAr, 0, [freq, a, b, x0, x1]);
 }
 // 2nd order Butterworth highpass filter.
-export function HPF(input: Signal, freq: Signal): Signal {
+export function Hpf(input: Signal, freq: Signal): Signal {
     return makeUgen('HPF', 1, [0], 0, [input, freq]);
 }
 // Two point difference filter
-export function HPZ1(input: Signal): Signal {
+export function Hpz1(input: Signal): Signal {
     return makeUgen('HPZ1', 1, [0], 0, [input]);
 }
 // Two zero fixed midcut.
-export function HPZ2(input: Signal): Signal {
+export function Hpz2(input: Signal): Signal {
     return makeUgen('HPZ2', 1, [0], 0, [input]);
 }
 // Inverse Fast Fourier Transform
-export function IFFT(buffer: Signal, wintype: Signal, winsize: Signal): Signal {
+export function Ifft(buffer: Signal, wintype: Signal, winsize: Signal): Signal {
     return makeUgen('IFFT', 1, rateAr, 0, [buffer, wintype, winsize]);
 }
 // Impulse oscillator.
@@ -416,59 +416,59 @@ export function Klank(input: Signal, freqscale: Signal, freqoffset: Signal, deca
     return makeUgen('Klank', 1, [0], 0, arrayConcat([input, freqscale, freqoffset, decayscale], (asArray(specificationsArrayRef))));
 }
 // random walk linear interp
-export function LFBrownNoise1(freq: Signal, dev: Signal, dist: Signal): Signal {
+export function LfBrownNoise1(freq: Signal, dev: Signal, dist: Signal): Signal {
     return makeUgen('LFBrownNoise1', 1, rateAr, 0, [freq, dev, dist]);
 }
 // Clipped noise
-export function LFClipNoise(freq: Signal): Signal {
+export function LfClipNoise(freq: Signal): Signal {
     return makeUgen('LFClipNoise', 1, rateAr, 0, [freq]);
 }
 // A sine like shape made of two cubic pieces
-export function LFCub(freq: Signal, iphase: Signal): Signal {
+export function LfCub(freq: Signal, iphase: Signal): Signal {
     return makeUgen('LFCub', 1, rateAr, 0, [freq, iphase]);
 }
 // Dynamic ramp noise
-export function LFDNoise1(freq: Signal): Signal {
+export function LfdNoise1(freq: Signal): Signal {
     return makeUgen('LFDNoise1', 1, rateAr, 0, [freq]);
 }
 // Dynamic cubic noise
-export function LFDNoise3(freq: Signal): Signal {
+export function LfdNoise3(freq: Signal): Signal {
     return makeUgen('LFDNoise3', 1, rateAr, 0, [freq]);
 }
 // Gaussian function oscillator
-export function LFGauss(duration: Signal, width: Signal, iphase: Signal, loop: Signal, doneAction: Signal): Signal {
+export function LfGauss(duration: Signal, width: Signal, iphase: Signal, loop: Signal, doneAction: Signal): Signal {
     return makeUgen('LFGauss', 1, rateAr, 0, [duration, width, iphase, loop, doneAction]);
 }
 // Step noise
-export function LFNoise0(freq: Signal): Signal {
+export function LfNoise0(freq: Signal): Signal {
     return makeUgen('LFNoise0', 1, rateAr, 0, [freq]);
 }
 // Ramp noise
-export function LFNoise1(freq: Signal): Signal {
+export function LfNoise1(freq: Signal): Signal {
     return makeUgen('LFNoise1', 1, rateAr, 0, [freq]);
 }
 // Quadratic noise.
-export function LFNoise2(freq: Signal): Signal {
+export function LfNoise2(freq: Signal): Signal {
     return makeUgen('LFNoise2', 1, rateAr, 0, [freq]);
 }
 // Parabolic oscillator
-export function LFPar(freq: Signal, iphase: Signal): Signal {
+export function LfPar(freq: Signal, iphase: Signal): Signal {
     return makeUgen('LFPar', 1, rateAr, 0, [freq, iphase]);
 }
 // pulse oscillator
-export function LFPulse(freq: Signal, iphase: Signal, width: Signal): Signal {
+export function LfPulse(freq: Signal, iphase: Signal, width: Signal): Signal {
     return makeUgen('LFPulse', 1, rateAr, 0, [freq, iphase, width]);
 }
 // Sawtooth oscillator
-export function LFSaw(freq: Signal, iphase: Signal): Signal {
+export function LfSaw(freq: Signal, iphase: Signal): Signal {
     return makeUgen('LFSaw', 1, rateAr, 0, [freq, iphase]);
 }
 // Triangle oscillator
-export function LFTri(freq: Signal, iphase: Signal): Signal {
+export function LfTri(freq: Signal, iphase: Signal): Signal {
     return makeUgen('LFTri', 1, rateAr, 0, [freq, iphase]);
 }
 // 2nd order Butterworth lowpass filter
-export function LPF(input: Signal, freq: Signal): Signal {
+export function Lpf(input: Signal, freq: Signal): Signal {
     return makeUgen('LPF', 1, [0], 0, [input, freq]);
 }
 // Exponential lag
@@ -476,7 +476,7 @@ export function Lag(input: Signal, lagTime: Signal): Signal {
     return makeUgen('Lag', 1, [0], 0, [input, lagTime]);
 }
 // Exponential lag
-export function LagUD(input: Signal, lagTimeU: Signal, lagTimeD: Signal): Signal {
+export function LagUd(input: Signal, lagTimeU: Signal, lagTimeD: Signal): Signal {
     return makeUgen('LagUD', 1, [0], 0, [input, lagTimeU, lagTimeD]);
 }
 // Exponential lag
@@ -488,7 +488,7 @@ export function Lag3(input: Signal, lagTime: Signal): Signal {
     return makeUgen('Lag3', 1, [0], 0, [input, lagTime]);
 }
 // Exponential lag
-export function Lag3UD(input: Signal, lagTimeU: Signal, lagTimeD: Signal): Signal {
+export function Lag3Ud(input: Signal, lagTimeU: Signal, lagTimeD: Signal): Signal {
     return makeUgen('Lag3UD', 1, [0], 0, [input, lagTimeU, lagTimeD]);
 }
 // Sample and hold
@@ -500,7 +500,7 @@ export function LatoocarfianC(freq: Signal, a: Signal, b: Signal, c: Signal, d: 
     return makeUgen('LatoocarfianC', 1, rateAr, 0, [freq, a, b, c, d, xi, yi]);
 }
 // Remove DC
-export function LeakDC(input: Signal, coef: Signal): Signal {
+export function LeakDc(input: Signal, coef: Signal): Signal {
     return makeUgen('LeakDC', 1, [0], 0, [input, coef]);
 }
 // Peak limiter
@@ -556,11 +556,11 @@ export function LorenzL(freq: Signal, s: Signal, r: Signal, b: Signal, h: Signal
     return makeUgen('LorenzL', 1, rateAr, 0, [freq, s, r, b, h, xi, yi, zi]);
 }
 // Two point average filter
-export function LPZ1(input: Signal): Signal {
+export function Lpz1(input: Signal): Signal {
     return makeUgen('LPZ1', 1, [0], 0, [input]);
 }
 // Two zero fixed lowpass
-export function LPZ2(input: Signal): Signal {
+export function Lpz2(input: Signal): Signal {
     return makeUgen('LPZ2', 1, [0], 0, [input]);
 }
 // Reduce precision.
@@ -576,7 +576,7 @@ export function Median(length: Signal, input: Signal): Signal {
     return makeUgen('Median', 1, [1], 0, [length, input]);
 }
 // Parametric filter.
-export function MidEQ(input: Signal, freq: Signal, rq: Signal, db: Signal): Signal {
+export function MidEq(input: Signal, freq: Signal, rq: Signal, db: Signal): Signal {
     return makeUgen('MidEQ', 1, [0], 0, [input, freq, rq, db]);
 }
 // Minimum difference of two values in modulo arithmetics
@@ -584,7 +584,7 @@ export function ModDif(x: Signal, y: Signal, mod: Signal): Signal {
     return makeUgen('ModDif', 1, [0], 0, [x, y, mod]);
 }
 // Moog VCF implementation, designed by Federico Fontana
-export function MoogFF(input: Signal, freq: Signal, gain: Signal, reset: Signal): Signal {
+export function MoogFf(input: Signal, freq: Signal, gain: Signal, reset: Signal): Signal {
     return makeUgen('MoogFF', 1, [0], 0, [input, freq, gain, reset]);
 }
 // Multiply add
@@ -676,11 +676,11 @@ export function PulseDivider(trig: Signal, div: Signal, start: Signal): Signal {
     return makeUgen('PulseDivider', 1, [0], 0, [trig, div, start]);
 }
 // Random phase shifting.
-export function PV_Diffuser(buffer: Signal, trig: Signal): Signal {
+export function PvDiffuser(buffer: Signal, trig: Signal): Signal {
     return makeUgen('PV_Diffuser', 1, rateKr, 0, [buffer, trig]);
 }
 // Pass random bins.
-export function PV_RandComb(buffer: Signal, wipe: Signal, trig: Signal): Signal {
+export function PvRandComb(buffer: Signal, wipe: Signal, trig: Signal): Signal {
     return makeUgen('PV_RandComb', 1, rateKr, 0, [buffer, wipe, trig]);
 }
 // General quadratic map chaotic generator
@@ -692,11 +692,11 @@ export function QuadC(freq: Signal, a: Signal, b: Signal, c: Signal, xi: Signal)
     return makeUgen('QuadC', 1, rateAr, 0, [freq, a, b, c, xi]);
 }
 // A resonant high pass filter.
-export function RHPF(input: Signal, freq: Signal, rq: Signal): Signal {
+export function Rhpf(input: Signal, freq: Signal, rq: Signal): Signal {
     return makeUgen('RHPF', 1, [0], 0, [input, freq, rq]);
 }
 // A resonant low pass filter.
-export function RLPF(input: Signal, freq: Signal, rq: Signal): Signal {
+export function Rlpf(input: Signal, freq: Signal, rq: Signal): Signal {
     return makeUgen('RLPF', 1, [0], 0, [input, freq, rq]);
 }
 // Single random number generator.
@@ -760,7 +760,7 @@ export function SetBuf(buf: Signal, offset: Signal, length: Signal, array: Signa
     return makeUgen('SetBuf', 1, rateIr, 0, arrayConcat([buf, offset, length], (asArray(array))));
 }
 // Set-reset flip flop.
-export function SetResetFF(trig: Signal, reset: Signal): Signal {
+export function SetResetFf(trig: Signal, reset: Signal): Signal {
     return makeUgen('SetResetFF', 1, [0, 1], 0, [trig, reset]);
 }
 // Interpolating sine wavetable oscillator.
@@ -772,7 +772,7 @@ export function SinGrain(trigger: Signal, dur: Signal, freq: Signal): Signal {
     return makeUgen('SinGrain', 1, rateAr, 0, [trigger, dur, freq]);
 }
 // Feedback FM oscillator
-export function SinOscFB(freq: Signal, feedback: Signal): Signal {
+export function SinOscFb(freq: Signal, feedback: Signal): Signal {
     return makeUgen('SinOscFB', 1, rateAr, 0, [freq, feedback]);
 }
 // Slew rate limiter.
@@ -784,7 +784,7 @@ export function Slope(input: Signal): Signal {
     return makeUgen('Slope', 1, [0], 0, [input]);
 }
 // Second order filter section (biquad).
-export function SOS(input: Signal, a0: Signal, a1: Signal, a2: Signal, b1: Signal, b2: Signal): Signal {
+export function Sos(input: Signal, a0: Signal, a1: Signal, a2: Signal, b1: Signal, b2: Signal): Signal {
     return makeUgen('SOS', 1, [0], 0, [input, a0, a1, a2, b1, b2]);
 }
 // physical model of resonating spring
@@ -832,11 +832,11 @@ export function Timer(trig: Signal): Signal {
     return makeUgen('Timer', 1, [0], 0, [trig]);
 }
 // Triggered integer random number generator.
-export function TIRand(lo: Signal, hi: Signal, trig: Signal): Signal {
+export function TiRand(lo: Signal, hi: Signal, trig: Signal): Signal {
     return makeUgen('TIRand', 1, [2], 0, [lo, hi, trig]);
 }
 // Toggle flip flop.
-export function ToggleFF(trig: Signal): Signal {
+export function ToggleFf(trig: Signal): Signal {
     return makeUgen('ToggleFF', 1, [0], 0, [trig]);
 }
 // Triggered random number generator.
@@ -864,7 +864,7 @@ export function VarSaw(freq: Signal, iphase: Signal, width: Signal): Signal {
     return makeUgen('VarSaw', 1, rateAr, 0, [freq, iphase, width]);
 }
 // artifical reverberator
-export function VBJonVerb(input: Signal, decay: Signal, damping: Signal, inputbw: Signal, erfl: Signal, tail: Signal): Signal {
+export function VbJonVerb(input: Signal, decay: Signal, damping: Signal, inputbw: Signal, erfl: Signal, tail: Signal): Signal {
     return makeUgen('VBJonVerb', 2, [0], 0, [input, decay, damping, inputbw, erfl, tail]);
 }
 // The Vibrato oscillator models a slow frequency modulation.
@@ -924,7 +924,7 @@ export function MembraneCircle(excitation: Signal, tension: Signal, loss: Signal
     return makeUgen('MembraneCircle', 1, rateAr, 0, [excitation, tension, loss]);
 }
 // vosim pulse generator
-export function VOSIM(trig: Signal, freq: Signal, nCycles: Signal, decay: Signal): Signal {
+export function Vosim(trig: Signal, freq: Signal, nCycles: Signal, decay: Signal): Signal {
     return makeUgen('VOSIM', 1, rateAr, 0, [trig, freq, nCycles, decay]);
 }
 // a macro oscillator
@@ -944,11 +944,11 @@ export function AnalogFoldOsc(freq: Signal, amp: Signal): Signal {
     return makeUgen('AnalogFoldOsc', 1, rateAr, 0, [freq, amp]);
 }
 // rotating clock divider
-export function RCD(clock: Signal, rotate: Signal, reset: Signal, div: Signal, spread: Signal, auto: Signal, len: Signal, down: Signal, gates: Signal): Signal {
+export function Rcd(clock: Signal, rotate: Signal, reset: Signal, div: Signal, spread: Signal, auto: Signal, len: Signal, down: Signal, gates: Signal): Signal {
     return makeUgen('RCD', 8, [0], 0, [clock, rotate, reset, div, spread, auto, len, down, gates]);
 }
 // shuffling clock multiplier
-export function SCM(clock: Signal, bpm: Signal, rotate: Signal, slip: Signal, shuffle: Signal, skip: Signal, pw: Signal): Signal {
+export function Scm(clock: Signal, bpm: Signal, rotate: Signal, slip: Signal, shuffle: Signal, skip: Signal, pw: Signal): Signal {
     return makeUgen('SCM', 8, rateAr, 0, [clock, bpm, rotate, slip, shuffle, skip, pw]);
 }
 // (Undocumented class)
@@ -1008,108 +1008,108 @@ export function Freezer(bufnum: Signal, left: Signal, right: Signal, gain: Signa
     return makeUgen('Freezer', 1, rateAr, 0, [bufnum, left, right, gain, increment, incrementOffset, incrementRandom, rightRandom, syncPhaseTrigger, randomizePhaseTrigger, numberOfLoops]);
 }
 
-export function add(a: Signal, b: Signal): Signal { return BinaryOp(0, a, b); }
-export function sub(a: Signal, b: Signal): Signal { return BinaryOp(1, a, b); }
-export function mul(a: Signal, b: Signal): Signal { return BinaryOp(2, a, b); }
-export function idiv(a: Signal, b: Signal): Signal { return BinaryOp(3, a, b); }
-export function fdiv(a: Signal, b: Signal): Signal { return BinaryOp(4, a, b); }
-export function mod(a: Signal, b: Signal): Signal { return BinaryOp(5, a, b); }
-export function eq(a: Signal, b: Signal): Signal { return BinaryOp(6, a, b); }
-export function ne(a: Signal, b: Signal): Signal { return BinaryOp(7, a, b); }
-export function lt(a: Signal, b: Signal): Signal { return BinaryOp(8, a, b); }
-export function gt(a: Signal, b: Signal): Signal { return BinaryOp(9, a, b); }
-export function le(a: Signal, b: Signal): Signal { return BinaryOp(10, a, b); }
-export function ge(a: Signal, b: Signal): Signal { return BinaryOp(11, a, b); }
-export function min(a: Signal, b: Signal): Signal { return BinaryOp(12, a, b); }
-export function max(a: Signal, b: Signal): Signal { return BinaryOp(13, a, b); }
-export function bitAnd(a: Signal, b: Signal): Signal { return BinaryOp(14, a, b); }
-export function bitOr(a: Signal, b: Signal): Signal { return BinaryOp(15, a, b); }
-export function bitXor(a: Signal, b: Signal): Signal { return BinaryOp(16, a, b); }
-export function lcm(a: Signal, b: Signal): Signal { return BinaryOp(17, a, b); }
-export function gcd(a: Signal, b: Signal): Signal { return BinaryOp(18, a, b); }
-export function roundTo(a: Signal, b: Signal): Signal { return BinaryOp(19, a, b); }
-export function roundUp(a: Signal, b: Signal): Signal { return BinaryOp(20, a, b); }
-export function trunc(a: Signal, b: Signal): Signal { return BinaryOp(21, a, b); }
-export function atan2(a: Signal, b: Signal): Signal { return BinaryOp(22, a, b); }
-export function hypot(a: Signal, b: Signal): Signal { return BinaryOp(23, a, b); }
-export function hypotx(a: Signal, b: Signal): Signal { return BinaryOp(24, a, b); }
-export function pow(a: Signal, b: Signal): Signal { return BinaryOp(25, a, b); }
-export function shiftLeft(a: Signal, b: Signal): Signal { return BinaryOp(26, a, b); }
-export function shiftRight(a: Signal, b: Signal): Signal { return BinaryOp(27, a, b); }
-export function unsignedShift(a: Signal, b: Signal): Signal { return BinaryOp(28, a, b); }
-export function fill(a: Signal, b: Signal): Signal { return BinaryOp(29, a, b); }
-export function ring1(a: Signal, b: Signal): Signal { return BinaryOp(30, a, b); }
-export function ring2(a: Signal, b: Signal): Signal { return BinaryOp(31, a, b); }
-export function ring3(a: Signal, b: Signal): Signal { return BinaryOp(32, a, b); }
-export function ring4(a: Signal, b: Signal): Signal { return BinaryOp(33, a, b); }
-export function difSqr(a: Signal, b: Signal): Signal { return BinaryOp(34, a, b); }
-export function sumSqr(a: Signal, b: Signal): Signal { return BinaryOp(35, a, b); }
-export function sqrSum(a: Signal, b: Signal): Signal { return BinaryOp(36, a, b); }
-export function sqrDif(a: Signal, b: Signal): Signal { return BinaryOp(37, a, b); }
-export function absDif(a: Signal, b: Signal): Signal { return BinaryOp(38, a, b); }
-export function thresh(a: Signal, b: Signal): Signal { return BinaryOp(39, a, b); }
-export function amClip(a: Signal, b: Signal): Signal { return BinaryOp(40, a, b); }
-export function scaleNeg(a: Signal, b: Signal): Signal { return BinaryOp(41, a, b); }
-export function clip2(a: Signal, b: Signal): Signal { return BinaryOp(42, a, b); }
-export function excess(a: Signal, b: Signal): Signal { return BinaryOp(43, a, b); }
-export function fold2(a: Signal, b: Signal): Signal { return BinaryOp(44, a, b); }
-export function wrap2(a: Signal, b: Signal): Signal { return BinaryOp(45, a, b); }
-export function firstArg(a: Signal, b: Signal): Signal { return BinaryOp(46, a, b); }
-export function randRange(a: Signal, b: Signal): Signal { return BinaryOp(47, a, b); }
-export function expRandRange(a: Signal, b: Signal): Signal { return BinaryOp(48, a, b); }
+export function Add(a: Signal, b: Signal): Signal { return BinaryOp(0, a, b); }
+export function Sub(a: Signal, b: Signal): Signal { return BinaryOp(1, a, b); }
+export function Mul(a: Signal, b: Signal): Signal { return BinaryOp(2, a, b); }
+export function Idiv(a: Signal, b: Signal): Signal { return BinaryOp(3, a, b); }
+export function Fdiv(a: Signal, b: Signal): Signal { return BinaryOp(4, a, b); }
+export function Mod(a: Signal, b: Signal): Signal { return BinaryOp(5, a, b); }
+export function Eq(a: Signal, b: Signal): Signal { return BinaryOp(6, a, b); }
+export function Ne(a: Signal, b: Signal): Signal { return BinaryOp(7, a, b); }
+export function Lt(a: Signal, b: Signal): Signal { return BinaryOp(8, a, b); }
+export function Gt(a: Signal, b: Signal): Signal { return BinaryOp(9, a, b); }
+export function Le(a: Signal, b: Signal): Signal { return BinaryOp(10, a, b); }
+export function Ge(a: Signal, b: Signal): Signal { return BinaryOp(11, a, b); }
+export function Min(a: Signal, b: Signal): Signal { return BinaryOp(12, a, b); }
+export function Max(a: Signal, b: Signal): Signal { return BinaryOp(13, a, b); }
+export function BitAnd(a: Signal, b: Signal): Signal { return BinaryOp(14, a, b); }
+export function BitOr(a: Signal, b: Signal): Signal { return BinaryOp(15, a, b); }
+export function BitXor(a: Signal, b: Signal): Signal { return BinaryOp(16, a, b); }
+export function Lcm(a: Signal, b: Signal): Signal { return BinaryOp(17, a, b); }
+export function Gcd(a: Signal, b: Signal): Signal { return BinaryOp(18, a, b); }
+export function RoundTo(a: Signal, b: Signal): Signal { return BinaryOp(19, a, b); }
+export function RoundUp(a: Signal, b: Signal): Signal { return BinaryOp(20, a, b); }
+export function Trunc(a: Signal, b: Signal): Signal { return BinaryOp(21, a, b); }
+export function Atan2(a: Signal, b: Signal): Signal { return BinaryOp(22, a, b); }
+export function Hypot(a: Signal, b: Signal): Signal { return BinaryOp(23, a, b); }
+export function Hypotx(a: Signal, b: Signal): Signal { return BinaryOp(24, a, b); }
+export function Pow(a: Signal, b: Signal): Signal { return BinaryOp(25, a, b); }
+export function ShiftLeft(a: Signal, b: Signal): Signal { return BinaryOp(26, a, b); }
+export function ShiftRight(a: Signal, b: Signal): Signal { return BinaryOp(27, a, b); }
+export function UnsignedShift(a: Signal, b: Signal): Signal { return BinaryOp(28, a, b); }
+export function Fill(a: Signal, b: Signal): Signal { return BinaryOp(29, a, b); }
+export function Ring1(a: Signal, b: Signal): Signal { return BinaryOp(30, a, b); }
+export function Ring2(a: Signal, b: Signal): Signal { return BinaryOp(31, a, b); }
+export function Ring3(a: Signal, b: Signal): Signal { return BinaryOp(32, a, b); }
+export function Ring4(a: Signal, b: Signal): Signal { return BinaryOp(33, a, b); }
+export function DifSqr(a: Signal, b: Signal): Signal { return BinaryOp(34, a, b); }
+export function SumSqr(a: Signal, b: Signal): Signal { return BinaryOp(35, a, b); }
+export function SqrSum(a: Signal, b: Signal): Signal { return BinaryOp(36, a, b); }
+export function SqrDif(a: Signal, b: Signal): Signal { return BinaryOp(37, a, b); }
+export function AbsDif(a: Signal, b: Signal): Signal { return BinaryOp(38, a, b); }
+export function Thresh(a: Signal, b: Signal): Signal { return BinaryOp(39, a, b); }
+export function AmClip(a: Signal, b: Signal): Signal { return BinaryOp(40, a, b); }
+export function ScaleNeg(a: Signal, b: Signal): Signal { return BinaryOp(41, a, b); }
+export function Clip2(a: Signal, b: Signal): Signal { return BinaryOp(42, a, b); }
+export function Excess(a: Signal, b: Signal): Signal { return BinaryOp(43, a, b); }
+export function Fold2(a: Signal, b: Signal): Signal { return BinaryOp(44, a, b); }
+export function Wrap2(a: Signal, b: Signal): Signal { return BinaryOp(45, a, b); }
+export function FirstArg(a: Signal, b: Signal): Signal { return BinaryOp(46, a, b); }
+export function RandRange(a: Signal, b: Signal): Signal { return BinaryOp(47, a, b); }
+export function ExpRandRange(a: Signal, b: Signal): Signal { return BinaryOp(48, a, b); }
 
-export function neg(a: Signal): Signal { return UnaryOp(0, a); }
-export function not(a: Signal): Signal { return UnaryOp(1, a); }
-export function isNil(a: Signal): Signal { return UnaryOp(2, a); }
-export function notNil(a: Signal): Signal { return UnaryOp(3, a); }
-export function bitNot(a: Signal): Signal { return UnaryOp(4, a); }
-export function abs(a: Signal): Signal { return UnaryOp(5, a); }
-export function asFloat(a: Signal): Signal { return UnaryOp(6, a); }
-export function asInt(a: Signal): Signal { return UnaryOp(7, a); }
-export function ceil(a: Signal): Signal { return UnaryOp(8, a); }
-export function floor(a: Signal): Signal { return UnaryOp(9, a); }
-export function frac(a: Signal): Signal { return UnaryOp(10, a); }
-export function sign(a: Signal): Signal { return UnaryOp(11, a); }
-export function squared(a: Signal): Signal { return UnaryOp(12, a); }
-export function cubed(a: Signal): Signal { return UnaryOp(13, a); }
-export function sqrt(a: Signal): Signal { return UnaryOp(14, a); }
-export function exp(a: Signal): Signal { return UnaryOp(15, a); }
-export function recip(a: Signal): Signal { return UnaryOp(16, a); }
-export function midiCps(a: Signal): Signal { return UnaryOp(17, a); }
-export function cpsMidi(a: Signal): Signal { return UnaryOp(18, a); }
-export function midiRatio(a: Signal): Signal { return UnaryOp(19, a); }
-export function ratioMidi(a: Signal): Signal { return UnaryOp(20, a); }
-export function dbAmp(a: Signal): Signal { return UnaryOp(21, a); }
-export function ampDb(a: Signal): Signal { return UnaryOp(22, a); }
-export function octCps(a: Signal): Signal { return UnaryOp(23, a); }
-export function cpsOct(a: Signal): Signal { return UnaryOp(24, a); }
-export function log(a: Signal): Signal { return UnaryOp(25, a); }
-export function log2(a: Signal): Signal { return UnaryOp(26, a); }
-export function log10(a: Signal): Signal { return UnaryOp(27, a); }
-export function sin(a: Signal): Signal { return UnaryOp(28, a); }
-export function cos(a: Signal): Signal { return UnaryOp(29, a); }
-export function tan(a: Signal): Signal { return UnaryOp(30, a); }
-export function arcSin(a: Signal): Signal { return UnaryOp(31, a); }
-export function arcCos(a: Signal): Signal { return UnaryOp(32, a); }
-export function arcTan(a: Signal): Signal { return UnaryOp(33, a); }
-export function sinh(a: Signal): Signal { return UnaryOp(34, a); }
-export function cosh(a: Signal): Signal { return UnaryOp(35, a); }
-export function tanh(a: Signal): Signal { return UnaryOp(36, a); }
-export function rand_(a: Signal): Signal { return UnaryOp(37, a); }
-export function rand2_(a: Signal): Signal { return UnaryOp(38, a); }
-export function linRand_(a: Signal): Signal { return UnaryOp(39, a); }
-export function biLinRand(a: Signal): Signal { return UnaryOp(40, a); }
-export function sum3Rand(a: Signal): Signal { return UnaryOp(41, a); }
-export function distort(a: Signal): Signal { return UnaryOp(42, a); }
-export function softClip(a: Signal): Signal { return UnaryOp(43, a); }
-export function coin(a: Signal): Signal { return UnaryOp(44, a); }
-export function digitValue(a: Signal): Signal { return UnaryOp(45, a); }
-export function silence(a: Signal): Signal { return UnaryOp(46, a); }
-export function thru(a: Signal): Signal { return UnaryOp(47, a); }
-export function rectWindow(a: Signal): Signal { return UnaryOp(48, a); }
-export function hanWindow(a: Signal): Signal { return UnaryOp(49, a); }
-export function welchWindow(a: Signal): Signal { return UnaryOp(50, a); }
-export function triWindow(a: Signal): Signal { return UnaryOp(51, a); }
-export function ramp_(a: Signal): Signal { return UnaryOp(52, a); }
-export function scurve(a: Signal): Signal { return UnaryOp(53, a); }
+export function Neg(a: Signal): Signal { return UnaryOp(0, a); }
+export function Not(a: Signal): Signal { return UnaryOp(1, a); }
+export function IsNil(a: Signal): Signal { return UnaryOp(2, a); }
+export function NotNil(a: Signal): Signal { return UnaryOp(3, a); }
+export function BitNot(a: Signal): Signal { return UnaryOp(4, a); }
+export function Abs(a: Signal): Signal { return UnaryOp(5, a); }
+export function AsFloat(a: Signal): Signal { return UnaryOp(6, a); }
+export function AsInt(a: Signal): Signal { return UnaryOp(7, a); }
+export function Ceil(a: Signal): Signal { return UnaryOp(8, a); }
+export function Floor(a: Signal): Signal { return UnaryOp(9, a); }
+export function Frac(a: Signal): Signal { return UnaryOp(10, a); }
+export function Sign(a: Signal): Signal { return UnaryOp(11, a); }
+export function Squared(a: Signal): Signal { return UnaryOp(12, a); }
+export function Cubed(a: Signal): Signal { return UnaryOp(13, a); }
+export function Sqrt(a: Signal): Signal { return UnaryOp(14, a); }
+export function Exp(a: Signal): Signal { return UnaryOp(15, a); }
+export function Recip(a: Signal): Signal { return UnaryOp(16, a); }
+export function MidiCps(a: Signal): Signal { return UnaryOp(17, a); }
+export function CpsMidi(a: Signal): Signal { return UnaryOp(18, a); }
+export function MidiRatio(a: Signal): Signal { return UnaryOp(19, a); }
+export function RatioMidi(a: Signal): Signal { return UnaryOp(20, a); }
+export function DbAmp(a: Signal): Signal { return UnaryOp(21, a); }
+export function AmpDb(a: Signal): Signal { return UnaryOp(22, a); }
+export function OctCps(a: Signal): Signal { return UnaryOp(23, a); }
+export function CpsOct(a: Signal): Signal { return UnaryOp(24, a); }
+export function Log(a: Signal): Signal { return UnaryOp(25, a); }
+export function Log2(a: Signal): Signal { return UnaryOp(26, a); }
+export function Log10(a: Signal): Signal { return UnaryOp(27, a); }
+export function Sin(a: Signal): Signal { return UnaryOp(28, a); }
+export function Cos(a: Signal): Signal { return UnaryOp(29, a); }
+export function Tan(a: Signal): Signal { return UnaryOp(30, a); }
+export function ArcSin(a: Signal): Signal { return UnaryOp(31, a); }
+export function ArcCos(a: Signal): Signal { return UnaryOp(32, a); }
+export function ArcTan(a: Signal): Signal { return UnaryOp(33, a); }
+export function Sinh(a: Signal): Signal { return UnaryOp(34, a); }
+export function Cosh(a: Signal): Signal { return UnaryOp(35, a); }
+export function Tanh(a: Signal): Signal { return UnaryOp(36, a); }
+export function Rand_(a: Signal): Signal { return UnaryOp(37, a); }
+export function Rand2(a: Signal): Signal { return UnaryOp(38, a); }
+export function LinRand_(a: Signal): Signal { return UnaryOp(39, a); }
+export function BiLinRand(a: Signal): Signal { return UnaryOp(40, a); }
+export function Sum3Rand(a: Signal): Signal { return UnaryOp(41, a); }
+export function Distort(a: Signal): Signal { return UnaryOp(42, a); }
+export function SoftClip(a: Signal): Signal { return UnaryOp(43, a); }
+export function Coin(a: Signal): Signal { return UnaryOp(44, a); }
+export function DigitValue(a: Signal): Signal { return UnaryOp(45, a); }
+export function Silence(a: Signal): Signal { return UnaryOp(46, a); }
+export function Thru(a: Signal): Signal { return UnaryOp(47, a); }
+export function RectWindow(a: Signal): Signal { return UnaryOp(48, a); }
+export function HanWindow(a: Signal): Signal { return UnaryOp(49, a); }
+export function WelchWindow(a: Signal): Signal { return UnaryOp(50, a); }
+export function TriWindow(a: Signal): Signal { return UnaryOp(51, a); }
+export function Ramp_(a: Signal): Signal { return UnaryOp(52, a); }
+export function Scurve(a: Signal): Signal { return UnaryOp(53, a); }
 

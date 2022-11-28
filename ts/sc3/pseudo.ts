@@ -4,11 +4,11 @@ import { consoleDebug, throwError } from '../kernel/error.ts'
 import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 import { Forest, treeShape } from '../stdlib/tree.ts'
 
-import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, HPZ1, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TIRand, Wrap, XFade2, XLine, abs, add, fdiv, fold2, gt, midiCps, mul, roundTo, shiftRight, sqrt, sub, trunc } from './bindings.ts'
+import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, Hpz1, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
 import { Env, EnvAdsr, EnvAsr, EnvCutoff, EnvPerc, EnvRelease, EnvSine, envCoord } from './envelope.ts'
 import { Signal, isOutUgen, kr, mrg, signalSize } from './ugen.ts'
 
-// wrapOut(0, mul(SinOsc(440, 0), 0.1))
+// wrapOut(0, Mul(SinOsc(440, 0), 0.1))
 export function wrapOut(bus: Signal, ugen: Signal): Signal {
 	return isOutUgen(ugen) ? ugen : Out(bus, ugen);
 }
@@ -30,10 +30,10 @@ export function Cutoff(sustainTime: Signal, releaseTime: Signal, curve: Signal):
 
 export function Splay(inArray: Signal, spread: Signal, level: Signal, center: Signal, levelComp: Signal): Signal {
 	const n = Math.max(2, signalSize(inArray));
-	const pos = arrayFromTo(0, n - 1).map(item => add(mul(sub(mul(item, fdiv(2, sub(n, 1))), 1), spread), center));
-	const lvl = mul(level, levelComp ? sqrt(1 / n) : 1);
+	const pos = arrayFromTo(0, n - 1).map(item => Add(Mul(Sub(Mul(item, Fdiv(2, Sub(n, 1))), 1), spread), center));
+	const lvl = Mul(level, levelComp ? Sqrt(1 / n) : 1);
 	consoleDebug(`Splay: ${[n, pos, lvl]}`);
-	return arrayReduce(<Signal[]>Pan2(inArray, pos, lvl), add);
+	return arrayReduce(<Signal[]>Pan2(inArray, pos, lvl), Add);
 }
 
 export function Splay2(inArray: Signal): Signal {
@@ -41,13 +41,13 @@ export function Splay2(inArray: Signal): Signal {
 	const pos = arrayFromTo(0, n - 1).map(item => item * (2 / (n - 1)) - 1);
 	const lvl = Math.sqrt(1 / n);
 	consoleDebug(`Splay2: ${[n, pos, lvl]}`);
-	return arrayReduce(<Signal[]>Pan2(inArray, pos, lvl), add);
+	return arrayReduce(<Signal[]>Pan2(inArray, pos, lvl), Add);
 }
 
 export function LinLin(input: Signal, srclo: Signal, srchi: Signal, dstlo: Signal, dsthi: Signal): Signal {
-	const scale  = fdiv(sub(dsthi, dstlo), sub(srchi, srclo));
-	const offset = sub(dstlo, mul(scale, srclo));
-	return add(mul(input, scale), offset);
+	const scale  = Fdiv(Sub(dsthi, dstlo), Sub(srchi, srclo));
+	const offset = Sub(dstlo, Mul(scale, srclo));
+	return Add(Mul(input, scale), offset);
 }
 
 export function InFb(numChannels: number, bus: Signal): Signal {
@@ -55,15 +55,15 @@ export function InFb(numChannels: number, bus: Signal): Signal {
 }
 
 export function Select2(predicate: Signal, ifTrue: Signal, ifFalse: Signal): Signal {
-	return add(mul(predicate, sub(ifTrue, ifFalse)), ifFalse);
+	return Add(Mul(predicate, Sub(ifTrue, ifFalse)), ifFalse);
 }
 
 export function TChoose(trig: Signal, array: Signal): Signal {
-	return Select(TIRand(0, signalSize(array) - 1, trig), array);
+	return Select(TiRand(0, signalSize(array) - 1, trig), array);
 }
 
-export function PMOsc(carfreq: Signal, modfreq: Signal, pmindex: Signal, modphase: Signal): Signal {
-	return SinOsc(carfreq, mul(SinOsc(modfreq, modphase), pmindex));
+export function PmOsc(carfreq: Signal, modfreq: Signal, pmindex: Signal, modphase: Signal): Signal {
+	return SinOsc(carfreq, Mul(SinOsc(modfreq, modphase), pmindex));
 }
 
 export function XLn(start: Signal, end: Signal, dur: Signal): Signal {
@@ -96,17 +96,13 @@ export function TLine(start: Signal, end: Signal, dur: Signal, trig: Signal): Si
 	return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
 }
 
-export function TXLine(start: Signal, end: Signal, dur: Signal, trig: Signal): Signal {
+export function TxLine(start: Signal, end: Signal, dur: Signal, trig: Signal): Signal {
 	const env = new Env([start, start, end], [0, dur], 'exp', null, null, 0);
 	return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
 }
 
-export function bitShiftRight(a: Signal, b: Signal): Signal {
-	return shiftRight(a, b);
-}
-
 export function AudioIn(channels: Signal): Signal {
-	return In(1, sub(add(NumOutputBuses(), channels), 1));
+	return In(1, Sub(Add(NumOutputBuses(), channels), 1));
 }
 
 export function AudioOut(channelsArray: Signal): Signal {
@@ -178,15 +174,15 @@ export function LinSeg(gate: Signal, coordArray: Signal[]): Signal {
 
 export function SelectX(which: Signal, array: Signal): Signal {
 	return XFade2(
-		Select(roundTo(which, 2), array),
-		Select(add(trunc(which, 2), 1), array),
-		fold2(sub(mul(which, 2), 1), 1),
+		Select(RoundTo(which, 2), array),
+		Select(Add(Trunc(which, 2), 1), array),
+		Fold2(Sub(Mul(which, 2), 1), 1),
 		1
 	);
 }
 
-export function unitCps(a: Signal): Signal {
-	return midiCps(mul(a, 127));
+export function UnitCps(a: Signal): Signal {
+	return MidiCps(Mul(a, 127));
 }
 
 // Read a signal from a control bus.
@@ -228,33 +224,33 @@ export function DelayWrite(bufnum: Signal, input: Signal): Signal {
 }
 
 export function DelayTap(bufnum: Signal, delayTime: Signal): Signal {
-	return PlayBuf(1, bufnum, 1, 1, mul(sub(BufDur(bufnum), delayTime), SampleRate()), 1, 0);
+	return PlayBuf(1, bufnum, 1, 1, Mul(Sub(BufDur(bufnum), delayTime), SampleRate()), 1, 0);
 }
 
 export function PingPongDelay(left: Signal, right: Signal, maxDelayTime: Signal, delayTime: Signal, feedback: Signal): Signal {
-	const delaySize = mul(maxDelayTime, SampleRate());
+	const delaySize = Mul(maxDelayTime, SampleRate());
 	const phase = Phasor(0, 1, 0, delaySize, 0);
 	const leftBuffer = clearBuf(BufAlloc(1, delaySize)); // allocate a buffer for the left delay line
 	const rightBuffer = clearBuf(BufAlloc(1, delaySize)); // allocate a buffer for the right delay line
-	const leftDelayedSignal = BufRd(1, leftBuffer, Wrap(sub(phase, mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
-	const rightDelayedSignal = BufRd(1, rightBuffer, Wrap(sub(phase, mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
-	const output = [add(leftDelayedSignal, left), add(rightDelayedSignal, right)]; // mix the delayed signal with the input
-	const writer = DelayWrite([rightBuffer, leftBuffer], mul(output, feedback)); // feedback to buffers in reverse order
+	const leftDelayedSignal = BufRd(1, leftBuffer, Wrap(Sub(phase, Mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
+	const rightDelayedSignal = BufRd(1, rightBuffer, Wrap(Sub(phase, Mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
+	const output = [Add(leftDelayedSignal, left), Add(rightDelayedSignal, right)]; // mix the delayed signal with the input
+	const writer = DelayWrite([rightBuffer, leftBuffer], Mul(output, feedback)); // feedback to buffers in reverse order
 	return mrg(output, writer);  // output the mixed signal and force the DelayWr into the call graph
 }
 
 export function MultiTapDelay(timesArray: number[], levelsArray: Signal[], input: Signal): Signal {
-	const delayFrames = mul(arrayMaxItem(timesArray), SampleRate());
+	const delayFrames = Mul(arrayMaxItem(timesArray), SampleRate());
 	const buf = clearBuf(BufAlloc(1, delayFrames));
 	const writer = DelayWrite(buf, input);
 	const numReaders = timesArray.length;
-	const readers = arrayFromTo(0, numReaders - 1).map(item => mul(DelayTap(buf, timesArray[item]), levelsArray[item]));
-	return mrg(arrayReduce(readers, add), writer);
+	const readers = arrayFromTo(0, numReaders - 1).map(item => Mul(DelayTap(buf, timesArray[item]), levelsArray[item]));
+	return mrg(arrayReduce(readers, Add), writer);
 }
 
 export function Osc1(buf: Signal, dur: Signal): Signal {
 	const numChan = 1;
-	const phase = Ln(0, sub(BufFrames(buf), 1), dur);
+	const phase = Ln(0, Sub(BufFrames(buf), 1), dur);
 	const loop = 0;
 	const interpolation = 2;
 	return BufRd(numChan, buf, phase, loop, interpolation);
@@ -262,7 +258,7 @@ export function Osc1(buf: Signal, dur: Signal): Signal {
 
 export function Release(input: Signal, attackTime: Signal, dur: Signal, releaseTime: Signal): Signal {
 	const env = EnvRelease(attackTime, dur, releaseTime)
-	return mul(input, EnvGen(1, 1, 0, 1, 2, envCoord(env)));
+	return Mul(input, EnvGen(1, 1, 0, 1, 2, envCoord(env)));
 }
 
 export function Sine(trig: Signal, dur: Signal): Signal {
@@ -274,9 +270,9 @@ export function Perc(trig: Signal, attackTime: Signal, releaseTime: Signal, curv
 }
 
 export function DynRingzBank(input: Signal, freq: Signal, amp: Signal, time: Signal): Signal {
-	return arrayReduce(<Signal[]>mul(Ringz(input, freq, time), amp), add);
+	return arrayReduce(<Signal[]>Mul(Ringz(input, freq, time), amp), Add);
 }
 
 export function Changed(input: Signal, threshold: Signal): Signal {
-	return gt(abs(HPZ1(input)), threshold);
+	return Gt(Abs(Hpz1(input)), threshold);
 }
