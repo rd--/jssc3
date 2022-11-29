@@ -1,9 +1,0 @@
-[submodule "lib/osc.js"]
-	path = lib/osc.js
-	url = https://github.com/colinbdclark/osc.js/
-[submodule "lib/scsynth-wasm-builds"]
-	path = lib/scsynth-wasm-builds
-	url = https://gitlab.com/rd--/scsynth-wasm-builds
-[submodule "lib/stsc3"]
-	path = lib/stsc3
-	url = https://gitlab.com/rd--/stsc3
