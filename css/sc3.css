@@ -19,6 +19,10 @@ code {
 	font-family: var(--font-family);
 }
 
+pre {
+	tab-size: 4;
+}
+
 select, button, #plaintextContainer, #documentContainer {
 	font-family: var(--font-family);
 	color: var(--text-colour);

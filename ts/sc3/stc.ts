@@ -1,3 +1,4 @@
+import { consoleDebug } from '../kernel/error.ts'
 import { fetch_url_and_then } from '../kernel/io.ts'
 
 export function stc_is_binary_selector(text: string): boolean {
@@ -8,23 +9,24 @@ export function stc_is_binary_selector(text: string): boolean {
 
 export function stc_binary_selector_from_operator(text: string): string {
 	switch(text) {
-		case '+': return 'add';
-		case '-': return 'sub';
-		case '*': return 'mul';
-		case '/': return 'fdiv';
-		case '%': return 'mod';
-		case '==': return 'eq';
-		case '!=': return 'neq';
-		case '<': return 'lt';
-		case '>': return 'gt';
-		case '<=': return 'le';
-		case '>=': return 'ge';
-		case '&': return 'bitAnd';
-		case '|': return 'bitOr';
-		case '<<': return 'bitShiftLeft';
-		case '>>': return 'bitShiftRight';
-		case '**': return 'pow';
-		default: return text;
+		case '+': return 'Add';
+		case '-': return 'Sub';
+		case '*': return 'Mul';
+		case '/': return 'Fdiv';
+		case '%': return 'Mod';
+		case '==': return 'Eq';
+		case '!=': return 'Neq';
+		case '<': return 'Lt';
+		case '>': return 'Gt';
+		case '<=': return 'Le';
+		case '>=': return 'Ge';
+		case '&': return 'BitAnd';
+		case '|': return 'BitOr';
+		case '<<': return 'ShiftLeft';
+		case '>>': return 'ShiftRight';
+		case '**': return 'Pow';
+		case 'midiCps': return 'MidiCps';
+		default: consoleDebug(`stc_binary_selector_from_operator: ${text}`); return text;
 	}
 }
 
