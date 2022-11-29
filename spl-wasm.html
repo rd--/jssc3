@@ -9,7 +9,7 @@
 		<script src="lib/osc.js/dist/osc-browser.js"></script>
 		<script type="module">
 import * as sc from './dist/jssc3.js'
-import * as sl from '../lib/spl/dist/sl.js'
+import * as sl from './lib/spl/dist/sl.js'
 globalThis.sc = sc;
 globalThis.sl = sl;
 globalThis.playUgen = (ugenGraph) => sc.scsynthEnsure(globalScsynth, () => sc.playUgen(globalScsynth, ugenGraph, 1));
