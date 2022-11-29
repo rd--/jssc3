@@ -1,2 +1,9 @@
 cgi-bin
+dist/jssc3.js
+lib/commonmark.js
+lib/jspreadsheet
+lib/osc.js
 lib/quill
+lib/scsynth-wasm-builds
+lib/spl
+lib/stsc3

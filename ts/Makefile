@@ -1,4 +1,4 @@
-bundle:
+dist:
 	deno bundle --config ./deno.json --no-check jssc3.ts ../dist/jssc3.js
 
 check-ts:
