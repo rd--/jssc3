@@ -2,9 +2,10 @@ import { arrayClump, arrayConcatenation, arrayFill, arrayFromTo, arrayTranspose 
 import { nullFix } from '../kernel/null.ts'
 import { numberTimesRepeat, randomFloat, randomInteger } from '../kernel/number.ts'
 
-import { Add, Fdiv, Mul, Neg, Recip, RoundTo, Trunc } from './bindings.ts'
+import { Abs, Add, Ceil, CpsMidi, Cubed, Exp, Fdiv, Floor, MidiCps, MidiRatio, Min, Max, Mul, Neg, Recip, RoundTo, Sqrt, Sin, Tanh, Trunc } from './bindings.ts'
 import { Env, envCoord } from './envelope.ts'
 import { Signal } from './ugen.ts'
+import { UnitCps } from './pseudo.ts'
 
 export function append<T>(lhs: T[], rhs: T[]): T[] { return lhs.concat(rhs); } // smalltalk = ,
 export function choose<T>(anArray: T[]): T { return anArray[randomInteger(0, anArray.length)]; }
@@ -31,9 +32,9 @@ export function floor(aNumber: Signal): Signal { return Floor(aNumber); }
 export function negated(aNumber: Signal): Signal { return Neg(aNumber); }
 export function reciprocal(aNumber: Signal): Signal { return Recip(aNumber); }
 export function rounded(aNumber: Signal): Signal { return RoundTo(aNumber, 1); }
-export function sin(aNumber: Signal): Signal { return Sin(aNumber, 1); }
-export function sqrt(aNumber: Signal): Signal { return Sqrt(aNumber, 1); }
-export function tanh(aNumber: Signal): Signal { return Tanh(aNumber, 1); }
+export function sin(aNumber: Signal): Signal { return Sin(aNumber); }
+export function sqrt(aNumber: Signal): Signal { return Sqrt(aNumber); }
+export function tanh(aNumber: Signal): Signal { return Tanh(aNumber); }
 
 export function max(a: Signal, b: Signal): Signal { return Max(a, b); }
 export function min(a: Signal, b: Signal): Signal { return Min(a, b); }
