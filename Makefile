@@ -11,5 +11,8 @@ update-submodules:
 remote-update:
 	ssh rd@rohandrape.net "(cd rohandrape.net/pub/jssc3 ; git pull ; git submodule update)"
 
+remote-dist:
+	sftp rd@rohandrape.net:rohandrape.net/pub/jssc3/dist/ <<< $'put dist/jssc3.js'
+
 mk-cgi-ln:
 	ln -s lib/stsc3/cgi-bin cgi-bin

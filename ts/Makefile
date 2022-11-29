@@ -1,5 +1,5 @@
 bundle:
-	deno bundle --config ./deno.json --no-check jssc3.ts ../js/jssc3.js
+	deno bundle --config ./deno.json --no-check jssc3.ts ../dist/jssc3.js
 
 check-ts:
 	deno check --config deno.json */*.ts
