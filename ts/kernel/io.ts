@@ -73,18 +73,27 @@ export function read_text_file_and_then(textFile: File, proc: (x: string) => voi
 	reader.readAsText(textFile);
 }
 
-// Read file from input/file at indicated inputId and fileIndex and run proc.
-export function read_text_file_from_file_input_and_then(inputId: string, fileIndex: number, proc: (x: string) => void): void {
+export function get_file_input_file(inputId: string, fileIndex: number): File | null {
 	const inputElement = <HTMLInputElement>document.getElementById(inputId);
 	if(inputElement.files) {
 		const inputFile = <File>inputElement.files[fileIndex];
-		if (inputFile) {
-			read_text_file_and_then(inputFile, proc);
-		} else {
-			console.warn('read_text_file_from_file_input_and_then: no input file at index?');
+		if (!inputFile) {
+			console.warn('get_file_input_file: no input file at index?');
 		}
+		return inputFile;
 	} else {
-		console.warn('read_text_file_from_file_input_and_then: no files at input element?');
+		console.warn('get_file_input_file: no files at input element?');
+		return null;
+	}
+}
+
+// Read file from input/file at indicated inputId and fileIndex and run proc.
+export function read_text_file_from_file_input_and_then(inputId: string, fileIndex: number, proc: (x: string) => void): void {
+	const inputFile = get_file_input_file(inputId, fileIndex);
+	if (inputFile) {
+		read_text_file_and_then(inputFile, proc);
+	} else {
+		console.warn('read_text_file_from_file_input_and_then: no input file at index?');
 	}
 }
 

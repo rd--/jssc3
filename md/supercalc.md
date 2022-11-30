@@ -17,8 +17,8 @@ The size of the table is fixed when SuperCalc starts.
 Cell addresses comprise a finite set of named _variables_.
 
 Each cell contains a SuperCollider synthesis program.
-An empty cell is equal to the _silence_ program, _DC(0)_.
-Commentary cells, indicated by a _//_ prefix, are also equal to _DC(0)_.
+An empty cell is equal to the _silence_ program, _Dc(0)_.
+Commentary cells, indicated by a _;;_ prefix, are also equal to _Dc(0)_.
 
 Cells are evaluated from right to left within each row, rows are evaluated from the top down.
 
@@ -34,7 +34,7 @@ This corresponds to a delay of the _block size_ of the synthesiser (which may be
 
 When SuperCalc is initialised a _synthesis group_ is created for each cell.
 The groups are ordered following the evaluation sequence described above.
-An initial _synthesis node_ is added to each group generating a _DC(0)_ signal.
+An initial _synthesis node_ is added to each group generating a _Dc(0)_ signal.
 
 Each cell is associated with an _audio bus_.
 The program in the cell writes to the associated bus though an implicit _Out_ node.
@@ -44,10 +44,10 @@ Writing a reference to cell _c_ means something like _InFb(1, Cell('c).busIndex)
 
 Whenever a cell is edited the group associated with the cell is cleared and a new synthesis node added.
 If the program in the cell is not an _AudioOut_ program, it writes to the _audio bus_ associated with the cell.
-(_AudioOut_ programs sum out to the audio system and write _DC(0)_ to the cell bus.)
+(_AudioOut_ programs sum out to the audio system and write _Dc(0)_ to the cell bus.)
 If the cell program is at _control rate_ it is converted to an audio rate signal using _K2A_.
 
-Cell programs are written in _.stc_ notation.
+Cell programs are written in _.spl_ notation.
 
 If a cell program fails to evaluate, the cell is coloured to indicate this.
 
@@ -107,6 +107,8 @@ Empty cells would have the value _nil_.
 
 * * *
 
+- Higgins, Hannah. _The Grid Book_. MIT Press, 2009.
+
 - Mattessich, Richard. 1964. _Simulation of the firm through a budget computer program_. Homewood, Ill: R.D. Irwin.
 
-- Higgins, Hannah. _The Grid Book_. MIT Press, 2009.
+- Yamamiya, Takashi. "Skeleton — Easy Simulation System," in _Proc. Second International Conference on Creating, Connecting and Collaborating through Computing_, Kyoto, Japan, 2004 pp. 50-53. <doi:10.1109/C5.2004.1314368>

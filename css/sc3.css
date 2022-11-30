@@ -23,13 +23,17 @@ pre {
 	tab-size: 4;
 }
 
-select, button, #plaintextContainer, #documentContainer {
+select, button, #documentContainer {
 	font-family: var(--font-family);
 	color: var(--text-colour);
 	background-color: var(--paper-colour);
 }
 
-#documentContainer pre {
+#programContainer {
+	background-color: #f0fff0;
+}
+
+#documentText pre {
 	font-family: var(--font-family);
 	background-color: #fddde6;
 	margin: 1em;
@@ -48,7 +52,7 @@ button:focus, select:focus {
 	outline: 0px;
 }
 
-#documentContainer, #plaintextContainer {
+#documentContainer, #programContainer {
 	position: absolute;
 	height: 85vh;
 	width: 45vw;
@@ -57,7 +61,7 @@ button:focus, select:focus {
 	overflow: auto;
 }
 
-#plaintextContainer {
+#programContainer {
 	left: 50vw;
 }
 
@@ -65,7 +69,7 @@ button:focus, select:focus {
 	margin: 1em;
 }
 
-#menuContainer, #plaintextContainer, #documentContainer {
+#menuContainer, #documentContainer, #programContainer {
 	margin-bottom: 1em;
 }
 

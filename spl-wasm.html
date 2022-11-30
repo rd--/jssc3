@@ -14,7 +14,10 @@ globalThis.sc = sc;
 globalThis.sl = sl;
 globalThis.playUgen = (ugenGraph) => sc.scsynthEnsure(globalScsynth, () => sc.playUgen(globalScsynth, ugenGraph, 1));
 globalThis.splEval = () => eval(sl.rewriteString(sc.get_selected_text_or_contents_of('programText')));
-globalThis.splInsertText = function(text) {
+globalThis.splInsertText = function(label, text) {
+	if(label) {
+		window.history.pushState({text: text}, '', label);
+	}
 	if(text[0] === '#') {
 		var reader = new commonmark.Parser();
 		var writer = new commonmark.HtmlRenderer();
@@ -23,14 +26,22 @@ globalThis.splInsertText = function(text) {
 		document.getElementById('programText').textContent = text;
 	}
 };
-globalThis.splLoad = () => sc.read_text_file_from_file_input_and_then('programInputFile', 0, splInsertText);
+globalThis.splInsertTextFor = function(label) {
+	return function(text) { splInsertText(label, text); }
+}
+globalThis.splLoad = function() {
+	const inputFile = sc.get_file_input_file('programInputFile', 0);
+	if (inputFile) {
+		sc.read_text_file_and_then(inputFile, splInsertTextFor('?load=' + inputFile.name));
+	}
+};
 globalThis.splHelp = function() {
 	const name = sc.get_selected_text();
 	if(name.length > 0) {
 		const helpPrefix = 'https://rohandrape.net/sw/stsc3/help/sc2/help/unit-generators';
 		const docPrefix = 'https://rohandrape.net/sw/spl/doc';
 		const url = `${name.includes(' ') ? docPrefix : helpPrefix}/${name}.help.sl`;
-		sc.load_utf8_and_then(url, splInsertText);
+		sc.load_utf8_and_then(url, splInsertTextFor('?help=' + name));
 	}
 };
 globalThis.splKey = function(event) {
@@ -46,6 +57,10 @@ globalThis.splKey = function(event) {
 		splHelp();
 	}
 };
+window.addEventListener('popstate', function(event) {
+	console.log(`text: ${event.state.text}`);
+	splInsertText(null, event.state.text);
+});
 sl.addLoadUrlMethods();
 window.onload = function () {
 	sc.sc3_wasm_init(sc.setStatusDisplay);
@@ -54,7 +69,7 @@ window.onload = function () {
 	sl.assignGlobals();
 	sl.loadUrlArrayInSequence('lib/spl/sl', ['kernel.sl', 'stdlib.sl', 'sc.sl']);
 	document.getElementById('documentContainer').addEventListener("keydown", splKey);
-	document.getElementById('plaintextContainer').addEventListener("keydown", splKey);
+	document.getElementById('programContainer').addEventListener("keydown", splKey);
 };
 		</script>
 	</head>
@@ -74,7 +89,7 @@ window.onload = function () {
 		<div id="documentContainer">
 			<div id="documentText" contenteditable="true" spellcheck="false"></div>
 		</div>
-		<div id="plaintextContainer">
+		<div id="programContainer">
 			<pre><code id="programText" contenteditable="true" spellcheck="false"></code></pre>
 		</div>
 		<script async src="lib/scsynth-wasm-builds/ext/scsynth.js"></script>
