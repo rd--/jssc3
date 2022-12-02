@@ -52,9 +52,9 @@ function sc3_supercalc_eval_or_zero(col_letter, row_number, translator_status, t
 
 function sc3_supercalc_eval_cell(col_letter, row_number, cell_text) {
 	const program_text = cell_text.trim();
-	console.log(`sc3_supercalc_eval_cell: .stc = ${program_text}`);
+	sc.consoleDebug(`sc3_supercalc_eval_cell: .stc = ${program_text}`);
 	sc.stc_to_js_and_then(program_text, function (js_text) {
-		console.log(`sc3_supercalc_eval_cell: .js = ${js_text}`);
+		sc.consoleDebug(`sc3_supercalc_eval_cell: .js = ${js_text}`);
 		const translator_status =  program_text === '' || js_text !== '';
 		const cell_value = sc3_supercalc_eval_or_zero(col_letter, row_number, translator_status, js_text);
 		const cell_ugen = sc.isNumber(cell_value) ? sc.Dc(cell_value) : (sc.isControlRateUgen(cell_value) ? sc.K2A(cell_value) : cell_value);
@@ -94,7 +94,7 @@ function sc3_supercalc_get_data_array() {
 	return calc.sheet.getData(false, true);
 }
 
-function sc3_supercalc_get_json() {
+export function sc3_supercalc_get_json() {
 	return JSON.stringify(sc3_supercalc_get_data_array());
 }
 
@@ -102,13 +102,13 @@ function sc3_supercalc_set_data_array(dataArray) {
 	calc.sheet.setData(dataArray);
 }
 
-function sc3_supercalc_set_json(jsonText) {
+export function sc3_supercalc_set_json(jsonText) {
 	const dataArray = JSON.parse(jsonText);
 	sc3_supercalc_set_data_array(dataArray);
 	sc3_supercalc_eval_sheet();
 }
 
-export function sc3_supercalc_init (editor, numCol, numRow) {
+export function sc3_supercalc_init (numCol, numRow) {
 	calc.data = sc.arrayFill(numCol, () => sc.arrayFill(numRow, () => ''));
 	calc.num_col = numCol;
 	calc.num_row = numRow;
@@ -124,9 +124,7 @@ export function sc3_supercalc_init (editor, numCol, numRow) {
 		allowInsertColumn: false,
 		defaultColAlign:'left'
 	});
-	editor.get_selected_text = function() { return ''; };
-	editor.get_data = sc3_supercalc_get_json;
-	editor.set_data = sc3_supercalc_set_json;
+
 }
 
 // sc3_supercalc_gen_cell_reader_bus_declaration('a', 1)

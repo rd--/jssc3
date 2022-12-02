@@ -12,8 +12,18 @@
 import * as sc from './dist/jssc3.js'
 import { sc3_superscript_init } from './js/superscript.js'
 globalThis.sc = sc;
-globalThis.playUgen = (ugenGraph) => sc.scsynthEnsure(globalScsynth, () => sc.playUgen(globalScsynth, ugenGraph, 1));
-globalThis.evalRegion = () => eval(sc.get_selected_text_or_contents_of('programText'));
+globalThis.playUgen = function(ugenGraph) {
+		sc.scsynthEnsure(globalScsynth, function() {
+				sc.playUgen(globalScsynth, ugenGraph, 1);
+		});
+};
+globalThis.playStc = function() {
+	var stcText = sc.get_selected_text();
+	console.log(`playStc: ${stcText}`);
+	sc.stc_to_js_and_then(stcText, function(jsText) {
+		playUgen(eval(jsText));
+	});
+};
 globalThis.insertMarkdown = function(text) {
 	var reader = new commonmark.Parser();
 	var writer = new commonmark.HtmlRenderer();
@@ -26,13 +36,14 @@ window.onload = function () {
 		</script>
 	</head>
 	<body>
-		<h1>SuperScipt</h1>
+		<h1>SuperScript</h1>
 		<div id="menuContainer">
-			<button title="Begin" accesskey="b" onclick="globalScsynth.boot()">Begin</button>
+			<button title="Begin (b)" accesskey="b" onclick="globalScsynth.boot()">Begin</button>
 			<span id="statusText">...</span>
-			<button title="Play (,)" accesskey="," onclick="playUgen(evalRegion())">Play</button>
+			<button title="Play (,)" accesskey="," onclick="playUgen(eval(sc.get_selected_text()))">Play</button>
 			<button title="Reset (.)" accesskey="." onclick="sc.resetScsynth(globalScsynth)">Reset</button>
-			<button title="Print" onclick="sc.prettyPrintSyndefOf(evalRegion())">Print</button>
+			<button title="Print (t)" accesskey="t" onclick="sc.prettyPrintSyndefOf(eval(sc.get_selected_text()))">Print</button>
+			<button title="Play C-Smalltalk (/)" accesskey="/" onclick="playStc()">Play C-Smalltalk</button>
 		</div>
 		<div id="documentContainer">
 			<div id="documentText" contenteditable="true" spellcheck="false"></div>

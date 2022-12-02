@@ -1,5 +1,5 @@
 :root {
-	--font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Palatino', 'Garamond', 'Bookman', serif !important;
+	--font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Times New Roman', 'Palatino', 'Garamond', 'Bookman', serif;
 	--body-colour: #98ece8; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
 	--paper-colour: #ffffe8; /* fffacd d0f0c0 fffacd f0fff0  */
 	--text-colour: #424242;

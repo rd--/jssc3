@@ -7,7 +7,7 @@
 
 SuperCalc consists of a table of cells addressed by _column_ and _row_.
 
-![](https://rohandrape.net/sw/jssc3/png/supercalc.png)
+![](https://rohandrape.net/sw/jssc3/png/supercalc.2.png)
 
 Columns are named by lower-case letters and rows by numbers,
 the cell in the fifth row of the third column is named _c5_.

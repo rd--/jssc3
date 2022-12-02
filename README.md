@@ -1,15 +1,15 @@
 jssc3
 -----
 
-[Js](https://developer.mozilla.org/en-US/docs/Web/JavaScript) bindings to the
+[JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) bindings to the
 [SuperCollider](http://audiosynth.com/) real-time synthesiser.
 
-![](sw/jssc3/png/superscript.png)
+![](sw/jssc3/png/superscript.2.png)
 
 Online editors:
-[Plain Text](https://rohandrape.net/pub/jssc3/jssc3-wasm.html),
-[SuperScript](https://rohandrape.net/pub/jssc3/jssc3-superscript.html) (Word processor)
-[SuperCalc](https://rohandrape.net/pub/jssc3/jssc3-supercalc.html) (Spread sheet)
+[Simple Editor](https://rohandrape.net/pub/jssc3/simple.html),
+[SuperScript](https://rohandrape.net/pub/jssc3/superscript.html) (Word processor)
+[SuperCalc](https://rohandrape.net/pub/jssc3/supercalc.html) (Spread sheet)
 
 - [SuperScript](https://archive.org/details/SuperScript_Word_Processor_for_the_128_1995_Precision_Software/mode/2up), _Precision Software_, 1985
 - [SuperCalc](https://museum.syssrc.com/artifact/exhibits/807/) _Sorcim_, 1980.
