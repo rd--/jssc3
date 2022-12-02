@@ -1,0 +1,12 @@
+@import "sc3.css";
+
+#documentContainer {
+	max-width: 45em;
+	resize: both;
+	overflow: auto;
+}
+
+code {
+	font-family: 'Computer Modern Typewriter', 'Courier New', monospace;
+	background-color: var(--program-colour);
+}
