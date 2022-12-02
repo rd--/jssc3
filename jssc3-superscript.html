@@ -29,7 +29,7 @@ window.onload = function () {
 	blockSize: 48
     });
     sc3_superscript_init(sc.editor);
-    sc.jssc3_init('e', 'help/essay/jssc3-1.html', null);
+    sc.jssc3_init('e', 'help/essay/superscript.html', null);
 };
     </script>
   </head>
@@ -47,7 +47,7 @@ window.onload = function () {
       <button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
       <button title="Copy document to clipboard (c)" accesskey="c" onclick="navigator.clipboard.writeText(sc.editor.get_data())">Copy</button>
       <button title="Evaluate program (/)" accesskey="/" onclick="sc.evalJsProgram()">Eval</button>
-      <button title="Play (,)" accesskey="," onclick="sc.playJsProgram(globalScsynth, 0)">Play</button>
+      <button title="Play (,)" accesskey="," onclick="sc.playJsProgram(globalScsynth, 1)">Play</button>
       <button title="Reset (.)" accesskey="." onclick="sc.resetScsynth(globalScsynth)">Reset</button>
       <button title="Save document to local storage (s)" accesskey="s" onclick="sc.ui_save_program()">Save</button>
       <button title="Print" onclick="sc.prettyPrintSyndef()">Print</button>

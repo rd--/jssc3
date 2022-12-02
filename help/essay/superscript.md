@@ -76,14 +76,16 @@ Pressing the _Print_ button will print the program as a sequence of unit generat
 To make programs simpler to select they can be set apart in a _</>_  paragraph by themselves.  The program below is an Sc2 example written by JMcC that genereates bird like sounds.  When running, the status area will indicate that the program involves 108 unit generators.
 
 ~~~~
-OverlapTexture({
-	arg tr;
-	var p1 = LFPulse(TRand(0.4, 1.4, tr), 0, TRand(0.1, 0.9, tr)) * TRand(4, 7, tr);
-	var p2 = LFPulse(TRand(0.2, 0.7, tr), 0, 0.4) * 0.02;
-	var sw = LFSaw(p1 + 2, 0) * TRand(1000, 1800, tr).negated + 4000 + TRand(-1200, 1200, tr);
-	var freq = Lag(sw, 0.05);
-	var amp = Lag(p2, 0.3);
-	Pan2(SinOsc(freq, 0), TRand(-1, 1, tr), amp)
+sc.OverlapTexture(function(tr) {
+	var p1 = sc.Mul(sc.LfPulse(sc.TRand(0.4, 1.4, tr), 0, sc.TRand(0.1, 0.9, tr)), sc.TRand(4, 7, tr));
+	var p2 = sc.Mul(sc.LfPulse(sc.TRand(0.2, 0.7, tr), 0, 0.4), 0.02);
+	var sw = sc.Add(
+		sc.Add(sc.Mul(sc.LfSaw(sc.Add(p1, 2), 0), sc.Neg(sc.TRand(1000, 1800, tr))), 4000),
+		sc.TRand(-1200, 1200, tr)
+	);
+	var freq = sc.Lag(sw, 0.05);
+	var amp = sc.Lag(p2, 0.3);
+	return sc.Pan2(sc.SinOsc(freq, 0), sc.TRand(-1, 1, tr), amp);
 }, 7, 4, 4)
 ~~~~
 
@@ -91,9 +93,9 @@ OverlapTexture({
 
 The _notation format_ menu selects which notation programs are written in.  At present the two notations are _.stc_ and _.js_.
 
-The simple Sc program given above is written as _sc.mul(sc.SinOsc(440, 0), 0.1)_  in Js notation.  If the notation format is set appropriately this text may be selected and executed by pressing Play.  Ordinarily the Sc functions are imported with a _sc_ prefix, however they can be added to the global namespace if required.
+The simple Sc program given above is written as _sc.Mul(sc.SinOsc(440, 0), 0.1)_  in Js notation.  If the notation format is set appropriately this text may be selected and executed by pressing Play.  Ordinarily the Sc functions are imported with a _sc_ prefix, however they can be added to the global namespace if required.
 
-Stc and Js notations are similar in many ways.  One significant difference is that some _infix_ operators are replaced by functions, here _*_ is replaced by _mul_.  This is because in Js operators are special forms and are not extensible, they apply only to simple numbers, not signals or arrays.
+Stc and Js notations are similar in many ways.  One significant difference is that some _infix_ operators are replaced by functions, here _*_ is replaced by _Mul_.  This is because in Js operators are special forms and are not extensible, they apply only to simple numbers, not signals or arrays.
 
 The function syntax is also somewhat different, as can be seen in the program below, another Sc2 example by JMcC.  This program generates overlapping sine tones with random frequency and pan location parameters.
 
@@ -105,6 +107,6 @@ sc.OverlapTexture(function(tr) {
 
 ## Referencing
 
-An ordinary Url address can be given to navigate to a document, for instance [Why SuperCollider?](?e=help/essay/sc-documentation-1.html).  This will most likely open a new context and require a new synthesiser to be started.
+An ordinary Url address can be given to navigate to a document.  This will most likely open a new context and require a new synthesiser to be started.
 
 It is also possible to request a new document replace the current document using the _Visit_ command (located in the ☰ menu).  For instance the file _help/essay/sc-documentation-1.html_ can be visited.

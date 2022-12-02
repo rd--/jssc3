@@ -52,7 +52,9 @@ function sc3_supercalc_eval_or_zero(col_letter, row_number, translator_status, t
 
 function sc3_supercalc_eval_cell(col_letter, row_number, cell_text) {
 	const program_text = cell_text.trim();
+	console.log(`sc3_supercalc_eval_cell: .stc = ${program_text}`);
 	sc.stc_to_js_and_then(program_text, function (js_text) {
+		console.log(`sc3_supercalc_eval_cell: .js = ${js_text}`);
 		const translator_status =  program_text === '' || js_text !== '';
 		const cell_value = sc3_supercalc_eval_or_zero(col_letter, row_number, translator_status, js_text);
 		const cell_ugen = sc.isNumber(cell_value) ? sc.Dc(cell_value) : (sc.isControlRateUgen(cell_value) ? sc.K2A(cell_value) : cell_value);

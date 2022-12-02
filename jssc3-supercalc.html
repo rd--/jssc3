@@ -60,15 +60,17 @@ window.onload = function () {
         <option value="userRestore" title="Load user programs from archive">Restore</option>
         <option value="userPurge" title="Delete all user programs">Purge</option>
       </select>
-      <button title="Boot" accesskey="b" onclick="globalScsynth.boot()">⏻ (Boot)</button>
-      <span id="statusText"></span>
+      <button title="Begin (b)" accesskey="b" onclick="globalScsynth.boot()">Begin</button>
+      <span id="statusText">...</span>
       <button title="Init" onclick="calc.sc3_supercalc_server_setup()">Init</button>
     </div>
     <p>
       <strong>Instructions</strong>:
-      1. Press <em>Boot</em> to start the synthesiser.
-      2. Press <em>Init</em> to initialise the cell programs.
-      3. Read the brief <a href="http://rohandrape.net/?t=jssc3&e=md/supercalc.md" target="_blank">introductory notes</a>.
+      <ol>
+		  <li>Press <em>Begin</em> to start the synthesiser, wait until the status says <em>#0</em>.</li>
+		  <li>Press <em>Init</em> to initialise the cell programs, wait until the status says <em>#192</em>.</li>
+		  <li>Read the brief <a href="http://rohandrape.net/?t=jssc3&e=md/supercalc.md" target="_blank">introductory notes</a>.</li>
+	  </ol>
     </p>
     <script async src="lib/scsynth-wasm-builds/ext/scsynth.js"></script>
   </body>

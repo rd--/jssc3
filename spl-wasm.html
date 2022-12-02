@@ -33,6 +33,8 @@ globalThis.splLoad = function() {
 	const inputFile = sc.get_file_input_file('programInputFile', 0);
 	if (inputFile) {
 		sc.read_text_file_and_then(inputFile, splInsertTextFor('?load=' + inputFile.name));
+	} else {
+		console.log('splLoad: no file name');
 	}
 };
 globalThis.splHelp = function() {
@@ -78,13 +80,15 @@ window.onload = function () {
 		<div id="menuContainer">
 			<button title="Boot" accesskey="b" onclick="globalScsynth.boot()">Begin</button>
 			<span id="statusText">…</span>
-			<input type="file" id="programInputFile" accept=".stc, .sl, .sld, .md" onchange="splLoad()" style="display:none">
+			<input type="file" id="programInputFile" accept=".sl" onchange="splLoad()" style="display:none">
 			<button id="programInputFileSelect" title="Load (l)" accesskey="l">Load</button>
+<!--
 			<button title="Evaluate (/)" accesskey="/" onclick="splEval()">Eval</button>
 			<button title="Play (,)" accesskey="," onclick="playUgen(splEval())">Play</button>
 			<button title="Reset (.)" accesskey="." onclick="sc.resetScsynth(globalScsynth)">Reset</button>
 			<button title="Clear Schedule(\)" accesskey="\" onclick="_clear(_system.get('clock'))">Clear</button>
 			<button title="Print" onclick="sc.prettyPrintSyndefOf(splEval())">Text</button>
+-->
 		</div>
 		<div id="documentContainer">
 			<div id="documentText" contenteditable="true" spellcheck="false"></div>
