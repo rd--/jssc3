@@ -67,7 +67,11 @@ button:focus, select:focus {
 }
 
 #documentText {
-	margin: 1em;
+	margin: 2em;
+}
+
+#programContainer pre {
+	margin: 3em;
 }
 
 #menuContainer, #documentContainer, #programContainer {
