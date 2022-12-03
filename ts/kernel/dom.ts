@@ -20,7 +20,7 @@ export function setter_for_inner_html_of(elemId: string): (innerHtml: string) =>
 		if(elem) {
 			elem.innerHTML = innerHtml;
 		} else {
-			console.warn('setter_for_inner_html_of: elem was nil?');
+			console.warn(`setter_for_inner_html_of: ${elemId}: elem was nil`);
 		}
 	};
 }
