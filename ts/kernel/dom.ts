@@ -114,6 +114,10 @@ export function connect_button_to_input(buttonId: string, inputId: string): void
 	}
 }
 
+export function click_input(inputId: string): void {
+	withElement(inputId, inputElement => inputElement.click());
+}
+
 // If some text is selected, get only the selected text, else get the entire text.
 export function textarea_get_selection_or_contents(textareaElement: HTMLTextAreaElement): string {
 	if(textareaElement.selectionStart === textareaElement.selectionEnd) {

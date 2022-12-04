@@ -1,6 +1,8 @@
 ## Superscript
 
 SuperScript is a preliminary experiment in providing a rich text environment for writing SuperCollider  (McCartney, 1996) synthesiser programs.
+This experiment is extended a little in the [Simple Programming Language](./spl.html) environment.
+
 SuperScript (Precision Software, 1985) is also a word processor for Commodore 64 computers.
 
 ## Synthesiser
@@ -8,6 +10,7 @@ SuperScript (Precision Software, 1985) is also a word processor for Commodore 64
 The SuperCollider synthesiser can be started by clicking the _Begin_ button.
 When the synthesiser is running the status area will indicate the number of _unit generators_ that are currently playing.
 Initially this will be zero.
+The synthesiser will also be started automatically the first time a program is sent to it.
 
 ## Synthesis Programs
 
@@ -15,6 +18,8 @@ A simple synthesiser program is `sc.Mul(sc.SinOsc(440, 0), 0.1)`.
 This program is written in the JavaScript language (Wirfs-Brock, 2020).
 Selecting the program text and typing _Control-Comma_ and will generate a 440 _hz_ sine tone in the left channel.
 (_Control-Comma_ is the notation for typing the _control_ and _comma_ keys at the same time.)
+
+To end the program type _Control-FullStop_.
 
 The period at the end of the sentence containing the program in the paragraph above is not a part of the program.
 If it is accidentally selected the program will have a _syntax error_ and a there will be no sound.
@@ -53,10 +58,11 @@ sc.OverlapTexture(function(tr) {
 
 SuperScript programs can also be written in _C-Smalltalk_ notation.
 In this notation the sine tone program given above is written `SinOsc(440, 0) * 0.1`.
-This text may be executed by selecting it and typing _Control-Enter_.
+Programs written in this notation may be executed by typing _Control-Enter_.
 
 C-Smalltalk and JavaScript notations are similar in many ways.
-One difference is that C-Smalltalk allows _infix_ operators, here _*_ replaces _Mul_.
+One difference is that C-Smalltalk allows _infix_ operators.
+Here the infix _*_ operator replaces the prefix _sc.Mul_ procedure.
 (In JavaScript operators can be applied only to simple numbers, not to sounds.)
 
 The function syntax is also somewhat different, as can be seen in the program below.
@@ -87,9 +93,13 @@ OverlapTexture({ :tr |
 ## Ugen Help
 
 The _Smalltalk SuperCollider_ help files for unit generators can be loaded into SuperScript.
+The help files contain example programs written in _C-Smalltalk_ notation.
+
 Selecting the name of a Ugen, for instance _SinOsc_ and typing _Control-Shift-H_ will load the help file.
 At present this replaces any existing text, so be careful!
 The [Simple Programming Language](./spl.html) editor has two panes to avoid this problem.
+
+The _⌂_ (_Home_) button at the top of the page reloads this file.
 
 ## Printing Synthesiser Programs
 
@@ -110,7 +120,7 @@ JavaScript (Wirfs-Brock, 2020) is a dynamic language in the [Scheme](https://www
 
 SuperCollider is a family of real-time audio signal processing systems written by James McCartney.
 
-SuperCollider3 is the fourth iteraton of the system and has two parts.
+SuperCollider3 is the fourth iteration of the system and has two parts.
 
 1. _ScLang_ is a language interpreter in the Smalltalk family.
 2. _ScSynth_ is a real-time synthesiser in the Music-N family (Mathews, 1961).
@@ -147,7 +157,7 @@ Smalltalk SuperCollider includes a
 [lexer](https://gitlab.com/rd--/stsc3/-/blob/master/Language/Smalltalk/SuperCollider/Lexer.x) and
 [parser](https://gitlab.com/rd--/stsc3/-/blob/master/Language/Smalltalk/SuperCollider/Parser.y) definitions.
 
-There is a [translator](https://rohandrape.net/pub/stsc3/html/stsc3.html) from C-Smalltalk to Javascript notation.
+There is a [translator](https://rohandrape.net/pub/stsc3/html/stsc3.html) from C-Smalltalk to JavaScript notation.
 
 ## What is Simple Programming Language?
 
@@ -175,7 +185,7 @@ M. V. Mathews.
 _Bell System Technical Journal_, 40(3):677–694, May 1961.
 
 James McCartney.
-["Supercollider: a new real time synthesis language"](http://hdl.handle.net/2027/spo.bbp2372.1996.078).
+["SuperCollider: a new real time synthesis language"](http://hdl.handle.net/2027/spo.bbp2372.1996.078).
 _Proc. ICMC_, 1996.
 
 D.M. Ritchie, S.C. Johnson, M.E. Lesk, and B.W. Kernighan.
