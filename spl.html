@@ -51,7 +51,7 @@ function splHelp() {
 function splKey(event) {
 	// console.log('splKey', event.ctrlKey, event.shiftKey, event.key);
 	if(event.ctrlKey&& event.key === 'Enter') {
-		event.shiftKey ? splPlay() : splEval();
+		event.shiftKey ? splEval() : splPlay();
 	} else if(event.ctrlKey&& event.key === '.') {
 		sc.resetScsynth(globalScsynth);
 		_clear(_system.get('clock'));

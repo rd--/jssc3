@@ -4,13 +4,22 @@ import { consoleDebug, throwError } from '../kernel/error.ts'
 import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 import { Forest, treeShape } from '../stdlib/tree.ts'
 
-import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, Hpz1, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
+import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Dc, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, Hpz1, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
 import { Env, EnvAdsr, EnvAsr, EnvCutoff, EnvPerc, EnvRelease, EnvSine, envCoord } from './envelope.ts'
-import { Signal, isOutUgen, kr, mrg, signalSize } from './ugen.ts'
+import { Signal, isOutputSignal, isOutUgen, kr, mrg, signalSize } from './ugen.ts'
 
 // wrapOut(0, Mul(SinOsc(440, 0), 0.1))
 export function wrapOut(bus: Signal, ugen: Signal): Signal {
-	return isOutUgen(ugen) ? ugen : Out(bus, ugen);
+	if(isOutUgen(ugen)) {
+		return ugen;
+	} else {
+		if(isOutputSignal(ugen)) {
+			return Out(bus, ugen)
+		} else {
+			throwError('wrapOut: not output signal');
+			return Out(bus, Dc(0));
+		}
+	}
 }
 
 export function Adsr(gate: Signal, attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, curve: Signal): Signal {

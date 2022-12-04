@@ -71,6 +71,15 @@ export function isUgenInput(aValue: unknown): aValue is UgenInput {
 	return isNumber(aValue) || isUgen(aValue);
 }
 
+export function isSignal(aValue: unknown): aValue is Signal {
+	return isUgenInput(aValue) || (isArray(aValue) && arrayEvery(aValue, isSignal));
+}
+
+// Output signals should be either a Ugen or an array of Ugens.  Not all signals are appropriate as outputs.
+export function isOutputSignal(aValue: unknown): boolean {
+	return isUgen(aValue) || (isArray(aValue) && arrayEvery(aValue, isUgen));
+}
+
 export function inputBranch<T>(input: UgenInput, onUgen: (aUgen: Ugen) => T, onNumber: (aNumber: number) => T, onError: () => T): T {
 	if(isUgen(input)) {
 		return onUgen(input);
