@@ -1,3 +1,4 @@
+// document.getSelection.toString()
 export function get_selected_text(): string {
 	const selection = document.getSelection();
 	return selection ? selection.toString() : '';
@@ -13,6 +14,24 @@ export function get_selected_text_or_contents_of(elemId: string): string {
 	}
 }
 
+export function setInnerHtml(elementId: string, innerHtml: string): void {
+	const element = document.getElementById(elementId);
+	if(element) {
+		element.innerHTML = innerHtml;
+	} else {
+		console.warn(`setInnerHtml: ${elementId}: element not located`);
+	}
+}
+
+export function setTextContent(elementId: string, textContent: string): void {
+	const element = document.getElementById(elementId);
+	if(element) {
+		element.textContent = textContent;
+	} else {
+		console.warn(`setTextContent: ${elementId}: element not located`);
+	}
+}
+
 // Return a function to set the inner Html of elemId
 export function setter_for_inner_html_of(elemId: string): (innerHtml: string) => void {
 	const elem = document.getElementById(elemId);
@@ -25,13 +44,17 @@ export function setter_for_inner_html_of(elemId: string): (innerHtml: string) =>
 	};
 }
 
-export function get_select_element_and_then(selectId: string, proc: (selectElement: HTMLSelectElement) => void): void {
-	const selectElement = <HTMLSelectElement>document.getElementById(selectId);
-	if(!selectElement) {
-		console.error('get_select_element: not found: ', selectId);
+export function withElement(elementId: string, elementProcedure: (element: HTMLElement) => void): void {
+	const element = document.getElementById(elementId);
+	if(!element) {
+		console.error('withElement: not found: ', elementId);
 	} else {
-		proc(selectElement);
+		elementProcedure(element);
 	}
+}
+
+export function get_select_element_and_then(selectId: string, selectProcedure: (selectElement: HTMLSelectElement) => void): void {
+	withElement(selectId, <(element: HTMLElement) => void>selectProcedure);
 }
 
 // Set onchange handler of selectId, guards against absence of selection (proc is only called if value is set).

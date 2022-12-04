@@ -1,6 +1,6 @@
-# JavaScript SuperCollider
+## Superscript
 
-[JavaScript SuperCollider](https://rd.slavepianos.org/t/jssc3) is a [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) library for interacting with the [SuperCollider](http://audiosynth.com/) real-time synthesiser.
+SuperScript (Precision Software, 1985) is a word processor for Commodore 64 computers.
 
 ## Synthesiser controls
 
@@ -65,13 +65,15 @@ sc.OverlapTexture(function(tr) {
 
 ## C-Smalltalk Notation
 
-C-Smalltalk is a C-like [Ritchie 1978] syntax for Smalltalk [Kay 1993].
-In this notation the simple sine tone program given above is written `SinOsc(440, 0) * 0.1`.
-This text may be executed by selecting it and pressing _Play C-Smalltalk_ button.
+In C-Smalltalk notation the simple sine tone program given above is written `SinOsc(440, 0) * 0.1`.
+This text may be executed by selecting it and pressing the _Play C-Smalltalk_ button.
 
-C-Smalltalk and JavaScript notations are similar in many ways.  One difference is that C-Smalltalk allows _infix_ operators, here _*_ replaces _Mul_.  This isn't allowed in JavaScript, where operators are not extensible and can be applied only to simple numbers, not signals or arrays.
+C-Smalltalk and JavaScript notations are similar in many ways.
+One difference is that C-Smalltalk allows _infix_ operators, here _*_ replaces _Mul_.
+This isn't allowed in JavaScript, where operators are not extensible and can be applied only to simple numbers, not signals or arrays.
 
-The function syntax is also somewhat different, as can be seen in the program below, another Sc2 example by JMcC.  The program generates overlapping sine tones with random frequency and pan location parameters.
+The function syntax is also somewhat different, as can be seen in the program below, another Sc2 example by JMcC.
+The program generates overlapping sine tones with random frequency and pan location parameters.
 
 ```
 sc.OverlapTexture(function(tr) {
@@ -83,7 +85,8 @@ sc.OverlapTexture(function(tr) {
 }, 5, 2, 9)
 ```
 
-The same program written in C-Smalltalk notation.  It can be played uing the _Play C-Smalltalk_ button.
+Below is the same program written in C-Smalltalk notation.
+It can be played uing the _Play C-Smalltalk_ button.
 
 ```
 OverlapTexture({ :tr |
@@ -97,53 +100,70 @@ OverlapTexture({ :tr |
 
 * * *
 
-## JavaScript
+## What is JavaScript SuperCollider?
 
-JavaScript [Wirfs-Brock 2020] is a dynamic language in the [Scheme](https://www.scheme.com/tspl4/) family [Sussman 1975].  A JavaScript interpreter is included as a part of most web browsers [Berners-Lee 1992].
+[JavaScript SuperCollider](https://rd.slavepianos.org/t/jssc3) is a [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) library for interacting with the [SuperCollider](http://audiosynth.com/) real-time synthesiser.
 
-## SuperCollider
+## What is JavaScript?
 
-SuperCollider is a family of real-time audio signal processing systems written by James McCartney [McCartney 1996].
+JavaScript (Wirfs-Brock, 2020) is a dynamic language in the [Scheme](https://www.scheme.com/tspl4/) family (Sussman, 1975).  A JavaScript interpreter is included as a part of most web browsers (Berners-Lee, 1992).
+
+## What is SuperCollider?
+
+SuperCollider is a family of real-time audio signal processing systems written by James McCartney (McCartney, 1996).
 
 SuperCollider3 is the fourth iteraton of the system and has two parts.
 
 1. _ScLang_ is a language interpreter in the Smalltalk family.
-2. _ScSynth_ is a real-time synthesiser in the Music-N family [Mathews 1961].
+2. _ScSynth_ is a real-time synthesiser in the Music-N family (Mathews, 1961).
 
-ScSynth is a _background process_, it connects to the audio system and then listens for [OpenSoundControl](https://opensoundcontrol.stanford.edu/) messages [Wright 1997].
+ScSynth is a _background process_, it connects to the audio system and then listens for [OpenSoundControl](https://opensoundcontrol.stanford.edu/) messages (Wright, 1997).
 
 These messages define the sound processing programs the synthesiser is to run, as well as the data structures these programs are to operate upon, and the real-time control data streams that interact with the executing programs.
 
-## Web Assembly
+## What is Web Assembly?
 
 [WebAssembly](https://webassembly.org/) is a low-level assembly-like language with a compact binary format.  WebAssembly programs can be sent to web browsers, where they can be embedded as a process in an [Html](https://developer.mozilla.org/en-US/docs/Web/HTML) page.  WebAssembly programs can be executed by JavaScript programs, and messages can be sent between between the concurrently executing programs.
 
-## WebAssembly ScSynth
+## What is WebAssembly ScSynth?
 
-ScSynth can be compiled to WebAssembly and run in an Html page.  OpenSoundControl packets can be sent from the JavaScript interpreter of the web browser to the synthesiser.  In this schema the JavaScript interpreter performs the functions ScLang would in ordinary use.
+ScSynth can be compiled to WebAssembly and run in an Html page.
+OpenSoundControl packets can be sent from the JavaScript interpreter to the synthesiser.
+In this schema the JavaScript interpreter performs the functions ScLang would in ordinary use.
 
 The JavaScript SuperCollider library contains functions to define sound processing programs as graphs of _unit generators_, to compile these graphs into the format understood by ScSynth, and to send these compiled codes to the synthesiser.
 
-## Rich Text Editing
+## What is Rich Text Editing?
 
-The browser environment allows for programs to be written as rich text documents [Lampson 1979].  The area containing this text is a simple editor, there are the usual key commands for formatting.
+The browser environment allows for programs to be written as rich text documents (Lampson, 1979).
+The area containing this text is a simple editor, there are the usual key commands for formatting.
 
-## C-Smalltalk
+## What is C-Smalltalk?
 
-C-Smalltalk is a part of the [Smalltalk SuperCollider](https://rohandrape.net/?t=stsc3) system. It is in most part a subset of the SuperCollider language syntax.
+C-Smalltalk is a C-like (Ritchie, 1978) syntax for Smalltalk (Kay, 1993).
+C-Smalltalk is part of the [Smalltalk SuperCollider](https://rohandrape.net/?t=stsc3) system.
+C-Smalltalk is closely related to the SuperCollider language syntax.
 
-Smalltalk SuperCollider includes a [short description](https://rohandrape.net/?t=stsc3&e=md/c-smalltalk.md) of the notation, as well as the [lexer](https://gitlab.com/rd--/stsc3/-/blob/master/Language/Smalltalk/SuperCollider/Lexer.x) and [parser](https://gitlab.com/rd--/stsc3/-/blob/master/Language/Smalltalk/SuperCollider/Parser.y) definitions.
+Smalltalk SuperCollider includes a
+[short description](https://rohandrape.net/?t=stsc3&e=md/c-smalltalk.md) of the notation, as well as the
+[lexer](https://gitlab.com/rd--/stsc3/-/blob/master/Language/Smalltalk/SuperCollider/Lexer.x) and
+[parser](https://gitlab.com/rd--/stsc3/-/blob/master/Language/Smalltalk/SuperCollider/Parser.y) definitions.
 
 There is a [translator](https://rohandrape.net/pub/stsc3/html/stsc3.html) from C-Smalltalk to Javascript notation.
 
-## Further Reading
+The help files for Smalltalk SuperCollider have a `.help.sl` extension.
+They can be loaded into SuperScript and the example graphs played.
+
+* * *
+
+## References
 
 Berners-Lee, Tim et al.
-"World-Wide Web: The Information Universe."
+"World-Wide Web: the information universe."
 _Electron. Netw. Res. Appl. Policy_ 2 (1992): 74-82.
 
 Alan Kay.
-["The early history of smalltalk"](https://dl.acm.org/doi/pdf/10.1145/155360.155364)
+["The early history of Smalltalk"](https://dl.acm.org/doi/pdf/10.1145/155360.155364)
 _The Second ACM SIGPLAN Conference on History of Programming Languages_, 1993.
 
 Butler Lampson.
@@ -172,8 +192,12 @@ Allen Wirfs-Brock and Brendan Eich.
 _Proc. ACM Program. Lang._, 4(HOPL):1–189, 2020.
 
 Matthew Wright and Adrian Freed.
-[Open sound control: a new protocol for communicating with sound synthesizers](http://hdl.handle.net/2027/spo.bbp2372.1997.033)
-_Proc. ICMC_, 101–104. 1997.
+[Open Sound Control: a new protocol for communicating with sound synthesizers](http://hdl.handle.net/2027/spo.bbp2372.1997.033)
+_Proc. ICMC_, 101–104, 1997.
+
+Precision Software.
+[_SuperScript_](https://archive.org/details/SuperScript_Word_Processor_for_the_128_1995_Precision_Software/mode/2up)
+Worcester Park, Surrey, 1985.
 
 <!--
 

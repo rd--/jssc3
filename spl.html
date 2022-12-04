@@ -10,34 +10,36 @@
 		<script type="module">
 import * as sc from './dist/jssc3.js'
 import * as sl from './lib/spl/dist/sl.js'
-globalThis.sc = sc;
-globalThis.sl = sl;
-globalThis.playUgen = (ugenGraph) => sc.scsynthEnsure(globalScsynth, () => sc.playUgen(globalScsynth, ugenGraph, 1));
-globalThis.splEval = () => eval(sl.rewriteString(sc.get_selected_text_or_contents_of('programText')));
-globalThis.splInsertText = function(label, text) {
+function splEval() {
+		eval(sl.rewriteString(sc.get_selected_text_or_contents_of('programText')));
+}
+function splPlay() {
+		eval(sl.rewriteString(`{ ${sc.get_selected_text_or_contents_of('programText')} }.play`));
+}
+function splInsertText(label, text) {
 	if(label) {
 		window.history.pushState({text: text}, '', label);
 	}
 	if(text[0] === '#') {
 		var reader = new commonmark.Parser();
 		var writer = new commonmark.HtmlRenderer();
-		document.getElementById('documentText').innerHTML = writer.render(reader.parse(text));
+		sc.setInnerHtml('documentText', writer.render(reader.parse(text)));
 	} else {
-		document.getElementById('programText').textContent = text;
+		sc.setTextContent('programText', text);
 	}
-};
-globalThis.splInsertTextFor = function(label) {
+}
+function splInsertTextFor(label) {
 	return function(text) { splInsertText(label, text); }
 }
-globalThis.splLoad = function() {
+function splLoad() {
 	const inputFile = sc.get_file_input_file('programInputFile', 0);
 	if (inputFile) {
 		sc.read_text_file_and_then(inputFile, splInsertTextFor('?load=' + inputFile.name));
 	} else {
 		console.log('splLoad: no file name');
 	}
-};
-globalThis.splHelp = function() {
+}
+function splHelp() {
 	const name = sc.get_selected_text();
 	if(name.length > 0) {
 		const helpPrefix = 'https://rohandrape.net/sw/stsc3/help/sc2/help/unit-generators';
@@ -45,13 +47,15 @@ globalThis.splHelp = function() {
 		const url = `${name.includes(' ') ? docPrefix : helpPrefix}/${name}.help.sl`;
 		sc.load_utf8_and_then(url, splInsertTextFor('?help=' + name));
 	}
-};
-globalThis.splKey = function(event) {
+}
+function splKey(event) {
 	// console.log('splKey', event.ctrlKey, event.shiftKey, event.key);
 	if(event.ctrlKey&& event.key === 'Enter') {
-		event.shiftKey ? playUgen(splEval()) : splEval();
+		event.shiftKey ? splPlay() : splEval();
 	} else if(event.ctrlKey&& event.key === '.') {
 		sc.resetScsynth(globalScsynth);
+		_clear(_system.get('clock'));
+	} else if(event.ctrlKey&& event.shiftKey && event.key === '>') {
 		_clear(_system.get('clock'));
 	} else if(event.ctrlKey&& event.shiftKey && event.key === 'L') {
 		document.getElementById('programInputFileSelect').click();
@@ -59,6 +63,9 @@ globalThis.splKey = function(event) {
 		splHelp();
 	}
 };
+globalThis.sc = sc;
+globalThis.sl = sl;
+globalThis.splLoad = splLoad;
 window.addEventListener('popstate', function(event) {
 	console.log(`text: ${event.state.text}`);
 	splInsertText(null, event.state.text);
@@ -82,13 +89,6 @@ window.onload = function () {
 			<span id="statusText">…</span>
 			<input type="file" id="programInputFile" accept=".sl" onchange="splLoad()" style="display:none">
 			<button id="programInputFileSelect" title="Load (l)" accesskey="l">Load</button>
-<!--
-			<button title="Evaluate (/)" accesskey="/" onclick="splEval()">Eval</button>
-			<button title="Play (,)" accesskey="," onclick="playUgen(splEval())">Play</button>
-			<button title="Reset (.)" accesskey="." onclick="sc.resetScsynth(globalScsynth)">Reset</button>
-			<button title="Clear Schedule(\)" accesskey="\" onclick="_clear(_system.get('clock'))">Clear</button>
-			<button title="Print" onclick="sc.prettyPrintSyndefOf(splEval())">Text</button>
--->
 		</div>
 		<div id="documentContainer">
 			<div id="documentText" contenteditable="true" spellcheck="false"></div>
