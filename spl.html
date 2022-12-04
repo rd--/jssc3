@@ -62,7 +62,7 @@ function splKey(event) {
 	} else if(event.ctrlKey&& event.shiftKey && event.key === 'H') {
 		splHelp();
 	}
-};
+}
 globalThis.sc = sc;
 globalThis.sl = sl;
 globalThis.splLoad = splLoad;
@@ -77,8 +77,8 @@ window.onload = function () {
 	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
 	sl.assignGlobals();
 	sl.loadUrlArrayInSequence('lib/spl/sl', ['kernel.sl', 'stdlib.sl', 'sc.sl']);
-	document.getElementById('documentContainer').addEventListener("keydown", splKey);
-	document.getElementById('programContainer').addEventListener("keydown", splKey);
+	document.getElementById('documentContainer').addEventListener('keydown', splKey);
+	document.getElementById('programContainer').addEventListener('keydown', splKey);
 };
 		</script>
 	</head>

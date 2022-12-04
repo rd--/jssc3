@@ -11,32 +11,67 @@
 		<script type="module">
 import * as sc from './dist/jssc3.js'
 import { sc3_superscript_init } from './js/superscript.js'
-globalThis.sc = sc;
-globalThis.playUgen = function(ugenGraph) {
-		sc.scsynthEnsure(globalScsynth, function() {
-				sc.playUgen(globalScsynth, ugenGraph, 1);
-		});
-};
-globalThis.playStc = function() {
+var mostRecentUgenGraph = null;
+function playUgen(ugenGraph) {
+	mostRecentUgenGraph = ugenGraph;
+	sc.scsynthEnsure(globalScsynth, function() {
+		sc.playUgen(globalScsynth, ugenGraph, 1);
+	});
+}
+function jsPlay() {
+	playUgen(eval(sc.get_selected_text()));
+}
+function stcPlay() {
 	var stcText = sc.get_selected_text();
-	console.log(`playStc: ${stcText}`);
+	console.log(`stcPlay: ${stcText}`);
 	sc.stc_to_js_and_then(stcText, function(jsText) {
 		playUgen(eval(jsText));
 	});
-};
-globalThis.loadMd = function() {
-	sc.read_text_file_from_file_input_and_then('programInputFile', 0, insertMarkdown);
 }
 function insertMarkdown(text) {
 	var reader = new commonmark.Parser();
 	var writer = new commonmark.HtmlRenderer();
 	document.getElementById('documentText').innerHTML = writer.render(reader.parse(text));
 }
+function loadMd() {
+	sc.read_text_file_from_file_input_and_then('programInputFile', 0, insertMarkdown);
+}
+function ugenHelp() {
+	const name = sc.get_selected_text();
+	if(name.length > 0) {
+		const helpPrefix = 'https://rohandrape.net/sw/stsc3/help/sc2/help/unit-generators';
+		const url = `${helpPrefix}/${name}.help.sl`;
+		sc.load_utf8_and_then(url, insertMarkdown);
+	}
+}
+function onKeyPress(event) {
+	if(event.ctrlKey&& event.key === 'Enter') {
+		stcPlay();
+	} else if(event.ctrlKey&& event.key === ',') {
+		jsPlay();
+	} else if(event.ctrlKey&& event.key === '.') {
+		sc.resetScsynth(globalScsynth);
+	} else if(event.ctrlKey&& event.key === ':') {
+		if(mostRecentUgenGraph !== null) {
+			sc.prettyPrintSyndefOf(mostRecentUgenGraph);
+		}
+	} else if(event.ctrlKey&& event.shiftKey && event.key === 'L') {
+		document.getElementById('programInputFileSelect').click();
+	} else if(event.ctrlKey&& event.shiftKey && event.key === 'H') {
+		ugenHelp();
+	}
+}
+globalThis.sc = sc;
+globalThis.loadMd = loadMd;
+globalThis.loadHelp = function () {
+	sc.load_utf8_and_then('help/essay/superscript.md', insertMarkdown);
+};
 window.onload = function () {
 	sc.sc3_wasm_init(sc.setter_for_inner_html_of('statusText'));
 	sc.sc3_mouse_init(globalScsynth);
 	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
-	sc.load_utf8_and_then('help/essay/superscript.md', insertMarkdown);
+	document.getElementById('documentContainer').addEventListener('keydown', onKeyPress);
+	loadHelp();
 };
 		</script>
 	</head>
@@ -46,11 +81,8 @@ window.onload = function () {
 			<button title="Start synthesiser (b)" accesskey="b" onclick="globalScsynth.boot()">Begin</button>
 			<span id="statusText">...</span>
 			<input type="file" id="programInputFile" accept=".ms, .help.sl" onchange="loadMd()" style="display:none">
-			<button id="programInputFileSelect" title="Load (l)" accesskey="l">Load</button>
-			<button title="Play JavaScript program (,)" accesskey="," onclick="playUgen(eval(sc.get_selected_text()))">Play</button>
-			<button title="Reset synthesiser (.)" accesskey="." onclick="sc.resetScsynth(globalScsynth)">Reset</button>
-			<button title="Print JavaScript program (t)" accesskey="t" onclick="sc.prettyPrintSyndefOf(eval(sc.get_selected_text()))">Print</button>
-			<button title="Play C-Smalltalk program (/)" accesskey="/" onclick="playStc()">Play C-Smalltalk</button>
+			<button id="programInputFileSelect" title="Load file (l)" accesskey="l">Load</button>
+			<button title="Help (h)" accesskey="h" onclick="loadHelp()">⌂</button>
 		</div>
 		<div id="documentContainer">
 			<div id="documentText" contenteditable="true" spellcheck="false"></div>

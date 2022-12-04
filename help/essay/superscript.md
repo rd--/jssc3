@@ -1,41 +1,27 @@
 ## Superscript
 
-SuperScript (Precision Software, 1985) is a word processor for Commodore 64 computers.
+SuperScript is a preliminary experiment in providing a rich text environment for writing SuperCollider  (McCartney, 1996) synthesiser programs.
+SuperScript (Precision Software, 1985) is also a word processor for Commodore 64 computers.
 
-## Synthesiser controls
+## Synthesiser
 
-The controls above the text area are for communicating with the synthesiser.
-
-When this page is first loaded the synthesiser codes are fetched and cached which may take some time.  While this is occuring the _status area_ may display _Loading..._.  Subsequent page loads are quicker.
-
-Once loaded the status area will say _..._, indicating that the page is ready, after which the synthesiser can be started by clicking _Begin_.
-
-When the synthesiser is running the status area will indicate the number of _unit generators_ that are currently playing, initially this will be zero.
-
-Programs can be executed by selecting the text describing the program and pressing the _Play_ button.  To quieten the synthesiser press the _Reset_ button.
-
-## Access keys
-
-The synthesiser controls have _access keys_ associated with them.
-_b_ for _Begin_, _comma_ (,) for _Play_, _period_ (.) for _Reset_.
-
-The access keys are displayed as part of the control help text, which can be seen by hovering the mouse over the control.
+The SuperCollider synthesiser can be started by clicking the _Begin_ button.
+When the synthesiser is running the status area will indicate the number of _unit generators_ that are currently playing.
+Initially this will be zero.
 
 ## Synthesis Programs
 
-A very simple synthesiser program is `sc.Mul(sc.SinOsc(440, 0), 0.1)`.
+A simple synthesiser program is `sc.Mul(sc.SinOsc(440, 0), 0.1)`.
+This program is written in the JavaScript language (Wirfs-Brock, 2020).
+Selecting the program text and typing _Control-Comma_ and will generate a 440 _hz_ sine tone in the left channel.
+(_Control-Comma_ is the notation for typing the _control_ and _comma_ keys at the same time.)
 
-Selecting the program text and pressing _Play_ will generate a 440 _hz_ sine tone in the left channel.
-
-The period at the end of the sentence above is not a part of the program.  If it is accidentally selected the program will have a _syntax error_ and a there will be no sound.
-
-When this program is running, the status area will indicate that this program involves 4 unit generators.  Two are written in the program, _SinOsc_ and _Mul_, the other two, _Out_ and _MaxLocalBufs_, are implicit.
-
-Pressing the _Print_ button will print the program as a sequence of unit generators to the _console_.  The console can be opened from the browser menu, or by typing a key combination, often _Control-Shift-i_.
+The period at the end of the sentence containing the program in the paragraph above is not a part of the program.
+If it is accidentally selected the program will have a _syntax error_ and a there will be no sound.
 
 ## Program paragraphs
 
-To make programs simpler to select they can be set apart in a paragraph by themselves.  The program below is a SuperCollider2 example written by James McCartney that genereates bird like sounds.  When running, the status area will indicate that the program involves 108 unit generators.
+To make programs simpler to select they can be set apart in a paragraph by themselves.  The program below is a SuperCollider2 example written by James McCartney that generates bird like sounds.  When running, the status area will indicate that the program involves 108 unit generators.
 
 ```
 sc.OverlapTexture(function(tr) {
@@ -63,17 +49,18 @@ sc.OverlapTexture(function(tr) {
 }, 7, 4, 4)
 ```
 
-## C-Smalltalk Notation
+## C-Smalltalk
 
-In C-Smalltalk notation the simple sine tone program given above is written `SinOsc(440, 0) * 0.1`.
-This text may be executed by selecting it and pressing the _Play C-Smalltalk_ button.
+SuperScript programs can also be written in _C-Smalltalk_ notation.
+In this notation the sine tone program given above is written `SinOsc(440, 0) * 0.1`.
+This text may be executed by selecting it and typing _Control-Enter_.
 
 C-Smalltalk and JavaScript notations are similar in many ways.
 One difference is that C-Smalltalk allows _infix_ operators, here _*_ replaces _Mul_.
-This isn't allowed in JavaScript, where operators are not extensible and can be applied only to simple numbers, not signals or arrays.
+(In JavaScript operators can be applied only to simple numbers, not to sounds.)
 
-The function syntax is also somewhat different, as can be seen in the program below, another Sc2 example by JMcC.
-The program generates overlapping sine tones with random frequency and pan location parameters.
+The function syntax is also somewhat different, as can be seen in the program below.
+This program generates overlapping sine tones with random frequency and panning parameters.
 
 ```
 sc.OverlapTexture(function(tr) {
@@ -85,8 +72,7 @@ sc.OverlapTexture(function(tr) {
 }, 5, 2, 9)
 ```
 
-Below is the same program written in C-Smalltalk notation.
-It can be played uing the _Play C-Smalltalk_ button.
+This is the same program written in C-Smalltalk notation.
 
 ```
 OverlapTexture({ :tr |
@@ -97,6 +83,18 @@ OverlapTexture({ :tr |
 	)
 }, 5, 2, 9)
 ```
+
+## Ugen Help
+
+The _Smalltalk SuperCollider_ help files for unit generators can be loaded into SuperScript.
+Selecting the name of a Ugen, for instance _SinOsc_ and typing _Control-Shift-H_ will load the help file.
+At present this replaces any existing text, so be careful!
+The [Simple Programming Language](./spl.html) editor has two panes to avoid this problem.
+
+## Printing Synthesiser Programs
+
+Typing _Control-Colon_ will print the most recently executed synthesiser program as a sequence of unit generators to the _console_.
+The console can be opened from the browser menu, or by typing a key combination, often _Control-Shift-i_.
 
 * * *
 
@@ -110,7 +108,7 @@ JavaScript (Wirfs-Brock, 2020) is a dynamic language in the [Scheme](https://www
 
 ## What is SuperCollider?
 
-SuperCollider is a family of real-time audio signal processing systems written by James McCartney (McCartney, 1996).
+SuperCollider is a family of real-time audio signal processing systems written by James McCartney.
 
 SuperCollider3 is the fourth iteraton of the system and has two parts.
 
@@ -151,8 +149,9 @@ Smalltalk SuperCollider includes a
 
 There is a [translator](https://rohandrape.net/pub/stsc3/html/stsc3.html) from C-Smalltalk to Javascript notation.
 
-The help files for Smalltalk SuperCollider have a `.help.sl` extension.
-They can be loaded into SuperScript and the example graphs played.
+## What is Simple Programming Language?
+
+[Simple Programming Language](./spl.html) is a Scheme family language that can run SuperCollider programs written in C-Smalltalk notation.
 
 * * *
 
@@ -202,6 +201,13 @@ Worcester Park, Surrey, 1985.
 <!--
 
 - _forward slash_ (/) for _Eval_
+
+The controls above the text area are for communicating with the synthesiser.
+
+When this page is first loaded the synthesiser codes are fetched and cached which may take some time.  While this is occuring the _status area_ may display _Loading..._.  Subsequent page loads are quicker.
+
+When this program is running, the status area will indicate that the program involves 4 unit generators.
+Two are written in the program, _SinOsc_ and _Mul_, the other two, _Out_ and _MaxLocalBufs_, are implicit.
 
 ## Namespaces
 
