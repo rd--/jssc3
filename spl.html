@@ -63,6 +63,13 @@ function splKey(event) {
 		splHelp();
 	}
 }
+function splLoadUrlParam() {
+	const fileName = sc.url_get_param('e')
+	if(fileName) {
+		console.log(`loadUrlParam: ${fileName}`);
+		sc.load_utf8_and_then(fileName, (text) => splInsertText(null, text));
+	}
+}
 globalThis.sc = sc;
 globalThis.sl = sl;
 globalThis.splLoad = splLoad;
@@ -79,6 +86,7 @@ window.onload = function () {
 	sl.loadUrlArrayInSequence('lib/spl/sl', ['kernel.sl', 'stdlib.sl', 'sc.sl']);
 	document.getElementById('documentContainer').addEventListener('keydown', splKey);
 	document.getElementById('programContainer').addEventListener('keydown', splKey);
+	splLoadUrlParam();
 };
 		</script>
 	</head>

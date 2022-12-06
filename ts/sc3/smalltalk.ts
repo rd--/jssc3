@@ -29,6 +29,7 @@ export function ceiling(aNumber: Signal): Signal { return Ceil(aNumber); }
 export function cubed(aNumber: Signal): Signal { return Cubed(aNumber); }
 export function exp(aNumber: Signal): Signal { return Exp(aNumber); }
 export function floor(aNumber: Signal): Signal { return Floor(aNumber); }
+export function log(aNumber: Signal): Signal { return Log(aNumber); }
 export function negated(aNumber: Signal): Signal { return Neg(aNumber); }
 export function reciprocal(aNumber: Signal): Signal { return Recip(aNumber); }
 export function rounded(aNumber: Signal): Signal { return RoundTo(aNumber, 1); }
