@@ -5,7 +5,7 @@ import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 import { Forest, treeShape } from '../stdlib/tree.ts'
 
 import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Dc, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, Hpz1, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
-import { Env, EnvAdsr, EnvAsr, EnvCutoff, EnvPerc, EnvRelease, EnvSine, envCoord } from './envelope.ts'
+import { Env, EnvCurveSeq, EnvAdsr, EnvAsr, EnvCutoff, EnvPerc, EnvRelease, EnvSine, envCoord } from './envelope.ts'
 import { Signal, isOutputSignal, isOutUgen, kr, mrg, signalSize } from './ugen.ts'
 
 // wrapOut(0, Mul(SinOsc(440, 0), 0.1))
@@ -22,17 +22,17 @@ export function wrapOut(bus: Signal, ugen: Signal): Signal {
 	}
 }
 
-export function Adsr(gate: Signal, attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, curve: Signal): Signal {
+export function Adsr(gate: Signal, attackTime: Signal, decayTime: Signal, sustainLevel: Signal, releaseTime: Signal, curve: EnvCurveSeq): Signal {
 	const env = EnvAdsr(attackTime, decayTime, sustainLevel, releaseTime, 1, curve);
 	return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 
-export function Asr(gate: Signal, attackTime: Signal, releaseTime: Signal, curve: Signal): Signal {
+export function Asr(gate: Signal, attackTime: Signal, releaseTime: Signal, curve: EnvCurveSeq): Signal {
 	const env = EnvAsr(attackTime, 1, releaseTime, curve);
 	return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
 }
 
-export function Cutoff(sustainTime: Signal, releaseTime: Signal, curve: Signal): Signal {
+export function Cutoff(sustainTime: Signal, releaseTime: Signal, curve: EnvCurveSeq): Signal {
 	const env = EnvCutoff(sustainTime, releaseTime, curve);
 	return EnvGen(1, 1, 0, 1, 0, envCoord(env));
 }
@@ -274,7 +274,7 @@ export function Sine(trig: Signal, dur: Signal): Signal {
 	return EnvGen(trig, 1, 0, 1, 0, envCoord(EnvSine(dur)));
 }
 
-export function Perc(trig: Signal, attackTime: Signal, releaseTime: Signal, curve: Signal): Signal {
+export function Perc(trig: Signal, attackTime: Signal, releaseTime: Signal, curve: EnvCurveSeq): Signal {
 	return EnvGen(trig, 1, 0, 1, 0, envCoord(EnvPerc(attackTime, releaseTime, 1, curve)));
 }
 

@@ -1,4 +1,3 @@
-import { consoleDebug } from '../kernel/error.ts'
 import { fetch_url_and_then } from '../kernel/io.ts'
 
 export function stc_is_binary_selector(text: string): boolean {
@@ -25,8 +24,9 @@ export function stc_binary_selector_from_operator(text: string): string {
 		case '<<': return 'ShiftLeft';
 		case '>>': return 'ShiftRight';
 		case '**': return 'Pow';
+		case '->': return 'Association';
 		case 'midiCps': return 'MidiCps';
-		default: consoleDebug(`stc_binary_selector_from_operator: ${text}`); return text;
+		default: console.warn(`stc_binary_selector_from_operator: ${text}`); return text;
 	}
 }
 

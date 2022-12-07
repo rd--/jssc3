@@ -2,7 +2,7 @@ import { arrayClump, arrayConcatenation, arrayFill, arrayFromTo, arrayTranspose 
 import { nullFix } from '../kernel/null.ts'
 import { numberTimesRepeat, randomFloat, randomInteger } from '../kernel/number.ts'
 
-import { Abs, Add, Ceil, CpsMidi, Cubed, Exp, Fdiv, Floor, MidiCps, MidiRatio, Min, Max, Mul, Neg, Recip, RoundTo, Sqrt, Sin, Tanh, Trunc } from './bindings.ts'
+import { Abs, Add, Ceil, CpsMidi, Cubed, Exp, Fdiv, Floor, Log, MidiCps, MidiRatio, Min, Max, Mul, Neg, Recip, RoundTo, Sqrt, Sin, Tanh, Trunc } from './bindings.ts'
 import { Env, envCoord } from './envelope.ts'
 import { Signal } from './ugen.ts'
 import { UnitCps } from './pseudo.ts'
