@@ -14,15 +14,12 @@ The synthesiser will also be started automatically the first time a program is s
 
 ## Synthesis Programs
 
-A simple synthesiser program is `sc.Mul(sc.SinOsc(440, 0), 0.1)`.
+`sc.Mul(sc.SinOsc(440, 0), 0.1)` is a simple synthesiser program.
 This program is written in the JavaScript language (Wirfs-Brock, 2020).
-Selecting the program text and typing _Control-Comma_ and will generate a 440 _hz_ sine tone in the left channel.
-(_Control-Comma_ is the notation for typing the _control_ and _comma_ keys at the same time.)
+Selecting the program text and typing _Control-Comma_ will generate a 440 _hz_ sine tone in the left channel.
+(_Control-Comma_ indicates typing the _control_ and _comma_ keys at the same time.)
 
 To end the program type _Control-FullStop_.
-
-The period at the end of the sentence containing the program in the paragraph above is not a part of the program.
-If it is accidentally selected the program will have a _syntax error_ and a there will be no sound.
 
 ## Program paragraphs
 
@@ -59,6 +56,9 @@ sc.OverlapTexture(function(tr) {
 SuperScript programs can also be written in _C-Smalltalk_ notation.
 In this notation the sine tone program given above is written `SinOsc(440, 0) * 0.1`.
 Programs written in this notation may be executed by typing _Control-Enter_.
+
+(The period at the end of the sentence containing the program in the paragraph above is not a part of the program.
+If it is accidentally selected the program will have a _syntax error_ and a there will be no sound.)
 
 C-Smalltalk and JavaScript notations are similar in many ways.
 One difference is that C-Smalltalk allows _infix_ operators.
