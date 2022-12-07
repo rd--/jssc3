@@ -1,6 +1,9 @@
 all:
 	echo "jssc3"
 
+clean:
+	rm -f dist/jssc3.js
+
 push-all:
 	r.gitlab-push.sh jssc3
 	r.github-push.sh jssc3
