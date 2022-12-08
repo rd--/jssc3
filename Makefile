@@ -8,14 +8,15 @@ push-all:
 	r.gitlab-push.sh jssc3
 	r.github-push.sh jssc3
 
-update-submodules:
-	git submodule foreach git pull
-
 remote-update:
-	ssh rd@rohandrape.net "(cd rohandrape.net/pub/jssc3 ; git pull ; git submodule update)"
+	ssh rd@rohandrape.net "(cd rohandrape.net/pub/jssc3 ; git pull ; make remote-setup)"
 
-remote-dist:
-	sftp rd@rohandrape.net:rohandrape.net/pub/jssc3/dist/ <<< $'put dist/jssc3.js'
+remote-setup:
+	(cd lib/scsynth-wasm-builds ; git pull)
+	(cd lib/stsc3 ; git pull)
+	(cd lib/spl ; git pull)
+	cp lib/scsynth-wasm-builds/jssc3/dist/jssc3.js dist/
+	cp lib/scsynth-wasm-builds/spl/dist/sl.js lib/spl/dist/
 
 mk-cgi-ln:
 	ln -s lib/stsc3/cgi-bin cgi-bin
