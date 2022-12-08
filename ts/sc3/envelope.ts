@@ -124,3 +124,14 @@ export function EnvPerc(attackTime: Signal, releaseTime: Signal, level: Signal, 
 		0
 	);
 }
+
+export function EnvLinen(attackTime: Signal, sustainTime: Signal, releaseTime: Signal, level: Signal, curve: EnvCurveSeq): Env {
+	return new Env(
+		[0, level, level, 0],
+		[attackTime, sustainTime, releaseTime],
+		curve,
+		null,
+		null,
+		0
+	);
+}

@@ -34,33 +34,36 @@ function splInsertTextFor(label) {
 function splLoad() {
 	const inputFile = sc.get_file_input_file('programInputFile', 0);
 	if (inputFile) {
-		sc.read_text_file_and_then(inputFile, splInsertTextFor('?load=' + inputFile.name));
+		sc.read_text_file_and_then(inputFile, splInsertTextFor(`?load=${inputFile.name}`));
 	} else {
 		console.log('splLoad: no file name');
 	}
 }
-function splHelp() {
+function splHelp(kind, helpPrefix, docPrefix) {
 	const name = sc.get_selected_text();
 	if(name.length > 0) {
-		const helpPrefix = 'https://rohandrape.net/sw/stsc3/help/sc2/help/unit-generators';
-		const docPrefix = 'https://rohandrape.net/sw/spl/doc';
 		const url = `${name.includes(' ') ? docPrefix : helpPrefix}/${name}.help.sl`;
-		sc.load_utf8_and_then(url, splInsertTextFor('?help=' + name));
+		sc.load_utf8_and_then(url, splInsertTextFor(`?${kind}=${name}`));
 	}
 }
 function splKey(event) {
 	// console.log('splKey', event.ctrlKey, event.shiftKey, event.key);
-	if(event.ctrlKey&& event.key === 'Enter') {
+	if(event.ctrlKey && event.key === 'Enter') {
 		event.shiftKey ? splEval() : splPlay();
-	} else if(event.ctrlKey&& event.key === '.') {
+	} else if(event.ctrlKey && event.key === '.') {
 		sc.resetScsynth(globalScsynth);
 		_clear(_system.get('clock'));
-	} else if(event.ctrlKey&& event.shiftKey && event.key === '>') {
+	} else if(event.ctrlKey && event.shiftKey && event.key === '>') {
 		_clear(_system.get('clock'));
-	} else if(event.ctrlKey&& event.shiftKey && event.key === 'L') {
+	} else if(event.ctrlKey && event.shiftKey && event.key === 'L') {
 		document.getElementById('programInputFileSelect').click();
-	} else if(event.ctrlKey&& event.shiftKey && event.key === 'H') {
-		splHelp();
+	} else if(event.ctrlKey && event.shiftKey && event.key === 'H') {
+		splHelp('help', './lib/stsc3/help/sc', './lib/stsc3/doc/sc');
+	} else if(event.ctrlKey && event.key === 'm') {
+		splHelp('manual', './lib/spl/help', './lib/spl/doc');
+	} else if(event.ctrlKey && event.shiftKey && event.key === '?') {
+		splHelp('manual', './lib/spl/help', './lib/spl/doc');
+		splHelp('help', './lib/stsc3/help/sc', './lib/stsc3/doc/sc');
 	}
 }
 function splLoadUrlParam() {
@@ -73,6 +76,7 @@ function splLoadUrlParam() {
 globalThis.sc = sc;
 globalThis.sl = sl;
 globalThis.splLoad = splLoad;
+globalThis.splInstructions = () => sc.load_utf8_and_then('lib/stsc3/doc/sc/Small Hours.help.sl', splInsertTextFor(null));
 window.addEventListener('popstate', function(event) {
 	console.log(`text: ${event.state.text}`);
 	splInsertText(null, event.state.text);
@@ -91,12 +95,13 @@ window.onload = function () {
 		</script>
 	</head>
 	<body>
-		<h1>Simple Programming Language</h1>
+		<h1>Small Hours</h1>
 		<div id="menuContainer">
 			<button title="Boot" accesskey="b" onclick="globalScsynth.boot()">Begin</button>
 			<span id="statusText">…</span>
 			<input type="file" id="programInputFile" accept=".sl" onchange="splLoad()" style="display:none">
 			<button id="programInputFileSelect" title="Load (l)" accesskey="l">Load</button>
+			<button title="Help" accesskey="?" onclick="splInstructions()">?</button>
 		</div>
 		<div id="documentContainer">
 			<div id="documentText" contenteditable="true" spellcheck="false"></div>
