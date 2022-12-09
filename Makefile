@@ -18,5 +18,8 @@ remote-setup:
 	cp lib/scsynth-wasm-builds/jssc3/dist/jssc3.js dist/
 	cp lib/scsynth-wasm-builds/spl/dist/sl.js lib/spl/dist/
 
+mk-small-hours-menu:
+	(cd ~/sw/stsc3/help/ ; ls graph/*.sl texture/*.sl > ~/sw/jssc3/text/program-menu.text)
+
 mk-cgi-ln:
 	ln -s lib/stsc3/cgi-bin cgi-bin

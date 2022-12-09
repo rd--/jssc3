@@ -73,6 +73,12 @@ function splLoadUrlParam() {
 		sc.load_utf8_and_then(fileName, (text) => splInsertText(null, text));
 	}
 }
+function splInitProgramMenu() {
+	sc.load_utf8_and_then('text/program-menu.text', text => sc.select_add_keys_as_options('programMenu', text.split('\n')));
+	sc.menu_on_change_with_option_value('programMenu', function(optionValue) {
+		sc.load_utf8_and_then(`./lib/stsc3/help/${optionValue}`, (text) => splInsertText(null, text));
+	});
+}
 globalThis.sc = sc;
 globalThis.sl = sl;
 globalThis.splLoad = splLoad;
@@ -90,6 +96,7 @@ window.onload = function () {
 	sl.loadUrlArrayInSequence('lib/spl/sl', ['kernel.sl', 'stdlib.sl', 'sc.sl']);
 	document.getElementById('documentContainer').addEventListener('keydown', splKey);
 	document.getElementById('programContainer').addEventListener('keydown', splKey);
+	splInitProgramMenu();
 	splLoadUrlParam();
 };
 		</script>
@@ -102,6 +109,8 @@ window.onload = function () {
 			<input type="file" id="programInputFile" accept=".sl" onchange="splLoad()" style="display:none">
 			<button id="programInputFileSelect" title="Load (l)" accesskey="l">Load</button>
 			<button title="Help" accesskey="?" onclick="splInstructions()">?</button>
+			<select id="programMenu" title="Program (p)" accesskey="p"></select>
+			<button title="Fullscreen" accesskey="x" onclick="sc.fullscreen()">⇱</button>
 		</div>
 		<div id="documentContainer">
 			<div id="documentText" contenteditable="true" spellcheck="false"></div>

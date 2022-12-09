@@ -165,3 +165,36 @@ export function prompt_for_int_and_then(promptText: string, defaultValue: number
 		parse_int_or_alert_and_then(integerText, 'Not an integer?', proc);
 	}
 }
+
+// Request fullscreen for element, or exit fullscreen it exists.
+function fullscreenFor(element: HTMLElement): void {
+	const fullscreenOptions: FullscreenOptions = { navigationUI: "hide" };
+	if (!document.fullscreenElement) {
+		element.requestFullscreen(fullscreenOptions);
+	} else {
+		if (document.exitFullscreen) {
+			document.exitFullscreen();
+		}
+	}
+}
+
+export function fullscreen() {
+	fullscreenFor(document.documentElement);
+}
+
+export function menu_on_change_with_option_value(menuId: string, changeProc: (aString: string) => void): void {
+	const menu = document.getElementById(menuId);
+	if(menu) {
+		menu.addEventListener('change', function(anEvent) {
+			const target = anEvent.target;
+			if(target) {
+				const optionElement = <HTMLOptionElement>target;
+				changeProc(optionElement.value);
+			} else {
+				console.warn(`menu_on_change_with_target_value: no target or no target.value: ${menuId}`);
+			}
+		});
+	} else {
+		console.warn(`menu_on_change_with_target_value: no element: ${menuId}`);
+	}
+}
