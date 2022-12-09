@@ -1,3 +1,7 @@
+collect/coc.sl
+collect/ljp.sl
+collect/nc-tutorial.sl
+collect/tm881.sl
 graph/Adc - 8.1 Schroeder reverb.sl
 graph/Adc - Bit reduction.sl
 graph/Adc - Down sample.sl
