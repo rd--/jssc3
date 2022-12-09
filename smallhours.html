@@ -43,7 +43,12 @@ function splHelp(kind, helpPrefix, docPrefix) {
 	const name = sc.get_selected_text();
 	if(name.length > 0) {
 		const url = `${name.includes(' ') ? docPrefix : helpPrefix}/${name}.help.sl`;
-		sc.load_utf8_and_then(url, splInsertTextFor(`?${kind}=${name}`));
+		sc.fetch_extract_then_else(
+			url,
+			response => response.text(),
+			splInsertTextFor(`?${kind}=${name}`),
+			reason => null
+		);
 	}
 }
 function splKey(event) {
@@ -109,11 +114,12 @@ window.onload = function () {
 			<input type="file" id="programInputFile" accept=".sl" onchange="splLoad()" style="display:none">
 			<button id="programInputFileSelect" title="Load (l)" accesskey="l">Load</button>
 			<button title="Help" accesskey="?" onclick="splInstructions()">?</button>
-			<select id="programMenu" title="Program (p)" accesskey="p"></select>
+			<select id="programMenu" title="Program (p)" accesskey="p"><option>--Program Menu--</option></select>
 			<button title="Fullscreen" accesskey="x" onclick="sc.fullscreen()">⇱</button>
 		</div>
 		<div id="documentContainer">
-			<div id="documentText" contenteditable="true" spellcheck="false"></div>
+			<div id="documentText" contenteditable="true" spellcheck="false">
+			</div>
 		</div>
 		<div id="programContainer">
 			<pre><code id="programText" contenteditable="true" spellcheck="false"></code></pre>

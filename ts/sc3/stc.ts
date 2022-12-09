@@ -1,4 +1,4 @@
-import { fetch_url_and_then } from '../kernel/io.ts'
+import { load_utf8_and_then } from '../kernel/io.ts'
 
 export function stc_is_binary_selector(text: string): boolean {
 	const allowed = Array.from('!%&*+/<=>?@\\~|-');
@@ -31,12 +31,12 @@ export function stc_binary_selector_from_operator(text: string): string {
 }
 
 // Request .stc to .js translation from server, result text is sent to proc (async).
-export function stc_to_js_and_then(stcText: string, proc: (x: string) => void): void {
+export function stc_to_js_and_then(stcText: string, procFunc: (x: string) => void): void {
 	if(stcText.trim() === '') {
-		proc('');
+		procFunc('');
 	} else {
 		const urlPrefix = 'cgi-bin/stsc3-cgi.py?cmd=stc-to-js&stc=';
 		const encodedStcText = encodeURIComponent(stcText);
-		fetch_url_and_then(urlPrefix + encodedStcText, 'text', proc);
+		load_utf8_and_then(urlPrefix + encodedStcText, procFunc);
 	}
 }

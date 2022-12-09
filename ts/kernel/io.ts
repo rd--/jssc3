@@ -1,54 +1,41 @@
-import { consoleDebug } from './error.ts'
-
-// Append timestamp to URL to defeat cache
+// Append timestamp to Url to defeat cache
 export function url_append_timestamp(url: string): string {
 	const ext = ((/\?/).test(url) ? '&': '?') + (new Date()).getTime();
 	return url + ext;
 }
 
-export function fetch_url<T>(url: string, responseType: XMLHttpRequestResponseType): Promise<T> {
-	consoleDebug(`fetch_url: ${url}`);
-    return new Promise(function (resolve, reject) {
-		const request = new XMLHttpRequest();
-        request.open('GET', url);
-        request.onload = function() {
-            if (request.status >= 200 && request.status < 300) {
-                resolve(request.response);
-            } else {
-                reject(request.statusText);
-            }
-        };
-        request.onerror = function() {
-			reject(request.statusText);
-		};
-		request.responseType = responseType;
-        request.send();
-    });
+type ResponseToPromise<T> = (reponse: Response) => Promise<T>;
+
+export function fetch_extract_then_else<T>(
+	url: string,
+	extractFunc: ResponseToPromise<T>,
+	processFunc: (result: T) => void,
+	errorFunc: (reason: string) => void
+): void {
+	fetch(url, { cache: 'no-cache' })
+		.then(function(response) {
+			if (response.ok) {
+				return extractFunc(response);
+			} else {
+				return Promise.reject(response.statusText);
+			}
+		})
+		.then(processFunc)
+		.catch(errorFunc);
 }
 
-// Fetch url with indicated responseType and run proc asynchronously on result.
-export function fetch_url_and_then<T>(url: string, responseType: XMLHttpRequestResponseType, proc: (reply: T) => void): void {
-	fetch_url(url, responseType)
-		.then(answer => proc(<T>answer))
-		.catch(reason => console.error(`fetch_url_and_then: ${url}: ${reason}`));
-}
-
-// Throw error if response status is not .ok
-export function handle_fetch_error(response: Response): Response {
-	if (!response.ok) {
-		throw Error(response.statusText);
-	}
-	return response;
-}
-
-type ExtractPromise<T> = (x: Response) => Promise<T>;
-
-export function load_and_extract_and_then<T>(fileName: string, typeString: string, extractFunc: ExtractPromise<T>, processFunc: (x: T) => void): void {
-	fetch(fileName, { cache: 'no-cache' })
-		.then(response => handle_fetch_error(response))
-		.then(response => extractFunc(response))
-		.then(text => processFunc(text))
-		.catch(reason => console.error(`load_and_extract_and_then: ${typeString}: ${reason}`));
+export function load_and_extract_and_then<T>(
+	fileName: string,
+	typeString: string,
+	extractFunc: ResponseToPromise<T>,
+	processFunc: (x: T) => void
+): void {
+	fetch_extract_then_else(
+		fileName,
+		extractFunc,
+		processFunc,
+		reason => console.error(`load_and_extract_and_then: ${typeString}: ${reason}`)
+	);
 }
 
 // Fetch fileName and apply processFunc to the text read (stored as UTF-8).
@@ -111,7 +98,16 @@ export function read_json_file_and_then(jsonFile: File , proc: (aValue: Record<s
 
 export function load_utf8(url: string): Promise<string> {
 	return fetch(url, { cache: 'no-cache' })
-		.then(response => handle_fetch_error(response))
+		.then(handle_fetch_error)
 		.then(response => response.text())
 		.catch(reason => `load_utf8: ${url}: ${reason}`);
+}
+
+
+// Throw error if response status is not .ok
+export function handle_fetch_error(response: Response): Response {
+	if (!response.ok) {
+		throw Error(response.statusText);
+	}
+	return response;
 }
