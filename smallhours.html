@@ -43,12 +43,7 @@ function splHelp(kind, helpPrefix, docPrefix) {
 	const name = sc.get_selected_text();
 	if(name.length > 0) {
 		const url = `${name.includes(' ') ? docPrefix : helpPrefix}/${name}.help.sl`;
-		sc.fetch_extract_then_else(
-			url,
-			response => response.text(),
-			splInsertTextFor(`?${kind}=${name}`),
-			reason => null
-		);
+		sc.load_utf8_and_then(url, splInsertTextFor(`?${kind}=${name}`));
 	}
 }
 function splKey(event) {

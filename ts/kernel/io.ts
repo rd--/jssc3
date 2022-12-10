@@ -13,13 +13,8 @@ export function fetch_extract_then_else<T>(
 	errorFunc: (reason: string) => void
 ): void {
 	fetch(url, { cache: 'no-cache' })
-		.then(function(response) {
-			if (response.ok) {
-				return extractFunc(response);
-			} else {
-				return Promise.reject(response.statusText);
-			}
-		})
+		.then(handle_fetch_error)
+		.then(extractFunc)
 		.then(processFunc)
 		.catch(errorFunc);
 }
