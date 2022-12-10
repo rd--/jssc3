@@ -10,82 +10,13 @@
 		<script type="module">
 import * as sc from './dist/jssc3.js'
 import * as sl from './lib/spl/dist/sl.js'
-function splEval() {
-		eval(sl.rewriteString(sc.get_selected_text_or_contents_of('programText')));
-}
-function splPlay() {
-		eval(sl.rewriteString(`{ ${sc.get_selected_text_or_contents_of('programText')} }.play`));
-}
-function splInsertText(label, text) {
-	if(label) {
-		window.history.pushState({text: text}, '', label);
-	}
-	if(text[0] === '#') {
-		var reader = new commonmark.Parser();
-		var writer = new commonmark.HtmlRenderer();
-		sc.setInnerHtml('documentText', writer.render(reader.parse(text)));
-	} else {
-		sc.setTextContent('programText', text);
-	}
-}
-function splInsertTextFor(label) {
-	return function(text) { splInsertText(label, text); }
-}
-function splLoad() {
-	const inputFile = sc.get_file_input_file('programInputFile', 0);
-	if (inputFile) {
-		sc.read_text_file_and_then(inputFile, splInsertTextFor(`?load=${inputFile.name}`));
-	} else {
-		console.log('splLoad: no file name');
-	}
-}
-function splHelp(kind, helpPrefix, docPrefix) {
-	const name = sc.get_selected_text();
-	if(name.length > 0) {
-		const url = `${name.includes(' ') ? docPrefix : helpPrefix}/${name}.help.sl`;
-		sc.load_utf8_and_then(url, splInsertTextFor(`?${kind}=${name}`));
-	}
-}
-function splKey(event) {
-	// console.log('splKey', event.ctrlKey, event.shiftKey, event.key);
-	if(event.ctrlKey && event.key === 'Enter') {
-		event.shiftKey ? splEval() : splPlay();
-	} else if(event.ctrlKey && event.key === '.') {
-		sc.resetScsynth(globalScsynth);
-		_clear(_system.get('clock'));
-	} else if(event.ctrlKey && event.shiftKey && event.key === '>') {
-		_clear(_system.get('clock'));
-	} else if(event.ctrlKey && event.shiftKey && event.key === 'L') {
-		document.getElementById('programInputFileSelect').click();
-	} else if(event.ctrlKey && event.shiftKey && event.key === 'H') {
-		splHelp('help', './lib/stsc3/help/sc', './lib/stsc3/doc/sc');
-	} else if(event.ctrlKey && event.key === 'm') {
-		splHelp('manual', './lib/spl/help', './lib/spl/doc');
-	} else if(event.ctrlKey && event.shiftKey && event.key === '?') {
-		splHelp('manual', './lib/spl/help', './lib/spl/doc');
-		splHelp('help', './lib/stsc3/help/sc', './lib/stsc3/doc/sc');
-	}
-}
-function splLoadUrlParam() {
-	const fileName = sc.url_get_param('e')
-	if(fileName) {
-		console.log(`loadUrlParam: ${fileName}`);
-		sc.load_utf8_and_then(fileName, (text) => splInsertText(null, text));
-	}
-}
-function splInitProgramMenu() {
-	sc.load_utf8_and_then('text/program-menu.text', text => sc.select_add_keys_as_options('programMenu', text.split('\n')));
-	sc.menu_on_change_with_option_value('programMenu', function(optionValue) {
-		sc.load_utf8_and_then(`./lib/stsc3/help/${optionValue}`, (text) => splInsertText(null, text));
-	});
-}
+import * as sh from './js/smallhours.js'
 globalThis.sc = sc;
 globalThis.sl = sl;
-globalThis.splLoad = splLoad;
-globalThis.splInstructions = () => sc.load_utf8_and_then('lib/stsc3/doc/sc/Small Hours.help.sl', splInsertTextFor(null));
+globalThis.sh = sh;
 window.addEventListener('popstate', function(event) {
 	console.log(`text: ${event.state.text}`);
-	splInsertText(null, event.state.text);
+	sh.insertText(null, event.state.text);
 });
 sl.addLoadUrlMethods();
 window.onload = function () {
@@ -94,10 +25,10 @@ window.onload = function () {
 	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
 	sl.assignGlobals();
 	sl.loadUrlArrayInSequence('lib/spl/sl', ['kernel.sl', 'stdlib.sl', 'sc.sl']);
-	document.getElementById('documentContainer').addEventListener('keydown', splKey);
-	document.getElementById('programContainer').addEventListener('keydown', splKey);
-	splInitProgramMenu();
-	splLoadUrlParam();
+	document.getElementById('documentContainer').addEventListener('keydown', sh.keyBindings);
+	document.getElementById('programContainer').addEventListener('keydown', sh.keyBindings);
+	sh.initProgramMenu();
+	sh.loadUrlParam();
 };
 		</script>
 	</head>
@@ -106,9 +37,9 @@ window.onload = function () {
 		<div id="menuContainer">
 			<button title="Boot" accesskey="b" onclick="globalScsynth.boot()">Begin</button>
 			<span id="statusText">…</span>
-			<input type="file" id="programInputFile" accept=".sl" onchange="splLoad()" style="display:none">
+			<input type="file" id="programInputFile" accept=".sl" onchange="sh.loadInputFile()" style="display:none">
 			<button id="programInputFileSelect" title="Load (l)" accesskey="l">Load</button>
-			<button title="Help" accesskey="?" onclick="splInstructions()">?</button>
+			<button title="Help" accesskey="?" onclick="sh.loadInstructions()">?</button>
 			<select id="programMenu" title="Program (p)" accesskey="p"><option>--Program Menu--</option></select>
 			<button title="Fullscreen" accesskey="x" onclick="sc.fullscreen()">⇱</button>
 		</div>

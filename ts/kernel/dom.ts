@@ -14,19 +14,25 @@ export function get_selected_text_or_contents_of(elemId: string): string {
 	}
 }
 
-export function setInnerHtml(elementId: string, innerHtml: string): void {
+export function setInnerHtml(elementId: string, innerHtml: string, setFocus: boolean): void {
 	const element = document.getElementById(elementId);
 	if(element) {
 		element.innerHTML = innerHtml;
+		if(setFocus) {
+			element.focus();
+		}
 	} else {
 		console.warn(`setInnerHtml: ${elementId}: element not located`);
 	}
 }
 
-export function setTextContent(elementId: string, textContent: string): void {
+export function setTextContent(elementId: string, textContent: string, setFocus: boolean): void {
 	const element = document.getElementById(elementId);
 	if(element) {
 		element.textContent = textContent;
+		if(setFocus) {
+			element.focus();
+		}
 	} else {
 		console.warn(`setTextContent: ${elementId}: element not located`);
 	}
