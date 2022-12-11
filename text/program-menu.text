@@ -1,6 +1,9 @@
 collect/An.sl
 collect/Bb.sl
 collect/Coc.sl
+collect/Dcm - Insect ambience.sl
+collect/Jmcc - Variations.sl
+collect/Jmcc - Xy scope.sl
 collect/Ljp.sl
 collect/Nc.sl
 collect/Tm881.sl
@@ -13,17 +16,13 @@ graph/Bz - 1 5eo.sl
 graph/Cbe - 6230.sl
 graph/Cl - Prepared piano.sl
 graph/Cr - Lucier.sl
-graph/Dcm - Insect ambience.sl
 graph/Dmc - Pm crotale.sl
-graph/Dm - Shift register.sl
-graph/Dst - 1 5fc.sl
 graph/Ds - Tw 19.sl
 graph/Ds - Tw 22.sl
 graph/Es - Tw 435684664200540161.sl
 graph/Es - Tw 600429640600186880.sl
 graph/F0 - 2002 08 17.sl
 graph/F0 - 2012 04 19.sl
-graph/F0 - 2020 12 11.sl
 graph/F0 - Pkt 00.sl
 graph/F0 - Pkt 07.sl
 graph/F0 - Pkt 26.sl
@@ -61,6 +60,7 @@ graph/F0 - Tw 0220.sl
 graph/F0 - Tw 0224.sl
 graph/F0 - Tw 0225.sl
 graph/F0 - Tw 0230.sl
+graph/F0 - Tw 0232.sl
 graph/F0 - Tw 0233.sl
 graph/F0 - Tw 0238.sl
 graph/F0 - Tw 0239.sl
@@ -258,7 +258,6 @@ graph/Jmcc - What was I thinking.sl
 graph/Jmcc - Why SuperCollider.sl
 graph/Jmcc - Wind metals.sl
 graph/Jmcc - Wuxia.sl
-graph/Jmcc - Xy scope.sl
 graph/Jmcc - Zizle.sl
 graph/Jpd - 1 5d6.sl
 graph/Jrhb - A bath.sl

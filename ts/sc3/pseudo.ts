@@ -4,7 +4,7 @@ import { consoleDebug, throwError } from '../kernel/error.ts'
 import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 import { Forest, treeShape } from '../stdlib/tree.ts'
 
-import { BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Dc, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, Hpz1, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
+import { BHiPass, BLowPass, BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Dc, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, Hpz1, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
 import { Env, EnvCurveSeq, EnvAdsr, EnvAsr, EnvCutoff, EnvPerc, EnvRelease, EnvSine, envCoord } from './envelope.ts'
 import { Signal, isOutputSignal, isOutUgen, kr, mrg, signalSize } from './ugen.ts'
 
@@ -284,4 +284,14 @@ export function DynRingzBank(input: Signal, freq: Signal, amp: Signal, time: Sig
 
 export function Changed(input: Signal, threshold: Signal): Signal {
 	return Gt(Abs(Hpz1(input)), threshold);
+}
+
+export function BLowPass4(input: Signal, freq: Signal, rq: Signal): Signal {
+	var sqrtRq = Sqrt(rq);
+	return BLowPass(BLowPass(input, freq, sqrtRq), freq, sqrtRq);
+}
+
+export function BHiPass4(input: Signal, freq: Signal, rq: Signal): Signal {
+	var sqrtRq = Sqrt(rq);
+	return BHiPass(BHiPass(input, freq, sqrtRq), freq, sqrtRq);
 }
