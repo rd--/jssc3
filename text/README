@@ -1,4 +1,7 @@
-Not working in Small Hours:
+program-menu.text: list of stsc3 example programs that work in smallhours
+program-oracle.text: subset of stsc3 example programs that are "interesting"
+
+Not working (removed from program-menu.text):
 
 graph/Dm - Shift register.sl
 graph/Dst - 1 5fc.sl
