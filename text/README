@@ -1,5 +1,5 @@
-program-menu.text: list of stsc3 example programs that work in smallhours
-program-oracle.text: subset of stsc3 example programs that are "interesting"
+smallhours-programs.text: list of stsc3 example programs that work in smallhours
+smallhours-oracle.text: subset of smallhours programs that are "interesting"
 
 Not working (removed from program-menu.text):
 

@@ -80,18 +80,18 @@ export function loadUrlParam() {
 }
 
 export function loadInstructions() {
-	sc.load_utf8_and_then('lib/stsc3/doc/sc/Small Hours.help.sl', insertTextFor(null));
+	sc.load_utf8_and_then('lib/stsc3/doc/sc/Small Hours.help.sl', insertTextFor('?manual=Small Hours'));
 }
 
 export function initProgramMenu() {
-	sc.load_utf8_and_then('text/program-menu.text', text => sc.select_add_keys_as_options('programMenu', sc.stringNonEmptyLines(text)));
+	sc.load_utf8_and_then('text/smallhours-programs.text', text => sc.select_add_keys_as_options('programMenu', sc.stringNonEmptyLines(text)));
 	sc.menu_on_change_with_option_value('programMenu', function(optionValue) {
 		sc.load_utf8_and_then(`./lib/stsc3/help/${optionValue}`, (text) => insertText(null, text));
 	});
 }
 
 export function initOracle() {
-	sc.load_utf8_and_then('text/program-oracle.text', text => state.oracleFiles = sc.stringNonEmptyLines(text));
+	sc.load_utf8_and_then('text/smallhours-oracle.text', text => state.oracleFiles = sc.stringNonEmptyLines(text));
 }
 
 export function loadOracle() {

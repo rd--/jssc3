@@ -9,7 +9,7 @@
 		<link rel="icon" type="image/png" href="png/os.512.png" />
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
 		<link rel="stylesheet" type="text/css" media="all" href="css/sc3.css" />
-		<link rel="stylesheet" type="text/css" media="all" href="css/sc3-supercalc.css" />
+		<link rel="stylesheet" type="text/css" media="all" href="css/supercalc.css" />
 		<script src="lib/osc.js/dist/osc-browser.js"></script>
 		<script type="module">
 import * as sc from './dist/jssc3.js'
@@ -19,7 +19,7 @@ globalThis.calc = calc;
 globalThis.loadSheet = function() {
 	const inputFile = sc.get_file_input_file('programInputFile', 0);
 	if (inputFile) {
-		sc.read_text_file_and_then(inputFile, calc.sc3_supercalc_set_json);
+		sc.read_text_file_and_then(inputFile, calc.set_json);
 	} else {
 		console.log('loadSheet: no file name');
 	}
@@ -28,21 +28,24 @@ window.onload = function () {
 	sc.sc3_wasm_init(sc.setter_for_inner_html_of('statusText'));
 	sc.sc3_mouse_init(globalScsynth);
 	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
-	calc.sc3_supercalc_init(8, 8);
+	calc.initProgramMenu();
+	calc.initSheet(8, 8);
 };
 		</script>
 	</head>
 	<body>
 		<h1>SuperCalc</h1>
 		<div id="menuContainer">
-			<button title="Begin" accesskey="b" onclick="sc.scsynthEnsure(globalScsynth, calc.sc3_supercalc_server_setup)">Begin</button>
+			<button title="Begin" accesskey="b" onclick="sc.scsynthEnsure(globalScsynth, calc.server_setup)">Begin</button>
 			<span id="statusText">...</span>
 			<input type="file" id="programInputFile" accept=".json" onchange="loadSheet()" style="display:none">
 			<button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
-			<button title="Copy json to clipboard (c)"  accesskey="c" onclick="navigator.clipboard.writeText(calc.sc3_supercalc_get_json())">Copy</button>
+			<button title="Copy json to clipboard (c)"  accesskey="c" onclick="navigator.clipboard.writeText(calc.get_json())">Copy</button>
+			<select id="programMenu" title="Program (p)" accesskey="p"><option>--Program Menu--</option></select>
+			<button title="Fullscreen" accesskey="x" onclick="sc.fullscreen()">⇱</button>
 		</div>
 		<div>
-			<div id="sc3_supercalc"></div>
+			<div id="supercalcContainer"></div>
 		</div>
 		<p>
 			<strong>Instructions</strong>:
@@ -52,7 +55,7 @@ window.onload = function () {
 			  Wait until each of the cell programs have been initialised.
 			  (The status area will say <em>#192</em>).
 		  <li>
-			  Press <em>Load</em> and select a <a href="https://rohandrape.net/sw/jssc3/help/supercalc/" target="_blank">program</a> to listen to.
+			  Press <em>Load</em> to load a program or a program from the menu.
 			  (To reset the system load the <em>Empty Program</em> file.)
 		  </li>
 		  <li>
