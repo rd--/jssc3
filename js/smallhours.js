@@ -9,7 +9,7 @@ export function playRegion() {
 		eval(sl.rewriteString(`{ ${sc.get_selected_text_or_contents_of('programText')} }.play`));
 }
 
-export const userOptions = { autoPlay: false };
+export const state = { autoPlay: false, oracleFiles: null };
 
 export function insertText(label, text) {
 	if(label) {
@@ -22,7 +22,7 @@ export function insertText(label, text) {
 	} else {
 		sc.setTextContent('programText', text, false);
 	}
-	if(userOptions.autoPlay) {
+	if(state.autoPlay) {
 		_clear(_system.get('clock'));
 		sc.resetScsynth(globalScsynth);
 		playRegion();
@@ -84,8 +84,17 @@ export function loadInstructions() {
 }
 
 export function initProgramMenu() {
-	sc.load_utf8_and_then('text/program-menu.text', text => sc.select_add_keys_as_options('programMenu', text.split('\n')));
+	sc.load_utf8_and_then('text/program-menu.text', text => sc.select_add_keys_as_options('programMenu', sc.stringNonEmptyLines(text)));
 	sc.menu_on_change_with_option_value('programMenu', function(optionValue) {
 		sc.load_utf8_and_then(`./lib/stsc3/help/${optionValue}`, (text) => insertText(null, text));
 	});
+}
+
+export function initOracle() {
+	sc.load_utf8_and_then('text/program-oracle.text', text => state.oracleFiles = sc.stringNonEmptyLines(text));
+}
+
+export function loadOracle() {
+	var fileName = sc.arrayChoose(state.oracleFiles);
+	sc.load_utf8_and_then(`./lib/stsc3/help/${fileName}`, (text) => insertText(null, text));
 }

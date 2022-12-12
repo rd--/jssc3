@@ -12,6 +12,10 @@ export function stringLines(aString: string): string[] {
 	return aString.split('\n');
 }
 
+export function stringNonEmptyLines(aString: string): string[] {
+	return aString.split('\n').filter(each => each.length > 0);
+}
+
 // The split method accepts regular expressions, this is a simpler function.
 export function stringSplitOn(aString: string, aDelimiter: string): string[] {
 	return aString.split(aDelimiter);
