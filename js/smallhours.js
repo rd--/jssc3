@@ -45,8 +45,12 @@ export function loadInputFile() {
 export function loadHelp(kind, helpPrefix, docPrefix) {
 	const name = sc.get_selected_text();
 	if(name.length > 0) {
-		const url = `${name.includes(' ') ? docPrefix : helpPrefix}/${name}.help.sl`;
-		sc.load_utf8_and_then(url, insertTextFor(`?${kind}=${name}`));
+		const isDoc = name.includes(' ');
+		const prefix = isDoc ? docPrefix : helpPrefix
+		const rewrittenName = isDoc ? name : (sl.isOperatorName(name) ? sl.operatorMethodName(name) : name);
+		const url = `${prefix}/${rewrittenName}.help.sl`;
+		const address = `?${kind}=${rewrittenName}`;
+		sc.load_utf8_and_then(url, insertTextFor(address));
 	}
 }
 

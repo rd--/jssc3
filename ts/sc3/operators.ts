@@ -117,3 +117,15 @@ export function binaryOperatorName(specialIndex: number): string {
 	return Object.keys(binaryOperators).find(key => binaryOperators[key] === specialIndex) || 'unknown binary operator name?';
 }
 
+export const operatorNameTable: Record<string,string> = {
+	'+': 'Add',
+	'-': 'Sub',
+	'*': 'Mul',
+	'/': 'Fdiv',
+	'%': 'Mod',
+	'=': 'Eq',
+	'<': 'Lt',
+	'>': 'Gt',
+	'&': 'BitAnd',
+	'|': 'BitOr',
+};
