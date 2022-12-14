@@ -16,7 +16,7 @@ export function insertText(label, text) {
 		window.history.pushState({text: text}, '', label);
 	}
 	if(text[0] === '#') {
-		var reader = new commonmark.Parser();
+		var reader = new commonmark.Parser({smart: true});
 		var writer = new commonmark.HtmlRenderer();
 		sc.setInnerHtml('documentText', writer.render(reader.parse(text)), false);
 	} else {
