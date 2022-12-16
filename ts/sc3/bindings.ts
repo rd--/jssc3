@@ -1112,4 +1112,3 @@ export function WelchWindow(a: Signal): Signal { return UnaryOp(50, a); }
 export function TriWindow(a: Signal): Signal { return UnaryOp(51, a); }
 export function Ramp_(a: Signal): Signal { return UnaryOp(52, a); }
 export function Scurve(a: Signal): Signal { return UnaryOp(53, a); }
-

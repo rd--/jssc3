@@ -4,7 +4,7 @@ import { consoleDebug, throwError } from '../kernel/error.ts'
 import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 import { Forest, treeShape } from '../stdlib/tree.ts'
 
-import { BHiPass, BLowPass, BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Dc, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, Hpz1, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
+import { BHiPass, BLowPass, BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Dc, Demand, Dseq, Dseries, Drand, Dshuf, Duty, EnvGen, FirstArg, Hpz1, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
 import { Env, EnvCurveSeq, EnvAdsr, EnvAsr, EnvCutoff, EnvPerc, EnvRelease, EnvSine, envCoord } from './envelope.ts'
 import { Signal, isOutputSignal, isOutUgen, kr, mrg, signalSize } from './ugen.ts'
 
@@ -143,7 +143,7 @@ export function asLocalBuf(aSignal: Forest<number>): Signal {
 	}
 }
 
-export function clearBuf(buf: Signal): Signal {
+export function BufClear(buf: Signal): Signal {
 	return mrg(buf, ClearBuf(buf));
 }
 
@@ -239,8 +239,8 @@ export function DelayTap(bufnum: Signal, delayTime: Signal): Signal {
 export function PingPongDelay(left: Signal, right: Signal, maxDelayTime: Signal, delayTime: Signal, feedback: Signal): Signal {
 	const delaySize = Mul(maxDelayTime, SampleRate());
 	const phase = Phasor(0, 1, 0, delaySize, 0);
-	const leftBuffer = clearBuf(BufAlloc(1, delaySize)); // allocate a buffer for the left delay line
-	const rightBuffer = clearBuf(BufAlloc(1, delaySize)); // allocate a buffer for the right delay line
+	const leftBuffer = BufClear(BufAlloc(1, delaySize)); // allocate a buffer for the left delay line
+	const rightBuffer = BufClear(BufAlloc(1, delaySize)); // allocate a buffer for the right delay line
 	const leftDelayedSignal = BufRd(1, leftBuffer, Wrap(Sub(phase, Mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
 	const rightDelayedSignal = BufRd(1, rightBuffer, Wrap(Sub(phase, Mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
 	const output = [Add(leftDelayedSignal, left), Add(rightDelayedSignal, right)]; // mix the delayed signal with the input
@@ -250,7 +250,7 @@ export function PingPongDelay(left: Signal, right: Signal, maxDelayTime: Signal,
 
 export function MultiTapDelay(timesArray: number[], levelsArray: Signal[], input: Signal): Signal {
 	const delayFrames = Mul(arrayMaxItem(timesArray), SampleRate());
-	const buf = clearBuf(BufAlloc(1, delayFrames));
+	const buf = BufClear(BufAlloc(1, delayFrames));
 	const writer = DelayWrite(buf, input);
 	const numReaders = timesArray.length;
 	const readers = arrayFromTo(0, numReaders - 1).map(item => Mul(DelayTap(buf, timesArray[item]), levelsArray[item]));
