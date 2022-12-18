@@ -7,6 +7,7 @@ import { setNew, setAdd } from '../kernel/set.ts'
 import { Counter, counterNew } from '../stdlib/counter.ts'
 import { Tree } from '../stdlib/tree.ts'
 
+import * as scMath from './math.ts'
 import { binaryOperatorName, unaryOperatorName } from './operators.ts'
 import { rateAr, rateIr, rateKr } from './rate.ts'
 
@@ -213,9 +214,14 @@ export function UnaryOpWithConstantOptimiser(specialIndex: number, input: Signal
 			case 13: return input * input * input;
 			case 14: return Math.sqrt(input);
 			case 16: return 1 / input;
+			case 17: return scMath.midiCps(input);
+			case 18: return scMath.cpsMidi(input);
+			case 21: return scMath.dbAmp(input);
+			case 22: return scMath.ampDb(input);
 			case 28: return Math.sin(input);
 			case 29: return Math.cos(input);
 			case 30: return Math.tan(input);
+			case 44: return scMath.coin(input) ? 1.0 : 0.0;
 		}
 	}
 	return makeUgen('UnaryOpUGen', 1, [0], specialIndex, [input]);
@@ -241,6 +247,8 @@ export function BinaryOpWithConstantOptimiser(specialIndex: number, lhs: UgenInp
 			case 1: return lhs - rhs;
 			case 2: return lhs * rhs;
 			case 4: return lhs / rhs;
+			case 23: return scMath.hypot(lhs, rhs);
+			case 34: return scMath.difSqr(lhs, rhs);
 		}
 	}
 	return makeUgen('BinaryOpUGen', 1, [0, 1], specialIndex, [lhs, rhs]);

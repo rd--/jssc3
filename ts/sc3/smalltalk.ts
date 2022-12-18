@@ -42,8 +42,6 @@ export function min(a: Signal, b: Signal): Signal { return Min(a, b); }
 export function roundTo(a: Signal, b: Signal): Signal { return RoundTo(a, b); }
 export function truncateTo(a: Signal, b: Signal): Signal { return Trunc(a, b); }
 
-export function cpsMidi(aNumber: Signal): Signal { return CpsMidi(aNumber); }
-export function midiCps(aNumber: Signal): Signal { return MidiCps(aNumber); }
 export function midiRatio(aNumber: Signal): Signal { return MidiRatio(aNumber); }
 export function unitCps(aNumber: Signal): Signal { return UnitCps(aNumber); }
 
