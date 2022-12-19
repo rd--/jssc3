@@ -213,14 +213,23 @@ export function UnaryOpWithConstantOptimiser(specialIndex: number, input: Signal
 			case 12: return input * input;
 			case 13: return input * input * input;
 			case 14: return Math.sqrt(input);
+			case 15: return Math.exp(input);
 			case 16: return 1 / input;
 			case 17: return scMath.midiCps(input);
 			case 18: return scMath.cpsMidi(input);
+			case 19: return scMath.midiRatio(input);
+			case 20: return scMath.ratioMidi(input);
 			case 21: return scMath.dbAmp(input);
 			case 22: return scMath.ampDb(input);
+			case 23: return scMath.octCps(input);
+			case 24: return scMath.cpsOct(input);
+			case 25: return Math.log(input);
+			case 26: return Math.log2(input);
+			case 27: return Math.log10(input);
 			case 28: return Math.sin(input);
 			case 29: return Math.cos(input);
 			case 30: return Math.tan(input);
+			case 36: return Math.tanh(input);
 			case 44: return scMath.coin(input) ? 1.0 : 0.0;
 		}
 	}

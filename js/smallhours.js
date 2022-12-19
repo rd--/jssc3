@@ -23,7 +23,7 @@ export function insertText(label, text) {
 		sc.setTextContent('programText', text, false);
 	}
 	if(state.autoPlay) {
-		_clear(_system.get('clock'));
+		_clear_1(_system.get('clock'));
 		sc.resetScsynth(globalScsynth);
 		playRegion();
 	}
@@ -60,9 +60,9 @@ export function keyBindings(event) {
 		event.shiftKey ? evalRegion() : playRegion();
 	} else if(event.ctrlKey && event.key === '.') {
 		sc.resetScsynth(globalScsynth);
-		_clear(_system.get('clock'));
+		_clear_1(_system.get('clock'));
 	} else if(event.ctrlKey && event.shiftKey && event.key === '>') {
-		_clear(_system.get('clock'));
+		_clear_1(_system.get('clock'));
 	} else if(event.ctrlKey && event.shiftKey && event.key === 'L') {
 		document.getElementById('programInputFileSelect').click();
 	} else if(event.ctrlKey && event.shiftKey && event.key === 'H') {

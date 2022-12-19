@@ -254,7 +254,7 @@ export function arraySort<T>(anArray: T[], aFunction: (lhs: T, rhs: T) => number
 }
 
 export function arraySum(anArray: number[]): number {
-	return anArray.reduce((lhs, rhs) => lhs + rhs);
+	return anArray.reduce((lhs, rhs) => lhs + rhs, 0);
 }
 
 // arrayTail([1, 2, 3, 4]) // => [2, 3, 4]

@@ -42,7 +42,6 @@ export function min(a: Signal, b: Signal): Signal { return Min(a, b); }
 export function roundTo(a: Signal, b: Signal): Signal { return RoundTo(a, b); }
 export function truncateTo(a: Signal, b: Signal): Signal { return Trunc(a, b); }
 
-export function midiRatio(aNumber: Signal): Signal { return MidiRatio(aNumber); }
 export function unitCps(aNumber: Signal): Signal { return UnitCps(aNumber); }
 
 export function rand(min: number, max: number): number { return randomFloat(min, max); }
