@@ -1,5 +1,3 @@
-import { consoleDebug } from '../kernel/error.ts'
-
 import { encodeUgen } from './graph.ts'
 import { wrapOut } from './pseudo.ts'
 import { ServerMessage, ServerPacket, c_setn1, d_recv_then, decodeServerMessage, encodeServerMessage, encodeServerPacket, g_freeAll1, kAddToTail, m_dumpOsc, m_notify, m_status, s_new0 } from './servercommand.ts'
@@ -20,7 +18,7 @@ export function scsynthWasm(options: ScsynthOptions, wasm: ScsynthWasmModule, st
 }
 
 export function sendOscWasm(scsynth: Scsynth, wasm: ScsynthWasmModule, oscPacket: ServerPacket): void {
-	consoleDebug(`sendOscWasm: ${oscPacket}`);
+	// console.debug(`sendOscWasm: ${oscPacket}`);
 	if((scsynth.isStarting || scsynth.isAlive) && wasm.oscDriver) {
 		const port = wasm.oscDriver[scsynth.synthPort];
 		const recv = port && port.receive;
@@ -44,7 +42,7 @@ export function bootScsynthWasm(scsynth: Scsynth, wasm: ScsynthWasmModule): void
 		args.push('-z', String(scsynth.options.blockSize)); // # block size (for sample-rate of 48000 gives blocks of 1ms)
 		args.push('-w', '512'); // # wire buffers
 		args.push('-m', '32768'); // real time memory (Kb), total memory is fixed at scsynth/wasm compile time, see README_WASM
-		consoleDebug('bootScsynthWasm: callMain');
+		// console.debug('bootScsynthWasm: callMain');
 		wasm.callMain(args);
 		setTimeout(() => monitorOscWasm(scsynth, wasm), 1000);
 		setInterval(() => sendOscWasm(scsynth, wasm, m_status), 1000);
@@ -55,7 +53,7 @@ export function bootScsynthWasm(scsynth: Scsynth, wasm: ScsynthWasmModule): void
 }
 
 function monitorOscWasm(scsynth: Scsynth, wasm: ScsynthWasmModule): void {
-	consoleDebug('monitorOscWasm');
+	// console.debug('monitorOscWasm');
 	wasm.oscDriver[scsynth.langPort] = {
 		receive: function(addr: string, data: Uint8Array) {
 			if(scsynth.isStarting) {

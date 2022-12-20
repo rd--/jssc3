@@ -1,5 +1,5 @@
 import { isArray, asArray, arrayAtIndices, arrayContainsArray, arrayEvery, arrayExtendToBeOfEqualSize, arrayFillWithIndex, arrayFind, arrayForEach, arrayMap, arrayMaxItem, arraySize, arrayTranspose } from '../kernel/array.ts'
-import { consoleDebug, throwError } from '../kernel/error.ts'
+import { throwError } from '../kernel/error.ts'
 import { isNumber } from '../kernel/number.ts'
 import { isObject } from '../kernel/object.ts'
 import { setNew, setAdd } from '../kernel/set.ts'
@@ -93,7 +93,7 @@ export function inputBranch<T>(input: UgenInput, onUgen: (aUgen: Ugen) => T, onN
 }
 
 export function inputRate(input: UgenInput): number {
-	consoleDebug(`inputRate: ${input}`);
+	// console.debug(`inputRate: ${input}`);
 	return inputBranch(input, port => port.scUgen.rate, _unusedNumber => rateIr, () => -1);
 }
 
@@ -101,7 +101,7 @@ export type RateSpec = number | number[];
 
 // If scalar it is the operating rate, if an array it is indices into the inputs telling how to derive the rate.
 export function deriveRate(rateOrFilterUgenInputs: RateSpec, inputArray: UgenInput[]): number {
-	consoleDebug(`deriveRate: ${rateOrFilterUgenInputs} ${inputArray}`);
+	// console.debug(`deriveRate: ${rateOrFilterUgenInputs} ${inputArray}`);
 	if(isNumber(rateOrFilterUgenInputs)) {
 		return rateOrFilterUgenInputs;
 	} else {
@@ -118,7 +118,7 @@ export function mceInputTransform(aSignal: Signal[]): Signal[] {
 }
 
 export function makeUgen(name: string, numChan: number, rateSpec: RateSpec, specialIndex: number, signalArray: Signal[]): Signal {
-	consoleDebug(`makeUgen: ${name} ${numChan} ${rateSpec} ${specialIndex} ${signalArray}`);
+	// console.debug(`makeUgen: ${name} ${numChan} ${rateSpec} ${specialIndex} ${signalArray}`);
 	if(requiresMce(signalArray)) {
 		return arrayMap(item => makeUgen(name, numChan, rateSpec, specialIndex, <Signal[]>item), mceInputTransform(signalArray));
 	} else {
@@ -145,20 +145,20 @@ export function ugenDisplayName(ugen: ScUgen): string {
 // inputFirstUgen([0, SinOsc([440, 441], 0), SinOsc(442, 0)])
 export function inputFirstUgen(input: Signal): ScUgen | null {
 	if(isArray(input)) {
-		consoleDebug(`inputFirstUgen: array: ${input}`);
+		// console.debug(`inputFirstUgen: array: ${input}`);
 		return arrayFind(arrayMap(inputFirstUgen, input), isScUgen) || null;
 	} else if(isUgen(input)) {
-		consoleDebug(`inputFirstUgen: port: ${input}`);
+		// console.debug(`inputFirstUgen: port: ${input}`);
 		return (input).scUgen;
 	} else {
-		consoleDebug(`inputFirstUgen: number: ${input}`);
+		// console.debug(`inputFirstUgen: number: ${input}`);
 		return null;
 	}
 }
 
 export function mrg(lhs: Signal,rhs: Signal): Signal {
 	const ugen = inputFirstUgen(lhs);
-	consoleDebug(`mrg: ${lhs}, ${rhs}, ${ugen}`);
+	// console.debug(`mrg: ${lhs}, ${rhs}, ${ugen}`);
 	if(ugen && ugen.mrg) {
 		if(isArray(rhs)) {
 		    const mrgSet = <Set<UgenInput>>(ugen.mrg);
@@ -177,17 +177,17 @@ export function mrg(lhs: Signal,rhs: Signal): Signal {
 export function krMutateInPlace(input: Tree<UgenInput | ScUgen>): void {
 	if(isUgen(input)) {
 		const inputPort = input;
-		consoleDebug(`kr: port: ${inputPort}`);
+		// console.debug(`kr: port: ${inputPort}`);
 		krMutateInPlace(inputPort.scUgen);
 	} else if(isScUgen(input)) {
 		const inputUgen = input;
-		consoleDebug(`kr: ugen: ${inputUgen}`);
+		// console.debug(`kr: ugen: ${inputUgen}`);
 		if(inputUgen.rate === rateAr) {
 		    inputUgen.rate =  rateKr;
 		}
 		arrayForEach(inputUgen.inputArray, item => krMutateInPlace(item));
 	} else if(isArray(input)) {
-		consoleDebug(`kr: array: ${input}`);
+		// console.debug(`kr: array: ${input}`);
 		arrayForEach(input, item => krMutateInPlace(item));
 	} else {
 		if(!isNumber(input)) {
@@ -266,7 +266,7 @@ export function BinaryOpWithConstantOptimiser(specialIndex: number, lhs: UgenInp
 export function BinaryOp(specialIndex: number, lhs: Signal, rhs: Signal): Signal {
 	if(isArray(lhs) || isArray(rhs)) {
 		const expanded = mceInputTransform([asArray(lhs), asArray(rhs)]);
-		consoleDebug(`BinaryOp: array constant: ${expanded}`);
+		// console.debug(`BinaryOp: array constant: ${expanded}`);
 		return arrayMap(item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]), <UgenInput[][]>expanded);
 	} else {
 		return BinaryOpWithConstantOptimiser(specialIndex, lhs, rhs);

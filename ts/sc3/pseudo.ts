@@ -1,5 +1,5 @@
 import { isArray, asArray, arrayClump, arrayConcatenation, arrayExtendToBeOfEqualSize, arrayFirst, arrayFromTo, arrayMaxItem, arrayProduct, arrayReduce, arrayReplicate, arraySecond, arraySize, arrayTranspose } from '../kernel/array.ts'
-import { consoleDebug, throwError } from '../kernel/error.ts'
+import { throwError } from '../kernel/error.ts'
 
 import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 import { Forest, treeShape } from '../stdlib/tree.ts'
@@ -41,7 +41,7 @@ export function Splay(inArray: Signal, spread: Signal, level: Signal, center: Si
 	const n = Math.max(2, signalSize(inArray));
 	const pos = arrayFromTo(0, n - 1).map(item => Add(Mul(Sub(Mul(item, Fdiv(2, Sub(n, 1))), 1), spread), center));
 	const lvl = Mul(level, levelComp ? Sqrt(1 / n) : 1);
-	consoleDebug(`Splay: ${[n, pos, lvl]}`);
+	// console.debug(`Splay: ${[n, pos, lvl]}`);
 	return arrayReduce(<Signal[]>Pan2(inArray, pos, lvl), Add);
 }
 
@@ -49,7 +49,7 @@ export function Splay2(inArray: Signal): Signal {
 	const n = Math.max(2, signalSize(inArray));
 	const pos = arrayFromTo(0, n - 1).map(item => item * (2 / (n - 1)) - 1);
 	const lvl = Math.sqrt(1 / n);
-	consoleDebug(`Splay2: ${[n, pos, lvl]}`);
+	// console.debug(`Splay2: ${[n, pos, lvl]}`);
 	return arrayReduce(<Signal[]>Pan2(inArray, pos, lvl), Add);
 }
 
@@ -161,7 +161,7 @@ export function BufWrite(bufnum: Signal, phase: Signal, loop: Signal, inputArray
 export function asKlankSpec(freq: Signal, amp: Maybe<Signal>, time: Maybe<Signal>): Signal {
 	const n = signalSize(freq);
 	const a = [freq, fromMaybe(amp, arrayReplicate(n, 1)), fromMaybe(time, arrayReplicate(n, 1))];
-	consoleDebug(`asKlankSpec: ${a}`);
+	// console.debug(`asKlankSpec: ${a}`);
 	return arrayConcatenation(arrayTranspose(arrayExtendToBeOfEqualSize(a)));
 }
 

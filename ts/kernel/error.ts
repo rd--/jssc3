@@ -1,10 +1,5 @@
-// Printing to the console is slow, even if debugging messages aren't displayed
-export const printDebug = false;
-
 export function consoleDebug(text: string): void {
-	if(printDebug) {
-		console.debug(text);
-	}
+	console.debug(text);
 }
 
 export function consoleWarn(text: string): void {

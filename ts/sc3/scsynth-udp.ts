@@ -1,4 +1,3 @@
-import { consoleDebug } from '../kernel/error.ts'
 import { udpSendToAddr } from '../kernel/udp.ts'
 
 import { Scsynth } from './scsynth.ts'
@@ -14,7 +13,7 @@ export const defaultScsynthUdp: ScsynthUdp = {
 };
 
 export function sendOscUdp(scsynthUdp: ScsynthUdp, oscPacket: ServerPacket): void {
-	consoleDebug(`sendOsc: ${oscPacket}`);
+	// console.debug(`sendOsc: ${oscPacket}`);
 	udpSendToAddr(scsynthUdp, encodeServerPacket(oscPacket));
 }
 

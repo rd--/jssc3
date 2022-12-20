@@ -1,5 +1,3 @@
-import { consoleDebug } from '../kernel/error.ts'
-
 import { encodeUgen } from './graph.ts'
 import { wrapOut } from './pseudo.ts'
 import { ScsynthOptions } from './scsynth-options.ts'
@@ -42,7 +40,7 @@ declare global {
 
 export function scsynthEnsure(scsynth: Scsynth, activity: () => void) {
 	if(scsynth.isAlive) {
-		consoleDebug('scsynthEnsure: alive, do activity');
+		// console.debug('scsynthEnsure: alive, do activity');
 		activity();
 	} else if(scsynth.isStarting) {
 		console.log('scsynthEnsure: starting, schedule activity');
