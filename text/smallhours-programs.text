@@ -259,7 +259,6 @@ graph/Jmcc - Why SuperCollider.sl
 graph/Jmcc - Wind metals.sl
 graph/Jmcc - Wuxia.sl
 graph/Jmcc - Zizle.sl
-graph/Jpd - 1 5d6.sl
 graph/Jrhb - A bath.sl
 graph/Jrhb - Chainsaw.sl
 graph/Jrhb - Deepsea.sl
@@ -268,10 +267,8 @@ graph/Jrhb - Stereo half life.sl
 graph/Jrhb - Sturmian sequencer 1.sl
 graph/Jrhb - Sturmian sequencer 2.sl
 graph/Jrhb - Sturmian sequencer 3.sl
-graph/Kl - Vibraphone.sl
 graph/Ljp - One line.sl
 graph/Lkp - Chaos engine.sl
-graph/Ml - Qchimes.sl
 graph/Mm - Tw 11.sl
 graph/Mv - Interference patterns.sl
 graph/Nc - Sc tutorial.sl
@@ -387,5 +384,6 @@ texture/Jmcc - Uplink.sl
 texture/Jmcc - Wind metals.sl
 texture/Jmcc - Zizle.sl
 texture/Lnu - 1581607231463731200.sl
+texture/Nc - Sc tutorial.sl
 texture/Rd - 20060914.sl
 texture/Unk - Pmi.sl
