@@ -1,0 +1,6 @@
+import * as k from './kernel.ts'
+var f = k.makeAritySpecificFunction(function(...array) { console.log(array); }, 6);
+f.length == 6;
+var f = k.makeCheckedAritySpecificFunction(function(...array) { console.log(array); return array.at(-1); }, 6);
+f.length == 6;
+f(1, 2, 3, 4, 5, 6) === 6
