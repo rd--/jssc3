@@ -295,3 +295,7 @@ export function BHiPass4(input: Signal, freq: Signal, rq: Signal): Signal {
 	var sqrtRq = Sqrt(rq);
 	return BHiPass(BHiPass(input, freq, sqrtRq), freq, sqrtRq);
 }
+
+export function EqPan2(input: Signal, pos: Signal): Signal {
+	return Pan2(input, pos, 1);
+}

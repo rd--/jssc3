@@ -25,7 +25,6 @@ export function stc_binary_selector_from_operator(text: string): string {
 		case '>>': return 'ShiftRight';
 		case '**': return 'Pow';
 		case '->': return 'Association';
-		case 'midiCps': return 'MidiCps';
 		default: console.warn(`stc_binary_selector_from_operator: ${text}`); return text;
 	}
 }
