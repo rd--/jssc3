@@ -47,7 +47,7 @@ If the program in the cell is not an _AudioOut_ program, it writes to the _audio
 (_AudioOut_ programs sum out to the audio system and write _Dc(0)_ to the cell bus.)
 If the cell program is at _control rate_ it is converted to an audio rate signal using _K2A_.
 
-Cell programs are written in _.stc_ notation.
+Cell programs are written in [Simple Programming Language](https://rohandrape.net/t/spl) (_.sl_) notation.
 
 If a cell program fails to evaluate, the cell is coloured to indicate this.
 

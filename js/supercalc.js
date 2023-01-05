@@ -11,12 +11,10 @@ row_index = 0 - 7
 
 const calc = {};
 
-// cellref_to_bus('g', 4)
 function cellref_to_bus(col_letter, row_number) {
 	return calc.bus_offset + sc.cellref_to_linear_index(calc.num_col, col_letter, row_number);
 }
 
-// cellref_to_group('g', 4)
 function cellref_to_group(col_letter, row_number) {
 	return calc.group_offset + sc.cellref_to_linear_index(calc.num_col, col_letter, row_number);
 }
@@ -27,24 +25,23 @@ function set_cell_colour(col_letter, row_number, colour_string) {
 }
 
 function set_cell_status_and_return(col_letter, row_number, success, result) {
-	sc.consoleDebug('set_cell_status_and_return', col_letter, row_number, success, result);
+	// console.debug('set_cell_status_and_return', col_letter, row_number, success, result);
 	set_cell_colour(col_letter, row_number, success ? '#ffffe8' : '#c1e7f8');
 	return result;
 }
 
-// eval_or_zero('a', 1, true, 'referenceToUndefinedName')
 function eval_cell_or_zero(col_letter, row_number, translator_status, text) {
-	sc.consoleDebug('eval_cell_or_zero', col_letter, row_number, translator_status, '"' + text + '"');
+	// console.debug('eval_cell_or_zero', col_letter, row_number, translator_status, '"' + text + '"');
 	if(text === '' || text.substring(0, 2) === '//') {
-		sc.consoleDebug('eval_cell_or_zero: empty cell or comment cell');
+		// console.debug('eval_cell_or_zero: empty cell or comment cell');
 		return set_cell_status_and_return(col_letter, row_number, translator_status, 0);
 	} else {
 		try {
 		    const result = eval(text);
-		    sc.consoleDebug('eval_cell_or_zero: success!');
+		    // console.debug('eval_cell_or_zero: success!');
 		    return set_cell_status_and_return(col_letter, row_number, translator_status, result);
 		} catch (_err) {
-		    sc.consoleDebug('eval_cell_or_zero: error!');
+		    // console.debug('eval_cell_or_zero: error!');
 		    return set_cell_status_and_return(col_letter, row_number, false, 0);
 		}
 	}
@@ -52,15 +49,14 @@ function eval_cell_or_zero(col_letter, row_number, translator_status, text) {
 
 function eval_cell(col_letter, row_number, cell_text) {
 	const program_text = cell_text.trim();
-	sc.consoleDebug(`eval_cell: .stc = ${program_text}`);
-	sc.stc_to_js_and_then(program_text, function (js_text) {
-		sc.consoleDebug(`eval_cell: .js = ${js_text}`);
-		const translator_status =  program_text === '' || js_text !== '';
-		const cell_value = eval_cell_or_zero(col_letter, row_number, translator_status, js_text);
-		const cell_ugen = sc.isNumber(cell_value) ? sc.Dc(cell_value) : (sc.isControlRateUgen(cell_value) ? sc.K2A(cell_value) : cell_value);
-		const cell_packet = cell_ugen_to_osc_packet(col_letter, row_number, cell_ugen);
-		globalScsynth.sendOsc(cell_packet);
-	});
+	console.debug(`eval_cell: .sl = ${program_text}`);
+	const js_text = sl.rewriteString(program_text);
+	console.debug(`eval_cell: .js = ${js_text}`);
+	const translator_status =  program_text === '' || js_text !== '';
+	const cell_value = eval_cell_or_zero(col_letter, row_number, translator_status, js_text);
+	const cell_ugen = sc.isNumber(cell_value) ? sc.Dc(cell_value) : (sc.isControlRateUgen(cell_value) ? sc.K2A(cell_value) : cell_value);
+	const cell_packet = cell_ugen_to_osc_packet(col_letter, row_number, cell_ugen);
+	globalScsynth.sendOsc(cell_packet);
 }
 
 function get_cell_text(col_letter, row_number) {
@@ -82,7 +78,7 @@ function eval_sheet() {
 function on_change (_instance, _cell, col_index, row_index, cell_text) {
 	const col_letter = sc.column_index_to_letter(Number(col_index));
 	const row_number = Number(row_index) + 1;
-	sc.consoleDebug('on_change', col_letter, row_number, cell_text);
+	// console.debug('on_change', col_letter, row_number, cell_text);
 	eval_cell(col_letter, row_number, cell_text.trim());
 }
 
@@ -127,19 +123,17 @@ export function initSheet(numCol, numRow) {
 
 }
 
-// gen_cell_reader_bus_declaration('a', 1)
 function gen_cell_reader_bus_declaration(col_letter, row_number) {
 	const bus_index = cellref_to_bus(col_letter, row_number);
 	const var_name = col_letter + String(row_number);
-	return ('var ' + var_name + ' = sc.InFb(1, ' + String(bus_index) + ');');
+	return ('var _' + var_name + ' = sc.InFb(1, ' + String(bus_index) + ');');
 }
 
-// define_cell_variables()
 function define_cell_variables() {
 	all_cellref_do(function(col_letter, row_number) {
 		const code_text = gen_cell_reader_bus_declaration(col_letter, row_number);
 		const global_eval = eval; // https://262.ecma-international.org/5.1/#sec-10.4.2
-		sc.consoleDebug(code_text);
+		// console.debug(code_text);
 		global_eval(code_text);
 	});
 }
@@ -157,11 +151,10 @@ function cell_ugen_to_osc_packet(col_letter, row_number, ugen) {
 		timeTag: 1,
 		packets: [g_free_msg, d_recv_msg]
 	};
-	sc.consoleDebug('cell_ugen_to_osc_message', col_letter, row_number, cell_name, bus_index, group_id, bundle);
+	// console.debug('cell_ugen_to_osc_message', col_letter, row_number, cell_name, bus_index, group_id, bundle);
 	return bundle;
 }
 
-// create_and_init_cell_groups()
 function create_and_init_cell_groups() {
 	all_cellref_do(function(col_letter, row_number) {
 		const group_id = cellref_to_group(col_letter, row_number);
@@ -172,7 +165,7 @@ function create_and_init_cell_groups() {
 }
 
 export function server_setup() {
-	sc.consoleDebug('server_setup');
+	// console.debug('server_setup');
 	define_cell_variables();
 	create_and_init_cell_groups();
 }
@@ -183,3 +176,10 @@ export function initProgramMenu() {
 		sc.load_utf8_and_then(`./help/supercalc/${optionValue}`, (text) => set_json(text));
 	});
 }
+
+/*
+cellref_to_bus('g', 4)
+cellref_to_group('g', 4)
+eval_or_zero('a', 1, true, 'referenceToUndefinedName')
+gen_cell_reader_bus_declaration('a', 1)
+*/
