@@ -1,27 +1,28 @@
 jssc3
 -----
 
-[JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) bindings to the
+[JavaScript](https://dl.acm.org/doi/abs/10.1145/3386327) bindings to the
 [SuperCollider](http://audiosynth.com/) real-time synthesiser.
 
 ![](sw/jssc3/png/superscript.2.png)
 
 Online editors:
-[SuperScript](https://rohandrape.net/pub/jssc3/superscript.html) (Word processor),
-[SuperCalc](https://rohandrape.net/pub/jssc3/supercalc.html) (Spread sheet)
+[SuperScript](http://superscript.rohandrape.net/) (Word processor),
+[SuperCalc](http://supercalc.rohandrape.net/) (Spread sheet)
 
 - [SuperScript](https://archive.org/details/SuperScript_Word_Processor_for_the_128_1995_Precision_Software/mode/2up), _Precision Software_, 1985
 - [SuperCalc](https://museum.syssrc.com/artifact/exhibits/807/) _Sorcim_, 1980.
 
 Related:
-[Simple Programming Language](https://rohandrape.net/pub/jssc3/spl.html),
-[Block SuperCollider](https://blksc3.rohandrape.net/),
+[Simple Programming Language](https://rohandrape.net/t/spl),
+[Small Hours](http://smallhours.rohandrape.net/),
+[Block SuperCollider](http://blksc3.rohandrape.net/),
 [Polyglot SuperCollider](https://rohandrape.net/pub/hsc3-graphs/polyglot-wasm.html)
 
 Requires:
 [osc.js](https://github.com/colinbdclark/osc.js),
-[scsynth-wasm-builds](https://gitlab.com/rd--/scsynth-wasm-builds),
-[stsc3](http://rohandrape.net/?t=stsc3)
+[scsynth-wasm-builds](http://rohandrape.net/t/scsynth-wasm-builds),
+[stsc3](http://rohandrape.net/t/stsc3)
 
 Tested with:
 
@@ -34,5 +35,5 @@ Tested with:
 
 * * *
 
-[Html](https://jssc3.rohandrape.net)
-[Video](https://rohandrape.net/?t=jssc3&e=md/video.md)
+[Video](https://rohandrape.net/?t=jssc3&e=md/video.md),
+[Js](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
