@@ -52,7 +52,6 @@ export function scsynthEnsure(scsynth: Scsynth, activity: () => void) {
 	}
 }
 
-
 export function playSyndef(scsynth: Scsynth, syndefName: string, syndefData: Uint8Array, groupId: number): void {
 	console.log('playSyndef #', syndefData.length);
 	scsynth.sendOsc(d_recv_then(syndefData, encodeServerMessage(s_new0(syndefName, -1, kAddToTail, groupId))));
