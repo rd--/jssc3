@@ -192,7 +192,7 @@ export function SelectX(which: Signal, array: Signal): Signal {
 }
 
 export function UnitCps(a: Signal): Signal {
-	return MidiCps(Mul(a, 127));
+	return MidiCps(Mul(a, 100));
 }
 
 // Read a signal from a control bus.
