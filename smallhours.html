@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<link rel="icon" type="image/png" href="png/os.512.png" />
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
-		<link rel="stylesheet" type="text/css" media="all" href="css/sc3.css" />
+		<link rel="stylesheet" type="text/css" media="all" href="css/smallhours.css" />
 		<script src="lib/commonmark.js/dist/commonmark.js"></script>
 		<script src="lib/osc.js/dist/osc-browser.js"></script>
 		<script type="module">
@@ -45,12 +45,14 @@ window.onload = function () {
 			<select id="programMenu" title="Program (p)" accesskey="p"><option>--Program Menu--</option></select>
 			<button title="Fullscreen" accesskey="x" onclick="sc.fullscreen()">⇱</button>
 		</div>
-		<div id="documentContainer">
-			<div id="documentText" contenteditable="true" spellcheck="false">
+		<div id="textContainer">
+			<div id="documentContainer">
+				<div id="documentText" contenteditable="true" spellcheck="false">
+				</div>
 			</div>
-		</div>
-		<div id="programContainer">
-			<pre><code id="programText" contenteditable="true" spellcheck="false"></code></pre>
+			<div id="programContainer">
+				<pre><code id="programText" contenteditable="true" spellcheck="false"></code></pre>
+			</div>
 		</div>
 		<script async src="lib/scsynth-wasm-builds/ext/scsynth.js"></script>
 	</body>

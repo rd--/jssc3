@@ -64,7 +64,7 @@ export function loadHelp(kind, helpPrefix, docPrefix) {
 
 export function keyBindings(event) {
 	// console.log('keyBindings', event.ctrlKey, event.shiftKey, event.key);
-	if(event.ctrlKey && event.key === 'Enter') {
+	if(event.ctrlKey && (event.key === 'Enter' || event.key === ',')) {
 		event.shiftKey ? evalRegion() : playRegion();
 	} else if(event.ctrlKey && event.key === '.') {
 		sc.resetScsynth(globalScsynth);

@@ -1,4 +1,4 @@
-@import "sc3.css";
+@import "smallhours.css";
 
 h1, h2, h3 {
 	text-decoration: none;
@@ -22,8 +22,6 @@ a, a:visited {
 }
 
 #documentContainer {
-	position: static;
 	font-size: 1em;
-	width: 65vw;
 	max-width: 45em;
 }

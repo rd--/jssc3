@@ -1,7 +1,7 @@
 ## Superscript
 
 SuperScript is a preliminary experiment in providing a rich text environment for writing SuperCollider  (McCartney, 1996) synthesiser programs.
-This experiment is extended a little in the [Simple Programming Language](./spl.html) environment.
+This experiment is extended a little in the [Small Hours](./smallhours.html) environment for the [Simple Programming Language](https://rohandrape.net/t/spl).
 
 SuperScript (Precision Software, 1985) is also a word processor for Commodore 64 computers.
 
@@ -97,7 +97,7 @@ The help files contain example programs written in _C-Smalltalk_ notation.
 
 Selecting the name of a Ugen, for instance _SinOsc_ and typing _Control-Shift-H_ will load the help file.
 At present this replaces any existing text, so be careful!
-The [Simple Programming Language](./spl.html) editor has two panes to avoid this problem.
+The [Small Hours](./smallhours.html) editor has two panes to avoid this problem, and also maintains a history for traversal.
 
 The _⌂_ (_Home_) button at the top of the page reloads this file.
 
@@ -144,7 +144,7 @@ The JavaScript SuperCollider library contains functions to define sound processi
 ## What is Rich Text Editing?
 
 The browser environment allows for programs to be written as rich text documents (Lampson, 1979).
-The area containing this text is a simple editor, there are the usual key commands for formatting.
+The area containing this text is a simple editor, there are the usual key commands for formatting, i.e. _Ctrl-i_ to italicise the selected text &etc.
 
 ## What is C-Smalltalk?
 

@@ -37,8 +37,7 @@ select, button, #documentContainer {
 #documentText pre {
 	font-family: var(--font-family);
 	background-color: var(--program-colour);
-	margin: 1em;
-	padding: 1em
+	padding: 1em 2em
 }
 
 button, select, #statusText {
@@ -46,7 +45,11 @@ button, select, #statusText {
 }
 
 button:focus, select:focus {
-    outline: 1px solid #999;
+	outline: 1px solid #999;
+}
+
+#textContainer {
+	display: flex;
 }
 
 #documentText:focus, #programText:focus {
@@ -54,16 +57,12 @@ button:focus, select:focus {
 }
 
 #documentContainer, #programContainer {
-	position: absolute;
-	height: 85vh;
-	width: 45vw;
 	font-size: 0.9em;
+	width: 40vw;
+	height: 85vh;
+	margin-right: 2em;
 	resize: both;
 	overflow: auto;
-}
-
-#programContainer {
-	left: 50vw;
 }
 
 #documentText {
