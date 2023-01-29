@@ -7,7 +7,6 @@ collect/Jmcc - Variations.sl
 collect/Jmcc - Xy scope.sl
 collect/Ljp.sl
 collect/Nc.sl
-collect/Tm881.sl
 graph/Adc - 8.1 Schroeder reverb.sl
 graph/Adc - Bit reduction.sl
 graph/Adc - Down sample.sl
@@ -308,8 +307,7 @@ graph/Rd - 20061030.sl
 graph/Rd - 20070423.sl
 graph/Sp - 3926 4.sl
 graph/Tm - Drummer.sl
-graph/Tmm881 - 3319.sl
-graph/Tmm881 - 6452.sl
+graph/Tmm881 - 7055.sl
 graph/Tm - Tw 463992770596577280.sl
 graph/Tw - Tw 01.sl
 graph/Tw - Tw 02.sl
