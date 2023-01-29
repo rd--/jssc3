@@ -24,7 +24,7 @@ window.onload = function () {
 	sc.sc3_mouse_init(globalScsynth);
 	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
 	sl.assignGlobals();
-	sl.loadUrlArrayInSequence('lib/spl/sl', ['kernel.sl', 'std.sl', 'sc.sl']);
+	sl.loadUrlArrayInSequence('lib/spl/sl', ['kernel.sl', 'std.sl', 'sc.sl', 'ui.sl']);
 	document.getElementById('documentContainer').addEventListener('keydown', sh.keyBindings);
 	document.getElementById('programContainer').addEventListener('keydown', sh.keyBindings);
 	sh.initProgramMenu();
@@ -36,14 +36,14 @@ window.onload = function () {
 	<body>
 		<h1>Small Hours</h1>
 		<div id="menuContainer">
-			<button title="Boot" accesskey="b" onclick="globalScsynth.boot()">Begin</button>
+			<button id="beginButton" title="Begin (b)" accesskey="b" onclick="globalScsynth.boot()">Begin</button>
 			<span id="statusText">…</span>
 			<input type="file" id="programInputFile" accept=".sl" onchange="sh.loadInputFile()" style="display:none">
 			<button id="programInputFileSelect" title="Load (l)" accesskey="l">⇧</button>
-			<button title="Help" accesskey="?" onclick="sh.loadInstructions()">?</button>
-			<button title="Oracle" accesskey="r" onclick="sh.loadOracle()">易</button>
+			<button id="helpButton" title="Help (?)" accesskey="?" onclick="sh.loadInstructions()">?</button>
+			<button id="oracleButton" title="Oracle (r)" accesskey="r" onclick="sh.loadOracle()">易</button>
 			<select id="programMenu" title="Program (p)" accesskey="p"><option>--Program Menu--</option></select>
-			<button title="Fullscreen" accesskey="x" onclick="sc.fullscreen()">⇱</button>
+			<button title="Fullscreen (x)" accesskey="x" onclick="sc.fullscreen()">⇱</button>
 		</div>
 		<div id="textContainer">
 			<div id="documentContainer">

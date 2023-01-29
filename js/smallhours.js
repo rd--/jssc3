@@ -1,3 +1,5 @@
+/* import * as commonmark from './lib/commonmark.js/dist/commonmark.js' */
+
 import * as sc from '../dist/jssc3.js'
 import * as sl from '../lib/spl/dist/sl.js'
 
@@ -38,7 +40,9 @@ export function insertText(label, text) {
 }
 
 export function insertTextFor(label) {
-	return function(text) { insertText(label, text); }
+	return function(text) {
+		insertText(label, text);
+	}
 }
 
 export function loadInputFile() {
