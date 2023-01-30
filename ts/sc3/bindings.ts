@@ -1007,6 +1007,10 @@ export function Bezier(haltAfter: Signal, dx: Signal, freq: Signal, phase: Signa
 export function Freezer(bufnum: Signal, left: Signal, right: Signal, gain: Signal, increment: Signal, incrementOffset: Signal, incrementRandom: Signal, rightRandom: Signal, syncPhaseTrigger: Signal, randomizePhaseTrigger: Signal, numberOfLoops: Signal): Signal {
     return makeUgen('Freezer', 1, rateAr, 0, [bufnum, left, right, gain, increment, incrementOffset, incrementRandom, rightRandom, syncPhaseTrigger, randomizePhaseTrigger, numberOfLoops]);
 }
+// Fm7
+export function Fm7(ctlMatrix: Signal[], modMatrix: Signal[]): Signal {
+    return makeUgen('FM7', 6, rateAr, 0, [ctlMatrix, modMatrix].flat(2));
+}
 
 export function Add(a: Signal, b: Signal): Signal { return BinaryOp(0, a, b); }
 export function Sub(a: Signal, b: Signal): Signal { return BinaryOp(1, a, b); }
