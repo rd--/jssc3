@@ -1,33 +1,28 @@
 smallhours-programs.text: list of stsc3 example programs that work in smallhours
 smallhours-oracle.text: subset of smallhours programs that are "interesting"
 
+( cd ~/sw/stsc3/help ; ls -1 collect/*.sl graph/*.sl texture/*.sl > ~/sw/jssc3/text/smallhours-programs.text )
+
 Not working (removed from program-menu.text):
 
 graph/Dm - Shift register.sl
-graph/Dst - 1 5fc.sl
-graph/Es - Tw 570012853274615808.sl
-graph/F0 - 1 4Q6.sl
-graph/F0 - 2020 12 11.sl
-graph/F0 - Tw 0003.sl
-graph/F0 - Tw 0007.sl
+graph/Dst - 1 5fc.sl -- Voicer
+graph/Es - Tw 570012853274615808.sl -- GreyholeRaw
+graph/F0 - 1 4Q6.sl -- TLinRand
+graph/F0 - 2020 12 11.sl -- EnvLinen
+graph/F0 - Tw 0003.sl -- TLinRand
+graph/F0 - Tw 0007.sl -- TLinRand
 graph/F0 - Tw 0016.sl
-graph/F0 - Tw 0054.sl
-graph/F0 - Tw 0101.sl
-graph/F0 - Tw 0246.sl
-graph/F0 - Tw 0251.sl
-graph/F0 - Tw 1235224072579100675.sl
-graph/F0 - Tw 1467507942664646661.sl
-graph/F0 - Tw 1479212835192332289.sl
-graph/F0 - Tw 1509888510525857792.sl
-graph/F0 - Tw 1546903641575112715.sl
-graph/Jmcc - Rocks on rails.sl
-graph/Jpd - 1 5d6.sl
+graph/F0 - Tw 0101.sl -- MemoryAllocation
+graph/F0 - Tw 1235224072579100675.sl -- MemoryAllocation
+graph/F0 - Tw 1467507942664646661.sl -- FbSineC
+graph/F0 - Tw 1479212835192332289.sl -- QuadC
+graph/F0 - Tw 1509888510525857792.sl -- LorenzL
+graph/F0 - Tw 1546903641575112715.sl - StandardL
+graph/Jpd - 1 5d6.sl -- buf
 graph/Kl - Vibraphone.sl -- Voicer
 graph/Ml - Qchimes.sl -- Voicer
-graph/Lnu - 1559974704823341058.sl
-graph/Lnu - A6JAF jHBlw.sl
-graph/Nv - Tw 2014 02 21.sl
-graph/Rd - 20060914.sl
-graph/Rd - 20061015.sl
-graph/Rd - 20061027.sl
+graph/Lnu - 1559974704823341058.sl -- StandardN
+graph/Lnu - A6JAF jHBlw.sl -- Fm7
+graph/Nv - Tw 2014 02 21.sl -- MemoryAllocation
 graph/Tmm881 - 3319.sl -- Voicer

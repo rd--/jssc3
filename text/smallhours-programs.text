@@ -1,19 +1,13 @@
-collect/An.sl
-collect/Bb.sl
-collect/Coc.sl
-collect/Dcm - Insect ambience.sl
-collect/F0 - Variations.sl
-collect/Jmcc - Variations.sl
-collect/Jmcc - Xy scope.sl
-collect/Ljp.sl
-collect/Nc.sl
 graph/Adc - 8.1 Schroeder reverb.sl
 graph/Adc - Bit reduction.sl
 graph/Adc - Down sample.sl
+graph/An - Tw 1529413845231587328.sl
 graph/Bb - Differencetones.sl
 graph/Bz - 1 5cZ.sl
 graph/Bz - 1 5eo.sl
 graph/Cbe - 6230.sl
+graph/Cg - Tw 1529205337013854208.sl
+graph/Cg - Tw 1529852033251033088.sl
 graph/Cl - Prepared piano.sl
 graph/Cr - Lucier.sl
 graph/Dmc - Pm crotale.sl
@@ -46,6 +40,7 @@ graph/F0 - Tw 0041.sl
 graph/F0 - Tw 0045.sl
 graph/F0 - Tw 0049.sl
 graph/F0 - Tw 0051.sl
+graph/F0 - Tw 0054.sl
 graph/F0 - Tw 0055.sl
 graph/F0 - Tw 0058.sl
 graph/F0 - Tw 0059.sl
@@ -65,8 +60,10 @@ graph/F0 - Tw 0233.sl
 graph/F0 - Tw 0238.sl
 graph/F0 - Tw 0239.sl
 graph/F0 - Tw 0240.sl
+graph/F0 - Tw 0246.sl
 graph/F0 - Tw 0248.sl
 graph/F0 - Tw 0250.sl
+graph/F0 - Tw 0251.sl
 graph/F0 - Tw 0266.sl
 graph/F0 - Tw 0270.sl
 graph/F0 - Tw 0272.sl
@@ -160,6 +157,7 @@ graph/F0 - Tw 1562193233001623552.sl
 graph/F0 - Tw 1590835403157688320.sl
 graph/F0 - Tw 1598714366483959809.sl
 graph/Gs - Thx.sl
+graph/Hy - Tw 1601331785409134592.sl
 graph/Io - 6353.sl
 graph/Jar - 1 4Qx.sl
 graph/Jar - Rk 20120422.sl
@@ -233,6 +231,7 @@ graph/Jmcc - Reso pulse.sl
 graph/Jmcc - Reverberated sine percussion.sl
 graph/Jmcc - Ring modulate and echo input.sl
 graph/Jmcc - Ring modulate input.sl
+graph/Jmcc - Rocks on rails.sl
 graph/Jmcc - Sample and hold liquidities.sl
 graph/Jmcc - Saucer base.sl
 graph/Jmcc - Sawed cymbals.sl
@@ -269,6 +268,8 @@ graph/Jrhb - Sturmian sequencer 2.sl
 graph/Jrhb - Sturmian sequencer 3.sl
 graph/Ljp - One line.sl
 graph/Lkp - Chaos engine.sl
+graph/Lnu - 1617212405737472002.sl
+graph/Lnu - 1619072788311973896.sl
 graph/Mm - Tw 11.sl
 graph/Mv - Interference patterns.sl
 graph/Nc - Sc tutorial.sl
@@ -282,14 +283,15 @@ graph/Nv - Tw 2014 06 03.sl
 graph/Nv - Tw 40.sl
 graph/Nv - Tw 41.sl
 graph/Nv - Tw 43.sl
-graph/Nv - Tw 52.sl
 graph/Nv - Tw 528187147543511041.sl
+graph/Nv - Tw 52.sl
 graph/Or - Gong.sl
 graph/Peeq - Tw 1264595510217719809.sl
 graph/Pj - Forest sounds.sl
 graph/Ql - Glicol.sl
 graph/Rd - 20060909.sl
 graph/Rd - 20060911.sl
+graph/Rd - 20060914.sl
 graph/Rd - 20060915.sl
 graph/Rd - 20060916.sl
 graph/Rd - 20060917.sl
@@ -300,13 +302,16 @@ graph/Rd - 20060925.sl
 graph/Rd - 20060927.sl
 graph/Rd - 20061007.sl
 graph/Rd - 20061008.sl
+graph/Rd - 20061015.sl
 graph/Rd - 20061017.sl
 graph/Rd - 20061023.sl
+graph/Rd - 20061027.sl
 graph/Rd - 20061028.sl
 graph/Rd - 20061030.sl
 graph/Rd - 20070423.sl
 graph/Sp - 3926 4.sl
 graph/Tm - Drummer.sl
+graph/Tmm881 - 7052.sl
 graph/Tmm881 - 7055.sl
 graph/Tm - Tw 463992770596577280.sl
 graph/Tw - Tw 01.sl
@@ -361,13 +366,17 @@ texture/Jmcc - Noise modulated sines.sl
 texture/Jmcc - Ostinoodles.sl
 texture/Jmcc - Pentatonic pipes.sl
 texture/Jmcc - Phase modulation.sl
+texture/Jmcc - Plucked strings.sl
 texture/Jmcc - Pond life.sl
 texture/Jmcc - Pulse harmonic warbulence.sl
 texture/Jmcc - Random panning sines.sl
 texture/Jmcc - Random pulsations.sl
 texture/Jmcc - Random sine waves.sl
+texture/Jmcc - Repeating harmonic klank.sl
+texture/Jmcc - Repeating inharmonic klank.sl
 texture/Jmcc - Resonant dust.sl
 texture/Jmcc - Resonators harmonic series.sl
+texture/Jmcc - Reso pulse.sl
 texture/Jmcc - Ring modulated klank.sl
 texture/Jmcc - Rocks on rails.sl
 texture/Jmcc - Saucer base.sl
@@ -386,4 +395,21 @@ texture/Jmcc - Zizle.sl
 texture/Lnu - 1581607231463731200.sl
 texture/Nc - Sc tutorial.sl
 texture/Rd - 20060914.sl
+texture/Tm - 6989-16.sl
 texture/Unk - Pmi.sl
+collect/An.sl
+collect/Bb.sl
+collect/Coc.sl
+collect/Dcm - Insect ambience.sl
+collect/F0 - Variations.sl
+collect/Jl - Variations.sl
+collect/Jmcc - Variations.sl
+collect/Jmcc - Xy scope.sl
+collect/Ljp.sl
+collect/Nc.sl
+collect/Nh - Variations.sl
+collect/Nv - Variations.sl
+collect/Rd - Variations.sl
+collect/Sc 140.sl
+collect/Tmm881 - 5296.sl
+collect/Tmm881 - 6452.sl
