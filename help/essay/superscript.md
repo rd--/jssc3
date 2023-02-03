@@ -208,6 +208,10 @@ Precision Software.
 [_SuperScript_](https://archive.org/details/SuperScript_Word_Processor_for_the_128_1995_Precision_Software/mode/2up)
 Worcester Park, Surrey, 1985.
 
+* * *
+
+February 2022
+
 <!--
 
 - _forward slash_ (/) for _Eval_

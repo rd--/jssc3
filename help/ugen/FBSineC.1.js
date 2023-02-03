@@ -1,2 +1,0 @@
-// FBSineC ; randomly modulate params
-mul(FBSineC(add(mul(LFNoise2([1, 2]), 1000), 10000), add(mul(LFNoise2([1, 2]), 32), 33), mul(LFNoise2([1, 2]), 0.5), add(mul(LFNoise2([1, 2]), 0.05), 1.05), add(mul(LFNoise2([1, 2]), 0.3), 0.3), 0.1, 0.1), 0.05)

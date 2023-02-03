@@ -1,6 +1,6 @@
 # SuperCalc
 
-[SuperCalc](https://rohandrape.net/pub/jssc3/jssc3-supercalc.html) is a notation for writing
+[SuperCalc](https://supercalc.rohandrape.net/) is a notation for writing
 [SuperCollider](https://www.audiosynth.com/) synthesiser programs.
 
 ([SuperCalc](https://museum.syssrc.com/artifact/exhibits/807/) is also a CP/M-80 spreadsheet application published by Sorcim in 1980.)
@@ -112,3 +112,7 @@ Empty cells would have the value _nil_.
 - Mattessich, Richard. 1964. _Simulation of the firm through a budget computer program_. Homewood, Ill: R.D. Irwin.
 
 - Yamamiya, Takashi. "Skeleton — Easy Simulation System," in _Proc. Second International Conference on Creating, Connecting and Collaborating through Computing_, Kyoto, Japan, 2004 pp. 50-53. <doi:10.1109/C5.2004.1314368>
+
+* * *
+
+April 2022

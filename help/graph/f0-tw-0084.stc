@@ -1,5 +1,0 @@
-// tw 0084 (f0) - http://sccode.org/1-4Qy
-var f = Saw(2 * 0.to(5) + 5 * 19) * 99 + 199;
-var g = Saw(2 * 0.to(6) + 1 * 29) * 199 + 299;
-var w = Saw(2 * 0.to(4) + 3 * (Saw(3) * 2 + 3)) * 299 + 399;
-Splay2(Formant(f, g, w)) / 3 / 3
