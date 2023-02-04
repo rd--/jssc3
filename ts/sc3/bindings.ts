@@ -2,7 +2,6 @@ import { asArray, arrayConcat, arrayLength } from '../kernel/array.ts'
 
 import { rateAr, rateDr, rateIr, rateKr } from './rate.ts'
 import { Signal, BinaryOp, UnaryOp, makeUgen } from './ugen.ts'
-
 // Schroeder allpass delay line with cubic interpolation.
 export function AllpassC(input: Signal, maxdelaytime: Signal, delaytime: Signal, decaytime: Signal): Signal {
     return makeUgen('AllpassC', 1, [0], 0, [input, maxdelaytime, delaytime, decaytime]);
@@ -71,13 +70,13 @@ export function Bpz2(input: Signal): Signal {
 export function Brf(input: Signal, freq: Signal, rq: Signal): Signal {
     return makeUgen('BRF', 1, [0], 0, [input, freq, rq]);
 }
-// Two zero fixed midcut.
-export function Brz2(input: Signal): Signal {
-    return makeUgen('BRZ2', 1, [0], 0, [input]);
-}
 // Brown Noise.
 export function BrownNoise(): Signal {
     return makeUgen('BrownNoise', 1, rateAr, 0, []);
+}
+// Two zero fixed midcut.
+export function Brz2(input: Signal): Signal {
+    return makeUgen('BRZ2', 1, [0], 0, [input]);
 }
 // Current duration of soundfile in buffer.
 export function BufDur(bufnum: Signal): Signal {
@@ -159,6 +158,10 @@ export function CuspL(freq: Signal, a: Signal, b: Signal, xi: Signal): Signal {
 export function CuspN(freq: Signal, a: Signal, b: Signal, xi: Signal): Signal {
     return makeUgen('CuspN', 1, rateAr, 0, [freq, a, b, xi]);
 }
+// Demand rate brownian movement generator.
+export function Dbrown(length: Signal, lo: Signal, hi: Signal, step: Signal): Signal {
+    return makeUgen('Dbrown', 1, rateDr, 0, [length, lo, hi, step]);
+}
 // Buffer read demand ugen
 export function Dbufrd(bufnum: Signal, phase: Signal, loop: Signal): Signal {
     return makeUgen('Dbufrd', 1, rateDr, 0, [bufnum, phase, loop]);
@@ -211,9 +214,9 @@ export function Demand(trig: Signal, reset: Signal, demandUGens: Signal): Signal
 export function DetectSilence(input: Signal, amp: Signal, time: Signal, doneAction: Signal): Signal {
     return makeUgen('DetectSilence', 1, [0], 0, [input, amp, time, doneAction]);
 }
-// Digitally modelled analog filter
-export function Dfm1(input: Signal, freq: Signal, res: Signal, inputgain: Signal, type: Signal, noiselevel: Signal): Signal {
-    return makeUgen('DFM1', 1, [0], 0, [input, freq, res, inputgain, type, noiselevel]);
+// Demand rate brownian movement generator.
+export function Dibrown(length: Signal, lo: Signal, hi: Signal, step: Signal): Signal {
+    return makeUgen('Dibrown', 1, rateDr, 0, [length, lo, hi, step]);
 }
 // Demand rate white noise random generator.
 export function Diwhite(length: Signal, lo: Signal, hi: Signal): Signal {
@@ -227,6 +230,10 @@ export function Drand(repeats: Signal, list: Signal): Signal {
 export function Dseq(repeats: Signal, list: Signal): Signal {
     return makeUgen('Dseq', 1, rateDr, 0, arrayConcat([repeats], (asArray(list))));
 }
+// Demand rate sequence generator.
+export function Dser(repeats: Signal, list: Signal): Signal {
+    return makeUgen('Dser', 1, rateDr, 0, arrayConcat([repeats], (asArray(list))));
+}
 // Demand rate arithmetic series UGen.
 export function Dseries(length: Signal, start: Signal, step: Signal): Signal {
     return makeUgen('Dseries', 1, rateDr, 0, [length, start, step]);
@@ -234,6 +241,14 @@ export function Dseries(length: Signal, start: Signal, step: Signal): Signal {
 // Demand rate random sequence generator
 export function Dshuf(repeats: Signal, list: Signal): Signal {
     return makeUgen('Dshuf', 1, rateDr, 0, arrayConcat([repeats], (asArray(list))));
+}
+// Demand rate generator for embedding different inputs
+export function Dswitch(index: Signal, list: Signal): Signal {
+    return makeUgen('Dswitch', 1, rateDr, 0, arrayConcat([index], (asArray(list))));
+}
+// Demand rate generator for switching between inputs.
+export function Dswitch1(index: Signal, list: Signal): Signal {
+    return makeUgen('Dswitch1', 1, rateDr, 0, arrayConcat([index], (asArray(list))));
 }
 // Random impulses.
 export function Dust(density: Signal): Signal {
@@ -247,13 +262,13 @@ export function Dust2(density: Signal): Signal {
 export function Duty(dur: Signal, reset: Signal, doneAction: Signal, level: Signal): Signal {
     return makeUgen('Duty', 1, rateAr, 0, [dur, reset, doneAction, level]);
 }
-// Plucked physical model.
-export function DwgPluckedStiff(freq: Signal, amp: Signal, gate: Signal, pos: Signal, c1: Signal, c3: Signal, inp: Signal, release: Signal, fB: Signal): Signal {
-    return makeUgen('DWGPluckedStiff', 1, rateAr, 0, [freq, amp, gate, pos, c1, c3, inp, release, fB]);
-}
 // Demand rate white noise random generator.
 export function Dwhite(length: Signal, lo: Signal, hi: Signal): Signal {
     return makeUgen('Dwhite', 1, rateDr, 0, [length, lo, hi]);
+}
+// Demand rate weighted random sequence generator
+export function Dwrand(repeats: Signal, weights: Signal, list: Signal): Signal {
+    return makeUgen('Dwrand', 1, rateDr, 0, arrayConcat([repeats, weights], (asArray(list))));
 }
 // Demand rate random sequence generator.
 export function Dxrand(repeats: Signal, list: Signal): Signal {
@@ -268,12 +283,12 @@ export function ExpRand(lo: Signal, hi: Signal): Signal {
     return makeUgen('ExpRand', 1, rateIr, 0, [lo, hi]);
 }
 // Feedback sine with chaotic phase indexing
-export function FbSineL(freq: Signal, im: Signal, fb: Signal, a: Signal, c: Signal, xi: Signal, yi: Signal): Signal {
-    return makeUgen('FBSineL', 1, rateAr, 0, [freq, im, fb, a, c, xi, yi]);
-}
-// Feedback sine with chaotic phase indexing
 export function FbSineC(freq: Signal, im: Signal, fb: Signal, a: Signal, c: Signal, xi: Signal, yi: Signal): Signal {
     return makeUgen('FBSineC', 1, rateAr, 0, [freq, im, fb, a, c, xi, yi]);
+}
+// Feedback sine with chaotic phase indexing
+export function FbSineL(freq: Signal, im: Signal, fb: Signal, a: Signal, c: Signal, xi: Signal, yi: Signal): Signal {
+    return makeUgen('FBSineL', 1, rateAr, 0, [freq, im, fb, a, c, xi, yi]);
 }
 // Fast Fourier Transform
 export function Fft(buffer: Signal, input: Signal, hop: Signal, wintype: Signal, active: Signal, winsize: Signal): Signal {
@@ -295,14 +310,6 @@ export function Formlet(input: Signal, freq: Signal, attacktime: Signal, decayti
 export function Fos(input: Signal, a0: Signal, a1: Signal, b1: Signal): Signal {
     return makeUgen('FOS', 1, [0], 0, [input, a0, a1, b1]);
 }
-// Frequency Shifter.
-export function FreqShift(input: Signal, freq: Signal, phase: Signal): Signal {
-    return makeUgen('FreqShift', 1, rateAr, 0, [input, freq, phase]);
-}
-// Fast sine oscillator.
-export function FSinOsc(freq: Signal, iphase: Signal): Signal {
-    return makeUgen('FSinOsc', 1, rateAr, 0, [freq, iphase]);
-}
 // A reverb
 export function FreeVerb(input: Signal, mix: Signal, room: Signal, damp: Signal): Signal {
     return makeUgen('FreeVerb', 1, [0], 0, [input, mix, room, damp]);
@@ -310,6 +317,14 @@ export function FreeVerb(input: Signal, mix: Signal, room: Signal, damp: Signal)
 // A two-channel reverb
 export function FreeVerb2(input: Signal, in2: Signal, mix: Signal, room: Signal, damp: Signal): Signal {
     return makeUgen('FreeVerb2', 2, [0], 0, [input, in2, mix, room, damp]);
+}
+// Frequency Shifter.
+export function FreqShift(input: Signal, freq: Signal, phase: Signal): Signal {
+    return makeUgen('FreqShift', 1, rateAr, 0, [input, freq, phase]);
+}
+// Fast sine oscillator.
+export function FSinOsc(freq: Signal, iphase: Signal): Signal {
+    return makeUgen('FSinOsc', 1, rateAr, 0, [freq, iphase]);
 }
 // Gate or hold.
 export function Gate(input: Signal, trig: Signal): Signal {
@@ -395,18 +410,24 @@ export function InFeedback(numChan: number, bus: Signal): Signal {
 export function InRange(input: Signal, lo: Signal, hi: Signal): Signal {
     return makeUgen('InRange', 1, [0], 0, [input, lo, hi]);
 }
-// Single integer random number generator.
-export function IRand(lo: Signal, hi: Signal): Signal {
-    return makeUgen('IRand', 1, rateIr, 0, [lo, hi]);
-}
 // A leaky integrator.
 export function Integrator(input: Signal, coef: Signal): Signal {
     return makeUgen('Integrator', 1, [0], 0, [input, coef]);
+}
+// Single integer random number generator.
+export function IRand(lo: Signal, hi: Signal): Signal {
+    return makeUgen('IRand', 1, rateIr, 0, [lo, hi]);
 }
 // Control to audio rate converter.
 export function K2A(input: Signal): Signal {
     return makeUgen('K2A', 1, rateAr, 0, [input]);
 }
+/*
+// Respond to the state of a key
+export function KeyState(keycode: Signal, minval: Signal, maxval: Signal, lag: Signal): Signal {
+    return makeUgen('KeyState', 1, rateKr, 0, [keycode, minval, maxval, lag]);
+}
+*/
 // Sine oscillator bank
 export function Klang(freqscale: Signal, freqoffset: Signal, specificationsArrayRef: Signal): Signal {
     return makeUgen('Klang', 1, rateAr, 0, arrayConcat([freqscale, freqoffset], (asArray(specificationsArrayRef))));
@@ -415,9 +436,37 @@ export function Klang(freqscale: Signal, freqoffset: Signal, specificationsArray
 export function Klank(input: Signal, freqscale: Signal, freqoffset: Signal, decayscale: Signal, specificationsArrayRef: Signal): Signal {
     return makeUgen('Klank', 1, [0], 0, arrayConcat([input, freqscale, freqoffset, decayscale], (asArray(specificationsArrayRef))));
 }
-// random walk linear interp
-export function LfBrownNoise1(freq: Signal, dev: Signal, dist: Signal): Signal {
-    return makeUgen('LFBrownNoise1', 1, rateAr, 0, [freq, dev, dist]);
+// Exponential lag
+export function Lag(input: Signal, lagTime: Signal): Signal {
+    return makeUgen('Lag', 1, [0], 0, [input, lagTime]);
+}
+// Exponential lag
+export function Lag2(input: Signal, lagTime: Signal): Signal {
+    return makeUgen('Lag2', 1, [0], 0, [input, lagTime]);
+}
+// Exponential lag
+export function Lag3(input: Signal, lagTime: Signal): Signal {
+    return makeUgen('Lag3', 1, [0], 0, [input, lagTime]);
+}
+// Exponential lag
+export function Lag3Ud(input: Signal, lagTimeU: Signal, lagTimeD: Signal): Signal {
+    return makeUgen('Lag3UD', 1, [0], 0, [input, lagTimeU, lagTimeD]);
+}
+// Exponential lag
+export function LagUd(input: Signal, lagTimeU: Signal, lagTimeD: Signal): Signal {
+    return makeUgen('LagUD', 1, [0], 0, [input, lagTimeU, lagTimeD]);
+}
+// Sample and hold
+export function Latch(input: Signal, trig: Signal): Signal {
+    return makeUgen('Latch', 1, [0], 0, [input, trig]);
+}
+// Latoocarfian chaotic generator
+export function LatoocarfianC(freq: Signal, a: Signal, b: Signal, c: Signal, d: Signal, xi: Signal, yi: Signal): Signal {
+    return makeUgen('LatoocarfianC', 1, rateAr, 0, [freq, a, b, c, d, xi, yi]);
+}
+// Remove DC
+export function LeakDc(input: Signal, coef: Signal): Signal {
+    return makeUgen('LeakDC', 1, [0], 0, [input, coef]);
 }
 // Clipped noise
 export function LfClipNoise(freq: Signal): Signal {
@@ -466,42 +515,6 @@ export function LfSaw(freq: Signal, iphase: Signal): Signal {
 // Triangle oscillator
 export function LfTri(freq: Signal, iphase: Signal): Signal {
     return makeUgen('LFTri', 1, rateAr, 0, [freq, iphase]);
-}
-// 2nd order Butterworth lowpass filter
-export function Lpf(input: Signal, freq: Signal): Signal {
-    return makeUgen('LPF', 1, [0], 0, [input, freq]);
-}
-// Exponential lag
-export function Lag(input: Signal, lagTime: Signal): Signal {
-    return makeUgen('Lag', 1, [0], 0, [input, lagTime]);
-}
-// Exponential lag
-export function LagUd(input: Signal, lagTimeU: Signal, lagTimeD: Signal): Signal {
-    return makeUgen('LagUD', 1, [0], 0, [input, lagTimeU, lagTimeD]);
-}
-// Exponential lag
-export function Lag2(input: Signal, lagTime: Signal): Signal {
-    return makeUgen('Lag2', 1, [0], 0, [input, lagTime]);
-}
-// Exponential lag
-export function Lag3(input: Signal, lagTime: Signal): Signal {
-    return makeUgen('Lag3', 1, [0], 0, [input, lagTime]);
-}
-// Exponential lag
-export function Lag3Ud(input: Signal, lagTimeU: Signal, lagTimeD: Signal): Signal {
-    return makeUgen('Lag3UD', 1, [0], 0, [input, lagTimeU, lagTimeD]);
-}
-// Sample and hold
-export function Latch(input: Signal, trig: Signal): Signal {
-    return makeUgen('Latch', 1, [0], 0, [input, trig]);
-}
-// Latoocarfian chaotic generator
-export function LatoocarfianC(freq: Signal, a: Signal, b: Signal, c: Signal, d: Signal, xi: Signal, yi: Signal): Signal {
-    return makeUgen('LatoocarfianC', 1, rateAr, 0, [freq, a, b, c, d, xi, yi]);
-}
-// Remove DC
-export function LeakDc(input: Signal, coef: Signal): Signal {
-    return makeUgen('LeakDC', 1, [0], 0, [input, coef]);
 }
 // Peak limiter
 export function Limiter(input: Signal, level: Signal, dur: Signal): Signal {
@@ -555,6 +568,10 @@ export function Logistic(chaosParam: Signal, freq: Signal, init: Signal): Signal
 export function LorenzL(freq: Signal, s: Signal, r: Signal, b: Signal, h: Signal, xi: Signal, yi: Signal, zi: Signal): Signal {
     return makeUgen('LorenzL', 1, rateAr, 0, [freq, s, r, b, h, xi, yi, zi]);
 }
+// 2nd order Butterworth lowpass filter
+export function Lpf(input: Signal, freq: Signal): Signal {
+    return makeUgen('LPF', 1, [0], 0, [input, freq]);
+}
 // Two point average filter
 export function Lpz1(input: Signal): Signal {
     return makeUgen('LPZ1', 1, [0], 0, [input]);
@@ -587,6 +604,24 @@ export function ModDif(x: Signal, y: Signal, mod: Signal): Signal {
 export function MoogFf(input: Signal, freq: Signal, gain: Signal, reset: Signal): Signal {
     return makeUgen('MoogFF', 1, [0], 0, [input, freq, gain, reset]);
 }
+/*
+
+c.f. bindings-ui.ts
+
+// Mouse button UGen.
+export function MouseButton(minval: Signal, maxval: Signal, lag: Signal): Signal {
+    return makeUgen('MouseButton', 1, rateKr, 0, [minval, maxval, lag]);
+}
+// Cursor tracking UGen.
+export function MouseX(minval: Signal, maxval: Signal, warp: Signal, lag: Signal): Signal {
+    return makeUgen('MouseX', 1, rateKr, 0, [minval, maxval, warp, lag]);
+}
+// Cursor tracking UGen.
+export function MouseY(minval: Signal, maxval: Signal, warp: Signal, lag: Signal): Signal {
+    return makeUgen('MouseY', 1, rateKr, 0, [minval, maxval, warp, lag]);
+}
+
+*/
 // Multiply add
 export function MulAdd(input: Signal, mul: Signal, add: Signal): Signal {
     return makeUgen('MulAdd', 1, [0, 1, 2], 0, [input, mul, add]);
@@ -635,10 +670,6 @@ export function PanB(input: Signal, azimuth: Signal, elevation: Signal, gain: Si
 export function PeakFollower(input: Signal, decay: Signal): Signal {
     return makeUgen('PeakFollower', 1, [0], 0, [input, decay]);
 }
-// 3D Perlin Noise
-export function Perlin3(x: Signal, y: Signal, z: Signal): Signal {
-    return makeUgen('Perlin3', 1, rateAr, 0, [x, y, z]);
-}
 // A resettable linear ramp between two levels.
 export function Phasor(trig: Signal, rate: Signal, start: Signal, end: Signal, resetPos: Signal): Signal {
     return makeUgen('Phasor', 1, rateAr, 0, [trig, rate, start, end, resetPos]);
@@ -684,20 +715,12 @@ export function PvRandComb(buffer: Signal, wipe: Signal, trig: Signal): Signal {
     return makeUgen('PV_RandComb', 1, rateKr, 0, [buffer, wipe, trig]);
 }
 // General quadratic map chaotic generator
-export function QuadL(freq: Signal, a: Signal, b: Signal, c: Signal, xi: Signal): Signal {
-    return makeUgen('QuadL', 1, rateAr, 0, [freq, a, b, c, xi]);
-}
-// General quadratic map chaotic generator
 export function QuadC(freq: Signal, a: Signal, b: Signal, c: Signal, xi: Signal): Signal {
     return makeUgen('QuadC', 1, rateAr, 0, [freq, a, b, c, xi]);
 }
-// A resonant high pass filter.
-export function Rhpf(input: Signal, freq: Signal, rq: Signal): Signal {
-    return makeUgen('RHPF', 1, [0], 0, [input, freq, rq]);
-}
-// A resonant low pass filter.
-export function Rlpf(input: Signal, freq: Signal, rq: Signal): Signal {
-    return makeUgen('RLPF', 1, [0], 0, [input, freq, rq]);
+// General quadratic map chaotic generator
+export function QuadL(freq: Signal, a: Signal, b: Signal, c: Signal, xi: Signal): Signal {
+    return makeUgen('QuadL', 1, rateAr, 0, [freq, a, b, c, xi]);
 }
 // Single random number generator.
 export function Rand(lo: Signal, hi: Signal): Signal {
@@ -715,9 +738,21 @@ export function ReplaceOut(bus: Signal, channelsArray: Signal): Signal {
 export function Resonz(input: Signal, freq: Signal, bwr: Signal): Signal {
     return makeUgen('Resonz', 1, [0], 0, [input, freq, bwr]);
 }
+// A resonant high pass filter.
+export function Rhpf(input: Signal, freq: Signal, rq: Signal): Signal {
+    return makeUgen('RHPF', 1, [0], 0, [input, freq, rq]);
+}
 // Ringing filter.
 export function Ringz(input: Signal, freq: Signal, decaytime: Signal): Signal {
     return makeUgen('Ringz', 1, [0], 0, [input, freq, decaytime]);
+}
+// A resonant low pass filter.
+export function Rlpf(input: Signal, freq: Signal, rq: Signal): Signal {
+    return makeUgen('RLPF', 1, [0], 0, [input, freq, rq]);
+}
+// Rotate a sound field.
+export function Rotate2(x: Signal, y: Signal, pos: Signal): Signal {
+    return makeUgen('Rotate2', 2, [0, 1], 0, [x, y, pos]);
 }
 // Track maximum level.
 export function RunningMax(input: Signal, trig: Signal): Signal {
@@ -726,10 +761,6 @@ export function RunningMax(input: Signal, trig: Signal): Signal {
 // Running sum over n frames
 export function RunningSum(input: Signal, numsamp: Signal): Signal {
     return makeUgen('RunningSum', 1, [0], 0, [input, numsamp]);
-}
-// Rotate a sound field.
-export function Rotate2(x: Signal, y: Signal, pos: Signal): Signal {
-    return makeUgen('Rotate2', 2, [0, 1], 0, [x, y, pos]);
 }
 // Duration of one sample.
 export function SampleDur(): Signal {
@@ -766,10 +797,6 @@ export function SetResetFf(trig: Signal, reset: Signal): Signal {
 // Interpolating sine wavetable oscillator.
 export function SinOsc(freq: Signal, phase: Signal): Signal {
     return makeUgen('SinOsc', 1, rateAr, 0, [freq, phase]);
-}
-// Granular synthesis with sinusoidal grains
-export function SinGrain(trigger: Signal, dur: Signal, freq: Signal): Signal {
-    return makeUgen('SinGrain', 1, rateAr, 0, [trigger, dur, freq]);
 }
 // Feedback FM oscillator
 export function SinOscFb(freq: Signal, feedback: Signal): Signal {
@@ -863,10 +890,6 @@ export function TwoZero(input: Signal, freq: Signal, radius: Signal): Signal {
 export function VarSaw(freq: Signal, iphase: Signal, width: Signal): Signal {
     return makeUgen('VarSaw', 1, rateAr, 0, [freq, iphase, width]);
 }
-// artifical reverberator
-export function VbJonVerb(input: Signal, decay: Signal, damping: Signal, inputbw: Signal, erfl: Signal, tail: Signal): Signal {
-    return makeUgen('VBJonVerb', 2, [0], 0, [input, decay, damping, inputbw, erfl, tail]);
-}
 // The Vibrato oscillator models a slow frequency modulation.
 export function Vibrato(freq: Signal, rate: Signal, depth: Signal, delay: Signal, onset: Signal, rateVariation: Signal, depthVariation: Signal, iphase: Signal, trig: Signal): Signal {
     return makeUgen('Vibrato', 1, rateAr, 0, [freq, rate, depth, delay, onset, rateVariation, depthVariation, iphase, trig]);
@@ -874,10 +897,6 @@ export function Vibrato(freq: Signal, rate: Signal, depth: Signal, delay: Signal
 // Warp a buffer with a time pointer
 export function Warp1(numChan: number, bufnum: Signal, pointer: Signal, freqScale: Signal, windowSize: Signal, envbufnum: Signal, overlaps: Signal, windowRandRatio: Signal, interp: Signal): Signal {
     return makeUgen('Warp1', numChan, rateAr, 0, [bufnum, pointer, freqScale, windowSize, envbufnum, overlaps, windowRandRatio, interp]);
-}
-// Lose bits of your waves
-export function WaveLoss(input: Signal, drop: Signal, outof: Signal, mode: Signal): Signal {
-    return makeUgen('WaveLoss', 1, rateAr, 0, [input, drop, outof, mode]);
 }
 // White noise.
 export function WhiteNoise(): Signal {
@@ -903,29 +922,69 @@ export function XLine(start: Signal, end: Signal, dur: Signal, doneAction: Signa
 export function ZeroCrossing(input: Signal): Signal {
     return makeUgen('ZeroCrossing', 1, [0], 0, [input]);
 }
-// Moog Filter Emulation
-export function MoogLadder(input: Signal, ffreq: Signal, res: Signal): Signal {
-    return makeUgen('MoogLadder', 1, [0], 0, [input, ffreq, res]);
+// (Undocumented class)
+export function AnalogFoldOsc(freq: Signal, amp: Signal): Signal {
+    return makeUgen('AnalogFoldOsc', 1, rateAr, 0, [freq, amp]);
 }
-// algorithmic delay
-export function GreyholeRaw(in1: Signal, in2: Signal, damping: Signal, delaytime: Signal, diffusion: Signal, feedback: Signal, moddepth: Signal, modfreq: Signal, size: Signal): Signal {
-    return makeUgen('GreyholeRaw', 2, [0, 1], 0, [in1, in2, damping, delaytime, diffusion, feedback, moddepth, modfreq, size]);
+// (Undocumented class)
+export function Bezier(haltAfter: Signal, dx: Signal, freq: Signal, phase: Signal, param: Signal): Signal {
+    return makeUgen('Bezier', 1, rateAr, 0, arrayConcat([haltAfter, dx, freq, phase], (asArray(param))));
 }
 // class B/AB power amp distortion simulation
 export function CrossoverDistortion(input: Signal, amp: Signal, smooth: Signal): Signal {
     return makeUgen('CrossoverDistortion', 1, [0], 0, [input, amp, smooth]);
 }
+// Digitally modelled analog filter
+export function Dfm1(input: Signal, freq: Signal, res: Signal, inputgain: Signal, type: Signal, noiselevel: Signal): Signal {
+    return makeUgen('DFM1', 1, [0], 0, [input, freq, res, inputgain, type, noiselevel]);
+}
+// (Undocumented class)
+export function DustRange(iotMin: Signal, iotMax: Signal): Signal {
+    return makeUgen('DustRange', 1, rateAr, 0, [iotMin, iotMax]);
+}
+// Plucked physical model.
+export function DwgPluckedStiff(freq: Signal, amp: Signal, gate: Signal, pos: Signal, c1: Signal, c3: Signal, inp: Signal, release: Signal, fB: Signal): Signal {
+    return makeUgen('DWGPluckedStiff', 1, rateAr, 0, [freq, amp, gate, pos, c1, c3, inp, release, fB]);
+}
+// (Undocumented class)
+export function Dx7(bufnum: Signal, on: Signal, off: Signal, data: Signal, vc: Signal, mnn: Signal, vel: Signal, pw: Signal, mw: Signal, bc: Signal, fc: Signal): Signal {
+    return makeUgen('Dx7', 1, rateAr, 0, [bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc]);
+}
+// (Undocumented class)
+export function Dx7Env(gate: Signal, data: Signal, r1: Signal, r2: Signal, r3: Signal, r4: Signal, l1: Signal, l2: Signal, l3: Signal, l4: Signal, ol: Signal): Signal {
+    return makeUgen('Dx7Env', 1, rateAr, 0, [gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol]);
+}
+// (Undocumented class)
+export function ExpRandN(numChan: number, lo: Signal, hi: Signal): Signal {
+    return makeUgen('ExpRandN', numChan, rateIr, 0, [lo, hi]);
+}
+// Phase modulation oscillator matrix.
+export function Fm7(ctlMatrix: Signal, modMatrix: Signal): Signal {
+    return makeUgen('FM7', 6, rateAr, 0, arrayConcat([], (asArray(ctlMatrix), asArray(modMatrix))));
+}
+// (Undocumented class)
+export function Freezer(bufnum: Signal, left: Signal, right: Signal, gain: Signal, increment: Signal, incrementOffset: Signal, incrementRandom: Signal, rightRandom: Signal, syncPhaseTrigger: Signal, randomizePhaseTrigger: Signal, numberOfLoops: Signal): Signal {
+    return makeUgen('Freezer', 1, rateAr, 0, [bufnum, left, right, gain, increment, incrementOffset, incrementRandom, rightRandom, syncPhaseTrigger, randomizePhaseTrigger, numberOfLoops]);
+}
 // A physical model of a system with dry-friction. A chaotic filter.
 export function Friction(input: Signal, friction: Signal, spring: Signal, damp: Signal, mass: Signal, beltmass: Signal): Signal {
     return makeUgen('Friction', 1, rateAr, 0, [input, friction, spring, damp, mass, beltmass]);
 }
+// algorithmic delay
+export function GreyholeRaw(in1: Signal, in2: Signal, damping: Signal, delaytime: Signal, diffusion: Signal, feedback: Signal, moddepth: Signal, modfreq: Signal, size: Signal): Signal {
+    return makeUgen('GreyholeRaw', 2, [0, 1], 0, [in1, in2, damping, delaytime, diffusion, feedback, moddepth, modfreq, size]);
+}
+// random walk linear interp
+export function LfBrownNoise1(freq: Signal, dev: Signal, dist: Signal): Signal {
+    return makeUgen('LFBrownNoise1', 1, rateAr, 0, [freq, dev, dist]);
+}
+// (Undocumented class)
+export function LinRandN(numChan: number, lo: Signal, hi: Signal, minmax: Signal): Signal {
+    return makeUgen('LinRandN', numChan, rateIr, 0, [lo, hi, minmax]);
+}
 // Waveguide mesh physical models of drum membranes
 export function MembraneCircle(excitation: Signal, tension: Signal, loss: Signal): Signal {
     return makeUgen('MembraneCircle', 1, rateAr, 0, [excitation, tension, loss]);
-}
-// vosim pulse generator
-export function Vosim(trig: Signal, freq: Signal, nCycles: Signal, decay: Signal): Signal {
-    return makeUgen('VOSIM', 1, rateAr, 0, [trig, freq, nCycles, decay]);
 }
 // a macro oscillator
 export function MiBraids(pitch: Signal, timbre: Signal, color: Signal, model: Signal, trig: Signal, resamp: Signal, decim: Signal, bits: Signal, ws: Signal): Signal {
@@ -939,9 +998,21 @@ export function MiClouds(pit: Signal, pos: Signal, size: Signal, dens: Signal, t
 export function MiRings(input: Signal, trig: Signal, pit: Signal, struct: Signal, bright: Signal, damp: Signal, pos: Signal, model: Signal, poly: Signal, intern_exciter: Signal, easteregg: Signal, bypass: Signal): Signal {
     return makeUgen('MiRings', 2, rateAr, 0, [input, trig, pit, struct, bright, damp, pos, model, poly, intern_exciter, easteregg, bypass]);
 }
+// Moog Filter Emulation
+export function MoogLadder(input: Signal, ffreq: Signal, res: Signal): Signal {
+    return makeUgen('MoogLadder', 1, [0], 0, [input, ffreq, res]);
+}
 // (Undocumented class)
-export function AnalogFoldOsc(freq: Signal, amp: Signal): Signal {
-    return makeUgen('AnalogFoldOsc', 1, rateAr, 0, [freq, amp]);
+export function ObxdFilter(input: Signal, cutoff: Signal, resonance: Signal, multimode: Signal, bandpass: Signal, fourpole: Signal): Signal {
+    return makeUgen('ObxdFilter', 1, [0], 0, [input, cutoff, resonance, multimode, bandpass, fourpole]);
+}
+// 3D Perlin Noise
+export function Perlin3(x: Signal, y: Signal, z: Signal): Signal {
+    return makeUgen('Perlin3', 1, rateAr, 0, [x, y, z]);
+}
+// (Undocumented class)
+export function RandN(numChan: number, lo: Signal, hi: Signal): Signal {
+    return makeUgen('RandN', numChan, rateIr, 0, [lo, hi]);
 }
 // rotating clock divider
 export function Rcd(clock: Signal, rotate: Signal, reset: Signal, div: Signal, spread: Signal, auto: Signal, len: Signal, down: Signal, gates: Signal): Signal {
@@ -951,41 +1022,9 @@ export function Rcd(clock: Signal, rotate: Signal, reset: Signal, div: Signal, s
 export function Scm(clock: Signal, bpm: Signal, rotate: Signal, slip: Signal, shuffle: Signal, skip: Signal, pw: Signal): Signal {
     return makeUgen('SCM', 8, rateAr, 0, [clock, bpm, rotate, slip, shuffle, skip, pw]);
 }
-// (Undocumented class)
-export function DustRange(iotMin: Signal, iotMax: Signal): Signal {
-    return makeUgen('DustRange', 1, rateAr, 0, [iotMin, iotMax]);
-}
-// (Undocumented class)
-export function ExpRandN(numChan: number, lo: Signal, hi: Signal): Signal {
-    return makeUgen('ExpRandN', numChan, rateIr, 0, [lo, hi]);
-}
-// (Undocumented class)
-export function LinRandN(numChan: number, lo: Signal, hi: Signal, minmax: Signal): Signal {
-    return makeUgen('LinRandN', numChan, rateIr, 0, [lo, hi, minmax]);
-}
-// (Undocumented class)
-export function RandN(numChan: number, lo: Signal, hi: Signal): Signal {
-    return makeUgen('RandN', numChan, rateIr, 0, [lo, hi]);
-}
-// (Undocumented class)
-export function TLinRand(lo: Signal, hi: Signal, minmax: Signal, trigger: Signal): Signal {
-    return makeUgen('TLinRand', 1, rateKr, 0, [lo, hi, minmax, trigger]);
-}
-// (Undocumented class)
-export function TScramble(trigger: Signal, inputs: Signal): Signal {
-    return makeUgen('TScramble', arrayLength(asArray(inputs)), [0], 0, arrayConcat([trigger], (asArray(inputs))));
-}
-// (Undocumented class)
-export function Dx7(bufnum: Signal, on: Signal, off: Signal, data: Signal, vc: Signal, mnn: Signal, vel: Signal, pw: Signal, mw: Signal, bc: Signal, fc: Signal): Signal {
-    return makeUgen('Dx7', 1, rateAr, 0, [bufnum, on, off, data, vc, mnn, vel, pw, mw, bc, fc]);
-}
-// (Undocumented class)
-export function Dx7Env(gate: Signal, data: Signal, r1: Signal, r2: Signal, r3: Signal, r4: Signal, l1: Signal, l2: Signal, l3: Signal, l4: Signal, ol: Signal): Signal {
-    return makeUgen('Dx7Env', 1, rateAr, 0, [gate, data, r1, r2, r3, r4, l1, l2, l3, l4, ol]);
-}
-// (Undocumented class)
-export function ObxdFilter(input: Signal, cutoff: Signal, resonance: Signal, multimode: Signal, bandpass: Signal, fourpole: Signal): Signal {
-    return makeUgen('ObxdFilter', 1, [0], 0, [input, cutoff, resonance, multimode, bandpass, fourpole]);
+// Granular synthesis with sinusoidal grains
+export function SinGrain(trigger: Signal, dur: Signal, freq: Signal): Signal {
+    return makeUgen('SinGrain', 1, rateAr, 0, [trigger, dur, freq]);
 }
 // (Undocumented class)
 export function SvfBp(input: Signal, freq: Signal, q: Signal): Signal {
@@ -1000,16 +1039,24 @@ export function SvfLp(input: Signal, freq: Signal, q: Signal): Signal {
     return makeUgen('SvfLp', 1, rateAr, 0, [input, freq, q]);
 }
 // (Undocumented class)
-export function Bezier(haltAfter: Signal, dx: Signal, freq: Signal, phase: Signal, param: Signal): Signal {
-    return makeUgen('Bezier', 1, rateAr, 0, arrayConcat([haltAfter, dx, freq, phase], (asArray(param))));
+export function TLinRand(lo: Signal, hi: Signal, minmax: Signal, trigger: Signal): Signal {
+    return makeUgen('TLinRand', 1, rateKr, 0, [lo, hi, minmax, trigger]);
 }
 // (Undocumented class)
-export function Freezer(bufnum: Signal, left: Signal, right: Signal, gain: Signal, increment: Signal, incrementOffset: Signal, incrementRandom: Signal, rightRandom: Signal, syncPhaseTrigger: Signal, randomizePhaseTrigger: Signal, numberOfLoops: Signal): Signal {
-    return makeUgen('Freezer', 1, rateAr, 0, [bufnum, left, right, gain, increment, incrementOffset, incrementRandom, rightRandom, syncPhaseTrigger, randomizePhaseTrigger, numberOfLoops]);
+export function TScramble(trigger: Signal, inputs: Signal): Signal {
+    return makeUgen('TScramble', arrayLength(asArray(inputs)), [0], 0, arrayConcat([trigger], (asArray(inputs))));
 }
-// Fm7
-export function Fm7(ctlMatrix: Signal[], modMatrix: Signal[]): Signal {
-    return makeUgen('FM7', 6, rateAr, 0, [ctlMatrix, modMatrix].flat(2));
+// artifical reverberator
+export function VbJonVerb(input: Signal, decay: Signal, damping: Signal, inputbw: Signal, erfl: Signal, tail: Signal): Signal {
+    return makeUgen('VBJonVerb', 2, [0], 0, [input, decay, damping, inputbw, erfl, tail]);
+}
+// vosim pulse generator
+export function Vosim(trig: Signal, freq: Signal, nCycles: Signal, decay: Signal): Signal {
+    return makeUgen('VOSIM', 1, rateAr, 0, [trig, freq, nCycles, decay]);
+}
+// Lose bits of your waves
+export function WaveLoss(input: Signal, drop: Signal, outof: Signal, mode: Signal): Signal {
+    return makeUgen('WaveLoss', 1, rateAr, 0, [input, drop, outof, mode]);
 }
 
 export function Add(a: Signal, b: Signal): Signal { return BinaryOp(0, a, b); }
@@ -1116,3 +1163,4 @@ export function WelchWindow(a: Signal): Signal { return UnaryOp(50, a); }
 export function TriWindow(a: Signal): Signal { return UnaryOp(51, a); }
 export function Ramp_(a: Signal): Signal { return UnaryOp(52, a); }
 export function Scurve(a: Signal): Signal { return UnaryOp(53, a); }
+

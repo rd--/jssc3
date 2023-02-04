@@ -4,7 +4,7 @@ import { throwError } from '../kernel/error.ts'
 import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 import { Forest, treeShape } from '../stdlib/tree.ts'
 
-import { BHiPass, BLowPass, BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Dc, Demand, Dseq, Dseries, Drand, Dshuf, Duty, Dwhite, Dxrand, EnvGen, FirstArg, Hpz1, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
+import { BHiPass, BLowPass, BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Dc, Demand, Duty, EnvGen, FirstArg, Hpz1, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
 import { Env, EnvCurveSeq, EnvAdsr, EnvAsr, EnvCutoff, EnvPerc, EnvRelease, EnvSine, envCoord } from './envelope.ts'
 import { Signal, isOutputSignal, isOutUgen, kr, mrg, signalSize } from './ugen.ts'
 
@@ -87,17 +87,6 @@ export function DmdFor(dur: Signal, reset: Signal, level: Signal): Signal {
 export function TDmdFor(dur: Signal, reset: Signal, level: Signal): Signal {
 	return TDuty(dur, reset, 0, level, 0);
 }
-
-export function DmdOn(trig: Signal, reset: Signal, demandUgens: Signal): Signal {
-	return Demand(trig, reset, demandUgens);
-}
-
-export const Lrand = Drand;
-export const Lseq = Dseq;
-export const Lseries = Dseries;
-export const Lshuf = Dshuf;
-export const Lwhite = Dwhite;
-export const Lxrand = Dxrand;
 
 export function Ln(start: Signal, end: Signal, dur: Signal): Signal {
 		return Line(start, end, dur, 0);
