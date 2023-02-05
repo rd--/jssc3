@@ -17,9 +17,9 @@ export const state = { autoPlay: false, oracleFiles: null };
 
 function clear() {
 	if(sl.slOptions.simpleArityModel) {
-		_clear(_system.get('clock'));
+		_clear(_workspace.get('clock'));
 	} else {
-		_clear_1(_system.get('clock'));
+		_clear_1(_workspace.get('clock'));
 	}
 }
 
