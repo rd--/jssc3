@@ -4,21 +4,23 @@ import * as sc from '../dist/jssc3.js'
 import * as sl from '../lib/spl/dist/sl.js'
 
 export function evalRegion() {
-		eval(sl.rewriteString(sc.get_selected_text_or_contents_of('programText')));
+	const answer = eval(sl.rewriteString(sc.get_selected_text_or_contents_of('programText')));
+	console.log(answer);
+	return answer;
 }
 
 export function playRegion() {
-		eval(sl.rewriteString(`{ ${sc.get_selected_text_or_contents_of('programText')} }.play`));
+	eval(sl.rewriteString(`{ ${sc.get_selected_text_or_contents_of('programText')} }.play`));
 }
 
 export const state = { autoPlay: false, oracleFiles: null };
 
 function clear() {
-		if(sl.slOptions.simpleArityModel) {
-			_clear(_system.get('clock'));
-		} else {
-			_clear_1(_system.get('clock'));
-		}
+	if(sl.slOptions.simpleArityModel) {
+		_clear(_system.get('clock'));
+	} else {
+		_clear_1(_system.get('clock'));
+	}
 }
 
 export function insertText(label, text) {

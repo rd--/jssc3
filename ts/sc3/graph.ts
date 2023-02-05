@@ -6,8 +6,8 @@ import { setIncludes, setNew, setAdd, setAsArray } from '../kernel/set.ts'
 import { Tree } from '../stdlib/tree.ts'
 import { flattenByteEncoding } from '../stdlib/u8.ts'
 
-import { rateIr } from './rate.ts'
-import { UgenInput, Ugen, ScUgen, Signal, scUgenCompare, isUgen, isScUgen } from './ugen.ts'
+import { rateIr, rateKr } from './rate.ts'
+import { LocalControl, UgenInput, Ugen, ScUgen, Signal, scUgenCompare, isUgen, isLocalControl, localControlCompare, isScUgen } from './ugen.ts'
 
 // traverse graph from p adding leaf nodes to the set c
 // w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
@@ -29,60 +29,86 @@ export function ugenTraverseCollecting(p: Tree<Ugen>, c: Set<number | ScUgen>, w
 	}
 }
 
-export function ugenGraphLeafNodes(p: Tree<Ugen>): Array<number | ScUgen> {
-	// console.debug(`ugenGraphLeafNodes: ${p}`);
+export function ugenTreeLeafNodes(p: Tree<Ugen>): Array<number | ScUgen> {
+	// console.debug(`ugenTreeLeafNodes: ${p}`);
 	const c = <Set<number | ScUgen>>setNew();
 	ugenTraverseCollecting(p, c, setNew());
 	return setAsArray(c);
 }
 
-export class Graph {
+export class UgenGraph {
 	name: string;
-	ugenSeq: ScUgen[];
-	constantSeq: number[];
-	constructor(name: string, ugenSeq: ScUgen[], constantSeq: number[]) {
+	ugenArray: ScUgen[];
+	constantArray: number[];
+	controlArray: LocalControl[];
+	constructor(name: string, ugenArray: ScUgen[], constantArray: number[], controlArray: LocalControl[]) {
 		this.name = name;
-		this.ugenSeq = ugenSeq;
-		this.constantSeq = constantSeq;
+		this.ugenArray = ugenArray;
+		this.constantArray = constantArray;
+		this.controlArray = controlArray;
 	}
 }
 
+export function isScUgenControl(scUgen: ScUgen): boolean {
+	return ['Control', 'LagControl', 'TrigControl'].includes(scUgen.name);
+}
+
 // This should check that signal is not a tree of numbers...
-export function signalToUgenGraph(signal: Signal): Tree<Ugen> {
-	// console.debug(`signalToUgenGraph: ${signal}`);
+export function signalToUgenTree(signal: Signal): Tree<Ugen> {
+	// console.debug(`signalToUgenTree: ${signal}`);
 	return <Tree<Ugen>>signal;
 }
 
-// ugens are sorted by id, which is in applicative order. a maxlocalbufs ugen is always present.
-export function makeGraph(name: string, signal: Signal): Graph {
-	// console.debug(`makeGraph: ${name}, ${signal}`);
-	const graph = signalToUgenGraph(signal);
-	const leafNodes = ugenGraphLeafNodes(graph);
+// ugens are sorted by id, which is in applicative order.
+export function makeUgenGraph(name: string, signal: Signal): UgenGraph {
+	// console.debug(`makeUgenGraph: ${name}, ${signal}`);
+	const tree = signalToUgenTree(signal);
+	const leafNodes = ugenTreeLeafNodes(tree);
 	const constantNodes = <number[]>arrayFilter(leafNodes, isNumber);
-	const ugenNodes = <ScUgen[]>arrayFilter(leafNodes, isScUgen);
-	const ugenSeq = arraySort(ugenNodes, scUgenCompare);
-	const numLocalBufs = arrayLength(arrayFilter(ugenSeq, item => item.name === 'LocalBuf'));
+	const controlUgenNodes = <ScUgen[]>arrayFilter(leafNodes, item => isScUgen(item) && item.localControl !== null);
+	const controlNodes = <LocalControl[]>arrayMap(item => item.localControl, controlUgenNodes);
+	const controlArray = arraySort(controlNodes, localControlCompare);
+	const ugenNodes = <ScUgen[]>arrayFilter(leafNodes, item => isScUgen(item) && item.localControl === null);
+	const ugenArray = arraySort(ugenNodes, scUgenCompare);
+	const numLocalBufs = arrayLength(arrayFilter(ugenArray, item => item.name === 'LocalBuf'));
 	const MaxLocalBufs = function(count: number): ScUgen {
 		return new ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
 	};
-	return new Graph(
+	const numControls = controlArray.length;
+	const Control = function(count: number): ScUgen {
+		// The special-index holds the accumulated offset where multiple Control Ugens (at different rates) are present.
+		return new ScUgen('Control', controlArray.length, rateKr, 0, []);
+	}
+	if(numLocalBufs > 0) {
+		ugenArray.unshift(MaxLocalBufs(numLocalBufs));
+	}
+	if(numControls > 0) {
+		ugenArray.unshift(Control(numControls));
+	}
+	return new UgenGraph(
 		name,
-		arrayAppend([MaxLocalBufs(numLocalBufs)], ugenSeq),
-		arraySort(arrayNub(arrayAppend([numLocalBufs], constantNodes)), (i, j) => i - j)
+		ugenArray,
+		arraySort(arrayNub(arrayAppend([numLocalBufs], constantNodes)), (i, j) => i - j),
+		controlArray
 	);
 }
 
-export function graphConstantIndex(graph: Graph, constantValue: number): number {
-	return arrayIndexOf(graph.constantSeq, constantValue);
+export function graphConstantIndex(graph: UgenGraph, constantValue: number): number {
+	return arrayIndexOf(graph.constantArray, constantValue);
 }
 
-export function graphUgenIndex(graph: Graph, id: number): number {
-	return arrayFindIndex(graph.ugenSeq, ugen => ugen.id === id);
+export function graphUgenIndex(graph: UgenGraph, id: number): number {
+	return arrayFindIndex(graph.ugenArray, ugen => ugen.id === id);
 }
 
-export function graphUgenInputSpec(graph: Graph, input: UgenInput): number[] {
+export function graphUgenInputSpec(graph: UgenGraph, input: UgenInput): number[] {
 	if(isUgen(input)) {
-		return [graphUgenIndex(graph, input.scUgen.id), input.port];
+		if(isLocalControl(input)) {
+			// Since only kr LocalControls are allowed, if there is such a control the Ugen index is zero.
+			return [0, input.scUgen.localControl!.index];
+		} else {
+			return [graphUgenIndex(graph, input.scUgen.id), input.port];
+		}
 	} else {
 		return [-1, graphConstantIndex(graph, input)];
 	}
@@ -90,7 +116,7 @@ export function graphUgenInputSpec(graph: Graph, input: UgenInput): number[] {
 
 export const SCgf = Number(1396926310);
 
-export function graphEncodeUgenSpec(graph: Graph, ugen: ScUgen): Tree<Uint8Array> {
+export function graphEncodeUgenSpec(graph: UgenGraph, ugen: ScUgen): Tree<Uint8Array> {
 	return [
 		encodePascalString(ugen.name),
 		encodeInt8(ugen.rate),
@@ -102,25 +128,28 @@ export function graphEncodeUgenSpec(graph: Graph, ugen: ScUgen): Tree<Uint8Array
 	];
 }
 
-export function graphEncodeSyndef(graph: Graph): Uint8Array {
+// Encodes version two files.
+export function graphEncodeSyndef(graph: UgenGraph): Uint8Array {
 	return flattenByteEncoding([
 		encodeInt32(SCgf), // magic number
 		encodeInt32(2), // file version
 		encodeInt16(1), // # synth definitions
-		encodePascalString(graph.name), // pstring
-		encodeInt32(arrayLength(graph.constantSeq)),
-		arrayMap(item => encodeFloat32(item), graph.constantSeq),
-		encodeInt32(0), // # param
-		encodeInt32(0), // # param names
-		encodeInt32(arrayLength(graph.ugenSeq)),
-		arrayMap(item => graphEncodeUgenSpec(graph, item), graph.ugenSeq),
+		encodePascalString(graph.name), // name
+		encodeInt32(arrayLength(graph.constantArray)), // # constants
+		arrayMap(item => encodeFloat32(item), graph.constantArray), // constants
+		encodeInt32(arrayLength(graph.controlArray)), // # controls
+		arrayMap(item => encodeFloat32(item.defaultValue), graph.controlArray), // control default values
+		encodeInt32(arrayLength(graph.controlArray)), // # controls
+		arrayMap(item => [encodePascalString(item.name), encodeInt32(item.index)], graph.controlArray), // controls
+		encodeInt32(arrayLength(graph.ugenArray)), // # ugen
+		arrayMap(item => graphEncodeUgenSpec(graph, item), graph.ugenArray), // ugens
 		encodeInt16(0) // # variants
 	]);
 }
 
 export function encodeUgen(name: string, ugen: Signal): Uint8Array {
 	// console.debug(`encodeUgen: ${name}, ${ugen}`);
-	return graphEncodeSyndef(makeGraph(name, ugen));
-	//const graph = makeGraph(name, ugen);
+	return graphEncodeSyndef(makeUgenGraph(name, ugen));
+	//const graph = makeUgenGraph(name, ugen);
 	//return graphEncodeSyndef(graph);
 }

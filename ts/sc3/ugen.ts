@@ -11,6 +11,25 @@ import * as scMath from './math.ts'
 import { binaryOperatorName, unaryOperatorName } from './operators.ts'
 import { rateAr, rateIr, rateKr } from './rate.ts'
 
+export class LocalControl {
+	name: string;
+	index: number;
+	defaultValue: number;
+	operatingRate: number;
+	isTriggered: boolean;
+	constructor(name: string, index: number, defaultValue: number) {
+		this.name = name;
+		this.index = index;
+		this.defaultValue = defaultValue;
+		this.operatingRate = rateKr;
+		this.isTriggered = false;
+	}
+}
+
+export function localControlCompare(i: LocalControl, j: LocalControl): number {
+	return i.index - j.index;
+}
+
 const ugenCounter: Counter = counterNew();
 
 export type UgenInput = number | Ugen;
@@ -25,6 +44,7 @@ export class ScUgen {
 	id: number;
 	inputArray: UgenInput[];
 	mrg: Set<UgenInput>;
+	localControl: null | LocalControl;
 	constructor(name: string, numChan: number, rate: number, specialIndex: number, inputArray: UgenInput[]) {
 		this.name = name;
 		this.numChan = numChan;
@@ -33,7 +53,42 @@ export class ScUgen {
 		this.id = ugenCounter();
 		this.inputArray = inputArray;
 		this.mrg = setNew();
+		this.localControl = null;
 	}
+}
+
+export function localControlInput(name: string, index: number, defaultValue: number): Ugen {
+	const scUgen = new ScUgen('LocalControl', 1, rateKr, 0, []);
+	scUgen.localControl = new LocalControl(name, index, defaultValue);
+	return new Ugen(scUgen, 0);
+}
+
+export type LocalControlDictionary = Record<string, number | number[]>;
+
+// sc.localControls({freq: [440, 441], amp: 0.1})
+export function localControls(dictionary: LocalControlDictionary): Map<string, Signal> {
+	let index = 0;
+	const makeArrayed = function(name: string, defaultArray: number[]) {
+		let qualifier = 1;
+		const controlArray: Signal[] = [];
+		defaultArray.forEach(function(value) {
+			const qualifiedName = `${name}${qualifier}`;
+			controlArray.push(localControlInput(qualifiedName, index, value));
+			index += 1;
+			qualifier +=1 ;
+		});
+		return controlArray;
+	};
+	const answer: [string, Signal][] = [];
+	for (const [name, defaultValue] of Object.entries(dictionary)) {
+		if(Array.isArray(defaultValue)) {
+			answer.push([name, makeArrayed(name, defaultValue)]);
+		} else {
+			answer.push([name, localControlInput(name, index, defaultValue)]);
+			index += 1;
+		}
+	}
+	return new Map(answer);
 }
 
 export function isScUgen(aValue: unknown): aValue is ScUgen {
@@ -58,6 +113,10 @@ export class Ugen {
 		this.scUgen = scUgen;
 		this.port = port;
 	}
+}
+
+export function isLocalControl(aUgen: Ugen): boolean {
+	return aUgen.scUgen.localControl !== null;
 }
 
 export function isUgen(aValue: unknown): aValue is Ugen {

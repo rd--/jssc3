@@ -1,3 +1,5 @@
+export type Rate = number;
+
 export const rateIr = 0;
 export const rateKr = 1;
 export const rateAr = 2;
