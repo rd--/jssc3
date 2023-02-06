@@ -1,7 +1,7 @@
 import { isArray, asArray, arrayAtWrap, arrayFromTo } from '../kernel/array.ts'
 
 import { fetch_soundfile_channels_to_scsynth_buffers } from './buffer.ts'
-import { Scsynth } from './scsynth.ts'
+import { ScSynth } from './scsynth.ts'
 
 export type BufferDictionary = { [key: string]: string };
 export type BufferCache = { [key: string]: number[] };
@@ -20,13 +20,13 @@ export const sc3_buffer: { dict: BufferDictionary, cache: BufferCache, next: num
 
 // Fetch buffer index from cache, allocate and load if required.  Resolve soundFileId against dictionary.
 export function SfAcquire(urlOrKey: string, numberOfChannels: number, channelSelector: number | number[]): number | number[] {
-	if(globalThis.globalScsynth) {
+	if(globalThis.globalScSynth) {
 		const channelIndices = asArray(channelSelector);
 		const soundFileUrl = sc3_buffer.dict[urlOrKey] || urlOrKey;
 		let cacheValue = sc3_buffer.cache[soundFileUrl];
 		if(!cacheValue) {
 			const bufferNumberArray = arrayFromTo(sc3_buffer.next, sc3_buffer.next + numberOfChannels - 1);
-			fetch_soundfile_channels_to_scsynth_buffers(globalThis.globalScsynth, soundFileUrl, bufferNumberArray, channelIndices);
+			fetch_soundfile_channels_to_scsynth_buffers(globalThis.globalScSynth, soundFileUrl, bufferNumberArray, channelIndices);
 			sc3_buffer.cache[soundFileUrl] = bufferNumberArray;
 			sc3_buffer.next += numberOfChannels;
 			cacheValue = bufferNumberArray;

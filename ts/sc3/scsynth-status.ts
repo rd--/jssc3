@@ -1,3 +1,3 @@
-export type ScsynthStatus = {
+export type ScSynthStatus = {
 	ugenCount: number,
 };

@@ -1,6 +1,6 @@
-export type ScsynthWasmModule = Record<string, any>;
+export type ScSynthWasmModule = Record<string, any>;
 
-export function initScsynthWasmModule(Module: ScsynthWasmModule, logFunction: (p: string, q: string) => void, displayFunction: (p: string) => void) {
+export function initScSynthWasmModule(Module: ScSynthWasmModule, logFunction: (p: string, q: string) => void, displayFunction: (p: string) => void) {
 	Module.preRun = [];
 	Module.postRun = [];
 	Module.print = function(text: string): void {

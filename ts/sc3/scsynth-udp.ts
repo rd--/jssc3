@@ -1,25 +1,25 @@
 import { udpSendToAddr } from '../kernel/udp.ts'
 
-import { Scsynth } from './scsynth.ts'
-import { scsynthDefaultOptions } from './scsynth-options.ts'
+import { ScSynth } from './scsynth.ts'
+import { scSynthDefaultOptions } from './scsynth-options.ts'
 import { ServerPacket, encodeServerPacket } from './servercommand.ts'
 
-type ScsynthUdp = Deno.NetAddr;
+type ScSynthUdp = Deno.NetAddr;
 
-export const defaultScsynthUdp: ScsynthUdp = {
+export const defaultScSynthUdp: ScSynthUdp = {
 	transport: "udp",
 	hostname: "127.0.0.1",
 	port: 57110
 };
 
-export function sendOscUdp(scsynthUdp: ScsynthUdp, oscPacket: ServerPacket): void {
+export function sendOscUdp(scsynthUdp: ScSynthUdp, oscPacket: ServerPacket): void {
 	// console.debug(`sendOsc: ${oscPacket}`);
 	udpSendToAddr(scsynthUdp, encodeServerPacket(oscPacket));
 }
 
-export function scsynthUdp(scsynthUdp: ScsynthUdp): Scsynth {
-	const scsynth = new Scsynth(
-		scsynthDefaultOptions,
+export function scsynthUdp(scsynthUdp: ScSynthUdp): ScSynth {
+	const scsynth = new ScSynth(
+		scSynthDefaultOptions,
 		() => console.log(`scsynthUdp: cannot start remote synthesiser`),
 		(oscPacket) => sendOscUdp(scsynthUdp, oscPacket),
 		(aString) => console.log(`scsynthUdp: ${aString}`)

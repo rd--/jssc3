@@ -36,7 +36,7 @@ export function insertText(label, text) {
 	}
 	if(state.autoPlay) {
 		clear();
-		sc.resetScsynth(globalScsynth);
+		sc.resetScSynth(globalScSynth);
 		playRegion();
 	}
 }
@@ -73,7 +73,7 @@ export function keyBindings(event) {
 	if(event.ctrlKey && (event.key === 'Enter' || event.key === ',')) {
 		event.shiftKey ? evalRegion() : playRegion();
 	} else if(event.ctrlKey && event.key === '.') {
-		sc.resetScsynth(globalScsynth);
+		sc.resetScSynth(globalScSynth);
 		clear();
 	} else if(event.ctrlKey && event.shiftKey && event.key === '>') {
 		clear();

@@ -1,7 +1,7 @@
 ## SfAcquire
 
 This needs access the scsynth connection.
-It currenly reads globalScsynth.
+It currenly reads globalScSynth.
 It should require an initial argument.
 Since programs are generally written in an "open" form,
 this value can be bound by the same mechanism that provides "play" and "draw" &etc.
@@ -13,7 +13,7 @@ For local use, i.e. deno on localhost, there should be a way use local disk file
 
 ## Pointer
 
-Scsynth Wasm does not implement the Mouse Ugens.
+ScSynth Wasm does not implement the Mouse Ugens.
 The Pointer Ugens are unit based.
 There are pointerMouse functions to emulate Mouse using Pointer.
 In Js module exports cannot be mutated.

@@ -56,7 +56,7 @@ function eval_cell(col_letter, row_number, cell_text) {
 	const cell_value = eval_cell_or_zero(col_letter, row_number, translator_status, js_text);
 	const cell_ugen = sc.isNumber(cell_value) ? sc.Dc(cell_value) : (sc.isControlRateUgen(cell_value) ? sc.K2A(cell_value) : cell_value);
 	const cell_packet = cell_ugen_to_osc_packet(col_letter, row_number, cell_ugen);
-	globalScsynth.sendOsc(cell_packet);
+	globalScSynth.sendOsc(cell_packet);
 }
 
 function get_cell_text(col_letter, row_number) {
@@ -159,8 +159,8 @@ function create_and_init_cell_groups() {
 	all_cellref_do(function(col_letter, row_number) {
 		const group_id = cellref_to_group(col_letter, row_number);
 		const g_new_msg = sc.g_new1(group_id, sc.kAddToTail, 0);
-		globalScsynth.sendOsc(g_new_msg);
-		globalScsynth.sendOsc(cell_ugen_to_osc_packet(col_letter, row_number, sc.Dc(0)));
+		globalScSynth.sendOsc(g_new_msg);
+		globalScSynth.sendOsc(cell_ugen_to_osc_packet(col_letter, row_number, sc.Dc(0)));
 	});
 }
 

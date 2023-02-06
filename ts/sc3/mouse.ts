@@ -1,10 +1,10 @@
-import { Scsynth, setPointerControls } from './scsynth.ts'
+import { ScSynth, setPointerControls } from './scsynth.ts'
 
 // w is button state, x and y are unit scaled co-ordinates within window where y points up.
 const sc3_mouse = { w: 0, x: 0, y: 0 };
 
 // Install mouse event handler.
-export function sc3_mouse_init(scsynth: Scsynth) {
+export function sc3_mouse_init(scsynth: ScSynth) {
 	const recv_document_mouse_event = function(event: MouseEvent): void {
 		sc3_mouse.x = event.pageX / window.innerWidth;
 		sc3_mouse.y = 1 - (event.pageY / window.innerHeight);

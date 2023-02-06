@@ -29,7 +29,7 @@ globalThis.loadSheet = function() {
 sl.addLoadUrlMethods();
 window.onload = function () {
 	sc.sc3_wasm_init(sc.setter_for_inner_html_of('statusText'));
-	sc.sc3_mouse_init(globalScsynth);
+	sc.sc3_mouse_init(globalScSynth);
 	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
 	sl.assignGlobals();
 	sl.loadUrlArrayInSequence('lib/spl/sl', ['kernel.sl', 'std.sl', 'sc.sl']);
@@ -41,7 +41,7 @@ window.onload = function () {
 	<body>
 		<h1>SuperCalc</h1>
 		<div id="menuContainer">
-			<button title="Begin" accesskey="b" onclick="sc.scsynthEnsure(globalScsynth, calc.server_setup)">Begin</button>
+			<button title="Begin" accesskey="b" onclick="sc.scsynthEnsure(globalScSynth, calc.server_setup)">Begin</button>
 			<span id="statusText">...</span>
 			<input type="file" id="programInputFile" accept=".json" onchange="loadSheet()" style="display:none">
 			<button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>

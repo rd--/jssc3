@@ -1,20 +1,20 @@
 import { prompt_for_int_and_then } from '../kernel/dom.ts'
 
-export type ScsynthOptions = {
+export type ScSynthOptions = {
 	hardwareBufferSize: number,
 	blockSize: number,
 	numInputs: number,
 	numOutputs: number
 };
 
-export const scsynthDefaultOptions: ScsynthOptions = {
+export const scSynthDefaultOptions: ScSynthOptions = {
 	numInputs: 2,
 	numOutputs: 2,
 	hardwareBufferSize: 8192,
 	blockSize: 48
 };
 
-export function scsynthOptionsPrint(options: ScsynthOptions):void {
+export function scSynthOptionsPrint(options: ScSynthOptions):void {
 	console.log(
 		'-i', options.numInputs,
 		'-o', options.numOutputs,
@@ -23,26 +23,26 @@ export function scsynthOptionsPrint(options: ScsynthOptions):void {
 	);
 }
 
-function set_hardware_buffer_size(scsynthOptions: ScsynthOptions): void {
+function set_hardware_buffer_size(scSynthOptions: ScSynthOptions): void {
 	prompt_for_int_and_then(
 		'Set hardware buffer size',
-		scsynthOptions.hardwareBufferSize,
-		function(aNumber) { scsynthOptions.hardwareBufferSize = aNumber; }
+		scSynthOptions.hardwareBufferSize,
+		function(aNumber) { scSynthOptions.hardwareBufferSize = aNumber; }
 	);
 }
 
-function set_block_size(scsynthOptions: ScsynthOptions): void {
+function set_block_size(scSynthOptions: ScSynthOptions): void {
 	prompt_for_int_and_then(
 		'Set block size',
-		scsynthOptions.blockSize,
-		function(aNumber) { scsynthOptions.blockSize = aNumber; }
+		scSynthOptions.blockSize,
+		function(aNumber) { scSynthOptions.blockSize = aNumber; }
 	);
 }
 
-function set_num_inputs(scsynthOptions: ScsynthOptions): void {
+function set_num_inputs(scSynthOptions: ScSynthOptions): void {
 	prompt_for_int_and_then(
 		'Set number of inputs',
-		scsynthOptions.numInputs,
-		function(aNumber) { scsynthOptions.numInputs = aNumber; }
+		scSynthOptions.numInputs,
+		function(aNumber) { scSynthOptions.numInputs = aNumber; }
 	);
 }
