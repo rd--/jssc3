@@ -12,19 +12,19 @@ export const defaultScSynthUdp: ScSynthUdp = {
 	port: 57110
 };
 
-export function sendOscUdp(scsynthUdp: ScSynthUdp, oscPacket: ServerPacket): void {
+export function sendOscUdp(scSynthUdp: ScSynthUdp, oscPacket: ServerPacket): void {
 	// console.debug(`sendOsc: ${oscPacket}`);
-	udpSendToAddr(scsynthUdp, encodeServerPacket(oscPacket));
+	udpSendToAddr(scSynthUdp, encodeServerPacket(oscPacket));
 }
 
-export function scsynthUdp(scsynthUdp: ScSynthUdp): ScSynth {
-	const scsynth = new ScSynth(
+export function scSynthUdp(scSynthUdp: ScSynthUdp): ScSynth {
+	const scSynth = new ScSynth(
 		scSynthDefaultOptions,
-		() => console.log(`scsynthUdp: cannot start remote synthesiser`),
-		(oscPacket) => sendOscUdp(scsynthUdp, oscPacket),
-		(aString) => console.log(`scsynthUdp: ${aString}`)
+		() => console.log(`scSynthUdp: cannot start remote synthesiser`),
+		(oscPacket) => sendOscUdp(scSynthUdp, oscPacket),
+		(aString) => console.log(`scSynthUdp: ${aString}`)
 	);
-	scsynth.isAlive = true;
-	scsynth.hasIoUgens = true;
-	return scsynth;
+	scSynth.isAlive = true;
+	scSynth.hasIoUgens = true;
+	return scSynth;
 }
