@@ -50,6 +50,12 @@ button:focus, select:focus {
 
 #textContainer {
 	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	resize: both;
+	overflow: auto;
+	height: 85vh;
+	width: 85%;
 }
 
 #documentText:focus, #programText:focus {
@@ -58,11 +64,9 @@ button:focus, select:focus {
 
 #documentContainer, #programContainer {
 	font-size: 0.9em;
-	width: 40vw;
-	height: 85vh;
 	margin-right: 2em;
-	resize: both;
-	overflow: auto;
+	flex-grow: 1;
+	flex-basis: 30em;
 }
 
 #documentText {
