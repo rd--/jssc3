@@ -4,7 +4,7 @@ import { throwError } from '../kernel/error.ts'
 import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 import { Forest, treeShape } from '../stdlib/tree.ts'
 
-import { BHiPass, BLowPass, BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Dc, Demand, Duty, EnvGen, FirstArg, Hpz1, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
+import { BHiPass, BLowPass, BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Dc, Demand, Duty, EnvGen, FirstArg, Hpz1, Impulse, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
 import { Env, EnvCurveSeq, EnvAdsr, EnvAsr, EnvCutoff, EnvPerc, EnvRelease, EnvSine, envCoord } from './envelope.ts'
 import { Signal, isOutputSignal, isOutUgen, kr, mrg, signalSize } from './ugen.ts'
 
@@ -290,4 +290,11 @@ export function BHiPass4(input: Signal, freq: Signal, rq: Signal): Signal {
 
 export function EqPan2(input: Signal, pos: Signal): Signal {
 	return Pan2(input, pos, 1);
+}
+
+export function VarLag(input: Signal, time: Signal, curve: EnvCurveSeq): Signal {
+	var env = new Env([input, input], [time], curve, null, null, 0);
+	var timeChanged = (typeof time === "number") ? 0 : Changed(time, 0);
+	var trig = Add(Add(Changed(input, 0), timeChanged), Impulse(0, 0));
+	return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
 }
