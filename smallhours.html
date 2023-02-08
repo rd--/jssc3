@@ -25,8 +25,8 @@ window.onload = function () {
 	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
 	sl.assignGlobals();
 	sl.loadUrlArrayInSequence('lib/spl/sl', ['kernel.sl', 'std.sl', 'sc.sl', 'ui.sl']);
-	document.getElementById('documentContainer').addEventListener('keydown', sh.keyBindings);
-	document.getElementById('programContainer').addEventListener('keydown', sh.keyBindings);
+	document.getElementById('documentText').addEventListener('keydown', sh.keyBindings);
+	document.getElementById('programText').addEventListener('keydown', sh.keyBindings);
 	sh.initProgramMenu();
 	sh.initOracle();
 	sh.loadUrlParam();
@@ -35,7 +35,7 @@ window.onload = function () {
 	</head>
 	<body>
 		<h1>Small Hours</h1>
-		<div id="menuContainer">
+		<div class="menuContainer">
 			<button id="beginButton" title="Begin (b)" accesskey="b" onclick="globalScSynth.boot()">Begin</button>
 			<span id="statusText">…</span>
 			<input type="file" id="programInputFile" accept=".sl" onchange="sh.loadInputFile()" style="display:none">
@@ -45,12 +45,12 @@ window.onload = function () {
 			<select id="programMenu" title="Program (p)" accesskey="p"><option>--Program Menu--</option></select>
 			<button title="Fullscreen (x)" accesskey="x" onclick="sc.fullscreen()">⇱</button>
 		</div>
-		<div id="textContainer">
-			<div id="documentContainer">
+		<div class="textContainer">
+			<div class="documentContainer">
 				<div id="documentText" contenteditable="true" spellcheck="false">
 				</div>
 			</div>
-			<div id="programContainer">
+			<div class="programContainer">
 				<pre><code id="programText" contenteditable="true" spellcheck="false"></code></pre>
 			</div>
 		</div>

@@ -3,7 +3,8 @@
 	--body-colour: #98ece8; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
 	--paper-colour: #ffffe8; /* fffacd d0f0c0 fffacd f0fff0  */
 	--text-colour: #424242;
-	--program-colour: #fddde6;
+	--fragment-colour: #fddde6;
+	--program-colour: #f0fff0;
 }
 
 body {
@@ -24,19 +25,20 @@ pre {
 	tab-size: 4;
 }
 
-select, button, #documentContainer {
+select, button, div.documentContainer {
 	font-family: var(--font-family);
 	color: var(--text-colour);
 	background-color: var(--paper-colour);
 }
 
-#programContainer {
-	background-color: #f0fff0;
+div.programContainer {
+	background-color: var(--program-colour);
+	color: var(--text-colour);
 }
 
-#documentText pre {
+div#documentText pre {
 	font-family: var(--font-family);
-	background-color: var(--program-colour);
+	background-color: var(--fragment-colour);
 	padding: 1em 2em
 }
 
@@ -44,11 +46,11 @@ button, select, #statusText {
 	border: 0px;
 }
 
-button:focus, select:focus {
+:focus {
 	outline: 1px solid #999;
 }
 
-#textContainer {
+div.textContainer {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -62,7 +64,7 @@ button:focus, select:focus {
 	outline: 0px;
 }
 
-#documentContainer, #programContainer {
+div.documentContainer, div.programContainer {
 	font-size: 0.9em;
 	margin-right: 2em;
 	flex-grow: 1;
@@ -73,11 +75,11 @@ button:focus, select:focus {
 	margin: 2em;
 }
 
-#programContainer pre {
+div.programContainer pre {
 	margin: 3em;
 }
 
-#menuContainer, #documentContainer, #programContainer {
+div.menuContainer, div.documentContainer, div.programContainer {
 	margin-bottom: 1em;
 }
 
