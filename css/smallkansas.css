@@ -55,3 +55,7 @@ div.viewerPane {
 	flex-basis: 6em;
 	margin: 2px;
 }
+
+div.viewerPane pre:focus {
+	outline: 0px;
+}

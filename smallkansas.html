@@ -28,6 +28,8 @@ window.onload = function () {
 	</head>
 	<body>
 		<h1>Small Kansas</h1>
+			<button id="beginButton" title="Begin (b)" accesskey="b" onclick="globalScSynth.boot()">Begin</button>
+			<span id="statusText">…</span>
 <details>
 <summary>...</summary>
 			<div class="programContainer">
@@ -37,6 +39,14 @@ window.onload = function () {
 	system.window.document.body.appendChild(MethodBrowser().browserPane)
 	system.window.document.body.appendChild(TypeBrowser().browserPane)
 	system.window.document.body.appendChild(TraitBrowser().browserPane)
+	system.window.document.body.appendChild(SmallHoursProgramBrowser().browserPane)
+
+	loadSmallHoursPrograms()
+	workspace::smallHoursPrograms
+	smallHoursProgramCategories()
+	smallHoursProgramAuthors('graph')
+	smallHoursProgramNames('graph', 'F0')
+
 				</code></pre>
 			</div>
 </details>
