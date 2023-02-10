@@ -22,10 +22,11 @@ code {
 }
 
 pre {
+	font-family: var(--font-family);
 	tab-size: 4;
 }
 
-select, button, div.documentContainer {
+p, select, button, div.documentContainer {
 	font-family: var(--font-family);
 	color: var(--text-colour);
 	background-color: var(--paper-colour);
@@ -37,7 +38,6 @@ div.programContainer {
 }
 
 div#documentText pre {
-	font-family: var(--font-family);
 	background-color: var(--fragment-colour);
 	padding: 1em 2em
 }

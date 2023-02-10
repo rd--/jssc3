@@ -1,0 +1,57 @@
+div.browserPane {
+	/* background-color: var(--program-colour); */
+	opacity: 90%;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	resize: both;
+	overflow: auto;
+	height: 25em;
+	width: 50em;
+}
+
+div.titlePane, div.viewerPane, div.statusPane {
+	font-family: var(--font-family);
+	color: var(--text-colour);
+	background-color: var(--paper-colour);
+	font-size: 0.9em;
+	margin-right: 2em;
+}
+
+div.titlePane, div.statusPane {
+	flex-grow: 0;
+	flex-basis: 1em;
+	margin: 2px;
+}
+
+div.titlePane pre, div.statusPane pre {
+	max-height: 1.5em;
+	min-height: 1em;
+	margin: 0;
+	padding: 0;
+}
+
+div.titlePane {
+	flex-grow: 0;
+	flex-basis: 1em;
+	margin: 2px;
+}
+
+div.columnsPane {
+	display: flex;
+	flex-direction: row;
+	flex-grow: 1;
+	margin: 2px;
+}
+
+div.columnsPane select {
+	flex-basis: 6em;
+	margin: 1px;
+	width: 100%;
+}
+
+div.viewerPane {
+	flex-grow: 1;
+	flex-basis: 6em;
+	margin: 2px;
+}
