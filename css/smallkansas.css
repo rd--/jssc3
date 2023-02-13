@@ -1,5 +1,14 @@
+:root {
+	--font-family: 'Parc Place', 'APL333', 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Times New Roman', 'Palatino', 'Garamond', 'Bookman', serif;
+}
+
+h1 {
+	font-weight: normal;
+}
+
 div.browserPane {
 	/* background-color: var(--program-colour); */
+	position: absolute;
 	opacity: 90%;
 	display: flex;
 	flex-direction: column;
@@ -8,6 +17,7 @@ div.browserPane {
 	overflow: auto;
 	height: 25em;
 	width: 50em;
+	z-index: 0;
 }
 
 div.titlePane, div.viewerPane, div.statusPane {
