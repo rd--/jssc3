@@ -3,7 +3,11 @@
 }
 
 h1 {
-	font-weight: normal;
+	text-decoration: underline;
+}
+
+hr {
+	margin: 4em 6em;
 }
 
 select {
@@ -110,5 +114,18 @@ div.viewerPane {
 }
 
 div.viewerPane pre:focus {
+	outline: 0px;
+}
+
+div.viewerPane > div {
+	margin: 2em;
+}
+
+div.viewerPane > div > pre {
+	background-color: var(--fragment-colour);
+	padding: 1em 2em
+}
+
+div.viewerPane :focus {
 	outline: 0px;
 }

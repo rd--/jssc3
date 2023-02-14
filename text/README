@@ -28,3 +28,11 @@ graph/Nv - Tw 2014 02 21.sl -- MemoryAllocation
 graph/Rd - 20061027.sl -- Henon
 graph/Sp - 3926 4.sl -- Voicer
 graph/Tmm881 - 3319.sl -- Voicer
+
+# Autogen
+
+rm -f smallhours-help.text
+(cd ~/sw/spl/ ; ls -1 help/spl/*.sl) >> smallhours-help.text
+(cd ~/sw/spl/ ; ls -1 doc/spl/*.sl) >> smallhours-help.text
+(cd ~/sw/stsc3/ ; ls -1 help/sc/*.sl) >> smallhours-help.text
+(cd ~/sw/stsc3/ ; ls -1 doc/sc/*.sl) >> smallhours-help.text

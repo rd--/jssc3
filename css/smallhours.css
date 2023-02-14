@@ -37,7 +37,7 @@ div.programContainer {
 	color: var(--text-colour);
 }
 
-div#documentText pre {
+div.documentContainer pre {
 	background-color: var(--fragment-colour);
 	padding: 1em 2em
 }
