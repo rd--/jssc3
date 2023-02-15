@@ -1,6 +1,6 @@
 :root {
 	--font-family: 'Parc Place', 'APL333', 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Times New Roman', 'Palatino', 'Garamond', 'Bookman', serif;
-	--button-select-colour: #fbf6d9;
+	--selected-background-colour: #fbf6d9;
 }
 
 h1 {
@@ -32,13 +32,13 @@ div.Menu {
 }
 
 div.ColumnBrowser {
-	width: 50em;
-	height: 25em;
+	width: 40em;
+	height: 20em;
 }
 
 div.TextEditor {
-	width: 50em;
-	height: 25em;
+	width: 40em;
+	height: 20em;
 }
 
 div.menuPane {
@@ -67,7 +67,11 @@ div.listPane ul li {
 }
 
 div.listPane ul li:hover {
-	background-color: var(--button-select-colour);
+	background-color: var(--selected-background-colour);
+}
+
+select > option:checked {
+	background-color: var(--selected-background-colour);
 }
 
 div.browserPane {
@@ -106,7 +110,7 @@ div.titlePane {
 	flex-grow: 0;
 	flex-basis: 1em;
 	margin: 2px;
-	cursor: pointer;
+	cursor: default;
 }
 
 .closeButton {
@@ -115,7 +119,7 @@ div.titlePane {
 }
 
 .closeButton:hover {
-	background-color: var(--button-select-colour);
+	background-color: var(--selected-background-colour);
 }
 
 div.columnsPane {

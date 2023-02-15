@@ -19,10 +19,8 @@ sl.addLoadUrlMethods();
 window.onload = function () {
 	sc.sc3_wasm_init(sc.setter_for_inner_html_of('statusText'));
 	sc.sc3_mouse_init(globalScSynth);
-	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
 	sl.assignGlobals();
 	sl.loadUrlArrayInSequence('lib/spl/sl', ['kernel.sl', 'std.sl', 'sc.sl', 'ui.sl', 'cat.sl']);
-	document.getElementById('programText').addEventListener('keydown', sh.keyBindings);
 };
 		</script>
 	</head>
@@ -30,16 +28,9 @@ window.onload = function () {
 		<h1>Small Kansas</h1>
 			<button id="beginButton" title="Begin (b)" accesskey="b" onclick="globalScSynth.boot()">Begin</button>
 			<span id="statusText">…</span>
-<details>
-<summary>...</summary>
-			<div class="programContainer">
-				<pre><code id="programText" contenteditable="true" spellcheck="false">
-workspace::smallKansas.worldMenu
-				</code></pre>
+			<button id="worldMenuButton" title="World Menu (w)" accesskey="w" onclick="_worldMenu_1(_workspace.get('smallKansas'))">WorldMenu</button>
+			<div id="smallKansas">
 			</div>
-</details>
-<div id="smallKansas">
-</div>
 		<script async src="lib/scsynth-wasm-builds/ext/scsynth.js"></script>
 	</body>
 </html>
