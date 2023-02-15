@@ -7,7 +7,8 @@ h1 {
 }
 
 hr {
-	margin: 4em 6em;
+	margin-left: 1em;
+	margin-right: 6em;
 }
 
 select {
@@ -26,10 +27,24 @@ div.framePane {
 	z-index: 0;
 }
 
+div.Menu {
+}
+
+div.ColumnBrowser {
+	width: 50em;
+	height: 25em;
+}
+
+div.TextEditor {
+	width: 50em;
+	height: 25em;
+}
+
 div.menuPane {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
+	height: 10em;
 }
 
 div.listPane {
@@ -62,13 +77,9 @@ div.browserPane {
 	flex-wrap: nowrap;
 	flex-grow: 1;
 	overflow: auto;
-/*
-	height: 25em;
-	width: 50em;
-*/
 }
 
-div.titlePane, div.viewerPane, div.statusPane {
+div.titlePane, div.editorPane, div.statusPane {
 	font-family: var(--font-family);
 	color: var(--text-colour);
 	background-color: var(--paper-colour);
@@ -107,25 +118,26 @@ div.columnsPane select {
 	margin: 1px;
 }
 
-div.viewerPane {
-	flex-grow: 1;
+div.editorPane {
+	display: flex;
+	flex-grow: 4;
 	flex-basis: 6em;
 	margin: 2px;
+	overflow-y: auto;
 }
 
-div.viewerPane pre:focus {
-	outline: 0px;
+div.editorPane > div, div.editorPane > pre {
 }
 
-div.viewerPane > div {
-	margin: 2em;
+div.editorPane > div {
+	margin: 1em;
 }
 
-div.viewerPane > div > pre {
+div.editorPane > div > pre {
 	background-color: var(--fragment-colour);
-	padding: 1em 2em
+	padding: 1em 1em
 }
 
-div.viewerPane :focus {
+div.editorPane :focus {
 	outline: 0px;
 }
