@@ -1,5 +1,6 @@
 :root {
 	--font-family: 'Parc Place', 'APL333', 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Times New Roman', 'Palatino', 'Garamond', 'Bookman', serif;
+	--button-select-colour: #fbf6d9;
 }
 
 h1 {
@@ -44,7 +45,6 @@ div.menuPane {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
-	height: 10em;
 }
 
 div.listPane {
@@ -67,7 +67,7 @@ div.listPane ul li {
 }
 
 div.listPane ul li:hover {
-	background-color: #ccc;
+	background-color: var(--button-select-colour);
 }
 
 div.browserPane {
@@ -96,14 +96,26 @@ div.titlePane, div.statusPane {
 div.titlePane pre, div.statusPane pre {
 	max-height: 1.5em;
 	min-height: 1em;
-	margin: 0;
-	padding: 0;
+	margin: 0 4px 0 0;
+	padding: 0 0;
 }
 
 div.titlePane {
+	display: flex;
+	flex-direction: row;
 	flex-grow: 0;
 	flex-basis: 1em;
 	margin: 2px;
+	cursor: pointer;
+}
+
+.closeButton {
+	margin-right: 2px;
+	padding-right: 2px;
+}
+
+.closeButton:hover {
+	background-color: var(--button-select-colour);
 }
 
 div.columnsPane {
