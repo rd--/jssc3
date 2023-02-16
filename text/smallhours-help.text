@@ -11,6 +11,7 @@ help/spl/atPut.help.sl
 help/spl/atRandom.help.sl
 help/spl/Boolean.help.sl
 help/spl/collect.help.sl
+help/spl/Collection.help.sl
 help/spl/colonColon.help.sl
 help/spl/colonDividedBy.help.sl
 help/spl/colonEquals.help.sl
@@ -88,6 +89,7 @@ help/spl/Type.help.sl
 help/spl/typeOf.help.sl
 help/spl/UndefinedObject.help.sl
 help/spl/unlines.help.sl
+help/spl/utf8.help.sl
 help/spl/value.help.sl
 help/spl/Void.help.sl
 help/spl/whileFalse.help.sl

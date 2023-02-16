@@ -1,10 +1,14 @@
+@font-face {
+	font-family: "Parc Place";
+	src: url("../woff2/Parc Place.woff2");
+}
+
 :root {
 	--font-family: 'Parc Place', 'APL333', 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Times New Roman', 'Palatino', 'Garamond', 'Bookman', serif;
 	--selected-background-colour: #fbf6d9;
 }
 
 h1 {
-	text-decoration: underline;
 }
 
 hr {
@@ -32,8 +36,8 @@ div.Menu {
 }
 
 div.ColumnBrowser {
-	width: 40em;
-	height: 20em;
+	width: 35em;
+	height: 25em;
 }
 
 div.TextEditor {
