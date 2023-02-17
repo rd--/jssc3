@@ -25,12 +25,12 @@ window.onload = function () {
 		</script>
 	</head>
 	<body>
-		<h1>Small Kansas</h1>
+		<div id="smallKansas">
+			<h1>Small Kansas</h1>
 			<button id="beginButton" title="Begin (b)" accesskey="b" onclick="globalScSynth.boot()">Begin</button>
 			<span id="statusText">…</span>
 			<button id="worldMenuButton" title="World Menu (w)" accesskey="w" onclick="_worldMenu_1(_workspace.get('smallKansas'))">WorldMenu</button>
-			<div id="smallKansas">
-			</div>
+		</div>
 		<script async src="lib/scsynth-wasm-builds/ext/scsynth.js"></script>
 	</body>
 </html>

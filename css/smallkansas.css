@@ -21,37 +21,50 @@ select {
 	overflow-y: auto;
 }
 
-div.framePane {
+dialog {
+	position: absolute;
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+#smallKansas {
+	width: 97.5vw;
+	height: 97.5vh;
+}
+
+.framePane {
 	position: absolute;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
 	resize: both;
 	overflow: auto;
-	opacity: 90%;
+	opacity: 100%;
 	z-index: 0;
 }
 
-div.Menu {
+.Menu {
 }
 
-div.ColumnBrowser {
+.ColumnBrowser {
 	width: 35em;
 	height: 25em;
 }
 
-div.TextEditor {
+.TextEditor {
 	width: 40em;
 	height: 20em;
 }
 
-div.menuPane {
+.menuPane {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
+	overflow-y: auto;
 }
 
-div.listPane {
+.listPane {
 	font-family: var(--font-family);
 	color: var(--text-colour);
 	background-color: var(--paper-colour);
@@ -61,16 +74,16 @@ div.listPane {
 	margin: 2px;
 }
 
-div.listPane ul {
+.listPane ul {
 	padding-left: 0;
 	list-style-type: none;
 }
 
-div.listPane ul li {
+.listPane ul li {
 	cursor: default;
 }
 
-div.listPane ul li:hover {
+.listPane ul li:hover {
 	background-color: var(--selected-background-colour);
 }
 
@@ -78,7 +91,7 @@ select > option:checked {
 	background-color: var(--selected-background-colour);
 }
 
-div.browserPane {
+.browserPane {
 	/* background-color: var(--program-colour); */
 	display: flex;
 	flex-direction: column;
@@ -87,7 +100,7 @@ div.browserPane {
 	overflow: auto;
 }
 
-div.titlePane, div.editorPane, div.statusPane {
+.titlePane, .editorPane, .statusPane {
 	font-family: var(--font-family);
 	color: var(--text-colour);
 	background-color: var(--paper-colour);
@@ -95,20 +108,20 @@ div.titlePane, div.editorPane, div.statusPane {
 	margin-right: 2em;
 }
 
-div.titlePane, div.statusPane {
+.titlePane, .statusPane {
 	flex-grow: 0;
 	flex-basis: 1em;
 	margin: 2px;
 }
 
-div.titlePane pre, div.statusPane pre {
+.titlePane pre, .statusPane pre {
 	max-height: 1.5em;
 	min-height: 1em;
 	margin: 0 4px 0 0;
 	padding: 0 0;
 }
 
-div.titlePane {
+.titlePane {
 	display: flex;
 	flex-direction: row;
 	flex-grow: 0;
@@ -126,19 +139,19 @@ div.titlePane {
 	background-color: var(--selected-background-colour);
 }
 
-div.columnsPane {
+.columnsPane {
 	display: flex;
 	flex-direction: row;
 	flex-grow: 1;
 	margin: 2px;
 }
 
-div.columnsPane select {
+.columnsPane select {
 	flex-basis: 6em;
 	margin: 1px;
 }
 
-div.editorPane {
+.editorPane {
 	display: flex;
 	flex-grow: 4;
 	flex-basis: 6em;
@@ -146,18 +159,18 @@ div.editorPane {
 	overflow-y: auto;
 }
 
-div.editorPane > div, div.editorPane > pre {
+.editorPane > div, .editorPane > pre {
 }
 
-div.editorPane > div {
+.editorPane > div {
 	margin: 1em;
 }
 
-div.editorPane > div > pre {
+.editorPane > div > pre {
 	background-color: var(--fragment-colour);
 	padding: 1em 1em
 }
 
-div.editorPane :focus {
+.editorPane :focus {
 	outline: 0px;
 }
