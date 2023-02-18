@@ -95,6 +95,15 @@ help/spl/Void.help.sl
 help/spl/whileFalse.help.sl
 help/spl/whileTrue.help.sl
 help/spl/withReturn.help.sl
+doc/sk/Category Browser.help.sl
+doc/sk/Column Browser.help.sl
+doc/sk/Method Browser.help.sl
+doc/sk/Method Signature Browser.help.sl
+doc/sk/Program Browser.help.sl
+doc/sk/Small Kansas.help.sl
+doc/sk/System Browser.help.sl
+doc/sk/Trait Browser.help.sl
+doc/sk/Type Browser.help.sl
 doc/spl/Apply Syntax.help.sl
 doc/spl/Assignment, initialisation, equality, identity.help.sl
 doc/spl/AtPutDelegateTo Syntax.help.sl
@@ -358,6 +367,7 @@ help/sc/Schmidt.help.sl
 help/sc/Select.help.sl
 help/sc/Sequencer.help.sl
 help/sc/series.help.sl
+help/sc/SfAcquire.help.sl
 help/sc/Silent.help.sl
 help/sc/Sin.help.sl
 help/sc/Sinh.help.sl

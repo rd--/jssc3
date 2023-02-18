@@ -1,4 +1,19 @@
 @font-face {
+	font-family: "APL2741";
+	src: url("../woff2/Apl2741.woff2");
+}
+
+@font-face {
+	font-family: "APL333";
+	src: url("../woff2/APL333.woff2");
+}
+
+@font-face {
+	font-family: "Los Altos";
+	src: url("../woff2/Los Altos.woff2");
+}
+
+@font-face {
 	font-family: "Parc Place";
 	src: url("../woff2/Parc Place.woff2");
 }
@@ -40,7 +55,7 @@ dialog {
 	flex-wrap: nowrap;
 	resize: both;
 	overflow: auto;
-	opacity: 100%;
+	opacity: 90%;
 	z-index: 0;
 }
 
