@@ -1,5 +1,6 @@
 :root {
 	--font-family: 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Times New Roman', 'Palatino', 'Garamond', 'Bookman', serif;
+	--font-size: 1em;
 	--body-colour: #98ece8; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
 	--paper-colour: #ffffe8; /* fffacd d0f0c0 fffacd f0fff0  */
 	--text-colour: #424242;
@@ -11,10 +12,11 @@ body {
 	margin: 1em 1em;
 	background-color: var(--body-colour);
 	font-family: var(--font-family);
+	font-size: var(--font-size);
 }
 
-h1, h2 {
-	font-size: 1em;
+h1, h2, button, select {
+	font-size: 100%;
 }
 
 code {
@@ -65,7 +67,6 @@ div.textContainer {
 }
 
 div.documentContainer, div.programContainer {
-	font-size: 0.9em;
 	margin-right: 2em;
 	flex-grow: 1;
 	flex-basis: 30em;
@@ -85,7 +86,6 @@ div.menuContainer, div.documentContainer, div.programContainer {
 
 #statusText {
 	background-color: var(--paper-colour);
-	font-size: 0.9em;
 	display: inline-block;
 	width: 75px;
 	border: 1px dotted #666;

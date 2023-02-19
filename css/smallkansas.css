@@ -19,8 +19,8 @@
 }
 
 :root {
-	--font-family: 'Parc Place', 'APL333', 'Computer Modern Concrete', 'Computer Modern Serif', 'C059', 'Times New Roman', 'Palatino', 'Garamond', 'Bookman', serif;
-	--selected-background-colour: #fbf6d9;
+	--font-family: 'Parc Place', 'Los Altos', 'APL333';
+	--when-selected-background-colour: #fbf6d9;
 }
 
 h1 {
@@ -44,6 +44,7 @@ dialog {
 }
 
 #smallKansas {
+	font-size: var(--font-size);
 	width: 97.5vw;
 	height: 97.5vh;
 }
@@ -83,7 +84,6 @@ dialog {
 	font-family: var(--font-family);
 	color: var(--text-colour);
 	background-color: var(--paper-colour);
-	font-size: 0.9em;
 	display: flex;
 	flex-grow: 1;
 	margin: 2px;
@@ -99,11 +99,11 @@ dialog {
 }
 
 .listPane ul li:hover {
-	background-color: var(--selected-background-colour);
+	background-color: var(--when-selected-background-colour);
 }
 
 select > option:checked {
-	background-color: var(--selected-background-colour);
+	background-color: var(--when-selected-background-colour);
 }
 
 .browserPane {
@@ -119,7 +119,6 @@ select > option:checked {
 	font-family: var(--font-family);
 	color: var(--text-colour);
 	background-color: var(--paper-colour);
-	font-size: 0.9em;
 	margin-right: 2em;
 }
 
@@ -151,7 +150,7 @@ select > option:checked {
 }
 
 .closeButton:hover {
-	background-color: var(--selected-background-colour);
+	background-color: var(--when-selected-background-colour);
 }
 
 .columnsPane {
