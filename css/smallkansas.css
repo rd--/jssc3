@@ -117,6 +117,7 @@ select > option:checked {
 
 .titlePane, .editorPane, .statusPane {
 	font-family: var(--font-family);
+	font-size: var(--font-size);
 	color: var(--text-colour);
 	background-color: var(--paper-colour);
 	margin-right: 2em;
