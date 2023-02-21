@@ -98,11 +98,11 @@ dialog {
 	cursor: default;
 }
 
-.listPane ul li:hover {
+.listPane ul li:hover, .listPane select option:hover {
 	background-color: var(--when-selected-background-colour);
 }
 
-select > option:checked {
+option:checked, option:active, option:focus, option:focus-visible {
 	background-color: var(--when-selected-background-colour);
 }
 
@@ -115,7 +115,7 @@ select > option:checked {
 	overflow: auto;
 }
 
-.titlePane, .editorPane, .statusPane {
+.titlePane, .editorPane, .statusPane, .statusText {
 	font-family: var(--font-family);
 	font-size: var(--font-size);
 	color: var(--text-colour);
@@ -143,6 +143,11 @@ select > option:checked {
 	flex-basis: 1em;
 	margin: 2px;
 	cursor: default;
+}
+
+.editorText {
+	width: 100vw;
+	min-height: 1em;
 }
 
 .closeButton {
