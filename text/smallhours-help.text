@@ -200,6 +200,7 @@ help/sc/Ceil.help.sl
 help/sc/ClipNoise.help.sl
 help/sc/CoinGate.help.sl
 help/sc/coin.help.sl
+help/sc/collectTexture.help.sl
 help/sc/CombC.help.sl
 help/sc/CombL.help.sl
 help/sc/CombN.help.sl
@@ -364,6 +365,7 @@ help/sc/RoundTo.help.sl
 help/sc/RunningSum.help.sl
 help/sc/Saw.help.sl
 help/sc/schedule.help.sl
+help/sc/scheduleInjecting.help.sl
 help/sc/Schmidt.help.sl
 help/sc/Select.help.sl
 help/sc/Sequencer.help.sl
