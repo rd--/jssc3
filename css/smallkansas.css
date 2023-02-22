@@ -58,6 +58,8 @@ dialog {
 	overflow: auto;
 	opacity: 90%;
 	z-index: 0;
+	background-color: #fbf6d9; /* #fffacd #fbf6d9 #fada5e var(--fragment-colour) #f4c2c2 #b0e0e6 #afdbf5 rgba(208, 240, 192, 0.75) #d0f0c0 #ace1af */
+
 }
 
 .Menu {
