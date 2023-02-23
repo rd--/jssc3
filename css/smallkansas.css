@@ -32,6 +32,8 @@ hr {
 }
 
 select {
+	font-family: var(--font-family);
+	font-size: var(--font-size);
 	width: 100%;
 	overflow-y: auto;
 }
@@ -45,11 +47,13 @@ dialog {
 
 #smallKansas {
 	font-size: var(--font-size);
-	width: 97.5vw;
-	height: 97.5vh;
+	width: 95vw;
+	height: 95vh;
 }
 
 .framePane {
+	min-width: 9em;
+	min-height: 3em;
 	position: absolute;
 	display: flex;
 	flex-direction: column;
@@ -131,7 +135,7 @@ option:checked, option:active, option:focus, option:focus-visible {
 	margin: 2px;
 }
 
-.titlePane pre, .statusPane pre {
+.titlePane span, .statusPane span {
 	max-height: 1.5em;
 	min-height: 1em;
 	margin: 0 4px 0 0;
@@ -141,10 +145,12 @@ option:checked, option:active, option:focus, option:focus-visible {
 .titlePane {
 	display: flex;
 	flex-direction: row;
-	flex-grow: 0;
-	flex-basis: 1em;
-	margin: 2px;
+	justify-content: stretch;
 	cursor: default;
+}
+
+.titleText {
+	flex-grow: 1;
 }
 
 .editorText {
@@ -152,12 +158,16 @@ option:checked, option:active, option:focus, option:focus-visible {
 	min-height: 1em;
 }
 
-.closeButton {
+.closeButton, .menuButton {
 	margin-right: 2px;
 	padding-right: 2px;
+	flex-grow: 0;
 }
 
-.closeButton:hover {
+.menuButton {
+}
+
+.closeButton:hover, .menuButton:hover {
 	background-color: var(--when-selected-background-colour);
 }
 
@@ -175,13 +185,10 @@ option:checked, option:active, option:focus, option:focus-visible {
 
 .editorPane {
 	display: flex;
-	flex-grow: 4;
+	flex-grow: 3;
 	flex-basis: 6em;
 	margin: 2px;
 	overflow-y: auto;
-}
-
-.editorPane > div, .editorPane > pre {
 }
 
 .editorPane > div {
