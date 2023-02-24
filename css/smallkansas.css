@@ -47,8 +47,11 @@ dialog {
 
 #smallKansas {
 	font-size: var(--font-size);
-	width: 95vw;
-	height: 95vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
 }
 
 .framePane {
@@ -79,6 +82,25 @@ dialog {
 	height: 20em;
 }
 
+
+.SmallKansas {
+	background-color: #ffdfe8;
+}
+
+
+.HelpBrowser, .HelpFor {
+	background-color: #99eecc;
+}
+
+
+.ProgramBrowser {
+	background-color: #bbddff;
+}
+
+.Clock {
+	background-color: #eeff99;
+}
+
 .menuPane {
 	display: flex;
 	flex-direction: column;
@@ -88,8 +110,8 @@ dialog {
 
 .listPane {
 	font-family: var(--font-family);
-	color: var(--text-colour);
 	background-color: var(--paper-colour);
+	color: var(--text-colour);
 	display: flex;
 	flex-grow: 1;
 	margin: 2px;
@@ -143,6 +165,7 @@ option:checked, option:active, option:focus, option:focus-visible {
 }
 
 .titlePane {
+	background-color: inherit;
 	display: flex;
 	flex-direction: row;
 	justify-content: stretch;
