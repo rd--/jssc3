@@ -1,4 +1,6 @@
+help/sk/Colour.help.sl
 help/sk/Menu.help.sl
+help/sk/parseHexColour.help.sl
 help/spl/addAll.help.sl
 help/spl/add.help.sl
 help/spl/allButFirst.help.sl
@@ -19,10 +21,12 @@ help/spl/colonEquals.help.sl
 help/spl/concatenation.help.sl
 help/spl/count.help.sl
 help/spl/cull.help.sl
+help/spl/currentTime.help.sl
 help/spl/Dictionary.help.sl
 help/spl/dividedBy.help.sl
 help/spl/do.help.sl
 help/spl/dotDot.help.sl
+help/spl/Duration.help.sl
 help/spl/equalsEquals.help.sl
 help/spl/equals.help.sl
 help/spl/error.help.sl
@@ -36,6 +40,7 @@ help/spl/inf.help.sl
 help/spl/injectInto.help.sl
 help/spl/isEmpty.help.sl
 help/spl/isInteger.help.sl
+help/spl/iso8601.help.sl
 help/spl/json.help.sl
 help/spl/lessThanEquals.help.sl
 help/spl/lessThan.help.sl
@@ -62,10 +67,12 @@ help/spl/plus.help.sl
 help/spl/plusPlus.help.sl
 help/spl/Procedure.help.sl
 help/spl/product.help.sl
+help/spl/quotient.help.sl
 help/spl/randomFloat.help.sl
 help/spl/randomInteger.help.sl
 help/spl/reduce.help.sl
 help/spl/reject.help.sl
+help/spl/remainder.help.sl
 help/spl/remove.help.sl
 help/spl/return.help.sl
 help/spl/reversed.help.sl
@@ -82,6 +89,7 @@ help/spl/system.help.sl
 help/spl/System.help.sl
 help/spl/times.help.sl
 help/spl/timesRepeat.help.sl
+help/spl/TimeStamp.help.sl
 help/spl/timesTimes.help.sl
 help/spl/Trait.help.sl
 help/spl/transpose.help.sl
@@ -89,6 +97,7 @@ help/spl/true.help.sl
 help/spl/Type.help.sl
 help/spl/typeOf.help.sl
 help/spl/UndefinedObject.help.sl
+help/spl/unixTimeInMilliseconds.help.sl
 help/spl/unlines.help.sl
 help/spl/utf8.help.sl
 help/spl/value.help.sl
@@ -98,6 +107,7 @@ help/spl/whileTrue.help.sl
 help/spl/withReturn.help.sl
 doc/sk/Category Browser.help.sl
 doc/sk/Column Browser.help.sl
+doc/sk/Frame.help.sl
 doc/sk/Method Browser.help.sl
 doc/sk/Method Signature Browser.help.sl
 doc/sk/Program Browser.help.sl
@@ -105,6 +115,7 @@ doc/sk/Small Kansas.help.sl
 doc/sk/System Browser.help.sl
 doc/sk/Trait Browser.help.sl
 doc/sk/Type Browser.help.sl
+doc/sk/View.help.sl
 doc/spl/Apply Syntax.help.sl
 doc/spl/Assignment, initialisation, equality, identity.help.sl
 doc/spl/AtPutDelegateTo Syntax.help.sl
@@ -328,6 +339,8 @@ help/sc/OctCps.help.sl
 help/sc/OnePole.help.sl
 help/sc/OneZero.help.sl
 help/sc/Osc1.help.sl
+help/sc/OscMessage.help.sl
+help/sc/OscParameter.help.sl
 help/sc/Out.help.sl
 help/sc/overlap.help.sl
 help/sc/OverlapTexture.help.sl

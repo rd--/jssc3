@@ -65,7 +65,7 @@ dialog {
 	overflow: auto;
 	opacity: 90%;
 	z-index: 0;
-	background-color: #fbf6d9; /* #fffacd #fbf6d9 #fada5e var(--fragment-colour) #f4c2c2 #b0e0e6 #afdbf5 rgba(208, 240, 192, 0.75) #d0f0c0 #ace1af */
+	background-color: #ffeecc /* #fffacd #fbf6d9 #fada5e var(--fragment-colour) #f4c2c2 #b0e0e6 #afdbf5 rgba(208, 240, 192, 0.75) #d0f0c0 #ace1af */
 
 }
 
@@ -84,7 +84,7 @@ dialog {
 
 
 .SmallKansas {
-	background-color: #ffdfe8;
+	background-color: #aadd99;
 }
 
 
@@ -97,8 +97,16 @@ dialog {
 	background-color: #bbddff;
 }
 
+.MethodBrowser, .MethodSignatureBrowser {
+	background-color: #ffcc55;
+}
+
 .Clock {
 	background-color: #eeff99;
+}
+
+.Workspace {
+	background-color: #ff9999;
 }
 
 .menuPane {
@@ -143,12 +151,11 @@ option:checked, option:active, option:focus, option:focus-visible {
 	overflow: auto;
 }
 
-.titlePane, .editorPane, .statusPane, .statusText {
+.titlePane, .editorPane, .statusPane, .statusText, .filterText {
 	font-family: var(--font-family);
 	font-size: var(--font-size);
 	color: var(--text-colour);
 	background-color: var(--paper-colour);
-	margin-right: 2em;
 }
 
 .titlePane, .statusPane {
@@ -179,6 +186,7 @@ option:checked, option:active, option:focus, option:focus-visible {
 .editorText {
 	width: 100vw;
 	min-height: 1em;
+	overflow: auto;
 }
 
 .closeButton, .menuButton {
@@ -201,9 +209,24 @@ option:checked, option:active, option:focus, option:focus-visible {
 	margin: 2px;
 }
 
-.columnsPane select {
+.columnsPane .column, .columnsPane select {
 	flex-basis: 6em;
 	margin: 1px;
+}
+
+.column {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	width: 100%;
+	margin: 1px;
+	padding: 0px;
+}
+
+.filterText {
+	border: 0px;
+	margin: 1px
+	width: 100%;
 }
 
 .editorPane {
