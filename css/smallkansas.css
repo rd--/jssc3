@@ -27,8 +27,7 @@ h1 {
 }
 
 hr {
-	margin-left: 1em;
-	margin-right: 6em;
+	margin: 1em 6em 0em 3em;
 }
 
 select {
@@ -69,9 +68,6 @@ dialog {
 
 }
 
-.Menu {
-}
-
 .ColumnBrowser {
 	width: 35em;
 	height: 25em;
@@ -81,7 +77,6 @@ dialog {
 	width: 40em;
 	height: 20em;
 }
-
 
 .SmallKansas {
 	background-color: #aadd99;
@@ -94,7 +89,7 @@ dialog {
 
 
 .ProgramBrowser {
-	background-color: #bbddff;
+	background-color: #88ccff; /* #bbddff */
 }
 
 .MethodBrowser, .MethodSignatureBrowser {
@@ -103,10 +98,19 @@ dialog {
 
 .Clock {
 	background-color: #eeff99;
+	flex-basis: 6em;
 }
 
 .Workspace {
 	background-color: #ff9999;
+}
+
+.Menu {
+	background-color: #bbeeff; /* #88ccff #bbeeff */
+}
+
+.TypeBrowser, .TraitBrowser, .SystemBrowser, .CategoryBrowser {
+	background-color: #ffee77;
 }
 
 .menuPane {
@@ -122,7 +126,7 @@ dialog {
 	color: var(--text-colour);
 	display: flex;
 	flex-grow: 1;
-	margin: 2px;
+	margin: 0px;
 }
 
 .listPane ul {
@@ -148,7 +152,9 @@ option:checked, option:active, option:focus, option:focus-visible {
 	flex-direction: column;
 	flex-wrap: nowrap;
 	flex-grow: 1;
+	row-gap: 2px;
 	overflow: auto;
+	padding: 0px 2px 2px 2px;
 }
 
 .titlePane, .editorPane, .statusPane, .statusText, .filterText {
@@ -161,14 +167,14 @@ option:checked, option:active, option:focus, option:focus-visible {
 .titlePane, .statusPane {
 	flex-grow: 0;
 	flex-basis: 1em;
-	margin: 2px;
+	margin: 0px;
 }
 
 .titlePane span, .statusPane span {
 	max-height: 1.5em;
 	min-height: 1em;
-	margin: 0 4px 0 0;
-	padding: 0 0;
+	margin: 0px 4px 0px 0px;
+	padding: 0px 0px;
 }
 
 .titlePane {
@@ -187,11 +193,12 @@ option:checked, option:active, option:focus, option:focus-visible {
 	width: 100vw;
 	min-height: 1em;
 	overflow: auto;
+	margin: 0px;
 }
 
 .closeButton, .menuButton {
-	margin-right: 2px;
-	padding-right: 2px;
+	margin: 0px 2px 0px 0px;
+	padding: 0px 2px 0px 0px;
 	flex-grow: 0;
 }
 
@@ -206,12 +213,13 @@ option:checked, option:active, option:focus, option:focus-visible {
 	display: flex;
 	flex-direction: row;
 	flex-grow: 1;
-	margin: 2px;
+	column-gap: 2px;
+	margin: 0px;
 }
 
 .columnsPane .column, .columnsPane select {
 	flex-basis: 6em;
-	margin: 1px;
+	margin: 0px;
 }
 
 .column {
@@ -219,13 +227,14 @@ option:checked, option:active, option:focus, option:focus-visible {
 	flex-direction: column;
 	flex-grow: 1;
 	width: 100%;
-	margin: 1px;
+	row-gap: 2px;
+	margin: 0px;
 	padding: 0px;
 }
 
 .filterText {
 	border: 0px;
-	margin: 1px
+	margin: 0px
 	width: 100%;
 }
 
@@ -233,17 +242,19 @@ option:checked, option:active, option:focus, option:focus-visible {
 	display: flex;
 	flex-grow: 3;
 	flex-basis: 6em;
-	margin: 2px;
+	margin: 0px;
+	padding: 2px;
 	overflow-y: auto;
 }
 
 .editorPane > div {
-	margin: 1em;
+	margin: 0px;
 }
 
 .editorPane > div > pre {
 	background-color: var(--fragment-colour);
-	padding: 1em 1em
+	padding: 1em 1em;
+	margin: 0em 1em;
 }
 
 .editorPane :focus {
