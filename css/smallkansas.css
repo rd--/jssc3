@@ -119,6 +119,10 @@ dialog {
 	background-color: #99f499;
 }
 
+.SvgViewer {
+	background-color: #aaffee;
+}
+
 .menuPane {
 	display: flex;
 	flex-direction: column;
