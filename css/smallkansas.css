@@ -64,7 +64,8 @@ dialog {
 	overflow: auto;
 	opacity: 90%;
 	z-index: 0;
-	background-color: #ffeecc /* #fffacd #fbf6d9 #fada5e var(--fragment-colour) #f4c2c2 #b0e0e6 #afdbf5 rgba(208, 240, 192, 0.75) #d0f0c0 #ace1af */
+	background-color: #ffeecc; /* #fffacd #fbf6d9 #fada5e var(--fragment-colour) #f4c2c2 #b0e0e6 #afdbf5 rgba(208, 240, 192, 0.75) #d0f0c0 #ace1af */
+	padding: 0px; /* 0px 2px 2px 2px */
 
 }
 
@@ -107,10 +108,15 @@ dialog {
 
 .Menu {
 	background-color: #bbeeff; /* #88ccff #bbeeff */
+	padding: 0px;
 }
 
 .TypeBrowser, .TraitBrowser, .SystemBrowser, .CategoryBrowser {
 	background-color: #ffee77;
+}
+
+.MidiPortBrowser {
+	background-color: #99f499;
 }
 
 .menuPane {
