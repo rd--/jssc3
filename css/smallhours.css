@@ -69,7 +69,7 @@ div.textContainer {
 div.documentContainer, div.programContainer {
 	margin-right: 2em;
 	flex-grow: 1;
-	flex-basis: 30em;
+	flex-basis: 15em;
 }
 
 #documentText {

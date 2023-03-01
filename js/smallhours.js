@@ -70,22 +70,25 @@ export function loadHelp(kind, helpPrefix, docPrefix) {
 
 export function keyBindings(event) {
 	// console.log('keyBindings', event.ctrlKey, event.shiftKey, event.key);
-	if(event.ctrlKey && (event.key === 'Enter' || event.key === ',')) {
-		event.shiftKey ? evalRegion() : playRegion();
-	} else if(event.ctrlKey && event.key === '.') {
-		sc.resetScSynth(globalScSynth);
-		clear();
-	} else if(event.ctrlKey && event.shiftKey && event.key === '>') {
-		clear();
-	} else if(event.ctrlKey && event.shiftKey && event.key === 'L') {
-		document.getElementById('programInputFileSelect').click();
-	} else if(event.ctrlKey && event.shiftKey && event.key === 'H') {
-		loadHelp('help', './lib/stsc3/help/sc', './lib/stsc3/doc/sc');
-	} else if(event.ctrlKey && event.key === 'm') {
-		loadHelp('manual', './lib/spl/help', './lib/spl/doc');
-	} else if(event.ctrlKey && event.shiftKey && event.key === '?') {
-		loadHelp('manual', './lib/spl/help', './lib/spl/doc');
-		loadHelp('help', './lib/stsc3/help/sc', './lib/stsc3/doc/sc');
+	if(event.ctrlKey) {
+		if(event.key === 'Enter') {
+			event.preventDefault();
+			event.shiftKey ? evalRegion() : playRegion();
+		} else if(event.key === '.') {
+			sc.resetScSynth(globalScSynth);
+			clear();
+		} else if(event.shiftKey && event.key === '>') {
+			clear();
+		} else if(event.shiftKey && event.key === 'L') {
+			document.getElementById('programInputFileSelect').click();
+		} else if(event.shiftKey && event.key === 'H') {
+			loadHelp('help', './lib/stsc3/help/sc', './lib/stsc3/doc/sc');
+		} else if(event.key === 'm') {
+			loadHelp('manual', './lib/spl/help/spl', './lib/spl/doc/spl');
+		} else if(event.shiftKey && event.key === '?') {
+			loadHelp('manual', './lib/spl/help/spl', './lib/spl/doc/spl');
+			loadHelp('help', './lib/stsc3/help/sc', './lib/stsc3/doc/sc');
+		}
 	}
 }
 

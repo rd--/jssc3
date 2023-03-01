@@ -23,6 +23,7 @@ help/spl/concatenation.help.sl
 help/spl/count.help.sl
 help/spl/cull.help.sl
 help/spl/currentTime.help.sl
+help/spl/denominator.help.sl
 help/spl/Dictionary.help.sl
 help/spl/dividedBy.help.sl
 help/spl/divisors.help.sl
@@ -33,6 +34,7 @@ help/spl/equalsEquals.help.sl
 help/spl/equals.help.sl
 help/spl/error.help.sl
 help/spl/false.help.sl
+help/spl/Fraction.help.sl
 help/spl/greaterThanEquals.help.sl
 help/spl/IdentityDictionary.help.sl
 help/spl/ifFalse.help.sl
@@ -42,6 +44,7 @@ help/spl/ifTrue.help.sl
 help/spl/inf.help.sl
 help/spl/injectInto.help.sl
 help/spl/isEmpty.help.sl
+help/spl/isFraction.help.sl
 help/spl/isInteger.help.sl
 help/spl/iso8601.help.sl
 help/spl/isPrime.help.sl
@@ -62,6 +65,7 @@ help/spl/not.help.sl
 help/spl/notNot.help.sl
 help/spl/numArgs.help.sl
 help/spl/Number.help.sl
+help/spl/numerator.help.sl
 help/spl/Object.help.sl
 help/spl/ofSize.help.sl
 help/spl/OrderedCollection.help.sl
@@ -104,6 +108,7 @@ help/spl/true.help.sl
 help/spl/Type.help.sl
 help/spl/typeOf.help.sl
 help/spl/UndefinedObject.help.sl
+help/spl/unicode.help.sl
 help/spl/unixTimeInMilliseconds.help.sl
 help/spl/unlines.help.sl
 help/spl/utf8.help.sl

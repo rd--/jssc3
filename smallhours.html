@@ -24,7 +24,7 @@ window.onload = function () {
 	sc.sc3_mouse_init(globalScSynth);
 	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
 	sl.assignGlobals();
-	sl.loadUrlArrayInSequence('lib/spl/sl', ['kernel.sl', 'std.sl', 'sc.sl']);
+	sl.loadUrlArrayInSequence('lib/spl/sl', ['std.sl', 'sc.sl']);
 	document.getElementById('documentText').addEventListener('keydown', sh.keyBindings);
 	document.getElementById('programText').addEventListener('keydown', sh.keyBindings);
 	sh.initProgramMenu();
