@@ -163,7 +163,6 @@ doc/spl/Indexable Syntax.help.sl
 doc/spl/Initialised Temporaries Syntax.help.sl
 doc/spl/Literals Syntax.help.sl
 doc/spl/Loading Libraries.help.sl
-doc/spl/Local Controls.help.sl
 doc/spl/Logical Operators.help.sl
 doc/spl/MessageSend Syntax.help.sl
 doc/spl/Method Arity.help.sl
@@ -451,6 +450,7 @@ help/sc/xfade.help.sl
 help/sc/XFadeTexture.help.sl
 help/sc/XLn.help.sl
 help/sc/ZeroCrossing.help.sl
+doc/sc/Local Controls.help.sl
 doc/sc/Sc Help Index.help.sl
 doc/sc/Small Hours.help.sl
 doc/sc/Terse Guide.help.sl
