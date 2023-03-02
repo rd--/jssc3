@@ -1,7 +1,9 @@
 help/sk/Colour.help.sl
 help/sk/Menu.help.sl
 help/sk/parseHexColour.help.sl
+help/sk/pngViewer.help.sl
 help/sk/svgViewer.help.sl
+help/sk/tableViewer.help.sl
 help/spl/addAll.help.sl
 help/spl/add.help.sl
 help/spl/allButFirst.help.sl
@@ -10,9 +12,11 @@ help/spl/Array.help.sl
 help/spl/asArray.help.sl
 help/spl/ascii.help.sl
 help/spl/Association.help.sl
+help/spl/asString.help.sl
 help/spl/at.help.sl
 help/spl/atPut.help.sl
 help/spl/atRandom.help.sl
+help/spl/Blob.help.sl
 help/spl/Boolean.help.sl
 help/spl/collect.help.sl
 help/spl/Collection.help.sl
@@ -44,6 +48,7 @@ help/spl/ifTrue.help.sl
 help/spl/inf.help.sl
 help/spl/injectInto.help.sl
 help/spl/isEmpty.help.sl
+help/spl/isFinite.help.sl
 help/spl/isFraction.help.sl
 help/spl/isInteger.help.sl
 help/spl/iso8601.help.sl
@@ -76,6 +81,7 @@ help/spl/plus.help.sl
 help/spl/plusPlus.help.sl
 help/spl/primeFactors.help.sl
 help/spl/primeLimit.help.sl
+help/spl/printString.help.sl
 help/spl/Procedure.help.sl
 help/spl/product.help.sl
 help/spl/quotient.help.sl
@@ -91,6 +97,7 @@ help/spl/select.help.sl
 help/spl/semicolonSemicolon.help.sl
 help/spl/sign.help.sl
 help/spl/size.help.sl
+help/spl/SmallFloat.help.sl
 help/spl/sorted.help.sl
 help/spl/species.help.sl
 help/spl/StringDictionary.help.sl
@@ -111,6 +118,8 @@ help/spl/UndefinedObject.help.sl
 help/spl/unicode.help.sl
 help/spl/unixTimeInMilliseconds.help.sl
 help/spl/unlines.help.sl
+help/spl/URL.help.sl
+help/spl/URLSearchParams.help.sl
 help/spl/utf8.help.sl
 help/spl/value.help.sl
 help/spl/Void.help.sl

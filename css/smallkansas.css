@@ -102,7 +102,7 @@ dialog {
 	flex-basis: 6em;
 }
 
-.Workspace {
+.Workspace, .TableViewer {
 	background-color: #ff9999;
 }
 
@@ -119,7 +119,7 @@ dialog {
 	background-color: #99f499;
 }
 
-.SvgViewer {
+.PngViewer, .SvgViewer {
 	background-color: #aaffee;
 }
 
@@ -130,7 +130,7 @@ dialog {
 	overflow-y: auto;
 }
 
-.listPane {
+.listPane, .tablePane {
 	font-family: var(--font-family);
 	background-color: var(--paper-colour);
 	color: var(--text-colour);
@@ -167,7 +167,7 @@ option:checked, option:active, option:focus, option:focus-visible {
 	padding: 0px 2px 2px 2px;
 }
 
-.titlePane, .editorPane, .statusPane, .statusText, .filterText {
+.titlePane, .editorPane, .statusPane, .statusText, .filterText, .tablePane {
 	font-family: var(--font-family);
 	font-size: var(--font-size);
 	color: var(--text-colour);
