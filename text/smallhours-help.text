@@ -1,9 +1,10 @@
 help/sk/Colour.help.sl
 help/sk/Menu.help.sl
 help/sk/parseHexColour.help.sl
-help/sk/pngViewer.help.sl
-help/sk/svgViewer.help.sl
-help/sk/tableViewer.help.sl
+help/sk/PngViewer.help.sl
+help/sk/ScalaJiBrowser.help.sl
+help/sk/SvgViewer.help.sl
+help/sk/TableViewer.help.sl
 help/spl/addAll.help.sl
 help/spl/add.help.sl
 help/spl/allButFirst.help.sl

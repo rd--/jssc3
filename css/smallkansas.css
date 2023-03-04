@@ -115,7 +115,7 @@ dialog {
 	background-color: #ffee77;
 }
 
-.MidiPortBrowser {
+.MidiPortBrowser, .ScalaJiBrowser {
 	background-color: #99f499;
 }
 
