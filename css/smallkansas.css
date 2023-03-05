@@ -115,12 +115,16 @@ dialog {
 	background-color: #ffee77;
 }
 
-.MidiPortBrowser, .ScalaJiBrowser {
+.MidiPortBrowser, .ScalaJiTuningBrowser {
 	background-color: #99f499;
 }
 
 .PngViewer, .SvgViewer {
 	background-color: #aaffee;
+}
+
+.ScalaJiTuningBrowser td {
+	padding-right: 2em;
 }
 
 .menuPane {
@@ -167,6 +171,15 @@ option:checked, option:active, option:focus, option:focus-visible {
 	padding: 0px 2px 2px 2px;
 }
 
+.previewPane {
+	display: flex;
+	flex-grow: 4;
+	flex-basis: 6em;
+	margin: 0px;
+	padding: 0px;
+	overflow-y: auto;
+}
+
 .titlePane, .editorPane, .statusPane, .statusText, .filterText, .tablePane {
 	font-family: var(--font-family);
 	font-size: var(--font-size);
@@ -200,7 +213,8 @@ option:checked, option:active, option:focus, option:focus-visible {
 }
 
 .editorText {
-	width: 100vw;
+	width: 100%;
+	height: 100%;
 	min-height: 1em;
 	overflow: auto;
 	margin: 0px;
@@ -249,12 +263,8 @@ option:checked, option:active, option:focus, option:focus-visible {
 }
 
 .editorPane {
-	display: flex;
-	flex-grow: 3;
-	flex-basis: 6em;
-	margin: 0px;
-	padding: 2px;
-	overflow-y: auto;
+	width: 100%;
+	height: 100%;
 }
 
 .editorPane > div {
