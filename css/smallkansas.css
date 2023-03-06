@@ -122,6 +122,10 @@ dialog {
 	background-color: #aaffee;
 }
 
+.svgPane {
+	overflow: auto;
+}
+
 .ScalaJiTuningBrowser td {
 	padding-right: 2em;
 }
