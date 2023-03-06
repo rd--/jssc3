@@ -97,9 +97,8 @@ dialog {
 	background-color: #ffcc55;
 }
 
-.Clock {
+.DigitalClock, .DigitalClock > .editorPane, .AnalogueClock {
 	background-color: #eeff99;
-	flex-basis: 6em;
 }
 
 .Workspace, .TableViewer {
