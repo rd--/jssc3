@@ -9,6 +9,11 @@
 }
 
 @font-face {
+	font-family: "Monaco";
+	src: url("../woff2/Monaco.woff2");
+}
+
+@font-face {
 	font-family: "Los Altos";
 	src: url("../woff2/Los Altos.woff2");
 }
