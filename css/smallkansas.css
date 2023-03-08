@@ -79,6 +79,11 @@ dialog {
 	height: 25em;
 }
 
+.Inspector {
+	width: 25em;
+	height: 35em;
+}
+
 .TextEditor {
 	width: 40em;
 	height: 20em;
@@ -87,7 +92,6 @@ dialog {
 .SmallKansas {
 	background-color: #aadd99;
 }
-
 
 .HelpBrowser, .HelpFor {
 	background-color: #99eecc;
@@ -106,7 +110,7 @@ dialog {
 	background-color: #eeff99;
 }
 
-.Workspace, .TableViewer {
+.Workspace, .TableViewer, .Inspector {
 	background-color: #ff9999;
 }
 
@@ -142,13 +146,17 @@ dialog {
 	overflow-y: auto;
 }
 
-.listPane, .tablePane {
+.listPane, .listChooserPane, .tablePane {
 	font-family: var(--font-family);
 	background-color: var(--paper-colour);
 	color: var(--text-colour);
 	display: flex;
 	flex-grow: 1;
 	margin: 0px;
+}
+
+.listChooserPane > button {
+	text-align: left;
 }
 
 .listPane ul {
@@ -241,7 +249,7 @@ option:checked, option:active, option:focus, option:focus-visible {
 	background-color: var(--when-selected-background-colour);
 }
 
-.columnsPane {
+.columnsPane, .inspectorPane {
 	display: flex;
 	flex-direction: row;
 	flex-grow: 1;
@@ -249,12 +257,13 @@ option:checked, option:active, option:focus, option:focus-visible {
 	margin: 0px;
 }
 
-.columnsPane .column, .columnsPane select {
+.columnsPane .column, .columnsPane select, .inspectorPane select {
 	flex-basis: 6em;
 	margin: 0px;
 }
 
-.column {
+.listChooserPane {
+	background-color: transparent;
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
@@ -262,6 +271,10 @@ option:checked, option:active, option:focus, option:focus-visible {
 	row-gap: 2px;
 	margin: 0px;
 	padding: 0px;
+}
+
+.listChooserPane > select {
+	flex-grow: 1
 }
 
 .filterText {
