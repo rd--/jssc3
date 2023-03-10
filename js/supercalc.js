@@ -141,7 +141,7 @@ function define_cell_variables() {
 function cell_ugen_to_osc_packet(col_letter, row_number, ugen) {
 	const cell_name = col_letter + String(row_number);
 	const bus_index = cellref_to_bus(col_letter, row_number);
-	const graph = sc.makeGraph(cell_name, sc.wrapOut(bus_index, ugen));
+	const graph = sc.makeUgenGraph(cell_name, sc.wrapOut(bus_index, ugen));
 	const syndef = sc.graphEncodeSyndef(graph);
 	const group_id = cellref_to_group(col_letter, row_number);
 	const g_free_msg = sc.g_freeAll1(group_id);

@@ -15,7 +15,6 @@ export * from './sc3/pseudo.ts'
 export * from './sc3/rate.ts'
 export * from './sc3/scsynth.ts'
 export * from './sc3/scsynth-options.ts'
-export * from './sc3/scsynth-status.ts'
 
 export * from './sc3/scsynth-wasm-init.ts'
 export * from './sc3/scsynth-wasm-module.ts'

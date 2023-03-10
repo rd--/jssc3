@@ -1,18 +1,19 @@
 import { prompt_for_int_and_then } from '../kernel/dom.ts'
 
-export type ScSynthOptions = {
-	hardwareBufferSize: number,
-	blockSize: number,
-	numInputs: number,
-	numOutputs: number
-};
+export class ScSynthOptions {
+	hardwareBufferSize: number;
+	blockSize: number;
+	numInputs: number;
+	numOutputs: number;
+	constructor(hardwareBufferSize: number, blockSize: number, numInputs: number, numOutputs: number) {
+		this.hardwareBufferSize = hardwareBufferSize;
+		this.blockSize = blockSize;
+		this.numInputs = numInputs;
+		this.numOutputs = numOutputs;
+	}
+}
 
-export const scSynthDefaultOptions: ScSynthOptions = {
-	numInputs: 2,
-	numOutputs: 2,
-	hardwareBufferSize: 8192,
-	blockSize: 48
-};
+export const scSynthDefaultOptions: ScSynthOptions = new ScSynthOptions(8192, 48, 2, 2);
 
 export function scSynthOptionsPrint(options: ScSynthOptions):void {
 	console.log(
@@ -27,7 +28,9 @@ function set_hardware_buffer_size(scSynthOptions: ScSynthOptions): void {
 	prompt_for_int_and_then(
 		'Set hardware buffer size',
 		scSynthOptions.hardwareBufferSize,
-		function(aNumber) { scSynthOptions.hardwareBufferSize = aNumber; }
+		function(aNumber) {
+			scSynthOptions.hardwareBufferSize = aNumber;
+		}
 	);
 }
 

@@ -1,8 +1,8 @@
 import { udpSendToAddr } from '../kernel/udp.ts'
+import { OscPacket, encodeOscPacket } from '../stdlib/opensoundcontrol.ts'
 
 import { ScSynth } from './scsynth.ts'
 import { scSynthDefaultOptions } from './scsynth-options.ts'
-import { ServerPacket, encodeServerPacket } from './servercommand.ts'
 
 type ScSynthUdp = Deno.NetAddr;
 
@@ -12,9 +12,9 @@ export const defaultScSynthUdp: ScSynthUdp = {
 	port: 57110
 };
 
-export function sendOscUdp(scSynthUdp: ScSynthUdp, oscPacket: ServerPacket): void {
+export function sendOscUdp(scSynthUdp: ScSynthUdp, oscPacket: OscPacket): void {
 	// console.debug(`sendOsc: ${oscPacket}`);
-	udpSendToAddr(scSynthUdp, encodeServerPacket(oscPacket));
+	udpSendToAddr(scSynthUdp, encodeOscPacket(oscPacket));
 }
 
 export function scSynthUdp(scSynthUdp: ScSynthUdp): ScSynth {
@@ -22,7 +22,6 @@ export function scSynthUdp(scSynthUdp: ScSynthUdp): ScSynth {
 		scSynthDefaultOptions,
 		() => console.log(`scSynthUdp: cannot start remote synthesiser`),
 		(oscPacket) => sendOscUdp(scSynthUdp, oscPacket),
-		(aString) => console.log(`scSynthUdp: ${aString}`)
 	);
 	scSynth.isAlive = true;
 	scSynth.hasIoUgens = true;

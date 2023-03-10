@@ -1,29 +1,29 @@
+import { OscMessage, OscPacket, decodeOscMessage, encodeOscMessage, encodeOscPacket } from '../stdlib/opensoundcontrol.ts'
+
 import { encodeUgen } from './graph.ts'
 import { wrapOut } from './pseudo.ts'
-import { ServerMessage, ServerPacket, c_setn1, d_recv_then, decodeServerMessage, encodeServerMessage, encodeServerPacket, g_freeAll1, kAddToTail, m_dumpOsc, m_notify, m_status, s_new0 } from './servercommand.ts'
+import { c_setn1, d_recv_then, g_freeAll1, kAddToTail, m_dumpOsc, m_notify, m_status, m_parseStatusReply, ScSynthStatus, s_new0 } from './servercommand.ts'
 import { ScSynth, initGroupStructure } from './scsynth.ts'
 import { ScSynthWasmModule } from './scsynth-wasm-module.ts'
 import { ScSynthOptions, scSynthOptionsPrint } from './scsynth-options.ts'
-import { ScSynthStatus } from './scsynth-status.ts'
 import { Signal } from './ugen.ts'
 
-export function scsynthWasm(options: ScSynthOptions, wasm: ScSynthWasmModule, status: (aString: string) => void): ScSynth {
+export function scsynthWasm(options: ScSynthOptions, wasm: ScSynthWasmModule): ScSynth {
 	const scsynth: ScSynth = new ScSynth(
 		options,
 		() => bootScSynthWasm(scsynth, wasm),
-		oscPacket => sendOscWasm(scsynth, wasm, oscPacket),
-		status
+		oscPacket => sendOscWasm(scsynth, wasm, oscPacket)
 	);
 	return scsynth;
 }
 
-export function sendOscWasm(scsynth: ScSynth, wasm: ScSynthWasmModule, oscPacket: ServerPacket): void {
+export function sendOscWasm(scsynth: ScSynth, wasm: ScSynthWasmModule, oscPacket: OscPacket): void {
 	// console.debug(`sendOscWasm: ${oscPacket}`);
 	if((scsynth.isStarting || scsynth.isAlive) && wasm.oscDriver) {
 		const port = wasm.oscDriver[scsynth.synthPort];
 		const recv = port && port.receive;
 		if(recv) {
-			recv(scsynth.langPort, encodeServerPacket(oscPacket));
+			recv(scsynth.langPort, encodeOscPacket(oscPacket));
 		} else {
 			console.warn('sendOscWasm: recv?');
 		}
@@ -64,11 +64,17 @@ function monitorOscWasm(scsynth: ScSynth, wasm: ScSynthWasmModule): void {
 				scsynth.isAlive = true;
 				initGroupStructure(scsynth);
 			}
-			const msg = decodeServerMessage(data);
+			const msg = decodeOscMessage(data);
+			scsynth.oscListeners.forEach(function(value, key) {
+				if(msg.address === key) {
+					value.forEach(function(handler) {
+						handler(msg);
+					});
+				}
+			});
 			if(msg.address === '/status.reply') {
-				const ugenCount = <number>msg.args[1].value;
-				scsynth.status.ugenCount = ugenCount;
-				scsynth.monitorDisplay('# ' + ugenCount);
+				m_parseStatusReply(msg, scsynth.status);
+				// scsynth.monitorDisplay('# ' + ugenCount);
 			} else if(msg.address === '/done') {
 				console.log('/done', msg.args[0]);
 			} else {

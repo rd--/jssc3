@@ -4,7 +4,7 @@ var mostRecentUgenGraph = null;
 
 function playUgen(ugenGraph) {
 	mostRecentUgenGraph = ugenGraph;
-	sc.scsynthEnsure(globalScSynth, function() {
+	sc.scSynthEnsure(globalScSynth, function() {
 		sc.playUgen(globalScSynth, ugenGraph, 1);
 	});
 }

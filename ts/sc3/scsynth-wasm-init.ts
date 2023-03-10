@@ -18,8 +18,8 @@ if(globalThis.Module !== undefined) {
 	initScSynthWasmModule(globalThis.Module, consoleLogMessageFrom, function(_text: string) { return null; });
 }
 
-export function sc3_wasm_init(showStatus: (text: string) => void): void {
-	globalThis.globalScSynth = scsynthWasm(scSynthDefaultOptions, globalThis.Module, showStatus);
+export function sc3_wasm_init(): void {
+	globalThis.globalScSynth = scsynthWasm(scSynthDefaultOptions, globalThis.Module);
     // console.debug(`sc3_wasm_init: Module: ${globalThis.Module}`);
 	globalThis.onerror = function(event) {
 		consoleLogMessageFrom('globalThis.onerror', String(event));

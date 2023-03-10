@@ -1,8 +1,9 @@
 import { arrayFromTo } from '../kernel/array.ts'
+import { OscMessage } from '../stdlib/opensoundcontrol.ts'
 
 import { Latch } from './bindings.ts'
 import { ControlIn } from './pseudo.ts'
-import { ServerMessage, c_set1, c_setn1 } from './servercommand.ts'
+import { c_set1, c_setn1 } from './servercommand.ts'
 import { Signal } from './ugen.ts'
 
 export class CcEvent<T> {
@@ -51,11 +52,11 @@ export function Voicer(numVoices: number, voiceFunc: (e: CcEvent<Signal>) => Sig
 	});
 }
 
-export function ccEventParamSetMessage(e: CcEvent<number>): ServerMessage {
+export function ccEventParamSetMessage(e: CcEvent<number>): OscMessage {
 	return c_setn1(voiceAddr(e.v), [e.w, e.x, e.y, e.z, e.o, e.rx, e.ry, e.p, e.px]);
 }
 
-export function voiceEndMessage(voiceNumber: number): ServerMessage {
+export function voiceEndMessage(voiceNumber: number): OscMessage {
 	return c_set1(voiceAddr(voiceNumber), 0);
 }
 

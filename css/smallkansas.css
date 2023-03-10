@@ -99,7 +99,7 @@ dialog {
 }
 
 
-.ProgramBrowser {
+.ProgramBrowser, .ScSynthStatus {
 	background-color: #88ccff; /* #bbddff */
 }
 

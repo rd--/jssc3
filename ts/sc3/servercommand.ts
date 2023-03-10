@@ -1,36 +1,4 @@
-// requires: osc.js
-
-import { OscData, oscBlob, oscInt32, oscFloat, oscString } from '../stdlib/opensoundcontrol.ts'
-
-declare namespace osc {
-  function readPacket(packet: Uint8Array, options: Record<string, unknown>): ServerPacket;
-  function writePacket(message: ServerPacket, options: Record<string, unknown>): Uint8Array;
-}
-
-export function decodeServerMessage(packet:  Uint8Array): ServerMessage {
-	// https://github.com/colinbdclark/osc.js/issues/90
-	return osc.readPacket(packet, {metadata: true});
-}
-
-export function encodeServerPacket(message:  ServerPacket): Uint8Array {
-	return osc.writePacket(message, {metadata: true});
-}
-
-export function encodeServerMessage(message:  ServerMessage): Uint8Array {
-	return osc.writePacket(message, {metadata: true});
-}
-
-export type ServerMessage = {
-	address: string,
-	args: OscData[]
-};
-
-export type ServerBundle = {
-	timeTag: number,
-	packets: ServerMessage[]
-};
-
-export type ServerPacket = ServerMessage | ServerMessage;
+import { OscData, OscMessage, encodeOscPacket, oscBlob, oscInt32, oscFloat, oscString } from '../stdlib/opensoundcontrol.ts'
 
 // k = constant
 
@@ -39,7 +7,7 @@ export const kAddToTail = 1;
 
 // b = buffer
 
-export function b_alloc_then(bufferNumber: number, numberOfFrames: number, numberOfChannels: number, onCompletion: Uint8Array): ServerMessage {
+export function b_alloc_then(bufferNumber: number, numberOfFrames: number, numberOfChannels: number, onCompletion: Uint8Array): OscMessage {
 	return {
 		address: '/b_alloc',
 		args: [oscInt32(bufferNumber), oscInt32(numberOfFrames), oscInt32(numberOfChannels), oscBlob(onCompletion)]
@@ -47,7 +15,7 @@ export function b_alloc_then(bufferNumber: number, numberOfFrames: number, numbe
 }
 
 // b_gen memcpy is in sc3-rdu
-export function b_memcpy(bufferNumber: number, numFrames: number, numChannels: number, sampleRate: number, bufferData: Uint8Array): ServerMessage {
+export function b_memcpy(bufferNumber: number, numFrames: number, numChannels: number, sampleRate: number, bufferData: Uint8Array): OscMessage {
 	return {
 		address: '/b_gen',
 		args: [
@@ -60,7 +28,7 @@ export function b_memcpy(bufferNumber: number, numFrames: number, numChannels: n
 	};
 }
 
-export function b_alloc_then_memcpy(bufferNumber: number, numberOfFrames: number, numberOfChannels: number, sampleRate: number, bufferData: Uint8Array): ServerMessage {
+export function b_alloc_then_memcpy(bufferNumber: number, numberOfFrames: number, numberOfChannels: number, sampleRate: number, bufferData: Uint8Array): OscMessage {
 	const allocBytes = numberOfFrames * numberOfChannels * 4;
 	if(allocBytes != bufferData.length) {
 		console.error('b_alloc_then_memcpy: array size error', allocBytes, bufferData.length);
@@ -69,18 +37,18 @@ export function b_alloc_then_memcpy(bufferNumber: number, numberOfFrames: number
 		bufferNumber,
 		numberOfFrames,
 		numberOfChannels,
-		encodeServerPacket(b_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, bufferData))
+		encodeOscPacket(b_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, bufferData))
 	);
 }
 
-export function b_getn1(bufferNumber: number, startIndex: number, count: number): ServerMessage {
+export function b_getn1(bufferNumber: number, startIndex: number, count: number): OscMessage {
 	return {
 		address: '/b_getn',
 		args: [oscInt32(bufferNumber), oscInt32(startIndex), oscInt32(count)]
 	};
 }
 
-export function b_query1(bufferNumber: number): ServerMessage {
+export function b_query1(bufferNumber: number): OscMessage {
 	return {
 		address: '/b_query',
 		args: [oscInt32(bufferNumber)]
@@ -89,14 +57,14 @@ export function b_query1(bufferNumber: number): ServerMessage {
 
 // c = control
 
-export function c_set1(busIndex: number, controlValue: number): ServerMessage {
+export function c_set1(busIndex: number, controlValue: number): OscMessage {
 	return {
 		address: '/c_set',
 		args: [oscInt32(busIndex), oscFloat(controlValue)]
 	};
 }
 
-export function c_setn1(busIndex: number, controlArray: number[]): ServerMessage {
+export function c_setn1(busIndex: number, controlArray: number[]): OscMessage {
 	return {
 		address: '/c_setn',
 		args: [oscInt32(busIndex), oscInt32(controlArray.length)].concat(controlArray.map(oscFloat))
@@ -105,14 +73,14 @@ export function c_setn1(busIndex: number, controlArray: number[]): ServerMessage
 
 // d = (synth) definition
 
-export function d_recv(syndefArray: Uint8Array): ServerMessage {
+export function d_recv(syndefArray: Uint8Array): OscMessage {
 	return {
 		address: '/d_recv',
 		args: [oscBlob(syndefArray)]
 	};
 }
 
-export function d_recv_then(syndefArray: Uint8Array, onCompletion: Uint8Array): ServerMessage {
+export function d_recv_then(syndefArray: Uint8Array, onCompletion: Uint8Array): OscMessage {
 	return {
 		address: '/d_recv',
 		args: [oscBlob(syndefArray), oscBlob(onCompletion)]
@@ -123,49 +91,61 @@ export function d_recv_then(syndefArray: Uint8Array, onCompletion: Uint8Array): 
 
 export type G_new = [groupId: number, addAction: number, nodeId: number];
 
-export function g_new(groups: G_new[]): ServerMessage {
+export function g_new(groups: G_new[]): OscMessage {
 	return {
 		address: '/g_new',
 		args: groups.map(group => group.map(oscInt32)).flat()
 	};
 }
 
-export function g_new1(groupId: number, addAction: number, nodeId: number): ServerMessage {
+export function g_new1(groupId: number, addAction: number, nodeId: number): OscMessage {
 	return g_new([[groupId, addAction, nodeId]]);
 }
 
-export function g_freeAll(groupIdArray: number[]): ServerMessage {
+export function g_freeAll(groupIdArray: number[]): OscMessage {
 	return {
 		address: '/g_freeAll',
 		args: groupIdArray.map(groupId => oscInt32(groupId))
 	};
 }
 
-export function g_freeAll1(groupId: number): ServerMessage {
+export function g_freeAll1(groupId: number): OscMessage {
 	return g_freeAll([groupId]);
 }
 
 // m = meta
 
-export const m_status: ServerMessage = {address: '/status', args: []};
+export const m_status: OscMessage = {address: '/status', args: []};
 
-export function m_dumpOsc(code: number): ServerMessage {
+export function m_dumpOsc(code: number): OscMessage {
 	return {
 		address: '/dumpOSC',
 		args: [oscInt32(code)]
 	};
 }
 
-export function m_notify(status: number, clientId: number): ServerMessage {
+export function m_notify(status: number, clientId: number): OscMessage {
 	return {
 		address: '/notify',
 		args: [oscInt32(status), oscInt32(clientId)]
 	};
 }
 
+export type ScSynthStatus = {
+	ugenCount: number,
+};
+
+export function m_parseStatusReply(msg: OscMessage, status: ScSynthStatus): void {
+	if(msg.address === '/status.reply') {
+		status.ugenCount = <number>msg.args[1].value;
+	} else {
+		throw(`m_statusReply: not /status.reply: ${msg.address}`);
+	}
+}
+
 // s = synth
 
-export function s_new0(name: string, nodeId: number, addAction: number, target: number): ServerMessage {
+export function s_new0(name: string, nodeId: number, addAction: number, target: number): OscMessage {
 	return {
 		address: '/s_new',
 		args: [oscString(name), oscInt32(nodeId), oscInt32(addAction), oscInt32(target)]

@@ -119,3 +119,15 @@ export function loadOracle() {
 	var fileName = sc.arrayChoose(state.oracleFiles);
 	sc.load_utf8_and_then(`./lib/stsc3/help/${fileName}`, (text) => insertText(null, text));
 }
+
+export function initStatusListener() {
+	sc
+	let f = sc.setter_for_inner_html_of('statusText');
+	setInterval(function() {
+			if(globalScSynth.isAlive) {
+				f(globalScSynth.status.ugenCount);
+			} else {
+				f('---');
+			}
+	});
+}

@@ -1,30 +1,33 @@
+import { setter_for_inner_html_of } from '../kernel/dom.ts'
+import { OscMessage, OscPacket, decodeOscMessage, encodeOscMessage, encodeOscPacket } from '../stdlib/opensoundcontrol.ts'
+
 import { encodeUgen } from './graph.ts'
 import { wrapOut } from './pseudo.ts'
 import { ScSynthOptions } from './scsynth-options.ts'
-import { ScSynthStatus } from './scsynth-status.ts'
-import { ServerMessage, ServerPacket, c_setn1, d_recv_then, decodeServerMessage, encodeServerMessage, encodeServerPacket, g_freeAll, g_new, kAddToTail, m_dumpOsc, m_notify, m_status, s_new0 } from './servercommand.ts'
+import { c_setn1, d_recv_then, g_freeAll, g_new, kAddToTail, m_dumpOsc, m_notify, m_status, ScSynthStatus, s_new0 } from './servercommand.ts'
 import { Signal } from './ugen.ts'
 
 type StartSynth = () => void;
-type SendOsc = (oscPacket: ServerPacket) => void;
-type MonitorDisplay = (text: string) => void;
+type SendOsc = (oscPacket: OscPacket) => void;
+type MessageFunction = (message: OscMessage) => void;
+type OscListeners = Map<string, Set<MessageFunction>>;
 
 export class ScSynth {
 	options: ScSynthOptions;
 	boot: StartSynth;
 	sendOsc: SendOsc;
-	monitorDisplay: (text: string) => void;
+	oscListeners: OscListeners;
 	isAlive: boolean;
 	isStarting: boolean;
 	hasIoUgens: boolean;
 	synthPort: number;
 	langPort: number;
 	status: ScSynthStatus;
-	constructor(options: ScSynthOptions, boot: StartSynth, sendOsc: SendOsc, monitorDisplay: MonitorDisplay) {
+	constructor(options: ScSynthOptions, boot: StartSynth, sendOsc: SendOsc) {
 		this.options = options
 		this.boot = boot;
 		this.sendOsc = sendOsc;
-		this.monitorDisplay = monitorDisplay;
+		this.oscListeners = new Map();
 		this.isAlive = false;
 		this.isStarting = false;
 		this.synthPort = 57110;
@@ -36,6 +39,29 @@ export class ScSynth {
 
 declare global {
 	var globalScSynth: ScSynth;
+}
+
+export function scSynthAddOscListener(scSynth: ScSynth, address: string, handler: MessageFunction):void {
+	if(scSynth.oscListeners.has(address)) {
+		scSynth.oscListeners.get(address)!.add(handler);
+	} else {
+		scSynth.oscListeners.set(address, new Set([handler]));
+	}
+}
+
+export function scSynthRemoveOscListener(scSynth: ScSynth, address: string, handler: MessageFunction):void {
+		scSynth.oscListeners.get(address)!.delete(handler);
+}
+
+export function scSynthInitStatusTextListener(scSynth: ScSynth, nilText: string) {
+	let setText = setter_for_inner_html_of('statusText');
+	setInterval(function() {
+			if(scSynth.isAlive) {
+				setText(scSynth.status.ugenCount.toString());
+			} else {
+				setText(nilText);
+			}
+	});
 }
 
 export function scSynthEnsure(scSynth: ScSynth, activity: () => void) {
@@ -54,7 +80,7 @@ export function scSynthEnsure(scSynth: ScSynth, activity: () => void) {
 
 export function playSynDef(scSynth: ScSynth, synDefName: string, synDefData: Uint8Array, groupId: number): void {
 	console.log('playSynDef #', synDefData.length);
-	scSynth.sendOsc(d_recv_then(synDefData, encodeServerMessage(s_new0(synDefName, -1, kAddToTail, groupId))));
+	scSynth.sendOsc(d_recv_then(synDefData, encodeOscMessage(s_new0(synDefName, -1, kAddToTail, groupId))));
 }
 
 export function playUgen(scSynth: ScSynth, ugenGraph: Signal, groupId: number): void {

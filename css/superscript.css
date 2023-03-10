@@ -13,8 +13,11 @@ h2, h2 {
 	font-size: 1em;
 }
 
-code {
+pre {
 	background-color: var(--program-colour);
+	display:block;
+	white-space:pre;
+	width:100%;
 }
 
 a, a:visited {
@@ -22,6 +25,7 @@ a, a:visited {
 }
 
 #documentContainer {
+	background-color: var(--paper-colour);
 	font-size: 1em;
 	max-width: 45em;
 }

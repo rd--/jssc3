@@ -1,7 +1,15 @@
-body {
-  background-color: #ffbcd9 !important; /* f77fbe d74894 ffdae9 ffbcd9 ffb7c5 ffb3de fddde6 ffc0cb ffddf4 */
+body, p {
+	background-color: #ffbcd9 !important; /* f77fbe d74894 ffdae9 ffbcd9 ffb7c5 ffb3de fddde6 ffc0cb ffddf4 */
 }
 
 td {
-  background-color: #ffffe8;
+	background-color: #ffffe8;
+}
+
+ol, li {
+	color: var(--text-colour);
+}
+
+#menuContainer {
+	margin: 1em 0em;
 }

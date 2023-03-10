@@ -28,11 +28,12 @@ globalThis.loadSheet = function() {
 };
 sl.addLoadUrlMethods();
 window.onload = function () {
-	sc.sc3_wasm_init(sc.setter_for_inner_html_of('statusText'));
+	sc.sc3_wasm_init();
+	sc.scSynthInitStatusTextListener(globalScSynth, '---');
 	sc.sc3_mouse_init(globalScSynth);
 	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
 	sl.assignGlobals();
-	sl.loadUrlArrayInSequence('lib/spl/sl', ['kernel.sl', 'std.sl', 'sc.sl']);
+	sl.loadUrlArrayInSequence('lib/spl/sl', ['std.sl', 'sc.sl']);
 	calc.initProgramMenu();
 	calc.initSheet(8, 8);
 };
@@ -41,7 +42,7 @@ window.onload = function () {
 	<body>
 		<h1>SuperCalc</h1>
 		<div id="menuContainer">
-			<button title="Begin" accesskey="b" onclick="sc.scsynthEnsure(globalScSynth, calc.server_setup)">Begin</button>
+			<button title="Begin" accesskey="b" onclick="sc.scSynthEnsure(globalScSynth, calc.server_setup)">Begin</button>
 			<span id="statusText">...</span>
 			<input type="file" id="programInputFile" accept=".json" onchange="loadSheet()" style="display:none">
 			<button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
@@ -53,23 +54,23 @@ window.onload = function () {
 			<div id="supercalcContainer"></div>
 		</div>
 		<p>
-			<strong>Instructions</strong>:
+			<em>Instructions</em>:
 			<ol>
-		  <li>
-			  Press <em>Begin</em> to start the synthesiser.
-			  Wait until each of the cell programs have been initialised.
-			  (The status area will say <em>#192</em>).
-		  <li>
-			  Press <em>Load</em> to load a program from disk or select a program from the menu.
-			  (To reset the system load the <em>Empty Program</em> file.)
-		  </li>
-		  <li>
-			  Press <em>Copy</em> to copy the current state of the program to the system clipboard to save your work.
-		  </li>
-		  <li>
-			  Read the brief <a href="http://rohandrape.net/?t=jssc3&e=md/supercalc.md" target="_blank">introductory notes</a>.
-		  </li>
-	  </ol>
+				<li>
+					Press <em>Begin</em> to start the synthesiser.
+					Wait until each of the cell programs have been initialised.
+					(The status area will say <em>#128</em>).
+				<li>
+					Press <em>Load</em> to load a program from disk or select a program from the menu.
+					(To reset the system load the <em>Empty Program</em> file.)
+				</li>
+				<li>
+					Press <em>Copy</em> to copy the current state of the program to the system clipboard to save your work.
+				</li>
+				<li>
+					Read the brief <a href="http://rohandrape.net/?t=jssc3&e=md/supercalc.md" target="_blank">introductory notes</a>.
+				</li>
+			</ol>
 		</p>
 		<script async src="lib/scsynth-wasm-builds/ext/scsynth.js"></script>
 	</body>
