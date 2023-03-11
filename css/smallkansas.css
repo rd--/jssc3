@@ -103,6 +103,11 @@ dialog {
 	background-color: #88ccff; /* #bbddff */
 }
 
+.ProgramBrowser {
+	width: 50em;
+	height: 25em;
+}
+
 .MethodBrowser, .MethodSignatureBrowser {
 	background-color: #ffcc55;
 }
