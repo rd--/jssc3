@@ -133,11 +133,36 @@ export function m_notify(status: number, clientId: number): OscMessage {
 
 export type ScSynthStatus = {
 	ugenCount: number,
+	synthCount: number,
+	groupCount: number,
+	synthdefCount: number,
+	cpuAverage: number,
+	cpuPeak: number,
+	sampleRateNominal: number,
+	sampleRateActual: number
+};
+
+export const defaultScSynthStatus = {
+	ugenCount: 0,
+	synthCount: 0,
+	groupCount: 0,
+	synthdefCount: 0,
+	cpuAverage: 0,
+	cpuPeak: 0,
+	sampleRateNominal: 48000,
+	sampleRateActual: 48000
 };
 
 export function m_parseStatusReply(msg: OscMessage, status: ScSynthStatus): void {
 	if(msg.address === '/status.reply') {
 		status.ugenCount = <number>msg.args[1].value;
+		status.synthCount = <number>msg.args[2].value;
+		status.groupCount = <number>msg.args[3].value;
+		status.synthdefCount = <number>msg.args[4].value;
+		status.cpuAverage = <number>msg.args[5].value;
+		status.cpuPeak = <number>msg.args[6].value;
+		status.sampleRateNominal = <number>msg.args[7].value;
+		status.sampleRateActual = Math.round(<number>msg.args[8].value);
 	} else {
 		throw(`m_statusReply: not /status.reply: ${msg.address}`);
 	}

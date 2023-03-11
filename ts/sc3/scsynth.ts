@@ -4,7 +4,7 @@ import { OscMessage, OscPacket, decodeOscMessage, encodeOscMessage, encodeOscPac
 import { encodeUgen } from './graph.ts'
 import { wrapOut } from './pseudo.ts'
 import { ScSynthOptions } from './scsynth-options.ts'
-import { c_setn1, d_recv_then, g_freeAll, g_new, kAddToTail, m_dumpOsc, m_notify, m_status, ScSynthStatus, s_new0 } from './servercommand.ts'
+import { c_setn1, d_recv_then, g_freeAll, g_new, kAddToTail, m_dumpOsc, m_notify, m_status, ScSynthStatus, defaultScSynthStatus, s_new0 } from './servercommand.ts'
 import { Signal } from './ugen.ts'
 
 type StartSynth = () => void;
@@ -33,7 +33,7 @@ export class ScSynth {
 		this.synthPort = 57110;
 		this.langPort = 57120;
 		this.hasIoUgens = false;
-		this.status = {ugenCount: 0};
+		this.status = defaultScSynthStatus;
 	}
 }
 
