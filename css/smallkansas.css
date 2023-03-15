@@ -85,7 +85,7 @@ dialog {
 	height: 15em;
 }
 
-.TextEditor {
+.TextEditor, .TranscriptViewer {
 	width: 40em;
 	height: 20em;
 }
@@ -116,7 +116,7 @@ dialog {
 	background-color: #eeff99;
 }
 
-.Workspace, .TableViewer, .Inspector {
+.Workspace, .TableViewer, .Inspector, .TranscriptViewer {
 	background-color: #ff9999;
 }
 

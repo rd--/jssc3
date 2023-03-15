@@ -1,23 +1,19 @@
 export type ScSynthWasmModule = Record<string, any>;
 
-export function initScSynthWasmModule(Module: ScSynthWasmModule, logFunction: (p: string, q: string) => void, displayFunction: (p: string) => void) {
-	Module.preRun = [];
-	Module.postRun = [];
-	Module.print = function(text: string): void {
-		logFunction('wasm/print', text);
+export function initScSynthWasmModule(scSynthModule: ScSynthWasmModule, logFunction: (msg: string) => void) {
+	scSynthModule.preRun = [];
+	scSynthModule.postRun = [];
+	scSynthModule.print = function(text: string): void {
+		logFunction(`wasm/print:  ${text}`);
 	};
-	Module.printErr = function(text: string): void {
-		logFunction('wasm/error', text);
+	scSynthModule.printErr = function(text: string): void {
+		logFunction(`wasm/error: ${text}`);
 	};
-	Module.totalDependencies = 0;
-	Module.monitorRunDependencies = function(left: number) {
-		logFunction('wasm/monitorRunDependencies', '# ' + String(left));
-		if(left > 0) {
-			displayFunction("Loading...");
-		}
+	scSynthModule.totalDependencies = 0;
+	scSynthModule.monitorRunDependencies = function(left: number) {
+		logFunction(`wasm/monitorRunDependencies: # ${String(left)}`);
 	};
-	Module.onRuntimeInitialized = function() {
-		logFunction('wasm/onRuntimeInitialized', '...');
-		displayFunction("&nbsp;");
+	scSynthModule.onRuntimeInitialized = function() {
+		logFunction('wasm/onRuntimeInitialized: ...');
 	};
 }

@@ -1,5 +1,5 @@
 dist:
-	deno bundle --config ./deno.json --no-check jssc3.ts ../dist/jssc3.js
+	deno run --allow-net --allow-read --allow-env mk-dist.js > ../dist/jssc3.hs
 
 check-ts:
 	deno check --config deno.json */*.ts

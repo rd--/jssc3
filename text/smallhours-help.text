@@ -1,10 +1,20 @@
+help/sk/CategoryBrowser.help.sl
 help/sk/Colour.help.sl
+help/sk/ColumnBrowser.help.sl
+help/sk/Frame.help.sl
 help/sk/Menu.help.sl
+help/sk/MethodBrowser.help.sl
+help/sk/MethodSignatureBrowser.help.sl
 help/sk/parseHexColour.help.sl
 help/sk/PngViewer.help.sl
+help/sk/ProgramBrowser.help.sl
 help/sk/ScalaJiTuningBrowser.help.sl
 help/sk/SvgViewer.help.sl
+help/sk/SystemBrowser.help.sl
 help/sk/TableViewer.help.sl
+help/sk/TraitBrowser.help.sl
+help/sk/TypeBrowser.help.sl
+help/sk/View.help.sl
 help/spl/addAll.help.sl
 help/spl/add.help.sl
 help/spl/allButFirst.help.sl
@@ -55,6 +65,7 @@ help/spl/isInteger.help.sl
 help/spl/iso8601.help.sl
 help/spl/isPrime.help.sl
 help/spl/json.help.sl
+help/spl/LargeInteger.help.sl
 help/spl/lessThanEquals.help.sl
 help/spl/lessThan.help.sl
 help/spl/lines.help.sl
@@ -77,9 +88,12 @@ help/spl/ofSize.help.sl
 help/spl/OrderedCollection.help.sl
 help/spl/or.help.sl
 help/spl/parseJson.help.sl
+help/spl/perform.help.sl
 help/spl/pi.help.sl
 help/spl/plus.help.sl
 help/spl/plusPlus.help.sl
+help/spl/Point.help.sl
+help/spl/PolarPoint.help.sl
 help/spl/primeFactors.help.sl
 help/spl/primeLimit.help.sl
 help/spl/printString.help.sl
@@ -123,21 +137,14 @@ help/spl/URL.help.sl
 help/spl/URLSearchParams.help.sl
 help/spl/utf8.help.sl
 help/spl/value.help.sl
+help/spl/Vector2.help.sl
+help/spl/Vector3.help.sl
+help/spl/Vector4.help.sl
 help/spl/Void.help.sl
 help/spl/whileFalse.help.sl
 help/spl/whileTrue.help.sl
 help/spl/withReturn.help.sl
-doc/sk/Category Browser.help.sl
-doc/sk/Column Browser.help.sl
-doc/sk/Frame.help.sl
-doc/sk/Method Browser.help.sl
-doc/sk/Method Signature Browser.help.sl
-doc/sk/Program Browser.help.sl
 doc/sk/Small Kansas.help.sl
-doc/sk/System Browser.help.sl
-doc/sk/Trait Browser.help.sl
-doc/sk/Type Browser.help.sl
-doc/sk/View.help.sl
 doc/spl/Apply Syntax.help.sl
 doc/spl/Assignment, initialisation, equality, identity.help.sl
 doc/spl/AtPutDelegateTo Syntax.help.sl
@@ -403,6 +410,7 @@ help/sc/Saw.help.sl
 help/sc/schedule.help.sl
 help/sc/scheduleInjecting.help.sl
 help/sc/Schmidt.help.sl
+help/sc/ScSynth.help.sl
 help/sc/Select.help.sl
 help/sc/Sequencer.help.sl
 help/sc/series.help.sl

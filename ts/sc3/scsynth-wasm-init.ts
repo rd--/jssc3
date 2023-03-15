@@ -3,7 +3,7 @@
 This module initialises the required fields before that script is loaded.
 */
 
-import { consoleLogMessageFrom } from '../kernel/error.ts'
+import { consoleLog } from '../kernel/error.ts'
 
 import { ScSynthWasmModule, initScSynthWasmModule } from './scsynth-wasm-module.ts'
 import { scSynthDefaultOptions } from './scsynth-options.ts'
@@ -15,13 +15,13 @@ declare global {
 }
 
 if(globalThis.Module !== undefined) {
-	initScSynthWasmModule(globalThis.Module, consoleLogMessageFrom, function(_text: string) { return null; });
+	initScSynthWasmModule(globalThis.Module, consoleLog);
 }
 
 export function sc3_wasm_init(): void {
 	globalThis.globalScSynth = scsynthWasm(scSynthDefaultOptions, globalThis.Module);
     // console.debug(`sc3_wasm_init: Module: ${globalThis.Module}`);
 	globalThis.onerror = function(event) {
-		consoleLogMessageFrom('globalThis.onerror', String(event));
+		consoleLog(`globalThis.onerror: ${String(event)}`);
 	};
 }
