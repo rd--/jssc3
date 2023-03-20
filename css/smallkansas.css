@@ -137,6 +137,10 @@ dialog {
 	background-color: #aaffee;
 }
 
+.CrystalLatticeStructureBrowser {
+	background-color: #ffddff;
+}
+
 .svgPane {
 	overflow: auto;
 }
