@@ -1,12 +1,8 @@
 # Js SuperCollider
 
-Js SuperCollider - 2022-04-08 ; SuperCalc (Grid Editor)
-
-<iframe src="https://player.vimeo.com/video/697568011" frameborder="0" allowfullscreen="true" width="640" height="360" ></iframe>
-
-Js SuperCollider - 2022-03-05 ; SuperScript (Word Processor) ; Wasm ; SfAcquire ; Windows, Firefox
-
-<iframe src="https://player.vimeo.com/video/684929215" frameborder="0" allowfullscreen="true" width="640" height="360" ></iframe>
+- [Small Hours](?t=jssc3&e=md/video/smallhours.md)
+- [SuperCalc](?t=jssc3&e=md/video/supercalc.md)
+- [SuperScript](?t=jssc3&e=md/video/superscript.md)
 
 Js SuperCollider - 2022-02-24 ; Addresses ; F0 ; Safari, Mac Os
 
