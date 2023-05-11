@@ -1,10 +1,12 @@
 import { setter_for_inner_html_of } from '../kernel/dom.ts'
-import { OscMessage, OscPacket, decodeOscMessage, encodeOscMessage, encodeOscPacket } from '../stdlib/opensoundcontrol.ts'
+
+import { Counter, counterNew } from '../stdlib/counter.ts'
+import { OscMessage, OscPacket, encodeOscMessage, encodeOscBundle } from '../stdlib/opensoundcontrol.ts'
 
 import { encodeUgen } from './graph.ts'
 import { wrapOut } from './pseudo.ts'
 import { ScSynthOptions } from './scsynth-options.ts'
-import { c_setn1, d_recv_then, g_freeAll, g_new, kAddToTail, m_dumpOsc, m_notify, m_status, ScSynthStatus, defaultScSynthStatus, s_new0 } from './servercommand.ts'
+import { c_setn1, d_recv, d_recv_then, g_freeAll, g_new, kAddToTail, m_dumpOsc, m_notify, m_status, ScSynthStatus, defaultScSynthStatus, s_new0 } from './servercommand.ts'
 import { Signal } from './ugen.ts'
 
 type StartSynth = () => void;
@@ -40,6 +42,8 @@ export class ScSynth {
 declare global {
 	var globalScSynth: ScSynth;
 }
+
+const synthdefCounter: Counter = counterNew();
 
 export function scSynthAddOscListener(scSynth: ScSynth, address: string, handler: MessageFunction):void {
 	if(scSynth.oscListeners.has(address)) {
@@ -78,19 +82,26 @@ export function scSynthEnsure(scSynth: ScSynth, activity: () => void) {
 	}
 }
 
-export function playSynDef(scSynth: ScSynth, synDefName: string, synDefData: Uint8Array, groupId: number): void {
-	console.log('playSynDef #', synDefData.length);
-	scSynth.sendOsc(d_recv_then(synDefData, encodeOscMessage(s_new0(synDefName, -1, kAddToTail, groupId))));
+export function playSynDefAt(scSynth: ScSynth, synDefName: string, synDefData: Uint8Array, groupId: number, systemTimeInSeconds: number | null): void {
+	if(systemTimeInSeconds == null) {
+		scSynth.sendOsc(d_recv_then(synDefData, encodeOscMessage(s_new0(synDefName, -1, kAddToTail, groupId))));
+	} else {
+		const unixTimeInMilliseconds = performance.timeOrigin + (systemTimeInSeconds * 1000);
+		scSynth.sendOsc(d_recv_then(synDefData, encodeOscBundle({
+			timeTag: {native: unixTimeInMilliseconds},
+			packets: [s_new0(synDefName, -1, kAddToTail, groupId)]
+		})));
+	}
 }
 
-export function playUgen(scSynth: ScSynth, ugenGraph: Signal, groupId: number): void {
-	const synDefName = 'anonymous';
-	const synDef = encodeUgen(synDefName, wrapOut(0, ugenGraph));
-	playSynDef(scSynth, synDefName, synDef, groupId);
+export function playUgenAt(scSynth: ScSynth, ugenGraph: Signal, groupId: number, systemTimeInSeconds: number | null): void {
+	const synDefName = 'anonymous_' + synthdefCounter();
+	const synDefData = encodeUgen(synDefName, wrapOut(0, ugenGraph));
+	playSynDefAt(scSynth, synDefName, synDefData, groupId, systemTimeInSeconds);
 }
 
-export function playProcedure(scSynth: ScSynth, ugenFunction: () => Signal, groupId: number): void {
-	playUgen(scSynth, ugenFunction(), groupId);
+export function playProcedureAt(scSynth: ScSynth, ugenFunction: () => Signal, groupId: number, systemTimeInSeconds: number | null): void {
+	playUgenAt(scSynth, ugenFunction(), groupId, systemTimeInSeconds);
 }
 
 export function initGroupStructure(scSynth: ScSynth): void {

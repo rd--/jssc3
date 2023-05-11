@@ -11,11 +11,11 @@ export type OscMessage = {
 };
 
 export type OscBundle = {
-	timeTag: number,
+	timeTag: {native: number},
 	packets: OscMessage[]
 };
 
-export type OscPacket = OscMessage | OscMessage;
+export type OscPacket = OscMessage | OscBundle;
 
 export function oscData(oscType: string, oscValue: OscValue): OscData {
 	return {type: oscType, value: oscValue};
@@ -40,19 +40,25 @@ export function oscBlob(x: Uint8Array): OscData {
 // osc.js
 
 declare namespace osc {
-  function readPacket(packet: Uint8Array, options: Record<string, unknown>): OscPacket;
-  function writePacket(message: OscPacket, options: Record<string, unknown>): Uint8Array;
+  function readMessage(packet: Uint8Array, options: Record<string, unknown>): OscMessage;
+  function writeMessage(message: OscMessage, options: Record<string, unknown>): Uint8Array;
+  function writeBundle(bundle: OscBundle, options: Record<string, unknown>): Uint8Array;
+  function writePacket(packet: OscPacket, options: Record<string, unknown>): Uint8Array;
 }
 
-export function decodeOscMessage(packet:  Uint8Array): OscMessage {
+export function decodeOscMessage(message: Uint8Array): OscMessage {
 	// https://github.com/colinbdclark/osc.js/issues/90
-	return osc.readPacket(packet, {metadata: true});
+	return osc.readMessage(message, {metadata: true});
 }
 
-export function encodeOscPacket(packet:  OscPacket): Uint8Array {
+export function encodeOscMessage(message: OscMessage): Uint8Array {
+	return osc.writeMessage(message, {metadata: true});
+}
+
+export function encodeOscBundle(bundle: OscBundle): Uint8Array {
+	return osc.writeBundle(bundle, {metadata: true});
+}
+
+export function encodeOscPacket(packet: OscPacket): Uint8Array {
 	return osc.writePacket(packet, {metadata: true});
-}
-
-export function encodeOscMessage(message:  OscMessage): Uint8Array {
-	return osc.writePacket(message, {metadata: true});
 }
