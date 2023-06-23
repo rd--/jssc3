@@ -472,9 +472,17 @@ export function LeakDc(input: Signal, coef: Signal): Signal {
 export function LfClipNoise(freq: Signal): Signal {
     return makeUgen('LFClipNoise', 1, rateAr, 0, [freq]);
 }
+// Dynamic clipped noise
+export function LfdClipNoise(freq: Signal): Signal {
+    return makeUgen('LFDClipNoise', 1, rateAr, 0, [freq]);
+}
 // A sine like shape made of two cubic pieces
 export function LfCub(freq: Signal, iphase: Signal): Signal {
     return makeUgen('LFCub', 1, rateAr, 0, [freq, iphase]);
+}
+// Dynamic step noise
+export function LfdNoise0(freq: Signal): Signal {
+    return makeUgen('LFDNoise0', 1, rateAr, 0, [freq]);
 }
 // Dynamic ramp noise
 export function LfdNoise1(freq: Signal): Signal {
