@@ -50,7 +50,7 @@ export function insertTextFor(label) {
 export function loadInputFile() {
 	const inputFile = sc.get_file_input_file('programInputFile', 0);
 	if (inputFile) {
-		sc.read_text_file_and_then(inputFile, insertTextFor(`?load=${inputFile.name}`));
+		sc.read_text_file_then(inputFile, insertTextFor(`?load=${inputFile.name}`));
 	} else {
 		console.log('loadInputFile: no file name');
 	}
@@ -64,7 +64,7 @@ export function loadHelp(kind, helpPrefix, docPrefix) {
 		const rewrittenName = isDoc ? name : (sl.isOperatorName(name) ? sl.operatorMethodName(name) : name);
 		const url = `${prefix}/${rewrittenName}.help.sl`;
 		const address = `?${kind}=${rewrittenName}`;
-		sc.load_utf8_and_then(url, insertTextFor(address));
+		sc.fetch_utf8_then(url, insertTextFor(address));
 	}
 }
 
@@ -96,28 +96,28 @@ export function loadUrlParam() {
 	const fileName = sc.url_get_param('e')
 	if(fileName) {
 		console.log(`loadUrlParam: ${fileName}`);
-		sc.load_utf8_and_then(fileName, (text) => insertText(null, text));
+		sc.fetch_utf8_then(fileName, (text) => insertText(null, text));
 	}
 }
 
 export function loadInstructions() {
-	sc.load_utf8_and_then('lib/stsc3/doc/sc/Small Hours.help.sl', insertTextFor('?manual=Small Hours'));
+	sc.fetch_utf8_then('lib/stsc3/doc/sc/Small Hours.help.sl', insertTextFor('?manual=Small Hours'));
 }
 
 export function initProgramMenu() {
-	sc.load_utf8_and_then('text/smallhours-programs.text', text => sc.select_add_keys_as_options('programMenu', sc.stringNonEmptyLines(text)));
+	sc.fetch_utf8_then('text/smallhours-programs.text', text => sc.select_add_keys_as_options('programMenu', sc.stringNonEmptyLines(text)));
 	sc.menu_on_change_with_option_value('programMenu', function(optionValue) {
-		sc.load_utf8_and_then(`./lib/stsc3/help/${optionValue}`, (text) => insertText(null, text));
+		sc.fetch_utf8_then(`./lib/stsc3/help/${optionValue}`, (text) => insertText(null, text));
 	});
 }
 
 export function initOracle() {
-	sc.load_utf8_and_then('text/smallhours-oracle.text', text => state.oracleFiles = sc.stringNonEmptyLines(text));
+	sc.fetch_utf8_then('text/smallhours-oracle.text', text => state.oracleFiles = sc.stringNonEmptyLines(text));
 }
 
 export function loadOracle() {
 	var fileName = sc.arrayChoose(state.oracleFiles);
-	sc.load_utf8_and_then(`./lib/stsc3/help/${fileName}`, (text) => insertText(null, text));
+	sc.fetch_utf8_then(`./lib/stsc3/help/${fileName}`, (text) => insertText(null, text));
 }
 
 export function initStatusListener() {

@@ -1,5 +1,5 @@
 import { click_input, select_add_keys_as_options, select_add_option_at_id, select_clear_from, select_on_change } from './dom.ts'
-import { read_json_file_and_then } from './io.ts'
+import { read_json_file_then } from './io.ts'
 
 // Array of all keys at local storage
 export function local_storage_keys(): string[] {
@@ -67,7 +67,7 @@ export function user_program_read_archive(inputId: string, selectId: string): vo
 	const jsonFile = fileList[0];
 	if(fileInput && fileList && jsonFile) {
 		// console.debug(`user_program_read_archive: ${jsonFile}`);
-		read_json_file_and_then(jsonFile, function(obj) {
+		read_json_file_then(jsonFile, function(obj) {
 			// console.debug(`user_program_read_archive: ${obj}`);
 			Object.assign(userPrograms.programs, obj);
 			user_storage_sync(selectId);

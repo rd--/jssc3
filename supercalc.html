@@ -33,7 +33,8 @@ window.onload = function () {
 	sc.sc3_mouse_init(globalScSynth);
 	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
 	sl.assignGlobals();
-	sl.loadUrlArrayInSequence('lib/spl/sl', ['std.sl', 'sc.sl']);
+	sl.setLoadPath('lib/spl/sl');
+	sl.loadUrlArrayInSequence(['std.sl', 'sc.sl']);
 	calc.initProgramMenu();
 	calc.initSheet(8, 8);
 };

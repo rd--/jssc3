@@ -1,6 +1,6 @@
 import { arrayIota } from '../kernel/array.ts'
 import { Dictionary, dictionaryNew } from '../kernel/dictionary.ts'
-import { load_arraybuffer_and_then } from '../kernel/io.ts'
+import { fetch_arraybuffer_then } from '../kernel/io.ts'
 
 // Return the header fields of an audioBuffer.  length is the number of frames.
 export function audiobuffer_header(audioBuffer: AudioBuffer): Dictionary<number> {
@@ -69,7 +69,7 @@ export function system_samplerate(): number {
 // Load soundfile from url, decode it, and call proc on the resulting AudioBuffer.
 export function fetch_soundfile_to_audiobuffer_and_then(soundFileUrl: string, proc: (x: AudioBuffer) => void): void {
 	const audioContext = new window.AudioContext();
-	load_arraybuffer_and_then(soundFileUrl, function(arrayBuffer) {
+	fetch_arraybuffer_then(soundFileUrl, function(arrayBuffer) {
 		audioContext.decodeAudioData(arrayBuffer).then(proc);
 	});
 }

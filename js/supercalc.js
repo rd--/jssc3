@@ -171,9 +171,9 @@ export function server_setup() {
 }
 
 export function initProgramMenu() {
-	sc.load_utf8_and_then('text/supercalc-programs.text', text => sc.select_add_keys_as_options('programMenu', sc.stringNonEmptyLines(text)));
+	sc.fetch_utf8_then('text/supercalc-programs.text', text => sc.select_add_keys_as_options('programMenu', sc.stringNonEmptyLines(text)));
 	sc.menu_on_change_with_option_value('programMenu', function(optionValue) {
-		sc.load_utf8_and_then(`./help/supercalc/${optionValue}`, (text) => set_json(text));
+		sc.fetch_utf8_then(`./help/supercalc/${optionValue}`, (text) => set_json(text));
 	});
 }
 

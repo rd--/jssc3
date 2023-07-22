@@ -5,7 +5,7 @@ var mostRecentUgenGraph = null;
 function playUgen(ugenGraph) {
 	mostRecentUgenGraph = ugenGraph;
 	sc.scSynthEnsure(globalScSynth, function() {
-		sc.playUgen(globalScSynth, ugenGraph, 1);
+		sc.playUgenAt(globalScSynth, ugenGraph, 1, null);
 	});
 }
 
@@ -36,7 +36,7 @@ function ugenHelp() {
 	if(name.length > 0) {
 		const helpPrefix = './lib/stsc3/help/sc';
 		const url = `${helpPrefix}/${name}.help.sl`;
-		sc.load_utf8_and_then(url, insertMarkdown);
+		sc.fetch_utf8_then(url, insertMarkdown);
 	}
 }
 
@@ -59,5 +59,5 @@ export function onKeyPress(event) {
 }
 
 export function loadHelp() {
-	sc.load_utf8_and_then('help/essay/superscript.md', insertMarkdown);
+	sc.fetch_utf8_then('help/essay/superscript.md', insertMarkdown);
 }
