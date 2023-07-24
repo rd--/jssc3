@@ -122,8 +122,10 @@ export function read_json_file_then(
 export function fetch_utf8(url: string): Promise<string> {
 	return fetch(url, { cache: 'no-cache' })
 		.then(handle_fetch_error)
-		.then(response => response.text())
-		.catch(reason => `fetch_utf8: ${url}: ${reason}`);
+		.then(
+			response => response.text(),
+			reason => `fetch_utf8: ${url}: ${reason}`
+		);
 }
 
 // Throw error if response status is not .ok
