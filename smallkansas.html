@@ -28,7 +28,7 @@ window.onload = function () {
 	sc.sc3_mouse_init(globalScSynth);
 	sl.assignGlobals();
 	sl.setLoadPath('lib/spl/sl');
-	sl.loadUrlSequence(['std.sl', 'sc.sl', 'sk.sl', 'cat.sl']); // loadUrlArrayInSequence
+	sl.loadPackageSequence([['Meta', ['core.sl', 'std.sl', 'sc.sl', 'sk.sl', 'cat.sl']]]);
 };
 		</script>
 	</head>

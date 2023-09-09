@@ -34,7 +34,7 @@ window.onload = function () {
 	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
 	sl.assignGlobals();
 	sl.setLoadPath('lib/spl/sl');
-	sl.loadUrlArrayInSequence(['std.sl', 'sc.sl']);
+	sl.loadPackageSequence([['Meta', ['core.sl', 'std.sl', 'sc.sl']]]);
 	calc.initProgramMenu();
 	calc.initSheet(8, 8);
 };
