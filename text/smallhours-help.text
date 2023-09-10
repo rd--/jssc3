@@ -29,26 +29,47 @@ help/sk/TypeBrowser.help.sl
 help/sk/View.help.sl
 help/sk/WindowMenu.help.sl
 help/sk/WorldMenu.help.sl
+help/spl/abs.help.sl
 help/spl/addAfter.help.sl
+help/spl/addAfterIndex.help.sl
+help/spl/addAllFirst.help.sl
 help/spl/addAll.help.sl
+help/spl/addAllLast.help.sl
+help/spl/addBefore.help.sl
+help/spl/addFirst.help.sl
 help/spl/add.help.sl
+help/spl/addLast.help.sl
 help/spl/allButFirst.help.sl
+help/spl/allButLast.help.sl
 help/spl/allSatisfy.help.sl
+help/spl/andAnd.help.sl
 help/spl/and.help.sl
 help/spl/any.help.sl
 help/spl/anyOne.help.sl
 help/spl/anySatisfy.help.sl
 help/spl/Array.help.sl
 help/spl/asArray.help.sl
+help/spl/asAscii.help.sl
 help/spl/asciiByteArray.help.sl
 help/spl/asciiString.help.sl
 help/spl/asciiValue.help.sl
+help/spl/asComplex.help.sl
+help/spl/asFloat.help.sl
 help/spl/asFraction.help.sl
+help/spl/asHexDigit.help.sl
+help/spl/asInteger.help.sl
+help/spl/asLowercase.help.sl
+help/spl/asNumber.help.sl
+help/spl/asPoint.help.sl
 help/spl/asPowerOfTwo.help.sl
 help/spl/asSeconds.help.sl
+help/spl/associationAt.help.sl
+help/spl/associationAtIfAbsent.help.sl
 help/spl/Association.help.sl
+help/spl/associations.help.sl
 help/spl/asString.help.sl
 help/spl/asStringWithCommas.help.sl
+help/spl/asUppercase.help.sl
 help/spl/asWords.help.sl
 help/spl/atAll.help.sl
 help/spl/atAllPutAll.help.sl
@@ -58,13 +79,20 @@ help/spl/at.help.sl
 help/spl/atIfAbsent.help.sl
 help/spl/atIfAbsentPut.help.sl
 help/spl/atIfPresent.help.sl
+help/spl/atModify.help.sl
+help/spl/atPath.help.sl
+help/spl/atPin.help.sl
 help/spl/atPut.help.sl
 help/spl/atRandom.help.sl
 help/spl/Bag.help.sl
 help/spl/bangTilde.help.sl
+help/spl/base64Decoded.help.sl
+help/spl/basicAt.help.sl
+help/spl/basicAtPut.help.sl
 help/spl/Blob.help.sl
 help/spl/Boolean.help.sl
 help/spl/ByteArray.help.sl
+help/spl/capitalized.help.sl
 help/spl/caseOf.help.sl
 help/spl/caseOfOtherwise.help.sl
 help/spl/ceiling.help.sl
@@ -74,32 +102,48 @@ help/spl/collect.help.sl
 help/spl/collectInto.help.sl
 help/spl/Collection.help.sl
 help/spl/colonColon.help.sl
+help/spl/colonCommercialAt.help.sl
 help/spl/colonDividedBy.help.sl
 help/spl/colonEquals.help.sl
 help/spl/commercialAt.help.sl
+help/spl/Complex.help.sl
 help/spl/concatenation.help.sl
 help/spl/contents.help.sl
+help/spl/contractTo.help.sl
 help/spl/copyFromTo.help.sl
 help/spl/copy.help.sl
+help/spl/copyReplaceAllWith.help.sl
+help/spl/copyWith.help.sl
+help/spl/copyWithoutAll.help.sl
+help/spl/copyWithout.help.sl
 help/spl/count.help.sl
+help/spl/crc16.help.sl
 help/spl/cull.help.sl
-help/spl/currentTime.help.sl
 help/spl/Date.help.sl
+help/spl/deepCopy.help.sl
+help/spl/degreeCos.help.sl
+help/spl/degreeSin.help.sl
 help/spl/denominator.help.sl
 help/spl/detect.help.sl
+help/spl/detectIfNone.help.sl
 help/spl/detectMax.help.sl
 help/spl/detectMin.help.sl
 help/spl/detectSum.help.sl
 help/spl/Dictionary.help.sl
 help/spl/difference.help.sl
+help/spl/digitValue.help.sl
 help/spl/dividedBy.help.sl
 help/spl/divisors.help.sl
+help/spl/doesNotInclude.help.sl
 help/spl/do.help.sl
 help/spl/doSeparatedBy.help.sl
 help/spl/dotDot.help.sl
 help/spl/doubleFactorial.help.sl
 help/spl/downTo.help.sl
 help/spl/Duration.help.sl
+help/spl/e.help.sl
+help/spl/ensure.help.sl
+help/spl/epsilon.help.sl
 help/spl/equalsEquals.help.sl
 help/spl/equals.help.sl
 help/spl/error.help.sl
@@ -107,26 +151,49 @@ help/spl/Error.help.sl
 help/spl/factorial.help.sl
 help/spl/false.help.sl
 help/spl/fillFromWith.help.sl
+help/spl/fillWith.help.sl
 help/spl/findFirst.help.sl
-help/spl/findFirstIndex.help.sl
+help/spl/first.help.sl
+help/spl/fisherYatesShuffle.help.sl
+help/spl/flattened.help.sl
 help/spl/floor.help.sl
 help/spl/Fraction.help.sl
+help/spl/fractionPart.help.sl
+help/spl/Frequency.help.sl
+help/spl/fromToDo.help.sl
 help/spl/greaterThanEquals.help.sl
+help/spl/greaterThan.help.sl
 help/spl/greaterThanTilde.help.sl
 help/spl/groupBy.help.sl
 help/spl/histogramOf.help.sl
 help/spl/ifEmpty.help.sl
+help/spl/ifError.help.sl
 help/spl/ifFalse.help.sl
 help/spl/if.help.sl
 help/spl/ifNil.help.sl
 help/spl/ifTrue.help.sl
+help/spl/i.help.sl
+help/spl/include.help.sl
 help/spl/includesAllOf.help.sl
 help/spl/includesAnyOf.help.sl
 help/spl/includes.help.sl
+help/spl/includesIndex.help.sl
+help/spl/includesKey.help.sl
+help/spl/Indexable.help.sl
+help/spl/indexOf.help.sl
+help/spl/indexOfIfAbsent.help.sl
+help/spl/indexOfSubCollectionStartingAt.help.sl
+help/spl/indexOfSubCollectionStartingAtIfAbsent.help.sl
+help/spl/indexValueAssociations.help.sl
+help/spl/indicesDo.help.sl
+help/spl/indices.help.sl
 help/spl/inf.help.sl
+help/spl/in.help.sl
 help/spl/injectInto.help.sl
+help/spl/Integral.help.sl
 help/spl/intersection.help.sl
 help/spl/Interval.help.sl
+help/spl/isAscii.help.sl
 help/spl/isCollection.help.sl
 help/spl/isEmpty.help.sl
 help/spl/isFinite.help.sl
@@ -140,17 +207,24 @@ help/spl/isPrime.help.sl
 help/spl/isSequenceable.help.sl
 help/spl/isSortedBy.help.sl
 help/spl/isSorted.help.sl
-help/spl/isValidIndex.help.sl
+help/spl/Iterable.help.sl
+help/spl/JiTuning.help.sl
 help/spl/join.help.sl
 help/spl/joinSeparatedBy.help.sl
 help/spl/json.help.sl
+help/spl/keyAtValue.help.sl
+help/spl/keyAtValueIfAbsent.help.sl
+help/spl/keysAndValuesDo.help.sl
+help/spl/keysAndValuesRemove.help.sl
 help/spl/LargeInteger.help.sl
+help/spl/last.help.sl
 help/spl/lessThanEqualsGreaterThan.help.sl
 help/spl/lessThanEquals.help.sl
 help/spl/lessThan.help.sl
 help/spl/lessThanTilde.help.sl
 help/spl/limitDenominator.help.sl
 help/spl/lines.help.sl
+help/spl/lowBitPerByteTable.help.sl
 help/spl/Magnitude.help.sl
 help/spl/map.help.sl
 help/spl/Map.help.sl
@@ -158,11 +232,14 @@ help/spl/max.help.sl
 help/spl/mean.help.sl
 help/spl/methodDictionary.help.sl
 help/spl/Method.help.sl
+help/spl/middle.help.sl
 help/spl/millisecondsToRun.help.sl
 help/spl/min.help.sl
+help/spl/minMax.help.sl
 help/spl/minusGreaterThan.help.sl
 help/spl/minus.help.sl
 help/spl/modulo.help.sl
+help/spl/negated.help.sl
 help/spl/new.help.sl
 help/spl/next.help.sl
 help/spl/nextPrime.help.sl
@@ -178,7 +255,9 @@ help/spl/numerator.help.sl
 help/spl/Object.help.sl
 help/spl/occurrencesOf.help.sl
 help/spl/ofSize.help.sl
+help/spl/OrderedCollection.help.sl
 help/spl/or.help.sl
+help/spl/orOr.help.sl
 help/spl/parseJson.help.sl
 help/spl/peek.help.sl
 help/spl/perform.help.sl
@@ -193,13 +272,16 @@ help/spl/PositionableStream.help.sl
 help/spl/position.help.sl
 help/spl/primeFactors.help.sl
 help/spl/primeLimit.help.sl
+help/spl/primesArray.help.sl
 help/spl/printString.help.sl
 help/spl/printStringRoman.help.sl
 help/spl/Procedure.help.sl
 help/spl/product.help.sl
 help/spl/Promise.help.sl
 help/spl/quotient.help.sl
+help/spl/raisedTo.help.sl
 help/spl/randomFloat.help.sl
+help/spl/Random.help.sl
 help/spl/randomInteger.help.sl
 help/spl/range.help.sl
 help/spl/ReadStream.help.sl
@@ -210,19 +292,30 @@ help/spl/reject.help.sl
 help/spl/remainder.help.sl
 help/spl/removeAll.help.sl
 help/spl/removeAllSuchThat.help.sl
+help/spl/removeAt.help.sl
+help/spl/removeFirst.help.sl
 help/spl/remove.help.sl
+help/spl/removeLast.help.sl
+help/spl/repeat.help.sl
+help/spl/replaceFromToWithStartingAt.help.sl
 help/spl/replace.help.sl
 help/spl/replicate.help.sl
 help/spl/reset.help.sl
-help/spl/return.help.sl
 help/spl/reversed.help.sl
+help/spl/reverseDo.help.sl
 help/spl/reverse.help.sl
+help/spl/reverseWithDo.help.sl
 help/spl/romanNumber.help.sl
 help/spl/rounded.help.sl
+help/spl/roundTo.help.sl
+help/spl/roundUpTo.help.sl
+help/spl/second.help.sl
 help/spl/select.help.sl
 help/spl/semicolonSemicolon.help.sl
 help/spl/SequenceableCollection.help.sl
 help/spl/Set.help.sl
+help/spl/shallowCopy.help.sl
+help/spl/shuffled.help.sl
 help/spl/sign.help.sl
 help/spl/size.help.sl
 help/spl/slotNameArray.help.sl
@@ -236,6 +329,8 @@ help/spl/sort.help.sl
 help/spl/species.help.sl
 help/spl/splitBy.help.sl
 help/spl/split.help.sl
+help/spl/sqrt.help.sl
+help/spl/Stack.help.sl
 help/spl/storeString.help.sl
 help/spl/Stream.help.sl
 help/spl/String.help.sl
@@ -252,7 +347,6 @@ help/spl/tildeTilde.help.sl
 help/spl/times.help.sl
 help/spl/timesRepeat.help.sl
 help/spl/TimeStamp.help.sl
-help/spl/timesTimes.help.sl
 help/spl/toArray.help.sl
 help/spl/toBy.help.sl
 help/spl/toDo.help.sl
@@ -261,10 +355,14 @@ help/spl/Trait.help.sl
 help/spl/traitLookup.help.sl
 help/spl/transpose.help.sl
 help/spl/true.help.sl
+help/spl/truncated.help.sl
+help/spl/truncateTo.help.sl
 help/spl/Type.help.sl
 help/spl/typeOf.help.sl
 help/spl/unicode.help.sl
 help/spl/union.help.sl
+help/spl/uniqueId.help.sl
+help/spl/unixTime.help.sl
 help/spl/unixTimeInMilliseconds.help.sl
 help/spl/unlines.help.sl
 help/spl/upOrDownTo.help.sl
@@ -274,6 +372,7 @@ help/spl/URLSearchParams.help.sl
 help/spl/utf8ByteArray.help.sl
 help/spl/utf8String.help.sl
 help/spl/value.help.sl
+help/spl/valueWithReturn.help.sl
 help/spl/Vector2.help.sl
 help/spl/Vector3.help.sl
 help/spl/Vector4.help.sl
@@ -285,11 +384,13 @@ help/spl/withDo.help.sl
 help/spl/withIndexCollect.help.sl
 help/spl/withIndexDo.help.sl
 help/spl/withoutDuplicates.help.sl
-help/spl/withReturn.help.sl
 doc/sk/Small Kansas.help.sl
 doc/spl/Apply Syntax.help.sl
 doc/spl/Array Assignment Syntax.help.sl
 doc/spl/Assignment, initialisation, equality, identity.help.sl
+doc/spl/Assignment Operator Syntax.help.sl
+doc/spl/AtAll Syntax.help.sl
+doc/spl/AtPath Syntax.help.sl
 doc/spl/AtPutDelegateTo Syntax.help.sl
 doc/spl/AtPut Syntax.help.sl
 doc/spl/At Syntax.help.sl
@@ -318,6 +419,7 @@ doc/spl/Interval Syntax.help.sl
 doc/spl/Literals Syntax.help.sl
 doc/spl/Loading Libraries.help.sl
 doc/spl/Logical Operators.help.sl
+doc/spl/Matrix Syntax.help.sl
 doc/spl/MessageSend Syntax.help.sl
 doc/spl/Method Arity.help.sl
 doc/spl/Method Syntax.help.sl
@@ -355,6 +457,8 @@ doc/spl/Trailing Procedure Syntax.help.sl
 doc/spl/Unicode Symbols.help.sl
 doc/spl/Value Apply Syntax.help.sl
 doc/spl/Variable Keyword Syntax.help.sl
+doc/spl/Vector Syntax.help.sl
+doc/spl/Volume Syntax.help.sl
 doc/spl/What is a Trait.help.sl
 doc/spl/What is Spl.help.sl
 doc/spl/Why Spl.help.sl
@@ -372,9 +476,9 @@ help/sc/ArcTan.help.sl
 help/sc/asLocalBuf.help.sl
 help/sc/AudioIn.help.sl
 help/sc/Balance2.help.sl
-help/sc/bangHat.help.sl
 help/sc/bang.help.sl
 help/sc/bangPlus.help.sl
+help/sc/bangRaisedTo.help.sl
 help/sc/Blip.help.sl
 help/sc/BLowPass.help.sl
 help/sc/Bpf.help.sl
