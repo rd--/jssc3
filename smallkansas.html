@@ -28,13 +28,15 @@ window.onload = function () {
 	sc.sc3_mouse_init(globalScSynth);
 	sl.assignGlobals();
 	sl.setLoadPath('lib/spl/sl');
-	sl.loadLocalPackageSequence([
-		'Meta-Kernel',
-		'Meta-StandardLibrary',
-		'Meta-SuperColliderLibrary',
-		'Meta-SmallKansasLibrary',
-		'Meta-Categories'
-	])
+	sl.loadUrl('*Load*', 'Package/Meta/PackageIndex.sl').then(function() {
+		sl.loadPackageSequence([
+			'Kernel',
+			'StandardLibrary',
+			'SuperColliderLibrary',
+			'SmallKansasLibrary',
+			'Categories'
+		]);
+	});
 };
 		</script>
 	</head>
