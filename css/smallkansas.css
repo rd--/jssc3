@@ -9,13 +9,18 @@
 }
 
 @font-face {
+	font-family: "Los Altos";
+	src: url("../woff2/Los Altos.woff2");
+}
+
+@font-face {
 	font-family: "Monaco";
 	src: url("../woff2/Monaco.woff2");
 }
 
 @font-face {
-	font-family: "Los Altos";
-	src: url("../woff2/Los Altos.woff2");
+	font-family: "Neo Euler";
+	src: url("../woff2/Neo Euler.woff2");
 }
 
 @font-face {
@@ -90,7 +95,7 @@ dialog {
 	height: 20em;
 }
 
-.SmallKansas {
+.SmallKansas, .ColourChooser {
 	background-color: #aadd99;
 }
 
@@ -98,6 +103,10 @@ dialog {
 	background-color: #99eecc;
 }
 
+
+.PackageBrowser, .PackageIndexBrowser {
+	background-color: #77eeee;
+}
 
 .ProgramBrowser, .ScSynthStatus {
 	background-color: #88ccff; /* #bbddff */
