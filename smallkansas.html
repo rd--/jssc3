@@ -29,7 +29,7 @@ window.onload = function () {
 	sl.assignGlobals();
 	sl.setLoadPath('lib/spl/sl');
 	sl.loadUrl('*Load*', 'Meta/PackageIndex.sl').then(function() {
-		sl.loadPackageSequence([
+		sl.primitiveLoadPackageSequence([
 			'Kernel',
 			'StandardLibrary',
 			'SuperColliderLibrary',

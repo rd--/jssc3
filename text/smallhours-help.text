@@ -53,6 +53,7 @@ help/spl/asAscii.help.sl
 help/spl/asciiByteArray.help.sl
 help/spl/asciiString.help.sl
 help/spl/asciiValue.help.sl
+help/spl/asCollection.help.sl
 help/spl/asComplex.help.sl
 help/spl/asFloat.help.sl
 help/spl/asFraction.help.sl
@@ -63,6 +64,7 @@ help/spl/asNumber.help.sl
 help/spl/asPoint.help.sl
 help/spl/asPowerOfTwo.help.sl
 help/spl/asSeconds.help.sl
+help/spl/assertIsCollection.help.sl
 help/spl/associationAt.help.sl
 help/spl/associationAtIfAbsent.help.sl
 help/spl/Association.help.sl
@@ -84,6 +86,7 @@ help/spl/atPath.help.sl
 help/spl/atPin.help.sl
 help/spl/atPut.help.sl
 help/spl/atRandom.help.sl
+help/spl/backslashBackslash.help.sl
 help/spl/Bag.help.sl
 help/spl/bangTilde.help.sl
 help/spl/base64Decoded.help.sl
@@ -92,9 +95,12 @@ help/spl/basicAtPut.help.sl
 help/spl/Blob.help.sl
 help/spl/Boolean.help.sl
 help/spl/ByteArray.help.sl
+help/spl/cached.help.sl
+help/spl/Cache.help.sl
 help/spl/capitalized.help.sl
 help/spl/caseOf.help.sl
 help/spl/caseOfOtherwise.help.sl
+help/spl/CategoryDictionary.help.sl
 help/spl/ceiling.help.sl
 help/spl/Character.help.sl
 help/spl/closeTo.help.sl
@@ -113,6 +119,7 @@ help/spl/contractTo.help.sl
 help/spl/copyFromTo.help.sl
 help/spl/copy.help.sl
 help/spl/copyReplaceAllWith.help.sl
+help/spl/copyUpTo.help.sl
 help/spl/copyWith.help.sl
 help/spl/copyWithoutAll.help.sl
 help/spl/copyWithout.help.sl
@@ -132,6 +139,7 @@ help/spl/detectSum.help.sl
 help/spl/Dictionary.help.sl
 help/spl/difference.help.sl
 help/spl/digitValue.help.sl
+help/spl/dividedByDividedBy.help.sl
 help/spl/dividedBy.help.sl
 help/spl/divisors.help.sl
 help/spl/doesNotInclude.help.sl
@@ -139,6 +147,7 @@ help/spl/do.help.sl
 help/spl/doSeparatedBy.help.sl
 help/spl/dotDot.help.sl
 help/spl/doubleFactorial.help.sl
+help/spl/downToDo.help.sl
 help/spl/downTo.help.sl
 help/spl/Duration.help.sl
 help/spl/e.help.sl
@@ -150,6 +159,8 @@ help/spl/error.help.sl
 help/spl/Error.help.sl
 help/spl/factorial.help.sl
 help/spl/false.help.sl
+help/spl/fetch.help.sl
+help/spl/File.help.sl
 help/spl/fillFromWith.help.sl
 help/spl/fillWith.help.sl
 help/spl/findFirst.help.sl
@@ -190,7 +201,7 @@ help/spl/indices.help.sl
 help/spl/inf.help.sl
 help/spl/in.help.sl
 help/spl/injectInto.help.sl
-help/spl/Integral.help.sl
+help/spl/Integer.help.sl
 help/spl/intersection.help.sl
 help/spl/Interval.help.sl
 help/spl/isAscii.help.sl
@@ -258,6 +269,7 @@ help/spl/ofSize.help.sl
 help/spl/OrderedCollection.help.sl
 help/spl/or.help.sl
 help/spl/orOr.help.sl
+help/spl/Package.help.sl
 help/spl/parseJson.help.sl
 help/spl/peek.help.sl
 help/spl/perform.help.sl
@@ -301,6 +313,7 @@ help/spl/replaceFromToWithStartingAt.help.sl
 help/spl/replace.help.sl
 help/spl/replicate.help.sl
 help/spl/reset.help.sl
+help/spl/Response.help.sl
 help/spl/reversed.help.sl
 help/spl/reverseDo.help.sl
 help/spl/reverse.help.sl
@@ -331,6 +344,7 @@ help/spl/splitBy.help.sl
 help/spl/split.help.sl
 help/spl/sqrt.help.sl
 help/spl/Stack.help.sl
+help/spl/Storage.help.sl
 help/spl/storeString.help.sl
 help/spl/Stream.help.sl
 help/spl/String.help.sl
@@ -347,7 +361,7 @@ help/spl/tildeTilde.help.sl
 help/spl/times.help.sl
 help/spl/timesRepeat.help.sl
 help/spl/TimeStamp.help.sl
-help/spl/toArray.help.sl
+help/spl/toByDo.help.sl
 help/spl/toBy.help.sl
 help/spl/toDo.help.sl
 help/spl/to.help.sl
@@ -366,6 +380,7 @@ help/spl/unixTime.help.sl
 help/spl/unixTimeInMilliseconds.help.sl
 help/spl/unlines.help.sl
 help/spl/upOrDownTo.help.sl
+help/spl/upToDo.help.sl
 help/spl/upTo.help.sl
 help/spl/URL.help.sl
 help/spl/URLSearchParams.help.sl
@@ -377,6 +392,7 @@ help/spl/Vector2.help.sl
 help/spl/Vector3.help.sl
 help/spl/Vector4.help.sl
 help/spl/Void.help.sl
+help/spl/whenCached.help.sl
 help/spl/whileFalse.help.sl
 help/spl/whileTrue.help.sl
 help/spl/withCollect.help.sl
@@ -390,6 +406,8 @@ doc/spl/Array Assignment Syntax.help.sl
 doc/spl/Assignment, initialisation, equality, identity.help.sl
 doc/spl/Assignment Operator Syntax.help.sl
 doc/spl/AtAll Syntax.help.sl
+doc/spl/AtIfAbsentPut Syntax.help.sl
+doc/spl/AtIfAbsent Syntax.help.sl
 doc/spl/AtPath Syntax.help.sl
 doc/spl/AtPutDelegateTo Syntax.help.sl
 doc/spl/AtPut Syntax.help.sl
@@ -433,6 +451,8 @@ doc/spl/Procedure Arity.help.sl
 doc/spl/Procedure Implementation.help.sl
 doc/spl/Procedure Semantics.help.sl
 doc/spl/Procedure Syntax.help.sl
+doc/spl/Quoted AtIfAbsentPut Syntax.help.sl
+doc/spl/Quoted AtIfAbsent Syntax.help.sl
 doc/spl/Quoted AtPut Syntax.help.sl
 doc/spl/Quoted At Syntax.help.sl
 doc/spl/Quoted Indexable Syntax.help.sl
