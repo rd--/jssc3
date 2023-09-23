@@ -1,741 +1,741 @@
-help/sk/AnalogueClock.help.sl
-help/sk/CategoryBrowser.help.sl
-help/sk/ColourChooser.help.sl
-help/sk/Colour.help.sl
-help/sk/ColumnBrowser.help.sl
-help/sk/CrystalLatticeStructureBrowser.help.sl
-help/sk/DigitalClock.help.sl
-help/sk/FontMenu.help.sl
-help/sk/FontSizeMenu.help.sl
-help/sk/Frame.help.sl
-help/sk/HelpBrowser.help.sl
-help/sk/HelpViewer.help.sl
-help/sk/Menu.help.sl
-help/sk/MethodBrowser.help.sl
-help/sk/MethodSignatureBrowser.help.sl
-help/sk/MidiMonitorMenu.help.sl
-help/sk/MidiPortBrowser.help.sl
-help/sk/parseHexColour.help.sl
-help/sk/PngViewer.help.sl
-help/sk/ProgramBrowser.help.sl
-help/sk/ProgramOracle.help.sl
-help/sk/ScalaJiTuningBrowser.help.sl
-help/sk/SvgViewer.help.sl
-help/sk/SystemBrowser.help.sl
-help/sk/TableViewer.help.sl
-help/sk/TraitBrowser.help.sl
-help/sk/TranscriptViewer.help.sl
-help/sk/TypeBrowser.help.sl
-help/sk/View.help.sl
-help/sk/WindowMenu.help.sl
-help/sk/WorldMenu.help.sl
-help/spl/abs.help.sl
-help/spl/addAfter.help.sl
-help/spl/addAfterIndex.help.sl
-help/spl/addAllFirst.help.sl
-help/spl/addAll.help.sl
-help/spl/addAllLast.help.sl
-help/spl/addBefore.help.sl
-help/spl/addFirst.help.sl
-help/spl/add.help.sl
-help/spl/addLast.help.sl
-help/spl/allButFirst.help.sl
-help/spl/allButLast.help.sl
-help/spl/allSatisfy.help.sl
-help/spl/andAnd.help.sl
-help/spl/and.help.sl
-help/spl/any.help.sl
-help/spl/anyOne.help.sl
-help/spl/anySatisfy.help.sl
-help/spl/Array.help.sl
-help/spl/asArray.help.sl
-help/spl/asAscii.help.sl
-help/spl/asciiByteArray.help.sl
-help/spl/asciiString.help.sl
-help/spl/asciiValue.help.sl
-help/spl/asCollection.help.sl
-help/spl/asComplex.help.sl
-help/spl/asFloat.help.sl
-help/spl/asFraction.help.sl
-help/spl/asHexDigit.help.sl
-help/spl/asInteger.help.sl
-help/spl/asLowercase.help.sl
-help/spl/asNumber.help.sl
-help/spl/asPoint.help.sl
-help/spl/asPowerOfTwo.help.sl
-help/spl/asSeconds.help.sl
-help/spl/assertIsCollection.help.sl
-help/spl/associationAt.help.sl
-help/spl/associationAtIfAbsent.help.sl
-help/spl/Association.help.sl
-help/spl/associations.help.sl
-help/spl/asString.help.sl
-help/spl/asStringWithCommas.help.sl
-help/spl/asUppercase.help.sl
-help/spl/asWords.help.sl
-help/spl/atAll.help.sl
-help/spl/atAllPutAll.help.sl
-help/spl/atAllPut.help.sl
-help/spl/atEnd.help.sl
-help/spl/at.help.sl
-help/spl/atIfAbsent.help.sl
-help/spl/atIfAbsentPut.help.sl
-help/spl/atIfPresent.help.sl
-help/spl/atModify.help.sl
-help/spl/atPath.help.sl
-help/spl/atPin.help.sl
-help/spl/atPut.help.sl
-help/spl/atRandom.help.sl
-help/spl/backslashBackslash.help.sl
-help/spl/Bag.help.sl
-help/spl/bangTilde.help.sl
-help/spl/base64Decoded.help.sl
-help/spl/basicAt.help.sl
-help/spl/basicAtPut.help.sl
-help/spl/Blob.help.sl
-help/spl/Boolean.help.sl
-help/spl/ByteArray.help.sl
-help/spl/cached.help.sl
-help/spl/Cache.help.sl
-help/spl/capitalized.help.sl
-help/spl/caseOf.help.sl
-help/spl/caseOfOtherwise.help.sl
-help/spl/CategoryDictionary.help.sl
-help/spl/ceiling.help.sl
-help/spl/Character.help.sl
-help/spl/closeTo.help.sl
-help/spl/collect.help.sl
-help/spl/collectInto.help.sl
-help/spl/Collection.help.sl
-help/spl/colonColon.help.sl
-help/spl/colonCommercialAt.help.sl
-help/spl/colonDividedBy.help.sl
-help/spl/colonEquals.help.sl
-help/spl/commercialAt.help.sl
-help/spl/Complex.help.sl
-help/spl/concatenation.help.sl
-help/spl/contents.help.sl
-help/spl/contractTo.help.sl
-help/spl/copyFromTo.help.sl
-help/spl/copy.help.sl
-help/spl/copyReplaceAllWith.help.sl
-help/spl/copyUpTo.help.sl
-help/spl/copyWith.help.sl
-help/spl/copyWithoutAll.help.sl
-help/spl/copyWithout.help.sl
-help/spl/count.help.sl
-help/spl/crc16.help.sl
-help/spl/cull.help.sl
-help/spl/Date.help.sl
-help/spl/deepCopy.help.sl
-help/spl/degreeCos.help.sl
-help/spl/degreeSin.help.sl
-help/spl/denominator.help.sl
-help/spl/detect.help.sl
-help/spl/detectIfNone.help.sl
-help/spl/detectMax.help.sl
-help/spl/detectMin.help.sl
-help/spl/detectSum.help.sl
-help/spl/Dictionary.help.sl
-help/spl/difference.help.sl
-help/spl/digitValue.help.sl
-help/spl/dividedByDividedBy.help.sl
-help/spl/dividedBy.help.sl
-help/spl/divisors.help.sl
-help/spl/doesNotInclude.help.sl
-help/spl/do.help.sl
-help/spl/doSeparatedBy.help.sl
-help/spl/dotDot.help.sl
-help/spl/doubleFactorial.help.sl
-help/spl/downToDo.help.sl
-help/spl/downTo.help.sl
-help/spl/Duration.help.sl
-help/spl/e.help.sl
-help/spl/ensure.help.sl
-help/spl/epsilon.help.sl
-help/spl/equalsEquals.help.sl
-help/spl/equals.help.sl
-help/spl/error.help.sl
-help/spl/Error.help.sl
-help/spl/factorial.help.sl
-help/spl/false.help.sl
-help/spl/fetch.help.sl
-help/spl/File.help.sl
-help/spl/fillFromWith.help.sl
-help/spl/fillWith.help.sl
-help/spl/findFirst.help.sl
-help/spl/first.help.sl
-help/spl/fisherYatesShuffle.help.sl
-help/spl/flattened.help.sl
-help/spl/floor.help.sl
-help/spl/Fraction.help.sl
-help/spl/fractionPart.help.sl
-help/spl/Frequency.help.sl
-help/spl/fromToDo.help.sl
-help/spl/greaterThanEquals.help.sl
-help/spl/greaterThan.help.sl
-help/spl/greaterThanTilde.help.sl
-help/spl/groupBy.help.sl
-help/spl/histogramOf.help.sl
-help/spl/ifEmpty.help.sl
-help/spl/ifError.help.sl
-help/spl/ifFalse.help.sl
-help/spl/if.help.sl
-help/spl/ifNil.help.sl
-help/spl/ifTrue.help.sl
-help/spl/i.help.sl
-help/spl/include.help.sl
-help/spl/includesAllOf.help.sl
-help/spl/includesAnyOf.help.sl
-help/spl/includes.help.sl
-help/spl/includesIndex.help.sl
-help/spl/includesKey.help.sl
-help/spl/Indexable.help.sl
-help/spl/indexOf.help.sl
-help/spl/indexOfIfAbsent.help.sl
-help/spl/indexOfSubCollectionStartingAt.help.sl
-help/spl/indexOfSubCollectionStartingAtIfAbsent.help.sl
-help/spl/indexValueAssociations.help.sl
-help/spl/indicesDo.help.sl
-help/spl/indices.help.sl
-help/spl/inf.help.sl
-help/spl/in.help.sl
-help/spl/injectInto.help.sl
-help/spl/Integer.help.sl
-help/spl/intersection.help.sl
-help/spl/Interval.help.sl
-help/spl/isAscii.help.sl
-help/spl/isCollection.help.sl
-help/spl/isEmpty.help.sl
-help/spl/isFinite.help.sl
-help/spl/isFraction.help.sl
-help/spl/isIndexable.help.sl
-help/spl/isInteger.help.sl
-help/spl/isNumber.help.sl
-help/spl/iso8601.help.sl
-help/spl/isPowerOfTwo.help.sl
-help/spl/isPrime.help.sl
-help/spl/isSequenceable.help.sl
-help/spl/isSortedBy.help.sl
-help/spl/isSorted.help.sl
-help/spl/Iterable.help.sl
-help/spl/JiTuning.help.sl
-help/spl/join.help.sl
-help/spl/joinSeparatedBy.help.sl
-help/spl/json.help.sl
-help/spl/keyAtValue.help.sl
-help/spl/keyAtValueIfAbsent.help.sl
-help/spl/keysAndValuesDo.help.sl
-help/spl/keysAndValuesRemove.help.sl
-help/spl/LargeInteger.help.sl
-help/spl/last.help.sl
-help/spl/lessThanEqualsGreaterThan.help.sl
-help/spl/lessThanEquals.help.sl
-help/spl/lessThan.help.sl
-help/spl/lessThanTilde.help.sl
-help/spl/limitDenominator.help.sl
-help/spl/lines.help.sl
-help/spl/lowBitPerByteTable.help.sl
-help/spl/Magnitude.help.sl
-help/spl/map.help.sl
-help/spl/Map.help.sl
-help/spl/max.help.sl
-help/spl/mean.help.sl
-help/spl/methodDictionary.help.sl
-help/spl/Method.help.sl
-help/spl/middle.help.sl
-help/spl/millisecondsToRun.help.sl
-help/spl/min.help.sl
-help/spl/minMax.help.sl
-help/spl/minusGreaterThan.help.sl
-help/spl/minus.help.sl
-help/spl/modulo.help.sl
-help/spl/negated.help.sl
-help/spl/new.help.sl
-help/spl/next.help.sl
-help/spl/nextPrime.help.sl
-help/spl/nil.help.sl
-help/spl/Nil.help.sl
-help/spl/noneSatisfy.help.sl
-help/spl/notEmpty.help.sl
-help/spl/not.help.sl
-help/spl/nthPrime.help.sl
-help/spl/numArgs.help.sl
-help/spl/Number.help.sl
-help/spl/numerator.help.sl
-help/spl/Object.help.sl
-help/spl/occurrencesOf.help.sl
-help/spl/ofSize.help.sl
-help/spl/OrderedCollection.help.sl
-help/spl/or.help.sl
-help/spl/orOr.help.sl
-help/spl/Package.help.sl
-help/spl/parseJson.help.sl
-help/spl/peek.help.sl
-help/spl/perform.help.sl
-help/spl/permutationsDo.help.sl
-help/spl/permutations.help.sl
-help/spl/pi.help.sl
-help/spl/plus.help.sl
-help/spl/plusPlus.help.sl
-help/spl/Point.help.sl
-help/spl/PolarPoint.help.sl
-help/spl/PositionableStream.help.sl
-help/spl/position.help.sl
-help/spl/primeFactors.help.sl
-help/spl/primeLimit.help.sl
-help/spl/primesArray.help.sl
-help/spl/printString.help.sl
-help/spl/printStringRoman.help.sl
-help/spl/Procedure.help.sl
-help/spl/product.help.sl
-help/spl/Promise.help.sl
-help/spl/quotient.help.sl
-help/spl/raisedTo.help.sl
-help/spl/randomFloat.help.sl
-help/spl/Random.help.sl
-help/spl/randomInteger.help.sl
-help/spl/range.help.sl
-help/spl/ReadStream.help.sl
-help/spl/readTextFile.help.sl
-help/spl/Record.help.sl
-help/spl/reduce.help.sl
-help/spl/reject.help.sl
-help/spl/remainder.help.sl
-help/spl/removeAll.help.sl
-help/spl/removeAllSuchThat.help.sl
-help/spl/removeAt.help.sl
-help/spl/removeFirst.help.sl
-help/spl/remove.help.sl
-help/spl/removeLast.help.sl
-help/spl/repeat.help.sl
-help/spl/replaceFromToWithStartingAt.help.sl
-help/spl/replace.help.sl
-help/spl/replicate.help.sl
-help/spl/reset.help.sl
-help/spl/Response.help.sl
-help/spl/reversed.help.sl
-help/spl/reverseDo.help.sl
-help/spl/reverse.help.sl
-help/spl/reverseWithDo.help.sl
-help/spl/romanNumber.help.sl
-help/spl/rounded.help.sl
-help/spl/roundTo.help.sl
-help/spl/roundUpTo.help.sl
-help/spl/second.help.sl
-help/spl/select.help.sl
-help/spl/semicolonSemicolon.help.sl
-help/spl/SequenceableCollection.help.sl
-help/spl/Set.help.sl
-help/spl/shallowCopy.help.sl
-help/spl/shuffled.help.sl
-help/spl/sign.help.sl
-help/spl/size.help.sl
-help/spl/slotNameArray.help.sl
-help/spl/SmallFloat.help.sl
-help/spl/sortBy.help.sl
-help/spl/SortedArray.help.sl
-help/spl/sortedCounts.help.sl
-help/spl/sortedElements.help.sl
-help/spl/sorted.help.sl
-help/spl/sort.help.sl
-help/spl/species.help.sl
-help/spl/splitBy.help.sl
-help/spl/split.help.sl
-help/spl/sqrt.help.sl
-help/spl/Stack.help.sl
-help/spl/Storage.help.sl
-help/spl/storeString.help.sl
-help/spl/Stream.help.sl
-help/spl/String.help.sl
-help/spl/sum.help.sl
-help/spl/system.help.sl
-help/spl/System.help.sl
-help/spl/take.help.sl
-help/spl/thenElse.help.sl
-help/spl/then.help.sl
-help/spl/thenTo.help.sl
-help/spl/tildeEquals.help.sl
-help/spl/tilde.help.sl
-help/spl/tildeTilde.help.sl
-help/spl/times.help.sl
-help/spl/timesRepeat.help.sl
-help/spl/TimeStamp.help.sl
-help/spl/toByDo.help.sl
-help/spl/toBy.help.sl
-help/spl/toDo.help.sl
-help/spl/to.help.sl
-help/spl/Trait.help.sl
-help/spl/traitLookup.help.sl
-help/spl/transpose.help.sl
-help/spl/true.help.sl
-help/spl/truncated.help.sl
-help/spl/truncateTo.help.sl
-help/spl/Type.help.sl
-help/spl/typeOf.help.sl
-help/spl/unicode.help.sl
-help/spl/union.help.sl
-help/spl/uniqueId.help.sl
-help/spl/unixTime.help.sl
-help/spl/unixTimeInMilliseconds.help.sl
-help/spl/unlines.help.sl
-help/spl/upOrDownTo.help.sl
-help/spl/upToDo.help.sl
-help/spl/upTo.help.sl
-help/spl/URL.help.sl
-help/spl/URLSearchParams.help.sl
-help/spl/utf8ByteArray.help.sl
-help/spl/utf8String.help.sl
-help/spl/value.help.sl
-help/spl/valueWithReturn.help.sl
-help/spl/Vector2.help.sl
-help/spl/Vector3.help.sl
-help/spl/Vector4.help.sl
-help/spl/Void.help.sl
-help/spl/whenCached.help.sl
-help/spl/whileFalse.help.sl
-help/spl/whileTrue.help.sl
-help/spl/withCollect.help.sl
-help/spl/withDo.help.sl
-help/spl/withIndexCollect.help.sl
-help/spl/withIndexDo.help.sl
-help/spl/withoutDuplicates.help.sl
-doc/sk/Small Kansas.help.sl
-doc/spl/Apply Syntax.help.sl
-doc/spl/Array Assignment Syntax.help.sl
-doc/spl/Array Syntax.help.sl
-doc/spl/Assignment, initialisation, equality, identity.help.sl
-doc/spl/Assignment Operator Syntax.help.sl
-doc/spl/AtAll Syntax.help.sl
-doc/spl/AtIfAbsentPut Syntax.help.sl
-doc/spl/AtIfAbsent Syntax.help.sl
-doc/spl/AtPath Syntax.help.sl
-doc/spl/AtPutDelegateTo Syntax.help.sl
-doc/spl/AtPut Syntax.help.sl
-doc/spl/At Syntax.help.sl
-doc/spl/Categories and Categoriser.help.sl
-doc/spl/Class Methods.help.sl
-doc/spl/Comment Syntax.help.sl
-doc/spl/Complicated Method Arity.help.sl
-doc/spl/Control Procedures.help.sl
-doc/spl/Defining Methods.help.sl
-doc/spl/Defining Types.help.sl
-doc/spl/Dictionary Assignment Syntax.help.sl
-doc/spl/Dictionary Syntax.help.sl
-doc/spl/Document.help.sl
-doc/spl/Emacs Editor.help.sl
-doc/spl/Fraction Literals.help.sl
-doc/spl/Further Reading.help.sl
-doc/spl/Generic Procedures.help.sl
-doc/spl/Help Files.help.sl
-doc/spl/Help Index.help.sl
-doc/spl/Implicit Dictionary.help.sl
-doc/spl/Implicit Self.help.sl
-doc/spl/Indexable Syntax.help.sl
-doc/spl/Initialised Temporaries Syntax.help.sl
-doc/spl/Integer Literals.help.sl
-doc/spl/Interval Syntax.help.sl
-doc/spl/Literals Syntax.help.sl
-doc/spl/Loading Libraries.help.sl
-doc/spl/Logical Operators.help.sl
-doc/spl/Matrix Syntax.help.sl
-doc/spl/MessageSend Syntax.help.sl
-doc/spl/Method Arity.help.sl
-doc/spl/Method Syntax.help.sl
-doc/spl/Method Table.help.sl
-doc/spl/Non-local Return.help.sl
-doc/spl/Notational Conventions.help.sl
-doc/spl/One Indexing.help.sl
-doc/spl/Operator Syntax.help.sl
-doc/spl/Primitive Types.help.sl
-doc/spl/Procedure Arity.help.sl
-doc/spl/Procedure Implementation.help.sl
-doc/spl/Procedure Semantics.help.sl
-doc/spl/Procedure Syntax.help.sl
-doc/spl/Quoted AtIfAbsentPut Syntax.help.sl
-doc/spl/Quoted AtIfAbsent Syntax.help.sl
-doc/spl/Quoted AtPut Syntax.help.sl
-doc/spl/Quoted At Syntax.help.sl
-doc/spl/Quoted Indexable Syntax.help.sl
-doc/spl/Scheme Perspective.help.sl
-doc/spl/Simple Editor.help.sl
-doc/spl/Simple Method Arity.help.sl
-doc/spl/Simple Programming Language.help.sl
-doc/spl/Slot Access Syntax.help.sl
-doc/spl/Smalltalk Arity.help.sl
-doc/spl/Smalltalk Perspective.help.sl
-doc/spl/Specialised Constructors.help.sl
-doc/spl/String Syntax.help.sl
-doc/spl/SuperCollider Perspective.help.sl
-doc/spl/System Dictionary.help.sl
-doc/spl/Temporary Procedure Syntax.help.sl
-doc/spl/Terse Guide.help.sl
-doc/spl/Terse Guide to Document.help.sl
-doc/spl/Terse Guide to Libraries.help.sl
-doc/spl/Terse Guide to Sound.help.sl
-doc/spl/Trailing Dictionary Syntax.help.sl
-doc/spl/Trailing Procedure Syntax.help.sl
-doc/spl/Unicode Symbols.help.sl
-doc/spl/Value Apply Syntax.help.sl
-doc/spl/Variable Keyword Syntax.help.sl
-doc/spl/Vector Syntax.help.sl
-doc/spl/Volume Syntax.help.sl
-doc/spl/What is a Trait.help.sl
-doc/spl/What is Spl.help.sl
-doc/spl/Why Spl.help.sl
-doc/spl/Writing Primitives.help.sl
-help/sc/Abs.help.sl
-help/sc/AllpassC.help.sl
-help/sc/AllpassN.help.sl
-help/sc/allTuples.help.sl
-help/sc/AmpComp.help.sl
-help/sc/AmpDb.help.sl
-help/sc/Amplitude.help.sl
-help/sc/ArcCos.help.sl
-help/sc/ArcSin.help.sl
-help/sc/ArcTan.help.sl
-help/sc/asLocalBuf.help.sl
-help/sc/AudioIn.help.sl
-help/sc/Balance2.help.sl
-help/sc/bang.help.sl
-help/sc/bangPlus.help.sl
-help/sc/bangRaisedTo.help.sl
-help/sc/Blip.help.sl
-help/sc/BLowPass.help.sl
-help/sc/Bpf.help.sl
-help/sc/Bpz2.help.sl
-help/sc/Brf.help.sl
-help/sc/BrownNoise.help.sl
-help/sc/Brz2.help.sl
-help/sc/BufRd.help.sl
-help/sc/Ceil.help.sl
-help/sc/ClipNoise.help.sl
-help/sc/Clock.help.sl
-help/sc/CoinGate.help.sl
-help/sc/coin.help.sl
-help/sc/collectTexture.help.sl
-help/sc/CombC.help.sl
-help/sc/CombL.help.sl
-help/sc/CombN.help.sl
-help/sc/Compander.help.sl
-help/sc/concatenation.help.sl
-help/sc/ControlIn.help.sl
-help/sc/Cos.help.sl
-help/sc/Cosh.help.sl
-help/sc/CpsMidi.help.sl
-help/sc/CpsOct.help.sl
-help/sc/Crackle.help.sl
-help/sc/crossedMultiply.help.sl
-help/sc/Cubed.help.sl
-help/sc/CuspL.help.sl
-help/sc/Cutoff.help.sl
-help/sc/DbAmp.help.sl
-help/sc/Dbrown.help.sl
-help/sc/Dbrowni.help.sl
-help/sc/Decay2.help.sl
-help/sc/Decay.help.sl
-help/sc/DegreeToKey.help.sl
-help/sc/Delay1.help.sl
-help/sc/Delay2.help.sl
-help/sc/DelayC.help.sl
-help/sc/DelayN.help.sl
-help/sc/DelayWrite.help.sl
-help/sc/Demand.help.sl
-help/sc/differentiate.help.sl
-help/sc/Distort.help.sl
-help/sc/DmdFor.help.sl
-help/sc/DmdOn.help.sl
-help/sc/Drand.help.sl
-help/sc/Dseq.help.sl
-help/sc/dup.help.sl
-help/sc/Dust2.help.sl
-help/sc/Dust.help.sl
-help/sc/Dwhite.help.sl
-help/sc/EnvGen.help.sl
-help/sc/EqPan2.help.sl
-help/sc/Exp.help.sl
-help/sc/ExpRand.help.sl
-help/sc/FbSineC.help.sl
-help/sc/Floor.help.sl
-help/sc/Fold.help.sl
-help/sc/Formant.help.sl
-help/sc/Formlet.help.sl
-help/sc/FOS.help.sl
-help/sc/Frac.help.sl
-help/sc/FreeVerb.help.sl
-help/sc/FreqShift.help.sl
-help/sc/FSinOsc.help.sl
-help/sc/Gate.help.sl
-help/sc/Gcd.help.sl
-help/sc/geom.help.sl
-help/sc/GetTempo.help.sl
-help/sc/GrainFm.help.sl
-help/sc/GrayNoise.help.sl
-help/sc/GVerb.help.sl
-help/sc/Hasher.help.sl
-help/sc/HenonC.help.sl
-help/sc/Hpf.help.sl
-help/sc/Hpz1.help.sl
-help/sc/Hpz2.help.sl
-help/sc/Hypot.help.sl
-help/sc/Impulse.help.sl
-help/sc/ImpulseSequencer.help.sl
-help/sc/Index.help.sl
-help/sc/In.help.sl
-help/sc/InRange.help.sl
-help/sc/Integrator.help.sl
-help/sc/IRand.help.sl
-help/sc/isNegative.help.sl
-help/sc/isPositive.help.sl
-help/sc/isStrictlyPositive.help.sl
-help/sc/K2A.help.sl
-help/sc/Lag.help.sl
-help/sc/Latch.help.sl
-help/sc/LatoocarfianC.help.sl
-help/sc/Lcm.help.sl
-help/sc/LeakDc.help.sl
-help/sc/lessThanBang.help.sl
-help/sc/LfBrownNoise1.help.sl
-help/sc/LfClipNoise.help.sl
-help/sc/LfCub.help.sl
-help/sc/LfdClipNoise.help.sl
-help/sc/LfdNoise0.help.sl
-help/sc/LfdNoise3.help.sl
-help/sc/LfNoise0.help.sl
-help/sc/LfNoise1.help.sl
-help/sc/LfNoise2.help.sl
-help/sc/LfPar.help.sl
-help/sc/LfPulse.help.sl
-help/sc/LfSaw.help.sl
-help/sc/LfTri.help.sl
-help/sc/Limiter.help.sl
-help/sc/LinCongC.help.sl
-help/sc/LinExp.help.sl
-help/sc/LinPan2.help.sl
-help/sc/LinRand.help.sl
-help/sc/LinXFade2.help.sl
-help/sc/Ln.help.sl
-help/sc/LocalBuf.help.sl
-help/sc/LocalIn.help.sl
-help/sc/LocalOut.help.sl
-help/sc/Log10.help.sl
-help/sc/Log2.help.sl
-help/sc/Log.help.sl
-help/sc/Lpf.help.sl
-help/sc/Lpz1.help.sl
-help/sc/Lpz2.help.sl
-help/sc/Max.help.sl
-help/sc/Median.help.sl
-help/sc/MidEq.help.sl
-help/sc/MidiCps.help.sl
-help/sc/MidiRatio.help.sl
-help/sc/Min.help.sl
-help/sc/Mix.help.sl
-help/sc/ModDif.help.sl
-help/sc/MouseX.help.sl
-help/sc/MouseY.help.sl
-help/sc/MulAdd.help.sl
-help/sc/MultiTapDelay.help.sl
-help/sc/Neg.help.sl
-help/sc/Normalizer.help.sl
-help/sc/NRand.help.sl
-help/sc/OctCps.help.sl
-help/sc/OnePole.help.sl
-help/sc/OneZero.help.sl
-help/sc/Osc1.help.sl
-help/sc/OscMessage.help.sl
-help/sc/OscParameter.help.sl
-help/sc/Out.help.sl
-help/sc/overlap.help.sl
-help/sc/OverlapTexture.help.sl
-help/sc/Pan2.help.sl
-help/sc/PanAz.help.sl
-help/sc/PanB.help.sl
-help/sc/PeakFollower.help.sl
-help/sc/Phasor.help.sl
-help/sc/PingPongDelay.help.sl
-help/sc/PinkNoise.help.sl
-help/sc/Pitch.help.sl
-help/sc/PitchShift.help.sl
-help/sc/PlayBuf.help.sl
-help/sc/playEvery.help.sl
-help/sc/play.help.sl
-help/sc/Pluck.help.sl
-help/sc/PmOsc.help.sl
-help/sc/Pow.help.sl
-help/sc/PulseCount.help.sl
-help/sc/PulseDivider.help.sl
-help/sc/Pulse.help.sl
-help/sc/pyramid.help.sl
-help/sc/Rand2.help.sl
-help/sc/Rand.help.sl
-help/sc/RandRange.help.sl
-help/sc/RatioMidi.help.sl
-help/sc/Recip.help.sl
-help/sc/Release.help.sl
-help/sc/repeatEvery.help.sl
-help/sc/Resonz.help.sl
-help/sc/Rhpf.help.sl
-help/sc/RingzBank.help.sl
-help/sc/Ringz.help.sl
-help/sc/Rlpf.help.sl
-help/sc/RoundTo.help.sl
-help/sc/RunningSum.help.sl
-help/sc/Saw.help.sl
-help/sc/schedule.help.sl
-help/sc/scheduleInjecting.help.sl
-help/sc/Schmidt.help.sl
-help/sc/ScSynth.help.sl
-help/sc/Select.help.sl
-help/sc/Sequencer.help.sl
-help/sc/series.help.sl
-help/sc/SfAcquire.help.sl
-help/sc/Silent.help.sl
-help/sc/Sin.help.sl
-help/sc/Sinh.help.sl
-help/sc/SinOscBank.help.sl
-help/sc/SinOscFb.help.sl
-help/sc/SinOsc.help.sl
-help/sc/Slew.help.sl
-help/sc/Slope.help.sl
-help/sc/SoftClip.help.sl
-help/sc/Sos.help.sl
-help/sc/Splay2.help.sl
-help/sc/Splay.help.sl
-help/sc/Spring.help.sl
-help/sc/Sqrt.help.sl
-help/sc/Squared.help.sl
-help/sc/Stepper.help.sl
-help/sc/Sweep.help.sl
-help/sc/SyncSaw.help.sl
-help/sc/Tan.help.sl
-help/sc/Tanh.help.sl
-help/sc/TChoose.help.sl
-help/sc/TDelay.help.sl
-help/sc/TExpRand.help.sl
-help/sc/TGrains.help.sl
-help/sc/Timer.help.sl
-help/sc/TiRand.help.sl
-help/sc/ToggleFf.help.sl
-help/sc/TRand.help.sl
-help/sc/TwoPole.help.sl
-help/sc/TwoZero.help.sl
-help/sc/VarLag.help.sl
-help/sc/VarSaw.help.sl
-help/sc/Warp1.help.sl
-help/sc/WhiteNoise.help.sl
-help/sc/withCrossedCollect.help.sl
-help/sc/withTableCollect.help.sl
-help/sc/Wrap2.help.sl
-help/sc/Wrap.help.sl
-help/sc/WrapIndex.help.sl
-help/sc/XFade2.help.sl
-help/sc/xfade.help.sl
-help/sc/XFadeTexture.help.sl
-help/sc/XLn.help.sl
-help/sc/ZeroCrossing.help.sl
-doc/sc/Local Controls.help.sl
-doc/sc/Sc Help Index.help.sl
-doc/sc/Small Hours.help.sl
-doc/sc/Terse Guide.help.sl
-doc/sc/Texture Programs.help.sl
+spl/help/Language/Guide/Apply Syntax.help.sl
+spl/help/Language/Guide/Array Assignment Syntax.help.sl
+spl/help/Language/Guide/Array Syntax.help.sl
+spl/help/Language/Guide/Assignment, initialisation, equality, identity.help.sl
+spl/help/Language/Guide/Assignment Operator Syntax.help.sl
+spl/help/Language/Guide/AtAll Syntax.help.sl
+spl/help/Language/Guide/AtIfAbsentPut Syntax.help.sl
+spl/help/Language/Guide/AtIfAbsent Syntax.help.sl
+spl/help/Language/Guide/AtPath Syntax.help.sl
+spl/help/Language/Guide/AtPutDelegateTo Syntax.help.sl
+spl/help/Language/Guide/AtPut Syntax.help.sl
+spl/help/Language/Guide/At Syntax.help.sl
+spl/help/Language/Guide/Categories and Categoriser.help.sl
+spl/help/Language/Guide/Class Methods.help.sl
+spl/help/Language/Guide/Comment Syntax.help.sl
+spl/help/Language/Guide/Complicated Method Arity.help.sl
+spl/help/Language/Guide/Control Procedures.help.sl
+spl/help/Language/Guide/Defining Methods.help.sl
+spl/help/Language/Guide/Defining Types.help.sl
+spl/help/Language/Guide/Dictionary Assignment Syntax.help.sl
+spl/help/Language/Guide/Dictionary Syntax.help.sl
+spl/help/Language/Guide/Document.help.sl
+spl/help/Language/Guide/Emacs Editor.help.sl
+spl/help/Language/Guide/Fraction Literals.help.sl
+spl/help/Language/Guide/Further Reading.help.sl
+spl/help/Language/Guide/Generic Procedures.help.sl
+spl/help/Language/Guide/Help Files.help.sl
+spl/help/Language/Guide/Help Index.help.sl
+spl/help/Language/Guide/Implicit Dictionary.help.sl
+spl/help/Language/Guide/Implicit Self.help.sl
+spl/help/Language/Guide/Indexable Syntax.help.sl
+spl/help/Language/Guide/Initialised Temporaries Syntax.help.sl
+spl/help/Language/Guide/Integer Literals.help.sl
+spl/help/Language/Guide/Interval Syntax.help.sl
+spl/help/Language/Guide/Literals Syntax.help.sl
+spl/help/Language/Guide/Loading Libraries.help.sl
+spl/help/Language/Guide/Logical Operators.help.sl
+spl/help/Language/Guide/Matrix Syntax.help.sl
+spl/help/Language/Guide/MessageSend Syntax.help.sl
+spl/help/Language/Guide/Method Arity.help.sl
+spl/help/Language/Guide/Method Syntax.help.sl
+spl/help/Language/Guide/Method Table.help.sl
+spl/help/Language/Guide/Non-local Return.help.sl
+spl/help/Language/Guide/Notational Conventions.help.sl
+spl/help/Language/Guide/One Indexing.help.sl
+spl/help/Language/Guide/Operator Syntax.help.sl
+spl/help/Language/Guide/Primitive Types.help.sl
+spl/help/Language/Guide/Procedure Arity.help.sl
+spl/help/Language/Guide/Procedure Implementation.help.sl
+spl/help/Language/Guide/Procedure Semantics.help.sl
+spl/help/Language/Guide/Procedure Syntax.help.sl
+spl/help/Language/Guide/Quoted AtIfAbsentPut Syntax.help.sl
+spl/help/Language/Guide/Quoted AtIfAbsent Syntax.help.sl
+spl/help/Language/Guide/Quoted AtPut Syntax.help.sl
+spl/help/Language/Guide/Quoted At Syntax.help.sl
+spl/help/Language/Guide/Quoted Indexable Syntax.help.sl
+spl/help/Language/Guide/Scheme Perspective.help.sl
+spl/help/Language/Guide/Simple Editor.help.sl
+spl/help/Language/Guide/Simple Method Arity.help.sl
+spl/help/Language/Guide/Simple Programming Language.help.sl
+spl/help/Language/Guide/Slot Access Syntax.help.sl
+spl/help/Language/Guide/Smalltalk Arity.help.sl
+spl/help/Language/Guide/Smalltalk Perspective.help.sl
+spl/help/Language/Guide/Specialised Constructors.help.sl
+spl/help/Language/Guide/String Syntax.help.sl
+spl/help/Language/Guide/SuperCollider Perspective.help.sl
+spl/help/Language/Guide/System Dictionary.help.sl
+spl/help/Language/Guide/Temporary Procedure Syntax.help.sl
+spl/help/Language/Guide/Terse Guide.help.sl
+spl/help/Language/Guide/Terse Guide to Document.help.sl
+spl/help/Language/Guide/Terse Guide to Libraries.help.sl
+spl/help/Language/Guide/Terse Guide to Sound.help.sl
+spl/help/Language/Guide/Trailing Dictionary Syntax.help.sl
+spl/help/Language/Guide/Trailing Procedure Syntax.help.sl
+spl/help/Language/Guide/Unicode Symbols.help.sl
+spl/help/Language/Guide/Value Apply Syntax.help.sl
+spl/help/Language/Guide/Variable Keyword Syntax.help.sl
+spl/help/Language/Guide/Vector Syntax.help.sl
+spl/help/Language/Guide/Volume Syntax.help.sl
+spl/help/Language/Guide/What is a Trait.help.sl
+spl/help/Language/Guide/What is Spl.help.sl
+spl/help/Language/Guide/Why Spl.help.sl
+spl/help/Language/Guide/Writing Primitives.help.sl
+spl/help/Language/Reference/abs.help.sl
+spl/help/Language/Reference/addAfter.help.sl
+spl/help/Language/Reference/addAfterIndex.help.sl
+spl/help/Language/Reference/addAllFirst.help.sl
+spl/help/Language/Reference/addAll.help.sl
+spl/help/Language/Reference/addAllLast.help.sl
+spl/help/Language/Reference/addBefore.help.sl
+spl/help/Language/Reference/addFirst.help.sl
+spl/help/Language/Reference/add.help.sl
+spl/help/Language/Reference/addLast.help.sl
+spl/help/Language/Reference/allButFirst.help.sl
+spl/help/Language/Reference/allButLast.help.sl
+spl/help/Language/Reference/allSatisfy.help.sl
+spl/help/Language/Reference/andAnd.help.sl
+spl/help/Language/Reference/and.help.sl
+spl/help/Language/Reference/any.help.sl
+spl/help/Language/Reference/anyOne.help.sl
+spl/help/Language/Reference/anySatisfy.help.sl
+spl/help/Language/Reference/Array.help.sl
+spl/help/Language/Reference/asArray.help.sl
+spl/help/Language/Reference/asAscii.help.sl
+spl/help/Language/Reference/asciiByteArray.help.sl
+spl/help/Language/Reference/asciiString.help.sl
+spl/help/Language/Reference/asciiValue.help.sl
+spl/help/Language/Reference/asCollection.help.sl
+spl/help/Language/Reference/asComplex.help.sl
+spl/help/Language/Reference/asFloat.help.sl
+spl/help/Language/Reference/asFraction.help.sl
+spl/help/Language/Reference/asHexDigit.help.sl
+spl/help/Language/Reference/asInteger.help.sl
+spl/help/Language/Reference/asLowercase.help.sl
+spl/help/Language/Reference/asNumber.help.sl
+spl/help/Language/Reference/asPoint.help.sl
+spl/help/Language/Reference/asPowerOfTwo.help.sl
+spl/help/Language/Reference/asSeconds.help.sl
+spl/help/Language/Reference/assertIsCollection.help.sl
+spl/help/Language/Reference/associationAt.help.sl
+spl/help/Language/Reference/associationAtIfAbsent.help.sl
+spl/help/Language/Reference/Association.help.sl
+spl/help/Language/Reference/associations.help.sl
+spl/help/Language/Reference/asString.help.sl
+spl/help/Language/Reference/asStringWithCommas.help.sl
+spl/help/Language/Reference/asUppercase.help.sl
+spl/help/Language/Reference/asWords.help.sl
+spl/help/Language/Reference/atAll.help.sl
+spl/help/Language/Reference/atAllPutAll.help.sl
+spl/help/Language/Reference/atAllPut.help.sl
+spl/help/Language/Reference/atEnd.help.sl
+spl/help/Language/Reference/at.help.sl
+spl/help/Language/Reference/atIfAbsent.help.sl
+spl/help/Language/Reference/atIfAbsentPut.help.sl
+spl/help/Language/Reference/atIfPresent.help.sl
+spl/help/Language/Reference/atModify.help.sl
+spl/help/Language/Reference/atPath.help.sl
+spl/help/Language/Reference/atPin.help.sl
+spl/help/Language/Reference/atPut.help.sl
+spl/help/Language/Reference/atRandom.help.sl
+spl/help/Language/Reference/backslashBackslash.help.sl
+spl/help/Language/Reference/Bag.help.sl
+spl/help/Language/Reference/bangTilde.help.sl
+spl/help/Language/Reference/base64Decoded.help.sl
+spl/help/Language/Reference/basicAt.help.sl
+spl/help/Language/Reference/basicAtPut.help.sl
+spl/help/Language/Reference/Blob.help.sl
+spl/help/Language/Reference/Boolean.help.sl
+spl/help/Language/Reference/ByteArray.help.sl
+spl/help/Language/Reference/cached.help.sl
+spl/help/Language/Reference/Cache.help.sl
+spl/help/Language/Reference/capitalized.help.sl
+spl/help/Language/Reference/caseOf.help.sl
+spl/help/Language/Reference/caseOfOtherwise.help.sl
+spl/help/Language/Reference/CategoryDictionary.help.sl
+spl/help/Language/Reference/ceiling.help.sl
+spl/help/Language/Reference/Character.help.sl
+spl/help/Language/Reference/closeTo.help.sl
+spl/help/Language/Reference/collect.help.sl
+spl/help/Language/Reference/collectInto.help.sl
+spl/help/Language/Reference/Collection.help.sl
+spl/help/Language/Reference/colonColon.help.sl
+spl/help/Language/Reference/colonCommercialAt.help.sl
+spl/help/Language/Reference/colonDividedBy.help.sl
+spl/help/Language/Reference/colonEquals.help.sl
+spl/help/Language/Reference/Colour.help.sl
+spl/help/Language/Reference/commercialAt.help.sl
+spl/help/Language/Reference/Complex.help.sl
+spl/help/Language/Reference/concatenation.help.sl
+spl/help/Language/Reference/contents.help.sl
+spl/help/Language/Reference/contractTo.help.sl
+spl/help/Language/Reference/copyFromTo.help.sl
+spl/help/Language/Reference/copy.help.sl
+spl/help/Language/Reference/copyReplaceAllWith.help.sl
+spl/help/Language/Reference/copyUpTo.help.sl
+spl/help/Language/Reference/copyWith.help.sl
+spl/help/Language/Reference/copyWithoutAll.help.sl
+spl/help/Language/Reference/copyWithout.help.sl
+spl/help/Language/Reference/count.help.sl
+spl/help/Language/Reference/crc16.help.sl
+spl/help/Language/Reference/cull.help.sl
+spl/help/Language/Reference/Date.help.sl
+spl/help/Language/Reference/deepCopy.help.sl
+spl/help/Language/Reference/degreeCos.help.sl
+spl/help/Language/Reference/degreeSin.help.sl
+spl/help/Language/Reference/denominator.help.sl
+spl/help/Language/Reference/detect.help.sl
+spl/help/Language/Reference/detectIfNone.help.sl
+spl/help/Language/Reference/detectMax.help.sl
+spl/help/Language/Reference/detectMin.help.sl
+spl/help/Language/Reference/detectSum.help.sl
+spl/help/Language/Reference/Dictionary.help.sl
+spl/help/Language/Reference/difference.help.sl
+spl/help/Language/Reference/digitValue.help.sl
+spl/help/Language/Reference/dividedByDividedBy.help.sl
+spl/help/Language/Reference/dividedBy.help.sl
+spl/help/Language/Reference/divisors.help.sl
+spl/help/Language/Reference/doesNotInclude.help.sl
+spl/help/Language/Reference/do.help.sl
+spl/help/Language/Reference/doSeparatedBy.help.sl
+spl/help/Language/Reference/dotDot.help.sl
+spl/help/Language/Reference/doubleFactorial.help.sl
+spl/help/Language/Reference/downToDo.help.sl
+spl/help/Language/Reference/downTo.help.sl
+spl/help/Language/Reference/Duration.help.sl
+spl/help/Language/Reference/e.help.sl
+spl/help/Language/Reference/ensure.help.sl
+spl/help/Language/Reference/epsilon.help.sl
+spl/help/Language/Reference/equalsEquals.help.sl
+spl/help/Language/Reference/equals.help.sl
+spl/help/Language/Reference/error.help.sl
+spl/help/Language/Reference/Error.help.sl
+spl/help/Language/Reference/factorial.help.sl
+spl/help/Language/Reference/false.help.sl
+spl/help/Language/Reference/fetch.help.sl
+spl/help/Language/Reference/File.help.sl
+spl/help/Language/Reference/fillFromWith.help.sl
+spl/help/Language/Reference/fillWith.help.sl
+spl/help/Language/Reference/findFirst.help.sl
+spl/help/Language/Reference/first.help.sl
+spl/help/Language/Reference/fisherYatesShuffle.help.sl
+spl/help/Language/Reference/flattened.help.sl
+spl/help/Language/Reference/floor.help.sl
+spl/help/Language/Reference/Fraction.help.sl
+spl/help/Language/Reference/fractionPart.help.sl
+spl/help/Language/Reference/Frequency.help.sl
+spl/help/Language/Reference/fromToDo.help.sl
+spl/help/Language/Reference/greaterThanEquals.help.sl
+spl/help/Language/Reference/greaterThan.help.sl
+spl/help/Language/Reference/greaterThanTilde.help.sl
+spl/help/Language/Reference/groupBy.help.sl
+spl/help/Language/Reference/histogramOf.help.sl
+spl/help/Language/Reference/ifEmpty.help.sl
+spl/help/Language/Reference/ifError.help.sl
+spl/help/Language/Reference/ifFalse.help.sl
+spl/help/Language/Reference/if.help.sl
+spl/help/Language/Reference/ifNil.help.sl
+spl/help/Language/Reference/ifTrue.help.sl
+spl/help/Language/Reference/i.help.sl
+spl/help/Language/Reference/include.help.sl
+spl/help/Language/Reference/includesAllOf.help.sl
+spl/help/Language/Reference/includesAnyOf.help.sl
+spl/help/Language/Reference/includes.help.sl
+spl/help/Language/Reference/includesIndex.help.sl
+spl/help/Language/Reference/includesKey.help.sl
+spl/help/Language/Reference/Indexable.help.sl
+spl/help/Language/Reference/indexOf.help.sl
+spl/help/Language/Reference/indexOfIfAbsent.help.sl
+spl/help/Language/Reference/indexOfSubCollectionStartingAt.help.sl
+spl/help/Language/Reference/indexOfSubCollectionStartingAtIfAbsent.help.sl
+spl/help/Language/Reference/indexValueAssociations.help.sl
+spl/help/Language/Reference/indicesDo.help.sl
+spl/help/Language/Reference/indices.help.sl
+spl/help/Language/Reference/inf.help.sl
+spl/help/Language/Reference/in.help.sl
+spl/help/Language/Reference/injectInto.help.sl
+spl/help/Language/Reference/Integer.help.sl
+spl/help/Language/Reference/intersection.help.sl
+spl/help/Language/Reference/Interval.help.sl
+spl/help/Language/Reference/isAscii.help.sl
+spl/help/Language/Reference/isCollection.help.sl
+spl/help/Language/Reference/isEmpty.help.sl
+spl/help/Language/Reference/isFinite.help.sl
+spl/help/Language/Reference/isFraction.help.sl
+spl/help/Language/Reference/isIndexable.help.sl
+spl/help/Language/Reference/isInteger.help.sl
+spl/help/Language/Reference/isNumber.help.sl
+spl/help/Language/Reference/iso8601.help.sl
+spl/help/Language/Reference/isPowerOfTwo.help.sl
+spl/help/Language/Reference/isPrime.help.sl
+spl/help/Language/Reference/isSequenceable.help.sl
+spl/help/Language/Reference/isSortedBy.help.sl
+spl/help/Language/Reference/isSorted.help.sl
+spl/help/Language/Reference/Iterable.help.sl
+spl/help/Language/Reference/JiTuning.help.sl
+spl/help/Language/Reference/join.help.sl
+spl/help/Language/Reference/joinSeparatedBy.help.sl
+spl/help/Language/Reference/json.help.sl
+spl/help/Language/Reference/keyAtValue.help.sl
+spl/help/Language/Reference/keyAtValueIfAbsent.help.sl
+spl/help/Language/Reference/keysAndValuesDo.help.sl
+spl/help/Language/Reference/keysAndValuesRemove.help.sl
+spl/help/Language/Reference/LargeInteger.help.sl
+spl/help/Language/Reference/last.help.sl
+spl/help/Language/Reference/lessThanEqualsGreaterThan.help.sl
+spl/help/Language/Reference/lessThanEquals.help.sl
+spl/help/Language/Reference/lessThan.help.sl
+spl/help/Language/Reference/lessThanTilde.help.sl
+spl/help/Language/Reference/limitDenominator.help.sl
+spl/help/Language/Reference/lines.help.sl
+spl/help/Language/Reference/lowBitPerByteTable.help.sl
+spl/help/Language/Reference/Magnitude.help.sl
+spl/help/Language/Reference/map.help.sl
+spl/help/Language/Reference/Map.help.sl
+spl/help/Language/Reference/max.help.sl
+spl/help/Language/Reference/mean.help.sl
+spl/help/Language/Reference/methodDictionary.help.sl
+spl/help/Language/Reference/Method.help.sl
+spl/help/Language/Reference/middle.help.sl
+spl/help/Language/Reference/millisecondsToRun.help.sl
+spl/help/Language/Reference/min.help.sl
+spl/help/Language/Reference/minMax.help.sl
+spl/help/Language/Reference/minusGreaterThan.help.sl
+spl/help/Language/Reference/minus.help.sl
+spl/help/Language/Reference/modulo.help.sl
+spl/help/Language/Reference/negated.help.sl
+spl/help/Language/Reference/new.help.sl
+spl/help/Language/Reference/next.help.sl
+spl/help/Language/Reference/nextPrime.help.sl
+spl/help/Language/Reference/nil.help.sl
+spl/help/Language/Reference/Nil.help.sl
+spl/help/Language/Reference/noneSatisfy.help.sl
+spl/help/Language/Reference/notEmpty.help.sl
+spl/help/Language/Reference/not.help.sl
+spl/help/Language/Reference/nthPrime.help.sl
+spl/help/Language/Reference/numArgs.help.sl
+spl/help/Language/Reference/Number.help.sl
+spl/help/Language/Reference/numerator.help.sl
+spl/help/Language/Reference/Object.help.sl
+spl/help/Language/Reference/occurrencesOf.help.sl
+spl/help/Language/Reference/ofSize.help.sl
+spl/help/Language/Reference/OrderedCollection.help.sl
+spl/help/Language/Reference/or.help.sl
+spl/help/Language/Reference/orOr.help.sl
+spl/help/Language/Reference/Package.help.sl
+spl/help/Language/Reference/parseHexColour.help.sl
+spl/help/Language/Reference/parseJson.help.sl
+spl/help/Language/Reference/peek.help.sl
+spl/help/Language/Reference/perform.help.sl
+spl/help/Language/Reference/permutationsDo.help.sl
+spl/help/Language/Reference/permutations.help.sl
+spl/help/Language/Reference/pi.help.sl
+spl/help/Language/Reference/plus.help.sl
+spl/help/Language/Reference/plusPlus.help.sl
+spl/help/Language/Reference/Point.help.sl
+spl/help/Language/Reference/PolarPoint.help.sl
+spl/help/Language/Reference/PositionableStream.help.sl
+spl/help/Language/Reference/position.help.sl
+spl/help/Language/Reference/primeFactors.help.sl
+spl/help/Language/Reference/primeLimit.help.sl
+spl/help/Language/Reference/primesArray.help.sl
+spl/help/Language/Reference/printString.help.sl
+spl/help/Language/Reference/printStringRoman.help.sl
+spl/help/Language/Reference/Procedure.help.sl
+spl/help/Language/Reference/product.help.sl
+spl/help/Language/Reference/Promise.help.sl
+spl/help/Language/Reference/quotient.help.sl
+spl/help/Language/Reference/raisedTo.help.sl
+spl/help/Language/Reference/randomFloat.help.sl
+spl/help/Language/Reference/Random.help.sl
+spl/help/Language/Reference/randomInteger.help.sl
+spl/help/Language/Reference/range.help.sl
+spl/help/Language/Reference/ReadStream.help.sl
+spl/help/Language/Reference/readTextFile.help.sl
+spl/help/Language/Reference/Record.help.sl
+spl/help/Language/Reference/reduce.help.sl
+spl/help/Language/Reference/reject.help.sl
+spl/help/Language/Reference/remainder.help.sl
+spl/help/Language/Reference/removeAll.help.sl
+spl/help/Language/Reference/removeAllSuchThat.help.sl
+spl/help/Language/Reference/removeAt.help.sl
+spl/help/Language/Reference/removeFirst.help.sl
+spl/help/Language/Reference/remove.help.sl
+spl/help/Language/Reference/removeLast.help.sl
+spl/help/Language/Reference/repeat.help.sl
+spl/help/Language/Reference/replaceFromToWithStartingAt.help.sl
+spl/help/Language/Reference/replace.help.sl
+spl/help/Language/Reference/replicate.help.sl
+spl/help/Language/Reference/reset.help.sl
+spl/help/Language/Reference/Response.help.sl
+spl/help/Language/Reference/reversed.help.sl
+spl/help/Language/Reference/reverseDo.help.sl
+spl/help/Language/Reference/reverse.help.sl
+spl/help/Language/Reference/reverseWithDo.help.sl
+spl/help/Language/Reference/romanNumber.help.sl
+spl/help/Language/Reference/rounded.help.sl
+spl/help/Language/Reference/roundTo.help.sl
+spl/help/Language/Reference/roundUpTo.help.sl
+spl/help/Language/Reference/second.help.sl
+spl/help/Language/Reference/select.help.sl
+spl/help/Language/Reference/semicolonSemicolon.help.sl
+spl/help/Language/Reference/SequenceableCollection.help.sl
+spl/help/Language/Reference/Set.help.sl
+spl/help/Language/Reference/shallowCopy.help.sl
+spl/help/Language/Reference/shuffled.help.sl
+spl/help/Language/Reference/sign.help.sl
+spl/help/Language/Reference/size.help.sl
+spl/help/Language/Reference/slotNameArray.help.sl
+spl/help/Language/Reference/SmallFloat.help.sl
+spl/help/Language/Reference/sortBy.help.sl
+spl/help/Language/Reference/SortedArray.help.sl
+spl/help/Language/Reference/sortedCounts.help.sl
+spl/help/Language/Reference/sortedElements.help.sl
+spl/help/Language/Reference/sorted.help.sl
+spl/help/Language/Reference/sort.help.sl
+spl/help/Language/Reference/species.help.sl
+spl/help/Language/Reference/splitBy.help.sl
+spl/help/Language/Reference/split.help.sl
+spl/help/Language/Reference/sqrt.help.sl
+spl/help/Language/Reference/Stack.help.sl
+spl/help/Language/Reference/Storage.help.sl
+spl/help/Language/Reference/storeString.help.sl
+spl/help/Language/Reference/Stream.help.sl
+spl/help/Language/Reference/String.help.sl
+spl/help/Language/Reference/sum.help.sl
+spl/help/Language/Reference/system.help.sl
+spl/help/Language/Reference/System.help.sl
+spl/help/Language/Reference/take.help.sl
+spl/help/Language/Reference/thenElse.help.sl
+spl/help/Language/Reference/then.help.sl
+spl/help/Language/Reference/thenTo.help.sl
+spl/help/Language/Reference/tildeEquals.help.sl
+spl/help/Language/Reference/tilde.help.sl
+spl/help/Language/Reference/tildeTilde.help.sl
+spl/help/Language/Reference/times.help.sl
+spl/help/Language/Reference/timesRepeat.help.sl
+spl/help/Language/Reference/TimeStamp.help.sl
+spl/help/Language/Reference/toByDo.help.sl
+spl/help/Language/Reference/toBy.help.sl
+spl/help/Language/Reference/toDo.help.sl
+spl/help/Language/Reference/to.help.sl
+spl/help/Language/Reference/Trait.help.sl
+spl/help/Language/Reference/traitLookup.help.sl
+spl/help/Language/Reference/transpose.help.sl
+spl/help/Language/Reference/true.help.sl
+spl/help/Language/Reference/truncated.help.sl
+spl/help/Language/Reference/truncateTo.help.sl
+spl/help/Language/Reference/Type.help.sl
+spl/help/Language/Reference/typeOf.help.sl
+spl/help/Language/Reference/unicode.help.sl
+spl/help/Language/Reference/union.help.sl
+spl/help/Language/Reference/uniqueId.help.sl
+spl/help/Language/Reference/unixTime.help.sl
+spl/help/Language/Reference/unixTimeInMilliseconds.help.sl
+spl/help/Language/Reference/unlines.help.sl
+spl/help/Language/Reference/upOrDownTo.help.sl
+spl/help/Language/Reference/upToDo.help.sl
+spl/help/Language/Reference/upTo.help.sl
+spl/help/Language/Reference/URL.help.sl
+spl/help/Language/Reference/URLSearchParams.help.sl
+spl/help/Language/Reference/utf8ByteArray.help.sl
+spl/help/Language/Reference/utf8String.help.sl
+spl/help/Language/Reference/value.help.sl
+spl/help/Language/Reference/valueWithReturn.help.sl
+spl/help/Language/Reference/Vector2.help.sl
+spl/help/Language/Reference/Vector3.help.sl
+spl/help/Language/Reference/Vector4.help.sl
+spl/help/Language/Reference/Void.help.sl
+spl/help/Language/Reference/whenCached.help.sl
+spl/help/Language/Reference/whileFalse.help.sl
+spl/help/Language/Reference/whileTrue.help.sl
+spl/help/Language/Reference/withCollect.help.sl
+spl/help/Language/Reference/withDo.help.sl
+spl/help/Language/Reference/withIndexCollect.help.sl
+spl/help/Language/Reference/withIndexDo.help.sl
+spl/help/Language/Reference/withoutDuplicates.help.sl
+spl/help/SmallKansas/Guide/Small Kansas.help.sl
+spl/help/SmallKansas/Reference/AnalogueClock.help.sl
+spl/help/SmallKansas/Reference/CategoryBrowser.help.sl
+spl/help/SmallKansas/Reference/ColourChooser.help.sl
+spl/help/SmallKansas/Reference/ColumnBrowser.help.sl
+spl/help/SmallKansas/Reference/CrystalLatticeStructureBrowser.help.sl
+spl/help/SmallKansas/Reference/DigitalClock.help.sl
+spl/help/SmallKansas/Reference/FontMenu.help.sl
+spl/help/SmallKansas/Reference/FontSizeMenu.help.sl
+spl/help/SmallKansas/Reference/Frame.help.sl
+spl/help/SmallKansas/Reference/HelpBrowser.help.sl
+spl/help/SmallKansas/Reference/HelpViewer.help.sl
+spl/help/SmallKansas/Reference/Menu.help.sl
+spl/help/SmallKansas/Reference/MethodBrowser.help.sl
+spl/help/SmallKansas/Reference/MethodSignatureBrowser.help.sl
+spl/help/SmallKansas/Reference/MidiMonitorMenu.help.sl
+spl/help/SmallKansas/Reference/MidiPortBrowser.help.sl
+spl/help/SmallKansas/Reference/PngViewer.help.sl
+spl/help/SmallKansas/Reference/ProgramBrowser.help.sl
+spl/help/SmallKansas/Reference/ProgramOracle.help.sl
+spl/help/SmallKansas/Reference/ScalaJiTuningBrowser.help.sl
+spl/help/SmallKansas/Reference/SvgViewer.help.sl
+spl/help/SmallKansas/Reference/SystemBrowser.help.sl
+spl/help/SmallKansas/Reference/TableViewer.help.sl
+spl/help/SmallKansas/Reference/TraitBrowser.help.sl
+spl/help/SmallKansas/Reference/TranscriptViewer.help.sl
+spl/help/SmallKansas/Reference/TypeBrowser.help.sl
+spl/help/SmallKansas/Reference/View.help.sl
+spl/help/SmallKansas/Reference/WindowMenu.help.sl
+spl/help/SmallKansas/Reference/WorldMenu.help.sl
+spl/help/SuperCollider/Guide/Local Controls.help.sl
+spl/help/SuperCollider/Guide/Sc Help Index.help.sl
+spl/help/SuperCollider/Guide/Small Hours.help.sl
+spl/help/SuperCollider/Guide/Terse Guide.help.sl
+spl/help/SuperCollider/Guide/Texture Programs.help.sl
+spl/help/SuperCollider/Reference/Abs.help.sl
+spl/help/SuperCollider/Reference/AllpassC.help.sl
+spl/help/SuperCollider/Reference/AllpassN.help.sl
+spl/help/SuperCollider/Reference/allTuples.help.sl
+spl/help/SuperCollider/Reference/AmpComp.help.sl
+spl/help/SuperCollider/Reference/AmpDb.help.sl
+spl/help/SuperCollider/Reference/Amplitude.help.sl
+spl/help/SuperCollider/Reference/ArcCos.help.sl
+spl/help/SuperCollider/Reference/ArcSin.help.sl
+spl/help/SuperCollider/Reference/ArcTan.help.sl
+spl/help/SuperCollider/Reference/asLocalBuf.help.sl
+spl/help/SuperCollider/Reference/AudioIn.help.sl
+spl/help/SuperCollider/Reference/Balance2.help.sl
+spl/help/SuperCollider/Reference/bang.help.sl
+spl/help/SuperCollider/Reference/bangPlus.help.sl
+spl/help/SuperCollider/Reference/bangRaisedTo.help.sl
+spl/help/SuperCollider/Reference/Blip.help.sl
+spl/help/SuperCollider/Reference/BLowPass.help.sl
+spl/help/SuperCollider/Reference/Bpf.help.sl
+spl/help/SuperCollider/Reference/Bpz2.help.sl
+spl/help/SuperCollider/Reference/Brf.help.sl
+spl/help/SuperCollider/Reference/BrownNoise.help.sl
+spl/help/SuperCollider/Reference/Brz2.help.sl
+spl/help/SuperCollider/Reference/BufRd.help.sl
+spl/help/SuperCollider/Reference/Ceil.help.sl
+spl/help/SuperCollider/Reference/ClipNoise.help.sl
+spl/help/SuperCollider/Reference/Clock.help.sl
+spl/help/SuperCollider/Reference/CoinGate.help.sl
+spl/help/SuperCollider/Reference/coin.help.sl
+spl/help/SuperCollider/Reference/collectTexture.help.sl
+spl/help/SuperCollider/Reference/CombC.help.sl
+spl/help/SuperCollider/Reference/CombL.help.sl
+spl/help/SuperCollider/Reference/CombN.help.sl
+spl/help/SuperCollider/Reference/Compander.help.sl
+spl/help/SuperCollider/Reference/concatenation.help.sl
+spl/help/SuperCollider/Reference/ControlIn.help.sl
+spl/help/SuperCollider/Reference/Cos.help.sl
+spl/help/SuperCollider/Reference/Cosh.help.sl
+spl/help/SuperCollider/Reference/CpsMidi.help.sl
+spl/help/SuperCollider/Reference/CpsOct.help.sl
+spl/help/SuperCollider/Reference/Crackle.help.sl
+spl/help/SuperCollider/Reference/crossedMultiply.help.sl
+spl/help/SuperCollider/Reference/Cubed.help.sl
+spl/help/SuperCollider/Reference/CuspL.help.sl
+spl/help/SuperCollider/Reference/Cutoff.help.sl
+spl/help/SuperCollider/Reference/DbAmp.help.sl
+spl/help/SuperCollider/Reference/Dbrown.help.sl
+spl/help/SuperCollider/Reference/Dbrowni.help.sl
+spl/help/SuperCollider/Reference/Decay2.help.sl
+spl/help/SuperCollider/Reference/Decay.help.sl
+spl/help/SuperCollider/Reference/DegreeToKey.help.sl
+spl/help/SuperCollider/Reference/Delay1.help.sl
+spl/help/SuperCollider/Reference/Delay2.help.sl
+spl/help/SuperCollider/Reference/DelayC.help.sl
+spl/help/SuperCollider/Reference/DelayN.help.sl
+spl/help/SuperCollider/Reference/DelayWrite.help.sl
+spl/help/SuperCollider/Reference/Demand.help.sl
+spl/help/SuperCollider/Reference/differentiate.help.sl
+spl/help/SuperCollider/Reference/Distort.help.sl
+spl/help/SuperCollider/Reference/DmdFor.help.sl
+spl/help/SuperCollider/Reference/DmdOn.help.sl
+spl/help/SuperCollider/Reference/Drand.help.sl
+spl/help/SuperCollider/Reference/Dseq.help.sl
+spl/help/SuperCollider/Reference/dup.help.sl
+spl/help/SuperCollider/Reference/Dust2.help.sl
+spl/help/SuperCollider/Reference/Dust.help.sl
+spl/help/SuperCollider/Reference/Dwhite.help.sl
+spl/help/SuperCollider/Reference/EnvGen.help.sl
+spl/help/SuperCollider/Reference/EqPan2.help.sl
+spl/help/SuperCollider/Reference/Exp.help.sl
+spl/help/SuperCollider/Reference/ExpRand.help.sl
+spl/help/SuperCollider/Reference/FbSineC.help.sl
+spl/help/SuperCollider/Reference/Floor.help.sl
+spl/help/SuperCollider/Reference/Fold.help.sl
+spl/help/SuperCollider/Reference/Formant.help.sl
+spl/help/SuperCollider/Reference/Formlet.help.sl
+spl/help/SuperCollider/Reference/FOS.help.sl
+spl/help/SuperCollider/Reference/Frac.help.sl
+spl/help/SuperCollider/Reference/FreeVerb.help.sl
+spl/help/SuperCollider/Reference/FreqShift.help.sl
+spl/help/SuperCollider/Reference/FSinOsc.help.sl
+spl/help/SuperCollider/Reference/Gate.help.sl
+spl/help/SuperCollider/Reference/Gcd.help.sl
+spl/help/SuperCollider/Reference/geom.help.sl
+spl/help/SuperCollider/Reference/GetTempo.help.sl
+spl/help/SuperCollider/Reference/GrainFm.help.sl
+spl/help/SuperCollider/Reference/GrayNoise.help.sl
+spl/help/SuperCollider/Reference/GVerb.help.sl
+spl/help/SuperCollider/Reference/Hasher.help.sl
+spl/help/SuperCollider/Reference/HenonC.help.sl
+spl/help/SuperCollider/Reference/Hpf.help.sl
+spl/help/SuperCollider/Reference/Hpz1.help.sl
+spl/help/SuperCollider/Reference/Hpz2.help.sl
+spl/help/SuperCollider/Reference/Hypot.help.sl
+spl/help/SuperCollider/Reference/Impulse.help.sl
+spl/help/SuperCollider/Reference/ImpulseSequencer.help.sl
+spl/help/SuperCollider/Reference/Index.help.sl
+spl/help/SuperCollider/Reference/In.help.sl
+spl/help/SuperCollider/Reference/InRange.help.sl
+spl/help/SuperCollider/Reference/Integrator.help.sl
+spl/help/SuperCollider/Reference/IRand.help.sl
+spl/help/SuperCollider/Reference/isNegative.help.sl
+spl/help/SuperCollider/Reference/isPositive.help.sl
+spl/help/SuperCollider/Reference/isStrictlyPositive.help.sl
+spl/help/SuperCollider/Reference/K2A.help.sl
+spl/help/SuperCollider/Reference/Lag.help.sl
+spl/help/SuperCollider/Reference/Latch.help.sl
+spl/help/SuperCollider/Reference/LatoocarfianC.help.sl
+spl/help/SuperCollider/Reference/Lcm.help.sl
+spl/help/SuperCollider/Reference/LeakDc.help.sl
+spl/help/SuperCollider/Reference/lessThanBang.help.sl
+spl/help/SuperCollider/Reference/LfBrownNoise1.help.sl
+spl/help/SuperCollider/Reference/LfClipNoise.help.sl
+spl/help/SuperCollider/Reference/LfCub.help.sl
+spl/help/SuperCollider/Reference/LfdClipNoise.help.sl
+spl/help/SuperCollider/Reference/LfdNoise0.help.sl
+spl/help/SuperCollider/Reference/LfdNoise3.help.sl
+spl/help/SuperCollider/Reference/LfNoise0.help.sl
+spl/help/SuperCollider/Reference/LfNoise1.help.sl
+spl/help/SuperCollider/Reference/LfNoise2.help.sl
+spl/help/SuperCollider/Reference/LfPar.help.sl
+spl/help/SuperCollider/Reference/LfPulse.help.sl
+spl/help/SuperCollider/Reference/LfSaw.help.sl
+spl/help/SuperCollider/Reference/LfTri.help.sl
+spl/help/SuperCollider/Reference/Limiter.help.sl
+spl/help/SuperCollider/Reference/LinCongC.help.sl
+spl/help/SuperCollider/Reference/LinExp.help.sl
+spl/help/SuperCollider/Reference/LinPan2.help.sl
+spl/help/SuperCollider/Reference/LinRand.help.sl
+spl/help/SuperCollider/Reference/LinXFade2.help.sl
+spl/help/SuperCollider/Reference/Ln.help.sl
+spl/help/SuperCollider/Reference/LocalBuf.help.sl
+spl/help/SuperCollider/Reference/LocalIn.help.sl
+spl/help/SuperCollider/Reference/LocalOut.help.sl
+spl/help/SuperCollider/Reference/Log10.help.sl
+spl/help/SuperCollider/Reference/Log2.help.sl
+spl/help/SuperCollider/Reference/Log.help.sl
+spl/help/SuperCollider/Reference/Lpf.help.sl
+spl/help/SuperCollider/Reference/Lpz1.help.sl
+spl/help/SuperCollider/Reference/Lpz2.help.sl
+spl/help/SuperCollider/Reference/Max.help.sl
+spl/help/SuperCollider/Reference/Median.help.sl
+spl/help/SuperCollider/Reference/MidEq.help.sl
+spl/help/SuperCollider/Reference/MidiCps.help.sl
+spl/help/SuperCollider/Reference/MidiRatio.help.sl
+spl/help/SuperCollider/Reference/Min.help.sl
+spl/help/SuperCollider/Reference/Mix.help.sl
+spl/help/SuperCollider/Reference/ModDif.help.sl
+spl/help/SuperCollider/Reference/MouseX.help.sl
+spl/help/SuperCollider/Reference/MouseY.help.sl
+spl/help/SuperCollider/Reference/MulAdd.help.sl
+spl/help/SuperCollider/Reference/MultiTapDelay.help.sl
+spl/help/SuperCollider/Reference/Neg.help.sl
+spl/help/SuperCollider/Reference/Normalizer.help.sl
+spl/help/SuperCollider/Reference/NRand.help.sl
+spl/help/SuperCollider/Reference/OctCps.help.sl
+spl/help/SuperCollider/Reference/OnePole.help.sl
+spl/help/SuperCollider/Reference/OneZero.help.sl
+spl/help/SuperCollider/Reference/Osc1.help.sl
+spl/help/SuperCollider/Reference/OscMessage.help.sl
+spl/help/SuperCollider/Reference/OscParameter.help.sl
+spl/help/SuperCollider/Reference/Out.help.sl
+spl/help/SuperCollider/Reference/overlap.help.sl
+spl/help/SuperCollider/Reference/OverlapTexture.help.sl
+spl/help/SuperCollider/Reference/Pan2.help.sl
+spl/help/SuperCollider/Reference/PanAz.help.sl
+spl/help/SuperCollider/Reference/PanB.help.sl
+spl/help/SuperCollider/Reference/PeakFollower.help.sl
+spl/help/SuperCollider/Reference/Phasor.help.sl
+spl/help/SuperCollider/Reference/PingPongDelay.help.sl
+spl/help/SuperCollider/Reference/PinkNoise.help.sl
+spl/help/SuperCollider/Reference/Pitch.help.sl
+spl/help/SuperCollider/Reference/PitchShift.help.sl
+spl/help/SuperCollider/Reference/PlayBuf.help.sl
+spl/help/SuperCollider/Reference/playEvery.help.sl
+spl/help/SuperCollider/Reference/play.help.sl
+spl/help/SuperCollider/Reference/Pluck.help.sl
+spl/help/SuperCollider/Reference/PmOsc.help.sl
+spl/help/SuperCollider/Reference/Pow.help.sl
+spl/help/SuperCollider/Reference/PulseCount.help.sl
+spl/help/SuperCollider/Reference/PulseDivider.help.sl
+spl/help/SuperCollider/Reference/Pulse.help.sl
+spl/help/SuperCollider/Reference/pyramid.help.sl
+spl/help/SuperCollider/Reference/Rand2.help.sl
+spl/help/SuperCollider/Reference/Rand.help.sl
+spl/help/SuperCollider/Reference/RandRange.help.sl
+spl/help/SuperCollider/Reference/RatioMidi.help.sl
+spl/help/SuperCollider/Reference/Recip.help.sl
+spl/help/SuperCollider/Reference/Release.help.sl
+spl/help/SuperCollider/Reference/repeatEvery.help.sl
+spl/help/SuperCollider/Reference/Resonz.help.sl
+spl/help/SuperCollider/Reference/Rhpf.help.sl
+spl/help/SuperCollider/Reference/RingzBank.help.sl
+spl/help/SuperCollider/Reference/Ringz.help.sl
+spl/help/SuperCollider/Reference/Rlpf.help.sl
+spl/help/SuperCollider/Reference/RoundTo.help.sl
+spl/help/SuperCollider/Reference/RunningSum.help.sl
+spl/help/SuperCollider/Reference/Saw.help.sl
+spl/help/SuperCollider/Reference/schedule.help.sl
+spl/help/SuperCollider/Reference/scheduleInjecting.help.sl
+spl/help/SuperCollider/Reference/Schmidt.help.sl
+spl/help/SuperCollider/Reference/ScSynth.help.sl
+spl/help/SuperCollider/Reference/Select.help.sl
+spl/help/SuperCollider/Reference/Sequencer.help.sl
+spl/help/SuperCollider/Reference/series.help.sl
+spl/help/SuperCollider/Reference/SfAcquire.help.sl
+spl/help/SuperCollider/Reference/Silent.help.sl
+spl/help/SuperCollider/Reference/Sin.help.sl
+spl/help/SuperCollider/Reference/Sinh.help.sl
+spl/help/SuperCollider/Reference/SinOscBank.help.sl
+spl/help/SuperCollider/Reference/SinOscFb.help.sl
+spl/help/SuperCollider/Reference/SinOsc.help.sl
+spl/help/SuperCollider/Reference/Slew.help.sl
+spl/help/SuperCollider/Reference/Slope.help.sl
+spl/help/SuperCollider/Reference/SoftClip.help.sl
+spl/help/SuperCollider/Reference/Sos.help.sl
+spl/help/SuperCollider/Reference/Splay2.help.sl
+spl/help/SuperCollider/Reference/Splay.help.sl
+spl/help/SuperCollider/Reference/Spring.help.sl
+spl/help/SuperCollider/Reference/Sqrt.help.sl
+spl/help/SuperCollider/Reference/Squared.help.sl
+spl/help/SuperCollider/Reference/Stepper.help.sl
+spl/help/SuperCollider/Reference/Sweep.help.sl
+spl/help/SuperCollider/Reference/SyncSaw.help.sl
+spl/help/SuperCollider/Reference/Tan.help.sl
+spl/help/SuperCollider/Reference/Tanh.help.sl
+spl/help/SuperCollider/Reference/TChoose.help.sl
+spl/help/SuperCollider/Reference/TDelay.help.sl
+spl/help/SuperCollider/Reference/TExpRand.help.sl
+spl/help/SuperCollider/Reference/TGrains.help.sl
+spl/help/SuperCollider/Reference/Timer.help.sl
+spl/help/SuperCollider/Reference/TiRand.help.sl
+spl/help/SuperCollider/Reference/ToggleFf.help.sl
+spl/help/SuperCollider/Reference/TRand.help.sl
+spl/help/SuperCollider/Reference/TwoPole.help.sl
+spl/help/SuperCollider/Reference/TwoZero.help.sl
+spl/help/SuperCollider/Reference/VarLag.help.sl
+spl/help/SuperCollider/Reference/VarSaw.help.sl
+spl/help/SuperCollider/Reference/Warp1.help.sl
+spl/help/SuperCollider/Reference/WhiteNoise.help.sl
+spl/help/SuperCollider/Reference/withCrossedCollect.help.sl
+spl/help/SuperCollider/Reference/withTableCollect.help.sl
+spl/help/SuperCollider/Reference/Wrap2.help.sl
+spl/help/SuperCollider/Reference/Wrap.help.sl
+spl/help/SuperCollider/Reference/WrapIndex.help.sl
+spl/help/SuperCollider/Reference/XFade2.help.sl
+spl/help/SuperCollider/Reference/xfade.help.sl
+spl/help/SuperCollider/Reference/XFadeTexture.help.sl
+spl/help/SuperCollider/Reference/XLn.help.sl
+spl/help/SuperCollider/Reference/ZeroCrossing.help.sl
