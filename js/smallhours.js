@@ -19,7 +19,7 @@ function clear() {
 	if(sl.slOptions.simpleArityModel) {
 		_removeAll(_at(_system, 'clock'));
 	} else {
-		_removeAll_1(_at_2(_system, 'clock'));
+		_removeAll_1(_clock_1(_system));
 	}
 }
 

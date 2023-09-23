@@ -26,7 +26,13 @@ window.onload = function () {
 	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
 	sl.assignGlobals();
 	sl.setLoadPath('lib/spl/sl');
-	sl.loadPackageSequence([['Meta', ['core.sl', 'std.sl', 'sc.sl']]]);
+	sl.loadUrl('*Load*', 'Meta/PackageIndex.sl').then(function() {
+		sl.primitiveLoadPackageSequence([
+			'Kernel',
+			'StandardLibrary',
+			'SuperColliderLibrary'
+		]);
+	});
 	document.getElementById('documentText').addEventListener('keydown', sh.keyBindings);
 	document.getElementById('programText').addEventListener('keydown', sh.keyBindings);
 	sh.initProgramMenu();

@@ -403,6 +403,7 @@ help/spl/withoutDuplicates.help.sl
 doc/sk/Small Kansas.help.sl
 doc/spl/Apply Syntax.help.sl
 doc/spl/Array Assignment Syntax.help.sl
+doc/spl/Array Syntax.help.sl
 doc/spl/Assignment, initialisation, equality, identity.help.sl
 doc/spl/Assignment Operator Syntax.help.sl
 doc/spl/AtAll Syntax.help.sl
