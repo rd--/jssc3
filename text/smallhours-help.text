@@ -10,11 +10,15 @@ spl/help/Language/Guide/AtPath Syntax.help.sl
 spl/help/Language/Guide/AtPutDelegateTo Syntax.help.sl
 spl/help/Language/Guide/AtPut Syntax.help.sl
 spl/help/Language/Guide/At Syntax.help.sl
+spl/help/Language/Guide/Block Arity.help.sl
+spl/help/Language/Guide/Block Implementation.help.sl
+spl/help/Language/Guide/Block Semantics.help.sl
+spl/help/Language/Guide/Block Syntax.help.sl
 spl/help/Language/Guide/Categories and Categoriser.help.sl
 spl/help/Language/Guide/Class Methods.help.sl
 spl/help/Language/Guide/Comment Syntax.help.sl
 spl/help/Language/Guide/Complicated Method Arity.help.sl
-spl/help/Language/Guide/Control Procedures.help.sl
+spl/help/Language/Guide/Control Blocks.help.sl
 spl/help/Language/Guide/Defining Methods.help.sl
 spl/help/Language/Guide/Defining Types.help.sl
 spl/help/Language/Guide/Dictionary Assignment Syntax.help.sl
@@ -23,7 +27,7 @@ spl/help/Language/Guide/Document.help.sl
 spl/help/Language/Guide/Emacs Editor.help.sl
 spl/help/Language/Guide/Fraction Literals.help.sl
 spl/help/Language/Guide/Further Reading.help.sl
-spl/help/Language/Guide/Generic Procedures.help.sl
+spl/help/Language/Guide/Generic Functions.help.sl
 spl/help/Language/Guide/Help Files.help.sl
 spl/help/Language/Guide/Help Index.help.sl
 spl/help/Language/Guide/Implicit Dictionary.help.sl
@@ -45,10 +49,6 @@ spl/help/Language/Guide/Notational Conventions.help.sl
 spl/help/Language/Guide/One Indexing.help.sl
 spl/help/Language/Guide/Operator Syntax.help.sl
 spl/help/Language/Guide/Primitive Types.help.sl
-spl/help/Language/Guide/Procedure Arity.help.sl
-spl/help/Language/Guide/Procedure Implementation.help.sl
-spl/help/Language/Guide/Procedure Semantics.help.sl
-spl/help/Language/Guide/Procedure Syntax.help.sl
 spl/help/Language/Guide/Quoted AtIfAbsentPut Syntax.help.sl
 spl/help/Language/Guide/Quoted AtIfAbsent Syntax.help.sl
 spl/help/Language/Guide/Quoted AtPut Syntax.help.sl
@@ -65,18 +65,19 @@ spl/help/Language/Guide/Specialised Constructors.help.sl
 spl/help/Language/Guide/String Syntax.help.sl
 spl/help/Language/Guide/SuperCollider Perspective.help.sl
 spl/help/Language/Guide/System Dictionary.help.sl
-spl/help/Language/Guide/Temporary Procedure Syntax.help.sl
+spl/help/Language/Guide/Temporary Block Syntax.help.sl
 spl/help/Language/Guide/Terse Guide.help.sl
 spl/help/Language/Guide/Terse Guide to Document.help.sl
 spl/help/Language/Guide/Terse Guide to Libraries.help.sl
 spl/help/Language/Guide/Terse Guide to Sound.help.sl
+spl/help/Language/Guide/Trailing Block Syntax.help.sl
 spl/help/Language/Guide/Trailing Dictionary Syntax.help.sl
-spl/help/Language/Guide/Trailing Procedure Syntax.help.sl
 spl/help/Language/Guide/Unicode Symbols.help.sl
 spl/help/Language/Guide/Value Apply Syntax.help.sl
 spl/help/Language/Guide/Variable Keyword Syntax.help.sl
 spl/help/Language/Guide/Vector Syntax.help.sl
 spl/help/Language/Guide/Volume Syntax.help.sl
+spl/help/Language/Guide/What is a Protocol.help.sl
 spl/help/Language/Guide/What is a Trait.help.sl
 spl/help/Language/Guide/What is Spl.help.sl
 spl/help/Language/Guide/Why Spl.help.sl
@@ -99,6 +100,7 @@ spl/help/Language/Reference/and.help.sl
 spl/help/Language/Reference/any.help.sl
 spl/help/Language/Reference/anyOne.help.sl
 spl/help/Language/Reference/anySatisfy.help.sl
+spl/help/Language/Reference/apply.help.sl
 spl/help/Language/Reference/Array.help.sl
 spl/help/Language/Reference/asArray.help.sl
 spl/help/Language/Reference/asAscii.help.sl
@@ -115,8 +117,12 @@ spl/help/Language/Reference/asLowercase.help.sl
 spl/help/Language/Reference/asNumber.help.sl
 spl/help/Language/Reference/asPoint.help.sl
 spl/help/Language/Reference/asPowerOfTwo.help.sl
+spl/help/Language/Reference/asRegExp.help.sl
 spl/help/Language/Reference/asSeconds.help.sl
+spl/help/Language/Reference/assert.help.sl
 spl/help/Language/Reference/assertIsCollection.help.sl
+spl/help/Language/Reference/assertIsString.help.sl
+spl/help/Language/Reference/assertIsValidIndex.help.sl
 spl/help/Language/Reference/associationAt.help.sl
 spl/help/Language/Reference/associationAtIfAbsent.help.sl
 spl/help/Language/Reference/Association.help.sl
@@ -145,11 +151,14 @@ spl/help/Language/Reference/base64Decoded.help.sl
 spl/help/Language/Reference/basicAt.help.sl
 spl/help/Language/Reference/basicAtPut.help.sl
 spl/help/Language/Reference/Blob.help.sl
+spl/help/Language/Reference/Block.help.sl
 spl/help/Language/Reference/Boolean.help.sl
 spl/help/Language/Reference/ByteArray.help.sl
 spl/help/Language/Reference/cached.help.sl
 spl/help/Language/Reference/Cache.help.sl
 spl/help/Language/Reference/capitalized.help.sl
+spl/help/Language/Reference/cartesianProductDo.help.sl
+spl/help/Language/Reference/cartesianProduct.help.sl
 spl/help/Language/Reference/caseOf.help.sl
 spl/help/Language/Reference/caseOfOtherwise.help.sl
 spl/help/Language/Reference/CategoryDictionary.help.sl
@@ -164,6 +173,7 @@ spl/help/Language/Reference/colonCommercialAt.help.sl
 spl/help/Language/Reference/colonDividedBy.help.sl
 spl/help/Language/Reference/colonEquals.help.sl
 spl/help/Language/Reference/Colour.help.sl
+spl/help/Language/Reference/combinationsAtATimeDo.help.sl
 spl/help/Language/Reference/commercialAt.help.sl
 spl/help/Language/Reference/Complex.help.sl
 spl/help/Language/Reference/concatenation.help.sl
@@ -180,6 +190,7 @@ spl/help/Language/Reference/count.help.sl
 spl/help/Language/Reference/crc16.help.sl
 spl/help/Language/Reference/cull.help.sl
 spl/help/Language/Reference/Date.help.sl
+spl/help/Language/Reference/declareFrom.help.sl
 spl/help/Language/Reference/deepCopy.help.sl
 spl/help/Language/Reference/degreeCos.help.sl
 spl/help/Language/Reference/degreeSin.help.sl
@@ -200,6 +211,8 @@ spl/help/Language/Reference/do.help.sl
 spl/help/Language/Reference/doSeparatedBy.help.sl
 spl/help/Language/Reference/dotDot.help.sl
 spl/help/Language/Reference/doubleFactorial.help.sl
+spl/help/Language/Reference/doWhileFalse.help.sl
+spl/help/Language/Reference/doWhileTrue.help.sl
 spl/help/Language/Reference/downToDo.help.sl
 spl/help/Language/Reference/downTo.help.sl
 spl/help/Language/Reference/Duration.help.sl
@@ -237,6 +250,7 @@ spl/help/Language/Reference/if.help.sl
 spl/help/Language/Reference/ifNil.help.sl
 spl/help/Language/Reference/ifTrue.help.sl
 spl/help/Language/Reference/i.help.sl
+spl/help/Language/Reference/includeAll.help.sl
 spl/help/Language/Reference/include.help.sl
 spl/help/Language/Reference/includesAllOf.help.sl
 spl/help/Language/Reference/includesAnyOf.help.sl
@@ -254,6 +268,7 @@ spl/help/Language/Reference/indices.help.sl
 spl/help/Language/Reference/inf.help.sl
 spl/help/Language/Reference/in.help.sl
 spl/help/Language/Reference/injectInto.help.sl
+spl/help/Language/Reference/instanceOf.help.sl
 spl/help/Language/Reference/Integer.help.sl
 spl/help/Language/Reference/intersection.help.sl
 spl/help/Language/Reference/Interval.help.sl
@@ -292,6 +307,9 @@ spl/help/Language/Reference/lowBitPerByteTable.help.sl
 spl/help/Language/Reference/Magnitude.help.sl
 spl/help/Language/Reference/map.help.sl
 spl/help/Language/Reference/Map.help.sl
+spl/help/Language/Reference/matches.help.sl
+spl/help/Language/Reference/matchesRegExp.help.sl
+spl/help/Language/Reference/match.help.sl
 spl/help/Language/Reference/max.help.sl
 spl/help/Language/Reference/mean.help.sl
 spl/help/Language/Reference/methodDictionary.help.sl
@@ -304,6 +322,7 @@ spl/help/Language/Reference/minusGreaterThan.help.sl
 spl/help/Language/Reference/minus.help.sl
 spl/help/Language/Reference/modulo.help.sl
 spl/help/Language/Reference/negated.help.sl
+spl/help/Language/Reference/newFrom.help.sl
 spl/help/Language/Reference/new.help.sl
 spl/help/Language/Reference/next.help.sl
 spl/help/Language/Reference/nextPrime.help.sl
@@ -319,6 +338,7 @@ spl/help/Language/Reference/numerator.help.sl
 spl/help/Language/Reference/Object.help.sl
 spl/help/Language/Reference/occurrencesOf.help.sl
 spl/help/Language/Reference/ofSize.help.sl
+spl/help/Language/Reference/once.help.sl
 spl/help/Language/Reference/OrderedCollection.help.sl
 spl/help/Language/Reference/or.help.sl
 spl/help/Language/Reference/orOr.help.sl
@@ -336,12 +356,12 @@ spl/help/Language/Reference/Point.help.sl
 spl/help/Language/Reference/PolarPoint.help.sl
 spl/help/Language/Reference/PositionableStream.help.sl
 spl/help/Language/Reference/position.help.sl
+spl/help/Language/Reference/postLine.help.sl
 spl/help/Language/Reference/primeFactors.help.sl
 spl/help/Language/Reference/primeLimit.help.sl
 spl/help/Language/Reference/primesArray.help.sl
 spl/help/Language/Reference/printString.help.sl
 spl/help/Language/Reference/printStringRoman.help.sl
-spl/help/Language/Reference/Procedure.help.sl
 spl/help/Language/Reference/product.help.sl
 spl/help/Language/Reference/Promise.help.sl
 spl/help/Language/Reference/quotient.help.sl
@@ -373,9 +393,11 @@ spl/help/Language/Reference/reverseDo.help.sl
 spl/help/Language/Reference/reverse.help.sl
 spl/help/Language/Reference/reverseWithDo.help.sl
 spl/help/Language/Reference/romanNumber.help.sl
+spl/help/Language/Reference/rotatedRight.help.sl
 spl/help/Language/Reference/rounded.help.sl
 spl/help/Language/Reference/roundTo.help.sl
 spl/help/Language/Reference/roundUpTo.help.sl
+spl/help/Language/Reference/search.help.sl
 spl/help/Language/Reference/second.help.sl
 spl/help/Language/Reference/select.help.sl
 spl/help/Language/Reference/semicolonSemicolon.help.sl
@@ -403,6 +425,7 @@ spl/help/Language/Reference/storeString.help.sl
 spl/help/Language/Reference/Stream.help.sl
 spl/help/Language/Reference/String.help.sl
 spl/help/Language/Reference/sum.help.sl
+spl/help/Language/Reference/swapWith.help.sl
 spl/help/Language/Reference/system.help.sl
 spl/help/Language/Reference/System.help.sl
 spl/help/Language/Reference/take.help.sl
@@ -421,10 +444,14 @@ spl/help/Language/Reference/toDo.help.sl
 spl/help/Language/Reference/to.help.sl
 spl/help/Language/Reference/Trait.help.sl
 spl/help/Language/Reference/traitLookup.help.sl
+spl/help/Language/Reference/transposed.help.sl
 spl/help/Language/Reference/transpose.help.sl
 spl/help/Language/Reference/true.help.sl
 spl/help/Language/Reference/truncated.help.sl
 spl/help/Language/Reference/truncateTo.help.sl
+spl/help/Language/Reference/tuplesDo.help.sl
+spl/help/Language/Reference/tuples.help.sl
+spl/help/Language/Reference/tuplesIndicesDo.help.sl
 spl/help/Language/Reference/Type.help.sl
 spl/help/Language/Reference/typeOf.help.sl
 spl/help/Language/Reference/unicode.help.sl
@@ -451,6 +478,7 @@ spl/help/Language/Reference/whileFalse.help.sl
 spl/help/Language/Reference/whileTrue.help.sl
 spl/help/Language/Reference/withCollect.help.sl
 spl/help/Language/Reference/withDo.help.sl
+spl/help/Language/Reference/withIndefiniteArticle.help.sl
 spl/help/Language/Reference/withIndexCollect.help.sl
 spl/help/Language/Reference/withIndexDo.help.sl
 spl/help/Language/Reference/withoutDuplicates.help.sl
@@ -487,7 +515,7 @@ spl/help/SmallKansas/Reference/WorldMenu.help.sl
 spl/help/SuperCollider/Guide/Local Controls.help.sl
 spl/help/SuperCollider/Guide/Sc Help Index.help.sl
 spl/help/SuperCollider/Guide/Small Hours.help.sl
-spl/help/SuperCollider/Guide/Terse Guide.help.sl
+spl/help/SuperCollider/Guide/Terse Guide to SuperCollider.help.sl
 spl/help/SuperCollider/Guide/Texture Programs.help.sl
 spl/help/SuperCollider/Reference/Abs.help.sl
 spl/help/SuperCollider/Reference/AllpassC.help.sl
@@ -637,6 +665,7 @@ spl/help/SuperCollider/Reference/MidiRatio.help.sl
 spl/help/SuperCollider/Reference/Min.help.sl
 spl/help/SuperCollider/Reference/Mix.help.sl
 spl/help/SuperCollider/Reference/ModDif.help.sl
+spl/help/SuperCollider/Reference/MouseButton.help.sl
 spl/help/SuperCollider/Reference/MouseX.help.sl
 spl/help/SuperCollider/Reference/MouseY.help.sl
 spl/help/SuperCollider/Reference/MulAdd.help.sl
