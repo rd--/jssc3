@@ -6,34 +6,33 @@ import { ControlIn } from './pseudo.ts'
 import { c_set1, c_setn1 } from './servercommand.ts'
 import { Signal } from './ugen.ts'
 
-export class CcEvent<T> {
+export class ContinuousEvent<T> {
 	voice: number;
-	data: T[];
-	constructor(voice: number, data: T[]) {
+	contents: T[];
+	constructor(voice: number, contents: T[]) {
 		this.voice = voice;
-		this.data = data;
+		this.contents = contents;
 	}
 	get v() { return this.voice; }
-	get w() { return this.data[0]; }
-	get x() { return this.data[1]; }
-	get y() { return this.data[2]; }
-	get z() { return this.data[3]; }
-	get o() { return this.data[4]; }
-	get rx() { return this.data[5]; }
-	get ry() { return this.data[6]; }
-	get p() { return this.data[7]; }
-	get px() { return this.data[8]; }
+	get w() { return this.contents[0]; }
+	get x() { return this.contents[1]; }
+	get y() { return this.contents[2]; }
+	get z() { return this.contents[3]; }
+	get i() { return this.contents[4]; }
+	get j() { return this.contents[5]; }
+	get k() { return this.contents[6]; }
+	get p() { return this.contents[7]; }
 }
 
-export function eventV<T>(e: CcEvent<T>): number { return e.v; }
-export function eventW<T>(e: CcEvent<T>): T { return e.w; }
-export function eventX<T>(e: CcEvent<T>): T { return e.x; }
-export function eventY<T>(e: CcEvent<T>): T { return e.y; }
-export function eventZ<T>(e: CcEvent<T>): T { return e.z; }
-export function eventO<T>(e: CcEvent<T>): T { return e.o; }
-export function eventRx<T>(e: CcEvent<T>): T { return e.rx; }
-export function eventRy<T>(e: CcEvent<T>): T { return e.ry; }
-export function eventP<T>(e: CcEvent<T>): T { return e.p; }
+export function eventV<T>(e: ContinuousEvent<T>): number { return e.v; }
+export function eventW<T>(e: ContinuousEvent<T>): T { return e.w; }
+export function eventX<T>(e: ContinuousEvent<T>): T { return e.x; }
+export function eventY<T>(e: ContinuousEvent<T>): T { return e.y; }
+export function eventZ<T>(e: ContinuousEvent<T>): T { return e.z; }
+export function eventI<T>(e: ContinuousEvent<T>): T { return e.i; }
+export function eventJ<T>(e: ContinuousEvent<T>): T { return e.j; }
+export function eventK<T>(e: ContinuousEvent<T>): T { return e.k; }
+export function eventP<T>(e: ContinuousEvent<T>): T { return e.p; }
 
 // Control bus address of voiceNumber (indexed from one).
 export function voiceAddr(voiceNumber: number): number {
@@ -44,16 +43,16 @@ export function voiceAddr(voiceNumber: number): number {
 	return voiceAddr;
 }
 
-export function Voicer(numVoices: number, voiceFunc: (e: CcEvent<Signal>) => Signal): Signal[] {
+export function Voicer(numVoices: number, voiceFunc: (e: ContinuousEvent<Signal>) => Signal): Signal[] {
 	const voiceOffset = 0;
 	return arrayFromTo(1, numVoices).map(function(c) {
-		const controlArray = <Signal[]>ControlIn(9, voiceAddr(c + voiceOffset));
-		return voiceFunc(new CcEvent(c + voiceOffset, controlArray));
+		const controlArray = <Signal[]>ControlIn(8, voiceAddr(c + voiceOffset));
+		return voiceFunc(new ContinuousEvent(c + voiceOffset, controlArray));
 	});
 }
 
-export function ccEventParamSetMessage(e: CcEvent<number>): OscMessage {
-	return c_setn1(voiceAddr(e.v), [e.w, e.x, e.y, e.z, e.o, e.rx, e.ry, e.p, e.px]);
+export function ccEventParamSetMessage(e: ContinuousEvent<number>): OscMessage {
+	return c_setn1(voiceAddr(e.v), [e.w, e.x, e.y, e.z, e.i, e.j, e.k, e.p]);
 }
 
 export function voiceEndMessage(voiceNumber: number): OscMessage {
