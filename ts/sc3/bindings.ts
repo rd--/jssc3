@@ -1054,6 +1054,10 @@ export function TLinRand(lo: Signal, hi: Signal, minmax: Signal, trigger: Signal
 export function TScramble(trigger: Signal, inputs: Signal): Signal {
     return makeUgen('TScramble', arrayLength(asArray(inputs)), [0], 0, arrayConcat([trigger], (asArray(inputs))));
 }
+// (Undocumented class)
+export function TrigAllocator(numChannels: number, algorithm: Signal, input: Signal, dur: Signal): Signal {
+    return makeUgen('TrigAllocator', numChannels, [1], 0, [algorithm, input, dur]);
+}
 // artifical reverberator
 export function VbJonVerb(input: Signal, decay: Signal, damping: Signal, inputbw: Signal, erfl: Signal, tail: Signal): Signal {
     return makeUgen('VBJonVerb', 2, [0], 0, [input, decay, damping, inputbw, erfl, tail]);
