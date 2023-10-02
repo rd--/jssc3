@@ -10,19 +10,19 @@ import { rateIr, rateKr } from './rate.ts'
 import { LocalControl, UgenInput, Ugen, ScUgen, Signal, scUgenCompare, isUgen, isLocalControl, localControlCompare, isScUgen } from './ugen.ts'
 
 // traverse graph from p adding leaf nodes to the set c
-// w protects from loops in mrg (when recurring in traversing mrg elements w is set to c).
+// w protects from loops in multipleRootGraph (when recurring in traversing multipleRootGraph elements w is set to c).
 export function ugenTraverseCollecting(p: Tree<Ugen>, c: Set<number | ScUgen>, w: Set<number | ScUgen>): void {
 	// console.debug(`ugenTraverseCollecting: ${p}, ${c}, ${w}`);
 	if(isArray(p)) {
 		// console.debug(`ugenTraverseCollecting: array: ${p}`);
 		arrayForEach(p, item => ugenTraverseCollecting(item, c, w));
 	} else if(isUgen(p)) {
-		const mrgArray = setAsArray(p.scUgen.mrg);
+		const multipleRootGraphArray = setAsArray(p.scUgen.multipleRootGraph);
 		// console.debug(`ugenTraverseCollecting: port: ${p}`);
 		if(!setIncludes(w, p.scUgen)) {
 			setAdd(c, p.scUgen);
 			arrayForEach(p.scUgen.inputArray, item => isNumber(item) ? setAdd(c, item)  : ugenTraverseCollecting(item, c, w));
-			arrayForEach(mrgArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
+			arrayForEach(multipleRootGraphArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
 		}
 	} else {
 		console.error('ugenTraverseCollecting: unknown type', p, c, w);
@@ -121,10 +121,10 @@ export function graphEncodeUgenSpec(graph: UgenGraph, ugen: ScUgen): Tree<Uint8A
 		encodePascalString(ugen.name),
 		encodeInt8(ugen.rate),
 		encodeInt32(arrayLength(ugen.inputArray)),
-		encodeInt32(ugen.numChan),
+		encodeInt32(ugen.numChannels),
 		encodeInt16(ugen.specialIndex),
 		arrayMap(input => arrayMap(index => encodeInt32(index), graphUgenInputSpec(graph, input)), ugen.inputArray),
-		arrayReplicate(ugen.numChan, encodeInt8(ugen.rate))
+		arrayReplicate(ugen.numChannels, encodeInt8(ugen.rate))
 	];
 }
 

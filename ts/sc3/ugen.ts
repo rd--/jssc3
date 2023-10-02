@@ -38,21 +38,21 @@ export type Signal = Tree<UgenInput>;
 
 export class ScUgen {
 	name: string;
-	numChan: number;
+	numChannels: number;
 	rate: number;
 	specialIndex: number;
 	id: number;
 	inputArray: UgenInput[];
-	mrg: Set<UgenInput>;
+	multipleRootGraph: Set<UgenInput>;
 	localControl: null | LocalControl;
-	constructor(name: string, numChan: number, rate: number, specialIndex: number, inputArray: UgenInput[]) {
+	constructor(name: string, numChannels: number, rate: number, specialIndex: number, inputArray: UgenInput[]) {
 		this.name = name;
-		this.numChan = numChan;
+		this.numChannels = numChannels;
 		this.rate = rate;
 		this.specialIndex = specialIndex;
 		this.id = ugenCounter();
 		this.inputArray = inputArray;
-		this.mrg = setNew();
+		this.multipleRootGraph = setNew();
 		this.localControl = null;
 	}
 }
@@ -176,17 +176,17 @@ export function mceInputTransform(aSignal: Signal[]): Signal[] {
 	return arrayTranspose(arrayExtendToBeOfEqualSize(aSignal));
 }
 
-export function makeUgen(name: string, numChan: number, rateSpec: RateSpec, specialIndex: number, signalArray: Signal[]): Signal {
-	// console.debug(`makeUgen: ${name} ${numChan} ${rateSpec} ${specialIndex} ${signalArray}`);
+export function makeUgen(name: string, numChannels: number, rateSpec: RateSpec, specialIndex: number, signalArray: Signal[]): Signal {
+	// console.debug(`makeUgen: ${name} ${numChannels} ${rateSpec} ${specialIndex} ${signalArray}`);
 	if(requiresMce(signalArray)) {
-		return arrayMap(item => makeUgen(name, numChan, rateSpec, specialIndex, <Signal[]>item), mceInputTransform(signalArray));
+		return arrayMap(item => makeUgen(name, numChannels, rateSpec, specialIndex, <Signal[]>item), mceInputTransform(signalArray));
 	} else {
 		const inputArray = <UgenInput[]>signalArray;
-		const scUgen = new ScUgen(name, numChan, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
-		switch (numChan) {
+		const scUgen = new ScUgen(name, numChannels, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
+		switch (numChannels) {
 		    case 0: return new Ugen(scUgen, nilPort);
 		    case 1: return new Ugen(scUgen, 0);
-		    default: return arrayFillWithIndex(numChan, item => new Ugen(scUgen, item));
+		    default: return arrayFillWithIndex(numChannels, item => new Ugen(scUgen, item));
 		}
 	}
 }
@@ -199,7 +199,7 @@ export function ugenDisplayName(ugen: ScUgen): string {
 	}
 }
 
-// Mrg
+// MultipleRootGraph
 
 // inputFirstUgen([0, SinOsc([440, 441], 0), SinOsc(442, 0)])
 export function inputFirstUgen(input: Signal): ScUgen | null {
@@ -215,18 +215,18 @@ export function inputFirstUgen(input: Signal): ScUgen | null {
 	}
 }
 
-export function mrg(lhs: Signal,rhs: Signal): Signal {
+export function multipleRootGraph(lhs: Signal,rhs: Signal): Signal {
 	const ugen = inputFirstUgen(lhs);
-	// console.debug(`mrg: ${lhs}, ${rhs}, ${ugen}`);
-	if(ugen && ugen.mrg) {
+	// console.debug(`multipleRootGraph: ${lhs}, ${rhs}, ${ugen}`);
+	if(ugen && ugen.multipleRootGraph) {
 		if(isArray(rhs)) {
-		    const mrgSet = <Set<UgenInput>>(ugen.mrg);
-		    arrayForEach(rhs, item => setAdd(mrgSet, item));
+		    const multipleRootGraphSet = <Set<UgenInput>>(ugen.multipleRootGraph);
+		    arrayForEach(rhs, item => setAdd(multipleRootGraphSet, item));
 		} else {
-		    setAdd(ugen.mrg, rhs);
+		    setAdd(ugen.multipleRootGraph, rhs);
 		}
 	} else {
-		throwError(`mrg: no ugen or ugen.mrg is null: ${lhs}, ${rhs}`);
+		throwError(`multipleRootGraph: no ugen or ugen.multipleRootGraph is null: ${lhs}, ${rhs}`);
 	}
 	return lhs;
 }

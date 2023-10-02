@@ -11,10 +11,10 @@ export function ugenGraphPrintUgenSpec(graph: UgenGraph, ugen: ScUgen): void {
 		ugen.name,
 		ugen.rate,
 		arrayLength(ugen.inputArray),
-		ugen.numChan,
+		ugen.numChannels,
 		ugen.specialIndex,
 		arrayMap(input => graphUgenInputSpec(graph, input), ugen.inputArray),
-		arrayReplicate(ugen.numChan, ugen.rate)
+		arrayReplicate(ugen.numChannels, ugen.rate)
 	);
 }
 
@@ -36,7 +36,7 @@ export function ugenGraphInputDisplayName(graph: UgenGraph, input: (Ugen | numbe
 		} else {
 			const id = String(graphUgenIndex(graph, input.scUgen.id));
 			const nm = ugenDisplayName(input.scUgen);
-			const ix = input.scUgen.numChan > 1 ? (`[${String(input.port)}]`) : '';
+			const ix = input.scUgen.numChannels > 1 ? (`[${String(input.port)}]`) : '';
 			return `${id}_${nm}${ix}`;
 		}
 	} else if(isNumber(input)) {

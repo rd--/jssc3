@@ -6,7 +6,7 @@ import { Forest, treeShape } from '../stdlib/tree.ts'
 
 import { BHiPass, BLowPass, BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Dc, Demand, Duty, EnvGen, FirstArg, Hpz1, Impulse, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
 import { Env, EnvCurveSeq, EnvAdsr, EnvAsr, EnvCutoff, EnvPerc, EnvRelease, EnvSine, envCoord } from './envelope.ts'
-import { Signal, isOutputSignal, isOutUgen, kr, mrg, signalSize } from './ugen.ts'
+import { Signal, isOutputSignal, isOutUgen, kr, multipleRootGraph, signalSize } from './ugen.ts'
 
 // wrapOut(0, Mul(SinOsc(440, 0), 0.1))
 export function wrapOut(bus: Signal, ugen: Signal): Signal {
@@ -111,7 +111,7 @@ export function AudioOut(channelsArray: Signal): Signal {
 }
 
 /*
-note that mrg places q in p, and here q has a reference to p, so the traversal of the mrg node must not recurse
+note that multipleRootGraph places q in p, and here q has a reference to p, so the traversal of the multipleRootGraph node must not recurse
 
 b = asLocalBuf([0, 2, 4, 5, 7, 9, 11]);
 ugenTraverseCollecting(b, ...)
@@ -131,12 +131,12 @@ export function asLocalBuf(aSignal: Forest<number>): Signal {
 		}
 		const lhs = LocalBuf(shape[0], shape[1]);
 		const rhs = SetBuf(lhs, 0, arrayProduct(shape), array);
-		return mrg(lhs, rhs);
+		return multipleRootGraph(lhs, rhs);
 	}
 }
 
 export function BufClear(buf: Signal): Signal {
-	return mrg(buf, ClearBuf(buf));
+	return multipleRootGraph(buf, ClearBuf(buf));
 }
 
 export function BufRec(bufnum: Signal, reset: Signal, inputArray: Signal): Signal {
@@ -187,8 +187,8 @@ export function UnitCps(a: Signal): Signal {
 }
 
 // Read a signal from a control bus.
-export function ControlIn(numChan: number, bus: Signal): Signal {
-	return kr(In(numChan, bus));
+export function ControlIn(numChannels: number, bus: Signal): Signal {
+	return kr(In(numChannels, bus));
 }
 
 // Write a signal to a control bus.
@@ -237,7 +237,7 @@ export function PingPongDelay(left: Signal, right: Signal, maxDelayTime: Signal,
 	const rightDelayedSignal = BufRd(1, rightBuffer, Wrap(Sub(phase, Mul(delayTime, SampleRate())), 0, delaySize), 1, 2); // tap the left delay line
 	const output = [Add(leftDelayedSignal, left), Add(rightDelayedSignal, right)]; // mix the delayed signal with the input
 	const writer = DelayWrite([rightBuffer, leftBuffer], Mul(output, feedback)); // feedback to buffers in reverse order
-	return mrg(output, writer);  // output the mixed signal and force the DelayWr into the call graph
+	return multipleRootGraph(output, writer);  // output the mixed signal and force the DelayWr into the call graph
 }
 
 export function MultiTapDelay(timesArray: number[], levelsArray: Signal[], input: Signal): Signal {
@@ -246,15 +246,15 @@ export function MultiTapDelay(timesArray: number[], levelsArray: Signal[], input
 	const writer = DelayWrite(buf, input);
 	const numReaders = timesArray.length;
 	const readers = arrayFromTo(0, numReaders - 1).map(item => Mul(DelayTap(buf, timesArray[item]), levelsArray[item]));
-	return mrg(arrayReduce(readers, Add), writer);
+	return multipleRootGraph(arrayReduce(readers, Add), writer);
 }
 
 export function Osc1(buf: Signal, dur: Signal): Signal {
-	const numChan = 1;
+	const numChannels = 1;
 	const phase = Ln(0, Sub(BufFrames(buf), 1), dur);
 	const loop = 0;
 	const interpolation = 2;
-	return BufRd(numChan, buf, phase, loop, interpolation);
+	return BufRd(numChannels, buf, phase, loop, interpolation);
 }
 
 export function Release(input: Signal, attackTime: Signal, dur: Signal, releaseTime: Signal): Signal {
