@@ -3,6 +3,7 @@ import { throwError } from '../kernel/error.ts'
 import { isNumber } from '../kernel/number.ts'
 import { isObject } from '../kernel/object.ts'
 import { setNew, setAdd } from '../kernel/set.ts'
+import { stringCompare } from '../kernel/string.ts'
 
 import { Counter, counterNew } from '../stdlib/counter.ts'
 import { Tree } from '../stdlib/tree.ts'
@@ -26,8 +27,28 @@ export class LocalControl {
 	}
 }
 
-export function localControlCompare(i: LocalControl, j: LocalControl): number {
+export function localControlIndexCompare(i: LocalControl, j: LocalControl): number {
 	return i.index - j.index;
+}
+
+export function localControlNameCompare(i: LocalControl, j: LocalControl): number {
+	return stringCompare(i.name, j.name);
+}
+
+/* There are two allowed cases:
+1. all local controls have non negative indices set, the array is sorted by index
+2. all local controls have indices set to -1, the array is sorted by name and indices assigned
+*/
+export function sortLocalControls(controls: LocalControl[]): LocalControl[] {
+	if(controls.every(each => each.index == -1)) {
+		controls.sort(localControlNameCompare);
+		controls.forEach((each, index) => each.index = index);
+		return controls;
+	} else if(controls.every(each => each.index >= 0)) {
+		return controls.sort(localControlIndexCompare);
+	} else {
+		throw Error('sortLocalControls');
+	}
 }
 
 const ugenCounter: Counter = counterNew();

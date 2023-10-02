@@ -32,7 +32,8 @@ export function printSyndefOf(ugen: Signal): void {
 export function ugenGraphInputDisplayName(graph: UgenGraph, input: (Ugen | number)): string {
 	if(isUgen(input)) {
 		if(isLocalControl(input)) {
-			return `LocalControl(${input.scUgen.localControl!.name}, ${input.scUgen.localControl!.defaultValue})`;
+			const ctl = input.scUgen.localControl!;
+			return `LocalControl(${ctl.name}, ${ctl.index}, ${ctl.defaultValue})`;
 		} else {
 			const id = String(graphUgenIndex(graph, input.scUgen.id));
 			const nm = ugenDisplayName(input.scUgen);

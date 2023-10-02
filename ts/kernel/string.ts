@@ -44,3 +44,7 @@ export function stringCapitalizeFirstLetter(aString: string): string {
 export function stringIsEmpty(aString: string): boolean {
 	return aString.length === 0;
 }
+
+export function stringCompare(p: string, q: string): number {
+	return p < q ? -1 : (p > q ? 1 : 0);
+}

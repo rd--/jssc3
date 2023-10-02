@@ -7,7 +7,7 @@ import { Tree } from '../stdlib/tree.ts'
 import { flattenByteEncoding } from '../stdlib/u8.ts'
 
 import { rateIr, rateKr } from './rate.ts'
-import { LocalControl, UgenInput, Ugen, ScUgen, Signal, scUgenCompare, isUgen, isLocalControl, localControlCompare, isScUgen } from './ugen.ts'
+import { LocalControl, UgenInput, Ugen, ScUgen, Signal, scUgenCompare, isUgen, isLocalControl, sortLocalControls, isScUgen } from './ugen.ts'
 
 // traverse graph from p adding leaf nodes to the set c
 // w protects from loops in multipleRootGraph (when recurring in traversing multipleRootGraph elements w is set to c).
@@ -67,7 +67,7 @@ export function makeUgenGraph(name: string, signal: Signal): UgenGraph {
 	const constantNodes = <number[]>arrayFilter(leafNodes, isNumber);
 	const controlUgenNodes = <ScUgen[]>arrayFilter(leafNodes, item => isScUgen(item) && item.localControl !== null);
 	const controlNodes = <LocalControl[]>arrayMap(item => item.localControl, controlUgenNodes);
-	const controlArray = arraySort(controlNodes, localControlCompare);
+	const controlArray = sortLocalControls(controlNodes);
 	const ugenNodes = <ScUgen[]>arrayFilter(leafNodes, item => isScUgen(item) && item.localControl === null);
 	const ugenArray = arraySort(ugenNodes, scUgenCompare);
 	const numLocalBufs = arrayLength(arrayFilter(ugenArray, item => item.name === 'LocalBuf'));
