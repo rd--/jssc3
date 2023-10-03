@@ -6,7 +6,7 @@ import { OscMessage, OscPacket, encodeOscMessage, encodeOscBundle } from '../std
 import { encodeUgen } from './graph.ts'
 import { wrapOut } from './pseudo.ts'
 import { ScSynthOptions } from './scsynth-options.ts'
-import { c_setn1, d_recv, d_recv_then, g_freeAll, g_new, kAddToTail, m_dumpOsc, m_notify, m_status, ScSynthStatus, defaultScSynthStatus, s_new0 } from './servercommand.ts'
+import { c_setn1, d_recv, d_recv_then, g_freeAll, g_new, kAddToTail, m_dumpOsc, m_notify, m_status, ScSynthStatus, defaultScSynthStatus, s_new } from './servercommand.ts'
 import { Signal } from './ugen.ts'
 
 type StartSynth = () => void;
@@ -82,26 +82,26 @@ export function scSynthEnsure(scSynth: ScSynth, activity: () => void) {
 	}
 }
 
-export function playSynDefAt(scSynth: ScSynth, synDefName: string, synDefData: Uint8Array, groupId: number, systemTimeInSeconds: number | null): void {
+export function playSynDefAt(scSynth: ScSynth, synDefName: string, synDefData: Uint8Array, nodeId: number, groupId: number, parameterArray: [string, number][], systemTimeInSeconds: number | null): void {
 	if(systemTimeInSeconds == null) {
-		scSynth.sendOsc(d_recv_then(synDefData, encodeOscMessage(s_new0(synDefName, -1, kAddToTail, groupId))));
+		scSynth.sendOsc(d_recv_then(synDefData, encodeOscMessage(s_new(synDefName, nodeId, kAddToTail, groupId, parameterArray))));
 	} else {
 		const unixTimeInMilliseconds = performance.timeOrigin + (systemTimeInSeconds * 1000);
 		scSynth.sendOsc(d_recv_then(synDefData, encodeOscBundle({
 			timeTag: {native: unixTimeInMilliseconds},
-			packets: [s_new0(synDefName, -1, kAddToTail, groupId)]
+			packets: [s_new(synDefName, nodeId, kAddToTail, groupId, parameterArray)]
 		})));
 	}
 }
 
-export function playUgenAt(scSynth: ScSynth, ugenGraph: Signal, groupId: number, systemTimeInSeconds: number | null): void {
+export function playUgenAt(scSynth: ScSynth, ugenGraph: Signal, nodeId: number, groupId: number, parameterArray: [string, number][], systemTimeInSeconds: number | null): void {
 	const synDefName = 'anonymous_' + synthdefCounter();
 	const synDefData = encodeUgen(synDefName, wrapOut(0, ugenGraph));
-	playSynDefAt(scSynth, synDefName, synDefData, groupId, systemTimeInSeconds);
+	playSynDefAt(scSynth, synDefName, synDefData, nodeId, groupId, parameterArray, systemTimeInSeconds);
 }
 
-export function playProcedureAt(scSynth: ScSynth, ugenFunction: () => Signal, groupId: number, systemTimeInSeconds: number | null): void {
-	playUgenAt(scSynth, ugenFunction(), groupId, systemTimeInSeconds);
+export function playProcedureAt(scSynth: ScSynth, ugenFunction: () => Signal, nodeId: number, groupId: number, systemTimeInSeconds: number | null): void {
+	playUgenAt(scSynth, ugenFunction(), nodeId, groupId, [], systemTimeInSeconds);
 }
 
 export function initGroupStructure(scSynth: ScSynth): void {

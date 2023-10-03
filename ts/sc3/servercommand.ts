@@ -170,9 +170,34 @@ export function m_parseStatusReply(msg: OscMessage, status: ScSynthStatus): void
 
 // s = synth
 
-export function s_new0(name: string, nodeId: number, addAction: number, target: number): OscMessage {
+export function s_new(name: string, nodeId: number, addAction: number, target: number, parameterArray: [string, number][]): OscMessage {
+	const oscParameters: OscData[] = [];
+	parameterArray.forEach(function(each) {
+		oscParameters.push(oscString(each[0]));
+		oscParameters.push(oscFloat(each[1]));
+	});
 	return {
 		address: '/s_new',
-		args: [oscString(name), oscInt32(nodeId), oscInt32(addAction), oscInt32(target)]
+		args: [oscString(name), oscInt32(nodeId), oscInt32(addAction), oscInt32(target)].concat(oscParameters)
 	};
+}
+
+export function s_new0(name: string, nodeId: number, addAction: number, target: number): OscMessage {
+	return s_new(name, nodeId, addAction, target, []);
+}
+
+export function n_set(nodeId: number, parameterArray: [string, number][]): OscMessage {
+	const oscParameters: OscData[] = [oscInt32(nodeId)];
+	parameterArray.forEach(function(each) {
+		oscParameters.push(oscString(each[0]));
+		oscParameters.push(oscFloat(each[1]));
+	});
+	return {
+		address: '/n_set',
+		args: oscParameters
+	};
+}
+
+export function n_set1(nodeId: number, controlName: string, controlValue: number): OscMessage {
+	return n_set(nodeId, [[controlName, controlValue]]);
 }

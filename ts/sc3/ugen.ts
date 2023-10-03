@@ -84,6 +84,10 @@ export function localControlInput(name: string, index: number, defaultValue: num
 	return new Ugen(scUgen, 0);
 }
 
+export function NamedControl(name: string, defaultValue: number): Ugen {
+	return localControlInput(name, -1, defaultValue);
+}
+
 export type LocalControlDictionary = Record<string, number | number[]>;
 
 // sc.localControls({freq: [440, 441], amp: 0.1})
