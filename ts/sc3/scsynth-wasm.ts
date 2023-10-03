@@ -8,64 +8,64 @@ import { ScSynthWasmModule } from './scsynth-wasm-module.ts'
 import { ScSynthOptions, scSynthOptionsPrint } from './scsynth-options.ts'
 import { Signal } from './ugen.ts'
 
-export function scsynthWasm(options: ScSynthOptions, wasm: ScSynthWasmModule): ScSynth {
-	const scsynth: ScSynth = new ScSynth(
+export function scSynthWasm(options: ScSynthOptions, wasm: ScSynthWasmModule): ScSynth {
+	const scSynth: ScSynth = new ScSynth(
 		options,
-		() => bootScSynthWasm(scsynth, wasm),
-		oscPacket => sendOscWasm(scsynth, wasm, oscPacket)
+		() => bootScSynthWasm(scSynth, wasm),
+		oscPacket => sendOscWasm(scSynth, wasm, oscPacket)
 	);
-	return scsynth;
+	return scSynth;
 }
 
-export function sendOscWasm(scsynth: ScSynth, wasm: ScSynthWasmModule, oscPacket: OscPacket): void {
+export function sendOscWasm(scSynth: ScSynth, wasm: ScSynthWasmModule, oscPacket: OscPacket): void {
 	// console.debug(`sendOscWasm: ${oscPacket}`);
-	if((scsynth.isStarting || scsynth.isAlive) && wasm.oscDriver) {
-		const port = wasm.oscDriver[scsynth.synthPort];
+	if((scSynth.isStarting || scSynth.isAlive) && wasm.oscDriver) {
+		const port = wasm.oscDriver[scSynth.synthPort];
 		const recv = port && port.receive;
 		if(recv) {
-			recv(scsynth.langPort, encodeOscPacket(oscPacket));
+			recv(scSynth.langPort, encodeOscPacket(oscPacket));
 		} else {
 			console.warn('sendOscWasm: recv?');
 		}
 	} else {
-		console.warn('sendOscWasm: scsynth not running', scsynth.isStarting, scsynth.isAlive);
+		console.warn('sendOscWasm: scSynth not running', scSynth.isStarting, scSynth.isAlive);
 	}
 }
 
-export function bootScSynthWasm(scsynth: ScSynth, wasm: ScSynthWasmModule): void {
-	scSynthOptionsPrint(scsynth.options);
-	if(!scsynth.isAlive && !scsynth.isStarting) {
+export function bootScSynthWasm(scSynth: ScSynth, wasm: ScSynthWasmModule): void {
+	scSynthOptionsPrint(scSynth.options);
+	if(!scSynth.isAlive && !scSynth.isStarting) {
 		const args = wasm['arguments'];
-		args[args.indexOf('-i') + 1] = String(scsynth.options.numInputs);
-		args[args.indexOf('-o') + 1] = String(scsynth.options.numOutputs);
-		args.push('-Z', String(scsynth.options.hardwareBufferSize)); // audio driver block size (frames)
-		args.push('-z', String(scsynth.options.blockSize)); // # block size (for sample-rate of 48000 gives blocks of 1ms)
+		args[args.indexOf('-i') + 1] = String(scSynth.options.numInputs);
+		args[args.indexOf('-o') + 1] = String(scSynth.options.numOutputs);
+		args.push('-Z', String(scSynth.options.hardwareBufferSize)); // audio driver block size (frames)
+		args.push('-z', String(scSynth.options.blockSize)); // # block size (for sample-rate of 48000 gives blocks of 1ms)
 		args.push('-w', '512'); // # wire buffers
-		args.push('-m', '32768'); // real time memory (Kb), total memory is fixed at scsynth/wasm compile time, see README_WASM
+		args.push('-m', '32768'); // real time memory (Kb), total memory is fixed at scSynth/wasm compile time, see README_WASM
 		// console.debug('bootScSynthWasm: callMain');
 		wasm.callMain(args);
-		setTimeout(() => monitorOscWasm(scsynth, wasm), 1000);
-		setInterval(() => sendOscWasm(scsynth, wasm, m_status), 1000);
-		scsynth.isStarting = true;
+		setTimeout(() => monitorOscWasm(scSynth, wasm), 1000);
+		setInterval(() => sendOscWasm(scSynth, wasm, m_status), 1000);
+		scSynth.isStarting = true;
 	} else {
 		console.log('bootScSynth: already running');
 	}
 }
 
-function monitorOscWasm(scsynth: ScSynth, wasm: ScSynthWasmModule): void {
+function monitorOscWasm(scSynth: ScSynth, wasm: ScSynthWasmModule): void {
 	// console.debug('monitorOscWasm');
-	wasm.oscDriver[scsynth.langPort] = {
+	wasm.oscDriver[scSynth.langPort] = {
 		receive: function(addr: string, data: Uint8Array) {
-			if(scsynth.isStarting) {
-				scsynth.isStarting = false;
-				console.log('scsynth: starting completed');
+			if(scSynth.isStarting) {
+				scSynth.isStarting = false;
+				console.log('scSynth: starting completed');
 			}
-			if(!scsynth.isAlive) {
-				scsynth.isAlive = true;
-				initGroupStructure(scsynth);
+			if(!scSynth.isAlive) {
+				scSynth.isAlive = true;
+				initGroupStructure(scSynth);
 			}
 			const msg = decodeOscMessage(data);
-			scsynth.oscListeners.forEach(function(value, key) {
+			scSynth.oscListeners.forEach(function(value, key) {
 				if(msg.address === key) {
 					value.forEach(function(handler) {
 						handler(msg);
@@ -73,8 +73,8 @@ function monitorOscWasm(scsynth: ScSynth, wasm: ScSynthWasmModule): void {
 				}
 			});
 			if(msg.address === '/status.reply') {
-				m_parseStatusReply(msg, scsynth.status);
-				// scsynth.monitorDisplay('# ' + ugenCount);
+				m_parseStatusReply(msg, scSynth.status);
+				// scSynth.monitorDisplay('# ' + ugenCount);
 			} else if(msg.address === '/done') {
 				console.log('/done', msg.args[0]);
 			} else {

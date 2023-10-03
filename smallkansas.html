@@ -26,6 +26,7 @@ window.document.addEventListener('visibilitychange', function() {
 window.onload = function () {
 	sc.sc3_wasm_init();
 	sc.sc3_mouse_init(globalScSynth);
+	// globalThis.globalScSynth = sc.scSynthWebSocket('ws:localhost:9160'); /* hosc-json ws osc-ws-to-osc-udp */
 	sl.assignGlobals();
 	sl.setLoadPath('lib/spl/sl');
 	sl.loadUrl('*Load*', 'Meta/PackageIndex.sl').then(function() {
