@@ -25,7 +25,7 @@ window.onload = function () {
 	<body>
 		<h1>SuperScript</h1>
 		<div id="menuContainer">
-			<button title="Start synthesiser (b)" accesskey="b" onclick="globalScSynth.boot()">Begin</button>
+			<button title="Start synthesiser (b)" accesskey="b" onclick="globalScSynth.connect()">Begin</button>
 			<span id="statusText">...</span>
 			<input type="file" id="programInputFile" accept=".help.sl" onchange="wr.loadMd()" style="display:none">
 			<button id="programInputFileSelect" title="Load file (l)" accesskey="l">Load</button>

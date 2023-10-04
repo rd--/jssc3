@@ -36,7 +36,7 @@ export function insertText(label, text) {
 	}
 	if(state.autoPlay) {
 		clear();
-		sc.resetScSynth(globalScSynth);
+		globalScSynth.reset();
 		playRegion();
 	}
 }
@@ -56,16 +56,19 @@ export function loadInputFile() {
 	}
 }
 
-export function loadHelp(kind, helpPrefix, docPrefix) {
-	const name = sc.get_selected_text();
+export function loadHelpFor(area, name) {
 	if(name.length > 0) {
-		const isDoc = name.includes(' ');
-		const prefix = isDoc ? docPrefix : helpPrefix
-		const rewrittenName = isDoc ? name : (sl.isOperatorName(name) ? sl.operatorMethodName(name) : name);
-		const url = `${prefix}/${rewrittenName}.help.sl`;
+		const isGuide = name.includes(' ');
+		const kind = isGuide ? 'Guide' : 'Reference';
+		const rewrittenName = isGuide ? name : (sl.isOperatorName(name) ? sl.operatorMethodName(name) : name);
+		const url = `lib/spl/help/${area}/${kind}/${rewrittenName}.help.sl`;
 		const address = `?${kind}=${rewrittenName}`;
 		sc.fetch_utf8_then(url, insertTextFor(address));
 	}
+}
+
+export function loadHelp(area) {
+	loadHelpFor(area, sc.get_selected_text());
 }
 
 export function keyBindings(event) {
@@ -75,19 +78,19 @@ export function keyBindings(event) {
 			event.preventDefault();
 			event.shiftKey ? evalRegion() : playRegion();
 		} else if(event.key === '.') {
-			sc.resetScSynth(globalScSynth);
+			globalScSynth.reset();
 			clear();
 		} else if(event.shiftKey && event.key === '>') {
 			clear();
 		} else if(event.shiftKey && event.key === 'L') {
 			document.getElementById('programInputFileSelect').click();
 		} else if(event.shiftKey && event.key === 'H') {
-			loadHelp('help', './lib/stsc3/help/sc', './lib/stsc3/doc/sc');
+			loadHelp('SuperCollider');
 		} else if(event.key === 'm') {
-			loadHelp('manual', './lib/spl/help/spl', './lib/spl/doc/spl');
+			loadHelp('Language');
 		} else if(event.shiftKey && event.key === '?') {
-			loadHelp('manual', './lib/spl/help/spl', './lib/spl/doc/spl');
-			loadHelp('help', './lib/stsc3/help/sc', './lib/stsc3/doc/sc');
+			loadHelp('SuperCollider');
+			loadHelp('Language');
 		}
 	}
 }
@@ -101,7 +104,7 @@ export function loadUrlParam() {
 }
 
 export function loadInstructions() {
-	sc.fetch_utf8_then('lib/stsc3/doc/sc/Small Hours.help.sl', insertTextFor('?manual=Small Hours'));
+	loadHelpFor('SuperCollider', 'Small Hours');
 }
 
 export function initProgramMenu() {

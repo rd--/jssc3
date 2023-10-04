@@ -153,7 +153,7 @@ export const defaultScSynthStatus = {
 	sampleRateActual: 48000
 };
 
-export function m_parseStatusReply(msg: OscMessage, status: ScSynthStatus): void {
+export function m_parseStatusReplyInto(msg: OscMessage, status: ScSynthStatus): void {
 	if(msg.address === '/status.reply') {
 		status.ugenCount = <number>msg.args[1].value;
 		status.synthCount = <number>msg.args[2].value;

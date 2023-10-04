@@ -49,7 +49,7 @@ window.onload = function () {
 	<body>
 		<h1>SuperCalc</h1>
 		<div id="menuContainer">
-			<button title="Begin" accesskey="b" onclick="sc.scSynthEnsure(globalScSynth, calc.server_setup)">Begin</button>
+			<button title="Begin" accesskey="b" onclick="globalScSynth.whenConnected(calc.server_setup)">Begin</button>
 			<span id="statusText">...</span>
 			<input type="file" id="programInputFile" accept=".json" onchange="loadSheet()" style="display:none">
 			<button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>

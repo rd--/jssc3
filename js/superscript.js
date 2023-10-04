@@ -4,9 +4,7 @@ var mostRecentUgenGraph = null;
 
 function playUgen(ugenGraph) {
 	mostRecentUgenGraph = ugenGraph;
-	sc.scSynthEnsure(globalScSynth, function() {
-		sc.playUgenAt(globalScSynth, ugenGraph, 1, null);
-	});
+	globalScSynth.playUgenAt(ugenGraph, -1, 1, [], null);
 }
 
 function jsPlay() {
@@ -46,7 +44,7 @@ export function onKeyPress(event) {
 	} else if(event.ctrlKey&& event.key === ',') {
 		jsPlay();
 	} else if(event.ctrlKey&& event.key === '.') {
-		sc.resetScSynth(globalScSynth);
+		globalScSynth.reset();
 	} else if(event.ctrlKey&& event.key === ':') {
 		if(mostRecentUgenGraph !== null) {
 			sc.prettyPrintSyndefOf(mostRecentUgenGraph);
