@@ -159,8 +159,8 @@ export function m_parseStatusReply(msg: OscMessage, status: ScSynthStatus): void
 		status.synthCount = <number>msg.args[2].value;
 		status.groupCount = <number>msg.args[3].value;
 		status.synthdefCount = <number>msg.args[4].value;
-		status.cpuAverage = <number>msg.args[5].value;
-		status.cpuPeak = <number>msg.args[6].value;
+		status.cpuAverage = Math.round(<number>msg.args[5].value);
+		status.cpuPeak = Math.round(<number>msg.args[6].value);
 		status.sampleRateNominal = <number>msg.args[7].value;
 		status.sampleRateActual = Math.round(<number>msg.args[8].value);
 	} else {
