@@ -1,21 +1,17 @@
-// deno run --unstable --allow-net --allow-read --allow-write ws-bridge.ts
-
-const scSynthUdpPort: number = 57110;
 const scSynthAddress: Deno.NetAddr = {
 	transport: 'udp',
 	hostname: '0.0.0.0',
-	port: scSynthUdpPort
+	port: 57110
 };
 const bridgeUdpPort: number = 58110;
 const bridgeWebSocketPort: number = 57110;
-var webSocket: WebSocket | null = null;
 
 const udp: DatagramConn = Deno.listenDatagram({
 	transport: 'udp',
 	port: bridgeUdpPort
 });
 
-// console.log('listenDatagram', udp);
+var webSocket: WebSocket | null = null;
 
 const websocketServer = Deno.serve({ port: bridgeWebSocketPort }, (request) => {
 
@@ -31,14 +27,11 @@ const websocketServer = Deno.serve({ port: bridgeWebSocketPort }, (request) => {
 
 	webSocket = socket;
 
-	webSocket.addEventListener('open', () => {
-		// console.log('webSocket: open');
-	});
-
 	webSocket.addEventListener('message', (event) => {
-		// console.log('webSocket message', event.data);
-		udp.send(event.data, scSynthAddress).then(function(bytesSent) {
-			// console.log('udp.send', bytesSent);
+		udp.send(event.data, scSynthAddress).then(function(bytesSent: number) {
+			if(event.data.byteLength != bytesSent) {
+				console.error('udp.send', event.data.byteLength, bytesSent);
+			}
 		});
 	});
 
@@ -48,7 +41,10 @@ const websocketServer = Deno.serve({ port: bridgeWebSocketPort }, (request) => {
 
 (async () => {
 	for await (const [data, address] of udp) {
-		// console.log('udp.receive', data, address);
-		webSocket.send(data);
+		if(webSocket != null) {
+			webSocket.send(data);
+		} else {
+			console.error('webSocket is null');
+		}
 	}
 })();

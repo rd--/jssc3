@@ -17,15 +17,13 @@ export function scSynthWebSocket(url: string | URL): ScSynth {
 		() => console.log(`scSynthWebSocket: cannot start remote synthesiser`),
 		(oscPacket) => webSocketSendOsc(webSocket, oscPacket),
 	);
-	scSynth.isAlive = true;
+	scSynth.readyState = 'connected';
 	scSynth.hasIoUgens = true;
 	webSocket.onopen = function() {
-		// webSocket.send(encodeOscPacket(m_notify(1, 1)));
 		setInterval(() => webSocket.send(encodeOscPacket(m_status)), 1000);
 	}
 	webSocket.onmessage = function(event) {
 		const msg = decodeOscMessage(event.data);
-		console.log('scSynth webSocket message', msg);
 		if(msg.address === '/status.reply') {
 			m_parseStatusReply(msg, scSynth.status);
 		}

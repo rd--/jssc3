@@ -17,24 +17,26 @@ export function scSynthWasm(options: ScSynthOptions, wasm: ScSynthWasmModule): S
 	return scSynth;
 }
 
+const langPort = 57120;
+
 export function sendOscWasm(scSynth: ScSynth, wasm: ScSynthWasmModule, oscPacket: OscPacket): void {
 	// console.debug(`sendOscWasm: ${oscPacket}`);
-	if((scSynth.isStarting || scSynth.isAlive) && wasm.oscDriver) {
+	if((scSynth.readyState == 'connecting' || scSynth.readyState == 'connected') && wasm.oscDriver) {
 		const port = wasm.oscDriver[scSynth.synthPort];
 		const recv = port && port.receive;
 		if(recv) {
-			recv(scSynth.langPort, encodeOscPacket(oscPacket));
+			recv(langPort, encodeOscPacket(oscPacket));
 		} else {
 			console.warn('sendOscWasm: recv?');
 		}
 	} else {
-		console.warn('sendOscWasm: scSynth not running', scSynth.isStarting, scSynth.isAlive);
+		console.warn('sendOscWasm: scSynth not connected', scSynth.readyState);
 	}
 }
 
 export function bootScSynthWasm(scSynth: ScSynth, wasm: ScSynthWasmModule): void {
 	scSynthOptionsPrint(scSynth.options);
-	if(!scSynth.isAlive && !scSynth.isStarting) {
+	if(scSynth.readyState == 'disconnected') {
 		const args = wasm['arguments'];
 		args[args.indexOf('-i') + 1] = String(scSynth.options.numInputs);
 		args[args.indexOf('-o') + 1] = String(scSynth.options.numOutputs);
@@ -46,7 +48,7 @@ export function bootScSynthWasm(scSynth: ScSynth, wasm: ScSynthWasmModule): void
 		wasm.callMain(args);
 		setTimeout(() => monitorOscWasm(scSynth, wasm), 1000);
 		setInterval(() => sendOscWasm(scSynth, wasm, m_status), 1000);
-		scSynth.isStarting = true;
+		scSynth.readyState = 'connecting';
 	} else {
 		console.log('bootScSynth: already running');
 	}
@@ -54,14 +56,11 @@ export function bootScSynthWasm(scSynth: ScSynth, wasm: ScSynthWasmModule): void
 
 function monitorOscWasm(scSynth: ScSynth, wasm: ScSynthWasmModule): void {
 	// console.debug('monitorOscWasm');
-	wasm.oscDriver[scSynth.langPort] = {
+	wasm.oscDriver[langPort] = {
 		receive: function(addr: string, data: Uint8Array) {
-			if(scSynth.isStarting) {
-				scSynth.isStarting = false;
-				console.log('scSynth: starting completed');
-			}
-			if(!scSynth.isAlive) {
-				scSynth.isAlive = true;
+			if(scSynth.readyState != 'connected') {
+				scSynth.readyState = 'connected';
+				console.log('scSynth: connected');
 				initGroupStructure(scSynth);
 			}
 			const msg = decodeOscMessage(data);

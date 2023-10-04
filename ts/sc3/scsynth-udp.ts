@@ -23,7 +23,7 @@ export function scSynthUdp(scSynthUdp: ScSynthUdp): ScSynth {
 		() => console.log(`scSynthUdp: cannot start remote synthesiser`),
 		(oscPacket) => sendOscUdp(scSynthUdp, oscPacket),
 	);
-	scSynth.isAlive = true;
+	scSynth.readyState = 'connected';
 	scSynth.hasIoUgens = true;
 	return scSynth;
 }

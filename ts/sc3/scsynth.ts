@@ -19,21 +19,17 @@ export class ScSynth {
 	boot: StartSynth;
 	sendOsc: SendOsc;
 	oscListeners: OscListeners;
-	isAlive: boolean;
-	isStarting: boolean;
+	readyState: string; // connecting connected disconnected
 	hasIoUgens: boolean;
 	synthPort: number;
-	langPort: number;
 	status: ScSynthStatus;
 	constructor(options: ScSynthOptions, boot: StartSynth, sendOsc: SendOsc) {
 		this.options = options
 		this.boot = boot;
 		this.sendOsc = sendOsc;
 		this.oscListeners = new Map();
-		this.isAlive = false;
-		this.isStarting = false;
+		this.readyState = 'disconnected';
 		this.synthPort = 57110;
-		this.langPort = 57120;
 		this.hasIoUgens = false;
 		this.status = defaultScSynthStatus;
 	}
@@ -60,7 +56,7 @@ export function scSynthRemoveOscListener(scSynth: ScSynth, address: string, hand
 export function scSynthInitStatusTextListener(scSynth: ScSynth, nilText: string) {
 	let setText = setter_for_inner_html_of('statusText');
 	setInterval(function() {
-			if(scSynth.isAlive) {
+			if(scSynth.readState == 'connected') {
 				setText(scSynth.status.ugenCount.toString());
 			} else {
 				setText(nilText);
@@ -69,16 +65,26 @@ export function scSynthInitStatusTextListener(scSynth: ScSynth, nilText: string)
 }
 
 export function scSynthEnsure(scSynth: ScSynth, activity: () => void) {
-	if(scSynth.isAlive) {
-		// console.debug('scSynthEnsure: alive, do activity');
-		activity();
-	} else if(scSynth.isStarting) {
-		console.log('scSynthEnsure: starting, schedule activity');
-		setTimeout(() => scSynthEnsure(scSynth, activity), 1000);
-	} else {
-		console.log('scSynthEnsure: offline, start and schedule activity');
-		scSynth.boot();
-		setTimeout(() => scSynthEnsure(scSynth, activity), 1000);
+	switch(scSynth.readyState) {
+		case 'connected':
+			// console.debug('scSynthEnsure: connected, do activity');
+			activity();
+			break;
+		case 'connecting':
+			console.log('scSynthEnsure: connecting, schedule activity');
+			setTimeout(() => scSynthEnsure(scSynth, activity), 1000);
+			break;
+		case 'disconnected':
+			console.log('scSynthEnsure: disconnected, start and schedule activity');
+			if(scSynth.boot) {
+				scSynth.boot();
+				setTimeout(() => scSynthEnsure(scSynth, activity), 1000);
+			} else {
+				console.log('scSynthEnsure: cannot start scsynth');
+			}
+			break;
+		default:
+			console.log('scSynthEnsure: unknown readyState', scSynth.readyState);
 	}
 }
 
@@ -129,7 +135,7 @@ export function requestPrintingOsc(scSynth: ScSynth): void {
 }
 
 export function setPointerControls(scSynth: ScSynth, n: number, w: number, x: number, y: number): void {
-	if(scSynth.isAlive) {
+	if(scSynth.readyState == 'connected') {
 		scSynth.sendOsc(c_setn1(15001 + (n * 10), [w, x, y]));
 	}
 }
