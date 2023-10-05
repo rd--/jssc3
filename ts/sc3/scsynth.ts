@@ -10,7 +10,11 @@ import { Signal } from './ugen.ts'
 type OscMessageFunction = (message: OscMessage) => void;
 type OscListeners = Map<string, Set<OscMessageFunction>>;
 
-export enum ReadyState { Connecting, Connected, Disconnected };
+export enum ReadyState {
+	Connecting = 'Connecting',
+	Connected = 'Connected',
+	Disconnected = 'Disconnected'
+};
 
 /*
 Model connection to ScSynth, which may be:
@@ -25,7 +29,7 @@ export class ScSynth {
 	basicSendOsc: (oscPacket: OscPacket) => void;
 	oscListeners: OscListeners;
 	readyState: ReadyState;
-	hasIoUgens: boolean;
+	useIoUgens: boolean;
 	status: ScSynthStatus;
 	statusMonitor: number | null;
 	constructor() {
@@ -34,7 +38,7 @@ export class ScSynth {
 		this.basicSendOsc = (packet) => console.log('basicSendOsc: not initialized');
 		this.oscListeners = new Map();
 		this.readyState = ReadyState.Disconnected;
-		this.hasIoUgens = false; // true iff scsynth io ugens installed *and* is local
+		this.useIoUgens = false; // true iff scsynth io ugens installed *and* instance is local
 		this.status = defaultScSynthStatus;
 		this.statusMonitor = null;
 	}
@@ -50,7 +54,7 @@ export class ScSynth {
 		this.readyState = ReadyState.Connecting;
 	}
 	dispatchOscMessage(message: OscMessage): void {
-		// console.log('dispatchOscMessage', JSON.stringify(message, null, 4));
+		// console.debug('dispatchOscMessage', JSON.stringify(message, null, 4));
 		if(this.readyState != ReadyState.Connected) {
 			this.readyState = ReadyState.Connected;
 			console.log('scSynth: connected');
@@ -101,6 +105,7 @@ export class ScSynth {
 		this.sendOsc(m_dumpOsc(1));
 	}
 	requestStatus(): void {
+		// console.debug('requestStatus');
 		this.sendOsc(m_status);
 	}
 	reset(): void {
@@ -112,7 +117,7 @@ export class ScSynth {
 		if(this.readyState != ReadyState.Disconnected) {
 			this.basicSendOsc(oscPacket);
 		} else {
-			console.error('ScSynth.sendOsc: disconnected');
+			console.warn('ScSynth.sendOsc: disconnected');
 		}
 	}
 	startStatusMonitor(): void {
@@ -170,7 +175,7 @@ export function playSynDefAtMessage(synDefName: string, synDefData: Uint8Array, 
 }
 
 export function setPointerControls(scSynth: ScSynth, n: number, w: number, x: number, y: number): void {
-	if(scSynth.readyState == ReadyState.Connected) {
+	if(scSynth.isConnected() && !scSynth.useIoUgens) {
 		scSynth.sendOsc(c_setn1(15001 + (n * 10), [w, x, y]));
 	}
 }

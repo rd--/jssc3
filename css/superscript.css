@@ -14,7 +14,7 @@ h2, h2 {
 }
 
 pre {
-	background-color: var(--program-colour);
+	background-color: var(--fragment-colour);
 	display:block;
 	white-space:pre;
 	width:100%;

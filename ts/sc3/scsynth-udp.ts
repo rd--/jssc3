@@ -11,12 +11,16 @@ export const defaultScSynthAddress: Deno.NetAddr = {
 };
 
 export function scSynthUseUdp(scSynth: ScSynth, address: Deno.NetAddr): void {
-	scSynth.readyState = ReadyState.Connected;
-	scSynth.basicSendOsc = (oscPacket) => udpSendToAddr(address, encodeOscPacket(oscPacket));
-	scSynth.hasIoUgens = true;
+	if(scSynth.isConnected()) {
+		console.error('scSynthUseUdp: already connected');
+	} else {
+		scSynth.readyState = ReadyState.Connected;
+		scSynth.basicSendOsc = (oscPacket) => udpSendToAddr(address, encodeOscPacket(oscPacket));
+		scSynth.useIoUgens = true;
+	}
 }
 
-export function sc3_udp_init(address: Deno.NetAddr): ScSynth {
+export function ScSynthUdp(address: Deno.NetAddr): ScSynth {
 	const scSynth = new ScSynth();
 	scSynthUseUdp(scSynth, address);
 	return scSynth;

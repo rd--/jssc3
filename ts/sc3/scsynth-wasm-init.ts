@@ -15,9 +15,8 @@ if(globalThis.Module !== undefined) {
 	initScSynthWasmModule(globalThis.Module, (text) => console.log(text));
 }
 
-export function sc3_wasm_init(): void {
-    // console.debug(`sc3_wasm_init: Module: ${globalThis.Module}`);
+export function ScSynthWasm(): ScSynth {
 	const scSynth = new ScSynth();
 	scSynthUseWasm(scSynth, globalThis.Module);
-	globalThis.globalScSynth = scSynth;
+	return scSynth;
 }

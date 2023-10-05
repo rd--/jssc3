@@ -4,8 +4,12 @@ import { ScSynth } from './scsynth.ts'
 import { ScSynthWasmModule } from './scsynth-wasm-module.ts'
 
 export function scSynthUseWasm(scSynth: ScSynth, wasm: ScSynthWasmModule): void {
-	scSynth.basicConnect = () => basicConnect(scSynth, wasm);
-	scSynth.basicSendOsc = (oscPacket) => basicSendOsc(scSynth, wasm, oscPacket);
+	if(scSynth.isConnected()) {
+		throw Error('scSynthUseWasm: already connected');
+	} else {
+		scSynth.basicConnect = () => basicConnect(scSynth, wasm);
+		scSynth.basicSendOsc = (oscPacket) => basicSendOsc(scSynth, wasm, oscPacket);
+	}
 }
 
 const langPort = 57120;

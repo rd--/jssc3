@@ -20,7 +20,7 @@ window.addEventListener('popstate', function(event) {
 });
 sl.addLoadUrlMethods();
 window.onload = function () {
-	sc.sc3_wasm_init();
+	globalThis.globalScSynth = sc.ScSynthWasm();
 	sc.scSynthInitStatusTextListener(globalScSynth, '---');
 	sc.sc3_mouse_init(globalScSynth);
 	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
