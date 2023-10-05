@@ -1,11 +1,11 @@
 import { encodeOscPacket, decodeOscMessage } from '../stdlib/opensoundcontrol.ts'
 
-import { ScSynth } from './scsynth.ts'
+import { ScSynth, ReadyState } from './scsynth.ts'
 
 export function scSynthUseWebSocket(scSynth: ScSynth, url: string | URL): void {
 	const webSocket = new WebSocket(url);
 	webSocket.binaryType = 'arraybuffer';
-	scSynth.connect = () => scSynth.readyState = 'connecting';
+	scSynth.connect = () => scSynth.readyState = ReadyState.Connecting;
 	scSynth.sendOsc = (oscPacket) => webSocket.send(encodeOscPacket(oscPacket));
 	scSynth.hasIoUgens = true;
 	webSocket.onopen = function() {

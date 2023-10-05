@@ -1,7 +1,7 @@
 import { udpSendToAddr } from '../kernel/udp.ts'
 import { OscPacket, encodeOscPacket } from '../stdlib/opensoundcontrol.ts'
 
-import { ScSynth } from './scsynth.ts'
+import { ScSynth, ReadyState } from './scsynth.ts'
 import { scSynthDefaultOptions } from './scsynth-options.ts'
 
 export const defaultScSynthAddress: Deno.NetAddr = {
@@ -11,7 +11,7 @@ export const defaultScSynthAddress: Deno.NetAddr = {
 };
 
 export function scSynthUseUdp(scSynth: ScSynth, address: Deno.NetAddr): void {
-	scSynth.connect = () => scSynth.readyState = 'connecting';
+	scSynth.connect = () => scSynth.readyState = ReadyState.Connecting;
 	scSynth.sendOsc = (oscPacket) => udpSendToAddr(address, encodeOscPacket(oscPacket));
 	scSynth.hasIoUgens = true;
 }

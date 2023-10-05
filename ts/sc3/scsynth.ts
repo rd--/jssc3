@@ -10,12 +10,20 @@ import { Signal } from './ugen.ts'
 type OscMessageFunction = (message: OscMessage) => void;
 type OscListeners = Map<string, Set<OscMessageFunction>>;
 
+export enum ReadyState { Connecting, Connected, Disconnected };
+
+/*
+Model connection to ScSynth, which may be:
+1. Wasm (Internal)
+2. WebSocket (External)
+3. Udp (Cli only, External)
+*/
 export class ScSynth {
 	options: ScSynthOptions;
 	connect: () => void;
 	sendOsc: (oscPacket: OscPacket) => void;
 	oscListeners: OscListeners;
-	readyState: string; // connecting connected disconnected
+	readyState: ReadyState;
 	hasIoUgens: boolean;
 	status: ScSynthStatus;
 	statusMonitor: number | null;
@@ -24,7 +32,7 @@ export class ScSynth {
 		this.connect = () => console.log('connect: not initialized');
 		this.sendOsc = (packet) => console.log('sendOsc: not initialized');
 		this.oscListeners = new Map();
-		this.readyState = 'disconnected';
+		this.readyState = ReadyState.Disconnected;
 		this.hasIoUgens = false; // true iff scsynth io ugens installed *and* is local
 		this.status = defaultScSynthStatus;
 		this.statusMonitor = null;
@@ -38,8 +46,8 @@ export class ScSynth {
 	}
 	dispatchOscMessage(message: OscMessage): void {
 		// console.log('dispatchOscMessage', JSON.stringify(message, null, 4));
-		if(this.readyState != 'connected') {
-			this.readyState = 'connected';
+		if(this.readyState != ReadyState.Connected) {
+			this.readyState = ReadyState.Connected;
 			console.log('scSynth: connected');
 			this.initGroupStructure();
 		}
@@ -106,14 +114,14 @@ export class ScSynth {
 	}
 	whenConnected(activity: () => void) {
 		switch(this.readyState) {
-			case 'connected':
+			case ReadyState.Connected:
 				activity();
 				break;
-			case 'connecting':
+			case ReadyState.Connecting:
 				console.log('ScSynth.whenConnected: connecting, schedule activity');
 				setTimeout(() => this.whenConnected(activity), 1000);
 				break;
-			case 'disconnected':
+			case ReadyState.Disconnected:
 				console.log('ScSynth.whenConnected: disconnected, start and schedule activity');
 				this.connect();
 				setTimeout(() => this.whenConnected(activity), 1000);
@@ -146,7 +154,7 @@ export function playSynDefAtMessage(synDefName: string, synDefData: Uint8Array, 
 }
 
 export function setPointerControls(scSynth: ScSynth, n: number, w: number, x: number, y: number): void {
-	if(scSynth.readyState == 'connected') {
+	if(scSynth.readyState == ReadyState.Connected) {
 		scSynth.sendOsc(c_setn1(15001 + (n * 10), [w, x, y]));
 	}
 }

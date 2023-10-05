@@ -1,6 +1,6 @@
 import { OscPacket, decodeOscMessage, encodeOscPacket } from '../stdlib/opensoundcontrol.ts'
 
-import { ScSynth } from './scsynth.ts'
+import { ScSynth, ReadyState } from './scsynth.ts'
 import { ScSynthWasmModule } from './scsynth-wasm-module.ts'
 
 export function scSynthUseWasm(scSynth: ScSynth, wasm: ScSynthWasmModule): void {
@@ -14,7 +14,7 @@ const synthPort = 57110;
 
 function connect(scSynth: ScSynth, wasm: ScSynthWasmModule): void {
 	// console.debug('wasm: connect', scSynth);
-	if(scSynth.readyState == 'disconnected') {
+	if(scSynth.readyState == ReadyState.Disconnected) {
 		const args = wasm['arguments'];
 		args[args.indexOf('-i') + 1] = String(scSynth.options.numInputs);
 		args[args.indexOf('-o') + 1] = String(scSynth.options.numOutputs);
@@ -35,7 +35,7 @@ function connect(scSynth: ScSynth, wasm: ScSynthWasmModule): void {
 		}, 1000);
 		// console.debug('wasm: connect: startStatusMonitor');
 		scSynth.startStatusMonitor();
-		scSynth.readyState = 'connecting';
+		scSynth.readyState = ReadyState.Connecting;
 	} else {
 		console.log('wasm: connect: already connected');
 	}
@@ -43,7 +43,7 @@ function connect(scSynth: ScSynth, wasm: ScSynthWasmModule): void {
 
 function sendOsc(scSynth: ScSynth, wasm: ScSynthWasmModule, oscPacket: OscPacket): void {
 	// console.debug('wasm: sendOsc', oscPacket);
-	if((scSynth.readyState == 'connecting' || scSynth.readyState == 'connected') && wasm.oscDriver) {
+	if((scSynth.readyState != ReadyState.Disconnected) && wasm.oscDriver) {
 		const port = wasm.oscDriver[synthPort];
 		const recv = port && port.receive;
 		if(recv) {
