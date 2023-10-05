@@ -17,11 +17,12 @@ Model connection to ScSynth, which may be:
 1. Wasm (Internal)
 2. WebSocket (External)
 3. Udp (Cli only, External)
+The underlying connection sets basicConnect & basicSendOsc, and calls dispatchOscMessage.
 */
 export class ScSynth {
 	options: ScSynthOptions;
-	connect: () => void;
-	sendOsc: (oscPacket: OscPacket) => void;
+	basicConnect: () => void;
+	basicSendOsc: (oscPacket: OscPacket) => void;
 	oscListeners: OscListeners;
 	readyState: ReadyState;
 	hasIoUgens: boolean;
@@ -29,8 +30,8 @@ export class ScSynth {
 	statusMonitor: number | null;
 	constructor() {
 		this.options = scSynthDefaultOptions
-		this.connect = () => console.log('connect: not initialized');
-		this.sendOsc = (packet) => console.log('sendOsc: not initialized');
+		this.basicConnect = () => console.log('basicConnect: not initialized');
+		this.basicSendOsc = (packet) => console.log('basicSendOsc: not initialized');
 		this.oscListeners = new Map();
 		this.readyState = ReadyState.Disconnected;
 		this.hasIoUgens = false; // true iff scsynth io ugens installed *and* is local
@@ -43,6 +44,10 @@ export class ScSynth {
 		} else {
 			this.oscListeners.set(address, new Set([handler]));
 		}
+	}
+	connect(): void {
+		this.basicConnect();
+		this.readyState = ReadyState.Connecting;
 	}
 	dispatchOscMessage(message: OscMessage): void {
 		// console.log('dispatchOscMessage', JSON.stringify(message, null, 4));
@@ -67,6 +72,9 @@ export class ScSynth {
 			[1, kAddToTail, 0],
 			[2, kAddToTail, 0]
 		]));
+	}
+	isConnected(): boolean {
+		return (this.readyState == ReadyState.Connected);
 	}
 	playProcedureAt(ugenFunction: () => Signal, nodeId: number, groupId: number, systemTimeInSeconds: number | null): void {
 		this.playUgenAt(ugenFunction(), nodeId, groupId, [], systemTimeInSeconds);
@@ -98,6 +106,14 @@ export class ScSynth {
 	reset(): void {
 		this.sendOsc(g_freeAll([1, 2]));
 		this.initGroupStructure();
+	}
+	sendOsc(oscPacket: OscPacket): void {
+		/* Note: do basicSend if Connecting.  Getting a reply signals that we are Connected. */
+		if(this.readyState != ReadyState.Disconnected) {
+			this.basicSendOsc(oscPacket);
+		} else {
+			console.error('ScSynth.sendOsc: disconnected');
+		}
 	}
 	startStatusMonitor(): void {
 		if(this.statusMonitor == null) {

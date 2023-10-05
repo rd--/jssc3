@@ -11,8 +11,8 @@ export const defaultScSynthAddress: Deno.NetAddr = {
 };
 
 export function scSynthUseUdp(scSynth: ScSynth, address: Deno.NetAddr): void {
-	scSynth.connect = () => scSynth.readyState = ReadyState.Connecting;
-	scSynth.sendOsc = (oscPacket) => udpSendToAddr(address, encodeOscPacket(oscPacket));
+	scSynth.readyState = ReadyState.Connected;
+	scSynth.basicSendOsc = (oscPacket) => udpSendToAddr(address, encodeOscPacket(oscPacket));
 	scSynth.hasIoUgens = true;
 }
 
