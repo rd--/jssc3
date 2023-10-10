@@ -28,9 +28,10 @@ const websocketServer = Deno.serve({ port: bridgeWebSocketPort }, (request) => {
 	webSocket = socket;
 
 	webSocket.addEventListener('message', (event) => {
-		udp.send(event.data, scSynthAddress).then(function(bytesSent: number) {
-			if(event.data.byteLength != bytesSent) {
-				console.error('udp.send', event.data.byteLength, bytesSent);
+		const byteArray = new Uint8Array(event.data)
+		udp.send(byteArray, scSynthAddress).then(function(bytesSent: number) {
+			if(byteArray.byteLength != bytesSent) {
+				console.error('udp.send', byteArray.byteLength, bytesSent);
 			}
 		});
 	});

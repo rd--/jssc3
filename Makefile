@@ -4,6 +4,9 @@ all:
 clean:
 	rm -f dist/jssc3.js
 
+http-server:
+	python3 cmd/http-server.py
+
 push-all:
 	r.gitlab-push.sh jssc3
 	r.github-push.sh jssc3
