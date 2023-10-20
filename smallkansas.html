@@ -6,11 +6,11 @@
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
 		<link rel="stylesheet" type="text/css" media="all" href="css/smallhours.css" />
 		<link rel="stylesheet" type="text/css" media="all" href="css/smallkansas.css" />
-		<script src="lib/commonmark.js/dist/commonmark.js"></script>
-		<script src="lib/osc.js/dist/osc-browser.js"></script>
+		<script src="lib/scsynth-wasm-builds/lib/ext/commonmark.js"></script>
+		<script src="lib/scsynth-wasm-builds/lib/ext/osc-browser.js"></script>
 		<script type="module">
-import * as sc from './dist/jssc3.js'
-import * as sl from './lib/spl/dist/sl.js'
+import * as sc from './dist/jssc3.js' /* local */
+import * as sl from './lib/spl/dist/sl.js' /* local */
 globalThis.sc = sc;
 globalThis.sl = sl;
 sl.addLoadUrlMethods();

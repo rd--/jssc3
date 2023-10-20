@@ -10,10 +10,10 @@
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
 		<link rel="stylesheet" type="text/css" media="all" href="css/superscript.css" />
 		<link rel="stylesheet" type="text/css" media="all" href="css/supercalc.css" />
-		<script src="lib/osc.js/dist/osc-browser.js"></script>
+		<script src="lib/scsynth-wasm-builds/lib/ext/osc-browser.js"></script>
 		<script type="module">
-import * as sc from './dist/jssc3.js'
-import * as sl from './lib/spl/dist/sl.js'
+import * as sc from './dist/jssc3.js' /* local */
+import * as sl from './lib/spl/dist/sl.js' /* local */
 import * as calc from './js/supercalc.js'
 globalThis.sc = sc;
 globalThis.sl = sl;

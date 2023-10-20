@@ -18,8 +18,8 @@ remote-setup:
 	(cd lib/scsynth-wasm-builds ; git pull)
 	(cd lib/stsc3 ; git pull)
 	(cd lib/spl ; git pull)
-	cp lib/scsynth-wasm-builds/jssc3/dist/jssc3.js dist/
-	cp lib/scsynth-wasm-builds/spl/dist/sl.js lib/spl/dist/
+	cp lib/scsynth-wasm-builds/lib/jssc3/dist/jssc3.js dist/
+	cp lib/scsynth-wasm-builds/lib/spl/dist/sl.js lib/spl/dist/
 
 mk-small-hours-menu:
 	(cd ~/sw/stsc3/help/ ; ls collect/*.sl graph/*.sl texture/*.sl > ~/sw/jssc3/text/program-menu.text)

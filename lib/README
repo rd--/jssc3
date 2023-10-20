@@ -2,8 +2,17 @@ Libraries cannot be symlinks at rd.net.
 Locally they're fine.
 Remote updates are very, very infrequent.
 For now just clone required libraries and add any necessary build artifacts at the correct place by hand.
-The jssc3 and spl _dist_ files are stored at _scsynth-wasm-builds_ as a convenience.
 
-- https://github.com/commonmark/commonmark.js/
 - https://github.com/jsuites/jsuites
 - https://github.com/jspreadsheet/ce
+
+# scsynth-wasm-builds
+
+Holds the _JsSc3_ and _Spl_ build files.
+
+Holds builds for the required libraries:
+
+- CommonMark - <https://github.com/commonmark/commonmark.js/>
+- MersenneTwister - <https://github.com/misteltein/mersenne-twister>
+- OpenSoundControl - <https://github.com/colinbdclark/osc.js>
+- PriorityQueue - <https://github.com/mourner/flatqueue>

@@ -4,11 +4,11 @@
 		<meta charset="utf-8">
 		<link rel="icon" type="image/png" href="png/os.512.png" />
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
-		<script src="lib/commonmark.js/dist/commonmark.js"></script>
+		<script src="lib/scsynth-wasm-builds/lib/ext/commonmark.js"></script>
 		<link rel="stylesheet" type="text/css" media="all" href="css/superscript.css" />
-		<script src="lib/osc.js/dist/osc-browser.js"></script>
+		<script src="lib/scsynth-wasm-builds/lib/ext/osc-browser.js"></script>
 		<script type="module">
-import * as sc from './dist/jssc3.js'
+import * as sc from './dist/jssc3.js' // local
 import * as wr from './js/superscript.js'
 globalThis.sc = sc;
 globalThis.wr = wr;

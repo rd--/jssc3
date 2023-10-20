@@ -1,5 +1,3 @@
-/* import * as commonmark from './lib/commonmark.js/dist/commonmark.js' */
-
 import * as sc from '../dist/jssc3.js'
 import * as sl from '../lib/spl/dist/sl.js'
 
