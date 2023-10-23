@@ -5,11 +5,11 @@ export function encodeUsing(byteCount: number, writerFunction: (x: DataView) => 
 }
 
 export function encodeUint8(aNumber: number): Uint8Array {
-	return encodeUsing(1, b => b.setUint8(0, aNumber, false));
+	return encodeUsing(1, b => b.setUint8(0, aNumber));
 }
 
 export function encodeInt8(aNumber: number): Uint8Array {
-	return encodeUsing(1, b => b.setInt8(0, aNumber, false));
+	return encodeUsing(1, b => b.setInt8(0, aNumber));
 }
 
 export function encodeInt16(aNumber: number): Uint8Array {

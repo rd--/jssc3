@@ -1,7 +1,3 @@
-const packetSizeArrayBuffer = new ArrayBuffer(4);
-const packetSizeDataView = new DataView(packetSizeArrayBuffer);
-const packetSizeArray = new Uint8Array(packetSizeArrayBuffer);
-
 const bridgeWebSocketPort: number = 58110;
 
 const scSynthTcpAddress: Deno.NetAddr = {
@@ -27,6 +23,10 @@ const websocketServer = Deno.serve({ port: bridgeWebSocketPort }, (request) => {
 	const { socket, response } = Deno.upgradeWebSocket(request);
 
 	webSocket = socket;
+
+	const packetSizeArrayBuffer = new ArrayBuffer(4);
+	const packetSizeDataView = new DataView(packetSizeArrayBuffer);
+	const packetSizeArray = new Uint8Array(packetSizeArrayBuffer);
 
 	webSocket.addEventListener('message', (event) => {
 		const byteArray = new Uint8Array(event.data);

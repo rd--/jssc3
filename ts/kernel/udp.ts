@@ -2,21 +2,33 @@ export type UdpServerProc = (c: Deno.DatagramConn, a: Deno.Addr, d: Uint8Array) 
 
 export async function udpServer(host: string, port: number, proc: UdpServerProc): Promise<void> {
 	console.log(`udpServer: ${host}: ${port}`);
-	const connection = Deno.listenDatagram({ transport: "udp", port });
+	const connection = Deno.listenDatagram({
+		transport: "udp",
+		hostname: host,
+		port: port
+	});
 	for await (const message of connection) {
 		proc(connection, message[1], message[0]);
 	}
 }
 
-export function udpSendTo(host: string, port: number, datagram: Uint8Array): void {
-	const connection = Deno.listenDatagram({ transport: "udp", port: 0 });
-	const address: Deno.NetAddr = { transport: "udp", hostname: host, port: port };
+export function udpSendToAddr(address: Deno.NetAddr, datagram: Uint8Array): void {
+	const connection = Deno.listenDatagram({
+		transport: "udp",
+		hostname: "0.0.0.0",
+		port: 0
+	});
 	connection.send(datagram, address);
 	connection.close();
 }
 
-export function udpSendToAddr(address: Deno.NetAddr, datagram: Uint8Array): void {
-	udpSendTo(address.hostname, address.port, datagram);
+export function udpSendTo(host: string, port: number, datagram: Uint8Array): void {
+	const address: Deno.NetAddr = {
+		transport: "udp",
+		hostname: host,
+		port: port
+	};
+	udpSendToAddr(address, datagram);
 }
 
 function testUdpServer() {

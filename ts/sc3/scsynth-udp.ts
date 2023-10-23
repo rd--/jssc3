@@ -5,8 +5,8 @@ import { ScSynth, ReadyState } from './scsynth.ts'
 import { scSynthDefaultOptions } from './scsynth-options.ts'
 
 export const defaultScSynthAddress: Deno.NetAddr = {
-	transport: "udp",
-	hostname: "127.0.0.1",
+	transport: 'udp',
+	hostname: '127.0.0.1',
 	port: 57110
 };
 
