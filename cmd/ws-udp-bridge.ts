@@ -1,15 +1,18 @@
-const scSynthAddress: Deno.NetAddr = {
+const scSynthUdpAddress: Deno.NetAddr = {
 	transport: 'udp',
-	hostname: '0.0.0.0',
+	hostname: '127.0.0.1',
 	port: 57110
 };
+
 const bridgeUdpPort: number = 58110;
-const bridgeWebSocketPort: number = 57110;
 
 const udp: DatagramConn = Deno.listenDatagram({
 	transport: 'udp',
+	hostname: '127.0.0.1',
 	port: bridgeUdpPort
 });
+
+const bridgeWebSocketPort: number = 57110;
 
 var webSocket: WebSocket | null = null;
 
@@ -28,8 +31,9 @@ const websocketServer = Deno.serve({ port: bridgeWebSocketPort }, (request) => {
 	webSocket = socket;
 
 	webSocket.addEventListener('message', (event) => {
-		const byteArray = new Uint8Array(event.data)
-		udp.send(byteArray, scSynthAddress).then(function(bytesSent: number) {
+		const byteArray = new Uint8Array(event.data);
+		console.debug('webSocket: message', byteArray);
+		udp.send(byteArray, scSynthUdpAddress).then(function(bytesSent: number) {
 			if(byteArray.byteLength != bytesSent) {
 				console.error('udp.send', byteArray.byteLength, bytesSent);
 			}

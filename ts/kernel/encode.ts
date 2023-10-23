@@ -5,24 +5,24 @@ export function encodeUsing(byteCount: number, writerFunction: (x: DataView) => 
 }
 
 export function encodeUint8(aNumber: number): Uint8Array {
-	return encodeUsing(1, b => b.setUint8(0, aNumber));
+	return encodeUsing(1, b => b.setUint8(0, aNumber, false));
 }
 
 export function encodeInt8(aNumber: number): Uint8Array {
-	return encodeUsing(1, b => b.setInt8(0, aNumber));
+	return encodeUsing(1, b => b.setInt8(0, aNumber, false));
 }
 
 export function encodeInt16(aNumber: number): Uint8Array {
-	return encodeUsing(2, b => b.setInt16(0, aNumber));
+	return encodeUsing(2, b => b.setInt16(0, aNumber, false));
 }
 
 export function encodeInt32(aNumber: number): Uint8Array {
-	return encodeUsing(4, b => b.setInt32(0, aNumber));
+	return encodeUsing(4, b => b.setInt32(0, aNumber, false));
 }
 
 // encodeFloat32(1.0) //= [63, 128, 0, 0]
 export function encodeFloat32(aNumber: number): Uint8Array {
-	return encodeUsing(4, b => b.setFloat32(0, aNumber));
+	return encodeUsing(4, b => b.setFloat32(0, aNumber, false));
 }
 
 export function encodeFloat32Array(inputArray: Float32Array): Uint8Array {
