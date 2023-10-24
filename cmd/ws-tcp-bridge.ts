@@ -1,9 +1,13 @@
-const bridgeWebSocketPort: number = 58110;
+function getEnv(variableName: string, defaultValue: string): string {
+	return Deno.env.get(variableName) || defaultValue;
+}
+
+const bridgeWebSocketPort: number = Number(getEnv('WsPort', '58110'));
 
 const scSynthTcpAddress: Deno.NetAddr = {
-	transport: 'tcp',
-	hostname: '192.168.1.53', /* 127.0.0.1 192.168.1.53 */
-	port: 57110
+	transport: getEnv('ScProtocol', 'tcp'),
+	hostname: getEnv('ScHostname', '127.0.0.1'),
+	port: Number(getEnv('ScPort', '57110'))
 };
 
 const tcp: TcpConn = await Deno.connect(scSynthTcpAddress);
@@ -30,15 +34,14 @@ const websocketServer = Deno.serve({ port: bridgeWebSocketPort }, (request) => {
 
 	webSocket.addEventListener('message', (event) => {
 		const byteArray = new Uint8Array(event.data);
-		console.debug('webSocket: message', byteArray);
-		console.debug('tcp', tcp.localAddr, tcp.remoteAddr);
+		// console.debug('webSocket: message', byteArray);
 		packetSizeDataView.setUint32(0, byteArray.byteLength, false);
 		tcp.write(packetSizeArray); // prefix packet with size
 		tcp.write(byteArray).then(function(bytesSent: number) {
 			if(byteArray.byteLength != bytesSent) {
 				console.error('tcp.write', byteArray.byteLength, bytesSent);
 			} else {
-				console.debug('tcp.write: successful');
+				// console.debug('tcp.write: successful');
 			}
 		});
 	});
