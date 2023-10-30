@@ -20,16 +20,16 @@ export function encodeInt32(aNumber: number): Uint8Array {
 	return encodeUsing(4, b => b.setInt32(0, aNumber, false));
 }
 
-// encodeFloat32(1.0) //= [63, 128, 0, 0]
-export function encodeFloat32(aNumber: number): Uint8Array {
-	return encodeUsing(4, b => b.setFloat32(0, aNumber, false));
+// encodeFloat32(1.0, false) //= [63, 128, 0, 0]
+export function encodeFloat32(aNumber: number, litteEndian: boolean): Uint8Array {
+	return encodeUsing(4, b => b.setFloat32(0, aNumber, litteEndian));
 }
 
-export function encodeFloat32Array(inputArray: Float32Array): Uint8Array {
+export function encodeFloat32Array(inputArray: Float32Array, litteEndian: boolean): Uint8Array {
 	const arrayBuffer = new ArrayBuffer(inputArray.length * 4);
 	const dataView = new DataView(arrayBuffer);
 	for(let i = 0; i < inputArray.length; i++ ) {
-		dataView.setFloat32(i * 4, inputArray[i]);
+		dataView.setFloat32(i * 4, inputArray[i], litteEndian);
 	}
 	const uint8Array = new Uint8Array(arrayBuffer);
 	return uint8Array;

@@ -15,7 +15,7 @@ export function b_alloc_then(bufferNumber: number, numberOfFrames: number, numbe
 }
 
 // b_gen memcpy is in sc3-rdu
-export function b_memcpy(bufferNumber: number, numFrames: number, numChannels: number, sampleRate: number, bufferData: Uint8Array): OscMessage {
+export function b_memcpy(bufferNumber: number, numFrames: number, numChannels: number, sampleRate: number, bufferData: Uint8Array, byteSwap: number): OscMessage {
 	return {
 		address: '/b_gen',
 		args: [
@@ -24,11 +24,12 @@ export function b_memcpy(bufferNumber: number, numFrames: number, numChannels: n
 		    oscInt32(numFrames),
 		    oscInt32(numChannels),
 		    oscFloat(sampleRate),
-		    oscBlob(bufferData)]
+		    oscBlob(bufferData),
+		    oscInt32(byteSwap)]
 	};
 }
 
-export function b_alloc_then_memcpy(bufferNumber: number, numberOfFrames: number, numberOfChannels: number, sampleRate: number, bufferData: Uint8Array): OscMessage {
+export function b_alloc_then_memcpy(bufferNumber: number, numberOfFrames: number, numberOfChannels: number, sampleRate: number, bufferData: Uint8Array, byteSwap: number): OscMessage {
 	const allocBytes = numberOfFrames * numberOfChannels * 4;
 	if(allocBytes != bufferData.length) {
 		console.error('b_alloc_then_memcpy: array size error', allocBytes, bufferData.length);
@@ -37,7 +38,7 @@ export function b_alloc_then_memcpy(bufferNumber: number, numberOfFrames: number
 		bufferNumber,
 		numberOfFrames,
 		numberOfChannels,
-		encodeOscPacket(b_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, bufferData))
+		encodeOscPacket(b_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, bufferData, byteSwap))
 	);
 }
 

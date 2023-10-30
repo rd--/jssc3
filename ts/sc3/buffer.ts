@@ -5,10 +5,11 @@ import { audiobuffer_interleaved_channel_data, fetch_soundfile_to_audiobuffer_an
 import { ScSynth } from './scsynth.ts'
 import { b_alloc_then_memcpy } from './servercommand.ts'
 
+// Since there are no BigEndian machines running Sc, do no byte-swap audio.
 export function audiobuffer_to_scsynth_buffer(scSynth: ScSynth, audioBuffer: AudioBuffer, bufferNumber: number, numberOfChannels: number, bufferData: Float32Array): void {
 	const numberOfFrames = audioBuffer.length;
 	const sampleRate = audioBuffer.sampleRate;
-	const oscMessage = b_alloc_then_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, encodeFloat32Array(bufferData));
+	const oscMessage = b_alloc_then_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, encodeFloat32Array(bufferData, true), 0);
 	console.log(`audiobuffer_to_scsynth_buffer: ${oscMessage}`);
 	scSynth.sendOsc(oscMessage);
 }

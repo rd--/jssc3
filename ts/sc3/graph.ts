@@ -136,9 +136,9 @@ export function graphEncodeSyndef(graph: UgenGraph): Uint8Array {
 		encodeInt16(1), // # synth definitions
 		encodePascalString(graph.name), // name
 		encodeInt32(arrayLength(graph.constantArray)), // # constants
-		arrayMap(item => encodeFloat32(item), graph.constantArray), // constants
+		arrayMap(item => encodeFloat32(item, false), graph.constantArray), // constants
 		encodeInt32(arrayLength(graph.controlArray)), // # controls
-		arrayMap(item => encodeFloat32(item.defaultValue), graph.controlArray), // control default values
+		arrayMap(item => encodeFloat32(item.defaultValue, false), graph.controlArray), // control default values
 		encodeInt32(arrayLength(graph.controlArray)), // # controls
 		arrayMap(item => [encodePascalString(item.name), encodeInt32(item.index)], graph.controlArray), // controls
 		encodeInt32(arrayLength(graph.ugenArray)), // # ugen
