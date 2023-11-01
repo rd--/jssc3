@@ -2,14 +2,21 @@ import { arrayIota } from '../kernel/array.ts'
 import { Dictionary, dictionaryNew } from '../kernel/dictionary.ts'
 import { fetch_arraybuffer_then } from '../kernel/io.ts'
 
+export type AudioBufferHeader = {
+	numFrames: number,
+	duration: number, // numFrames ÷ sampleRate
+	sampleRate: number,
+	numberOfChannels: number
+};
+
 // Return the header fields of an audioBuffer.  length is the number of frames.
-export function audiobuffer_header(audioBuffer: AudioBuffer): Dictionary<number> {
-	const answer = dictionaryNew<number>();
-	answer.length = audioBuffer.length;
-	answer.duration = audioBuffer.duration;
-	answer.sampleRate = audioBuffer.sampleRate;
-	answer.numberOfChannels = audioBuffer.numberOfChannels;
-	return answer;
+export function audiobuffer_header(audioBuffer: AudioBuffer): AudioBufferHeader {
+	return {
+		numFrames: audioBuffer.length,
+		duration: audioBuffer.duration,
+		sampleRate: audioBuffer.sampleRate,
+		numberOfChannels: audioBuffer.numberOfChannels
+	};
 }
 
 // Number of frames multiplied by the number of channels.
