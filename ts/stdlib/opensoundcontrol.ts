@@ -1,3 +1,7 @@
+/*
+import { osc } from '../../lib/scsynth-wasm-builds/lib/ext/osc.js'
+*/
+
 export type OscValue = number | string | Uint8Array;
 
 export type OscData = {
@@ -37,8 +41,6 @@ export function oscBlob(x: Uint8Array): OscData {
 	return oscData('b', x);
 }
 
-// osc.js
-
 declare namespace osc {
   function readMessage(packet: Uint8Array, options: Record<string, unknown>): OscMessage;
   function writeMessage(message: OscMessage, options: Record<string, unknown>): Uint8Array;
@@ -60,5 +62,6 @@ export function encodeOscBundle(bundle: OscBundle): Uint8Array {
 }
 
 export function encodeOscPacket(packet: OscPacket): Uint8Array {
+	// console.debug('encodeOscPacket', packet);
 	return osc.writePacket(packet, {metadata: true});
 }

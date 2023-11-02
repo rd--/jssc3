@@ -1,3 +1,5 @@
+export * from './stdlib/soundfile.ts'
+
 export * from './sc3/alias.ts'
 export * from './sc3/bindings.ts'
 export * from './sc3/bindings-ui.ts'

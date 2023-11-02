@@ -1,82 +1,93 @@
-import { arrayIota } from '../kernel/array.ts'
-import { Dictionary, dictionaryNew } from '../kernel/dictionary.ts'
+import { arrayFillWithIndex } from '../kernel/array.ts'
+import * as audiobuffer from '../kernel/audiobuffer.ts'
+import { deinterleave_sample_data } from '../kernel/float32array.ts'
 import { fetch_arraybuffer_then } from '../kernel/io.ts'
+import * as wave from './wave.ts'
 
-export type AudioBufferHeader = {
-	numFrames: number,
-	duration: number, // numFrames ÷ sampleRate
-	sampleRate: number,
-	numberOfChannels: number
-};
-
-// Return the header fields of an audioBuffer.  length is the number of frames.
-export function audiobuffer_header(audioBuffer: AudioBuffer): AudioBufferHeader {
-	return {
-		numFrames: audioBuffer.length,
-		duration: audioBuffer.duration,
-		sampleRate: audioBuffer.sampleRate,
-		numberOfChannels: audioBuffer.numberOfChannels
-	};
-}
-
-// Number of frames multiplied by the number of channels.
-export function audiobuffer_number_of_samples(audioBuffer: AudioBuffer): number {
-	return audioBuffer.length * audioBuffer.numberOfChannels;
-}
-
-// Get all audio data as an array of Float32Array.
-export function audiobuffer_channel_data_array(audioBuffer: AudioBuffer): Float32Array[] {
-	return arrayIota(audioBuffer.numberOfChannels).map(i => audioBuffer.getChannelData(i));
-}
-
-// Interleave data from channelsArray into outputArray.
-export function interleave_sample_data(numberOfFrames: number, numberOfChannels: number, channelsArray: Float32Array[], outputArray: Float32Array): void {
-	for(let i = 0; i < numberOfFrames; i++) {
-		for(let j = 0; j < numberOfChannels; j++) {
-			outputArray[i * numberOfChannels + j] = channelsArray[j][i];
+export class SoundFile {
+	url: string;
+	numberOfChannels: number;
+	numberOfFrames: number;
+	sampleRate: number;
+	interleavedData: Float32Array;
+	cachedChannelData: Float32Array[] | null;
+	constructor(
+		url: string,
+		numberOfChannels: number,
+		numberOfFrames: number,
+		sampleRate: number,
+		interleavedData: Float32Array
+	) {
+		this.url = url;
+		this.numberOfChannels = numberOfChannels;
+		this.numberOfFrames = numberOfFrames;
+		this.sampleRate = sampleRate;
+		this.interleavedData = interleavedData;
+		this.cachedChannelData = null;
+	}
+	channelData(index: number): Float32Array {
+		if(this.cachedChannelData == null) {
+			this.cachedChannelData = deinterleave_sample_data(
+				this.numberOfFrames,
+				this.numberOfChannels,
+				this.interleavedData
+			);
 		}
+		return this.cachedChannelData[index];
+	}
+	duration(): number {
+		return this.numberOfFrames / this.sampleRate;
 	}
 }
 
-// Get all audio data as an interleaved Float32Array.
-export function audiobuffer_interleaved_channel_data(audioBuffer: AudioBuffer): Float32Array {
-	if(audioBuffer.numberOfChannels === 1) {
-		return audioBuffer.getChannelData(0);
+export function audiobuffer_to_soundfile(url: string, audioBuffer: AudioBuffer): SoundFile {
+	const soundFile = new SoundFile(
+		url,
+		audioBuffer.numberOfChannels,
+		audioBuffer.length,
+		audioBuffer.sampleRate,
+		audiobuffer.audiobuffer_interleaved_channel_data(audioBuffer)
+	);
+	soundFile.cachedChannelData = audiobuffer.audiobuffer_channel_data_array(audioBuffer);
+	return soundFile;
+}
+
+export function wave_to_soundfile(url: string, wave: wave.Wave): SoundFile {
+	return new SoundFile(
+		url,
+		wave.fmtChunk.channels,
+		wave.factChunk.sampleLength,
+		wave.fmtChunk.samplesPerSec,
+		wave.data
+	);
+}
+
+export function arraybuffer_to_soundfile(
+	url: string,
+	arrayBuffer: ArrayBuffer
+): Promise<SoundFile> {
+	if(window.AudioContext) {
+		const audioContext = new window.AudioContext();
+		return audioContext.decodeAudioData(arrayBuffer)
+			.then(audioBuffer => audiobuffer_to_soundfile(url, audioBuffer));
 	} else {
-		const channelsArray = arrayIota(audioBuffer.numberOfChannels).map(i => audioBuffer.getChannelData(i));
-		const outputArray = new Float32Array(audioBuffer.length * audioBuffer.numberOfChannels);
-		interleave_sample_data(audioBuffer.length, audioBuffer.numberOfChannels, channelsArray, outputArray);
-		return outputArray;
+		const soundFile = wave_to_soundfile(url, wave.read_wave(arrayBuffer));
+		return new Promise((resolve, reject) => resolve(soundFile));
 	}
 }
 
-export function audiobuffer_maximum_absolute_value_and_frame_number_of(audioBuffer: AudioBuffer): number[] {
-	const channelsArray = arrayIota(audioBuffer.numberOfChannels).map(i => audioBuffer.getChannelData(i));
-	let maximumValue = 0;
-	let frameNumber = 0;
-	for(let i = 0; i < audioBuffer.length; i++) {
-		for(let j = 0; j < audioBuffer.numberOfChannels; j++) {
-			const nextValue = Math.abs(channelsArray[j][i]);
-			if (nextValue > maximumValue) {
-				maximumValue = nextValue;
-				frameNumber = i;
-			}
-		}
-	}
-	return [maximumValue, frameNumber];
+export function fetch_soundfile(url: string): Promise<SoundFile> {
+	// console.debug('fetch_soundfile', url);
+	return fetch(url)
+		.then(response => response.arrayBuffer())
+		.then(arrayBuffer => arraybuffer_to_soundfile(url, arrayBuffer))
 }
 
-// Get the sample rate of the audio context
-export function system_samplerate(): number {
-	const audioContext = new window.AudioContext();
-	console.log('audioContext.sampleRate', audioContext.sampleRate);
-	return audioContext.sampleRate;
-}
-
-// Load soundfile from url, decode it, and call proc on the resulting AudioBuffer.
-export function fetch_soundfile_to_audiobuffer_and_then(soundFileUrl: string, proc: (x: AudioBuffer) => void): void {
-	const audioContext = new window.AudioContext();
-	fetch_arraybuffer_then(soundFileUrl, function(arrayBuffer) {
-		audioContext.decodeAudioData(arrayBuffer).then(proc);
-	});
+// Load soundfile from url, decode it, and call proc on the resulting SoundFile.
+export function fetch_soundfile_and_then(
+	soundFileUrl: string,
+	proc: (sf: SoundFile) => void
+): void {
+	// console.debug('fetch_soundfile_and_then', soundFileUrl);
+	fetch_soundfile(soundFileUrl).then(proc);
 }

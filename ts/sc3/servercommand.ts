@@ -7,10 +7,21 @@ export const kAddToTail = 1;
 
 // b = buffer
 
-export function b_alloc_then(bufferNumber: number, numberOfFrames: number, numberOfChannels: number, onCompletion: Uint8Array): OscMessage {
+// b_alloc, with completion message
+export function b_alloc_then(
+	bufferNumber: number,
+	numberOfFrames: number,
+	numberOfChannels: number,
+	onCompletion: Uint8Array
+): OscMessage {
 	return {
 		address: '/b_alloc',
-		args: [oscInt32(bufferNumber), oscInt32(numberOfFrames), oscInt32(numberOfChannels), oscBlob(onCompletion)]
+		args: [
+			oscInt32(bufferNumber),
+			oscInt32(numberOfFrames),
+			oscInt32(numberOfChannels),
+			oscBlob(onCompletion)
+		]
 	};
 }
 
@@ -29,16 +40,31 @@ export function b_memcpy(bufferNumber: number, numFrames: number, numChannels: n
 	};
 }
 
-export function b_alloc_then_memcpy(bufferNumber: number, numberOfFrames: number, numberOfChannels: number, sampleRate: number, bufferData: Uint8Array, byteSwap: number): OscMessage {
+export function b_alloc_then_memcpy(
+	bufferNumber: number,
+	numberOfFrames: number,
+	numberOfChannels: number,
+	sampleRate: number,
+	bufferData: Uint8Array,
+	byteSwap: number
+): OscMessage {
 	const allocBytes = numberOfFrames * numberOfChannels * 4;
 	if(allocBytes != bufferData.length) {
 		console.error('b_alloc_then_memcpy: array size error', allocBytes, bufferData.length);
 	}
+	const memcpyMessage = b_memcpy(
+		bufferNumber,
+		numberOfFrames,
+		numberOfChannels,
+		sampleRate,
+		bufferData,
+		byteSwap
+	);
 	return b_alloc_then(
 		bufferNumber,
 		numberOfFrames,
 		numberOfChannels,
-		encodeOscPacket(b_memcpy(bufferNumber, numberOfFrames, numberOfChannels, sampleRate, bufferData, byteSwap))
+		encodeOscPacket(memcpyMessage)
 	);
 }
 
