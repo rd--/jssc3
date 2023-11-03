@@ -50,7 +50,10 @@ export function setter_for_inner_html_of(elemId: string): (innerHtml: string) =>
 	};
 }
 
-export function withElement(elementId: string, elementProcedure: (element: HTMLElement) => void): void {
+export function withElement(
+	elementId: string,
+	elementProcedure: (element: HTMLElement) => void
+): void {
 	const element = document.getElementById(elementId);
 	if(!element) {
 		console.error('withElement: not found: ', elementId);
@@ -59,12 +62,19 @@ export function withElement(elementId: string, elementProcedure: (element: HTMLE
 	}
 }
 
-export function get_select_element_and_then(selectId: string, selectProcedure: (selectElement: HTMLSelectElement) => void): void {
+export function get_select_element_and_then(
+	selectId: string,
+	selectProcedure: (selectElement: HTMLSelectElement) => void
+): void {
 	withElement(selectId, <(element: HTMLElement) => void>selectProcedure);
 }
 
-// Set onchange handler of selectId, guards against absence of selection (proc is only called if value is set).
-export function select_on_change(selectId: string, proc: (anElement: HTMLSelectElement, aString: string) => void): void {
+/* Set onchange handler of selectId,
+guards against absence of selection (proc is only called if value is set). */
+export function select_on_change(
+	selectId: string,
+	proc: (anElement: HTMLSelectElement, aString: string) => void
+): void {
 	const guardedProc = function(anEvent: Event) {
 		const target = <HTMLSelectElement>anEvent.target;
 		if(target && target.value) {
@@ -75,7 +85,11 @@ export function select_on_change(selectId: string, proc: (anElement: HTMLSelectE
 }
 
 // Create option element and add to select element.
-export function select_add_option_to(selectElement: HTMLSelectElement, optionValue: string, optionText: string): void {
+export function select_add_option_to(
+	selectElement: HTMLSelectElement,
+	optionValue: string,
+	optionText: string
+): void {
 	const optionElement = document.createElement('option');
 	optionElement.value = optionValue;
 	optionElement.text = optionText;
@@ -83,8 +97,15 @@ export function select_add_option_to(selectElement: HTMLSelectElement, optionVal
 }
 
 // Add option to selectId
-export function select_add_option_at_id(selectId: string, optionValue: string, optionText: string): void {
-	get_select_element_and_then(selectId, selectElement => select_add_option_to(selectElement, optionValue, optionText));
+export function select_add_option_at_id(
+	selectId: string,
+	optionValue: string,
+	optionText: string
+): void {
+	get_select_element_and_then(
+		selectId,
+		selectElement => select_add_option_to(selectElement, optionValue, optionText)
+	);
 }
 
 // Delete all options at selectId from startIndex
@@ -156,7 +177,11 @@ export function parse_int_or_alert(integerText: string, errorText: string, defau
 	}
 }
 
-export function parse_int_or_alert_and_then(integerText: string, errorText: string, proc: (aNumber: number) => void): void {
+export function parse_int_or_alert_and_then(
+	integerText: string,
+	errorText: string,
+	proc: (aNumber: number) => void
+): void {
 	const answer = Number.parseInt(integerText, 10);
 	if(isNaN(answer)) {
 		window.alert(errorText);
@@ -165,7 +190,11 @@ export function parse_int_or_alert_and_then(integerText: string, errorText: stri
 	}
 }
 
-export function prompt_for_int_and_then(promptText: string, defaultValue: number, proc: (aNumber: number) => void): void {
+export function prompt_for_int_and_then(
+	promptText: string,
+	defaultValue: number,
+	proc: (aNumber: number) => void
+): void {
 	const integerText = window.prompt(promptText, String(defaultValue));
 	if(integerText) {
 		parse_int_or_alert_and_then(integerText, 'Not an integer?', proc);
@@ -188,7 +217,10 @@ export function fullscreen() {
 	fullscreenFor(document.documentElement);
 }
 
-export function menu_on_change_with_option_value(menuId: string, changeProc: (aString: string) => void): void {
+export function menu_on_change_with_option_value(
+	menuId: string,
+	changeProc: (aString: string) => void
+): void {
 	const menu = document.getElementById(menuId);
 	if(menu) {
 		menu.addEventListener('change', function(anEvent) {
