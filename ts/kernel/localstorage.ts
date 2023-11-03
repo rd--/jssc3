@@ -1,5 +1,5 @@
 import { click_input, select_add_keys_as_options, select_add_option_at_id, select_clear_from, select_on_change } from './dom.ts'
-import { read_json_file_then } from './io.ts'
+import { get_file_input_file } from './io.ts'
 
 // Array of all keys at local storage
 export function local_storage_keys(): string[] {
@@ -62,14 +62,13 @@ export function user_storage_sync(selectId: string): void {
 }
 
 export function user_program_read_archive(inputId: string, selectId: string): void {
-	const fileInput = <HTMLInputElement>document.getElementById(inputId);
-	const fileList = <FileList>fileInput.files;
-	const jsonFile = fileList[0];
-	if(fileInput && fileList && jsonFile) {
-		// console.debug(`user_program_read_archive: ${jsonFile}`);
-		read_json_file_then(jsonFile, function(obj) {
-			// console.debug(`user_program_read_archive: ${obj}`);
-			Object.assign(userPrograms.programs, obj);
+	const jsonFile = get_file_input_file(inputId, 0);
+	// console.debug(`user_program_read_archive: ${jsonFile}`);
+	if(jsonFile) {
+		jsonFile.text().then(function(jsonText) {
+			const jsonValue = JSON.parse(jsonText);
+			// console.debug(`user_program_read_archive: ${jsonValue}`);
+			Object.assign(userPrograms.programs, jsonValue);
 			user_storage_sync(selectId);
 		});
 	} else {

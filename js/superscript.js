@@ -14,9 +14,8 @@ function jsPlay() {
 function stcPlay() {
 	var stcText = sc.get_selected_text();
 	console.log(`stcPlay: ${stcText}`);
-	sc.stc_to_js_and_then(stcText, function(jsText) {
-		playUgen(eval(jsText));
-	});
+	sc.stc_to_js(stcText)
+		.then(jsText => playUgen(eval(jsText)));
 }
 
 function insertMarkdown(text) {
@@ -26,7 +25,8 @@ function insertMarkdown(text) {
 }
 
 export function loadMd() {
-	sc.read_text_file_from_file_input_and_then('programInputFile', 0, insertMarkdown);
+	const inputFile = sc.get_file_input_file('programInputFile', 0);
+	inputFile.text().then(insertMarkdown);
 }
 
 function ugenHelp() {
@@ -34,7 +34,8 @@ function ugenHelp() {
 	if(name.length > 0) {
 		const helpPrefix = './lib/spl/help/SuperCollider/Reference';
 		const url = `${helpPrefix}/${name}.help.sl`;
-		sc.fetch_utf8_then(url, insertMarkdown);
+		sc.fetch_utf8(url, { cache: 'no-cache' })
+			.then(insertMarkdown);
 	}
 }
 
@@ -57,5 +58,6 @@ export function onKeyPress(event) {
 }
 
 export function loadHelp() {
-	sc.fetch_utf8_then('help/essay/superscript.md', insertMarkdown);
+	sc.fetch_utf8('help/essay/superscript.md', { cache: 'no-cache' }).
+		then(insertMarkdown);
 }

@@ -1,5 +1,3 @@
-import { fetch_utf8_then } from '../kernel/io.ts'
-
 export function stc_is_binary_selector(text: string): boolean {
 	const allowed = Array.from('!%&*+/<=>?@\\~|-');
 	const answer = Array.from(text).every(item => allowed.includes(item));
@@ -29,13 +27,13 @@ export function stc_binary_selector_from_operator(text: string): string {
 	}
 }
 
-// Request .stc to .js translation from server, result text is sent to proc (async).
-export function stc_to_js_and_then(stcText: string, procFunc: (x: string) => void): void {
+// Request .stc to .js translation from server.
+export function stc_to_js(stcText: string): Promise<string> {
 	if(stcText.trim() === '') {
-		procFunc('');
+		return new Promise((resolve, reject) => resolve(''));
 	} else {
 		const urlPrefix = 'cgi-bin/stsc3-cgi.py?cmd=stc-to-js&stc=';
 		const encodedStcText = encodeURIComponent(stcText);
-		fetch_utf8_then(urlPrefix + encodedStcText, procFunc);
+		return fetch(urlPrefix + encodedStcText).then(response => response.text());
 	}
 }

@@ -21,7 +21,7 @@ globalThis.calc = calc;
 globalThis.loadSheet = function() {
 	const inputFile = sc.get_file_input_file('programInputFile', 0);
 	if (inputFile) {
-		sc.read_text_file_and_then(inputFile, calc.set_json);
+		inputFile.text().then(calc.set_json);
 	} else {
 		console.log('loadSheet: no file name');
 	}

@@ -26,7 +26,14 @@ export function b_alloc_then(
 }
 
 // b_gen memcpy is in sc3-rdu
-export function b_memcpy(bufferNumber: number, numFrames: number, numChannels: number, sampleRate: number, bufferData: Uint8Array, byteSwap: number): OscMessage {
+export function b_memcpy(
+	bufferNumber: number,
+	numFrames: number,
+	numChannels: number,
+	sampleRate: number,
+	bufferData: Uint8Array,
+	byteSwap: number
+): OscMessage {
 	return {
 		address: '/b_gen',
 		args: [
@@ -197,7 +204,13 @@ export function m_parseStatusReplyInto(msg: OscMessage, status: ScSynthStatus): 
 
 // s = synth
 
-export function s_new(name: string, nodeId: number, addAction: number, target: number, parameterArray: [string, number][]): OscMessage {
+export function s_new(
+	name: string,
+	nodeId: number,
+	addAction: number,
+	target: number,
+	parameterArray: [string, number][]
+): OscMessage {
 	const oscParameters: OscData[] = [];
 	parameterArray.forEach(function(each) {
 		oscParameters.push(oscString(each[0]));
@@ -205,7 +218,12 @@ export function s_new(name: string, nodeId: number, addAction: number, target: n
 	});
 	return {
 		address: '/s_new',
-		args: [oscString(name), oscInt32(nodeId), oscInt32(addAction), oscInt32(target)].concat(oscParameters)
+		args: [
+			oscString(name),
+			oscInt32(nodeId),
+			oscInt32(addAction),
+			oscInt32(target)
+		].concat(oscParameters)
 	};
 }
 

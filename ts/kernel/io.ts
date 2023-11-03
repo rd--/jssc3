@@ -1,4 +1,4 @@
-// Append timestamp to Url to defeat cache
+// Append timestamp to Url to defeat cache.
 export function url_append_timestamp(url: string): string {
 	const ms = (new Date()).getTime();
 	const jn = (/\?/).test(url) ? '&': '?';
@@ -119,13 +119,28 @@ export function read_json_file_then(
 	read_text_file_then(jsonFile, jsonText => proc(JSON.parse(jsonText)));
 }
 
-export function fetch_utf8(url: string): Promise<string> {
-	return fetch(url, { cache: 'no-cache' })
-		.then(handle_fetch_error)
-		.then(
-			response => response.text(),
-			reason => `fetch_utf8: ${url}: ${reason}`
-		);
+export function fetch_arraybuffer(
+	resource: RequestInfo | URL,
+	options: RequestInit
+): Promise<ArrayBuffer> {
+	return fetch(resource, options)
+		.then(response => response.arrayBuffer());
+}
+
+export function fetch_utf8(
+	resource: RequestInfo | URL,
+	options: RequestInit
+): Promise<string> {
+	return fetch(resource, options)
+		.then(response => response.text());
+}
+
+export function fetch_json(
+	resource: RequestInfo | URL,
+	options: RequestInit
+): Promise<unknown> {
+	return fetch(resource, options)
+		.then(response => response.json());
 }
 
 // Throw error if response status is not .ok

@@ -1,4 +1,8 @@
-export type TcpServerProc = (c: Deno.Conn, a: Deno.Addr, d: Uint8Array) => void;
+export type TcpServerProc = (
+	connection: Deno.Conn,
+	address: Deno.Addr,
+	message: Uint8Array
+) => void;
 
 export async function tcpServer(host: string, port: number, proc: TcpServerProc): Promise<void> {
 	console.log(`tcpServer: ${host}: ${port}`);

@@ -1,9 +1,9 @@
 export type Maybe<T> = T | null;
 
-export function fromMaybe<T>(aMaybe: Maybe<T>, defaultValue: T): T {
-	if(aMaybe === null) {
+export function fromMaybe<T>(maybeValue: Maybe<T>, defaultValue: T): T {
+	if(maybeValue === null) {
 		return defaultValue;
 	} else {
-		return aMaybe
+		return maybeValue
 	}
 }
