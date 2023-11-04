@@ -1,25 +1,6 @@
-import { click_input, select_add_keys_as_options, select_add_option_at_id, select_clear_from, select_on_change } from './dom.ts'
-import { get_file_input_file } from './io.ts'
+import { click_input, select_add_keys_as_options, select_add_option_at_id, select_clear_from, select_on_change } from '../kernel/dom.ts'
 
-// Array of all keys at local storage
-export function local_storage_keys(): string[] {
-	const arrayLength = localStorage.length;
-	const answer = Array(arrayLength);
-	for(let i = 0; i < arrayLength; i++) {
-		const key = localStorage.key(i);
-		if(key) {
-			answer[i] = key;
-		} else {
-			console.warn('local_storage_keys: null key?');
-		}
-	}
-	return answer;
-}
-
-// Delete all keys selected by predicate
-export function local_storage_delete_matching(predicate:  (aString: string) => boolean): void {
-	local_storage_keys().forEach(entry => predicate(entry) ? localStorage.removeItem(entry) : null);
-}
+import { get_file_input_file } from './inputFile.ts'
 
 export type UserPrograms = {
 	programs: { [key: string]: string },

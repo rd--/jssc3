@@ -3,9 +3,9 @@
 This module initialises the required fields before that script is loaded.
 */
 
-import { ScSynthWasmModule, initScSynthWasmModule } from './scsynth-wasm-module.ts'
-import { ScSynth } from './scsynth.ts'
-import { scSynthUseWasm } from './scsynth-wasm.ts'
+import { ScSynthWasmModule, initScSynthWasmModule } from './scSynthWasmModule.ts'
+import { ScSynth } from './scSynth.ts'
+import { scSynthUseWasm } from './scSynthWasm.ts'
 
 declare global {
 	var Module: ScSynthWasmModule;

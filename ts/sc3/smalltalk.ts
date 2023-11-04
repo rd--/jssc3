@@ -1,6 +1,7 @@
 import { arrayClump, arrayConcatenation, arrayFill, arrayFromTo, arrayTranspose } from '../kernel/array.ts'
 import { nullFix } from '../kernel/null.ts'
-import { numberTimesRepeat, randomFloat, randomInteger } from '../kernel/number.ts'
+import { numberTimesRepeat } from '../kernel/number.ts'
+import { randomFloat, randomInteger } from '../kernel/random.ts'
 
 import { Abs, Add, Ceil, CpsMidi, Cubed, Exp, Fdiv, Floor, Log, MidiCps, MidiRatio, Min, Max, Mul, Neg, Recip, RoundTo, Sqrt, Sin, Tanh, Trunc } from './bindings.ts'
 import { Env, envCoord } from './envelope.ts'

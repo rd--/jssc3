@@ -1,6 +1,6 @@
 import { prompt_for_int_and_then } from '../kernel/dom.ts'
 
-import { ScSynthOptions } from './scsynth-options.ts'
+import { ScSynthOptions } from './scSynthOptions.ts'
 
 function set_hardware_buffer_size(scSynthOptions: ScSynthOptions): void {
 	prompt_for_int_and_then(

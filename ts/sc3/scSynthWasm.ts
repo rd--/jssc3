@@ -1,7 +1,7 @@
-import { OscPacket, decodeOscMessage, encodeOscPacket } from '../stdlib/opensoundcontrol.ts'
+import { OscPacket, decodeOscMessage, encodeOscPacket } from '../stdlib/openSoundControl.ts'
 
-import { ScSynth } from './scsynth.ts'
-import { ScSynthWasmModule } from './scsynth-wasm-module.ts'
+import { ScSynth } from './scSynth.ts'
+import { ScSynthWasmModule } from './scSynthWasmModule.ts'
 
 export function scSynthUseWasm(scSynth: ScSynth, wasm: ScSynthWasmModule): void {
 	if(scSynth.isConnected()) {

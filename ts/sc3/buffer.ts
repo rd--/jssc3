@@ -1,10 +1,10 @@
 import { encodeFloat32Array } from '../kernel/encode.ts'
 
-import { OscMessage } from '../stdlib/opensoundcontrol.ts'
-import { fetch_soundfile, SoundFile } from '../stdlib/soundfile.ts'
+import { OscMessage } from '../stdlib/openSoundControl.ts'
+import { fetch_soundfile, SoundFile } from '../stdlib/soundFile.ts'
 
-import { ScSynth } from './scsynth.ts'
-import { b_alloc_then_memcpy } from './servercommand.ts'
+import { ScSynth } from './scSynth.ts'
+import { b_alloc_then_memcpy } from './serverCommand.ts'
 
 /*
 import * as sc from './sc3.ts'
@@ -46,7 +46,7 @@ export function b_alloc_then_memcpy_soundfile(
 }
 
 /* Fetch sound file data, and then allocate a buffer and memcpy all interleaved channel data. */
-export function fetch_soundfile_to_scsynth_buffer(
+export function fetch_soundFile_to_scSynth_buffer(
 	scSynth: ScSynth,
 	soundFileUrl: string,
 	numberOfChannels: number,
@@ -62,14 +62,14 @@ export function fetch_soundfile_to_scsynth_buffer(
 					)
 				);
 			} else {
-				console.error('fetch_soundfile_to_scsynth_buffer: numberOfChannels mismatch');
+				console.error('fetch_soundFile_to_scSynth_buffer: numberOfChannels mismatch');
 			}
 		});
 }
 
 /* Fetch single channels of sound file data to mono scSynth buffers.
 The channel numbers are one-indexed. */
-export function fetch_soundfile_channels_to_scsynth_buffers(
+export function fetch_soundFile_channels_to_scSynth_buffers(
 	scSynth: ScSynth,
 	soundFileUrl: string,
 	bufferNumbers: number[],
@@ -77,7 +77,7 @@ export function fetch_soundfile_channels_to_scsynth_buffers(
 ): void {
 	fetch_soundfile(soundFileUrl)
 		.then(soundFile => {
-			// console.debug('fetch_soundfile_channels_to_scsynth_buffers', soundFile);
+			// console.debug('fetch_soundFile_channels_to_scSynth_buffers', soundFile);
 			for(let i = 0; i < bufferNumbers.length; i++) {
 				const bufferNumber = bufferNumbers[i];
 				const channelIndex = channelIndices[i];
@@ -93,7 +93,7 @@ export function fetch_soundfile_channels_to_scsynth_buffers(
 					);
 				} else {
 					console.error(
-						'fetch_soundfile_channels_to_scsynth_buffers: index out of bounds',
+						'fetch_soundFile_channels_to_scSynth_buffers: index out of bounds',
 						channelIndex,
 						soundFile.numberOfChannels
 					);

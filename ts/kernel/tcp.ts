@@ -4,7 +4,11 @@ export type TcpServerProc = (
 	message: Uint8Array
 ) => void;
 
-export async function tcpServer(host: string, port: number, proc: TcpServerProc): Promise<void> {
+export async function tcpServer(
+	host: string,
+	port: number,
+	proc: TcpServerProc
+): Promise<void> {
 	console.log(`tcpServer: ${host}: ${port}`);
 	const listener = Deno.listen({
 		transport: "tcp",
@@ -18,7 +22,10 @@ export async function tcpServer(host: string, port: number, proc: TcpServerProc)
 	}
 }
 
-export async function tcpSendToAddr(address: Deno.ConnectOptions, message: Uint8Array): Promise<void> {
+export async function tcpSendToAddr(
+	address: Deno.ConnectOptions,
+	message: Uint8Array
+): Promise<void> {
 	const connection = await Deno.connect(address);
 	connection.write(message);
 	connection.close();

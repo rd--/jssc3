@@ -1,8 +1,8 @@
 import { udpSendToAddr } from '../kernel/udp.ts'
-import { OscPacket, encodeOscPacket } from '../stdlib/opensoundcontrol.ts'
+import { OscPacket, encodeOscPacket } from '../stdlib/openSoundControl.ts'
 
-import { ScSynth, ReadyState } from './scsynth.ts'
-import { scSynthDefaultOptions } from './scsynth-options.ts'
+import { ScSynth, ReadyState } from './scSynth.ts'
+import { scSynthDefaultOptions } from './scSynthOptions.ts'
 
 export const defaultScSynthAddress: Deno.NetAddr = {
 	transport: 'udp',

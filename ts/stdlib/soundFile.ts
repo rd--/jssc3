@@ -1,5 +1,5 @@
-import * as audiobuffer from '../kernel/audiobuffer.ts'
-import * as float32array from '../kernel/float32array.ts'
+import * as audioBuffer from '../kernel/audioBuffer.ts'
+import * as typedArray from '../kernel/typedArray.ts'
 import * as wave from './wave.ts'
 
 export class SoundFile {
@@ -25,10 +25,11 @@ export class SoundFile {
 	}
 	channelData(index: number): Float32Array {
 		if(this.cachedChannelData == null) {
-			this.cachedChannelData = float32array.deinterleave_sample_data(
+			this.cachedChannelData = typedArray.deinterleave_sample_data(
 				this.numberOfFrames,
 				this.numberOfChannels,
-				this.interleavedData
+				this.interleavedData,
+				size => new Float32Array(size)
 			);
 		}
 		return this.cachedChannelData[index];
@@ -38,15 +39,15 @@ export class SoundFile {
 	}
 }
 
-export function audiobuffer_to_soundfile(url: string, audioBuffer: AudioBuffer): SoundFile {
+export function audiobuffer_to_soundfile(url: string, anAudioBuffer: AudioBuffer): SoundFile {
 	const soundFile = new SoundFile(
 		url,
-		audioBuffer.numberOfChannels,
-		audioBuffer.length,
-		audioBuffer.sampleRate,
-		audiobuffer.audiobuffer_interleaved_channel_data(audioBuffer)
+		anAudioBuffer.numberOfChannels,
+		anAudioBuffer.length,
+		anAudioBuffer.sampleRate,
+		audioBuffer.audioBuffer_interleaved_channel_data(anAudioBuffer)
 	);
-	soundFile.cachedChannelData = audiobuffer.audiobuffer_channel_data_array(audioBuffer);
+	soundFile.cachedChannelData = audioBuffer.audioBuffer_channel_data_array(anAudioBuffer);
 	return soundFile;
 }
 

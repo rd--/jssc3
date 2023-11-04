@@ -1,11 +1,22 @@
 import { arrayFill } from '../kernel/array.ts'
 
+export type TypedArray =
+  | Int8Array
+  | Uint8Array
+  | Uint8ClampedArray
+  | Int16Array
+  | Uint16Array
+  | Int32Array
+  | Uint32Array
+  | Float32Array
+  | Float64Array;
+
 /* Interleave data from channelsArray into interleavedArray. */
 export function interleave_sample_data_into(
 	numberOfFrames: number,
 	numberOfChannels: number,
-	channelsArray: Float32Array[],
-	interleavedArray: Float32Array
+	channelsArray: TypedArray[],
+	interleavedArray: TypedArray
 ): void {
 	for(let i = 0; i < numberOfFrames; i++) {
 		for(let j = 0; j < numberOfChannels; j++) {
@@ -14,12 +25,27 @@ export function interleave_sample_data_into(
 	}
 }
 
-export function interleave_sample_data(
+/* Deinterleave data from interleavedArray into channelsArray. */
+export function deinterleave_sample_data_into(
 	numberOfFrames: number,
 	numberOfChannels: number,
-	channelsArray: Float32Array[]
-): Float32Array {
-	const interleavedArray = new Float32Array(numberOfFrames * numberOfChannels);
+	interleavedArray: TypedArray,
+	channelsArray: TypedArray[]
+): void {
+	for(let i = 0; i < numberOfFrames; i++) {
+		for(let j = 0; j < numberOfChannels; j++) {
+			channelsArray[j][i] = interleavedArray[i * numberOfChannels + j];
+		}
+	}
+}
+
+export function interleave_sample_data<T extends TypedArray>(
+	numberOfFrames: number,
+	numberOfChannels: number,
+	channelsArray: T[],
+	cons: (size: number) => T
+): T {
+	const interleavedArray = cons(numberOfFrames * numberOfChannels);
 	interleave_sample_data_into(
 		numberOfFrames,
 		numberOfChannels,
@@ -29,28 +55,15 @@ export function interleave_sample_data(
 	return interleavedArray;
 }
 
-/* Deinterleave data from interleavedArray into channelsArray. */
-export function deinterleave_sample_data_into(
+export function deinterleave_sample_data<T extends TypedArray>(
 	numberOfFrames: number,
 	numberOfChannels: number,
-	interleavedArray: Float32Array,
-	channelsArray: Float32Array[]
-): void {
-	for(let i = 0; i < numberOfFrames; i++) {
-		for(let j = 0; j < numberOfChannels; j++) {
-			channelsArray[j][i] = interleavedArray[i * numberOfChannels + j];
-		}
-	}
-}
-
-export function deinterleave_sample_data(
-	numberOfFrames: number,
-	numberOfChannels: number,
-	interleavedArray: Float32Array
-): Float32Array[] {
+	interleavedArray: T,
+	cons: (size: number) => T
+): T[] {
 	const channelsArray = arrayFill(
 		numberOfChannels,
-		() => new Float32Array(numberOfFrames)
+		() => cons(numberOfFrames)
 	);
 	deinterleave_sample_data_into(
 		numberOfFrames,

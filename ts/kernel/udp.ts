@@ -31,6 +31,7 @@ export function udpSendTo(host: string, port: number, datagram: Uint8Array): voi
 	udpSendToAddr(address, datagram);
 }
 
+/*
 function testUdpServer() {
 	const send = function(message: string) {
 		udpSendTo('127.0.0.1', 3010, new TextEncoder().encode(message));
@@ -46,5 +47,4 @@ function testUdpServer() {
 	send('Hello world!')
 	send('Goodbye world!')
 }
-
-// testUdpServer()
+*/

@@ -1,7 +1,7 @@
 import { isArray, asArray, arrayAtWrap, arrayFromTo } from '../kernel/array.ts'
 
-import { fetch_soundfile_channels_to_scsynth_buffers } from './buffer.ts'
-import { ScSynth } from './scsynth.ts'
+import { fetch_soundFile_channels_to_scSynth_buffers } from './buffer.ts'
+import { ScSynth } from './scSynth.ts'
 
 export type BufferDictionary = { [key: string]: string };
 export type BufferCache = { [key: string]: number[] };
@@ -30,7 +30,7 @@ export function SfAcquire(
 		let cacheValue = sc3_buffer.cache[soundFileUrl];
 		if(!cacheValue) {
 			const bufferNumberArray = arrayFromTo(sc3_buffer.next, sc3_buffer.next + numberOfChannels - 1);
-			fetch_soundfile_channels_to_scsynth_buffers(
+			fetch_soundFile_channels_to_scSynth_buffers(
 				globalThis.globalScSynth,
 				soundFileUrl,
 				bufferNumberArray,

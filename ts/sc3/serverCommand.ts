@@ -1,4 +1,4 @@
-import { OscData, OscMessage, encodeOscPacket, oscBlob, oscInt32, oscFloat, oscString } from '../stdlib/opensoundcontrol.ts'
+import { OscData, OscMessage, encodeOscPacket, oscBlob, oscInt32, oscFloat, oscString } from '../stdlib/openSoundControl.ts'
 
 // k = constant
 

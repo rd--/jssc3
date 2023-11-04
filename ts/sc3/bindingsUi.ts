@@ -1,6 +1,6 @@
 import { PointerMouseButton, PointerMouseX, PointerMouseY } from './pointer.ts'
 import { rateKr } from './rate.ts'
-import { ScSynth } from './scsynth.ts'
+import { ScSynth } from './scSynth.ts'
 import { Signal, makeUgen } from './ugen.ts'
 
 // Respond to the state of a key

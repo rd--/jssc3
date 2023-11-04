@@ -1,10 +1,10 @@
 import { Counter, counterNew } from '../stdlib/counter.ts'
-import { OscMessage, OscPacket, encodeOscMessage, encodeOscBundle } from '../stdlib/opensoundcontrol.ts'
+import { OscMessage, OscPacket, encodeOscMessage, encodeOscBundle } from '../stdlib/openSoundControl.ts'
 
 import { encodeUgen } from './graph.ts'
 import { wrapOut } from './pseudo.ts'
-import { ScSynthOptions, scSynthDefaultOptions } from './scsynth-options.ts'
-import { c_setn1, d_recv, d_recv_then, g_freeAll, g_new, kAddToTail, m_dumpOsc, m_notify, m_status, m_parseStatusReplyInto, ScSynthStatus, defaultScSynthStatus, s_new } from './servercommand.ts'
+import { ScSynthOptions, scSynthDefaultOptions } from './scSynthOptions.ts'
+import { c_setn1, d_recv, d_recv_then, g_freeAll, g_new, kAddToTail, m_dumpOsc, m_notify, m_status, m_parseStatusReplyInto, ScSynthStatus, defaultScSynthStatus, s_new } from './serverCommand.ts'
 import { Signal } from './ugen.ts'
 
 type OscMessageFunction = (message: OscMessage) => void;
@@ -38,7 +38,7 @@ export class ScSynth {
 		this.basicSendOsc = (packet) => console.log('basicSendOsc: not initialized');
 		this.oscListeners = new Map();
 		this.readyState = ReadyState.Disconnected;
-		this.useIoUgens = false; // true iff scsynth io ugens installed *and* instance is local
+		this.useIoUgens = false; // true iff scSynth io ugens installed *and* instance is local
 		this.status = defaultScSynthStatus;
 		this.statusMonitor = null;
 	}

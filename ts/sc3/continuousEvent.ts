@@ -1,9 +1,9 @@
 import { arrayFromTo } from '../kernel/array.ts'
-import { OscMessage } from '../stdlib/opensoundcontrol.ts'
+import { OscMessage } from '../stdlib/openSoundControl.ts'
 
 import { Latch } from './bindings.ts'
 import { ControlIn } from './pseudo.ts'
-import { c_set1, c_setn1 } from './servercommand.ts'
+import { c_set1, c_setn1 } from './serverCommand.ts'
 import { Signal } from './ugen.ts'
 
 export class ContinuousEvent<T> {

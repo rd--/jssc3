@@ -15,7 +15,7 @@ export function PointerY(n: number): Signal {
 }
 
 /*
-Web Assembly scsynth does not include the Mouse unit generators.
+Web Assembly scSynth does not include the Mouse unit generators.
 */
 
 export function PointerMouseX(minval: Signal, maxval: Signal, warp: Signal, lag: Signal): Signal {
