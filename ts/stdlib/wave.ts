@@ -47,21 +47,24 @@ export function waveParseFactChunk(fact: riff.RiffChunk): WaveFactChunk {
 	};
 }
 
+// This will fail if the chunk is not 4-byte aligned.
 export function waveParseDataFloat32(data: riff.RiffChunk): Float32Array {
 	const numSamples = data.size / 4;
 	return new Float32Array(data.data.buffer, data.data.byteOffset, numSamples);
 }
 
 export type Wave = {
+	url: string,
 	chunks: riff.RiffChunk[],
 	fmtChunk: WaveFmtChunk,
 	factChunk: WaveFactChunk,
 	data: Float32Array
 };
 
-export function Wave(chunks: riff.RiffChunk[]): Wave {
+export function chunksToWave(url: string, chunks: riff.RiffChunk[]): Wave {
 	let fmtChunk: WaveFmtChunk | null = null, factChunk = null, data = null;
 	chunks.forEach(chunk => {
+		// console.debug('chunksToWave', chunk.id, chunk.size, chunk.data);
 		if(chunk.id == 'fmt ') {
 			fmtChunk = waveParseFmtChunk(chunk);
 		}
@@ -80,6 +83,7 @@ export function Wave(chunks: riff.RiffChunk[]): Wave {
 		throw new Error('Wave: invalid Wave');
 	} else {
 		return {
+			url: url,
 			chunks: chunks,
 			fmtChunk: fmtChunk,
 			factChunk: factChunk,
@@ -88,17 +92,20 @@ export function Wave(chunks: riff.RiffChunk[]): Wave {
 	}
 }
 
-export function waveRead(byteArray: ArrayBuffer): Wave {
-	return Wave(waveReadChunkSequence(byteArray));
+export function waveParse(url: string, byteArray: ArrayBuffer): Wave {
+	return chunksToWave(url, waveReadChunkSequence(byteArray))
 }
 
 export function waveFetch(url: string): Promise<Wave> {
-	return fetch(url)
+	return fetch(url, { cache: 'default' })
 		.then(response => response.arrayBuffer())
-		.then(waveRead)
+		.then(byteArray => waveParse(url, byteArray))
 }
 
 /*
-waveFetch('https://rohandrape.net/pub/jssc3/flac/floating_1.wav')
-	.then(wave => console.log(wave))
+
+import * as wave from './stdlib/wave.ts'
+const url = 'https://rohandrape.net/pub/jssc3/flac/crotale-d6.wav';
+wave.waveFetch(url).then(wave => console.log(wave))
+
 */

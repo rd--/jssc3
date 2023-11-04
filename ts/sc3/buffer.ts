@@ -6,15 +6,6 @@ import { fetchSoundFile, SoundFile } from '../stdlib/soundFile.ts'
 import { ScSynth } from './scSynth.ts'
 import { b_allocMemcpy } from './serverCommand.ts'
 
-/*
-import * as sc from './sc3.ts'
-
-var scSynth = new sc.ScSynth();
-sc.scSynthUseWebSocket(scSynth, 'ws://localhost:58110');
-scSynth.connect();
-var msg = sc.b_allocMemcpyFloat32Array(200, 10, 1, 1000, new Float32Array([1,3,5,7,9,0,2,4,6,8]));
-scSynth.sendOsc(msg)
-*/
 export function b_allocMemcpyFloat32Array(
 	bufferNumber: number,
 	numberOfFrames: number,
@@ -103,3 +94,19 @@ export function fetchSoundFileChannelsToScSynthBuffers(
 			}
 		});
 }
+
+/*
+
+import * as scTcp from './sc3/scSynthTcp.ts'
+const scSynth = await scTcp.ScSynthTcp(scTcp.defaultScSynthAddress);
+
+import * as sc from './sc3.ts'
+const msg = sc.b_allocMemcpyFloat32Array(200, 10, 1, 1000, new Float32Array([1,3,5,7,9,0,2,4,6,8]));
+scSynth.sendOsc(msg)
+
+const url = 'https://rohandrape.net/pub/jssc3/flac/floating_1.wav';
+sc.fetchSoundFileToScSynthBuffer(scSynth, url, 1, 100);
+
+sc.fetchSoundFileChannelsToScSynthBuffers(scSynth, url, [100], [1]);
+
+*/

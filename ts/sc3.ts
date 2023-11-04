@@ -1,5 +1,3 @@
-export * from './stdlib/soundFile.ts'
-
 export * from './sc3/alias.ts'
 export * from './sc3/bindings.ts'
 export * from './sc3/bindingsUi.ts'
@@ -15,10 +13,9 @@ export * from './sc3/operators.ts'
 export * from './sc3/pointer.ts'
 export * from './sc3/pseudo.ts'
 export * from './sc3/rate.ts'
+export * from './sc3/scSynthOptions.ts'
 export * from './sc3/scSynth.ts'
 export * from './sc3/scSynthUi.ts'
-export * from './sc3/scSynthOptions.ts'
-
 export * from './sc3/scSynthWasmInit.ts'
 export * from './sc3/scSynthWasmModule.ts'
 export * from './sc3/scSynthWasm.ts'

@@ -52,6 +52,13 @@ export function SfAcquire(
 
 /*
 
-SfAcquire('piano-c5', 2, [100, 101])
+import * as scTcp from './sc3/scSynthTcp.ts'
+const scSynth = await scTcp.ScSynthTcp(scTcp.defaultScSynthAddress);
+
+globalThis.globalScSynth = scSynth;
+
+import * as bc from './sc3/bufferCache.ts'
+const b0 = bc.SfAcquire('piano-c5', 2, [1, 2]);
+const b1 = bc.SfAcquire('crotale-d6', 1, [1]);
 
 */

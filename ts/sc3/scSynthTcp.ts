@@ -33,3 +33,10 @@ export async function ScSynthTcp(address: Deno.ConnectOptions): Promise<ScSynth>
 	await scSynthUseTcp(scSynth, address);
 	return scSynth;
 }
+
+/*
+
+import * as scTcp from './sc3/scSynthTcp.ts'
+const scSynth = await scTcp.ScSynthTcp(scTcp.defaultScSynthAddress);
+
+*/

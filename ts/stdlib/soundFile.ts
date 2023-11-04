@@ -51,9 +51,9 @@ export function audiobufferToSoundFile(url: string, anAudioBuffer: AudioBuffer):
 	return soundFile;
 }
 
-export function waveToSoundFile(url: string, wave: wave.Wave): SoundFile {
+export function waveToSoundFile(wave: wave.Wave): SoundFile {
 	return new SoundFile(
-		url,
+		wave.url,
 		wave.fmtChunk.channels,
 		wave.factChunk.sampleLength,
 		wave.fmtChunk.samplesPerSec,
@@ -70,7 +70,7 @@ export function arrayBufferToSoundFile(
 		return audioContext.decodeAudioData(arrayBuffer)
 			.then(audioBuffer => audiobufferToSoundFile(url, audioBuffer));
 	} else {
-		const soundFile = waveToSoundFile(url, wave.waveRead(arrayBuffer));
+		const soundFile = waveToSoundFile(wave.waveParse(url, arrayBuffer));
 		return new Promise((resolve, reject) => resolve(soundFile));
 	}
 }
@@ -81,3 +81,12 @@ export function fetchSoundFile(url: string): Promise<SoundFile> {
 		.then(response => response.arrayBuffer())
 		.then(arrayBuffer => arrayBufferToSoundFile(url, arrayBuffer))
 }
+
+/*
+
+import * as sf from './stdlib/soundFile.ts'
+const url = 'https://rohandrape.net/pub/jssc3/flac/crotale-d6.wav';
+const soundFile = await sf.fetchSoundFile(url)
+console.log(soundFile)
+
+*/

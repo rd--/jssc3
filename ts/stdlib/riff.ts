@@ -58,3 +58,10 @@ export function riffVerifyHeader(byteArray: ArrayBuffer): void {
 		throw new Error('Invalid Riff?');
 	}
 }
+
+
+export function riffFetch(url: string): Promise<RiffChunk[]> {
+	return fetch(url)
+		.then(response => response.arrayBuffer())
+		.then(riffReadChunkSequence)
+}
