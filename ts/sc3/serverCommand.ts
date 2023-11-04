@@ -7,12 +7,12 @@ export const kAddToTail = 1;
 
 // b = buffer
 
-// b_alloc, with completion message
-export function b_alloc_then(
+// b_alloc, with optional completion message
+export function b_alloc(
 	bufferNumber: number,
 	numberOfFrames: number,
 	numberOfChannels: number,
-	onCompletion: Uint8Array
+	onCompletion: Uint8Array | null
 ): OscMessage {
 	return {
 		address: '/b_alloc',
@@ -20,8 +20,7 @@ export function b_alloc_then(
 			oscInt32(bufferNumber),
 			oscInt32(numberOfFrames),
 			oscInt32(numberOfChannels),
-			oscBlob(onCompletion)
-		]
+		].concat(onCompletion ? [oscBlob(onCompletion)] : [])
 	};
 }
 
@@ -47,7 +46,7 @@ export function b_memcpy(
 	};
 }
 
-export function b_alloc_then_memcpy(
+export function b_allocMemcpy(
 	bufferNumber: number,
 	numberOfFrames: number,
 	numberOfChannels: number,
@@ -57,7 +56,7 @@ export function b_alloc_then_memcpy(
 ): OscMessage {
 	const allocBytes = numberOfFrames * numberOfChannels * 4;
 	if(allocBytes != bufferData.length) {
-		console.error('b_alloc_then_memcpy: array size error', allocBytes, bufferData.length);
+		console.error('b_allocMemcpy: array size error', allocBytes, bufferData.length);
 	}
 	const memcpyMessage = b_memcpy(
 		bufferNumber,
@@ -67,7 +66,7 @@ export function b_alloc_then_memcpy(
 		bufferData,
 		byteSwap
 	);
-	return b_alloc_then(
+	return b_alloc(
 		bufferNumber,
 		numberOfFrames,
 		numberOfChannels,
@@ -107,17 +106,15 @@ export function c_setn1(busIndex: number, controlArray: number[]): OscMessage {
 
 // d = (synth) definition
 
-export function d_recv(syndefArray: Uint8Array): OscMessage {
+export function d_recv(
+	syndefArray: Uint8Array,
+	onCompletion: Uint8Array | null
+): OscMessage {
 	return {
 		address: '/d_recv',
-		args: [oscBlob(syndefArray)]
-	};
-}
-
-export function d_recv_then(syndefArray: Uint8Array, onCompletion: Uint8Array): OscMessage {
-	return {
-		address: '/d_recv',
-		args: [oscBlob(syndefArray), oscBlob(onCompletion)]
+		args: [
+			oscBlob(syndefArray)
+		].concat(onCompletion ? [oscBlob(onCompletion)] : [])
 	};
 }
 

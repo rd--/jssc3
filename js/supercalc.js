@@ -146,7 +146,7 @@ function cellUgenToOscPacket(colLetter, rowNumber, ugen) {
 	const groupId = cellRefToGroup(colLetter, rowNumber);
 	const gFreeMsg = sc.g_freeAll1(groupId);
 	const sNewMsg = sc.s_new0(cellName, -1, sc.kAddToHead, groupId);
-	const dRecvMsg = sc.d_recv_then(syndef, osc.writePacket(sNewMsg));
+	const dRecvMsg = sc.d_recv(syndef, osc.writePacket(sNewMsg));
 	const bundle = {
 		timeTag: 1,
 		packets: [gFreeMsg, dRecvMsg]

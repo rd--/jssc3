@@ -17,7 +17,7 @@ sl.addLoadUrlMethods();
 window.onload = function () {
 	// globalThis.globalScSynth = sc.ScSynthWebSocket('ws:localhost:57110'); /* jssc3/cmd/ws-bridge.ts */
 	globalThis.globalScSynth = sc.ScSynthWasm();
-	sc.sc3_mouse_init(globalScSynth); /* note, this is not part of wasm init for case of remote web socket connection */
+	sc.sc3MouseInit(globalScSynth); /* note, this is not part of wasm init for case of remote web socket connection */
 	sl.assignGlobals();
 	sl.setLoadPath('lib/spl/sl');
 	sl.loadUrl('*Load*', 'Meta/PackageIndex.sl').then(function() {

@@ -2,6 +2,7 @@ import { asArray, arrayConcat, arrayLength } from '../kernel/array.ts'
 
 import { rateAr, rateDr, rateIr, rateKr } from './rate.ts'
 import { Signal, BinaryOp, UnaryOp, makeUgen } from './ugen.ts'
+
 // Schroeder allpass delay line with cubic interpolation.
 export function AllpassC(input: Signal, maxdelaytime: Signal, delaytime: Signal, decaytime: Signal): Signal {
     return makeUgen('AllpassC', 1, [0], 0, [input, maxdelaytime, delaytime, decaytime]);
@@ -612,10 +613,8 @@ export function ModDif(x: Signal, y: Signal, mod: Signal): Signal {
 export function MoogFf(input: Signal, freq: Signal, gain: Signal, reset: Signal): Signal {
     return makeUgen('MoogFF', 1, [0], 0, [input, freq, gain, reset]);
 }
-/*
 
-c.f. bindings-ui.ts
-
+/* c.f. bindingsUi.ts
 // Mouse button UGen.
 export function MouseButton(minval: Signal, maxval: Signal, lag: Signal): Signal {
     return makeUgen('MouseButton', 1, rateKr, 0, [minval, maxval, lag]);
@@ -628,8 +627,8 @@ export function MouseX(minval: Signal, maxval: Signal, warp: Signal, lag: Signal
 export function MouseY(minval: Signal, maxval: Signal, warp: Signal, lag: Signal): Signal {
     return makeUgen('MouseY', 1, rateKr, 0, [minval, maxval, warp, lag]);
 }
-
 */
+
 // Multiply add
 export function MulAdd(input: Signal, mul: Signal, add: Signal): Signal {
     return makeUgen('MulAdd', 1, [0, 1, 2], 0, [input, mul, add]);
@@ -1175,4 +1174,3 @@ export function WelchWindow(a: Signal): Signal { return UnaryOp(50, a); }
 export function TriWindow(a: Signal): Signal { return UnaryOp(51, a); }
 export function Ramp_(a: Signal): Signal { return UnaryOp(52, a); }
 export function Scurve(a: Signal): Signal { return UnaryOp(53, a); }
-

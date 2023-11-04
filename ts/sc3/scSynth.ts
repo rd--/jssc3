@@ -4,7 +4,7 @@ import { OscMessage, OscPacket, encodeOscMessage, encodeOscBundle } from '../std
 import { encodeUgen } from './graph.ts'
 import { wrapOut } from './pseudo.ts'
 import { ScSynthOptions, scSynthDefaultOptions } from './scSynthOptions.ts'
-import { c_setn1, d_recv, d_recv_then, g_freeAll, g_new, kAddToTail, m_dumpOsc, m_notify, m_status, m_parseStatusReplyInto, ScSynthStatus, defaultScSynthStatus, s_new } from './serverCommand.ts'
+import { c_setn1, d_recv, g_freeAll, g_new, kAddToTail, m_dumpOsc, m_notify, m_status, m_parseStatusReplyInto, ScSynthStatus, defaultScSynthStatus, s_new } from './serverCommand.ts'
 import { Signal } from './ugen.ts'
 
 type OscMessageFunction = (message: OscMessage) => void;
@@ -168,7 +168,7 @@ export function playSynDefAtMessage(synDefName: string, synDefData: Uint8Array, 
 			timeTag: {native: performance.timeOrigin + (systemTimeInSeconds * 1000)},
 			packets: [sNew]
 		});
-	return d_recv_then(
+	return d_recv(
 		synDefData,
 		completionMessage
 	);

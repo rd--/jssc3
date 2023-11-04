@@ -1,13 +1,13 @@
-import { parseIntOrAlertAndThen } from './dom.ts'
+import { withParsedInteger } from './dom.ts'
 
-export function promptForIntAndThen(
+export function withIntegerFromPrompt(
 	promptText: string,
 	defaultValue: number,
 	proc: (aNumber: number) => void
 ): void {
 	const integerText = window.prompt(promptText, String(defaultValue));
 	if(integerText) {
-		parseIntOrAlertAndThen(integerText, 'Not an integer?', proc);
+		withParsedInteger(integerText, proc);
 	}
 }
 

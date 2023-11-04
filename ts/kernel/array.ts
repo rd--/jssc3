@@ -119,7 +119,10 @@ export function arrayFill<T>(size: number, elemProc: (noValue: void) => T): T[] 
 	return arrayIota(size).map(unusedItem => elemProc());
 }
 
-// arrayFillWithIndex(5, i => i * i) //= [0, 1, 4, 9, 16]
+/* Zero indexed.
+
+arrayFillWithIndex(5, i => i * i) //= [0, 1, 4, 9, 16]
+*/
 export function arrayFillWithIndex<T>(size: number, elemProc: (anIndex: number) => T): T[] {
 	if(elemProc.length != 1) {
 		console.error('arrayFillWithIndex: arity error');

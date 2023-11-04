@@ -50,23 +50,23 @@ export function setterForInnerHtmlOf(elemId: string): (innerHtml: string) => voi
 	};
 }
 
-export function withElement(
+export function withElementById(
 	elementId: string,
 	elementProcedure: (element: HTMLElement) => void
 ): void {
 	const element = document.getElementById(elementId);
 	if(!element) {
-		console.error('withElement: not found: ', elementId);
+		console.error('withElementById: not found: ', elementId);
 	} else {
 		elementProcedure(element);
 	}
 }
 
-export function getSelectElementAndThen(
+export function withSelectElementById(
 	selectId: string,
 	selectProcedure: (selectElement: HTMLSelectElement) => void
 ): void {
-	withElement(selectId, <(element: HTMLElement) => void>selectProcedure);
+	withElementById(selectId, <(element: HTMLElement) => void>selectProcedure);
 }
 
 /* Set onchange handler of selectId,
@@ -81,7 +81,10 @@ export function selectOnChange(
 			proc(target, target.value);
 		}
 	};
-	getSelectElementAndThen(selectId, selectElement => selectElement.addEventListener('change', guardedProc));
+	withSelectElementById(
+		selectId,
+		selectElement => selectElement.addEventListener('change', guardedProc)
+	);
 }
 
 // Create option element and add to select element.
@@ -102,7 +105,7 @@ export function selectAddOptionAtId(
 	optionValue: string,
 	optionText: string
 ): void {
-	getSelectElementAndThen(
+	withSelectElementById(
 		selectId,
 		selectElement => selectAddOptionTo(selectElement, optionValue, optionText)
 	);
@@ -110,7 +113,7 @@ export function selectAddOptionAtId(
 
 // Delete all options at selectId from startIndex
 export function selectClearFrom(selectId: string, startIndex: number): void {
-	getSelectElementAndThen(selectId, function(selectElement) {
+	withSelectElementById(selectId, function(selectElement) {
 		const endIndex = selectElement.length;
 		for(let i = startIndex; i < endIndex; i++) {
 			selectElement.remove(startIndex);
@@ -120,7 +123,7 @@ export function selectClearFrom(selectId: string, startIndex: number): void {
 
 // Add all keys as entries, both value and text, at selectId
 export function selectAddKeysAsOptions(selectId: string, keyArray: string[]): void {
-	getSelectElementAndThen(selectId, function(selectElement) {
+	withSelectElementById(selectId, function(selectElement) {
 		keyArray.forEach(function(key) {
 			const option = document.createElement('option');
 			option.value = key;
@@ -142,7 +145,7 @@ export function connectButtonToInput(buttonId: string, inputId: string): void {
 }
 
 export function clickInput(inputId: string): void {
-	withElement(inputId, inputElement => inputElement.click());
+	withElementById(inputId, inputElement => inputElement.click());
 }
 
 // If some text is selected, get only the selected text, else get the entire text.
@@ -167,7 +170,11 @@ export function windowUrlSetParam(key: string, value: string): void {
 	window.history.pushState({}, '', windowUrl);
 }
 
-export function parseIntOrAlert(integerText: string, errorText: string, defaultAnswer: number): number {
+export function parseIntegerOrAlert(
+	integerText: string,
+	errorText: string,
+	defaultAnswer: number
+): number {
 	const answer = Number.parseInt(integerText, 10);
 	if(isNaN(answer)) {
 		window.alert(errorText);
@@ -177,14 +184,13 @@ export function parseIntOrAlert(integerText: string, errorText: string, defaultA
 	}
 }
 
-export function parseIntOrAlertAndThen(
+export function withParsedInteger(
 	integerText: string,
-	errorText: string,
 	proc: (aNumber: number) => void
 ): void {
 	const answer = Number.parseInt(integerText, 10);
 	if(isNaN(answer)) {
-		window.alert(errorText);
+		window.alert('Not an integer?');
 	} else {
 		proc(answer);
 	}
