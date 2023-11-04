@@ -15,8 +15,8 @@ globalThis.wr = wr;
 window.onload = function () {
 	globalThis.globalScSynth = sc.ScSynthWasm();
 	sc.scSynthInitStatusTextListener(globalScSynth, '---');
-	sc.sc3_mouse_init(globalScSynth);
-	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
+	sc.sc3MouseInit(globalScSynth);
+	sc.connectButtonToInput('programInputFileSelect', 'programInputFile');
 	document.getElementById('documentContainer').addEventListener('keydown', wr.onKeyPress);
 	wr.loadHelp();
 };

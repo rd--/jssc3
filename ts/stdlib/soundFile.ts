@@ -25,7 +25,7 @@ export class SoundFile {
 	}
 	channelData(index: number): Float32Array {
 		if(this.cachedChannelData == null) {
-			this.cachedChannelData = typedArray.deinterleave_sample_data(
+			this.cachedChannelData = typedArray.deinterleaveSampleData(
 				this.numberOfFrames,
 				this.numberOfChannels,
 				this.interleavedData,
@@ -39,19 +39,19 @@ export class SoundFile {
 	}
 }
 
-export function audiobuffer_to_soundfile(url: string, anAudioBuffer: AudioBuffer): SoundFile {
+export function audiobufferToSoundFile(url: string, anAudioBuffer: AudioBuffer): SoundFile {
 	const soundFile = new SoundFile(
 		url,
 		anAudioBuffer.numberOfChannels,
 		anAudioBuffer.length,
 		anAudioBuffer.sampleRate,
-		audioBuffer.audioBuffer_interleaved_channel_data(anAudioBuffer)
+		audioBuffer.audioBufferInterleavedChannelData(anAudioBuffer)
 	);
-	soundFile.cachedChannelData = audioBuffer.audioBuffer_channel_data_array(anAudioBuffer);
+	soundFile.cachedChannelData = audioBuffer.audioBufferChannelDataArray(anAudioBuffer);
 	return soundFile;
 }
 
-export function wave_to_soundfile(url: string, wave: wave.Wave): SoundFile {
+export function waveToSoundFile(url: string, wave: wave.Wave): SoundFile {
 	return new SoundFile(
 		url,
 		wave.fmtChunk.channels,
@@ -61,23 +61,23 @@ export function wave_to_soundfile(url: string, wave: wave.Wave): SoundFile {
 	);
 }
 
-export function arraybuffer_to_soundfile(
+export function arrayBufferToSoundFile(
 	url: string,
 	arrayBuffer: ArrayBuffer
 ): Promise<SoundFile> {
 	if(window.AudioContext) {
 		const audioContext = new window.AudioContext();
 		return audioContext.decodeAudioData(arrayBuffer)
-			.then(audioBuffer => audiobuffer_to_soundfile(url, audioBuffer));
+			.then(audioBuffer => audiobufferToSoundFile(url, audioBuffer));
 	} else {
-		const soundFile = wave_to_soundfile(url, wave.wave_read(arrayBuffer));
+		const soundFile = waveToSoundFile(url, wave.waveRead(arrayBuffer));
 		return new Promise((resolve, reject) => resolve(soundFile));
 	}
 }
 
-export function fetch_soundfile(url: string): Promise<SoundFile> {
-	// console.debug('fetch_soundfile', url);
+export function fetchSoundFile(url: string): Promise<SoundFile> {
+	// console.debug('fetchSoundFile', url);
 	return fetch(url)
 		.then(response => response.arrayBuffer())
-		.then(arrayBuffer => arraybuffer_to_soundfile(url, arrayBuffer))
+		.then(arrayBuffer => arrayBufferToSoundFile(url, arrayBuffer))
 }

@@ -12,7 +12,7 @@ export type TypedArray =
   | Float64Array;
 
 /* Interleave data from channelsArray into interleavedArray. */
-export function interleave_sample_data_into(
+export function interleaveSampleDataInto(
 	numberOfFrames: number,
 	numberOfChannels: number,
 	channelsArray: TypedArray[],
@@ -26,7 +26,7 @@ export function interleave_sample_data_into(
 }
 
 /* Deinterleave data from interleavedArray into channelsArray. */
-export function deinterleave_sample_data_into(
+export function deinterleaveSampleDataInto(
 	numberOfFrames: number,
 	numberOfChannels: number,
 	interleavedArray: TypedArray,
@@ -39,14 +39,14 @@ export function deinterleave_sample_data_into(
 	}
 }
 
-export function interleave_sample_data<T extends TypedArray>(
+export function interleaveSampleData<T extends TypedArray>(
 	numberOfFrames: number,
 	numberOfChannels: number,
 	channelsArray: T[],
 	cons: (size: number) => T
 ): T {
 	const interleavedArray = cons(numberOfFrames * numberOfChannels);
-	interleave_sample_data_into(
+	interleaveSampleDataInto(
 		numberOfFrames,
 		numberOfChannels,
 		channelsArray,
@@ -55,7 +55,7 @@ export function interleave_sample_data<T extends TypedArray>(
 	return interleavedArray;
 }
 
-export function deinterleave_sample_data<T extends TypedArray>(
+export function deinterleaveSampleData<T extends TypedArray>(
 	numberOfFrames: number,
 	numberOfChannels: number,
 	interleavedArray: T,
@@ -65,7 +65,7 @@ export function deinterleave_sample_data<T extends TypedArray>(
 		numberOfChannels,
 		() => cons(numberOfFrames)
 	);
-	deinterleave_sample_data_into(
+	deinterleaveSampleDataInto(
 		numberOfFrames,
 		numberOfChannels,
 		interleavedArray,

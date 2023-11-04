@@ -8,13 +8,13 @@ function playUgen(ugenGraph) {
 }
 
 function jsPlay() {
-	playUgen(eval(sc.get_selected_text()));
+	playUgen(eval(sc.getSelectedText()));
 }
 
 function stcPlay() {
-	var stcText = sc.get_selected_text();
+	var stcText = sc.getSelectedText();
 	console.log(`stcPlay: ${stcText}`);
-	sc.stc_to_js(stcText)
+	sc.stcToJs(stcText)
 		.then(jsText => playUgen(eval(jsText)));
 }
 
@@ -25,16 +25,16 @@ function insertMarkdown(text) {
 }
 
 export function loadMd() {
-	const inputFile = sc.get_file_input_file('programInputFile', 0);
+	const inputFile = sc.getFileInputFile('programInputFile', 0);
 	inputFile.text().then(insertMarkdown);
 }
 
 function ugenHelp() {
-	const name = sc.get_selected_text();
+	const name = sc.getSelectedText();
 	if(name.length > 0) {
 		const helpPrefix = './lib/spl/help/SuperCollider/Reference';
 		const url = `${helpPrefix}/${name}.help.sl`;
-		sc.fetch_utf8(url, { cache: 'no-cache' })
+		sc.fetchUtf8(url, { cache: 'no-cache' })
 			.then(insertMarkdown);
 	}
 }
@@ -58,6 +58,6 @@ export function onKeyPress(event) {
 }
 
 export function loadHelp() {
-	sc.fetch_utf8('help/essay/superscript.md', { cache: 'no-cache' }).
+	sc.fetchUtf8('help/essay/superscript.md', { cache: 'no-cache' }).
 		then(insertMarkdown);
 }

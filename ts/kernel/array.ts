@@ -116,7 +116,7 @@ export function arrayFill<T>(size: number, elemProc: (noValue: void) => T): T[] 
 	if(elemProc.length != 0) {
 		console.error('arrayFill: arity error');
 	}
-	return arrayIota(size).map(_unusedItem => elemProc());
+	return arrayIota(size).map(unusedItem => elemProc());
 }
 
 // arrayFillWithIndex(5, i => i * i) //= [0, 1, 4, 9, 16]
@@ -208,7 +208,7 @@ export function arrayPut<T>(anArray: T[], anIndex: number, aValue: T): void {
 
 // arrayReplicate(5, 1) //= [1, 1, 1, 1, 1]
 export function arrayReplicate<T>(count: number, value: T): T[] {
-	return arrayIota(count).map(_unusedItem => value);
+	return arrayIota(count).map(unusedItem => value);
 }
 
 export function arrayReduce<T>(anArray: T[], aFunction: (previousValue: T, currentValue: T) => T): T {
@@ -274,7 +274,7 @@ export function arrayTakeWhile<T>(anArray: T[], predicate: (aValue: T) => boolea
 
 // arrayTranspose([[1, 2, 3], [4, 5, 6]]) //= [[1, 4], [2, 5], [3, 6]]
 export function arrayTranspose<T>(anArray: T[][]): T[][] {
-	return anArray[0].map((_col, i) => anArray.map(row => row[i]));
+	return anArray[0].map((unusedColumn, i) => anArray.map(row => row[i]));
 }
 
 export function arrayUnlines(anArray: string[]): string {

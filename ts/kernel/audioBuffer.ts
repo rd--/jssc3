@@ -1,13 +1,13 @@
 import { arrayFillWithIndex } from '../kernel/array.ts'
-import { interleave_sample_data } from '../kernel/typedArray.ts'
+import { interleaveSampleData } from '../kernel/typedArray.ts'
 
 // Number of frames multiplied by the number of channels.
-export function audioBuffer_number_of_samples(anAudioBuffer: AudioBuffer): number {
+export function audioBufferNumberOfSamples(anAudioBuffer: AudioBuffer): number {
 	return anAudioBuffer.length * anAudioBuffer.numberOfChannels;
 }
 
 // Get all audio data as an array of Float32Array.
-export function audioBuffer_channel_data_array(anAudioBuffer: AudioBuffer): Float32Array[] {
+export function audioBufferChannelDataArray(anAudioBuffer: AudioBuffer): Float32Array[] {
 	return arrayFillWithIndex(
 		anAudioBuffer.numberOfChannels,
 		i => anAudioBuffer.getChannelData(i)
@@ -15,13 +15,13 @@ export function audioBuffer_channel_data_array(anAudioBuffer: AudioBuffer): Floa
 }
 
 // Get all audio data as an interleaved Float32Array.
-export function audioBuffer_interleaved_channel_data(anAudioBuffer: AudioBuffer): Float32Array {
+export function audioBufferInterleavedChannelData(anAudioBuffer: AudioBuffer): Float32Array {
 	if(anAudioBuffer.numberOfChannels === 1) {
 		return anAudioBuffer.getChannelData(0);
 	} else {
-		const channelsArray = audioBuffer_channel_data_array(anAudioBuffer);
+		const channelsArray = audioBufferChannelDataArray(anAudioBuffer);
 		const numberOfSamples = anAudioBuffer.length * anAudioBuffer.numberOfChannels;
-		return interleave_sample_data(
+		return interleaveSampleData(
 			anAudioBuffer.length,
 			anAudioBuffer.numberOfChannels,
 			channelsArray,
@@ -30,10 +30,10 @@ export function audioBuffer_interleaved_channel_data(anAudioBuffer: AudioBuffer)
 	}
 }
 
-export function audioBuffer_maximum_absolute_value_and_frame_number_of(
+export function audioBufferMaximumAbsoluteValueAndFrameNumberOf(
 	anAudioBuffer: AudioBuffer
 ): number[] {
-	const channelsArray = audioBuffer_channel_data_array(anAudioBuffer);
+	const channelsArray = audioBufferChannelDataArray(anAudioBuffer);
 	let maximumValue = 0;
 	let frameNumber = 0;
 	for(let i = 0; i < anAudioBuffer.length; i++) {

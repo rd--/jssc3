@@ -178,7 +178,7 @@ export function inputBranch<T>(input: UgenInput, onUgen: (aUgen: Ugen) => T, onN
 
 export function inputRate(input: UgenInput): number {
 	// console.debug(`inputRate: ${input}`);
-	return inputBranch(input, port => port.scUgen.rate, _unusedNumber => rateIr, () => -1);
+	return inputBranch(input, port => port.scUgen.rate, unusedNumber => rateIr, () => -1);
 }
 
 export type RateSpec = number | number[];

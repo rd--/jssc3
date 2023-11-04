@@ -1,4 +1,4 @@
-export function fetch_arraybuffer(
+export function fetchArrayBuffer(
 	resource: RequestInfo | URL,
 	options: RequestInit
 ): Promise<ArrayBuffer> {
@@ -6,7 +6,7 @@ export function fetch_arraybuffer(
 		.then(response => response.arrayBuffer());
 }
 
-export function fetch_utf8(
+export function fetchUtf8(
 	resource: RequestInfo | URL,
 	options: RequestInit
 ): Promise<string> {
@@ -14,7 +14,7 @@ export function fetch_utf8(
 		.then(response => response.text());
 }
 
-export function fetch_json(
+export function fetchJson(
 	resource: RequestInfo | URL,
 	options: RequestInit
 ): Promise<unknown> {

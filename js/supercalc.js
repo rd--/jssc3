@@ -2,120 +2,120 @@
 
 requires jspreadsheet
 
-col_letter = a - h
-col_index = 0 - 7
-row_number = 1 - 8
-row_index = 0 - 7
+colLetter = a - h
+colIndex = 0 - 7
+rowNumber = 1 - 8
+rowIndex = 0 - 7
 
 */
 
 const calc = {};
 
-function cellref_to_bus(col_letter, row_number) {
-	return calc.bus_offset + sc.cellref_to_linear_index(calc.num_col, col_letter, row_number);
+function cellRefToBus(colLetter, rowNumber) {
+	return calc.busOffset + sc.cellRefToLinearIndex(calc.numCol, colLetter, rowNumber);
 }
 
-function cellref_to_group(col_letter, row_number) {
-	return calc.group_offset + sc.cellref_to_linear_index(calc.num_col, col_letter, row_number);
+function cellRefToGroup(colLetter, rowNumber) {
+	return calc.groupOffset + sc.cellRefToLinearIndex(calc.numCol, colLetter, rowNumber);
 }
 
-function set_cell_colour(col_letter, row_number, colour_string) {
-	const cell_ref = col_letter.toUpperCase() + String(row_number);
-	calc.sheet.setStyle(cell_ref, 'background-color', colour_string);
+function setCellColour(colLetter, rowNumber, colourString) {
+	const cellRef = colLetter.toUpperCase() + String(rowNumber);
+	calc.sheet.setStyle(cellRef, 'background-color', colourString);
 }
 
-function set_cell_status_and_return(col_letter, row_number, success, result) {
-	// console.debug('set_cell_status_and_return', col_letter, row_number, success, result);
-	set_cell_colour(col_letter, row_number, success ? '#ffffe8' : '#c1e7f8');
+function setCellStatusAndReturn(colLetter, rowNumber, success, result) {
+	// console.debug('setCellStatusAndReturn', colLetter, rowNumber, success, result);
+	setCellColour(colLetter, rowNumber, success ? '#ffffe8' : '#c1e7f8');
 	return result;
 }
 
-function eval_cell_or_zero(col_letter, row_number, translator_status, text) {
-	// console.debug('eval_cell_or_zero', col_letter, row_number, translator_status, '"' + text + '"');
+function evalCellOrZero(colLetter, rowNumber, translatorStatus, text) {
+	// console.debug('evalCellOrZero', colLetter, rowNumber, translatorStatus, '"' + text + '"');
 	if(text === '' || text.substring(0, 2) === '//') {
-		// console.debug('eval_cell_or_zero: empty cell or comment cell');
-		return set_cell_status_and_return(col_letter, row_number, translator_status, 0);
+		// console.debug('evalCellOrZero: empty cell or comment cell');
+		return setCellStatusAndReturn(colLetter, rowNumber, translatorStatus, 0);
 	} else {
 		try {
 		    const result = eval(text);
-		    // console.debug('eval_cell_or_zero: success!');
-		    return set_cell_status_and_return(col_letter, row_number, translator_status, result);
-		} catch (_err) {
-		    // console.debug('eval_cell_or_zero: error!');
-		    return set_cell_status_and_return(col_letter, row_number, false, 0);
+		    // console.debug('evalCellOrZero: success!');
+		    return setCellStatusAndReturn(colLetter, rowNumber, translatorStatus, result);
+		} catch (Err) {
+		    // console.debug('evalCellOrZero: error!');
+		    return setCellStatusAndReturn(colLetter, rowNumber, false, 0);
 		}
 	}
 }
 
-function eval_cell(col_letter, row_number, cell_text) {
-	const program_text = cell_text.trim();
-	console.debug(`eval_cell: .sl = ${program_text}`);
-	const js_text = sl.rewriteString(program_text);
-	console.debug(`eval_cell: .js = ${js_text}`);
-	const translator_status =  program_text === '' || js_text !== '';
-	const cell_value = eval_cell_or_zero(col_letter, row_number, translator_status, js_text);
-	const cell_ugen = sc.isNumber(cell_value) ? sc.Dc(cell_value) : (sc.isControlRateUgen(cell_value) ? sc.K2A(cell_value) : cell_value);
-	const cell_packet = cell_ugen_to_osc_packet(col_letter, row_number, cell_ugen);
-	globalScSynth.sendOsc(cell_packet);
+function evalCell(colLetter, rowNumber, cellText) {
+	const programText = cellText.trim();
+	console.debug(`evalCell: .sl = ${programText}`);
+	const jsText = sl.rewriteString(programText);
+	console.debug(`evalCell: .js = ${jsText}`);
+	const translatorStatus =  programText === '' || jsText !== '';
+	const cellValue = evalCellOrZero(colLetter, rowNumber, translatorStatus, jsText);
+	const cellUgen = sc.isNumber(cellValue) ? sc.Dc(cellValue) : (sc.isControlRateUgen(cellValue) ? sc.K2A(cellValue) : cellValue);
+	const cellPacket = cellUgenToOscPacket(colLetter, rowNumber, cellUgen);
+	globalScSynth.sendOsc(cellPacket);
 }
 
-function get_cell_text(col_letter, row_number) {
-	const col_index = sc.column_letter_to_index(col_letter);
-	return calc.sheet.getCellFromCoords(col_index, row_number - 1).textContent;
+function getCellText(colLetter, rowNumber) {
+	const colIndex = sc.columnLetterToIndex(colLetter);
+	return calc.sheet.getCellFromCoords(colIndex, rowNumber - 1).textContent;
 }
 
-function all_cellref_do(proc) {
-	sc.all_cellref_do(calc.num_col, calc.num_row, proc);
+function allCellRefDo(proc) {
+	sc.allCellRefDo(calc.numCol, calc.numRow, proc);
 }
 
-function eval_sheet() {
-	all_cellref_do(function(col_letter, row_number) {
-		const cell_text = get_cell_text(col_letter, row_number);
-		eval_cell(col_letter, row_number, cell_text);
+function evalSheet() {
+	allCellRefDo(function(colLetter, rowNumber) {
+		const cellText = getCellText(colLetter, rowNumber);
+		evalCell(colLetter, rowNumber, cellText);
 	});
 }
 
-function on_change (_instance, _cell, col_index, row_index, cell_text) {
-	const col_letter = sc.column_index_to_letter(Number(col_index));
-	const row_number = Number(row_index) + 1;
-	// console.debug('on_change', col_letter, row_number, cell_text);
-	eval_cell(col_letter, row_number, cell_text.trim());
+function onChange (Instance, Cell, colIndex, rowIndex, cellText) {
+	const colLetter = sc.columnIndexToLetter(Number(colIndex));
+	const rowNumber = Number(rowIndex) + 1;
+	// console.debug('onChange', colLetter, rowNumber, cellText);
+	evalCell(colLetter, rowNumber, cellText.trim());
 }
 
-export function get_csv() {
+export function getCsv() {
 	return calc.sheet.copy(false, ',', true, false, true);
 }
 
-function get_data_array() {
+function getDataArray() {
 	return calc.sheet.getData(false, true);
 }
 
-export function get_json() {
-	return JSON.stringify(get_data_array());
+export function getJson() {
+	return JSON.stringify(getDataArray());
 }
 
-function set_data_array(dataArray) {
+function setDataArray(dataArray) {
 	calc.sheet.setData(dataArray);
 }
 
-export function set_json(jsonText) {
+export function setJson(jsonText) {
 	const dataArray = JSON.parse(jsonText);
-	set_data_array(dataArray);
-	eval_sheet();
+	setDataArray(dataArray);
+	evalSheet();
 }
 
 export function initSheet(numCol, numRow) {
 	calc.data = sc.arrayFill(numCol, () => sc.arrayFill(numRow, () => ''));
-	calc.num_col = numCol;
-	calc.num_row = numRow;
-	calc.bus_offset = 24;
-	calc.group_offset = 12;
+	calc.numCol = numCol;
+	calc.numRow = numRow;
+	calc.busOffset = 24;
+	calc.groupOffset = 12;
 	calc.sheet = jspreadsheet(document.getElementById('supercalcContainer'), {
 		data: calc.data,
-		columns: sc.arrayFillWithIndex(numCol, function(col_index) {
-		        return { type: 'text', title: sc.column_index_to_letter(col_index), width: 200 };
+		columns: sc.arrayFillWithIndex(numCol, function(colIndex) {
+		        return { type: 'text', title: sc.columnIndexToLetter(colIndex), width: 200 };
 		}),
-		onchange: on_change,
+		onchange: onChange,
 		allowInsertRow: false,
 		allowInsertColumn: false,
 		defaultColAlign:'left'
@@ -123,65 +123,65 @@ export function initSheet(numCol, numRow) {
 
 }
 
-function gen_cell_reader_bus_declaration(col_letter, row_number) {
-	const bus_index = cellref_to_bus(col_letter, row_number);
-	const var_name = col_letter + String(row_number);
-	return ('var _' + var_name + ' = sc.InFb(1, ' + String(bus_index) + ');');
+function genCellReaderBusDeclaration(colLetter, rowNumber) {
+	const busIndex = cellRefToBus(colLetter, rowNumber);
+	const varName = colLetter + String(rowNumber);
+	return ('var _' + varName + ' = sc.InFb(1, ' + String(busIndex) + ');');
 }
 
-function define_cell_variables() {
-	all_cellref_do(function(col_letter, row_number) {
-		const code_text = gen_cell_reader_bus_declaration(col_letter, row_number);
-		const global_eval = eval; // https://262.ecma-international.org/5.1/#sec-10.4.2
-		// console.debug(code_text);
-		global_eval(code_text);
+function defineCellVariables() {
+	allCellRefDo(function(colLetter, rowNumber) {
+		const codeText = genCellReaderBusDeclaration(colLetter, rowNumber);
+		const globalEval = eval; // https://262.ecma-international.org/5.1/#sec-10.4.2
+		// console.debug(codeText);
+		globalEval(codeText);
 	});
 }
 
-function cell_ugen_to_osc_packet(col_letter, row_number, ugen) {
-	const cell_name = col_letter + String(row_number);
-	const bus_index = cellref_to_bus(col_letter, row_number);
-	const graph = sc.makeUgenGraph(cell_name, sc.wrapOut(bus_index, ugen));
+function cellUgenToOscPacket(colLetter, rowNumber, ugen) {
+	const cellName = colLetter + String(rowNumber);
+	const busIndex = cellRefToBus(colLetter, rowNumber);
+	const graph = sc.makeUgenGraph(cellName, sc.wrapOut(busIndex, ugen));
 	const syndef = sc.graphEncodeSyndef(graph);
-	const group_id = cellref_to_group(col_letter, row_number);
-	const g_free_msg = sc.g_freeAll1(group_id);
-	const s_new_msg = sc.s_new0(cell_name, -1, sc.kAddToHead, group_id);
-	const d_recv_msg = sc.d_recv_then(syndef, osc.writePacket(s_new_msg));
+	const groupId = cellRefToGroup(colLetter, rowNumber);
+	const gFreeMsg = sc.g_freeAll1(groupId);
+	const sNewMsg = sc.s_new0(cellName, -1, sc.kAddToHead, groupId);
+	const dRecvMsg = sc.d_recv_then(syndef, osc.writePacket(sNewMsg));
 	const bundle = {
 		timeTag: 1,
-		packets: [g_free_msg, d_recv_msg]
+		packets: [gFreeMsg, dRecvMsg]
 	};
-	// console.debug('cell_ugen_to_osc_message', col_letter, row_number, cell_name, bus_index, group_id, bundle);
+	// console.debug('cellUgenToOscMessage', colLetter, rowNumber, cellName, busIndex, groupId, bundle);
 	return bundle;
 }
 
-function create_and_init_cell_groups() {
-	all_cellref_do(function(col_letter, row_number) {
-		const group_id = cellref_to_group(col_letter, row_number);
-		const g_new_msg = sc.g_new1(group_id, sc.kAddToTail, 0);
-		globalScSynth.sendOsc(g_new_msg);
-		globalScSynth.sendOsc(cell_ugen_to_osc_packet(col_letter, row_number, sc.Dc(0)));
+function createAndInitCellGroups() {
+	allCellRefDo(function(colLetter, rowNumber) {
+		const groupId = cellRefToGroup(colLetter, rowNumber);
+		const gNewMsg = sc.g_new1(groupId, sc.kAddToTail, 0);
+		globalScSynth.sendOsc(gNewMsg);
+		globalScSynth.sendOsc(cellUgenToOscPacket(colLetter, rowNumber, sc.Dc(0)));
 	});
 }
 
-export function server_setup() {
-	// console.debug('server_setup');
-	define_cell_variables();
-	create_and_init_cell_groups();
+export function serverSetup() {
+	// console.debug('serverSetup');
+	defineCellVariables();
+	createAndInitCellGroups();
 }
 
 export function initProgramMenu() {
-	sc.fetch_utf8('text/supercalc-programs.text', { cache: 'no-cache' })
-		.then(text => sc.select_add_keys_as_options('programMenu', sc.stringNonEmptyLines(text)));
-	sc.menu_on_change_with_option_value('programMenu', function(optionValue) {
-		sc.fetch_utf8(`./help/supercalc/${optionValue}`, { cache: 'no-cache' })
-			.then(text => set_json(text));
+	sc.fetchUtf8('text/supercalc-programs.text', { cache: 'no-cache' })
+		.then(text => sc.selectAddKeysAsOptions('programMenu', sc.stringNonEmptyLines(text)));
+	sc.menuOnChangeWithOptionValue('programMenu', function(optionValue) {
+		sc.fetchUtf8(`./help/supercalc/${optionValue}`, { cache: 'no-cache' })
+			.then(text => setJson(text));
 	});
 }
 
 /*
-cellref_to_bus('g', 4)
-cellref_to_group('g', 4)
-eval_or_zero('a', 1, true, 'referenceToUndefinedName')
-gen_cell_reader_bus_declaration('a', 1)
+cellRefToBus('g', 4)
+cellRefToGroup('g', 4)
+evalOrZero('a', 1, true, 'referenceToUndefinedName')
+genCellReaderBusDeclaration('a', 1)
 */

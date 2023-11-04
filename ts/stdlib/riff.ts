@@ -5,21 +5,21 @@ export type RiffChunkHeader = {
 	size: number
 };
 
-export function riff_read_chunk_id(byteArray: ArrayBuffer, offset: number): string {
+export function riffReadChunkId(byteArray: ArrayBuffer, offset: number): string {
 	const textView = new DataView(byteArray, offset, 4);
 	const textDecoder = new TextDecoder('utf-8');
 	return textDecoder.decode(textView);
 }
 
-export function riff_read_chunk_size(byteArray: ArrayBuffer, offset: number): number {
+export function riffReadChunkSize(byteArray: ArrayBuffer, offset: number): number {
 	const sizeData = new DataView(byteArray, offset, 4);
 	return sizeData.getUint32(0, true);
 }
 
-export function riff_read_chunk_header(byteArray: ArrayBuffer, offset: number): RiffChunkHeader {
+export function riffReadChunkHeader(byteArray: ArrayBuffer, offset: number): RiffChunkHeader {
 	return {
-		id: riff_read_chunk_id(byteArray, offset),
-		size: riff_read_chunk_size(byteArray, offset + 4)
+		id: riffReadChunkId(byteArray, offset),
+		size: riffReadChunkSize(byteArray, offset + 4)
 	};
 }
 
@@ -29,8 +29,8 @@ export type RiffChunk = {
 	data: DataView,
 };
 
-export function riff_read_chunk(byteArray: ArrayBuffer, offset: number): RiffChunk {
-	const header = riff_read_chunk_header(byteArray, offset);
+export function riffReadChunk(byteArray: ArrayBuffer, offset: number): RiffChunk {
+	const header = riffReadChunkHeader(byteArray, offset);
 	return {
 		id: header.id,
 		size: header.size,
@@ -38,22 +38,22 @@ export function riff_read_chunk(byteArray: ArrayBuffer, offset: number): RiffChu
 	};
 }
 
-export function riff_read_chunk_sequence(byteArray: ArrayBuffer): RiffChunk[] {
+export function riffReadChunkSequence(byteArray: ArrayBuffer): RiffChunk[] {
 	let offset = 0;
 	const size = byteArray.byteLength;
 	const answer = [];
 	while(offset < size) {
 		const waveData = new DataView(byteArray, offset, 4);
-		const chunk = riff_read_chunk(byteArray, offset);
+		const chunk = riffReadChunk(byteArray, offset);
 		answer.push(chunk);
 		offset += chunk.size + 8;
 	}
 	return answer;
 }
 
-export function riff_verify_header(byteArray: ArrayBuffer): void {
+export function riffVerifyHeader(byteArray: ArrayBuffer): void {
 	const size = byteArray.byteLength;
-	const header = riff_read_chunk_header(byteArray, 0);
+	const header = riffReadChunkHeader(byteArray, 0);
 	if(header.id != 'RIFF' || header.size != (size - 8)) {
 		throw new Error('Invalid Riff?');
 	}

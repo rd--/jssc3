@@ -4,17 +4,17 @@
 
 import * as riff from './riff.ts'
 
-export function wave_read_chunk_sequence(byteArray: ArrayBuffer): riff.RiffChunk[] {
+export function waveReadChunkSequence(byteArray: ArrayBuffer): riff.RiffChunk[] {
 	const size = byteArray.byteLength;
-	riff.riff_verify_header(byteArray);
-	const waveText = riff.riff_read_chunk_id(byteArray, 8);
+	riff.riffVerifyHeader(byteArray);
+	const waveText = riff.riffReadChunkId(byteArray, 8);
 	if(waveText != 'WAVE') {
 		throw new Error('Invalid Wave?');
 	};
 	const answer = [];
 	let offset = 12;
 	while(offset < size) {
-		const chunk = riff.riff_read_chunk(byteArray, offset);
+		const chunk = riff.riffReadChunk(byteArray, offset);
 		answer.push(chunk);
 		offset += chunk.size + 8;
 	}
@@ -28,7 +28,7 @@ export type WaveFmtChunk = {
 	bitsPerSample: number
 };
 
-export function wave_parse_fmt_chunk(fmt: riff.RiffChunk): WaveFmtChunk {
+export function waveParseFmtChunk(fmt: riff.RiffChunk): WaveFmtChunk {
 	return {
 		formatTag: fmt.data.getUint16(0, true),
 		channels: fmt.data.getUint16(2, true),
@@ -41,13 +41,13 @@ export type WaveFactChunk = {
     sampleLength: number /* number of frames */
 };
 
-export function wave_parse_fact_chunk(fact: riff.RiffChunk): WaveFactChunk {
+export function waveParseFactChunk(fact: riff.RiffChunk): WaveFactChunk {
 	return {
 		sampleLength: fact.data.getUint32(0, true)
 	};
 }
 
-export function wave_parse_data_float32(data: riff.RiffChunk): Float32Array {
+export function waveParseDataFloat32(data: riff.RiffChunk): Float32Array {
 	const numSamples = data.size / 4;
 	return new Float32Array(data.data.buffer, data.data.byteOffset, numSamples);
 }
@@ -63,16 +63,16 @@ export function Wave(chunks: riff.RiffChunk[]): Wave {
 	let fmtChunk: WaveFmtChunk | null = null, factChunk = null, data = null;
 	chunks.forEach(chunk => {
 		if(chunk.id == 'fmt ') {
-			fmtChunk = wave_parse_fmt_chunk(chunk);
+			fmtChunk = waveParseFmtChunk(chunk);
 		}
 		if(chunk.id == 'fact') {
-			factChunk = wave_parse_fact_chunk(chunk);
+			factChunk = waveParseFactChunk(chunk);
 		}
 		if(chunk.id == 'data') {
 			if(fmtChunk == null || fmtChunk.formatTag != 3) {
 				throw new Error('Wave: not Float32');
 			} else {
-				data = wave_parse_data_float32(chunk);
+				data = waveParseDataFloat32(chunk);
 			}
 		}
 	});
@@ -88,17 +88,17 @@ export function Wave(chunks: riff.RiffChunk[]): Wave {
 	}
 }
 
-export function wave_read(byteArray: ArrayBuffer): Wave {
-	return Wave(wave_read_chunk_sequence(byteArray));
+export function waveRead(byteArray: ArrayBuffer): Wave {
+	return Wave(waveReadChunkSequence(byteArray));
 }
 
-export function wave_fetch(url: string): Promise<Wave> {
+export function waveFetch(url: string): Promise<Wave> {
 	return fetch(url)
 		.then(response => response.arrayBuffer())
-		.then(wave_read)
+		.then(waveRead)
 }
 
 /*
-wave_fetch('https://rohandrape.net/pub/jssc3/flac/floating_1.wav')
+waveFetch('https://rohandrape.net/pub/jssc3/flac/floating_1.wav')
 	.then(wave => console.log(wave))
 */

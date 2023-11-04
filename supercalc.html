@@ -19,9 +19,9 @@ globalThis.sc = sc;
 globalThis.sl = sl;
 globalThis.calc = calc;
 globalThis.loadSheet = function() {
-	const inputFile = sc.get_file_input_file('programInputFile', 0);
+	const inputFile = sc.getFileInputFile('programInputFile', 0);
 	if (inputFile) {
-		inputFile.text().then(calc.set_json);
+		inputFile.text().then(calc.setJson);
 	} else {
 		console.log('loadSheet: no file name');
 	}
@@ -30,8 +30,8 @@ sl.addLoadUrlMethods();
 window.onload = function () {
 	globalThis.globalScSynth = sc.ScSynthWasm();
 	sc.scSynthInitStatusTextListener(globalScSynth, '---');
-	sc.sc3_mouse_init(globalScSynth);
-	sc.connect_button_to_input('programInputFileSelect', 'programInputFile');
+	sc.sc3MouseInit(globalScSynth);
+	sc.connectButtonToInput('programInputFileSelect', 'programInputFile');
 	sl.assignGlobals();
 	sl.setLoadPath('lib/spl/sl');
 	sl.loadUrl('*Load*', 'Meta/PackageIndex.sl').then(function() {
@@ -49,11 +49,11 @@ window.onload = function () {
 	<body>
 		<h1>SuperCalc</h1>
 		<div id="menuContainer">
-			<button title="Begin" accesskey="b" onclick="globalScSynth.whenConnected(calc.server_setup)">Begin</button>
+			<button title="Begin" accesskey="b" onclick="globalScSynth.whenConnected(calc.serverSetup)">Begin</button>
 			<span id="statusText">...</span>
 			<input type="file" id="programInputFile" accept=".json" onchange="loadSheet()" style="display:none">
 			<button id="programInputFileSelect" title="Select and load  file to editor (l)" accesskey="l">Load</button>
-			<button title="Copy json to clipboard (c)"  accesskey="c" onclick="navigator.clipboard.writeText(calc.get_json())">Copy</button>
+			<button title="Copy json to clipboard (c)"  accesskey="c" onclick="navigator.clipboard.writeText(calc.getJson())">Copy</button>
 			<select id="programMenu" title="Program (p)" accesskey="p"><option>--Program Menu--</option></select>
 			<button title="Fullscreen" accesskey="x" onclick="sc.fullscreen()">⇱</button>
 		</div>

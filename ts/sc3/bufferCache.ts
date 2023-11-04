@@ -1,12 +1,12 @@
 import { isArray, asArray, arrayAtWrap, arrayFromTo } from '../kernel/array.ts'
 
-import { fetch_soundFile_channels_to_scSynth_buffers } from './buffer.ts'
+import { fetchSoundFileChannelsToScSynthBuffers } from './buffer.ts'
 import { ScSynth } from './scSynth.ts'
 
 export type BufferDictionary = { [key: string]: string };
 export type BufferCache = { [key: string]: number[] };
 
-export const sc3_buffer: { dict: BufferDictionary, cache: BufferCache, next: number } = {
+export const sc3Buffer: { dict: BufferDictionary, cache: BufferCache, next: number } = {
 	dict: {
 		'crotale-d6': 'https://rohandrape.net/pub/jssc3/flac/crotale-d6.wav',
 		'harp-a4': 'https://rohandrape.net/pub/jssc3/flac/harp-a4.wav',
@@ -26,18 +26,18 @@ export function SfAcquire(
 ): number | number[] {
 	if(globalThis.globalScSynth) {
 		const channelIndices = asArray(channelSelector);
-		const soundFileUrl = sc3_buffer.dict[urlOrKey] || urlOrKey;
-		let cacheValue = sc3_buffer.cache[soundFileUrl];
+		const soundFileUrl = sc3Buffer.dict[urlOrKey] || urlOrKey;
+		let cacheValue = sc3Buffer.cache[soundFileUrl];
 		if(!cacheValue) {
-			const bufferNumberArray = arrayFromTo(sc3_buffer.next, sc3_buffer.next + numberOfChannels - 1);
-			fetch_soundFile_channels_to_scSynth_buffers(
+			const bufferNumberArray = arrayFromTo(sc3Buffer.next, sc3Buffer.next + numberOfChannels - 1);
+			fetchSoundFileChannelsToScSynthBuffers(
 				globalThis.globalScSynth,
 				soundFileUrl,
 				bufferNumberArray,
 				channelIndices
 			);
-			sc3_buffer.cache[soundFileUrl] = bufferNumberArray;
-			sc3_buffer.next += numberOfChannels;
+			sc3Buffer.cache[soundFileUrl] = bufferNumberArray;
+			sc3Buffer.next += numberOfChannels;
 			cacheValue = bufferNumberArray;
 		}
 		if(isArray(channelIndices)) {

@@ -1,9 +1,9 @@
-import { setter_for_inner_html_of } from '../kernel/dom.ts'
+import { setterForInnerHtmlOf } from '../kernel/dom.ts'
 
 import { ScSynth } from './scSynth.ts'
 
 export function scSynthInitStatusTextListener(scSynth: ScSynth, nilText: string) {
-	let setText = setter_for_inner_html_of('statusText');
+	let setText = setterForInnerHtmlOf('statusText');
 	setInterval(function() {
 			if(scSynth.isConnected()) {
 				setText(scSynth.status.ugenCount.toString());

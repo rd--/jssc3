@@ -1,4 +1,4 @@
-export function get_file_input_file(
+export function getFileInputFile(
 	inputId: string,
 	fileIndex: number
 ): File | null {
@@ -6,23 +6,23 @@ export function get_file_input_file(
 	if(inputElement.files) {
 		const inputFile = <File>inputElement.files[fileIndex];
 		if (!inputFile) {
-			console.warn('get_file_input_file: no input file at index?');
+			console.warn('getFileInputFile: no input file at index?');
 		}
 		return inputFile;
 	} else {
-		console.warn('get_file_input_file: no files at input element?');
+		console.warn('getFileInputFile: no files at input element?');
 		return null;
 	}
 }
 
-export function read_text_file_from_file_input_and_set_element_text(
+export function readTextFileFromFileInputAndSetElementText(
 	inputId: string,
 	fileIndex: number,
 	textId: string
 ): void {
 	const element = document.getElementById(textId);
 	if(element) {
-		const inputFile = get_file_input_file(inputId, fileIndex);
+		const inputFile = getFileInputFile(inputId, fileIndex);
 		if(inputFile) {
 			inputFile.text().then(text => element.textContent = text);
 		}
