@@ -12,17 +12,17 @@ export async function udpServer(host: string, port: number, proc: UdpServerProc)
 	}
 }
 
-export function udpSendToAddr(address: Deno.NetAddr, datagram: Uint8Array): void {
+export async function udpSendToAddr(address: Deno.NetAddr, datagram: Uint8Array): Promise<void> {
 	const connection = Deno.listenDatagram({
 		transport: "udp",
 		hostname: "0.0.0.0",
 		port: 0
 	});
-	connection.send(datagram, address);
+	await connection.send(datagram, address);
 	connection.close();
 }
 
-export function udpSendTo(host: string, port: number, datagram: Uint8Array): void {
+export async function udpSendTo(host: string, port: number, datagram: Uint8Array): Promise<void> {
 	const address: Deno.NetAddr = {
 		transport: "udp",
 		hostname: host,

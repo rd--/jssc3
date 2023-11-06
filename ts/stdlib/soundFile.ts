@@ -75,11 +75,11 @@ export function arrayBufferToSoundFile(
 	}
 }
 
-export function fetchSoundFile(url: string): Promise<SoundFile> {
+export async function fetchSoundFile(url: string): Promise<SoundFile> {
 	// console.debug('fetchSoundFile', url);
-	return fetch(url)
-		.then(response => response.arrayBuffer())
-		.then(arrayBuffer => arrayBufferToSoundFile(url, arrayBuffer))
+	const response = await fetch(url);
+	const arrayBuffer = await response.arrayBuffer();
+	return arrayBufferToSoundFile(url, arrayBuffer);
 }
 
 /*

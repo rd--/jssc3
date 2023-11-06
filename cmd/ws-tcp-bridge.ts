@@ -1,16 +1,20 @@
+import * as tcp from '../ts/kernel/tcp.ts'
+
 function getEnv(variableName: string, defaultValue: string): string {
 	return Deno.env.get(variableName) || defaultValue;
 }
 
 const bridgeWebSocketPort: number = Number(getEnv('WsPort', '58110'));
 
-const scSynthTcpAddress: Deno.NetAddr = {
-	transport: getEnv('ScProtocol', 'tcp'),
+const scSynthTcpAddress: Deno.ConnectOptions = {
+	transport: 'tcp',
 	hostname: getEnv('ScHostname', '127.0.0.1'),
 	port: Number(getEnv('ScPort', '57110'))
 };
 
-const tcp: TcpConn = await Deno.connect(scSynthTcpAddress);
+const tcpConnection: Deno.TcpConn = await Deno.connect(scSynthTcpAddress);
+tcpConnection.setNoDelay(true);
+tcpConnection.setKeepAlive(true);
 
 var webSocket: WebSocket | null = null;
 
@@ -20,7 +24,7 @@ const websocketServer = Deno.serve({ port: bridgeWebSocketPort }, (request) => {
 		webSocket.close();
 	}
 
-	if (request.headers.get('upgrade') != 'websocket') {
+	if(request.headers.get('upgrade') != 'websocket') {
 		return new Response(null, { status: 501 });
 	}
 
@@ -35,26 +39,24 @@ const websocketServer = Deno.serve({ port: bridgeWebSocketPort }, (request) => {
 	webSocket.addEventListener('message', (event) => {
 		const byteArray = new Uint8Array(event.data);
 		// console.debug('webSocket: message', byteArray);
+		// prefix packet with size
 		packetSizeDataView.setUint32(0, byteArray.byteLength, false);
-		tcp.write(packetSizeArray); // prefix packet with size
-		tcp.write(byteArray).then(function(bytesSent: number) {
-			if(byteArray.byteLength != bytesSent) {
-				console.error('tcp.write', byteArray.byteLength, bytesSent);
-			} else {
-				// console.debug('tcp.write: successful');
-			}
-		});
+		tcp.tcpWriteComplete(tcpConnection, packetSizeArray);
+		tcp.tcpWriteComplete(tcpConnection, byteArray);
 	});
-
 	return response;
 
 });
 
+const tcpMaxSize = 8388608;
 const readSize = new Uint8Array(4);
-const readArray = new Uint8Array(65536);
+const readArray = new Uint8Array(tcpMaxSize);
 while(1) {
-    await tcp.read(readSize) || 0;
-    const bytesRead = await tcp.read(readArray) || 0;
+    let bytesRead = await tcpConnection.read(readSize) || 0;
+	if(bytesRead != 4) {
+		throw new Error(`tcpConnection.read: packet size read failed: ${bytesRead}`);
+	}
+    bytesRead = await tcpConnection.read(readArray) || 0;
     const message = readArray.slice(0, bytesRead);
 	if(webSocket != null) {
 		webSocket.send(message);

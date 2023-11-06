@@ -6,5 +6,8 @@ check-ts:
 
 all: bundle
 
+repl:
+	deno repl --allow-net --allow-read --allow-env --unstable
+
 test-udp:
 	deno run --allow-net --unstable kernel/udp.ts

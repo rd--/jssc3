@@ -1,3 +1,5 @@
+import { encodeFloat32Array } from '../kernel/encode.ts'
+
 import { OscData, OscMessage, encodeOscPacket, oscBlob, oscInt32, oscFloat, oscString } from '../stdlib/openSoundControl.ts'
 
 // k = constant
@@ -71,6 +73,37 @@ export function b_allocMemcpy(
 		numberOfFrames,
 		numberOfChannels,
 		encodeOscPacket(memcpyMessage)
+	);
+}
+
+export function b_allocMemcpyFloat32Array(
+	bufferNumber: number,
+	numberOfFrames: number,
+	numberOfChannels: number,
+	sampleRate: number,
+	data: Float32Array
+): OscMessage {
+	const littleEndian = true; /* arm64 is LittleEndian */
+	const byteSwap = 0; /* do not byte-swap */
+	return b_allocMemcpy(
+		bufferNumber,
+		numberOfFrames,
+		numberOfChannels,
+		sampleRate,
+		encodeFloat32Array(data, littleEndian),
+		byteSwap
+	);
+}
+
+export function b_allocMemcpyArray(
+	bufferNumber: number,
+	sampleRate: number,
+	data: number[]
+): OscMessage {
+	const numberOfFrames = data.length;
+	const numberOfChannels = 1;
+	return b_allocMemcpyFloat32Array(
+		bufferNumber, numberOfFrames, numberOfChannels, sampleRate, new Float32Array(data)
 	);
 }
 

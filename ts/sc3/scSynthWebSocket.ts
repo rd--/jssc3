@@ -1,6 +1,6 @@
 import { encodeOscPacket, decodeOscMessage } from '../stdlib/openSoundControl.ts'
 
-import { ScSynth } from './scSynth.ts'
+import { ReadyState, ScSynth } from './scSynth.ts'
 
 export function scSynthUseWebSocket(scSynth: ScSynth, url: string | URL): void {
 	if(scSynth.isConnected()) {
