@@ -55,6 +55,10 @@ export function BlockSize(): Signal {
 export function BLowPass(input: Signal, freq: Signal, rq: Signal): Signal {
     return makeUgen('BLowPass', 1, [0], 0, [input, freq, rq]);
 }
+// 24db/oct rolloff - 4nd order resonant Low/High/Band Pass Filter
+export function BMoog(input: Signal, freq: Signal, q: Signal, mode: Signal, saturation: Signal): Signal {
+    return makeUgen('BMoog', 1, [0], 0, [input, freq, q, mode, saturation]);
+}
 // Parametric equalizer
 export function BPeakEq(input: Signal, freq: Signal, rq: Signal, db: Signal): Signal {
     return makeUgen('BPeakEQ', 1, [0], 0, [input, freq, rq, db]);
@@ -1032,6 +1036,10 @@ export function Scm(clock: Signal, bpm: Signal, rotate: Signal, slip: Signal, sh
 // Granular synthesis with sinusoidal grains
 export function SinGrain(trigger: Signal, dur: Signal, freq: Signal): Signal {
     return makeUgen('SinGrain', 1, rateAr, 0, [trigger, dur, freq]);
+}
+// (Undocumented class)
+export function ShufflerB(bufnum: Signal, readLocationMinima: Signal, readLocationMaxima: Signal, readIncrementMinima: Signal, readIncrementMaxima: Signal, durationMinima: Signal, durationMaxima: Signal, envelopeAmplitudeMinima: Signal, envelopeAmplitudeMaxima: Signal, envelopeShapeMinima: Signal, envelopeShapeMaxima: Signal, envelopeSkewMinima: Signal, envelopeSkewMaxima: Signal, stereoLocationMinima: Signal, stereoLocationMaxima: Signal, interOffsetTimeMinima: Signal, interOffsetTimeMaxima: Signal, ftableReadLocationIncrement: Signal, readIncrementQuanta: Signal, interOffsetTimeQuanta: Signal): Signal {
+    return makeUgen('ShufflerB', 2, rateAr, 0, [bufnum, readLocationMinima, readLocationMaxima, readIncrementMinima, readIncrementMaxima, durationMinima, durationMaxima, envelopeAmplitudeMinima, envelopeAmplitudeMaxima, envelopeShapeMinima, envelopeShapeMaxima, envelopeSkewMinima, envelopeSkewMaxima, stereoLocationMinima, stereoLocationMaxima, interOffsetTimeMinima, interOffsetTimeMaxima, ftableReadLocationIncrement, readIncrementQuanta, interOffsetTimeQuanta]);
 }
 // (Undocumented class)
 export function SvfBp(input: Signal, freq: Signal, q: Signal): Signal {
