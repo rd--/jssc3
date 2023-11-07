@@ -12,7 +12,7 @@ export async function scSynthUseTcp(scSynth: ScSynth, address: Deno.ConnectOptio
 		console.error('scSynthUseTcp: already connected');
 	} else {
 		const tcpSocket = await Deno.connect(address);
-		const tcpQueue = new tcp.TcpQueue(tcpSocket);
+		const tcpQueue = tcp.TcpQueue(tcpSocket);
 		const packetSizeArrayBuffer = new ArrayBuffer(4);
 		const packetSizeDataView = new DataView(packetSizeArrayBuffer);
 		const packetSizeArray = new Uint8Array(packetSizeArrayBuffer);

@@ -1,3 +1,5 @@
+import { SynchronousWriterQueue} from './synchronousWriterQueue.ts'
+
 export type TcpServerProc = (
 	connection: Deno.Conn,
 	address: Deno.Addr,
@@ -39,55 +41,22 @@ export async function tcpSendToAddr(
 	connection.close();
 }
 
+// Write a complete message to a Tcp socket.
 export async function tcpWriteComplete(socket: Deno.TcpConn, byteArray: Uint8Array): Promise<void> {
-	const totalWrite = byteArray.byteLength;
-	let bytesWritten = await socket.write(byteArray);
-	let previousWrite = bytesWritten;
-	while(bytesWritten < totalWrite) {
-		const remainder = byteArray.slice(bytesWritten);
-		console.debug(
-			'tcpWriteComplete: partial write',
-			totalWrite,
-			bytesWritten,
-			previousWrite,
-			remainder.byteLength,
-			totalWrite - bytesWritten
-		);
+	const messageSize = byteArray.byteLength;
+	let writeCount = await socket.write(byteArray);
+	let previousWrite = writeCount;
+	// console.debug('tcpWriteComplete: initial write', messageSize, previousWrite);
+	while(writeCount < messageSize) {
+		const remainder = byteArray.slice(writeCount);
 		previousWrite = await socket.write(remainder);
-		bytesWritten += previousWrite;
+		// console.debug('tcpWriteComplete: partial write',	previousWrite);
+		writeCount += previousWrite;
 	}
-	console.debug('tcpWriteComplete: write completed', previousWrite);
+	// console.debug('tcpWriteComplete: write completed', previousWrite);
 }
 
-// Synchronous Tcp queue.
-export class TcpQueue {
-	socket: Deno.TcpConn;
-	messages: Uint8Array[];
-	writeInProgress: boolean;
-	constructor(socket: Deno.TcpConn) {
-		this.socket = socket;
-		this.messages = [];
-		this.writeInProgress = false;
-	}
-	addMessage(message: Uint8Array): void {
-		this.messages.push(message);
-		if(!this.writeInProgress) {
-			this.writeMessages();
-		}
-	}
-	async writeMessages(): Promise<number> {
-		const writeCount = this.messages.length
-		if(this.writeInProgress) {
-			throw new Error('TcpQueue.writeMessages: write in progress?');
-		} else {
-			this.writeInProgress = true;
-			while(this.messages.length > 0) {
-				console.debug('TcpQueue.writeMessages: dequeue message');
-				const message = this.messages.shift()!;
-				await tcpWriteComplete(this.socket, message);
-			}
-			this.writeInProgress = false;
-		}
-		return writeCount;
-	}
+// Implement a SynchronousWriterQueue for a Tcp socket.
+export function TcpQueue(socket: Deno.TcpConn): SynchronousWriterQueue<Deno.TcpConn,Uint8Array> {
+	return new SynchronousWriterQueue(tcpWriteComplete, socket);
 }
