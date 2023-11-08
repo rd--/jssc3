@@ -1,4 +1,5 @@
 import * as tcp from '../ts/kernel/tcp.ts'
+import { TcpMessageSize, tcpOscPacketReader } from '../ts/stdlib/openSoundControl.ts'
 
 function getEnv(variableName: string, defaultValue: string): string {
 	return Deno.env.get(variableName) || defaultValue;
@@ -12,9 +13,10 @@ const scSynthTcpAddress: Deno.ConnectOptions = {
 	port: Number(getEnv('ScPort', '57110'))
 };
 
-const tcpConnection: Deno.TcpConn = await Deno.connect(scSynthTcpAddress);
-tcpConnection.setNoDelay(true);
-tcpConnection.setKeepAlive(true);
+const tcpSocket: Deno.TcpConn = await Deno.connect(scSynthTcpAddress);
+tcpSocket.setNoDelay(true);
+tcpSocket.setKeepAlive(true);
+const tcpQueue = tcp.tcpQueueOn(tcpSocket);
 
 var webSocket: WebSocket | null = null;
 
@@ -32,35 +34,26 @@ const websocketServer = Deno.serve({ port: bridgeWebSocketPort }, (request) => {
 
 	webSocket = socket;
 
-	const packetSizeArrayBuffer = new ArrayBuffer(4);
-	const packetSizeDataView = new DataView(packetSizeArrayBuffer);
-	const packetSizeArray = new Uint8Array(packetSizeArrayBuffer);
+	const writerMessageSize = new TcpMessageSize();
 
 	webSocket.addEventListener('message', (event) => {
 		const byteArray = new Uint8Array(event.data);
 		// console.debug('webSocket: message', byteArray);
 		// prefix packet with size
-		packetSizeDataView.setUint32(0, byteArray.byteLength, false);
-		tcp.tcpWriteComplete(tcpConnection, packetSizeArray);
-		tcp.tcpWriteComplete(tcpConnection, byteArray);
+		writerMessageSize.enqueue(tcpQueue, byteArray.byteLength);
+		tcpQueue.addMessage(byteArray);
 	});
 	return response;
 
 });
 
-const tcpMaxSize = 8388608;
-const readSize = new Uint8Array(4);
-const readArray = new Uint8Array(tcpMaxSize);
-while(1) {
-    let bytesRead = await tcpConnection.read(readSize) || 0;
-	if(bytesRead != 4) {
-		throw new Error(`tcpConnection.read: packet size read failed: ${bytesRead}`);
+tcpOscPacketReader(
+	tcpSocket,
+	function(byteArray: Uint8Array) {
+		if(webSocket != null) {
+			webSocket.send(byteArray);
+		} else {
+			console.error('webSocket is null');
+		}
 	}
-    bytesRead = await tcpConnection.read(readArray) || 0;
-    const message = readArray.slice(0, bytesRead);
-	if(webSocket != null) {
-		webSocket.send(message);
-	} else {
-		console.error('webSocket is null');
-	}
-}
+);

@@ -56,7 +56,9 @@ export async function tcpWriteComplete(socket: Deno.TcpConn, byteArray: Uint8Arr
 	// console.debug('tcpWriteComplete: write completed', previousWrite);
 }
 
+export type TcpQueue = SynchronousWriterQueue<Deno.TcpConn,Uint8Array>;
+
 // Implement a SynchronousWriterQueue for a Tcp socket.
-export function TcpQueue(socket: Deno.TcpConn): SynchronousWriterQueue<Deno.TcpConn,Uint8Array> {
-	return new SynchronousWriterQueue(tcpWriteComplete, socket);
+export function tcpQueueOn(tcpSocket: Deno.TcpConn): TcpQueue {
+	return new SynchronousWriterQueue(tcpWriteComplete, tcpSocket);
 }
