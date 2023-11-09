@@ -38,9 +38,11 @@ export function Cutoff(sustainTime: Signal, releaseTime: Signal, curve: EnvCurve
 	return EnvGen(1, 1, 0, 1, 0, envCoord(env));
 }
 
-export function Splay(inArray: Signal, spread: Signal, level: Signal, center: Signal, levelComp: Signal): Signal {
+export function Splay(inArray: Signal, spread: Signal, level: Signal, center: Signal, levelComp: boolean): Signal {
 	const n = Math.max(2, signalSize(inArray));
-	const pos = arrayFromTo(0, n - 1).map(item => Add(Mul(Sub(Mul(item, Fdiv(2, Sub(n, 1))), 1), spread), center));
+	const pos = arrayFromTo(0, n - 1).map(function(item) {
+		return Add(Mul(Sub(Mul(item, Fdiv(2, Sub(n, 1))), 1), spread), center)
+	});
 	const lvl = Mul(level, levelComp ? Sqrt(1 / n) : 1);
 	// console.debug(`Splay: ${[n, pos, lvl]}`);
 	return arrayReduce(<Signal[]>Pan2(inArray, pos, lvl), Add);

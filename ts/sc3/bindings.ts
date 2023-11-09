@@ -971,7 +971,7 @@ export function ExpRandN(numChan: number, lo: Signal, hi: Signal): Signal {
 }
 // Phase modulation oscillator matrix.
 export function Fm7(ctlMatrix: Signal, modMatrix: Signal): Signal {
-    return makeUgen('FM7', 6, rateAr, 0, arrayConcat([], (asArray(ctlMatrix), asArray(modMatrix))));
+    return makeUgen('FM7', 6, rateAr, 0, arrayConcat(asArray(ctlMatrix), asArray(modMatrix)));
 }
 // (Undocumented class)
 export function Freezer(bufnum: Signal, left: Signal, right: Signal, gain: Signal, increment: Signal, incrementOffset: Signal, incrementRandom: Signal, rightRandom: Signal, syncPhaseTrigger: Signal, randomizePhaseTrigger: Signal, numberOfLoops: Signal): Signal {
