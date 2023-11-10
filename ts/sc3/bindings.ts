@@ -1065,6 +1065,10 @@ export function TScramble(trigger: Signal, inputs: Signal): Signal {
 export function TrigAllocator(numChannels: number, algorithm: Signal, input: Signal, dur: Signal): Signal {
     return makeUgen('TrigAllocator', numChannels, [1], 0, [algorithm, input, dur]);
 }
+// (Undocumented class)
+export function TrigRoundRobin(numChannels: number, input: Signal): Signal {
+    return makeUgen('TrigRoundRobin', numChannels, [0], 0, [input]);
+}
 // artifical reverberator
 export function VbJonVerb(input: Signal, decay: Signal, damping: Signal, inputbw: Signal, erfl: Signal, tail: Signal): Signal {
     return makeUgen('VBJonVerb', 2, [0], 0, [input, decay, damping, inputbw, erfl, tail]);
@@ -1182,3 +1186,8 @@ export function WelchWindow(a: Signal): Signal { return UnaryOp(50, a); }
 export function TriWindow(a: Signal): Signal { return UnaryOp(51, a); }
 export function Ramp_(a: Signal): Signal { return UnaryOp(52, a); }
 export function Scurve(a: Signal): Signal { return UnaryOp(53, a); }
+
+/*
+import * as sc from './sc3.ts'
+sc.TrigRoundRobin(4, 1)
+*/
