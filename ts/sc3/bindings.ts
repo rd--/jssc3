@@ -39,6 +39,14 @@ export function BBandPass(input: Signal, freq: Signal, bw: Signal): Signal {
 export function BBandStop(input: Signal, freq: Signal, bw: Signal): Signal {
     return makeUgen('BBandStop', 1, [0], 0, [input, freq, bw]);
 }
+// 3D Ambisonic decoder
+export function BfDecode1(w: Signal, x: Signal, y: Signal, z: Signal, azimuth: Signal, elevation: Signal, wComp: Signal): Signal {
+    return makeUgen('BFDecode1', 1, rateAr, 0, [w, x, y, z, azimuth, elevation, wComp]);
+}
+// Ambisonic B format encoder
+export function BfEncode1(input: Signal, azimuth: Signal, elevation: Signal, rho: Signal, gain: Signal, wComp: Signal): Signal {
+    return makeUgen('BFEncode1', 4, rateAr, 0, [input, azimuth, elevation, rho, gain, wComp]);
+}
 // 12db/oct rolloff - 2nd order resonant  Hi Pass Filter
 export function BHiPass(input: Signal, freq: Signal, rq: Signal): Signal {
     return makeUgen('BHiPass', 1, [0], 0, [input, freq, rq]);
@@ -186,6 +194,10 @@ export function Decay(input: Signal, decayTime: Signal): Signal {
 // Exponential decay
 export function Decay2(input: Signal, attackTime: Signal, decayTime: Signal): Signal {
     return makeUgen('Decay2', 1, [0], 0, [input, attackTime, decayTime]);
+}
+// 2D Ambisonic B-format decoder.
+export function DecodeB2(numChan: number, w: Signal, x: Signal, y: Signal, orientation: Signal): Signal {
+    return makeUgen('DecodeB2', numChan, [0, 1, 2], 0, [w, x, y, orientation]);
 }
 // Convert signal to modal pitch.
 export function DegreeToKey(bufnum: Signal, input: Signal, octave: Signal): Signal {
@@ -676,6 +688,10 @@ export function PanAz(numChan: number, input: Signal, pos: Signal, level: Signal
 // Ambisonic B-format panner.
 export function PanB(input: Signal, azimuth: Signal, elevation: Signal, gain: Signal): Signal {
     return makeUgen('PanB', 4, rateAr, 0, [input, azimuth, elevation, gain]);
+}
+// 2D Ambisonic B-format panner.
+export function PanB2(input: Signal, azimuth: Signal, gain: Signal): Signal {
+    return makeUgen('PanB2', 3, [0], 0, [input, azimuth, gain]);
 }
 // Track peak signal amplitude.
 export function PeakFollower(input: Signal, decay: Signal): Signal {
