@@ -105,7 +105,7 @@ export function BufRateScale(bufnum: Signal): Signal {
 }
 // Buffer reading oscillator.
 export function BufRd(numChan: number, bufnum: Signal, phase: Signal, loop: Signal, interpolation: Signal): Signal {
-    return makeUgen('BufRd', numChan, rateAr, 0, [bufnum, phase, loop, interpolation]);
+    return makeUgen('BufRd', numChan, [1], 0, [bufnum, phase, loop, interpolation]);
 }
 // Buffer sample rate.
 export function BufSampleRate(bufnum: Signal): Signal {
