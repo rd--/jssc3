@@ -14,10 +14,15 @@ async function dispatchIncoming(scSynth: ScSynth, tcpSocket: Deno.TcpConn): Prom
 	}
 }
 
-export async function scSynthUseTcp(scSynth: ScSynth, address: Deno.ConnectOptions): Promise<Deno.TcpConn> {
+export async function scSynthUseTcp(
+	scSynth: ScSynth,
+	hostname: string,
+	port: number
+): Promise<Deno.TcpConn> {
 	if(scSynth.isConnected()) {
 		throw new Error('scSynthUseTcp: already connected');
 	} else {
+		const address = tcp.tcpAddress(hostname, port);
 		const tcpSocket = await Deno.connect(address);
 		const tcpQueue = tcp.tcpQueueOn(tcpSocket);
 		const writerPacketSize = new TcpMessageSize();
@@ -32,9 +37,12 @@ export async function scSynthUseTcp(scSynth: ScSynth, address: Deno.ConnectOptio
 	}
 }
 
-export async function ScSynthTcp(address: Deno.ConnectOptions): Promise<ScSynth> {
+export async function ScSynthTcp(
+	hostname: string,
+	port: number
+): Promise<ScSynth> {
 	const scSynth = new ScSynth();
-	const tcpSocket = await scSynthUseTcp(scSynth, address);
+	const tcpSocket = await scSynthUseTcp(scSynth, hostname, port);
 	dispatchIncoming(scSynth, tcpSocket);
 	return scSynth;
 }
