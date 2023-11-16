@@ -295,6 +295,10 @@ export function Dxrand(repeats: Signal, list: Signal): Signal {
 export function EnvGen(gate: Signal, levelScale: Signal, levelBias: Signal, timeScale: Signal, doneAction: Signal, envelope: Signal): Signal {
     return makeUgen('EnvGen', 1, rateAr, 0, arrayConcat([gate, levelScale, levelBias, timeScale, doneAction], (asArray(envelope))));
 }
+// Undocumented
+export function EnvTrapezoid(trig: Signal, dur: Signal, shape: Signal, skew: Signal): Signal {
+    return makeUgen('EnvTrapezoid', 1, [0], 0, [trig, dur, shape, skew]);
+}
 // Exponential single random number generator.
 export function ExpRand(lo: Signal, hi: Signal): Signal {
     return makeUgen('ExpRand', 1, rateIr, 0, [lo, hi]);
