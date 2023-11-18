@@ -80,19 +80,39 @@ export class ScSynth {
 	isConnected(): boolean {
 		return (this.readyState == ReadyState.Connected);
 	}
-	playProcedureAt(ugenFunction: () => Signal, nodeId: number, groupId: number, systemTimeInSeconds: number | null): void {
-		this.playUgenAt(ugenFunction(), nodeId, groupId, [], systemTimeInSeconds);
+	playProcedureAt(
+		ugenFunction: () => Signal,
+		bus: number,
+		nodeId: number,
+		groupId: number,
+		systemTimeInSeconds: number | null
+	): void {
+		this.playUgenAt(ugenFunction(), bus, nodeId, groupId, [], systemTimeInSeconds);
 	}
-	playSynDefAt(synDefName: string, synDefData: Uint8Array, nodeId: number, groupId: number, parameterArray: [string, number][], systemTimeInSeconds: number | null): void {
+	playSynDefAt(
+		synDefName: string,
+		synDefData: Uint8Array,
+		nodeId: number,
+		groupId: number,
+		parameterArray: [string, number][],
+		systemTimeInSeconds: number | null
+	): void {
 		this.whenConnected(() =>
 			this.sendOsc(
 				playSynDefAtMessage(synDefName, synDefData, nodeId, groupId, parameterArray, systemTimeInSeconds)
 			)
 	  );
 	}
-	playUgenAt(ugenGraph: Signal, nodeId: number, groupId: number, parameterArray: [string, number][], systemTimeInSeconds: number | null): void {
+	playUgenAt(
+		ugenGraph: Signal,
+		bus: number,
+		nodeId: number,
+		groupId: number,
+		parameterArray: [string, number][],
+		systemTimeInSeconds: number | null
+	): void {
 		const synDefName = 'anonymous_' + synthdefCounter();
-		const synDefData = encodeUgen(synDefName, wrapOut(0, ugenGraph));
+		const synDefData = encodeUgen(synDefName, wrapOut(bus, ugenGraph));
 		this.playSynDefAt(synDefName, synDefData, nodeId, groupId, parameterArray, systemTimeInSeconds)
 	}
 	removeOscListener(address: string, handler: OscMessageFunction):void {

@@ -4,7 +4,7 @@ var mostRecentUgenGraph = null;
 
 function playUgen(ugenGraph) {
 	mostRecentUgenGraph = ugenGraph;
-	globalScSynth.playUgenAt(ugenGraph, -1, 1, [], null);
+	globalScSynth.playUgenAt(ugenGraph, 0, -1, 1, [], null);
 }
 
 function jsPlay() {
