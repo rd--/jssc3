@@ -351,6 +351,10 @@ export function FSinOsc(freq: Signal, iphase: Signal): Signal {
 export function Gate(input: Signal, trig: Signal): Signal {
     return makeUgen('Gate', 1, [0], 0, [input, trig]);
 }
+// Gingerbreadman map chaotic generator
+export function GbmanN(freq: Signal, xi: Signal, yi: Signal): Signal {
+    return makeUgen('GbmanN', 1, rateAr, 0, [freq, xi, yi]);
+}
 // Dynamic stochastic synthesis generator.
 export function Gendy1(ampdist: Signal, durdist: Signal, adparam: Signal, ddparam: Signal, minfreq: Signal, maxfreq: Signal, ampscale: Signal, durscale: Signal, initCPs: Signal, knum: Signal): Signal {
     return makeUgen('Gendy1', 1, rateAr, 0, [ampdist, durdist, adparam, ddparam, minfreq, maxfreq, ampscale, durscale, initCPs, knum]);
