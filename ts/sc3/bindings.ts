@@ -367,6 +367,14 @@ export function GbmanN(freq: Signal, xi: Signal, yi: Signal): Signal {
 export function Gendy1(ampdist: Signal, durdist: Signal, adparam: Signal, ddparam: Signal, minfreq: Signal, maxfreq: Signal, ampscale: Signal, durscale: Signal, initCPs: Signal, knum: Signal): Signal {
     return makeUgen('Gendy1', 1, rateAr, 0, [ampdist, durdist, adparam, ddparam, minfreq, maxfreq, ampscale, durscale, initCPs, knum]);
 }
+// Dynamic stochastic synthesis generator.
+export function Gendy2(ampdist: Signal, durdist: Signal, adparam: Signal, ddparam: Signal, minfreq: Signal, maxfreq: Signal, ampscale: Signal, durscale: Signal, initCPs: Signal, knum: Signal, a: Signal, c: Signal): Signal {
+    return makeUgen('Gendy2', 1, rateAr, 0, [ampdist, durdist, adparam, ddparam, minfreq, maxfreq, ampscale, durscale, initCPs, knum, a, c]);
+}
+// Dynamic stochastic synthesis generator.
+export function Gendy3(ampdist: Signal, durdist: Signal, adparam: Signal, ddparam: Signal, freq: Signal, ampscale: Signal, durscale: Signal, initCPs: Signal, knum: Signal): Signal {
+    return makeUgen('Gendy3', 1, rateAr, 0, [ampdist, durdist, adparam, ddparam, freq, ampscale, durscale, initCPs, knum]);
+}
 // Granular synthesis with sound stored in a buffer
 export function GrainBuf(numChan: number, trigger: Signal, dur: Signal, sndbuf: Signal, rate: Signal, pos: Signal, interp: Signal, pan: Signal, envbufnum: Signal, maxGrains: Signal): Signal {
     return makeUgen('GrainBuf', numChan, rateAr, 0, [trigger, dur, sndbuf, rate, pos, interp, pan, envbufnum, maxGrains]);
@@ -748,6 +756,10 @@ export function PulseCount(trig: Signal, reset: Signal): Signal {
 // Pulse divider.
 export function PulseDivider(trig: Signal, div: Signal, start: Signal): Signal {
     return makeUgen('PulseDivider', 1, [0], 0, [trig, div, start]);
+}
+// Scramble bins.
+export function PvBinScramble(buffer: Signal, wipe: Signal, width: Signal, trig: Signal): Signal {
+    return makeUgen('PV_BinScramble', 1, rateKr, 0, [buffer, wipe, width, trig]);
 }
 // Random phase shifting.
 export function PvDiffuser(buffer: Signal, trig: Signal): Signal {

@@ -4,7 +4,7 @@ import { throwError } from '../kernel/error.ts'
 import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 import { Forest, treeShape } from '../stdlib/tree.ts'
 
-import { BHiPass, BLowPass, BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Dc, Demand, Duty, EnvGen, FirstArg, Hpz1, Impulse, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
+import { BHiPass, BLowPass, BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Compander, Dc, DelayN, Demand, Duty, EnvGen, FirstArg, Hpz1, Impulse, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
 import { Env, EnvCurveSeq, EnvAdsr, EnvAsr, EnvCutoff, EnvPerc, EnvRelease, EnvSine, envCoord } from './envelope.ts'
 import { Signal, isOutputSignal, isOutUgen, kr, multipleRootGraph, signalSize } from './ugen.ts'
 
@@ -299,4 +299,8 @@ export function VarLag(input: Signal, time: Signal, curve: EnvCurveSeq): Signal 
 	var timeChanged = (typeof time === "number") ? 0 : Changed(time, 0);
 	var trig = Add(Add(Changed(input, 0), timeChanged), Impulse(0, 0));
 	return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
+}
+
+export function CompanderD(input: Signal, thresh: Signal, slopeBelow: Signal, slopeAbove: Signal, clampTime: Signal, relaxTime: Signal): Signal {
+	return Compander(DelayN(input, clampTime, clampTime), input, thresh, slopeBelow, slopeAbove, clampTime, relaxTime);
 }
