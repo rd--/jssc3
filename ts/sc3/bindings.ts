@@ -231,6 +231,14 @@ export function Demand(trig: Signal, reset: Signal, demandUGens: Signal): Signal
 export function DetectSilence(input: Signal, amp: Signal, time: Signal, doneAction: Signal): Signal {
     return makeUgen('DetectSilence', 1, [0], 0, [input, amp, time, doneAction]);
 }
+// Demand rate input replicator
+export function Ddup(n: Signal, input: Signal): Signal {
+    return makeUgen('Ddup', 1, rateDr, 0, [n, input]);
+}
+// Demand rate geometric series UGen
+export function Dgeom(start: Signal, grow: Signal, length: Signal): Signal {
+    return makeUgen('Dgeom', 1, rateDr, 0, [start, grow, length]);
+}
 // Demand rate brownian movement generator.
 export function Dibrown(length: Signal, lo: Signal, hi: Signal, step: Signal): Signal {
     return makeUgen('Dibrown', 1, rateDr, 0, [length, lo, hi, step]);
