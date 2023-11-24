@@ -28,15 +28,15 @@ export class Env {
 	levels: Signal[];
 	times: Signal[];
 	curves: EnvCurve[];
-	releaseNode: number;
-	loopNode: number;
+	releaseNode: Maybe<number>;
+	loopNode: Maybe<number>;
 	offset: number;
 	constructor(levels: Signal[], times: Signal[], curves: EnvCurveSeq, releaseNode: Maybe<number>, loopNode: Maybe<number>, offset: number) {
 		this.levels = levels;
 		this.times = times;
 		this.curves = asArray(curves);
-		this.releaseNode = fromMaybe(releaseNode, -99);
-		this.loopNode = fromMaybe(loopNode, -99);
+		this.releaseNode = releaseNode;
+		this.loopNode = loopNode;
 		this.offset = offset;
 	};
 }
@@ -47,8 +47,8 @@ export function envCoord(env: Env): Signal[] {
 	const store = function(aValue: Signal) { queuePush(answerQueue, aValue); };
 	store(env.levels[0]);
 	store(segmentCount);
-	store(env.releaseNode);
-	store(env.loopNode);
+	store(fromMaybe(env.releaseNode, -99));
+	store(fromMaybe(env.loopNode, -99));
 	for(let i = 0; i < segmentCount; i++) {
 		const c = arrayAtWrap(env.curves, i);
 		store(env.levels[i + 1]);
