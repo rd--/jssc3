@@ -43,7 +43,8 @@ export function Splay(inArray: Signal, spread: Signal, level: Signal, center: Si
 	const pos = arrayFromTo(0, n - 1).map(function(item) {
 		return Add(Mul(Sub(Mul(item, Fdiv(2, Sub(n, 1))), 1), spread), center)
 	});
-	const lvl = Mul(level, levelComp ? Sqrt(1 / n) : 1);
+	// Cf.<https://github.com/supercollider/supercollider/issues/5706>
+	const lvl = Mul(level, levelComp ? (1 / n) : 1);
 	// console.debug(`Splay: ${[n, pos, lvl]}`);
 	return arrayReduce(<Signal[]>Pan2(inArray, pos, lvl), Add);
 }
@@ -51,7 +52,8 @@ export function Splay(inArray: Signal, spread: Signal, level: Signal, center: Si
 export function Splay2(inArray: Signal): Signal {
 	const n = Math.max(2, signalSize(inArray));
 	const pos = arrayFromTo(0, n - 1).map(item => item * (2 / (n - 1)) - 1);
-	const lvl = Math.sqrt(1 / n);
+	// Cf.<https://github.com/supercollider/supercollider/issues/5706>
+	const lvl = (1 / n);
 	// console.debug(`Splay2: ${[n, pos, lvl]}`);
 	return arrayReduce(<Signal[]>Pan2(inArray, pos, lvl), Add);
 }
