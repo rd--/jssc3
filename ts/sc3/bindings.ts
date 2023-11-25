@@ -227,6 +227,10 @@ export function DelayN(input: Signal, maxdelaytime: Signal, delaytime: Signal): 
 export function Demand(trig: Signal, reset: Signal, demandUGens: Signal): Signal {
     return makeUgen('Demand', arrayLength(asArray(demandUGens)), [0], 0, arrayConcat([trig, reset], (asArray(demandUGens))));
 }
+// Search a buffer for a value
+export function DetectIndex(bufnum: Signal, input: Signal): Signal {
+    return makeUgen('DetectIndex', 1, [1], 0, [bufnum, input]);
+}
 // Detect when input falls below an amplitude threshold
 export function DetectSilence(input: Signal, amp: Signal, time: Signal, doneAction: Signal): Signal {
     return makeUgen('DetectSilence', 1, [0], 0, [input, amp, time, doneAction]);
@@ -893,6 +897,10 @@ export function Sweep(trig: Signal, rate: Signal): Signal {
 export function SyncSaw(syncFreq: Signal, sawFreq: Signal): Signal {
     return makeUgen('SyncSaw', 1, rateAr, 0, [syncFreq, sawFreq]);
 }
+// Table Rand
+export function TableRand(trig: Signal, bufnum: Signal): Signal {
+    return makeUgen('TableRand', 1, [0], 0, [trig, bufnum]);
+}
 // Trigger delay.
 export function TDelay(input: Signal, dur: Signal): Signal {
     return makeUgen('TDelay', 1, [0], 0, [input, dur]);
@@ -932,6 +940,10 @@ export function Trig(input: Signal, dur: Signal): Signal {
 // Timed trigger.
 export function Trig1(input: Signal, dur: Signal): Signal {
     return makeUgen('Trig1', 1, [0], 0, [input, dur]);
+}
+// Triggered windex.
+export function TwIndex(input: Signal, normalize: Signal, array: Signal): Signal {
+    return makeUgen('TWindex', 1, [0], 0, arrayConcat([input, normalize], (asArray(array))));
 }
 // Two pole filter.
 export function TwoPole(input: Signal, freq: Signal, radius: Signal): Signal {

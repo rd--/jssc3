@@ -4,7 +4,7 @@ import { throwError } from '../kernel/error.ts'
 import { Maybe, fromMaybe } from '../stdlib/maybe.ts'
 import { Forest, treeShape } from '../stdlib/tree.ts'
 
-import { BHiPass, BLowPass, BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Compander, Dc, DelayN, Demand, Duty, EnvGen, FirstArg, Hpz1, Impulse, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
+import { BHiPass, BLowPass, BufDur, BufFrames, BufRateScale, BufRd, BufSampleRate, BufWr, ClearBuf, Compander, Dc, DelayN, Demand, Duty, EnvGen, FirstArg, Hpz1, Impulse, In, InFeedback, Klang, Klank, Line, LocalBuf, NumOutputBuses, Out, Phasor, Pan2, PlayBuf, RecordBuf, Ringz, SampleRate, Select, SetBuf, SinOsc, TDuty, TiRand, TwIndex, Wrap, XFade2, XLine, Abs, Add, Fdiv, Fold2, Gt, MidiCps, Mul, RoundTo, Sqrt, Sub, Trunc } from './bindings.ts'
 import { Env, EnvCurveSeq, EnvAdsr, EnvAsr, EnvCutoff, EnvPerc, EnvRelease, EnvSine, envCoord } from './envelope.ts'
 import { Signal, isOutputSignal, isOutUgen, kr, multipleRootGraph, signalSize } from './ugen.ts'
 
@@ -74,6 +74,10 @@ export function Select2(predicate: Signal, ifTrue: Signal, ifFalse: Signal): Sig
 
 export function TChoose(trig: Signal, array: Signal): Signal {
 	return Select(TiRand(0, signalSize(array) - 1, trig), array);
+}
+
+export function TwChoose(trig: Signal, array: Signal, weights: Signal, normalize: Signal): Signal {
+	return Select(TwIndex(trig, normalize, weights), array);
 }
 
 export function PmOsc(carfreq: Signal, modfreq: Signal, pmindex: Signal, modphase: Signal): Signal {
