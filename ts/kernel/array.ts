@@ -4,8 +4,20 @@ export function isArray<T>(aValue: unknown): aValue is Array<T> {
 
 export type ScalarOrArray<T> = T | T[];
 
-export function scalarOrArray<T, U>(maybeArray: (ScalarOrArray<T>), scalarFunc: (aScalar: T) => U, arrayFunc: (anArray: T[]) => U): U {
+export function scalarOrArray<T, U>(
+	maybeArray: (ScalarOrArray<T>),
+	scalarFunc: (aScalar: T) => U,
+	arrayFunc: (anArray: T[]) => U
+): U {
 	return isArray(maybeArray) ? arrayFunc(maybeArray) : scalarFunc(maybeArray);
+}
+
+export function scalarOrArraySize<T>(maybeArray: ScalarOrArray<T>): number {
+	return isArray(maybeArray) ? maybeArray.length : 1;
+}
+
+export function scalarOrArrayFirst<T>(maybeArray: ScalarOrArray<T>): T {
+	return isArray(maybeArray) ? maybeArray[0] : maybeArray;
 }
 
 // [1, [1, 2]].map(asArray) //= [[1], [1, 2]]
@@ -104,11 +116,14 @@ export function arrayExtendCyclically<T>(anArray: T[], size: number): T[] {
 	return result;
 }
 
-// arrayExtendToBeOfEqualSize([[1, 2], [3, 4, 5]]) //= [[1, 2, 1], [3, 4, 5]]
-// arrayExtendToBeOfEqualSize([[440, 550], 0]) //= [[440, 550], [0, 0]]
-export function arrayExtendToBeOfEqualSize<T>(anArray: (ScalarOrArray<T>)[]): T[][] {
-	const maxSize = arrayMaxItem(anArray.map(item => isArray(item) ? item.length : 1));
-	return anArray.map(item => arrayExtendCyclically(isArray(item) ? item : [item], maxSize));
+// arrayExtendToBeOfEqualSize(1, [[1, 2], [3, 4, 5]]) //= [[1, 2, 1], [3, 4, 5]]
+// arrayExtendToBeOfEqualSize(1, [[440, 550], 0]) //= [[440, 550], [0, 0]]
+export function arrayExtendToBeOfEqualSize<T>(
+	atLeast: number,
+	anArray: (ScalarOrArray<T>)[]
+): T[][] {
+	const maxSize = Math.max(atLeast, arrayMaxSize(anArray));
+	return anArray.map(item => arrayExtendCyclically(asArray(item), maxSize));
 }
 
 // arrayFill(5, () => Math.random())
@@ -189,6 +204,11 @@ export function arrayMap<T, U>(aFunction: (aValue: T) => U, anArray: T[]): U[] {
 // arrayMaxItem([1, 2, 3, 4, 3, 2, 1]) === 4
 export function arrayMaxItem(anArray: number[]): number {
 	return anArray.reduce((i, j) => Math.max(i, j));
+}
+
+// array.arrayMaxSize([[], [1], [2, 3], [4, 5, 6]]) === 3
+export function arrayMaxSize<T>(anArray: ScalarOrArray<T>[]): number {
+	return arrayMaxItem(anArray.map(item => isArray(item) ? item.length : 1));
 }
 
 // Delete duplicate entries, retain ordering
@@ -283,3 +303,9 @@ export function arrayTranspose<T>(anArray: T[][]): T[][] {
 export function arrayUnlines(anArray: string[]): string {
 	return anArray.join('\n');
 }
+
+/*
+
+import * as array from './array.ts'
+
+*/

@@ -1,4 +1,4 @@
-import { asArray, arrayConcat, arrayLength } from '../kernel/array.ts'
+import { ScalarOrArray, asArray, arrayConcat, arrayLength } from '../kernel/array.ts'
 
 import { rateAr, rateDr, rateIr, rateKr } from './rate.ts'
 import { Signal, BinaryOp, UnaryOp, makeUgen } from './ugen.ts'
@@ -710,7 +710,7 @@ export function Pan2(input: Signal, pos: Signal, level: Signal): Signal {
     return makeUgen('Pan2', 2, [0], 0, [input, pos, level]);
 }
 // Azimuth panner
-export function PanAz(numChan: number, input: Signal, pos: Signal, level: Signal, width: Signal, orientation: Signal): Signal {
+export function PanAz(numChan: ScalarOrArray<number>, input: Signal, pos: Signal, level: Signal, width: Signal, orientation: Signal): Signal {
     return makeUgen('PanAz', numChan, [0], 0, [input, pos, level, width, orientation]);
 }
 // Ambisonic B-format panner.

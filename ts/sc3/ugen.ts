@@ -1,4 +1,4 @@
-import { isArray, asArray, arrayAtIndices, arrayContainsArray, arrayEvery, arrayExtendToBeOfEqualSize, arrayFillWithIndex, arrayFind, arrayForEach, arrayMap, arrayMaxItem, arraySize, arrayTranspose } from '../kernel/array.ts'
+import { isArray, ScalarOrArray, scalarOrArraySize, asArray, arrayAtIndices, arrayContainsArray, arrayEvery, arrayExtendCyclically, arrayExtendToBeOfEqualSize, arrayFillWithIndex, arrayFind, arrayForEach, arrayMap, arrayMaxItem, arraySize, arrayTranspose } from '../kernel/array.ts'
 import { throwError } from '../kernel/error.ts'
 import { isNumber } from '../kernel/number.ts'
 import { isObject } from '../kernel/object.ts'
@@ -56,6 +56,10 @@ const ugenCounter: Counter = counterNew();
 export type UgenInput = number | Ugen;
 
 export type Signal = Tree<UgenInput>;
+
+export function signalSize(aSignal: Signal): number {
+	return isArray(aSignal) ? aSignal.length : 1;
+}
 
 export class ScUgen {
 	name: string;
@@ -197,17 +201,44 @@ export function requiresMce(inputs: Signal[]) {
 	return arrayContainsArray(inputs);
 }
 
-export function mceInputTransform(aSignal: Signal[]): Signal[] {
-	return arrayTranspose(arrayExtendToBeOfEqualSize(aSignal));
+export function mceInputTransform(atLeast: number, aSignal: Signal[]): Signal[] {
+	return arrayTranspose(arrayExtendToBeOfEqualSize(atLeast, aSignal));
 }
 
-export function makeUgen(name: string, numChannels: number, rateSpec: RateSpec, specialIndex: number, signalArray: Signal[]): Signal {
+export function makeUgen(
+	name: string,
+	numChannels: ScalarOrArray<number>,
+	rateSpec: RateSpec,
+	specialIndex: number,
+	signalArray: Signal[]
+): Signal {
 	// console.debug(`makeUgen: ${name} ${numChannels} ${rateSpec} ${specialIndex} ${signalArray}`);
-	if(requiresMce(signalArray)) {
-		return arrayMap(item => makeUgen(name, numChannels, rateSpec, specialIndex, <Signal[]>item), mceInputTransform(signalArray));
+	if(isArray(numChannels) || requiresMce(signalArray)) {
+		const atLeast = scalarOrArraySize(numChannels);
+		const expandedSignalArray = mceInputTransform(atLeast, signalArray);
+		const expandedSize = expandedSignalArray.length;
+		const expandedNumChannels = arrayExtendCyclically(asArray(numChannels), expandedSize);
+		// console.debug('Mce', expandedSize, expandedNumChannels);
+		return expandedSignalArray.map((item, index) =>
+			makeUgen(
+				name,
+				expandedNumChannels[index],
+				rateSpec,
+				specialIndex,
+			    <Signal[]>item
+			)
+		);
 	} else {
 		const inputArray = <UgenInput[]>signalArray;
-		const scUgen = new ScUgen(name, numChannels, deriveRate(rateSpec, inputArray), specialIndex, inputArray);
+		const derivedRate = deriveRate(rateSpec, inputArray);
+		const scUgen = new ScUgen(
+			name,
+			numChannels,
+			derivedRate,
+			specialIndex,
+			inputArray
+		);
+		// console.debug('No-Mce', derivedRate);
 		switch (numChannels) {
 		    case 0: return new Ugen(scUgen, nilPort);
 		    case 1: return new Ugen(scUgen, 0);
@@ -349,7 +380,7 @@ export function BinaryOpWithConstantOptimiser(specialIndex: number, lhs: UgenInp
 
 export function BinaryOp(specialIndex: number, lhs: Signal, rhs: Signal): Signal {
 	if(isArray(lhs) || isArray(rhs)) {
-		const expanded = mceInputTransform([asArray(lhs), asArray(rhs)]);
+		const expanded = mceInputTransform(1, [asArray(lhs), asArray(rhs)]);
 		// console.debug(`BinaryOp: array constant: ${expanded}`);
 		return arrayMap(item => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]), <UgenInput[][]>expanded);
 	} else {
@@ -365,12 +396,4 @@ export function isOutUgen(aValue: unknown): boolean {
 // isControlRateUgen(MouseX(0, 1, 0, 0.2))
 export function isControlRateUgen(aValue: unknown): boolean {
 	return isUgenInput(aValue) && (inputRate(aValue) == rateKr);
-}
-
-export function signalSize(aSignal: Signal): number {
-	if(isArray(aSignal)) {
-		return arraySize(aSignal);
-	} else {
-		return 1;
-	}
 }

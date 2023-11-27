@@ -162,7 +162,7 @@ export function asKlankSpec(freq: Signal, amp: Maybe<Signal>, time: Maybe<Signal
 	const n = signalSize(freq);
 	const a = [freq, fromMaybe(amp, arrayReplicate(n, 1)), fromMaybe(time, arrayReplicate(n, 1))];
 	// console.debug(`asKlankSpec: ${a}`);
-	return arrayConcatenation(arrayTranspose(arrayExtendToBeOfEqualSize(a)));
+	return arrayConcatenation(arrayTranspose(arrayExtendToBeOfEqualSize(1, a)));
 }
 
 export function RingzBank(input: Signal, freq: Signal, amp: Signal, time: Signal): Signal {
