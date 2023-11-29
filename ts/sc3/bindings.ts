@@ -1137,6 +1137,14 @@ export function Vosim(trig: Signal, freq: Signal, nCycles: Signal, decay: Signal
 export function WaveLoss(input: Signal, drop: Signal, outof: Signal, mode: Signal): Signal {
     return makeUgen('WaveLoss', 1, rateAr, 0, [input, drop, outof, mode]);
 }
+// Not at Hsc3Db. Note Kr.  Note particular channel rule.
+export function WDistances(gate: Signal, x: Signal, y: Signal, z: Signal, coordinateArray: Signal[]): Signal {
+    return makeUgen('WDistances', (arrayLength(coordinateArray) / 3), rateKr, 0, arrayConcat([gate, x, y, z], coordinateArray));
+}
+// Not at Hsc3Db. Note Kr.
+export function WkNearest(numChannels: number, gate: Signal, x: Signal, y: Signal, z: Signal, coordinateArray: Signal[]): Signal {
+    return makeUgen('WkNearest', numChannels, rateKr, 0, arrayConcat([gate, x, y, z], coordinateArray));
+}
 
 export function Add(a: Signal, b: Signal): Signal { return BinaryOp(0, a, b); }
 export function Sub(a: Signal, b: Signal): Signal { return BinaryOp(1, a, b); }
