@@ -38,22 +38,33 @@ export function Cutoff(sustainTime: Signal, releaseTime: Signal, curve: EnvCurve
 	return EnvGen(1, 1, 0, 1, 0, envCoord(env));
 }
 
-export function Splay(inArray: Signal, spread: Signal, level: Signal, center: Signal, levelComp: boolean): Signal {
+/* Cf.<https://github.com/supercollider/supercollider/issues/5706>
+Note: Deleting the sqrt in Splay can dramatically alter feedback paths. */
+export function Splay(
+	inArray: Signal,
+	spread: Signal,
+	level: Signal,
+	center: Signal,
+	levelComp: boolean
+): Signal {
 	const n = Math.max(2, signalSize(inArray));
 	const pos = arrayFromTo(0, n - 1).map(function(item) {
 		return Add(Mul(Sub(Mul(item, Fdiv(2, Sub(n, 1))), 1), spread), center)
 	});
-	// Cf.<https://github.com/supercollider/supercollider/issues/5706>
-	const lvl = Mul(level, levelComp ? (1 / n) : 1);
+	const lvl = Mul(level, levelComp ? Math.sqrt(1 / n) : 1);
 	// console.debug(`Splay: ${[n, pos, lvl]}`);
-	return arrayReduce(<Signal[]>Pan2(inArray, pos, lvl), Add);
+	return arrayReduce(<Signal[]>Mul(Pan2(inArray, pos, 1), lvl), Add);
 }
 
+// Cf.<https://github.com/supercollider/supercollider/issues/5706>
 export function Splay2(inArray: Signal): Signal {
+	const spread = 1;
+	const center = 0;
 	const n = Math.max(2, signalSize(inArray));
-	const pos = arrayFromTo(0, n - 1).map(item => item * (2 / (n - 1)) - 1);
-	// Cf.<https://github.com/supercollider/supercollider/issues/5706>
-	const lvl = (1 / n);
+	const pos = arrayFromTo(0, n - 1).map(function(item) {
+		return (item * (2 / (n - 1)) - 1) * spread + center;
+	});
+	const lvl = Math.sqrt(1 / n);
 	// console.debug(`Splay2: ${[n, pos, lvl]}`);
 	return arrayReduce(<Signal[]>Pan2(inArray, pos, lvl), Add);
 }

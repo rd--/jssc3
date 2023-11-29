@@ -24,9 +24,13 @@ export function ugenGraphPrintSyndef(graph: UgenGraph): void {
 	console.log(0, []);
 }
 
-export function printSyndefOf(ugen: Signal): void {
-	const graph = makeUgenGraph('sc3.js', wrapOut(0, ugen));
+export function printSyndefOfAt(ugen: Signal, bus: number): void {
+	const graph = makeUgenGraph('sc3.js', wrapOut(bus, ugen));
 	ugenGraphPrintSyndef(graph);
+}
+
+export function printSyndefOf(ugen: Signal): void {
+	printSyndefOfAt(ugen, 0)
 }
 
 export function ugenGraphInputDisplayName(graph: UgenGraph, input: (Ugen | number)): string {
