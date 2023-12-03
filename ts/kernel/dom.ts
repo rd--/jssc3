@@ -6,7 +6,7 @@ export function getSelectedText(): string {
 
 export function getSelectedTextOrContentsOf(elemId: string): string {
 	var selectedText = getSelectedText().trim();
-	if(selectedText.length > 0) {
+	if (selectedText.length > 0) {
 		return selectedText;
 	} else {
 		var element = document.getElementById(elemId);
@@ -14,11 +14,15 @@ export function getSelectedTextOrContentsOf(elemId: string): string {
 	}
 }
 
-export function setInnerHtml(elementId: string, innerHtml: string, setFocus: boolean): void {
+export function setInnerHtml(
+	elementId: string,
+	innerHtml: string,
+	setFocus: boolean,
+): void {
 	const element = document.getElementById(elementId);
-	if(element) {
+	if (element) {
 		element.innerHTML = innerHtml;
-		if(setFocus) {
+		if (setFocus) {
 			element.focus();
 		}
 	} else {
@@ -26,11 +30,15 @@ export function setInnerHtml(elementId: string, innerHtml: string, setFocus: boo
 	}
 }
 
-export function setTextContent(elementId: string, textContent: string, setFocus: boolean): void {
+export function setTextContent(
+	elementId: string,
+	textContent: string,
+	setFocus: boolean,
+): void {
 	const element = document.getElementById(elementId);
-	if(element) {
+	if (element) {
 		element.textContent = textContent;
-		if(setFocus) {
+		if (setFocus) {
 			element.focus();
 		}
 	} else {
@@ -39,10 +47,12 @@ export function setTextContent(elementId: string, textContent: string, setFocus:
 }
 
 // Return a function to set the inner Html of elemId
-export function setterForInnerHtmlOf(elemId: string): (innerHtml: string) => void {
+export function setterForInnerHtmlOf(
+	elemId: string,
+): (innerHtml: string) => void {
 	const elem = document.getElementById(elemId);
-	return function(innerHtml) {
-		if(elem) {
+	return function (innerHtml) {
+		if (elem) {
 			elem.innerHTML = innerHtml;
 		} else {
 			console.warn(`setterForInnerHtmlOf: ${elemId}: elem was nil`);
@@ -52,10 +62,10 @@ export function setterForInnerHtmlOf(elemId: string): (innerHtml: string) => voi
 
 export function withElementById(
 	elementId: string,
-	elementProcedure: (element: HTMLElement) => void
+	elementProcedure: (element: HTMLElement) => void,
 ): void {
 	const element = document.getElementById(elementId);
-	if(!element) {
+	if (!element) {
 		console.error('withElementById: not found: ', elementId);
 	} else {
 		elementProcedure(element);
@@ -64,26 +74,26 @@ export function withElementById(
 
 export function withSelectElementById(
 	selectId: string,
-	selectProcedure: (selectElement: HTMLSelectElement) => void
+	selectProcedure: (selectElement: HTMLSelectElement) => void,
 ): void {
-	withElementById(selectId, <(element: HTMLElement) => void>selectProcedure);
+	withElementById(selectId, <(element: HTMLElement) => void> selectProcedure);
 }
 
 /* Set onchange handler of selectId,
 guards against absence of selection (proc is only called if value is set). */
 export function selectOnChange(
 	selectId: string,
-	proc: (anElement: HTMLSelectElement, aString: string) => void
+	proc: (anElement: HTMLSelectElement, aString: string) => void,
 ): void {
-	const guardedProc = function(anEvent: Event) {
-		const target = <HTMLSelectElement>anEvent.target;
-		if(target && target.value) {
+	const guardedProc = function (anEvent: Event) {
+		const target = <HTMLSelectElement> anEvent.target;
+		if (target && target.value) {
 			proc(target, target.value);
 		}
 	};
 	withSelectElementById(
 		selectId,
-		selectElement => selectElement.addEventListener('change', guardedProc)
+		(selectElement) => selectElement.addEventListener('change', guardedProc),
 	);
 }
 
@@ -91,7 +101,7 @@ export function selectOnChange(
 export function selectAddOptionTo(
 	selectElement: HTMLSelectElement,
 	optionValue: string,
-	optionText: string
+	optionText: string,
 ): void {
 	const optionElement = document.createElement('option');
 	optionElement.value = optionValue;
@@ -103,28 +113,32 @@ export function selectAddOptionTo(
 export function selectAddOptionAtId(
 	selectId: string,
 	optionValue: string,
-	optionText: string
+	optionText: string,
 ): void {
 	withSelectElementById(
 		selectId,
-		selectElement => selectAddOptionTo(selectElement, optionValue, optionText)
+		(selectElement) =>
+			selectAddOptionTo(selectElement, optionValue, optionText),
 	);
 }
 
 // Delete all options at selectId from startIndex
 export function selectClearFrom(selectId: string, startIndex: number): void {
-	withSelectElementById(selectId, function(selectElement) {
+	withSelectElementById(selectId, function (selectElement) {
 		const endIndex = selectElement.length;
-		for(let i = startIndex; i < endIndex; i++) {
+		for (let i = startIndex; i < endIndex; i++) {
 			selectElement.remove(startIndex);
 		}
 	});
 }
 
 // Add all keys as entries, both value and text, at selectId
-export function selectAddKeysAsOptions(selectId: string, keyArray: string[]): void {
-	withSelectElementById(selectId, function(selectElement) {
-		keyArray.forEach(function(key) {
+export function selectAddKeysAsOptions(
+	selectId: string,
+	keyArray: string[],
+): void {
+	withSelectElementById(selectId, function (selectElement) {
+		keyArray.forEach(function (key) {
 			const option = document.createElement('option');
 			option.value = key;
 			option.text = key;
@@ -135,25 +149,30 @@ export function selectAddKeysAsOptions(selectId: string, keyArray: string[]): vo
 
 // Add a listener to buttonId that passes click events to inputId.
 export function connectButtonToInput(buttonId: string, inputId: string): void {
-	const button = <HTMLButtonElement>document.getElementById(buttonId);
-	const input = <HTMLInputElement>document.getElementById(inputId);
+	const button = <HTMLButtonElement> document.getElementById(buttonId);
+	const input = <HTMLInputElement> document.getElementById(inputId);
 	if (!button || !input) {
 		console.warn('connectButtonToInput: element not located?');
 	} else {
-		button.addEventListener('click', UnusedEvent => input.click(), false);
+		button.addEventListener('click', (UnusedEvent) => input.click(), false);
 	}
 }
 
 export function clickInput(inputId: string): void {
-	withElementById(inputId, inputElement => inputElement.click());
+	withElementById(inputId, (inputElement) => inputElement.click());
 }
 
 // If some text is selected, get only the selected text, else get the entire text.
-export function textareaGetSelectionOrContents(textareaElement: HTMLTextAreaElement): string {
-	if(textareaElement.selectionStart === textareaElement.selectionEnd) {
+export function textareaGetSelectionOrContents(
+	textareaElement: HTMLTextAreaElement,
+): string {
+	if (textareaElement.selectionStart === textareaElement.selectionEnd) {
 		return textareaElement.value;
 	} else {
-		return textareaElement.value.substring(textareaElement.selectionStart, textareaElement.selectionEnd);
+		return textareaElement.value.substring(
+			textareaElement.selectionStart,
+			textareaElement.selectionEnd,
+		);
 	}
 }
 
@@ -173,10 +192,10 @@ export function windowUrlSetParam(key: string, value: string): void {
 export function parseIntegerOrAlert(
 	integerText: string,
 	errorText: string,
-	defaultAnswer: number
+	defaultAnswer: number,
 ): number {
 	const answer = Number.parseInt(integerText, 10);
-	if(isNaN(answer)) {
+	if (isNaN(answer)) {
 		window.alert(errorText);
 		return defaultAnswer;
 	} else {
@@ -186,10 +205,10 @@ export function parseIntegerOrAlert(
 
 export function withParsedInteger(
 	integerText: string,
-	proc: (aNumber: number) => void
+	proc: (aNumber: number) => void,
 ): void {
 	const answer = Number.parseInt(integerText, 10);
-	if(isNaN(answer)) {
+	if (isNaN(answer)) {
 		window.alert('Not an integer?');
 	} else {
 		proc(answer);
@@ -198,7 +217,7 @@ export function withParsedInteger(
 
 // Request fullscreen for element, or exit fullscreen it exists.
 function fullscreenFor(element: HTMLElement): void {
-	const fullscreenOptions: FullscreenOptions = { navigationUI: "hide" };
+	const fullscreenOptions: FullscreenOptions = { navigationUI: 'hide' };
 	if (!document.fullscreenElement) {
 		element.requestFullscreen(fullscreenOptions);
 	} else {
@@ -214,17 +233,19 @@ export function fullscreen() {
 
 export function menuOnChangeWithOptionValue(
 	menuId: string,
-	changeProc: (aString: string) => void
+	changeProc: (aString: string) => void,
 ): void {
 	const menu = document.getElementById(menuId);
-	if(menu) {
-		menu.addEventListener('change', function(anEvent) {
+	if (menu) {
+		menu.addEventListener('change', function (anEvent) {
 			const target = anEvent.target;
-			if(target) {
-				const optionElement = <HTMLOptionElement>target;
+			if (target) {
+				const optionElement = <HTMLOptionElement> target;
 				changeProc(optionElement.value);
 			} else {
-				console.warn(`menuOnChangeWithTargetValue: no target or no target.value: ${menuId}`);
+				console.warn(
+					`menuOnChangeWithTargetValue: no target or no target.value: ${menuId}`,
+				);
 			}
 		});
 	} else {

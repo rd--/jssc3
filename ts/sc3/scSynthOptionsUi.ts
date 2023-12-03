@@ -1,27 +1,27 @@
-import { withIntegerFromPrompt } from '../kernel/prompt.ts'
+import { withIntegerFromPrompt } from '../kernel/prompt.ts';
 
-import { ScSynthOptions } from './scSynthOptions.ts'
+import { ScSynthOptions } from './scSynthOptions.ts';
 
-function setHardwareBufferSize(scSynthOptions: ScSynthOptions): void {
+export function setHardwareBufferSize(scSynthOptions: ScSynthOptions): void {
 	withIntegerFromPrompt(
 		'Set hardware buffer size',
 		scSynthOptions.hardwareBufferSize,
-		aNumber => scSynthOptions.hardwareBufferSize = aNumber
+		(aNumber) => scSynthOptions.hardwareBufferSize = aNumber,
 	);
 }
 
-function setBlockSize(scSynthOptions: ScSynthOptions): void {
+export function setBlockSize(scSynthOptions: ScSynthOptions): void {
 	withIntegerFromPrompt(
 		'Set block size',
 		scSynthOptions.blockSize,
-		aNumber => scSynthOptions.blockSize = aNumber
+		(aNumber) => scSynthOptions.blockSize = aNumber,
 	);
 }
 
-function setNumInputs(scSynthOptions: ScSynthOptions): void {
+export function setNumInputs(scSynthOptions: ScSynthOptions): void {
 	withIntegerFromPrompt(
 		'Set number of inputs',
 		scSynthOptions.numInputs,
-		aNumber => scSynthOptions.numInputs = aNumber
+		(aNumber) => scSynthOptions.numInputs = aNumber,
 	);
 }

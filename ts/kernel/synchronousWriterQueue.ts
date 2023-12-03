@@ -18,17 +18,19 @@ export class SynchronousWriterQueue<C, M> {
 	}
 	addMessage(message: M): void {
 		this.messages.push(message);
-		if(!this.writeInProgress) {
+		if (!this.writeInProgress) {
 			this.writeMessages();
 		}
 	}
 	async writeMessages(): Promise<number> {
-		const writeCount = this.messages.length
-		if(this.writeInProgress) {
-			throw new Error('SynchronousWriterQueue.writeMessages: write in progress?');
+		const writeCount = this.messages.length;
+		if (this.writeInProgress) {
+			throw new Error(
+				'SynchronousWriterQueue.writeMessages: write in progress?',
+			);
 		} else {
 			this.writeInProgress = true;
-			while(this.messages.length > 0) {
+			while (this.messages.length > 0) {
 				// console.debug('SynchronousWriterQueue.writeMessages: dequeue message');
 				const message = this.messages.shift()!;
 				await this.writer(this.socket, message);

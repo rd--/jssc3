@@ -1,6 +1,6 @@
-import * as audioBuffer from '../kernel/audioBuffer.ts'
-import * as typedArray from '../kernel/typedArray.ts'
-import * as wave from './wave.ts'
+import * as audioBuffer from '../kernel/audioBuffer.ts';
+import * as typedArray from '../kernel/typedArray.ts';
+import * as wave from './wave.ts';
 
 export class SoundFile {
 	url: string;
@@ -14,7 +14,7 @@ export class SoundFile {
 		numberOfChannels: number,
 		numberOfFrames: number,
 		sampleRate: number,
-		interleavedData: Float32Array
+		interleavedData: Float32Array,
 	) {
 		this.url = url;
 		this.numberOfChannels = numberOfChannels;
@@ -24,12 +24,12 @@ export class SoundFile {
 		this.cachedChannelData = null;
 	}
 	channelData(index: number): Float32Array {
-		if(this.cachedChannelData == null) {
+		if (this.cachedChannelData == null) {
 			this.cachedChannelData = typedArray.deinterleaveSampleData(
 				this.numberOfFrames,
 				this.numberOfChannels,
 				this.interleavedData,
-				size => new Float32Array(size)
+				(size) => new Float32Array(size),
 			);
 		}
 		return this.cachedChannelData[index];
@@ -39,15 +39,20 @@ export class SoundFile {
 	}
 }
 
-export function audiobufferToSoundFile(url: string, anAudioBuffer: AudioBuffer): SoundFile {
+export function audiobufferToSoundFile(
+	url: string,
+	anAudioBuffer: AudioBuffer,
+): SoundFile {
 	const soundFile = new SoundFile(
 		url,
 		anAudioBuffer.numberOfChannels,
 		anAudioBuffer.length,
 		anAudioBuffer.sampleRate,
-		audioBuffer.audioBufferInterleavedChannelData(anAudioBuffer)
+		audioBuffer.audioBufferInterleavedChannelData(anAudioBuffer),
 	);
-	soundFile.cachedChannelData = audioBuffer.audioBufferChannelDataArray(anAudioBuffer);
+	soundFile.cachedChannelData = audioBuffer.audioBufferChannelDataArray(
+		anAudioBuffer,
+	);
 	return soundFile;
 }
 
@@ -57,21 +62,21 @@ export function waveToSoundFile(wave: wave.Wave): SoundFile {
 		wave.fmtChunk.channels,
 		wave.factChunk.sampleLength,
 		wave.fmtChunk.samplesPerSec,
-		wave.data
+		wave.data,
 	);
 }
 
 export function arrayBufferToSoundFile(
 	url: string,
-	arrayBuffer: ArrayBuffer
+	arrayBuffer: ArrayBuffer,
 ): Promise<SoundFile> {
-	if(window.AudioContext) {
+	if (window.AudioContext) {
 		const audioContext = new window.AudioContext();
 		return audioContext.decodeAudioData(arrayBuffer)
-			.then(audioBuffer => audiobufferToSoundFile(url, audioBuffer));
+			.then((audioBuffer) => audiobufferToSoundFile(url, audioBuffer));
 	} else {
 		const soundFile = waveToSoundFile(wave.waveParse(url, arrayBuffer));
-		return new Promise((resolve, reject) => resolve(soundFile));
+		return new Promise((resolve, _unusedReject) => resolve(soundFile));
 	}
 }
 

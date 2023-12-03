@@ -3,15 +3,18 @@
 This module initialises the required fields before that script is loaded.
 */
 
-import { ScSynthWasmModule, initScSynthWasmModule } from './scSynthWasmModule.ts'
-import { ScSynth } from './scSynth.ts'
-import { scSynthUseWasm } from './scSynthWasm.ts'
+import {
+	initScSynthWasmModule,
+	ScSynthWasmModule,
+} from './scSynthWasmModule.ts';
+import { ScSynth } from './scSynth.ts';
+import { scSynthUseWasm } from './scSynthWasm.ts';
 
 declare global {
 	var Module: ScSynthWasmModule;
 }
 
-if(globalThis.Module !== undefined) {
+if (globalThis.Module !== undefined) {
 	initScSynthWasmModule(globalThis.Module, (text) => console.log(text));
 }
 

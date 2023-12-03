@@ -1,5 +1,5 @@
-import { ShiftLeft, ShiftRight } from './bindings.ts'
-import { Signal } from './ugen.ts'
+import { ShiftLeft, ShiftRight } from './bindings.ts';
+import { Signal } from './ugen.ts';
 
 export function bitShiftLeft(a: Signal, b: Signal): Signal {
 	return ShiftLeft(a, b);

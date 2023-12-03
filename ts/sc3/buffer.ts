@@ -1,19 +1,19 @@
-import { OscMessage } from '../stdlib/openSoundControl.ts'
-import { fetchSoundFile, SoundFile } from '../stdlib/soundFile.ts'
+import { OscMessage } from '../stdlib/openSoundControl.ts';
+import { fetchSoundFile, SoundFile } from '../stdlib/soundFile.ts';
 
-import { ScSynth } from './scSynth.ts'
-import { b_allocMemcpyFloat32Array } from './serverCommand.ts'
+import { ScSynth } from './scSynth.ts';
+import { b_allocMemcpyFloat32Array } from './serverCommand.ts';
 
 export function b_allocMemcpySoundFile(
 	soundFile: SoundFile,
-	bufferNumber: number
+	bufferNumber: number,
 ): OscMessage {
 	return b_allocMemcpyFloat32Array(
 		bufferNumber,
 		soundFile.numberOfFrames,
 		soundFile.numberOfChannels,
 		soundFile.sampleRate,
-		soundFile.interleavedData
+		soundFile.interleavedData,
 	);
 }
 
@@ -22,15 +22,15 @@ export async function fetchSoundFileToScSynthBuffer(
 	scSynth: ScSynth,
 	soundFileUrl: string,
 	numberOfChannels: number,
-	bufferNumber: number
+	bufferNumber: number,
 ): Promise<void> {
 	const soundFile = await fetchSoundFile(soundFileUrl);
-	if(soundFile.numberOfChannels === numberOfChannels) {
+	if (soundFile.numberOfChannels === numberOfChannels) {
 		scSynth.sendOsc(
 			b_allocMemcpySoundFile(
 				soundFile,
-				bufferNumber
-			)
+				bufferNumber,
+			),
 		);
 	} else {
 		console.error('fetchSoundFileToScSynthBuffer: numberOfChannels mismatch');
@@ -43,28 +43,28 @@ export async function fetchSoundFileChannelsToScSynthBuffers(
 	scSynth: ScSynth,
 	soundFileUrl: string,
 	bufferNumbers: number[],
-	channelIndices: number[]
+	channelIndices: number[],
 ): Promise<void> {
 	const soundFile = await fetchSoundFile(soundFileUrl);
 	// console.debug('fetchSoundFileChannelsToScSynthBuffers', soundFile);
-	for(let i = 0; i < bufferNumbers.length; i++) {
+	for (let i = 0; i < bufferNumbers.length; i++) {
 		const bufferNumber = bufferNumbers[i];
 		const channelIndex = channelIndices[i];
-		if(channelIndex >= 1 && channelIndex <= soundFile.numberOfChannels) {
+		if (channelIndex >= 1 && channelIndex <= soundFile.numberOfChannels) {
 			scSynth.sendOsc(
 				b_allocMemcpyFloat32Array(
 					bufferNumber,
 					soundFile.numberOfFrames,
 					1,
 					soundFile.sampleRate,
-					soundFile.channelData(channelIndex - 1)
-				)
+					soundFile.channelData(channelIndex - 1),
+				),
 			);
 		} else {
 			console.error(
 				'fetchSoundFileChannelsToScSynthBuffers: index out of bounds',
 				channelIndex,
-				soundFile.numberOfChannels
+				soundFile.numberOfChannels,
 			);
 		}
 	}

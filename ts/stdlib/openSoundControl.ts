@@ -1,31 +1,31 @@
-import { TcpQueue } from '../kernel/tcp.ts'
+import { TcpQueue } from '../kernel/tcp.ts';
 
-import { osc } from '../../lib/scsynth-wasm-builds/lib/ext/osc.js'
+import { osc } from '../../lib/scsynth-wasm-builds/lib/ext/osc.js';
 
 export type OscValue = number | string | Uint8Array;
 
 export type OscData = {
-	type: string,
-	value: OscValue
+	type: string;
+	value: OscValue;
 };
 
 export type OscMessage = {
-	address: string,
-	args: OscData[]
+	address: string;
+	args: OscData[];
 };
 
 export type OscBundle = {
-	timeTag: {native: number},
-	packets: OscMessage[]
+	timeTag: { native: number };
+	packets: OscMessage[];
 };
 
 export type OscPacket = OscMessage | OscBundle;
 
 export function oscData(oscType: string, oscValue: OscValue): OscData {
-	return {type: oscType, value: oscValue};
+	return { type: oscType, value: oscValue };
 }
 
-export function oscInt32(x : number): OscData {
+export function oscInt32(x: number): OscData {
 	return oscData('i', x);
 }
 
@@ -52,20 +52,20 @@ declare namespace osc {
 
 export function decodeOscMessage(message: Uint8Array): OscMessage {
 	// https://github.com/colinbdclark/osc.js/issues/90
-	return osc.readMessage(message, {metadata: true});
+	return osc.readMessage(message, { metadata: true });
 }
 
 export function encodeOscMessage(message: OscMessage): Uint8Array {
-	return osc.writeMessage(message, {metadata: true});
+	return osc.writeMessage(message, { metadata: true });
 }
 
 export function encodeOscBundle(bundle: OscBundle): Uint8Array {
-	return osc.writeBundle(bundle, {metadata: true});
+	return osc.writeBundle(bundle, { metadata: true });
 }
 
 export function encodeOscPacket(packet: OscPacket): Uint8Array {
 	// console.debug('encodeOscPacket', packet);
-	return osc.writePacket(packet, {metadata: true});
+	return osc.writePacket(packet, { metadata: true });
 }
 
 export class TcpMessageSize {
@@ -85,7 +85,7 @@ export class TcpMessageSize {
 	}
 	async read(tcpSocket: Deno.TcpConn): Promise<number> {
 		const bytesRead = await tcpSocket.read(this.byteArray) || 0;
-		if(bytesRead != 4) {
+		if (bytesRead != 4) {
 			throw new Error(`MessageSizeReader.readTcp: read failed: ${bytesRead}`);
 		} else {
 			return this.getSize();
@@ -99,35 +99,39 @@ export class TcpMessageSize {
 
 export async function tcpOscPacketReader(
 	tcpSocket: Deno.TcpConn,
-	proc: (byteArray: Uint8Array) => void
+	proc: (byteArray: Uint8Array) => void,
 ): Promise<void> {
 	const messageSize = new TcpMessageSize();
 	const messageSizeLimit = 8388608;
 	const readArray = new Uint8Array(messageSizeLimit);
-	while(1) {
+	while (1) {
 		const bytesToRead = await messageSize.read(tcpSocket);
-		if(bytesToRead > messageSizeLimit) {
+		if (bytesToRead > messageSizeLimit) {
 			throw new Error(`messageSize exceeds limit: ${bytesToRead}`);
 		}
 		const bytesRead = await tcpSocket.read(readArray) || 0;
-		if(bytesRead < bytesToRead) {
-			throw new Error(`bytesRead less than bytesToRead: ${bytesRead}, ${bytesToRead}`);
-		} else if(bytesRead == bytesToRead){
+		if (bytesRead < bytesToRead) {
+			throw new Error(
+				`bytesRead less than bytesToRead: ${bytesRead}, ${bytesToRead}`,
+			);
+		} else if (bytesRead == bytesToRead) {
 			const messagePacket = readArray.slice(0, bytesRead);
 			proc(messagePacket);
 		} else {
 			// Should handle this...
-			throw new Error(`bytesRead greater than bytesToRead: ${bytesRead}, ${bytesToRead}`);
+			throw new Error(
+				`bytesRead greater than bytesToRead: ${bytesRead}, ${bytesToRead}`,
+			);
 		}
 	}
 }
 
-export async function tcpOscMessageReader(
+export function tcpOscMessageReader(
 	tcpSocket: Deno.TcpConn,
-	proc: (message: OscMessage) => void
+	proc: (message: OscMessage) => void,
 ): Promise<void> {
 	return tcpOscPacketReader(
 		tcpSocket,
-		(byteArray: Uint8Array) => proc(decodeOscMessage(byteArray))
+		(byteArray: Uint8Array) => proc(decodeOscMessage(byteArray)),
 	);
 }

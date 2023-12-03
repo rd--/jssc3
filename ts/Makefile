@@ -4,7 +4,8 @@ dist:
 check-ts:
 	deno check --config deno.json */*.ts
 
-all: bundle
+fmt-ts:
+	deno fmt --use-tabs --single-quote
 
 repl:
 	deno repl --allow-net --allow-read --allow-env --unstable

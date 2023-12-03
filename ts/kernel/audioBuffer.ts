@@ -1,5 +1,5 @@
-import { arrayFillWithIndex } from '../kernel/array.ts'
-import { interleaveSampleData } from '../kernel/typedArray.ts'
+import { arrayFillWithIndex } from '../kernel/array.ts';
+import { interleaveSampleData } from '../kernel/typedArray.ts';
 
 // Number of frames multiplied by the number of channels.
 export function audioBufferNumberOfSamples(anAudioBuffer: AudioBuffer): number {
@@ -7,37 +7,42 @@ export function audioBufferNumberOfSamples(anAudioBuffer: AudioBuffer): number {
 }
 
 // Get all audio data as an array of Float32Array.
-export function audioBufferChannelDataArray(anAudioBuffer: AudioBuffer): Float32Array[] {
+export function audioBufferChannelDataArray(
+	anAudioBuffer: AudioBuffer,
+): Float32Array[] {
 	return arrayFillWithIndex(
 		anAudioBuffer.numberOfChannels,
-		i => anAudioBuffer.getChannelData(i)
+		(i) => anAudioBuffer.getChannelData(i),
 	);
 }
 
 // Get all audio data as an interleaved Float32Array.
-export function audioBufferInterleavedChannelData(anAudioBuffer: AudioBuffer): Float32Array {
-	if(anAudioBuffer.numberOfChannels === 1) {
+export function audioBufferInterleavedChannelData(
+	anAudioBuffer: AudioBuffer,
+): Float32Array {
+	if (anAudioBuffer.numberOfChannels === 1) {
 		return anAudioBuffer.getChannelData(0);
 	} else {
 		const channelsArray = audioBufferChannelDataArray(anAudioBuffer);
-		const numberOfSamples = anAudioBuffer.length * anAudioBuffer.numberOfChannels;
+		const numberOfSamples = anAudioBuffer.length *
+			anAudioBuffer.numberOfChannels;
 		return interleaveSampleData(
 			anAudioBuffer.length,
 			anAudioBuffer.numberOfChannels,
 			channelsArray,
-			size => new Float32Array(size)
+			(size) => new Float32Array(size),
 		);
 	}
 }
 
 export function audioBufferMaximumAbsoluteValueAndFrameNumberOf(
-	anAudioBuffer: AudioBuffer
+	anAudioBuffer: AudioBuffer,
 ): number[] {
 	const channelsArray = audioBufferChannelDataArray(anAudioBuffer);
 	let maximumValue = 0;
 	let frameNumber = 0;
-	for(let i = 0; i < anAudioBuffer.length; i++) {
-		for(let j = 0; j < anAudioBuffer.numberOfChannels; j++) {
+	for (let i = 0; i < anAudioBuffer.length; i++) {
+		for (let j = 0; j < anAudioBuffer.numberOfChannels; j++) {
 			const nextValue = Math.abs(channelsArray[j][i]);
 			if (nextValue > maximumValue) {
 				maximumValue = nextValue;

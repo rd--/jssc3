@@ -1,9 +1,9 @@
-import { isNumber } from '../kernel/number.ts'
-import { isString } from '../kernel/string.ts'
+import { isNumber } from '../kernel/number.ts';
+import { isString } from '../kernel/string.ts';
 
 // columnIndexToLetter(6) === 'g'
 export function columnIndexToLetter(columnIndex: number): string {
-	if(isNumber(columnIndex)) {
+	if (isNumber(columnIndex)) {
 		const columnLetter = String.fromCharCode(columnIndex + 97); // 0 -> a
 		return columnLetter;
 	} else {
@@ -14,7 +14,7 @@ export function columnIndexToLetter(columnIndex: number): string {
 
 // columnLetterToIndex('g') === 6
 export function columnLetterToIndex(columnLetter: string): number {
-	if(isString(columnLetter)) {
+	if (isString(columnLetter)) {
 		const columnIndex = columnLetter.charCodeAt(0) - 97;
 		return columnIndex;
 	} else {
@@ -27,7 +27,7 @@ export function columnLetterToIndex(columnLetter: string): number {
 export function cellRefToLinearIndex(
 	numberOfColumns: number,
 	columnLetter: string,
-	rowNumber: number
+	rowNumber: number,
 ): number {
 	const columnIndex = columnLetterToIndex(columnLetter);
 	return ((rowNumber - 1) * numberOfColumns) + columnIndex;
@@ -37,10 +37,10 @@ export function cellRefToLinearIndex(
 export function allCellRefDo(
 	numberOfColumns: number,
 	numberOfRows: number,
-	proc: (aColumn: string, aRow: number) => void
+	proc: (aColumn: string, aRow: number) => void,
 ): void {
-	for(let rowNumber = 1; rowNumber <= numberOfRows; rowNumber++) {
-		for(let columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
+	for (let rowNumber = 1; rowNumber <= numberOfRows; rowNumber++) {
+		for (let columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
 			const columnLetter = columnIndexToLetter(columnIndex);
 			proc(columnLetter, rowNumber);
 		}

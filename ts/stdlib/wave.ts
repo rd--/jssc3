@@ -2,18 +2,20 @@
 <https://www.mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html>
 */
 
-import * as riff from './riff.ts'
+import * as riff from './riff.ts';
 
-export function waveReadChunkSequence(byteArray: ArrayBuffer): riff.RiffChunk[] {
+export function waveReadChunkSequence(
+	byteArray: ArrayBuffer,
+): riff.RiffChunk[] {
 	const size = byteArray.byteLength;
 	riff.riffVerifyHeader(byteArray);
 	const waveText = riff.riffReadChunkId(byteArray, 8);
-	if(waveText != 'WAVE') {
+	if (waveText != 'WAVE') {
 		throw new Error('Invalid Wave?');
-	};
+	}
 	const answer = [];
 	let offset = 12;
-	while(offset < size) {
+	while (offset < size) {
 		const chunk = riff.riffReadChunk(byteArray, offset);
 		answer.push(chunk);
 		offset += chunk.size + 8;
@@ -22,10 +24,10 @@ export function waveReadChunkSequence(byteArray: ArrayBuffer): riff.RiffChunk[] 
 }
 
 export type WaveFmtChunk = {
-    formatTag: number, /* 1 = Pcm, 3 = Ieee Float */
-	channels: number,
-    samplesPerSec: number,
-	bitsPerSample: number
+	formatTag: number; /* 1 = Pcm, 3 = Ieee Float */
+	channels: number;
+	samplesPerSec: number;
+	bitsPerSample: number;
 };
 
 export function waveParseFmtChunk(fmt: riff.RiffChunk): WaveFmtChunk {
@@ -33,17 +35,17 @@ export function waveParseFmtChunk(fmt: riff.RiffChunk): WaveFmtChunk {
 		formatTag: fmt.data.getUint16(0, true),
 		channels: fmt.data.getUint16(2, true),
 		samplesPerSec: fmt.data.getUint32(4, true),
-		bitsPerSample: fmt.data.getUint16(14, true)
+		bitsPerSample: fmt.data.getUint16(14, true),
 	};
 }
 
 export type WaveFactChunk = {
-    sampleLength: number /* number of frames */
+	sampleLength: number; /* number of frames */
 };
 
 export function waveParseFactChunk(fact: riff.RiffChunk): WaveFactChunk {
 	return {
-		sampleLength: fact.data.getUint32(0, true)
+		sampleLength: fact.data.getUint32(0, true),
 	};
 }
 
@@ -54,32 +56,32 @@ export function waveParseDataFloat32(data: riff.RiffChunk): Float32Array {
 }
 
 export type Wave = {
-	url: string,
-	chunks: riff.RiffChunk[],
-	fmtChunk: WaveFmtChunk,
-	factChunk: WaveFactChunk,
-	data: Float32Array
+	url: string;
+	chunks: riff.RiffChunk[];
+	fmtChunk: WaveFmtChunk;
+	factChunk: WaveFactChunk;
+	data: Float32Array;
 };
 
 export function chunksToWave(url: string, chunks: riff.RiffChunk[]): Wave {
 	let fmtChunk: WaveFmtChunk | null = null, factChunk = null, data = null;
-	chunks.forEach(chunk => {
+	chunks.forEach((chunk) => {
 		// console.debug('chunksToWave', chunk.id, chunk.size, chunk.data);
-		if(chunk.id == 'fmt ') {
+		if (chunk.id == 'fmt ') {
 			fmtChunk = waveParseFmtChunk(chunk);
 		}
-		if(chunk.id == 'fact') {
+		if (chunk.id == 'fact') {
 			factChunk = waveParseFactChunk(chunk);
 		}
-		if(chunk.id == 'data') {
-			if(fmtChunk == null || fmtChunk.formatTag != 3) {
+		if (chunk.id == 'data') {
+			if (fmtChunk == null || fmtChunk.formatTag != 3) {
 				throw new Error('Wave: not Float32');
 			} else {
 				data = waveParseDataFloat32(chunk);
 			}
 		}
 	});
-	if(fmtChunk == null || factChunk == null || data == null) {
+	if (fmtChunk == null || factChunk == null || data == null) {
 		throw new Error('Wave: invalid Wave');
 	} else {
 		return {
@@ -87,19 +89,19 @@ export function chunksToWave(url: string, chunks: riff.RiffChunk[]): Wave {
 			chunks: chunks,
 			fmtChunk: fmtChunk,
 			factChunk: factChunk,
-			data: data
+			data: data,
 		};
 	}
 }
 
 export function waveParse(url: string, byteArray: ArrayBuffer): Wave {
-	return chunksToWave(url, waveReadChunkSequence(byteArray))
+	return chunksToWave(url, waveReadChunkSequence(byteArray));
 }
 
 export function waveFetch(url: string): Promise<Wave> {
 	return fetch(url, { cache: 'default' })
-		.then(response => response.arrayBuffer())
-		.then(byteArray => waveParse(url, byteArray))
+		.then((response) => response.arrayBuffer())
+		.then((byteArray) => waveParse(url, byteArray));
 }
 
 /*

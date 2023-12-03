@@ -12,7 +12,7 @@ export function consoleError(text: string): void {
 
 export function throwError(text: string): void {
 	console.error(text);
-	throw(Error(text));
+	throw (Error(text));
 }
 
 export function consoleLog(text: string): void {
@@ -23,7 +23,11 @@ export function consoleLogMessageFrom(from: string, text: string): void {
 	console.log(`${from}: ${text}`);
 }
 
-export function logErrorAndReturn<T>(fromWhere: string, reason: string, defaultValue: T): T {
+export function logErrorAndReturn<T>(
+	fromWhere: string,
+	reason: string,
+	defaultValue: T,
+): T {
 	console.error(`${fromWhere}: ${reason}`);
 	return defaultValue;
 }

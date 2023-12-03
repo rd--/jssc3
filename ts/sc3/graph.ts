@@ -1,28 +1,69 @@
-import { isArray, arrayAppend, arrayFilter, arrayFindIndex, arrayForEach, arrayIndexOf, arrayLength, arrayMap, arrayNub, arrayReplicate, arraySort } from '../kernel/array.ts'
-import { encodeInt8, encodeInt16, encodeInt32, encodeFloat32, encodePascalString } from '../kernel/encode.ts'
-import { isNumber } from '../kernel/number.ts'
-import { setIncludes, setNew, setAdd, setAsArray } from '../kernel/set.ts'
+import {
+	arrayAppend,
+	arrayFilter,
+	arrayFindIndex,
+	arrayForEach,
+	arrayIndexOf,
+	arrayLength,
+	arrayMap,
+	arrayNub,
+	arrayReplicate,
+	arraySort,
+	isArray,
+} from '../kernel/array.ts';
+import {
+	encodeFloat32,
+	encodeInt16,
+	encodeInt32,
+	encodeInt8,
+	encodePascalString,
+} from '../kernel/encode.ts';
+import { isNumber } from '../kernel/number.ts';
+import { setAdd, setAsArray, setIncludes, setNew } from '../kernel/set.ts';
 
-import { Tree } from '../stdlib/tree.ts'
-import { flattenByteEncoding } from '../stdlib/u8.ts'
+import { Tree } from '../stdlib/tree.ts';
+import { flattenByteEncoding } from '../stdlib/u8.ts';
 
-import { rateIr, rateKr } from './rate.ts'
-import { LocalControl, UgenInput, Ugen, ScUgen, Signal, scUgenCompare, isUgen, isLocalControl, sortLocalControls, isScUgen } from './ugen.ts'
+import { rateIr, rateKr } from './rate.ts';
+import {
+	isLocalControl,
+	isScUgen,
+	isUgen,
+	LocalControl,
+	ScUgen,
+	scUgenCompare,
+	Signal,
+	sortLocalControls,
+	Ugen,
+	UgenInput,
+} from './ugen.ts';
 
 // traverse graph from p adding leaf nodes to the set c
 // w protects from loops in multipleRootGraph (when recurring in traversing multipleRootGraph elements w is set to c).
-export function ugenTraverseCollecting(p: Tree<Ugen>, c: Set<number | ScUgen>, w: Set<number | ScUgen>): void {
+export function ugenTraverseCollecting(
+	p: Tree<Ugen>,
+	c: Set<number | ScUgen>,
+	w: Set<number | ScUgen>,
+): void {
 	// console.debug(`ugenTraverseCollecting: ${p}, ${c}, ${w}`);
-	if(isArray(p)) {
+	if (isArray(p)) {
 		// console.debug(`ugenTraverseCollecting: array: ${p}`);
-		arrayForEach(p, item => ugenTraverseCollecting(item, c, w));
-	} else if(isUgen(p)) {
+		arrayForEach(p, (item) => ugenTraverseCollecting(item, c, w));
+	} else if (isUgen(p)) {
 		const multipleRootGraphArray = setAsArray(p.scUgen.multipleRootGraph);
 		// console.debug(`ugenTraverseCollecting: port: ${p}`);
-		if(!setIncludes(w, p.scUgen)) {
+		if (!setIncludes(w, p.scUgen)) {
 			setAdd(c, p.scUgen);
-			arrayForEach(p.scUgen.inputArray, item => isNumber(item) ? setAdd(c, item)  : ugenTraverseCollecting(item, c, w));
-			arrayForEach(multipleRootGraphArray, item => isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c));
+			arrayForEach(
+				p.scUgen.inputArray,
+				(item) =>
+					isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, w),
+			);
+			arrayForEach(
+				multipleRootGraphArray,
+				(item) =>
+					isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c),
+			);
 		}
 	} else {
 		console.error('ugenTraverseCollecting: unknown type', p, c, w);
@@ -31,7 +72,7 @@ export function ugenTraverseCollecting(p: Tree<Ugen>, c: Set<number | ScUgen>, w
 
 export function ugenTreeLeafNodes(p: Tree<Ugen>): Array<number | ScUgen> {
 	// console.debug(`ugenTreeLeafNodes: ${p}`);
-	const c = <Set<number | ScUgen>>setNew();
+	const c = <Set<number | ScUgen>> setNew();
 	ugenTraverseCollecting(p, c, setNew());
 	return setAsArray(c);
 }
@@ -41,7 +82,12 @@ export class UgenGraph {
 	ugenArray: ScUgen[];
 	constantArray: number[];
 	controlArray: LocalControl[];
-	constructor(name: string, ugenArray: ScUgen[], constantArray: number[], controlArray: LocalControl[]) {
+	constructor(
+		name: string,
+		ugenArray: ScUgen[],
+		constantArray: number[],
+		controlArray: LocalControl[],
+	) {
 		this.name = name;
 		this.ugenArray = ugenArray;
 		this.constantArray = constantArray;
@@ -56,7 +102,7 @@ export function isScUgenControl(scUgen: ScUgen): boolean {
 // This should check that signal is not a tree of numbers...
 export function signalToUgenTree(signal: Signal): Tree<Ugen> {
 	// console.debug(`signalToUgenTree: ${signal}`);
-	return <Tree<Ugen>>signal;
+	return <Tree<Ugen>> signal;
 }
 
 // ugens are sorted by id, which is in applicative order.
@@ -64,46 +110,66 @@ export function makeUgenGraph(name: string, signal: Signal): UgenGraph {
 	// console.debug(`makeUgenGraph: ${name}, ${signal}`);
 	const tree = signalToUgenTree(signal);
 	const leafNodes = ugenTreeLeafNodes(tree);
-	const constantNodes = <number[]>arrayFilter(leafNodes, isNumber);
-	const controlUgenNodes = <ScUgen[]>arrayFilter(leafNodes, item => isScUgen(item) && item.localControl !== null);
-	const controlNodes = <LocalControl[]>arrayMap(item => item.localControl, controlUgenNodes);
+	const constantNodes = <number[]> arrayFilter(leafNodes, isNumber);
+	const controlUgenNodes = <ScUgen[]> arrayFilter(
+		leafNodes,
+		(item) => isScUgen(item) && item.localControl !== null,
+	);
+	const controlNodes = <LocalControl[]> arrayMap(
+		(item) => item.localControl,
+		controlUgenNodes,
+	);
 	const controlArray = sortLocalControls(controlNodes);
-	const ugenNodes = <ScUgen[]>arrayFilter(leafNodes, item => isScUgen(item) && item.localControl === null);
+	const ugenNodes = <ScUgen[]> arrayFilter(
+		leafNodes,
+		(item) => isScUgen(item) && item.localControl === null,
+	);
 	const ugenArray = arraySort(ugenNodes, scUgenCompare);
-	const numLocalBufs = arrayLength(arrayFilter(ugenArray, item => item.name === 'LocalBuf'));
-	const MaxLocalBufs = function(count: number): ScUgen {
+	const numLocalBufs = arrayLength(
+		arrayFilter(ugenArray, (item) => item.name === 'LocalBuf'),
+	);
+	const MaxLocalBufs = function (count: number): ScUgen {
 		return new ScUgen('MaxLocalBufs', 1, rateIr, 0, [count]);
 	};
 	const numControls = controlArray.length;
-	const Control = function(count: number): ScUgen {
+	const Control = function (_unusedCount: number): ScUgen {
 		// The special-index holds the accumulated offset where multiple Control Ugens (at different rates) are present.
 		return new ScUgen('Control', controlArray.length, rateKr, 0, []);
-	}
-	if(numLocalBufs > 0) {
+	};
+	if (numLocalBufs > 0) {
 		ugenArray.unshift(MaxLocalBufs(numLocalBufs));
 	}
-	if(numControls > 0) {
+	if (numControls > 0) {
 		ugenArray.unshift(Control(numControls));
 	}
 	return new UgenGraph(
 		name,
 		ugenArray,
-		arraySort(arrayNub(arrayAppend([numLocalBufs], constantNodes)), (i, j) => i - j),
-		controlArray
+		arraySort(
+			arrayNub(arrayAppend([numLocalBufs], constantNodes)),
+			(i, j) => i - j,
+		),
+		controlArray,
 	);
 }
 
-export function graphConstantIndex(graph: UgenGraph, constantValue: number): number {
+export function graphConstantIndex(
+	graph: UgenGraph,
+	constantValue: number,
+): number {
 	return arrayIndexOf(graph.constantArray, constantValue);
 }
 
 export function graphUgenIndex(graph: UgenGraph, id: number): number {
-	return arrayFindIndex(graph.ugenArray, ugen => ugen.id === id);
+	return arrayFindIndex(graph.ugenArray, (ugen) => ugen.id === id);
 }
 
-export function graphUgenInputSpec(graph: UgenGraph, input: UgenInput): number[] {
-	if(isUgen(input)) {
-		if(isLocalControl(input)) {
+export function graphUgenInputSpec(
+	graph: UgenGraph,
+	input: UgenInput,
+): number[] {
+	if (isUgen(input)) {
+		if (isLocalControl(input)) {
 			// Since only kr LocalControls are allowed, if there is such a control the Ugen index is zero.
 			return [0, input.scUgen.localControl!.index];
 		} else {
@@ -116,15 +182,25 @@ export function graphUgenInputSpec(graph: UgenGraph, input: UgenInput): number[]
 
 export const SCgf = Number(1396926310);
 
-export function graphEncodeUgenSpec(graph: UgenGraph, ugen: ScUgen): Tree<Uint8Array> {
+export function graphEncodeUgenSpec(
+	graph: UgenGraph,
+	ugen: ScUgen,
+): Tree<Uint8Array> {
 	return [
 		encodePascalString(ugen.name),
 		encodeInt8(ugen.rate),
 		encodeInt32(arrayLength(ugen.inputArray)),
 		encodeInt32(ugen.numChannels),
 		encodeInt16(ugen.specialIndex),
-		arrayMap(input => arrayMap(index => encodeInt32(index), graphUgenInputSpec(graph, input)), ugen.inputArray),
-		arrayReplicate(ugen.numChannels, encodeInt8(ugen.rate))
+		arrayMap(
+			(input) =>
+				arrayMap(
+					(index) => encodeInt32(index),
+					graphUgenInputSpec(graph, input),
+				),
+			ugen.inputArray,
+		),
+		arrayReplicate(ugen.numChannels, encodeInt8(ugen.rate)),
 	];
 }
 
@@ -136,14 +212,20 @@ export function graphEncodeSyndef(graph: UgenGraph): Uint8Array {
 		encodeInt16(1), // # synth definitions
 		encodePascalString(graph.name), // name
 		encodeInt32(arrayLength(graph.constantArray)), // # constants
-		arrayMap(item => encodeFloat32(item, false), graph.constantArray), // constants
+		arrayMap((item) => encodeFloat32(item, false), graph.constantArray), // constants
 		encodeInt32(arrayLength(graph.controlArray)), // # controls
-		arrayMap(item => encodeFloat32(item.defaultValue, false), graph.controlArray), // control default values
+		arrayMap(
+			(item) => encodeFloat32(item.defaultValue, false),
+			graph.controlArray,
+		), // control default values
 		encodeInt32(arrayLength(graph.controlArray)), // # controls
-		arrayMap(item => [encodePascalString(item.name), encodeInt32(item.index)], graph.controlArray), // controls
+		arrayMap(
+			(item) => [encodePascalString(item.name), encodeInt32(item.index)],
+			graph.controlArray,
+		), // controls
 		encodeInt32(arrayLength(graph.ugenArray)), // # ugen
-		arrayMap(item => graphEncodeUgenSpec(graph, item), graph.ugenArray), // ugens
-		encodeInt16(0) // # variants
+		arrayMap((item) => graphEncodeUgenSpec(graph, item), graph.ugenArray), // ugens
+		encodeInt16(0), // # variants
 	]);
 }
 

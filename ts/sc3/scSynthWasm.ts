@@ -1,14 +1,22 @@
-import { OscPacket, decodeOscMessage, encodeOscPacket } from '../stdlib/openSoundControl.ts'
+import {
+	decodeOscMessage,
+	encodeOscPacket,
+	OscPacket,
+} from '../stdlib/openSoundControl.ts';
 
-import { ScSynth } from './scSynth.ts'
-import { ScSynthWasmModule } from './scSynthWasmModule.ts'
+import { ScSynth } from './scSynth.ts';
+import { ScSynthWasmModule } from './scSynthWasmModule.ts';
 
-export function scSynthUseWasm(scSynth: ScSynth, wasm: ScSynthWasmModule): void {
-	if(scSynth.isConnected()) {
+export function scSynthUseWasm(
+	scSynth: ScSynth,
+	wasm: ScSynthWasmModule,
+): void {
+	if (scSynth.isConnected()) {
 		throw Error('scSynthUseWasm: already connected');
 	} else {
 		scSynth.basicConnect = () => basicConnect(scSynth, wasm);
-		scSynth.basicSendOsc = (oscPacket) => basicSendOsc(scSynth, wasm, oscPacket);
+		scSynth.basicSendOsc = (oscPacket) =>
+			basicSendOsc(scSynth, wasm, oscPacket);
 	}
 }
 
@@ -26,23 +34,27 @@ function basicConnect(scSynth: ScSynth, wasm: ScSynthWasmModule): void {
 	args.push('-m', '32768'); // real time memory (Kb), total memory is fixed at scSynth/wasm compile time, see README_WASM
 	// console.debug('wasm: connect: callMain', args);
 	wasm.callMain(args);
-	setTimeout(function() {
+	setTimeout(function () {
 		// console.debug('wasm: oscDriver', wasm, langPort);
 		wasm.oscDriver[langPort] = {
-			receive: function(address: string, data: Uint8Array) {
+			receive: function (_unusedAddress: string, data: Uint8Array) {
 				// console.debug('wasm: oscDriver: receive', address, data);
 				scSynth.dispatchOscMessage(decodeOscMessage(data));
-			}
+			},
 		};
 	}, 1000);
 	scSynth.startStatusMonitor();
 }
 
-function basicSendOsc(scSynth: ScSynth, wasm: ScSynthWasmModule, oscPacket: OscPacket): void {
+function basicSendOsc(
+	_unusedScSynth: ScSynth,
+	wasm: ScSynthWasmModule,
+	oscPacket: OscPacket,
+): void {
 	// console.debug('wasm: sendOsc', oscPacket);
-	if(wasm.oscDriver) {
+	if (wasm.oscDriver) {
 		const port = wasm.oscDriver[synthPort];
-		if(port && port.receive) {
+		if (port && port.receive) {
 			port.receive(langPort, encodeOscPacket(oscPacket));
 		} else {
 			console.error('wasm: sendOsc: no port or no receive?');

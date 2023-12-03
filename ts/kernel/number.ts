@@ -6,8 +6,11 @@ export const numberPi: number = Math.PI;
 
 export const numberInfinity = Infinity;
 
-export function numberTimesRepeat(count: number, proc: (aValue: void) => void): void {
-	for(let i = 0; i < count; i++) {
+export function numberTimesRepeat(
+	count: number,
+	proc: (aValue: void) => void,
+): void {
+	for (let i = 0; i < count; i++) {
 		proc();
 	}
 }

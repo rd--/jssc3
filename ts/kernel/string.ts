@@ -13,7 +13,7 @@ export function stringLines(aString: string): string[] {
 }
 
 export function stringNonEmptyLines(aString: string): string[] {
-	return aString.split('\n').filter(each => each.length > 0);
+	return aString.split('\n').filter((each) => each.length > 0);
 }
 
 // The split method accepts regular expressions, this is a simpler function.
@@ -31,7 +31,7 @@ export function stringAppend(lhs: string, rhs: string): string {
 
 export function stringToCharCodeArray(aString: string): number[] {
 	const answer = [];
-	for (let i = 0; i < aString.length; i ++) {
+	for (let i = 0; i < aString.length; i++) {
 		answer.push(aString.charCodeAt(i));
 	}
 	return answer;

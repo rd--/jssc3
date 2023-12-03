@@ -6,16 +6,19 @@ export function randomInteger(minNumber: number, maxNumber: number): number {
 }
 
 // The maximum and minimum are both inclusive.
-export function randomIntegerInclusive(minNumber: number, maxNumber: number): number {
+export function randomIntegerInclusive(
+	minNumber: number,
+	maxNumber: number,
+): number {
 	const min = Math.ceil(minNumber);
 	const max = Math.floor(maxNumber);
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export function randomFloat(min: number, max : number): number {
+export function randomFloat(min: number, max: number): number {
 	return Math.random() * (max - min) + min;
 }
 
 export function randomBoolean(): boolean {
-	return Math.random()  > 0.5;
+	return Math.random() > 0.5;
 }

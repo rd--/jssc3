@@ -1,16 +1,16 @@
 export type Queue<T> = {
-	typeString: string,
-	queue: Array<T>
+	typeString: string;
+	queue: Array<T>;
 };
 
 export function isQueue<T>(aValue: Queue<T> | unknown): aValue is Queue<T> {
-	return (aValue as Queue<T>).typeString ===  'queue';
+	return (aValue as Queue<T>).typeString === 'queue';
 }
 
-export function queueNew<T>():Queue<T> {
+export function queueNew<T>(): Queue<T> {
 	return {
 		typeString: 'queue',
-		queue: []
+		queue: [],
 	};
 }
 
@@ -18,7 +18,7 @@ export function queuePush<T>(aQueue: Queue<T>, aValue: T): void {
 	aQueue.queue.push(aValue);
 }
 
-export function queuePop<T>(aQueue: Queue<T>): (T | undefined) {
+export function queuePop<T>(aQueue: Queue<T>): T | undefined {
 	return aQueue.queue.pop();
 }
 

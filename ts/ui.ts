@@ -1,2 +1,2 @@
-export * from './ui/inputFile.ts'
-export * from './ui/userPrograms.ts'
+export * from './ui/inputFile.ts';
+export * from './ui/userPrograms.ts';

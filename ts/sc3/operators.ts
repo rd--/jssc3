@@ -110,14 +110,18 @@ export const binaryOperators: OperatorDictionary = {
 };
 
 export function unaryOperatorName(specialIndex: number): string {
-	return Object.keys(unaryOperators).find(key => unaryOperators[key] === specialIndex) || 'unknown unary operator name?';
+	return Object.keys(unaryOperators).find((key) =>
+		unaryOperators[key] === specialIndex
+	) || 'unknown unary operator name?';
 }
 
 export function binaryOperatorName(specialIndex: number): string {
-	return Object.keys(binaryOperators).find(key => binaryOperators[key] === specialIndex) || 'unknown binary operator name?';
+	return Object.keys(binaryOperators).find((key) =>
+		binaryOperators[key] === specialIndex
+	) || 'unknown binary operator name?';
 }
 
-export const operatorNameTable: Record<string,string> = {
+export const operatorNameTable: Record<string, string> = {
 	'+': 'Add',
 	'-': 'Sub',
 	'*': 'Mul',

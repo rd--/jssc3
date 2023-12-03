@@ -31,7 +31,7 @@ export function midiCps(self: number) {
 }
 
 export function midiRatio(self: number) {
-	return Math.pow(2.0, (self * (1.0 / 12.0)));
+	return Math.pow(2.0, self * (1.0 / 12.0));
 }
 
 export function octCps(self: number) {
@@ -41,4 +41,3 @@ export function octCps(self: number) {
 export function ratioMidi(self: number) {
 	return 12.0 * Math.log2(self);
 }
-

@@ -1,10 +1,10 @@
 export function getFileInputFile(
 	inputId: string,
-	fileIndex: number
+	fileIndex: number,
 ): File | null {
-	const inputElement = <HTMLInputElement>document.getElementById(inputId);
-	if(inputElement.files) {
-		const inputFile = <File>inputElement.files[fileIndex];
+	const inputElement = <HTMLInputElement> document.getElementById(inputId);
+	if (inputElement.files) {
+		const inputFile = <File> inputElement.files[fileIndex];
 		if (!inputFile) {
 			console.warn('getFileInputFile: no input file at index?');
 		}
@@ -18,13 +18,13 @@ export function getFileInputFile(
 export function readTextFileFromFileInputAndSetElementText(
 	inputId: string,
 	fileIndex: number,
-	textId: string
+	textId: string,
 ): void {
 	const element = document.getElementById(textId);
-	if(element) {
+	if (element) {
 		const inputFile = getFileInputFile(inputId, fileIndex);
-		if(inputFile) {
-			inputFile.text().then(text => element.textContent = text);
+		if (inputFile) {
+			inputFile.text().then((text) => element.textContent = text);
 		}
 	}
 }
