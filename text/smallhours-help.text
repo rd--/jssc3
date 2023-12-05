@@ -47,6 +47,7 @@ spl/help/Language/Guide/Method Table.help.sl
 spl/help/Language/Guide/Non-local Return.help.sl
 spl/help/Language/Guide/Notational Conventions.help.sl
 spl/help/Language/Guide/One Indexing.help.sl
+spl/help/Language/Guide/Operator Adverbs.help.sl
 spl/help/Language/Guide/Operator Syntax.help.sl
 spl/help/Language/Guide/Primitive Types.help.sl
 spl/help/Language/Guide/Quoted AtIfAbsentPut Syntax.help.sl
@@ -117,6 +118,7 @@ spl/help/Language/Reference/asLowercase.help.sl
 spl/help/Language/Reference/asNumber.help.sl
 spl/help/Language/Reference/asPoint.help.sl
 spl/help/Language/Reference/asPowerOfTwo.help.sl
+spl/help/Language/Reference/asRecord.help.sl
 spl/help/Language/Reference/asRegExp.help.sl
 spl/help/Language/Reference/asSeconds.help.sl
 spl/help/Language/Reference/assert.help.sl
@@ -148,10 +150,12 @@ spl/help/Language/Reference/atWrap.help.sl
 spl/help/Language/Reference/atWrapPut.help.sl
 spl/help/Language/Reference/backslashBackslash.help.sl
 spl/help/Language/Reference/Bag.help.sl
+spl/help/Language/Reference/bang.help.sl
 spl/help/Language/Reference/bangTilde.help.sl
 spl/help/Language/Reference/base64Decoded.help.sl
 spl/help/Language/Reference/basicAt.help.sl
 spl/help/Language/Reference/basicAtPut.help.sl
+spl/help/Language/Reference/betweenAnd.help.sl
 spl/help/Language/Reference/Blob.help.sl
 spl/help/Language/Reference/Block.help.sl
 spl/help/Language/Reference/Boolean.help.sl
@@ -187,6 +191,7 @@ spl/help/Language/Reference/copyReplaceAllWith.help.sl
 spl/help/Language/Reference/copyUpTo.help.sl
 spl/help/Language/Reference/copyWith.help.sl
 spl/help/Language/Reference/copyWithoutAll.help.sl
+spl/help/Language/Reference/copyWithoutDuplicates.help.sl
 spl/help/Language/Reference/copyWithout.help.sl
 spl/help/Language/Reference/count.help.sl
 spl/help/Language/Reference/crc16.help.sl
@@ -217,6 +222,7 @@ spl/help/Language/Reference/doWhileFalse.help.sl
 spl/help/Language/Reference/doWhileTrue.help.sl
 spl/help/Language/Reference/downToDo.help.sl
 spl/help/Language/Reference/downTo.help.sl
+spl/help/Language/Reference/duplicate.help.sl
 spl/help/Language/Reference/Duration.help.sl
 spl/help/Language/Reference/e.help.sl
 spl/help/Language/Reference/ensure.help.sl
@@ -240,6 +246,7 @@ spl/help/Language/Reference/Fraction.help.sl
 spl/help/Language/Reference/fractionPart.help.sl
 spl/help/Language/Reference/Frequency.help.sl
 spl/help/Language/Reference/fromToDo.help.sl
+spl/help/Language/Reference/Graph.help.sl
 spl/help/Language/Reference/greaterThanEquals.help.sl
 spl/help/Language/Reference/greaterThan.help.sl
 spl/help/Language/Reference/greaterThanTilde.help.sl
@@ -291,7 +298,6 @@ spl/help/Language/Reference/isSequenceable.help.sl
 spl/help/Language/Reference/isSortedBy.help.sl
 spl/help/Language/Reference/isSorted.help.sl
 spl/help/Language/Reference/Iterable.help.sl
-spl/help/Language/Reference/JiTuning.help.sl
 spl/help/Language/Reference/join.help.sl
 spl/help/Language/Reference/joinSeparatedBy.help.sl
 spl/help/Language/Reference/json.help.sl
@@ -348,6 +354,7 @@ spl/help/Language/Reference/or.help.sl
 spl/help/Language/Reference/orOr.help.sl
 spl/help/Language/Reference/Package.help.sl
 spl/help/Language/Reference/parseDecimalInteger.help.sl
+spl/help/Language/Reference/parseDuration.help.sl
 spl/help/Language/Reference/parseHexColour.help.sl
 spl/help/Language/Reference/parseInteger.help.sl
 spl/help/Language/Reference/parseJson.help.sl
@@ -363,6 +370,7 @@ spl/help/Language/Reference/PolarPoint.help.sl
 spl/help/Language/Reference/PositionableStream.help.sl
 spl/help/Language/Reference/position.help.sl
 spl/help/Language/Reference/postLine.help.sl
+spl/help/Language/Reference/Preferences.help.sl
 spl/help/Language/Reference/primeFactors.help.sl
 spl/help/Language/Reference/primeLimit.help.sl
 spl/help/Language/Reference/primesArray.help.sl
@@ -382,6 +390,7 @@ spl/help/Language/Reference/Record.help.sl
 spl/help/Language/Reference/reduce.help.sl
 spl/help/Language/Reference/reject.help.sl
 spl/help/Language/Reference/remainder.help.sl
+spl/help/Language/Reference/removeAllEqualTo.help.sl
 spl/help/Language/Reference/removeAll.help.sl
 spl/help/Language/Reference/removeAllSuchThat.help.sl
 spl/help/Language/Reference/removeAt.help.sl
@@ -423,6 +432,7 @@ spl/help/Language/Reference/sortedElements.help.sl
 spl/help/Language/Reference/sorted.help.sl
 spl/help/Language/Reference/sort.help.sl
 spl/help/Language/Reference/species.help.sl
+spl/help/Language/Reference/SphericalCoordinate.help.sl
 spl/help/Language/Reference/splitBy.help.sl
 spl/help/Language/Reference/split.help.sl
 spl/help/Language/Reference/sqrt.help.sl
@@ -433,6 +443,7 @@ spl/help/Language/Reference/Stream.help.sl
 spl/help/Language/Reference/String.help.sl
 spl/help/Language/Reference/sum.help.sl
 spl/help/Language/Reference/swapWith.help.sl
+spl/help/Language/Reference/systemCommand.help.sl
 spl/help/Language/Reference/system.help.sl
 spl/help/Language/Reference/System.help.sl
 spl/help/Language/Reference/take.help.sl
@@ -470,8 +481,8 @@ spl/help/Language/Reference/unlines.help.sl
 spl/help/Language/Reference/upOrDownTo.help.sl
 spl/help/Language/Reference/upToDo.help.sl
 spl/help/Language/Reference/upTo.help.sl
-spl/help/Language/Reference/URL.help.sl
-spl/help/Language/Reference/URLSearchParams.help.sl
+spl/help/Language/Reference/Url.help.sl
+spl/help/Language/Reference/UrlSearchParams.help.sl
 spl/help/Language/Reference/utf8ByteArray.help.sl
 spl/help/Language/Reference/utf8String.help.sl
 spl/help/Language/Reference/value.help.sl
@@ -480,6 +491,7 @@ spl/help/Language/Reference/Vector2.help.sl
 spl/help/Language/Reference/Vector3.help.sl
 spl/help/Language/Reference/Vector4.help.sl
 spl/help/Language/Reference/Void.help.sl
+spl/help/Language/Reference/WebSocket.help.sl
 spl/help/Language/Reference/whenCached.help.sl
 spl/help/Language/Reference/whileFalse.help.sl
 spl/help/Language/Reference/whileTrue.help.sl
@@ -488,7 +500,14 @@ spl/help/Language/Reference/withDo.help.sl
 spl/help/Language/Reference/withIndefiniteArticle.help.sl
 spl/help/Language/Reference/withIndexCollect.help.sl
 spl/help/Language/Reference/withIndexDo.help.sl
-spl/help/Language/Reference/withoutDuplicates.help.sl
+spl/help/Language/Reference/withoutAll.help.sl
+spl/help/Language/Reference/without.help.sl
+spl/help/Language/Reference/writeTextFile.help.sl
+spl/help/Music/Reference/JiTuning.help.sl
+spl/help/Music/Reference/latticeVectorString.help.sl
+spl/help/Music/Reference/RatioTuning.help.sl
+spl/help/Music/Reference/Scale.help.sl
+spl/help/Music/Reference/Tuning.help.sl
 spl/help/SmallKansas/Guide/Small Kansas.help.sl
 spl/help/SmallKansas/Reference/AnalogueClock.help.sl
 spl/help/SmallKansas/Reference/CategoryBrowser.help.sl
@@ -520,26 +539,34 @@ spl/help/SmallKansas/Reference/View.help.sl
 spl/help/SmallKansas/Reference/WindowMenu.help.sl
 spl/help/SmallKansas/Reference/WorldMenu.help.sl
 spl/help/SuperCollider/Guide/Local Controls.help.sl
+spl/help/SuperCollider/Guide/Named Controls.help.sl
+spl/help/SuperCollider/Guide/Random Number Generators.help.sl
 spl/help/SuperCollider/Guide/Sc Help Index.help.sl
 spl/help/SuperCollider/Guide/Small Hours.help.sl
 spl/help/SuperCollider/Guide/Terse Guide to SuperCollider.help.sl
 spl/help/SuperCollider/Guide/Texture Programs.help.sl
+spl/help/SuperCollider/Reference/AbsDif.help.sl
 spl/help/SuperCollider/Reference/Abs.help.sl
+spl/help/SuperCollider/Reference/addOscListener.help.sl
 spl/help/SuperCollider/Reference/AllpassC.help.sl
 spl/help/SuperCollider/Reference/AllpassN.help.sl
 spl/help/SuperCollider/Reference/allTuples.help.sl
+spl/help/SuperCollider/Reference/AmClip.help.sl
 spl/help/SuperCollider/Reference/AmpComp.help.sl
 spl/help/SuperCollider/Reference/AmpDb.help.sl
 spl/help/SuperCollider/Reference/Amplitude.help.sl
 spl/help/SuperCollider/Reference/ArcCos.help.sl
 spl/help/SuperCollider/Reference/ArcSin.help.sl
 spl/help/SuperCollider/Reference/ArcTan.help.sl
+spl/help/SuperCollider/Reference/arithmeticSeries.help.sl
 spl/help/SuperCollider/Reference/asLocalBuf.help.sl
 spl/help/SuperCollider/Reference/AudioIn.help.sl
 spl/help/SuperCollider/Reference/Balance2.help.sl
-spl/help/SuperCollider/Reference/bang.help.sl
 spl/help/SuperCollider/Reference/bangPlus.help.sl
 spl/help/SuperCollider/Reference/bangRaisedTo.help.sl
+spl/help/SuperCollider/Reference/BfDecode1.help.sl
+spl/help/SuperCollider/Reference/BfEncode1.help.sl
+spl/help/SuperCollider/Reference/BiLinRand.help.sl
 spl/help/SuperCollider/Reference/Blip.help.sl
 spl/help/SuperCollider/Reference/BLowPass.help.sl
 spl/help/SuperCollider/Reference/Bpf.help.sl
@@ -547,13 +574,16 @@ spl/help/SuperCollider/Reference/Bpz2.help.sl
 spl/help/SuperCollider/Reference/Brf.help.sl
 spl/help/SuperCollider/Reference/BrownNoise.help.sl
 spl/help/SuperCollider/Reference/Brz2.help.sl
+spl/help/SuperCollider/Reference/BufFrames.help.sl
 spl/help/SuperCollider/Reference/BufRd.help.sl
-spl/help/SuperCollider/Reference/Ceil.help.sl
+spl/help/SuperCollider/Reference/Ceiling.help.sl
 spl/help/SuperCollider/Reference/Changed.help.sl
+spl/help/SuperCollider/Reference/Clip2.help.sl
 spl/help/SuperCollider/Reference/ClipNoise.help.sl
 spl/help/SuperCollider/Reference/Clock.help.sl
 spl/help/SuperCollider/Reference/CoinGate.help.sl
 spl/help/SuperCollider/Reference/coin.help.sl
+spl/help/SuperCollider/Reference/Coin.help.sl
 spl/help/SuperCollider/Reference/collectTexture.help.sl
 spl/help/SuperCollider/Reference/CombC.help.sl
 spl/help/SuperCollider/Reference/CombL.help.sl
@@ -573,8 +603,10 @@ spl/help/SuperCollider/Reference/Cutoff.help.sl
 spl/help/SuperCollider/Reference/DbAmp.help.sl
 spl/help/SuperCollider/Reference/Dbrown.help.sl
 spl/help/SuperCollider/Reference/Dbrowni.help.sl
+spl/help/SuperCollider/Reference/Dc.help.sl
 spl/help/SuperCollider/Reference/Decay2.help.sl
 spl/help/SuperCollider/Reference/Decay.help.sl
+spl/help/SuperCollider/Reference/DecodeB2.help.sl
 spl/help/SuperCollider/Reference/DegreeToKey.help.sl
 spl/help/SuperCollider/Reference/Delay1.help.sl
 spl/help/SuperCollider/Reference/Delay2.help.sl
@@ -583,21 +615,26 @@ spl/help/SuperCollider/Reference/DelayN.help.sl
 spl/help/SuperCollider/Reference/DelayWrite.help.sl
 spl/help/SuperCollider/Reference/Demand.help.sl
 spl/help/SuperCollider/Reference/differentiate.help.sl
+spl/help/SuperCollider/Reference/Distances.help.sl
 spl/help/SuperCollider/Reference/Distort.help.sl
 spl/help/SuperCollider/Reference/DmdFor.help.sl
 spl/help/SuperCollider/Reference/DmdOn.help.sl
 spl/help/SuperCollider/Reference/Drand.help.sl
 spl/help/SuperCollider/Reference/Dseq.help.sl
-spl/help/SuperCollider/Reference/dup.help.sl
 spl/help/SuperCollider/Reference/Dust2.help.sl
 spl/help/SuperCollider/Reference/Dust.help.sl
 spl/help/SuperCollider/Reference/Dwhite.help.sl
 spl/help/SuperCollider/Reference/EnvGen.help.sl
+spl/help/SuperCollider/Reference/EnvTrapezoid.help.sl
 spl/help/SuperCollider/Reference/EqPan2.help.sl
+spl/help/SuperCollider/Reference/EqPan.help.sl
+spl/help/SuperCollider/Reference/Excess.help.sl
 spl/help/SuperCollider/Reference/Exp.help.sl
 spl/help/SuperCollider/Reference/ExpRand.help.sl
+spl/help/SuperCollider/Reference/ExpRandRange.help.sl
 spl/help/SuperCollider/Reference/FbSineC.help.sl
 spl/help/SuperCollider/Reference/Floor.help.sl
+spl/help/SuperCollider/Reference/Fold2.help.sl
 spl/help/SuperCollider/Reference/Fold.help.sl
 spl/help/SuperCollider/Reference/Formant.help.sl
 spl/help/SuperCollider/Reference/Formlet.help.sl
@@ -608,7 +645,7 @@ spl/help/SuperCollider/Reference/FreqShift.help.sl
 spl/help/SuperCollider/Reference/FSinOsc.help.sl
 spl/help/SuperCollider/Reference/Gate.help.sl
 spl/help/SuperCollider/Reference/Gcd.help.sl
-spl/help/SuperCollider/Reference/geom.help.sl
+spl/help/SuperCollider/Reference/geometricSeries.help.sl
 spl/help/SuperCollider/Reference/GetTempo.help.sl
 spl/help/SuperCollider/Reference/GrainFm.help.sl
 spl/help/SuperCollider/Reference/GrayNoise.help.sl
@@ -630,6 +667,7 @@ spl/help/SuperCollider/Reference/isNegative.help.sl
 spl/help/SuperCollider/Reference/isPositive.help.sl
 spl/help/SuperCollider/Reference/isStrictlyPositive.help.sl
 spl/help/SuperCollider/Reference/K2A.help.sl
+spl/help/SuperCollider/Reference/KNearest.help.sl
 spl/help/SuperCollider/Reference/Lag.help.sl
 spl/help/SuperCollider/Reference/Latch.help.sl
 spl/help/SuperCollider/Reference/LatoocarfianC.help.sl
@@ -641,6 +679,7 @@ spl/help/SuperCollider/Reference/LfClipNoise.help.sl
 spl/help/SuperCollider/Reference/LfCub.help.sl
 spl/help/SuperCollider/Reference/LfdClipNoise.help.sl
 spl/help/SuperCollider/Reference/LfdNoise0.help.sl
+spl/help/SuperCollider/Reference/LfdNoise1.help.sl
 spl/help/SuperCollider/Reference/LfdNoise3.help.sl
 spl/help/SuperCollider/Reference/LfNoise0.help.sl
 spl/help/SuperCollider/Reference/LfNoise1.help.sl
@@ -651,11 +690,11 @@ spl/help/SuperCollider/Reference/LfSaw.help.sl
 spl/help/SuperCollider/Reference/LfTri.help.sl
 spl/help/SuperCollider/Reference/Limiter.help.sl
 spl/help/SuperCollider/Reference/LinCongC.help.sl
+spl/help/SuperCollider/Reference/Line.help.sl
 spl/help/SuperCollider/Reference/LinExp.help.sl
 spl/help/SuperCollider/Reference/LinPan2.help.sl
 spl/help/SuperCollider/Reference/LinRand.help.sl
 spl/help/SuperCollider/Reference/LinXFade2.help.sl
-spl/help/SuperCollider/Reference/Ln.help.sl
 spl/help/SuperCollider/Reference/LocalBuf.help.sl
 spl/help/SuperCollider/Reference/LocalIn.help.sl
 spl/help/SuperCollider/Reference/LocalOut.help.sl
@@ -692,8 +731,10 @@ spl/help/SuperCollider/Reference/overlap.help.sl
 spl/help/SuperCollider/Reference/OverlapTexture.help.sl
 spl/help/SuperCollider/Reference/Pan2.help.sl
 spl/help/SuperCollider/Reference/PanAz.help.sl
+spl/help/SuperCollider/Reference/PanB2.help.sl
 spl/help/SuperCollider/Reference/PanB.help.sl
 spl/help/SuperCollider/Reference/PeakFollower.help.sl
+spl/help/SuperCollider/Reference/PenX.help.sl
 spl/help/SuperCollider/Reference/Phasor.help.sl
 spl/help/SuperCollider/Reference/PingPongDelay.help.sl
 spl/help/SuperCollider/Reference/PinkNoise.help.sl
@@ -714,23 +755,27 @@ spl/help/SuperCollider/Reference/Rand.help.sl
 spl/help/SuperCollider/Reference/RandRange.help.sl
 spl/help/SuperCollider/Reference/RatioMidi.help.sl
 spl/help/SuperCollider/Reference/Recip.help.sl
+spl/help/SuperCollider/Reference/RecordBuf.help.sl
 spl/help/SuperCollider/Reference/Release.help.sl
+spl/help/SuperCollider/Reference/removeOscListener.help.sl
 spl/help/SuperCollider/Reference/repeatEvery.help.sl
 spl/help/SuperCollider/Reference/Resonz.help.sl
 spl/help/SuperCollider/Reference/Rhpf.help.sl
 spl/help/SuperCollider/Reference/RingzBank.help.sl
 spl/help/SuperCollider/Reference/Ringz.help.sl
 spl/help/SuperCollider/Reference/Rlpf.help.sl
+spl/help/SuperCollider/Reference/Rotate2.help.sl
 spl/help/SuperCollider/Reference/RoundTo.help.sl
 spl/help/SuperCollider/Reference/RunningSum.help.sl
 spl/help/SuperCollider/Reference/Saw.help.sl
+spl/help/SuperCollider/Reference/ScaleNeg.help.sl
 spl/help/SuperCollider/Reference/schedule.help.sl
 spl/help/SuperCollider/Reference/scheduleInjecting.help.sl
 spl/help/SuperCollider/Reference/Schmidt.help.sl
 spl/help/SuperCollider/Reference/ScSynth.help.sl
 spl/help/SuperCollider/Reference/Select.help.sl
+spl/help/SuperCollider/Reference/SelectXFocus.help.sl
 spl/help/SuperCollider/Reference/Sequencer.help.sl
-spl/help/SuperCollider/Reference/series.help.sl
 spl/help/SuperCollider/Reference/SetResetFf.help.sl
 spl/help/SuperCollider/Reference/SfAcquire.help.sl
 spl/help/SuperCollider/Reference/Silent.help.sl
@@ -743,14 +788,23 @@ spl/help/SuperCollider/Reference/Slew.help.sl
 spl/help/SuperCollider/Reference/Slope.help.sl
 spl/help/SuperCollider/Reference/SoftClip.help.sl
 spl/help/SuperCollider/Reference/Sos.help.sl
+spl/help/SuperCollider/Reference/SparseMatrixMixer.help.sl
 spl/help/SuperCollider/Reference/Splay2.help.sl
+spl/help/SuperCollider/Reference/SplayAz.help.sl
 spl/help/SuperCollider/Reference/Splay.help.sl
 spl/help/SuperCollider/Reference/Spring.help.sl
+spl/help/SuperCollider/Reference/SqrDif.help.sl
 spl/help/SuperCollider/Reference/Sqrt.help.sl
 spl/help/SuperCollider/Reference/Squared.help.sl
+spl/help/SuperCollider/Reference/StandardL.help.sl
 spl/help/SuperCollider/Reference/Stepper.help.sl
+spl/help/SuperCollider/Reference/Sum3Rand.help.sl
+spl/help/SuperCollider/Reference/Sum4.help.sl
+spl/help/SuperCollider/Reference/Sum.help.sl
 spl/help/SuperCollider/Reference/Sweep.help.sl
 spl/help/SuperCollider/Reference/SyncSaw.help.sl
+spl/help/SuperCollider/Reference/TableRand.help.sl
+spl/help/SuperCollider/Reference/TableWindow.help.sl
 spl/help/SuperCollider/Reference/Tan.help.sl
 spl/help/SuperCollider/Reference/Tanh.help.sl
 spl/help/SuperCollider/Reference/TChoose.help.sl
@@ -764,6 +818,9 @@ spl/help/SuperCollider/Reference/TRand.help.sl
 spl/help/SuperCollider/Reference/Trig1.help.sl
 spl/help/SuperCollider/Reference/TrigAllocator.help.sl
 spl/help/SuperCollider/Reference/Trig.help.sl
+spl/help/SuperCollider/Reference/TrigRoundRobin.help.sl
+spl/help/SuperCollider/Reference/TwChoose.help.sl
+spl/help/SuperCollider/Reference/TwIndex.help.sl
 spl/help/SuperCollider/Reference/TwoPole.help.sl
 spl/help/SuperCollider/Reference/TwoZero.help.sl
 spl/help/SuperCollider/Reference/VarLag.help.sl
@@ -778,5 +835,5 @@ spl/help/SuperCollider/Reference/WrapIndex.help.sl
 spl/help/SuperCollider/Reference/XFade2.help.sl
 spl/help/SuperCollider/Reference/xfade.help.sl
 spl/help/SuperCollider/Reference/XFadeTexture.help.sl
-spl/help/SuperCollider/Reference/XLn.help.sl
+spl/help/SuperCollider/Reference/XLine.help.sl
 spl/help/SuperCollider/Reference/ZeroCrossing.help.sl
