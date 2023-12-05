@@ -1660,6 +1660,10 @@ export function Stepper(
 		resetval,
 	]);
 }
+// Sum four signals
+export function Sum4(in0: Signal, in1: Signal, in2: Signal, in3: Signal): Signal {
+    return makeUgen('Sum4', 1, [0, 1, 2, 3], 0, [in0, in1, in2, in3]);
+}
 // Triggered linear ramp
 export function Sweep(trig: Signal, rate: Signal): Signal {
 	return makeUgen('Sweep', 1, rateAr, 0, [trig, rate]);
