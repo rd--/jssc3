@@ -11,7 +11,8 @@ export function scSynthUseWebSocket(scSynth: ScSynth, url: string | URL): void {
 	} else {
 		const webSocket = new WebSocket(url);
 		webSocket.binaryType = 'arraybuffer';
-		scSynth.basicConnect = () => scSynth.startStatusMonitor();
+		scSynth.basicConnect = () =>
+			Promise.resolve(scSynth.startStatusMonitor());
 		scSynth.basicSendOsc = (oscPacket) =>
 			webSocket.send(encodeOscPacket(oscPacket));
 		scSynth.useIoUgens = true;

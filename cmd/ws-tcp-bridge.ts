@@ -13,6 +13,7 @@ const scSynthTcpAddress: Deno.ConnectOptions = {
 	port: Number(getEnv('ScPort', '57110'))
 };
 
+console.log('scSynthTcpAddress', scSynthTcpAddress);
 const tcpSocket: Deno.TcpConn = await Deno.connect(scSynthTcpAddress);
 tcpSocket.setNoDelay(true);
 tcpSocket.setKeepAlive(true);

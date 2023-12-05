@@ -2,6 +2,7 @@ import * as tcp from '../kernel/tcp.ts';
 
 import {
 	encodeOscPacket,
+	OscPacket,
 	TcpMessageSize,
 } from '../stdlib/openSoundControl.ts';
 
@@ -25,36 +26,44 @@ async function dispatchIncoming(
 	}
 }
 
-export async function scSynthUseTcp(
+async function tcpConnect(
 	scSynth: ScSynth,
 	hostname: string,
 	port: number,
-): Promise<Deno.TcpConn> {
+): Promise<void> {
+	const address = tcp.tcpAddress(hostname, port);
+	const tcpSocket = await Deno.connect(address);
+	const tcpQueue = tcp.tcpQueueOn(tcpSocket);
+	const writerPacketSize = new TcpMessageSize();
+	scSynth.readyState = ReadyState.Connected;
+	scSynth.basicSendOsc = function(oscPacket: OscPacket) {
+		const byteArray = encodeOscPacket(oscPacket);
+		writerPacketSize.enqueue(tcpQueue, byteArray.byteLength);
+		tcpQueue.addMessage(byteArray);
+	};
+	scSynth.useIoUgens = true;
+	dispatchIncoming(scSynth, tcpSocket);
+}
+
+export function scSynthUseTcp(
+	scSynth: ScSynth,
+	hostname: string,
+	port: number,
+): void {
 	if (scSynth.isConnected()) {
 		throw new Error('scSynthUseTcp: already connected');
 	} else {
-		const address = tcp.tcpAddress(hostname, port);
-		const tcpSocket = await Deno.connect(address);
-		const tcpQueue = tcp.tcpQueueOn(tcpSocket);
-		const writerPacketSize = new TcpMessageSize();
-		scSynth.readyState = ReadyState.Connected;
-		scSynth.basicSendOsc = function (oscPacket) {
-			const byteArray = encodeOscPacket(oscPacket);
-			writerPacketSize.enqueue(tcpQueue, byteArray.byteLength);
-			tcpQueue.addMessage(byteArray);
-		};
-		scSynth.useIoUgens = true;
-		return tcpSocket;
+		scSynth.readyState = ReadyState.Disconnected;
+		scSynth.basicConnect = () => tcpConnect(scSynth, hostname, port);
 	}
 }
 
-export async function ScSynthTcp(
+export function ScSynthTcp(
 	hostname: string,
 	port: number,
-): Promise<ScSynth> {
+): ScSynth {
 	const scSynth = new ScSynth();
-	const tcpSocket = await scSynthUseTcp(scSynth, hostname, port);
-	dispatchIncoming(scSynth, tcpSocket);
+	scSynthUseTcp(scSynth, hostname, port);
 	return scSynth;
 }
 

@@ -39,11 +39,12 @@ Model connection to ScSynth, which may be:
 1. Wasm (Internal)
 2. WebSocket (External)
 3. Udp (Cli only, External)
+4. Tcp (Cli only, External)
 The underlying connection sets basicConnect & basicSendOsc, and calls dispatchOscMessage.
 */
 export class ScSynth {
 	options: ScSynthOptions;
-	basicConnect: () => void;
+	basicConnect: () => Promise<void>;
 	basicSendOsc: (oscPacket: OscPacket) => void;
 	oscListeners: OscListeners;
 	readyState: ReadyState;
@@ -52,7 +53,7 @@ export class ScSynth {
 	statusMonitor: number | null;
 	constructor() {
 		this.options = scSynthDefaultOptions;
-		this.basicConnect = () => console.log('basicConnect: not initialized');
+		this.basicConnect = () => Promise.resolve(console.log('basicConnect: not initialized'));
 		this.basicSendOsc = (_unusedPacket) =>
 			console.log('basicSendOsc: not initialized');
 		this.oscListeners = new Map();
@@ -68,9 +69,10 @@ export class ScSynth {
 			this.oscListeners.set(address, new Set([handler]));
 		}
 	}
-	connect(): void {
-		this.basicConnect();
+	connect(): Promise<void> {
+		const answer = this.basicConnect();
 		this.readyState = ReadyState.Connecting;
+		return answer;
 	}
 	dispatchOscMessage(message: OscMessage): void {
 		// console.debug('dispatchOscMessage', JSON.stringify(message, null, 4));
@@ -233,7 +235,8 @@ export function playSynDefAtMessage(
 	systemTimeInSeconds: number | null,
 ): OscMessage {
 	const sNew = s_new(synDefName, nodeId, kAddToTail, groupId, parameterArray);
-	const completionMessage = (systemTimeInSeconds == null)
+	const completionMessage =
+		(systemTimeInSeconds == null)
 		? encodeOscMessage(sNew)
 		: encodeOscBundle({
 			timeTag: {
