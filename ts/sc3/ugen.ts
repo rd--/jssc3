@@ -83,6 +83,14 @@ export function signalSize(aSignal: Signal): number {
 	return isArray(aSignal) ? aSignal.length : 1;
 }
 
+export function signalNumber(aSignal: Signal): number {
+	if(isNumber(aSignal)) {
+		return aSignal;
+	} else {
+		throw Error('signalNumber: not a number?');
+	}
+}
+
 export class ScUgen {
 	name: string;
 	numChannels: number;
