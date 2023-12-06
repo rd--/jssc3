@@ -1,4 +1,8 @@
 {
+	"fmt": {
+		"useTabs": true,
+		"singleQuote": true,
+	},
 	"compilerOptions": {
 		"lib": [
 			"dom",

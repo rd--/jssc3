@@ -1,52 +1,47 @@
 const scSynthUdpAddress: Deno.NetAddr = {
 	transport: 'udp',
 	hostname: '127.0.0.1',
-	port: 57110
+	port: 57110,
 };
 
-const bridgeUdpPort: number = 58110;
+const bridgeUdpPort = 58110;
 
-const udp: DatagramConn = Deno.listenDatagram({
+const udp: Deno.DatagramConn = Deno.listenDatagram({
 	transport: 'udp',
 	hostname: '127.0.0.1',
-	port: bridgeUdpPort
+	port: bridgeUdpPort,
 });
 
-const bridgeWebSocketPort: number = 57110;
+const bridgeWebSocketPort = 57110;
 
-var webSocket: WebSocket | null = null;
+let webSocket: WebSocket | null = null;
 
-const websocketServer = Deno.serve({ port: bridgeWebSocketPort }, (request) => {
-
-	if(webSocket != null) {
+function onRequest(request: Request) {
+	if (webSocket != null) {
 		webSocket.close();
 	}
-
 	if (request.headers.get('upgrade') != 'websocket') {
 		return new Response(null, { status: 501 });
 	}
-
 	const { socket, response } = Deno.upgradeWebSocket(request);
-
 	webSocket = socket;
-
 	webSocket.addEventListener('message', (event) => {
 		const byteArray = new Uint8Array(event.data);
-		console.debug('webSocket: message', byteArray);
-		udp.send(byteArray, scSynthUdpAddress).then(function(bytesSent: number) {
-			if(byteArray.byteLength != bytesSent) {
+		// console.debug('webSocket: message', byteArray);
+		udp.send(byteArray, scSynthUdpAddress).then(function (bytesSent: number) {
+			if (byteArray.byteLength != bytesSent) {
 				console.error('udp.send', byteArray.byteLength, bytesSent);
 			}
 		});
 	});
-
 	return response;
+}
 
-});
+Deno.serve({ port: bridgeWebSocketPort }, onRequest);
 
 (async () => {
-	for await (const [data, address] of udp) {
-		if(webSocket != null) {
+	for await (const [data, _address] of udp) {
+		if (webSocket != null) {
 			webSocket.send(data);
 		} else {
 			console.error('webSocket is null');
