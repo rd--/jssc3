@@ -5,10 +5,10 @@ clean:
 	rm -f dist/jssc3.js
 
 http-file-server:
-	file_server --cors -p 8000
-
-python-http-file-server:
 	python3 cmd/http-server.py
+
+deno-http-file-server:
+	file_server --cors -p 8000
 
 push-all:
 	r.gitlab-push.sh jssc3
