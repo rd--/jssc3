@@ -1,7 +1,7 @@
 smallhours-programs.text: list of spl example programs that work in smallhours
 smallhours-oracle.text: subset of smallhours programs that are "interesting"
 
-( cd ~/sw/spl/help ; ls -1 Collect/*.sl Graph/*.sl Texture/*.sl > ~/sw/jssc3/text/smallhours-programs.text )
+( cd ~/sw/spl/help/SuperCollider ; ls -1 Collect/*.sl Graph/*.sl Texture/*.sl > ~/sw/jssc3/text/smallhours-programs.text )
 
 Not working (removed from program-menu.text):
 

@@ -25,7 +25,7 @@ remote-setup:
 	cp lib/scsynth-wasm-builds/lib/spl/dist/sl.js lib/spl/dist/
 
 mk-small-hours-menu:
-	(cd ~/sw/spl/help/ ; ls Collect/*.sl Graph/*.sl Texture/*.sl > ~/sw/jssc3/text/program-menu.text)
+	(cd ~/sw/spl/help/SuperCollider ; ls Collect/*.sl Graph/*.sl Texture/*.sl > ~/sw/jssc3/text/program-menu.text)
 
 mk-cgi-ln:
 	ln -s lib/stsc3/cgi-bin cgi-bin
