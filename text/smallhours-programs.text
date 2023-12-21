@@ -1,416 +1,416 @@
-graph/Adc - 8.1 Schroeder reverb.sl
-graph/Adc - Bit reduction.sl
-graph/Adc - Down sample.sl
-graph/An - Tw 1529413845231587328.sl
-graph/Bb - Differencetones.sl
-graph/Bz - 1 5cZ.sl
-graph/Bz - 1 5eo.sl
-graph/Cbe - 6230.sl
-graph/Cg - Tw 1529205337013854208.sl
-graph/Cg - Tw 1529852033251033088.sl
-graph/Cl - Prepared piano.sl
-graph/Cr - Lucier.sl
-graph/Dmc - Pm crotale.sl
-graph/Ds - Tw 19.sl
-graph/Ds - Tw 22.sl
-graph/Es - Tw 435684664200540161.sl
-graph/Es - Tw 600429640600186880.sl
-graph/F0 - 2002 08 17.sl
-graph/F0 - 2012 04 19.sl
-graph/F0 - Pkt 00.sl
-graph/F0 - Pkt 07.sl
-graph/F0 - Pkt 26.sl
-graph/F0 - Pkt 28.sl
-graph/F0 - Red frik.sl
-graph/F0 - Tw 0001.sl
-graph/F0 - Tw 0002.sl
-graph/F0 - Tw 0004.sl
-graph/F0 - Tw 0005.sl
-graph/F0 - Tw 0006.sl
-graph/F0 - Tw 0008.sl
-graph/F0 - Tw 0010.sl
-graph/F0 - Tw 0011.sl
-graph/F0 - Tw 0014.sl
-graph/F0 - Tw 0020.sl
-graph/F0 - Tw 0026.sl
-graph/F0 - Tw 0028.sl
-graph/F0 - Tw 0030.sl
-graph/F0 - Tw 0033.sl
-graph/F0 - Tw 0041.sl
-graph/F0 - Tw 0045.sl
-graph/F0 - Tw 0049.sl
-graph/F0 - Tw 0051.sl
-graph/F0 - Tw 0054.sl
-graph/F0 - Tw 0055.sl
-graph/F0 - Tw 0058.sl
-graph/F0 - Tw 0059.sl
-graph/F0 - Tw 0061.sl
-graph/F0 - Tw 0084.sl
-graph/F0 - Tw 0120.sl
-graph/F0 - Tw 0121.sl
-graph/F0 - Tw 0134.sl
-graph/F0 - Tw 0164.sl
-graph/F0 - Tw 0165.sl
-graph/F0 - Tw 0220.sl
-graph/F0 - Tw 0224.sl
-graph/F0 - Tw 0225.sl
-graph/F0 - Tw 0230.sl
-graph/F0 - Tw 0232.sl
-graph/F0 - Tw 0233.sl
-graph/F0 - Tw 0238.sl
-graph/F0 - Tw 0239.sl
-graph/F0 - Tw 0240.sl
-graph/F0 - Tw 0246.sl
-graph/F0 - Tw 0248.sl
-graph/F0 - Tw 0250.sl
-graph/F0 - Tw 0251.sl
-graph/F0 - Tw 0266.sl
-graph/F0 - Tw 0270.sl
-graph/F0 - Tw 0272.sl
-graph/F0 - Tw 0274.sl
-graph/F0 - Tw 0278.sl
-graph/F0 - Tw 0279.sl
-graph/F0 - Tw 0281.sl
-graph/F0 - Tw 0283.sl
-graph/F0 - Tw 0287.sl
-graph/F0 - Tw 0288.sl
-graph/F0 - Tw 0289.sl
-graph/F0 - Tw 0290.sl
-graph/F0 - Tw 0295.sl
-graph/F0 - Tw 0296.sl
-graph/F0 - Tw 0297.sl
-graph/F0 - Tw 0298.sl
-graph/F0 - Tw 0299.sl
-graph/F0 - Tw 0301.sl
-graph/F0 - Tw 0302.sl
-graph/F0 - Tw 0306.sl
-graph/F0 - Tw 0307.sl
-graph/F0 - Tw 0308.sl
-graph/F0 - Tw 0309.sl
-graph/F0 - Tw 0310.sl
-graph/F0 - Tw 0311.sl
-graph/F0 - Tw 0317.sl
-graph/F0 - Tw 0318.sl
-graph/F0 - Tw 0319.sl
-graph/F0 - Tw 0320.sl
-graph/F0 - Tw 0321.sl
-graph/F0 - Tw 0322.sl
-graph/F0 - Tw 0324.sl
-graph/F0 - Tw 0329.sl
-graph/F0 - Tw 0330.sl
-graph/F0 - Tw 0331.sl
-graph/F0 - Tw 0332.sl
-graph/F0 - Tw 0333.sl
-graph/F0 - Tw 0334.sl
-graph/F0 - Tw 0335.sl
-graph/F0 - Tw 0336.sl
-graph/F0 - Tw 0337.sl
-graph/F0 - Tw 0339.sl
-graph/F0 - Tw 0340.sl
-graph/F0 - Tw 0341.sl
-graph/F0 - Tw 0342.sl
-graph/F0 - Tw 0343.sl
-graph/F0 - Tw 0345.sl
-graph/F0 - Tw 0346.sl
-graph/F0 - Tw 0347.sl
-graph/F0 - Tw 0348.sl
-graph/F0 - Tw 0349.sl
-graph/F0 - Tw 0350.sl
-graph/F0 - Tw 0353.sl
-graph/F0 - Tw 0354.sl
-graph/F0 - Tw 0355.sl
-graph/F0 - Tw 0356.sl
-graph/F0 - Tw 0357.sl
-graph/F0 - Tw 0358.sl
-graph/F0 - Tw 0360.sl
-graph/F0 - Tw 0454598285861617665.sl
-graph/F0 - Tw 0456384156159574016.sl
-graph/F0 - Tw 0839296011982024704.sl
-graph/F0 - Tw 1084601286488674304.sl
-graph/F0 - Tw 1105496695637454848.sl
-graph/F0 - Tw 1115745664523218944.sl
-graph/F0 - Tw 1125557217086857216.sl
-graph/F0 - Tw 1136928201886904320.sl
-graph/F0 - Tw 1138498427241861122.sl
-graph/F0 - Tw 1143262368392200192.sl
-graph/F0 - Tw 1166129504747773954.sl
-graph/F0 - Tw 1197185125819277312.sl
-graph/F0 - Tw 1204602890574352385.sl
-graph/F0 - Tw 1246461901669838848.sl
-graph/F0 - Tw 1254441448327479299.sl
-graph/F0 - Tw 1319946903711338496.sl
-graph/F0 - Tw 1343283697840226307.sl
-graph/F0 - Tw 1367656279926247427.sl
-graph/F0 - Tw 1367808902457397250.sl
-graph/F0 - Tw 1374139774269857798.sl
-graph/F0 - Tw 1374517800048291847.sl
-graph/F0 - Tw 1395040511795372038.sl
-graph/F0 - Tw 1395519538008141835.sl
-graph/F0 - Tw 1395878538297892865.sl
-graph/F0 - Tw 1452318302768963589.sl
-graph/F0 - Tw 1452599226882535431.sl
-graph/F0 - Tw 1452954849885163525.sl
-graph/F0 - Tw 1453520892374441986.sl
-graph/F0 - Tw 1454150378241548296.sl
-graph/F0 - Tw 1464534258173849611.sl
-graph/F0 - Tw 1519791409921941507.sl
-graph/F0 - Tw 1562193233001623552.sl
-graph/F0 - Tw 1590835403157688320.sl
-graph/F0 - Tw 1598714366483959809.sl
-graph/Gs - Thx.sl
-graph/Hy - Tw 1601331785409134592.sl
-graph/Io - 6353.sl
-graph/Jar - 1 4Qx.sl
-graph/Jar - Rk 20120422.sl
-graph/Jar - Tw 98315246548172800.sl
-graph/Jh - 4157.sl
-graph/Jl - 1 9.sl
-graph/Jl - 1 Z.sl
-graph/Jl - Bitwise.sl
-graph/Jl - Dark sea horns.sl
-graph/Jl - Rain thunder.sl
-graph/Jmcc - Aleatoric quartet.sl
-graph/Jmcc - Alien froggies.sl
-graph/Jmcc - Alien meadow.sl
-graph/Jmcc - Analog bubbles mouse.sl
-graph/Jmcc - Analog bubbles.sl
-graph/Jmcc - Analogue daze.sl
-graph/Jmcc - Babbling brook.sl
-graph/Jmcc - Bach prelude.sl
-graph/Jmcc - Berlin 1977.sl
-graph/Jmcc - Bidirectional strummable guitar.sl
-graph/Jmcc - Birdies.sl
-graph/Jmcc - Blips 001.sl
-graph/Jmcc - Bounce.sl
-graph/Jmcc - Bouncing objects.sl
-graph/Jmcc - Bowed string.sl
-graph/Jmcc - Cfstring.sl
-graph/Jmcc - Choip choip choip.sl
-graph/Jmcc - Clipped inharmonic warbulence.sl
-graph/Jmcc - Clustered sines.sl
-graph/Jmcc - Contamination zone.sl
-graph/Jmcc - Coolant.sl
-graph/Jmcc - Cymbalism accellerando.sl
-graph/Jmcc - Data space.sl
-graph/Jmcc - Deep trip.sl
-graph/Jmcc - Demanding studies.sl
-graph/Jmcc - Drag to keyboard.sl
-graph/Jmcc - Fast lfos with slow beats.sl
-graph/Jmcc - Hard sync sawtooth with lfo.sl
-graph/Jmcc - Harmonic cloud.sl
-graph/Jmcc - Harmonic swimming.sl
-graph/Jmcc - Harmonic tumbling.sl
-graph/Jmcc - Harmonic zither.sl
-graph/Jmcc - Hell is busy.sl
-graph/Jmcc - Impulse sequencer.sl
-graph/Jmcc - Inharmonic warbulence.sl
-graph/Jmcc - Landon rose.sl
-graph/Jmcc - Lfo modulation.sl
-graph/Jmcc - Modal space.sl
-graph/Jmcc - Monastic resonance.sl
-graph/Jmcc - Moto rev.sl
-graph/Jmcc - Narrow band filtered crackle noise (texture).sl
-graph/Jmcc - Noise beats.sl
-graph/Jmcc - Noise burst sweep.sl
-graph/Jmcc - Noise modulated sawtooths.sl
-graph/Jmcc - Noise modulated sines.sl
-graph/Jmcc - Ostinoodles.sl
-graph/Jmcc - Pentatonic pipes.sl
-graph/Jmcc - Phase modulation with slow beats.sl
-graph/Jmcc - Plucked strings.sl
-graph/Jmcc - Police state.sl
-graph/Jmcc - Pond life.sl
-graph/Jmcc - Pulse harmonic warbulence.sl
-graph/Jmcc - Pulsing bottles.sl
-graph/Jmcc - Random panning sines.sl
-graph/Jmcc - Random pulsations.sl
-graph/Jmcc - Random sine waves.sl
-graph/Jmcc - Repeating harmonic klank.sl
-graph/Jmcc - Repeating inharmonic klank.sl
-graph/Jmcc - Resonant dust.sl
-graph/Jmcc - Reso pulse.sl
-graph/Jmcc - Reverberated sine percussion.sl
-graph/Jmcc - Ring modulate and echo input.sl
-graph/Jmcc - Ring modulate input.sl
-graph/Jmcc - Rocks on rails.sl
-graph/Jmcc - Sample and hold liquidities.sl
-graph/Jmcc - Saucer base.sl
-graph/Jmcc - Sawed cymbals.sl
-graph/Jmcc - Scratchy.sl
-graph/Jmcc - Sidereal time.sl
-graph/Jmcc - Slow beating sines.sl
-graph/Jmcc - Spe.sl
-graph/Jmcc - Sprinkler mouse.sl
-graph/Jmcc - Sprinkler.sl
-graph/Jmcc - Strummable metals.sl
-graph/Jmcc - Strummable silk.sl
-graph/Jmcc - Sweep verb.sl
-graph/Jmcc - Sweepy noise.sl
-graph/Jmcc - Swept resonant noise.sl
-graph/Jmcc - Synthetic piano.sl
-graph/Jmcc - Tank.sl
-graph/Jmcc - Tarmac.sl
-graph/Jmcc - Theremin.sl
-graph/Jmcc - Tremulate.sl
-graph/Jmcc - Trinkets.sl
-graph/Jmcc - Uplink.sl
-graph/Jmcc - What was I thinking.sl
-graph/Jmcc - Why SuperCollider.sl
-graph/Jmcc - Wind metals.sl
-graph/Jmcc - Wuxia.sl
-graph/Jmcc - Zizle.sl
-graph/Jrhb - A bath.sl
-graph/Jrhb - Chainsaw.sl
-graph/Jrhb - Deepsea.sl
-graph/Jrhb - Gcd.sl
-graph/Jrhb - Stereo half life.sl
-graph/Jrhb - Sturmian sequencer 1.sl
-graph/Jrhb - Sturmian sequencer 2.sl
-graph/Jrhb - Sturmian sequencer 3.sl
-graph/Ljp - One line.sl
-graph/Lkp - Chaos engine.sl
-graph/Lnu - 1617212405737472002.sl
-graph/Lnu - 1619072788311973896.sl
-graph/Mm - Tw 11.sl
-graph/Mv - Interference patterns.sl
-graph/Nc - Sc tutorial.sl
-graph/Nh - 8f0dcc1c85e662fe5bf7d0132155c0af.sl
-graph/Nh - Phase vocoder.sl
-graph/Nv - Tw 01.sl
-graph/Nv - Tw 04.sl
-graph/Nv - Tw 18.sl
-graph/Nv - Tw 2013 12 04.sl
-graph/Nv - Tw 2014 06 03.sl
-graph/Nv - Tw 40.sl
-graph/Nv - Tw 41.sl
-graph/Nv - Tw 43.sl
-graph/Nv - Tw 528187147543511041.sl
-graph/Nv - Tw 52.sl
-graph/Or - Gong.sl
-graph/Peeq - Tw 1264595510217719809.sl
-graph/Pj - Forest sounds.sl
-graph/Ql - Glicol.sl
-graph/Rd - 20060909.sl
-graph/Rd - 20060911.sl
-graph/Rd - 20060914.sl
-graph/Rd - 20060915.sl
-graph/Rd - 20060916.sl
-graph/Rd - 20060917.sl
-graph/Rd - 20060919.sl
-graph/Rd - 20060920.sl
-graph/Rd - 20060922.sl
-graph/Rd - 20060925.sl
-graph/Rd - 20060927.sl
-graph/Rd - 20061007.sl
-graph/Rd - 20061008.sl
-graph/Rd - 20061015.sl
-graph/Rd - 20061017.sl
-graph/Rd - 20061023.sl
-graph/Rd - 20061028.sl
-graph/Rd - 20061030.sl
-graph/Rd - 20070423.sl
-graph/Tm - Drummer.sl
-graph/Tmm881 - 7052.sl
-graph/Tmm881 - 7055.sl
-graph/Tm - Tw 463992770596577280.sl
-graph/Tw - Tw 01.sl
-graph/Tw - Tw 02.sl
-graph/Tw - Tw 03.sl
-graph/Unk - Pmi.sl
-graph/Unk - Sin gliss.sl
-graph/Zs - Phase distortion.sl
-graph/Zs - Toshiya.sl
-texture/Cr - Lucier.sl
-texture/F0 - Tw 0001.sl
-texture/F0 - Tw 0002.sl
-texture/F0 - Tw 0003.sl
-texture/F0 - Tw 0004.sl
-texture/F0 - Tw 0005.sl
-texture/F0 - Tw 0006.sl
-texture/F0 - Tw 0007.sl
-texture/F0 - Tw 0100.sl
-texture/F0 - Tw 0101.sl
-texture/F0 - Tw 0112.sl
-texture/F0 - Tw 0202.sl
-texture/F0 - Tw 0205.sl
-texture/F0 - Tw 0247.sl
-texture/F0 - Tw 0252.sl
-texture/F0 - Tw 0293.sl
-texture/F0 - Tw 1591161283591782401.sl
-texture/F0 - Tw 1631979082622566400.sl
-texture/Jmcc - Alien froggies.sl
-texture/Jmcc - Alien meadow.sl
-texture/Jmcc - Birdies.sl
-texture/Jmcc - Blips 001.sl
-texture/Jmcc - Bouncing objects.sl
-texture/Jmcc - Bowed garage door springs.sl
-texture/Jmcc - Choip.sl
-texture/Jmcc - Clustered sines.sl
-texture/Jmcc - Comb delay sweeps.sl
-texture/Jmcc - Contamination zone.sl
-texture/Jmcc - Coolant.sl
-texture/Jmcc - Cymbalism accelerando.sl
-texture/Jmcc - Cymbalism.sl
-texture/Jmcc - Data space.sl
-texture/Jmcc - Deep trip.sl
-texture/Jmcc - Dragtokeyboard.sl
-texture/Jmcc - Early space music Lp, Side one.sl
-texture/Jmcc - Hard sync sawtooth with lfo.sl
-texture/Jmcc - Hell is busy.sl
-texture/Jmcc - Inharmonic warbulence.sl
-texture/Jmcc - Landon rose.sl
-texture/Jmcc - Lots o sines.sl
-texture/Jmcc - Narrow band filtered crackle noise.sl
-texture/Jmcc - Noise modulated sawtooths.sl
-texture/Jmcc - Noise modulated sines.sl
-texture/Jmcc - Ostinoodles.sl
-texture/Jmcc - Pentatonic pipes.sl
-texture/Jmcc - Phase modulation.sl
-texture/Jmcc - Plucked strings.sl
-texture/Jmcc - Pond life.sl
-texture/Jmcc - Pulse harmonic warbulence.sl
-texture/Jmcc - Random panning sines.sl
-texture/Jmcc - Random pulsations.sl
-texture/Jmcc - Random sine waves.sl
-texture/Jmcc - Repeating harmonic klank.sl
-texture/Jmcc - Repeating inharmonic klank.sl
-texture/Jmcc - Resonant dust.sl
-texture/Jmcc - Resonators harmonic series.sl
-texture/Jmcc - Reso pulse.sl
-texture/Jmcc - Ring modulated klank.sl
-texture/Jmcc - Rocks on rails.sl
-texture/Jmcc - Saucer base.sl
-texture/Jmcc - Sawed cymbals.sl
-texture/Jmcc - Sidereal time.sl
-texture/Jmcc - Slow beating harmonic sines.sl
-texture/Jmcc - Slow beating sines.sl
-texture/Jmcc - String wander cluster.sl
-texture/Jmcc - String wander cluster (vibrato).sl
-texture/Jmcc - Swept resonant noise.sl
-texture/Jmcc - Tapping tools.sl
-texture/Jmcc - Tremulate.sl
-texture/Jmcc - Uplink.sl
-texture/Jmcc - Wind metals.sl
-texture/Jmcc - Zizle.sl
-texture/Lnu - 1581607231463731200.sl
-texture/Nc - Sc tutorial.sl
-texture/Rd - 20060914.sl
-texture/Tm - 6989-16.sl
-texture/Unk - Pmi.sl
-collect/An.sl
-collect/Bb.sl
-collect/Coc.sl
-collect/Dcm - Insect ambience.sl
-collect/F0 - Variations.sl
-collect/Jl - Variations.sl
-collect/Jmcc - Variations.sl
-collect/Jmcc - Xy scope.sl
-collect/Ljp.sl
-collect/Lnu - Losers Union.sl
-collect/Nc.sl
-collect/Nh - Variations.sl
-collect/Nv - Variations.sl
-collect/Rd - Variations.sl
-collect/Sc 140.sl
-collect/Tmm881 - 5296.sl
-collect/Tmm881 - 6452.sl
+Graph/Adc - 8.1 Schroeder reverb.sl
+Graph/Adc - Bit reduction.sl
+Graph/Adc - Down sample.sl
+Graph/An - Tw 1529413845231587328.sl
+Graph/Bb - Differencetones.sl
+Graph/Bz - 1 5cZ.sl
+Graph/Bz - 1 5eo.sl
+Graph/Cbe - 6230.sl
+Graph/Cg - Tw 1529205337013854208.sl
+Graph/Cg - Tw 1529852033251033088.sl
+Graph/Cl - Prepared piano.sl
+Graph/Cr - Lucier.sl
+Graph/Dmc - Pm crotale.sl
+Graph/Ds - Tw 19.sl
+Graph/Ds - Tw 22.sl
+Graph/Es - Tw 435684664200540161.sl
+Graph/Es - Tw 600429640600186880.sl
+Graph/F0 - 2002 08 17.sl
+Graph/F0 - 2012 04 19.sl
+Graph/F0 - Pkt 00.sl
+Graph/F0 - Pkt 07.sl
+Graph/F0 - Pkt 26.sl
+Graph/F0 - Pkt 28.sl
+Graph/F0 - Red frik.sl
+Graph/F0 - Tw 0001.sl
+Graph/F0 - Tw 0002.sl
+Graph/F0 - Tw 0004.sl
+Graph/F0 - Tw 0005.sl
+Graph/F0 - Tw 0006.sl
+Graph/F0 - Tw 0008.sl
+Graph/F0 - Tw 0010.sl
+Graph/F0 - Tw 0011.sl
+Graph/F0 - Tw 0014.sl
+Graph/F0 - Tw 0020.sl
+Graph/F0 - Tw 0026.sl
+Graph/F0 - Tw 0028.sl
+Graph/F0 - Tw 0030.sl
+Graph/F0 - Tw 0033.sl
+Graph/F0 - Tw 0041.sl
+Graph/F0 - Tw 0045.sl
+Graph/F0 - Tw 0049.sl
+Graph/F0 - Tw 0051.sl
+Graph/F0 - Tw 0054.sl
+Graph/F0 - Tw 0055.sl
+Graph/F0 - Tw 0058.sl
+Graph/F0 - Tw 0059.sl
+Graph/F0 - Tw 0061.sl
+Graph/F0 - Tw 0084.sl
+Graph/F0 - Tw 0120.sl
+Graph/F0 - Tw 0121.sl
+Graph/F0 - Tw 0134.sl
+Graph/F0 - Tw 0164.sl
+Graph/F0 - Tw 0165.sl
+Graph/F0 - Tw 0220.sl
+Graph/F0 - Tw 0224.sl
+Graph/F0 - Tw 0225.sl
+Graph/F0 - Tw 0230.sl
+Graph/F0 - Tw 0232.sl
+Graph/F0 - Tw 0233.sl
+Graph/F0 - Tw 0238.sl
+Graph/F0 - Tw 0239.sl
+Graph/F0 - Tw 0240.sl
+Graph/F0 - Tw 0246.sl
+Graph/F0 - Tw 0248.sl
+Graph/F0 - Tw 0250.sl
+Graph/F0 - Tw 0251.sl
+Graph/F0 - Tw 0266.sl
+Graph/F0 - Tw 0270.sl
+Graph/F0 - Tw 0272.sl
+Graph/F0 - Tw 0274.sl
+Graph/F0 - Tw 0278.sl
+Graph/F0 - Tw 0279.sl
+Graph/F0 - Tw 0281.sl
+Graph/F0 - Tw 0283.sl
+Graph/F0 - Tw 0287.sl
+Graph/F0 - Tw 0288.sl
+Graph/F0 - Tw 0289.sl
+Graph/F0 - Tw 0290.sl
+Graph/F0 - Tw 0295.sl
+Graph/F0 - Tw 0296.sl
+Graph/F0 - Tw 0297.sl
+Graph/F0 - Tw 0298.sl
+Graph/F0 - Tw 0299.sl
+Graph/F0 - Tw 0301.sl
+Graph/F0 - Tw 0302.sl
+Graph/F0 - Tw 0306.sl
+Graph/F0 - Tw 0307.sl
+Graph/F0 - Tw 0308.sl
+Graph/F0 - Tw 0309.sl
+Graph/F0 - Tw 0310.sl
+Graph/F0 - Tw 0311.sl
+Graph/F0 - Tw 0317.sl
+Graph/F0 - Tw 0318.sl
+Graph/F0 - Tw 0319.sl
+Graph/F0 - Tw 0320.sl
+Graph/F0 - Tw 0321.sl
+Graph/F0 - Tw 0322.sl
+Graph/F0 - Tw 0324.sl
+Graph/F0 - Tw 0329.sl
+Graph/F0 - Tw 0330.sl
+Graph/F0 - Tw 0331.sl
+Graph/F0 - Tw 0332.sl
+Graph/F0 - Tw 0333.sl
+Graph/F0 - Tw 0334.sl
+Graph/F0 - Tw 0335.sl
+Graph/F0 - Tw 0336.sl
+Graph/F0 - Tw 0337.sl
+Graph/F0 - Tw 0339.sl
+Graph/F0 - Tw 0340.sl
+Graph/F0 - Tw 0341.sl
+Graph/F0 - Tw 0342.sl
+Graph/F0 - Tw 0343.sl
+Graph/F0 - Tw 0345.sl
+Graph/F0 - Tw 0346.sl
+Graph/F0 - Tw 0347.sl
+Graph/F0 - Tw 0348.sl
+Graph/F0 - Tw 0349.sl
+Graph/F0 - Tw 0350.sl
+Graph/F0 - Tw 0353.sl
+Graph/F0 - Tw 0354.sl
+Graph/F0 - Tw 0355.sl
+Graph/F0 - Tw 0356.sl
+Graph/F0 - Tw 0357.sl
+Graph/F0 - Tw 0358.sl
+Graph/F0 - Tw 0360.sl
+Graph/F0 - Tw 0454598285861617665.sl
+Graph/F0 - Tw 0456384156159574016.sl
+Graph/F0 - Tw 0839296011982024704.sl
+Graph/F0 - Tw 1084601286488674304.sl
+Graph/F0 - Tw 1105496695637454848.sl
+Graph/F0 - Tw 1115745664523218944.sl
+Graph/F0 - Tw 1125557217086857216.sl
+Graph/F0 - Tw 1136928201886904320.sl
+Graph/F0 - Tw 1138498427241861122.sl
+Graph/F0 - Tw 1143262368392200192.sl
+Graph/F0 - Tw 1166129504747773954.sl
+Graph/F0 - Tw 1197185125819277312.sl
+Graph/F0 - Tw 1204602890574352385.sl
+Graph/F0 - Tw 1246461901669838848.sl
+Graph/F0 - Tw 1254441448327479299.sl
+Graph/F0 - Tw 1319946903711338496.sl
+Graph/F0 - Tw 1343283697840226307.sl
+Graph/F0 - Tw 1367656279926247427.sl
+Graph/F0 - Tw 1367808902457397250.sl
+Graph/F0 - Tw 1374139774269857798.sl
+Graph/F0 - Tw 1374517800048291847.sl
+Graph/F0 - Tw 1395040511795372038.sl
+Graph/F0 - Tw 1395519538008141835.sl
+Graph/F0 - Tw 1395878538297892865.sl
+Graph/F0 - Tw 1452318302768963589.sl
+Graph/F0 - Tw 1452599226882535431.sl
+Graph/F0 - Tw 1452954849885163525.sl
+Graph/F0 - Tw 1453520892374441986.sl
+Graph/F0 - Tw 1454150378241548296.sl
+Graph/F0 - Tw 1464534258173849611.sl
+Graph/F0 - Tw 1519791409921941507.sl
+Graph/F0 - Tw 1562193233001623552.sl
+Graph/F0 - Tw 1590835403157688320.sl
+Graph/F0 - Tw 1598714366483959809.sl
+Graph/Gs - Thx.sl
+Graph/Hy - Tw 1601331785409134592.sl
+Graph/Io - 6353.sl
+Graph/Jar - 1 4Qx.sl
+Graph/Jar - Rk 20120422.sl
+Graph/Jar - Tw 98315246548172800.sl
+Graph/Jh - 4157.sl
+Graph/Jl - 1 9.sl
+Graph/Jl - 1 Z.sl
+Graph/Jl - Bitwise.sl
+Graph/Jl - Dark sea horns.sl
+Graph/Jl - Rain thunder.sl
+Graph/Jmcc - Aleatoric quartet.sl
+Graph/Jmcc - Alien froggies.sl
+Graph/Jmcc - Alien meadow.sl
+Graph/Jmcc - Analog bubbles mouse.sl
+Graph/Jmcc - Analog bubbles.sl
+Graph/Jmcc - Analogue daze.sl
+Graph/Jmcc - Babbling brook.sl
+Graph/Jmcc - Bach prelude.sl
+Graph/Jmcc - Berlin 1977.sl
+Graph/Jmcc - Bidirectional strummable guitar.sl
+Graph/Jmcc - Birdies.sl
+Graph/Jmcc - Blips 001.sl
+Graph/Jmcc - Bounce.sl
+Graph/Jmcc - Bouncing objects.sl
+Graph/Jmcc - Bowed string.sl
+Graph/Jmcc - Cfstring.sl
+Graph/Jmcc - Choip choip choip.sl
+Graph/Jmcc - Clipped inharmonic warbulence.sl
+Graph/Jmcc - Clustered sines.sl
+Graph/Jmcc - Contamination zone.sl
+Graph/Jmcc - Coolant.sl
+Graph/Jmcc - Cymbalism accellerando.sl
+Graph/Jmcc - Data space.sl
+Graph/Jmcc - Deep trip.sl
+Graph/Jmcc - Demanding studies.sl
+Graph/Jmcc - Drag to keyboard.sl
+Graph/Jmcc - Fast lfos with slow beats.sl
+Graph/Jmcc - Hard sync sawtooth with lfo.sl
+Graph/Jmcc - Harmonic cloud.sl
+Graph/Jmcc - Harmonic swimming.sl
+Graph/Jmcc - Harmonic tumbling.sl
+Graph/Jmcc - Harmonic zither.sl
+Graph/Jmcc - Hell is busy.sl
+Graph/Jmcc - Impulse sequencer.sl
+Graph/Jmcc - Inharmonic warbulence.sl
+Graph/Jmcc - Landon rose.sl
+Graph/Jmcc - Lfo modulation.sl
+Graph/Jmcc - Modal space.sl
+Graph/Jmcc - Monastic resonance.sl
+Graph/Jmcc - Moto rev.sl
+Graph/Jmcc - Narrow band filtered crackle noise (texture).sl
+Graph/Jmcc - Noise beats.sl
+Graph/Jmcc - Noise burst sweep.sl
+Graph/Jmcc - Noise modulated sawtooths.sl
+Graph/Jmcc - Noise modulated sines.sl
+Graph/Jmcc - Ostinoodles.sl
+Graph/Jmcc - Pentatonic pipes.sl
+Graph/Jmcc - Phase modulation with slow beats.sl
+Graph/Jmcc - Plucked strings.sl
+Graph/Jmcc - Police state.sl
+Graph/Jmcc - Pond life.sl
+Graph/Jmcc - Pulse harmonic warbulence.sl
+Graph/Jmcc - Pulsing bottles.sl
+Graph/Jmcc - Random panning sines.sl
+Graph/Jmcc - Random pulsations.sl
+Graph/Jmcc - Random sine waves.sl
+Graph/Jmcc - Repeating harmonic klank.sl
+Graph/Jmcc - Repeating inharmonic klank.sl
+Graph/Jmcc - Resonant dust.sl
+Graph/Jmcc - Reso pulse.sl
+Graph/Jmcc - Reverberated sine percussion.sl
+Graph/Jmcc - Ring modulate and echo input.sl
+Graph/Jmcc - Ring modulate input.sl
+Graph/Jmcc - Rocks on rails.sl
+Graph/Jmcc - Sample and hold liquidities.sl
+Graph/Jmcc - Saucer base.sl
+Graph/Jmcc - Sawed cymbals.sl
+Graph/Jmcc - Scratchy.sl
+Graph/Jmcc - Sidereal time.sl
+Graph/Jmcc - Slow beating sines.sl
+Graph/Jmcc - Spe.sl
+Graph/Jmcc - Sprinkler mouse.sl
+Graph/Jmcc - Sprinkler.sl
+Graph/Jmcc - Strummable metals.sl
+Graph/Jmcc - Strummable silk.sl
+Graph/Jmcc - Sweep verb.sl
+Graph/Jmcc - Sweepy noise.sl
+Graph/Jmcc - Swept resonant noise.sl
+Graph/Jmcc - Synthetic piano.sl
+Graph/Jmcc - Tank.sl
+Graph/Jmcc - Tarmac.sl
+Graph/Jmcc - Theremin.sl
+Graph/Jmcc - Tremulate.sl
+Graph/Jmcc - Trinkets.sl
+Graph/Jmcc - Uplink.sl
+Graph/Jmcc - What was I thinking.sl
+Graph/Jmcc - Why SuperCollider.sl
+Graph/Jmcc - Wind metals.sl
+Graph/Jmcc - Wuxia.sl
+Graph/Jmcc - Zizle.sl
+Graph/Jrhb - A bath.sl
+Graph/Jrhb - Chainsaw.sl
+Graph/Jrhb - Deepsea.sl
+Graph/Jrhb - Gcd.sl
+Graph/Jrhb - Stereo half life.sl
+Graph/Jrhb - Sturmian sequencer 1.sl
+Graph/Jrhb - Sturmian sequencer 2.sl
+Graph/Jrhb - Sturmian sequencer 3.sl
+Graph/Ljp - One line.sl
+Graph/Lkp - Chaos engine.sl
+Graph/Lnu - 1617212405737472002.sl
+Graph/Lnu - 1619072788311973896.sl
+Graph/Mm - Tw 11.sl
+Graph/Mv - Interference patterns.sl
+Graph/Nc - Sc tutorial.sl
+Graph/Nh - 8f0dcc1c85e662fe5bf7d0132155c0af.sl
+Graph/Nh - Phase vocoder.sl
+Graph/Nv - Tw 01.sl
+Graph/Nv - Tw 04.sl
+Graph/Nv - Tw 18.sl
+Graph/Nv - Tw 2013 12 04.sl
+Graph/Nv - Tw 2014 06 03.sl
+Graph/Nv - Tw 40.sl
+Graph/Nv - Tw 41.sl
+Graph/Nv - Tw 43.sl
+Graph/Nv - Tw 528187147543511041.sl
+Graph/Nv - Tw 52.sl
+Graph/Or - Gong.sl
+Graph/Peeq - Tw 1264595510217719809.sl
+Graph/Pj - Forest sounds.sl
+Graph/Ql - Glicol.sl
+Graph/Rd - 20060909.sl
+Graph/Rd - 20060911.sl
+Graph/Rd - 20060914.sl
+Graph/Rd - 20060915.sl
+Graph/Rd - 20060916.sl
+Graph/Rd - 20060917.sl
+Graph/Rd - 20060919.sl
+Graph/Rd - 20060920.sl
+Graph/Rd - 20060922.sl
+Graph/Rd - 20060925.sl
+Graph/Rd - 20060927.sl
+Graph/Rd - 20061007.sl
+Graph/Rd - 20061008.sl
+Graph/Rd - 20061015.sl
+Graph/Rd - 20061017.sl
+Graph/Rd - 20061023.sl
+Graph/Rd - 20061028.sl
+Graph/Rd - 20061030.sl
+Graph/Rd - 20070423.sl
+Graph/Tm - Drummer.sl
+Graph/Tmm881 - 7052.sl
+Graph/Tmm881 - 7055.sl
+Graph/Tm - Tw 463992770596577280.sl
+Graph/Tw - Tw 01.sl
+Graph/Tw - Tw 02.sl
+Graph/Tw - Tw 03.sl
+Graph/Unk - Pmi.sl
+Graph/Unk - Sin gliss.sl
+Graph/Zs - Phase distortion.sl
+Graph/Zs - Toshiya.sl
+Texture/Cr - Lucier.sl
+Texture/F0 - Tw 0001.sl
+Texture/F0 - Tw 0002.sl
+Texture/F0 - Tw 0003.sl
+Texture/F0 - Tw 0004.sl
+Texture/F0 - Tw 0005.sl
+Texture/F0 - Tw 0006.sl
+Texture/F0 - Tw 0007.sl
+Texture/F0 - Tw 0100.sl
+Texture/F0 - Tw 0101.sl
+Texture/F0 - Tw 0112.sl
+Texture/F0 - Tw 0202.sl
+Texture/F0 - Tw 0205.sl
+Texture/F0 - Tw 0247.sl
+Texture/F0 - Tw 0252.sl
+Texture/F0 - Tw 0293.sl
+Texture/F0 - Tw 1591161283591782401.sl
+Texture/F0 - Tw 1631979082622566400.sl
+Texture/Jmcc - Alien froggies.sl
+Texture/Jmcc - Alien meadow.sl
+Texture/Jmcc - Birdies.sl
+Texture/Jmcc - Blips 001.sl
+Texture/Jmcc - Bouncing objects.sl
+Texture/Jmcc - Bowed garage door springs.sl
+Texture/Jmcc - Choip.sl
+Texture/Jmcc - Clustered sines.sl
+Texture/Jmcc - Comb delay sweeps.sl
+Texture/Jmcc - Contamination zone.sl
+Texture/Jmcc - Coolant.sl
+Texture/Jmcc - Cymbalism accelerando.sl
+Texture/Jmcc - Cymbalism.sl
+Texture/Jmcc - Data space.sl
+Texture/Jmcc - Deep trip.sl
+Texture/Jmcc - Dragtokeyboard.sl
+Texture/Jmcc - Early space music Lp, Side one.sl
+Texture/Jmcc - Hard sync sawtooth with lfo.sl
+Texture/Jmcc - Hell is busy.sl
+Texture/Jmcc - Inharmonic warbulence.sl
+Texture/Jmcc - Landon rose.sl
+Texture/Jmcc - Lots o sines.sl
+Texture/Jmcc - Narrow band filtered crackle noise.sl
+Texture/Jmcc - Noise modulated sawtooths.sl
+Texture/Jmcc - Noise modulated sines.sl
+Texture/Jmcc - Ostinoodles.sl
+Texture/Jmcc - Pentatonic pipes.sl
+Texture/Jmcc - Phase modulation.sl
+Texture/Jmcc - Plucked strings.sl
+Texture/Jmcc - Pond life.sl
+Texture/Jmcc - Pulse harmonic warbulence.sl
+Texture/Jmcc - Random panning sines.sl
+Texture/Jmcc - Random pulsations.sl
+Texture/Jmcc - Random sine waves.sl
+Texture/Jmcc - Repeating harmonic klank.sl
+Texture/Jmcc - Repeating inharmonic klank.sl
+Texture/Jmcc - Resonant dust.sl
+Texture/Jmcc - Resonators harmonic series.sl
+Texture/Jmcc - Reso pulse.sl
+Texture/Jmcc - Ring modulated klank.sl
+Texture/Jmcc - Rocks on rails.sl
+Texture/Jmcc - Saucer base.sl
+Texture/Jmcc - Sawed cymbals.sl
+Texture/Jmcc - Sidereal time.sl
+Texture/Jmcc - Slow beating harmonic sines.sl
+Texture/Jmcc - Slow beating sines.sl
+Texture/Jmcc - String wander cluster.sl
+Texture/Jmcc - String wander cluster (vibrato).sl
+Texture/Jmcc - Swept resonant noise.sl
+Texture/Jmcc - Tapping tools.sl
+Texture/Jmcc - Tremulate.sl
+Texture/Jmcc - Uplink.sl
+Texture/Jmcc - Wind metals.sl
+Texture/Jmcc - Zizle.sl
+Texture/Lnu - 1581607231463731200.sl
+Texture/Nc - Sc tutorial.sl
+Texture/Rd - 20060914.sl
+Texture/Tm - 6989-16.sl
+Texture/Unk - Pmi.sl
+Collect/An.sl
+Collect/Bb.sl
+Collect/Coc.sl
+Collect/Dcm - Insect ambience.sl
+Collect/F0 - Variations.sl
+Collect/Jl - Variations.sl
+Collect/Jmcc - Variations.sl
+Collect/Jmcc - Xy scope.sl
+Collect/Ljp.sl
+Collect/Lnu - Losers Union.sl
+Collect/Nc.sl
+Collect/Nh - Variations.sl
+Collect/Nv - Variations.sl
+Collect/Rd - Variations.sl
+Collect/Sc 140.sl
+Collect/Tmm881 - 5296.sl
+Collect/Tmm881 - 6452.sl

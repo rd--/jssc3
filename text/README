@@ -1,33 +1,33 @@
-smallhours-programs.text: list of stsc3 example programs that work in smallhours
+smallhours-programs.text: list of spl example programs that work in smallhours
 smallhours-oracle.text: subset of smallhours programs that are "interesting"
 
-( cd ~/sw/stsc3/help ; ls -1 collect/*.sl graph/*.sl texture/*.sl > ~/sw/jssc3/text/smallhours-programs.text )
+( cd ~/sw/spl/help ; ls -1 Collect/*.sl Graph/*.sl Texture/*.sl > ~/sw/jssc3/text/smallhours-programs.text )
 
 Not working (removed from program-menu.text):
 
-graph/Dm - Shift register.sl
-graph/Dst - 1 5fc.sl -- Voicer
-graph/Es - Tw 570012853274615808.sl -- GreyholeRaw
-graph/F0 - 1 4Q6.sl -- TLinRand
-graph/F0 - 2020 12 11.sl -- EnvLinen
-graph/F0 - Tw 0003.sl -- TLinRand
-graph/F0 - Tw 0007.sl -- TLinRand
-graph/F0 - Tw 0016.sl
-graph/F0 - Tw 0101.sl -- MemoryAllocation
-graph/F0 - Tw 1235224072579100675.sl -- MemoryAllocation
-graph/F0 - Tw 1467507942664646661.sl -- FbSineC
-graph/F0 - Tw 1479212835192332289.sl -- QuadC
-graph/F0 - Tw 1509888510525857792.sl -- LorenzL
-graph/F0 - Tw 1546903641575112715.sl - StandardL
-graph/Jpd - 1 5d6.sl -- buf
-graph/Kl - Vibraphone.sl -- Voicer
-graph/Ml - Qchimes.sl -- Voicer
-graph/Lnu - 1559974704823341058.sl -- StandardN
-graph/Lnu - A6JAF jHBlw.sl -- Fm7
-graph/Nv - Tw 2014 02 21.sl -- MemoryAllocation
-graph/Rd - 20061027.sl -- Henon
-graph/Sp - 3926 4.sl -- Voicer
-graph/Tmm881 - 3319.sl -- Voicer
+Graph/Dm - Shift register.sl
+Graph/Dst - 1 5fc.sl -- Voicer
+Graph/Es - Tw 570012853274615808.sl -- GreyholeRaw
+Graph/F0 - 1 4Q6.sl -- TLinRand
+Graph/F0 - 2020 12 11.sl -- EnvLinen
+Graph/F0 - Tw 0003.sl -- TLinRand
+Graph/F0 - Tw 0007.sl -- TLinRand
+Graph/F0 - Tw 0016.sl
+Graph/F0 - Tw 0101.sl -- MemoryAllocation
+Graph/F0 - Tw 1235224072579100675.sl -- MemoryAllocation
+Graph/F0 - Tw 1467507942664646661.sl -- FbSineC
+Graph/F0 - Tw 1479212835192332289.sl -- QuadC
+Graph/F0 - Tw 1509888510525857792.sl -- LorenzL
+Graph/F0 - Tw 1546903641575112715.sl - StandardL
+Graph/Jpd - 1 5d6.sl -- buf
+Graph/Kl - Vibraphone.sl -- Voicer
+Graph/Ml - Qchimes.sl -- Voicer
+Graph/Lnu - 1559974704823341058.sl -- StandardN
+Graph/Lnu - A6JAF jHBlw.sl -- Fm7
+Graph/Nv - Tw 2014 02 21.sl -- MemoryAllocation
+Graph/Rd - 20061027.sl -- Henon
+Graph/Sp - 3926 4.sl -- Voicer
+Graph/Tmm881 - 3319.sl -- Voicer
 
 # Autogen
 
