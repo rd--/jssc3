@@ -304,12 +304,12 @@ export function BufRec(
 export const BufAlloc = LocalBuf;
 
 export function BufWrite(
+	inputArray: Signal,
 	bufnum: Signal,
 	phase: Signal,
 	loop: Signal,
-	inputArray: Signal,
 ): Signal {
-	return BufWr(inputArray, bufnum, phase, loop);
+	return BufWr(bufnum, phase, loop, inputArray);
 }
 
 // Reshape input arrays, and allow amp and time to be null (defaulting to 1)

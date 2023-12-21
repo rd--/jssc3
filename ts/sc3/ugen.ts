@@ -207,7 +207,8 @@ export function isSignal(aValue: unknown): aValue is Signal {
 		(isArray(aValue) && arrayEvery(aValue, isSignal));
 }
 
-// Output signals should be either a Ugen or an array of Ugens.  Not all signals are appropriate as outputs.
+/* Output signals should be either a Ugen or an array of Ugens.
+Not all signals are appropriate as outputs. */
 export function isOutputSignal(aValue: unknown): boolean {
 	return isUgen(aValue) || (isArray(aValue) && arrayEvery(aValue, isUgen));
 }
