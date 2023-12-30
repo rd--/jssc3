@@ -8,6 +8,10 @@ import {
 import { rateAr, rateDr, rateIr, rateKr } from './rate.ts';
 import { BinaryOp, makeUgen, Signal, UnaryOp } from './ugen.ts';
 
+// Audio to control rate converter.
+export function A2K(input: Signal): Signal {
+	return makeUgen('A2K', 1, rateKr, 0, [input]);
+}
 // Schroeder allpass delay line with cubic interpolation.
 export function AllpassC(
 	input: Signal,
