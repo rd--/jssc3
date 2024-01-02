@@ -507,6 +507,9 @@ export function Dswitch1(index: Signal, list: Signal): Signal {
 		arrayConcat([index], asArray(list)),
 	);
 }
+export function DurationGate(dur: Signal): Signal {
+	return makeUgen('DurationGate', 1, rateAr, 0, [dur]);
+}
 // Random impulses.
 export function Dust(density: Signal): Signal {
 	return makeUgen('Dust', 1, rateAr, 0, [density]);
