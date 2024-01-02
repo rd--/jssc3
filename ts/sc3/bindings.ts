@@ -456,6 +456,9 @@ export function DetectSilence(
 export function Ddup(n: Signal, input: Signal): Signal {
 	return makeUgen('Ddup', 1, rateDr, 0, [n, input]);
 }
+export function Demultiplexer(numChannels: number, input: Signal, selector: Signal): Signal {
+	return makeUgen('Demultiplexer', numChannels, [0], 0, [input, selector]);
+}
 // Demand rate geometric series UGen
 export function Dgeom(start: Signal, grow: Signal, length: Signal): Signal {
 	return makeUgen('Dgeom', 1, rateDr, 0, [start, grow, length]);
@@ -1275,6 +1278,9 @@ export function MouseY(minval: Signal, maxval: Signal, warp: Signal, lag: Signal
 // Multiply add
 export function MulAdd(input: Signal, mul: Signal, add: Signal): Signal {
 	return makeUgen('MulAdd', 1, [0, 1, 2], 0, [input, mul, add]);
+}
+export function Multiplexer(selector: Signal, inputArray: Signal[]): Signal {
+	return makeUgen('Multiplexer', 1, [0, 1], 0, arrayConcat([selector], asArray(inputArray)));
 }
 // Flattens dynamics.
 export function Normalizer(input: Signal, level: Signal, dur: Signal): Signal {
