@@ -1282,6 +1282,9 @@ export function MulAdd(input: Signal, mul: Signal, add: Signal): Signal {
 export function Multiplexer(selector: Signal, inputArray: Signal[]): Signal {
 	return makeUgen('Multiplexer', 1, [0, 1], 0, arrayConcat([selector], asArray(inputArray)));
 }
+export function MVerb(in1: Signal, in2: Signal, dampingFreq: Signal, density: Signal, bandwidthFreq: Signal, decay: Signal, predelay: Signal, size: Signal, gain: Signal, mix: Signal, earlyMix: Signal): Signal {
+	return makeUgen('MVerb', 2, rateAr, 0, [in1, in2, dampingFreq, density, bandwidthFreq, decay, predelay, size, gain, mix, earlyMix]);
+}
 // Flattens dynamics.
 export function Normalizer(input: Signal, level: Signal, dur: Signal): Signal {
 	return makeUgen('Normalizer', 1, [0], 0, [input, level, dur]);
