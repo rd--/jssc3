@@ -1259,6 +1259,9 @@ export function MoogFf(
 ): Signal {
 	return makeUgen('MoogFF', 1, [0], 0, [input, freq, gain, reset]);
 }
+export function MoogVcf(input: Signal, fco: Signal, res: Signal): Signal {
+	return makeUgen('MoogVCF', 1, [0], 0, [input, fco, res]);
+}
 
 /* c.f. bindingsUi.ts
 // Mouse button UGen.
