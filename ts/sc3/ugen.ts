@@ -225,9 +225,7 @@ export function inputBranch<T>(
 		return onNumber(input);
 	} else {
 		throwError(
-			`inputBranch: unknown input type: ${input}, ${typeof input}, ${
-				isUgen(input)
-			}, ${isNumber(input)}`,
+			`inputBranch: unknown input type: ${input}, ${typeof input}, ${isUgen(input)}, ${isNumber(input)}`,
 		);
 		return onError();
 	}
@@ -389,7 +387,7 @@ export function krMutateInPlace(input: Tree<UgenInput | ScUgen>): void {
 		arrayForEach(input, (item) => krMutateInPlace(item));
 	} else {
 		if (!isNumber(input)) {
-			throwError(`krMutateInPlace: ${input}`);
+			throwError(`krMutateInPlace: ${input} ${typeof input}`);
 		}
 	}
 }

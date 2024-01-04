@@ -69,13 +69,18 @@ export function eventP<T>(e: ContinuousEvent<T>): T {
 */
 
 // Control bus address of voiceNumber (indexed from one).
-export function voiceAddr(part: number, voice: number): number {
+// Uses Ugen math to allow expansion
+export function voiceAddr(part: number, voice: number): Signal {
 	const addrZero = 13000;
 	const maxEventParam = 10;
 	const maxVoices = 24;
-	const partAddr = addrZero + ((part - 1) * maxVoices * maxEventParam);
-	const voiceAddr = partAddr + ((voice - 1) * maxEventParam);
+	const partAddr = Add(addrZero, Mul(Mul(Sub(part, 1), maxVoices), maxEventParam));
+	const voiceAddr = Add(partAddr, Mul(Sub(voice, 1), maxEventParam));
 	return voiceAddr;
+}
+
+export function voiceAddrNumber(part: number, voice: number): number {
+	return signalNumber(voiceAddr(part, voice));
 }
 
 export function Voicer(
@@ -90,46 +95,46 @@ export function Voicer(
 }
 
 export function ccEventParamSetMessage(e: ContinuousEvent<number>): OscMessage {
-	return c_setn1(voiceAddr(e.part, e.voice), [e.w, e.x, e.y, e.z, e.i, e.j, e.k, e.p]);
+	return c_setn1(voiceAddrNumber(e.part, e.voice), [e.w, e.x, e.y, e.z, e.i, e.j, e.k, e.p]);
 }
 
 export function voiceEndMessage(part: number, voice: number): OscMessage {
-	return c_set1(voiceAddr(part, voice), 0);
+	return c_set1(voiceAddrNumber(part, voice), 0);
 }
 
 // Kyma keyboard names, all values are 0-1
 export function KeyDown(voiceNumber: number): Signal {
-	return ControlIn(1, voiceAddr(0, voiceNumber) + 0);
+	return ControlIn(1, Add(voiceAddr(1, voiceNumber), 0));
 }
 export function KeyTimbre(voiceNumber: number): Signal {
-	return ControlIn(1, voiceAddr(0, voiceNumber) + 2);
+	return ControlIn(1, Add(voiceAddr(1, voiceNumber), 2));
 }
 export function KeyPressure(voiceNumber: number): Signal {
-	return ControlIn(1, voiceAddr(0, voiceNumber) + 3);
+	return ControlIn(1, Add(voiceAddr(1, voiceNumber), 3));
 }
 export function KeyVelocity(voiceNumber: number): Signal {
 	return Latch(KeyPressure(voiceNumber), KeyDown(voiceNumber));
 }
 export function KeyPitch(voiceNumber: number): Signal {
-	return ControlIn(1, voiceAddr(0, voiceNumber) + 7);
+	return ControlIn(1, Add(voiceAddr(1, voiceNumber), 7));
 }
 
 // Kyma pen names, all values are 0-1
 export function PenDown(voiceNumber: number): Signal {
-	return ControlIn(1, voiceAddr(0, voiceNumber) + 0);
+	return ControlIn(1, Add(voiceAddr(1, voiceNumber), 0));
 }
 export function PenX(voiceNumber: number): Signal {
-	return ControlIn(1, voiceAddr(0, voiceNumber) + 1);
+	return ControlIn(1, Add(voiceAddr(1, voiceNumber), 1));
 }
 export function PenY(voiceNumber: number): Signal {
-	return ControlIn(1, voiceAddr(0, voiceNumber) + 2);
+	return ControlIn(1, Add(voiceAddr(1, voiceNumber), 2));
 }
 export function PenZ(voiceNumber: number): Signal {
-	return ControlIn(1, voiceAddr(0, voiceNumber) + 3);
+	return ControlIn(1, Add(voiceAddr(1, voiceNumber), 3));
 }
 export function PenAngle(voiceNumber: number): Signal {
-	return ControlIn(1, voiceAddr(0, voiceNumber) + 4);
+	return ControlIn(1, Add(voiceAddr(1, voiceNumber), 4));
 }
 export function PenRadius(voiceNumber: number): Signal {
-	return ControlIn(1, voiceAddr(0, voiceNumber) + 5);
+	return ControlIn(1, Add(voiceAddr(1, voiceNumber), 5));
 }
