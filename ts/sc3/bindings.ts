@@ -417,6 +417,9 @@ export function DelayL(
 ): Signal {
 	return makeUgen('DelayL', 1, [0], 0, [input, maxdelaytime, delaytime]);
 }
+export function DelayMap(bufNum: Signal, input: Signal, dynamic: Signal, spec: Signal[]): Signal {
+	return makeUgen('DelayMap', 1, [1], 0, arrayConcat([bufNum, input, dynamic], spec));
+}
 // Simple delay line with no interpolation.
 export function DelayN(
 	input: Signal,
@@ -1576,6 +1579,9 @@ export function SampleDur(): Signal {
 // Server sample rate.
 export function SampleRate(): Signal {
 	return makeUgen('SampleRate', 1, rateIr, 0, []);
+}
+export function SamplerIndex(bufnum: Signal, size: Signal, mnn: Signal): Signal {
+	return makeUgen('SamplerIndex', 2, rateKr, 0, [bufnum, size, mnn]);
 }
 // Remove infinity, NaN, and denormals
 export function Sanitize(input: Signal, replace: Signal): Signal {
