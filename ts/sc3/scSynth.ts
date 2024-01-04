@@ -101,22 +101,6 @@ export class ScSynth {
 	isConnected(): boolean {
 		return (this.readyState == ReadyState.Connected);
 	}
-	playProcedureAt(
-		ugenFunction: () => Signal,
-		bus: number,
-		nodeId: number,
-		groupId: number,
-		systemTimeInSeconds: number | null,
-	): void {
-		this.playUgenAt(
-			ugenFunction(),
-			bus,
-			nodeId,
-			groupId,
-			[],
-			systemTimeInSeconds,
-		);
-	}
 	playSynDefAt(
 		synDefName: string,
 		synDefData: Uint8Array,
