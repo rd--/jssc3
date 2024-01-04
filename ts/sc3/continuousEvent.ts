@@ -7,14 +7,13 @@ import { c_set1, c_setn1 } from './serverCommand.ts';
 import { Signal, signalNumber } from './ugen.ts';
 
 export class ContinuousEvent<T> {
+	part: number;
 	voice: number;
 	contents: T[];
-	constructor(voice: number, contents: T[]) {
+	constructor(part: number, voice: number, contents: T[]) {
+		this.part = part;
 		this.voice = voice;
 		this.contents = contents;
-	}
-	get v() {
-		return this.voice;
 	}
 	get w() {
 		return this.contents[0];
@@ -42,9 +41,7 @@ export class ContinuousEvent<T> {
 	}
 }
 
-export function eventV<T>(e: ContinuousEvent<T>): number {
-	return e.v;
-}
+/*
 export function eventW<T>(e: ContinuousEvent<T>): T {
 	return e.w;
 }
@@ -69,72 +66,70 @@ export function eventK<T>(e: ContinuousEvent<T>): T {
 export function eventP<T>(e: ContinuousEvent<T>): T {
 	return e.p;
 }
+*/
 
 // Control bus address of voiceNumber (indexed from one).
-export function voiceAddr(voiceNumber: Signal): Signal {
-	const eventAddr = 13000;
-	const eventIncr = 10;
-	const eventZero = 0;
-	const voiceAddr = Add(eventAddr, Mul(Add(Sub(voiceNumber, 1), eventZero), eventIncr));
+export function voiceAddr(part: number, voice: number): number {
+	const addrZero = 13000;
+	const maxEventParam = 10;
+	const maxVoices = 24;
+	const partAddr = addrZero + ((part - 1) * maxVoices * maxEventParam);
+	const voiceAddr = partAddr + ((voice - 1) * maxEventParam);
 	return voiceAddr;
 }
 
-function voiceAddrNumber(voiceNumber: number): number {
-	return signalNumber(voiceAddr(voiceNumber));
-}
-
 export function Voicer(
+	part: number,
 	numVoices: number,
 	voiceFunc: (e: ContinuousEvent<Signal>) => Signal,
 ): Signal[] {
-	const voiceOffset = 0;
-	return arrayFromTo(1, numVoices).map(function (c) {
-		const controlArray = <Signal[]> ControlIn(8, voiceAddr(c + voiceOffset));
-		return voiceFunc(new ContinuousEvent(c + voiceOffset, controlArray));
+	return arrayFromTo(1, numVoices).map(function (voice) {
+		const controlArray = <Signal[]> ControlIn(8, voiceAddr(part, voice));
+		return voiceFunc(new ContinuousEvent(part, voice, controlArray));
 	});
 }
 
 export function ccEventParamSetMessage(e: ContinuousEvent<number>): OscMessage {
-	return c_setn1(voiceAddrNumber(e.v), [e.w, e.x, e.y, e.z, e.i, e.j, e.k, e.p]);
+	return c_setn1(voiceAddr(e.part, e.voice), [e.w, e.x, e.y, e.z, e.i, e.j, e.k, e.p]);
 }
 
-export function voiceEndMessage(voiceNumber: number): OscMessage {
-	return c_set1(voiceAddrNumber(voiceNumber), 0);
+export function voiceEndMessage(part: number, voice: number): OscMessage {
+	return c_set1(voiceAddr(part, voice), 0);
 }
 
 // Kyma keyboard names, all values are 0-1
 export function KeyDown(voiceNumber: number): Signal {
-	return ControlIn(1, Add(voiceAddr(voiceNumber), 0));
+	return ControlIn(1, voiceAddr(0, voiceNumber) + 0);
 }
 export function KeyTimbre(voiceNumber: number): Signal {
-	return ControlIn(1, Add(voiceAddr(voiceNumber), 2));
+	return ControlIn(1, voiceAddr(0, voiceNumber) + 2);
 }
 export function KeyPressure(voiceNumber: number): Signal {
-	return ControlIn(1, Add(voiceAddr(voiceNumber), 3));
+	return ControlIn(1, voiceAddr(0, voiceNumber) + 3);
 }
 export function KeyVelocity(voiceNumber: number): Signal {
 	return Latch(KeyPressure(voiceNumber), KeyDown(voiceNumber));
 }
 export function KeyPitch(voiceNumber: number): Signal {
-	return ControlIn(1, Add(voiceAddr(voiceNumber), 7));
+	return ControlIn(1, voiceAddr(0, voiceNumber) + 7);
 }
 
 // Kyma pen names, all values are 0-1
 export function PenDown(voiceNumber: number): Signal {
-	return ControlIn(1, Add(voiceAddr(voiceNumber), 0));
+	return ControlIn(1, voiceAddr(0, voiceNumber) + 0);
 }
 export function PenX(voiceNumber: number): Signal {
-	return ControlIn(1, Add(voiceAddr(voiceNumber), 1));
+	return ControlIn(1, voiceAddr(0, voiceNumber) + 1);
 }
 export function PenY(voiceNumber: number): Signal {
-	return ControlIn(1, Add(voiceAddr(voiceNumber), 2));
+	return ControlIn(1, voiceAddr(0, voiceNumber) + 2);
 }
 export function PenZ(voiceNumber: number): Signal {
-	return ControlIn(1, Add(voiceAddr(voiceNumber), 3));
+	return ControlIn(1, voiceAddr(0, voiceNumber) + 3);
 }
 export function PenAngle(voiceNumber: number): Signal {
-	return ControlIn(1, Add(voiceAddr(voiceNumber), 4));
+	return ControlIn(1, voiceAddr(0, voiceNumber) + 4);
 }
 export function PenRadius(voiceNumber: number): Signal {
-	return ControlIn(1, Add(voiceAddr(voiceNumber), 5));
+	return ControlIn(1, voiceAddr(0, voiceNumber) + 5);
 }
