@@ -1285,7 +1285,7 @@ export function MouseY(minval: Signal, maxval: Signal, warp: Signal, lag: Signal
 export function MulAdd(input: Signal, mul: Signal, add: Signal): Signal {
 	return makeUgen('MulAdd', 1, [0, 1, 2], 0, [input, mul, add]);
 }
-export function Multiplexer(selector: Signal, inputArray: Signal[]): Signal {
+export function Multiplexer(selector: Signal, inputArray: Signal): Signal {
 	return makeUgen('Multiplexer', 1, [0, 1], 0, arrayConcat([selector], asArray(inputArray)));
 }
 export function MVerb(in1: Signal, in2: Signal, dampingFreq: Signal, density: Signal, bandwidthFreq: Signal, decay: Signal, predelay: Signal, size: Signal, gain: Signal, mix: Signal, earlyMix: Signal): Signal {

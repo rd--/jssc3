@@ -48,6 +48,7 @@ import {
 	LocalBuf,
 	MidiCps,
 	Mul,
+	Multiplexer,
 	NumOutputBuses,
 	Out,
 	Pan2,
@@ -57,7 +58,6 @@ import {
 	Ringz,
 	RoundTo,
 	SampleRate,
-	Select,
 	SetBuf,
 	SinOsc,
 	Sqrt,
@@ -199,7 +199,7 @@ export function Select2(
 }
 
 export function TChoose(trig: Signal, array: Signal): Signal {
-	return Select(TiRand(0, signalSize(array) - 1, trig), array);
+	return Multiplexer(TiRand(0, signalSize(array) - 1, trig), array);
 }
 
 export function TwChoose(
@@ -208,7 +208,7 @@ export function TwChoose(
 	weights: Signal,
 	normalize: Signal,
 ): Signal {
-	return Select(TwIndex(trig, normalize, weights), array);
+	return Multiplexer(TwIndex(trig, normalize, weights), array);
 }
 
 export function PmOsc(
@@ -358,8 +358,8 @@ export function LinSeg(gate: Signal, coordArray: Signal[]): Signal {
 
 export function SelectX(which: Signal, array: Signal): Signal {
 	return XFade2(
-		Select(RoundTo(which, 2), array),
-		Select(Add(Trunc(which, 2), 1), array),
+		Multiplexer(RoundTo(which, 2), array),
+		Multiplexer(Add(Trunc(which, 2), 1), array),
 		Fold2(Sub(Mul(which, 2), 1), 1),
 		1,
 	);
