@@ -397,20 +397,21 @@ Texture/Nc - Sc tutorial.sl
 Texture/Rd - 20060914.sl
 Texture/Tm - 6989-16.sl
 Texture/Unk - Pmi.sl
-Collect/An.sl
-Collect/Bb.sl
-Collect/Coc.sl
-Collect/Dcm - Insect ambience.sl
-Collect/F0 - Variations.sl
-Collect/Jl - Variations.sl
-Collect/Jmcc - Variations.sl
-Collect/Jmcc - Xy scope.sl
-Collect/Ljp.sl
-Collect/Lnu - Losers Union.sl
-Collect/Nc.sl
-Collect/Nh - Variations.sl
-Collect/Nv - Variations.sl
-Collect/Rd - Variations.sl
-Collect/Sc 140.sl
-Collect/Tmm881 - 5296.sl
-Collect/Tmm881 - 6452.sl
+Graph Collection/An - Tw.sl
+Graph Collection/Bb - Es.sl
+Graph Collection/Coc - Fragments.sl
+Graph Collection/Dcm - Insect ambience.sl
+Graph Collection/F0 - Variations.sl
+Graph Collection/Jl - Variations.sl
+Graph Collection/Jmcc - Sc2 examples.sl
+Graph Collection/Jmcc - Variations.sl
+Graph Collection/Jmcc - Xy Scope.sl
+Graph Collection/Ljp - One line.sl
+Graph Collection/Lnu - Losers union.sl
+Graph Collection/Nc - Sc tutorial.sl
+Graph Collection/Nh - Variations.sl
+Graph Collection/Nv - Variations.sl
+Graph Collection/Rd - Variations.sl
+Graph Collection/Tmm881 - 5296.sl
+Graph Collection/Tmm881 - 6452.sl
+Texture Collection/Jmcc - Sc2 examples.sl
