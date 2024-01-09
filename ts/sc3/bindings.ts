@@ -134,6 +134,9 @@ export function BfEncode1(
 export function BHiPass(input: Signal, freq: Signal, rq: Signal): Signal {
 	return makeUgen('BHiPass', 1, [0], 0, [input, freq, rq]);
 }
+export function BHiShelf(input: Signal, freq: Signal, rs: Signal, db: Signal): Signal {
+	return makeUgen('BHiShelf', 1, [0], 0, [input, freq, rs, db]);
+}
 // Band limited impulse oscillator.
 export function Blip(freq: Signal, numharm: Signal): Signal {
 	return makeUgen('Blip', 1, rateAr, 0, [freq, numharm]);
