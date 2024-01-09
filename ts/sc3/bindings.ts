@@ -146,6 +146,9 @@ export function BlockSize(): Signal {
 export function BLowPass(input: Signal, freq: Signal, rq: Signal): Signal {
 	return makeUgen('BLowPass', 1, [0], 0, [input, freq, rq]);
 }
+export function BLowShelf(input: Signal, freq: Signal, rs: Signal, db: Signal): Signal {
+	return makeUgen('BLowShelf', 1, [0], 0, [input, freq, rs, db]);
+}
 // 24db/oct rolloff - 4nd order resonant Low/High/Band Pass Filter
 export function BMoog(
 	input: Signal,
