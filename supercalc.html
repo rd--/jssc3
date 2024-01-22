@@ -9,12 +9,12 @@
 		<link rel="icon" type="image/png" href="png/os.512.png" />
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
 		<link rel="stylesheet" type="text/css" media="all" href="css/superscript.css" />
-		<link rel="stylesheet" type="text/css" media="all" href="css/supercalc.css" />
+		<link rel="stylesheet" type="text/css" media="all" href="css/SuperCalc.css" />
 		<script src="lib/scsynth-wasm-builds/lib/ext/osc-browser.js"></script>
 		<script type="module">
 import * as sc from './dist/jssc3.js' /* local */
 import * as sl from './lib/spl/dist/sl.js' /* local */
-import * as calc from './js/supercalc.js'
+import * as calc from './js/SuperCalc.js'
 globalThis.sc = sc;
 globalThis.sl = sl;
 globalThis.calc = calc;
@@ -33,8 +33,8 @@ window.onload = function () {
 	sc.sc3MouseInit(globalScSynth);
 	sc.connectButtonToInput('programInputFileSelect', 'programInputFile');
 	sl.assignGlobals();
-	sl.setLoadPath('lib/spl/sl');
-	sl.loadUrl('*Load*', 'Meta/PackageIndex.sl').then(function() {
+	sl.setSplDir('lib/spl');
+	sl.loadUrl('*Load*', 'sl/Meta/PackageIndex.sl').then(function() {
 		sl.primitiveLoadPackageSequence([
 			'Kernel',
 			'StandardLibrary',
@@ -58,7 +58,7 @@ window.onload = function () {
 			<button title="Fullscreen" accesskey="x" onclick="sc.fullscreen()">⇱</button>
 		</div>
 		<div>
-			<div id="supercalcContainer"></div>
+			<div id="superCalcContainer"></div>
 		</div>
 		<p>
 			<em>Instructions</em>:
@@ -75,7 +75,7 @@ window.onload = function () {
 					Press <em>Copy</em> to copy the current state of the program to the system clipboard to save your work.
 				</li>
 				<li>
-					Read the brief <a href="http://rohandrape.net/?t=jssc3&e=md/supercalc.md" target="_blank">introductory notes</a>.
+					Read the brief <a href="http://rohandrape.net/?t=jssc3&e=md/SuperCalc.md" target="_blank">introductory notes</a>.
 				</li>
 			</ol>
 		</p>

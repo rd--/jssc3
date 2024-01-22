@@ -4,13 +4,13 @@
 		<meta charset="utf-8">
 		<link rel="icon" type="image/png" href="png/os.512.png" />
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
-		<link rel="stylesheet" type="text/css" media="all" href="css/smallhours.css" />
+		<link rel="stylesheet" type="text/css" media="all" href="css/SmallHours.css" />
 		<script src="lib/scsynth-wasm-builds/lib/ext/commonmark.js"></script>
 		<script src="lib/scsynth-wasm-builds/lib/ext/osc-browser.js"></script>
 		<script type="module">
 import * as sc from './dist/jssc3.js' /* local */
 import * as sl from './lib/spl/dist/sl.js' /* local */
-import * as sh from './js/smallhours.js'
+import * as sh from './js/SmallHours.js'
 globalThis.sc = sc;
 globalThis.sl = sl;
 globalThis.sh = sh;
@@ -25,8 +25,8 @@ window.onload = function () {
 	sc.sc3MouseInit(globalScSynth);
 	sc.connectButtonToInput('programInputFileSelect', 'programInputFile');
 	sl.assignGlobals();
-	sl.setLoadPath('lib/spl/sl');
-	sl.loadUrl('*Load*', 'Meta/PackageIndex.sl').then(function() {
+	sl.setSplDir('lib/spl');
+	sl.loadUrl('*Load*', 'sl/Meta/PackageIndex.sl').then(function() {
 		sl.primitiveLoadPackageSequence([
 			'Kernel',
 			'StandardLibrary',

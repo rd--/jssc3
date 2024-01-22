@@ -1479,6 +1479,14 @@ export function PvBinScramble(
 ): Signal {
 	return makeUgen('PV_BinScramble', 1, rateKr, 0, [buffer, wipe, width, trig]);
 }
+// Zero bins.
+export function PvBrickWall(buffer: Signal, wipe: Signal): Signal {
+    return makeUgen('PV_BrickWall', 1, rateKr, 0, [buffer, wipe]);
+}
+// Copy an FFT buffer
+export function PvCopy(bufferA: Signal, bufferB: Signal): Signal {
+    return makeUgen('PV_Copy', 1, rateKr, 0, [bufferA, bufferB]);
+}
 // Random phase shifting.
 export function PvDiffuser(buffer: Signal, trig: Signal): Signal {
 	return makeUgen('PV_Diffuser', 1, rateKr, 0, [buffer, trig]);
@@ -1486,6 +1494,10 @@ export function PvDiffuser(buffer: Signal, trig: Signal): Signal {
 // Pass random bins.
 export function PvRandComb(buffer: Signal, wipe: Signal, trig: Signal): Signal {
 	return makeUgen('PV_RandComb', 1, rateKr, 0, [buffer, wipe, trig]);
+}
+// Make gaps in spectrum.
+export function PvRectComb(buffer: Signal, numTeeth: Signal, phase: Signal, width: Signal): Signal {
+    return makeUgen('PV_RectComb', 1, rateKr, 0, [buffer, numTeeth, phase, width]);
 }
 // General quadratic map chaotic generator
 export function QuadC(

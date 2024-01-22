@@ -8,7 +8,7 @@ export function evalRegion() {
 }
 
 export function playRegion() {
-	eval(sl.rewriteString(`{ ${sc.getSelectedTextOrContentsOf('programText')} }.play`));
+	eval(sl.rewriteString(`{ ${sc.getSelectedTextOrContentsOf('programText')} }.value.play`));
 }
 
 export const state = { autoPlay: false, oracleFiles: null };
@@ -104,22 +104,22 @@ export function loadInstructions() {
 }
 
 export function initProgramMenu() {
-	sc.fetchUtf8('text/smallhours-programs.text', { cache: 'no-cache' })
+	sc.fetchUtf8('text/SmallHoursPrograms.text', { cache: 'no-cache' })
 		.then(text => sc.selectAddKeysAsOptions('programMenu', sc.stringNonEmptyLines(text)));
 	sc.menuOnChangeWithOptionValue('programMenu', function(optionValue) {
-		sc.fetchUtf8(`./lib/stsc3/help/${optionValue}`, { cache: 'no-cache' })
+		sc.fetchUtf8(`./lib/spl/help/SuperCollider/${optionValue}`, { cache: 'no-cache' })
 			.then(text => insertText(null, text));
 	});
 }
 
 export function initOracle() {
-	sc.fetchUtf8('text/smallhours-oracle.text', { cache: 'no-cache' })
+	sc.fetchUtf8('text/SmallHoursOracle.text', { cache: 'no-cache' })
 		.then(text => state.oracleFiles = sc.stringNonEmptyLines(text));
 }
 
 export function loadOracle() {
 	var fileName = sc.arrayChoose(state.oracleFiles);
-	sc.fetchUtf8(`./lib/stsc3/help/${fileName}`, { cache: 'no-cache' })
+	sc.fetchUtf8(`./lib/spl/help/SuperCollider/${fileName}`, { cache: 'no-cache' })
 		.then(text => insertText(null, text));
 }
 

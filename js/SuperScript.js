@@ -58,6 +58,6 @@ export function onKeyPress(event) {
 }
 
 export function loadHelp() {
-	sc.fetchUtf8('help/essay/superscript.md', { cache: 'no-cache' }).
+	sc.fetchUtf8('help/Essay/SuperScript.md', { cache: 'no-cache' }).
 		then(insertMarkdown);
 }

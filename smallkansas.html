@@ -4,8 +4,8 @@
 		<meta charset="utf-8">
 		<link rel="icon" type="image/png" href="png/os.512.png" />
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css" />
-		<link rel="stylesheet" type="text/css" media="all" href="css/smallhours.css" />
-		<link rel="stylesheet" type="text/css" media="all" href="css/smallkansas.css" />
+		<link rel="stylesheet" type="text/css" media="all" href="css/SmallHours.css" />
+		<link rel="stylesheet" type="text/css" media="all" href="css/SmallKansas.css" />
 		<script src="lib/scsynth-wasm-builds/lib/ext/commonmark.js"></script>
 		<script src="lib/scsynth-wasm-builds/lib/ext/osc-browser.js"></script>
 		<script type="module">
@@ -19,8 +19,8 @@ window.onload = function () {
 	globalThis.globalScSynth = sc.ScSynthWasm();
 	sc.sc3MouseInit(globalScSynth); /* note, this is not part of wasm init for case of remote web socket connection */
 	sl.assignGlobals();
-	sl.setLoadPath('lib/spl/sl');
-	sl.loadUrl('*Load*', 'Meta/PackageIndex.sl').then(function() {
+	sl.setSplDir('lib/spl');
+	sl.loadUrl('*Load*', 'sl/Meta/PackageIndex.sl').then(function() {
 		sl.primitiveLoadPackageSequence([
 			'Kernel',
 			'StandardLibrary',

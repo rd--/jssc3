@@ -18,7 +18,7 @@ Cell addresses comprise a finite set of named _variables_.
 
 Each cell contains a SuperCollider synthesis program.
 An empty cell is equal to the _silence_ program, _Dc(0)_.
-Commentary cells, texts enclosed by _(*_ and _*)_, are also equal to _Dc(0)_.
+Commentary cells, texts enclosed by _{-_ and _-}_, are also equal to _Dc(0)_.
 
 Cells are evaluated from right to left within each row, rows are evaluated from the top down.
 

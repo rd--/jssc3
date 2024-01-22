@@ -1,22 +1,44 @@
 /*
 
-requires jspreadsheet
+Requires: jspreadsheet
 
 colLetter = a - h
 colIndex = 0 - 7
 rowNumber = 1 - 8
 rowIndex = 0 - 7
 
+There are two models:
+
+1. a "node" model where each cell is a node in the scsynth graph
+2. a "graph" model where each cell is a variable binding in a ugen graph expression
+
+In both cases there must be a rule to decide which references are "forward" and which "backward".
+Backward references will introduce a delay.
+
+In the "node" case the "node order" decides this.
+
+In the graph case a LocalIn/Out pair 
+
+rd := LocalIn(K, ZEROS); {- initialise unit delay -}
+CELL-SEQ := rd(CELL-IX); {- initialise forward references -}
+CELL-SEQ := CELL-EXPR; {- replace with cell expressions in sequence -}
+wr := LocalOut(CELL-SEQUENCE); {- tie knot -}
+
+
 */
 
 const calc = {};
 
+function cellRefToIndex(colLetter, rowNumber) {
+	return sc.cellRefToLinearIndex(calc.numCol, colLetter, rowNumber);
+}
+
 function cellRefToBus(colLetter, rowNumber) {
-	return calc.busOffset + sc.cellRefToLinearIndex(calc.numCol, colLetter, rowNumber);
+	return calc.busOffset + cellRefToIndex(colLetter, rowNumber);
 }
 
 function cellRefToGroup(colLetter, rowNumber) {
-	return calc.groupOffset + sc.cellRefToLinearIndex(calc.numCol, colLetter, rowNumber);
+	return calc.groupOffset + cellRefToIndex(colLetter, rowNumber);
 }
 
 function setCellColour(colLetter, rowNumber, colourString) {
@@ -110,7 +132,7 @@ export function initSheet(numCol, numRow) {
 	calc.numRow = numRow;
 	calc.busOffset = 24;
 	calc.groupOffset = 12;
-	calc.sheet = jspreadsheet(document.getElementById('supercalcContainer'), {
+	calc.sheet = jspreadsheet(document.getElementById('superCalcContainer'), {
 		data: calc.data,
 		columns: sc.arrayFillWithIndex(numCol, function(colIndex) {
 		        return { type: 'text', title: sc.columnIndexToLetter(colIndex), width: 200 };
@@ -171,10 +193,10 @@ export function serverSetup() {
 }
 
 export function initProgramMenu() {
-	sc.fetchUtf8('text/supercalc-programs.text', { cache: 'no-cache' })
+	sc.fetchUtf8('text/SuperCalcPrograms.text', { cache: 'no-cache' })
 		.then(text => sc.selectAddKeysAsOptions('programMenu', sc.stringNonEmptyLines(text)));
 	sc.menuOnChangeWithOptionValue('programMenu', function(optionValue) {
-		sc.fetchUtf8(`./help/supercalc/${optionValue}`, { cache: 'no-cache' })
+		sc.fetchUtf8(`./help/SuperCalc/${optionValue}`, { cache: 'no-cache' })
 			.then(text => setJson(text));
 	});
 }
