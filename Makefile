@@ -23,6 +23,7 @@ remote-setup:
 	(cd lib/spl ; git pull)
 	cp lib/scsynth-wasm-builds/lib/jssc3/dist/jssc3.js dist/
 	cp lib/scsynth-wasm-builds/lib/spl/dist/sl.js lib/spl/dist/
+	cp lib/scsynth-wasm-builds/lib/spl/.cache/*.js lib/spl/.cache/
 
 mk-small-hours-menu:
 	(cd ~/sw/spl/help/SuperCollider ; ls Collect/*.sl Graph/*.sl Texture/*.sl > ~/sw/jssc3/text/program-menu.text)
