@@ -1609,6 +1609,10 @@ export function Sanitize(input: Signal, replace: Signal): Signal {
 export function Saw(freq: Signal): Signal {
 	return makeUgen('Saw', 1, rateAr, 0, [freq]);
 }
+// super-efficient sawtooth oscillator with low aliasing
+export function SawDpw(freq: Signal, iphase: Signal): Signal {
+    return makeUgen('SawDPW', 1, rateAr, 0, [freq, iphase]);
+}
 // Schmidt trigger.
 export function Schmidt(input: Signal, lo: Signal, hi: Signal): Signal {
 	return makeUgen('Schmidt', 1, [0], 0, [input, lo, hi]);
@@ -2350,6 +2354,10 @@ export function ShufflerB(
 		readIncrementQuanta,
 		interOffsetTimeQuanta,
 	]);
+}
+// 12db/Oct State Variable Filter
+export function Svf(signal: Signal, cutoff: Signal, res: Signal, lowpass: Signal, bandpass: Signal, highpass: Signal, notch: Signal, peak: Signal): Signal {
+    return makeUgen('SVF', 1, [0], 0, [signal, cutoff, res, lowpass, bandpass, highpass, notch, peak]);
 }
 // (Undocumented class)
 export function SvfBp(input: Signal, freq: Signal, q: Signal): Signal {
