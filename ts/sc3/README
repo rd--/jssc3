@@ -1,0 +1,8 @@
+Classes:
+
+- envelope.ts Env
+- graph.ts UgenGraph
+- scSynthOptions ScSynthOptions
+- scSynth.ts ScSynth
+- ugen.ts LocalControl ScUgen Ugen
+- continuousEvent.ts ContinuousEvent

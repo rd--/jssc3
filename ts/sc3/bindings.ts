@@ -663,6 +663,10 @@ export function Formlet(
 export function Fos(input: Signal, a0: Signal, a1: Signal, b1: Signal): Signal {
 	return makeUgen('FOS', 1, [0], 0, [input, a0, a1, b1]);
 }
+// Free the enclosing synth when a UGen is finished
+export function FreeSelfWhenDone(src: Signal): Signal {
+    return makeUgen('FreeSelfWhenDone', 1, rateKr, 0, [src]);
+}
 // A reverb
 export function FreeVerb(
 	input: Signal,
