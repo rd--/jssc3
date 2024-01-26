@@ -6,7 +6,7 @@ import {
 	TcpMessageSize,
 } from '../stdlib/openSoundControl.ts';
 
-import { ScSynth, ReadyState } from './scSynth.ts';
+import { ReadyState, ScSynth } from './scSynth.ts';
 
 export const defaultScSynthAddress: Deno.ConnectOptions = tcp.tcpAddress(
 	'127.0.0.1',
@@ -36,7 +36,7 @@ async function tcpConnect(
 	const tcpQueue = tcp.tcpQueueOn(tcpSocket);
 	const writerPacketSize = new TcpMessageSize();
 	scSynth.readyState = ReadyState.Connected;
-	scSynth.basicSendOsc = function(oscPacket: OscPacket) {
+	scSynth.basicSendOsc = function (oscPacket: OscPacket) {
 		const byteArray = encodeOscPacket(oscPacket);
 		writerPacketSize.enqueue(tcpQueue, byteArray.byteLength);
 		tcpQueue.addMessage(byteArray);

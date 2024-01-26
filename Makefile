@@ -30,3 +30,6 @@ mk-small-hours-menu:
 
 mk-cgi-ln:
 	ln -s lib/stsc3/cgi-bin cgi-bin
+
+indent:
+	(cd ts; make fmt-ts)

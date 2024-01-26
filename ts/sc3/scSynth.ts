@@ -53,7 +53,8 @@ export class ScSynth {
 	statusMonitor: number | null;
 	constructor() {
 		this.options = scSynthDefaultOptions;
-		this.basicConnect = () => Promise.resolve(console.log('basicConnect: not initialized'));
+		this.basicConnect = () =>
+			Promise.resolve(console.log('basicConnect: not initialized'));
 		this.basicSendOsc = (_unusedPacket) =>
 			console.log('basicSendOsc: not initialized');
 		this.oscListeners = new Map();
@@ -219,8 +220,7 @@ export function playSynDefAtMessage(
 	systemTimeInSeconds: number | null,
 ): OscMessage {
 	const sNew = s_new(synDefName, nodeId, kAddToTail, groupId, parameterArray);
-	const completionMessage =
-		(systemTimeInSeconds == null)
+	const completionMessage = (systemTimeInSeconds == null)
 		? encodeOscMessage(sNew)
 		: encodeOscBundle({
 			timeTag: {

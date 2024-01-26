@@ -14,10 +14,8 @@ export function scSynthUseWasm(
 	if (scSynth.isConnected()) {
 		throw Error('scSynthUseWasm: already connected');
 	} else {
-		scSynth.basicConnect = () =>
-			Promise.resolve(wasmConnect(scSynth, wasm));
-		scSynth.basicSendOsc = (oscPacket) =>
-			wasmSendOsc(wasm, oscPacket);
+		scSynth.basicConnect = () => Promise.resolve(wasmConnect(scSynth, wasm));
+		scSynth.basicSendOsc = (oscPacket) => wasmSendOsc(wasm, oscPacket);
 	}
 }
 

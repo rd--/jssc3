@@ -134,7 +134,12 @@ export function BfEncode1(
 export function BHiPass(input: Signal, freq: Signal, rq: Signal): Signal {
 	return makeUgen('BHiPass', 1, [0], 0, [input, freq, rq]);
 }
-export function BHiShelf(input: Signal, freq: Signal, rs: Signal, db: Signal): Signal {
+export function BHiShelf(
+	input: Signal,
+	freq: Signal,
+	rs: Signal,
+	db: Signal,
+): Signal {
 	return makeUgen('BHiShelf', 1, [0], 0, [input, freq, rs, db]);
 }
 // Band limited impulse oscillator.
@@ -149,7 +154,12 @@ export function BlockSize(): Signal {
 export function BLowPass(input: Signal, freq: Signal, rq: Signal): Signal {
 	return makeUgen('BLowPass', 1, [0], 0, [input, freq, rq]);
 }
-export function BLowShelf(input: Signal, freq: Signal, rs: Signal, db: Signal): Signal {
+export function BLowShelf(
+	input: Signal,
+	freq: Signal,
+	rs: Signal,
+	db: Signal,
+): Signal {
 	return makeUgen('BLowShelf', 1, [0], 0, [input, freq, rs, db]);
 }
 // 24db/oct rolloff - 4nd order resonant Low/High/Band Pass Filter
@@ -423,8 +433,19 @@ export function DelayL(
 ): Signal {
 	return makeUgen('DelayL', 1, [0], 0, [input, maxdelaytime, delaytime]);
 }
-export function DelayMap(bufNum: Signal, input: Signal, dynamic: Signal, spec: Signal[]): Signal {
-	return makeUgen('DelayMap', 1, [1], 0, arrayConcat([bufNum, input, dynamic], spec));
+export function DelayMap(
+	bufNum: Signal,
+	input: Signal,
+	dynamic: Signal,
+	spec: Signal[],
+): Signal {
+	return makeUgen(
+		'DelayMap',
+		1,
+		[1],
+		0,
+		arrayConcat([bufNum, input, dynamic], spec),
+	);
 }
 // Simple delay line with no interpolation.
 export function DelayN(
@@ -465,7 +486,11 @@ export function DetectSilence(
 export function Ddup(n: Signal, input: Signal): Signal {
 	return makeUgen('Ddup', 1, rateDr, 0, [n, input]);
 }
-export function Demultiplexer(numChannels: number, input: Signal, selector: Signal): Signal {
+export function Demultiplexer(
+	numChannels: number,
+	input: Signal,
+	selector: Signal,
+): Signal {
 	return makeUgen('Demultiplexer', numChannels, [0], 0, [input, selector]);
 }
 // Demand rate geometric series UGen
@@ -665,7 +690,7 @@ export function Fos(input: Signal, a0: Signal, a1: Signal, b1: Signal): Signal {
 }
 // Free the enclosing synth when a UGen is finished
 export function FreeSelfWhenDone(src: Signal): Signal {
-    return makeUgen('FreeSelfWhenDone', 1, rateKr, 0, [src]);
+	return makeUgen('FreeSelfWhenDone', 1, rateKr, 0, [src]);
 }
 // A reverb
 export function FreeVerb(
@@ -912,6 +937,10 @@ export function HenonN(
 	x1: Signal,
 ): Signal {
 	return makeUgen('HenonN', 1, rateAr, 0, [freq, a, b, x0, x1]);
+}
+// Applies the Hilbert transform to an input signal.
+export function Hilbert(input: Signal): Signal {
+	return makeUgen('Hilbert', 2, [0], 0, [input]);
 }
 // 2nd order Butterworth highpass filter.
 export function Hpf(input: Signal, freq: Signal): Signal {
@@ -1296,10 +1325,40 @@ export function MulAdd(input: Signal, mul: Signal, add: Signal): Signal {
 	return makeUgen('MulAdd', 1, [0, 1, 2], 0, [input, mul, add]);
 }
 export function Multiplexer(selector: Signal, inputArray: Signal): Signal {
-	return makeUgen('Multiplexer', 1, [0, 1], 0, arrayConcat([selector], asArray(inputArray)));
+	return makeUgen(
+		'Multiplexer',
+		1,
+		[0, 1],
+		0,
+		arrayConcat([selector], asArray(inputArray)),
+	);
 }
-export function MVerb(in1: Signal, in2: Signal, dampingFreq: Signal, density: Signal, bandwidthFreq: Signal, decay: Signal, predelay: Signal, size: Signal, gain: Signal, mix: Signal, earlyMix: Signal): Signal {
-	return makeUgen('MVerb', 2, rateAr, 0, [in1, in2, dampingFreq, density, bandwidthFreq, decay, predelay, size, gain, mix, earlyMix]);
+export function MVerb(
+	in1: Signal,
+	in2: Signal,
+	dampingFreq: Signal,
+	density: Signal,
+	bandwidthFreq: Signal,
+	decay: Signal,
+	predelay: Signal,
+	size: Signal,
+	gain: Signal,
+	mix: Signal,
+	earlyMix: Signal,
+): Signal {
+	return makeUgen('MVerb', 2, rateAr, 0, [
+		in1,
+		in2,
+		dampingFreq,
+		density,
+		bandwidthFreq,
+		decay,
+		predelay,
+		size,
+		gain,
+		mix,
+		earlyMix,
+	]);
 }
 // Flattens dynamics.
 export function Normalizer(input: Signal, level: Signal, dur: Signal): Signal {
@@ -1485,11 +1544,11 @@ export function PvBinScramble(
 }
 // Zero bins.
 export function PvBrickWall(buffer: Signal, wipe: Signal): Signal {
-    return makeUgen('PV_BrickWall', 1, rateKr, 0, [buffer, wipe]);
+	return makeUgen('PV_BrickWall', 1, rateKr, 0, [buffer, wipe]);
 }
 // Copy an FFT buffer
 export function PvCopy(bufferA: Signal, bufferB: Signal): Signal {
-    return makeUgen('PV_Copy', 1, rateKr, 0, [bufferA, bufferB]);
+	return makeUgen('PV_Copy', 1, rateKr, 0, [bufferA, bufferB]);
 }
 // Random phase shifting.
 export function PvDiffuser(buffer: Signal, trig: Signal): Signal {
@@ -1500,8 +1559,18 @@ export function PvRandComb(buffer: Signal, wipe: Signal, trig: Signal): Signal {
 	return makeUgen('PV_RandComb', 1, rateKr, 0, [buffer, wipe, trig]);
 }
 // Make gaps in spectrum.
-export function PvRectComb(buffer: Signal, numTeeth: Signal, phase: Signal, width: Signal): Signal {
-    return makeUgen('PV_RectComb', 1, rateKr, 0, [buffer, numTeeth, phase, width]);
+export function PvRectComb(
+	buffer: Signal,
+	numTeeth: Signal,
+	phase: Signal,
+	width: Signal,
+): Signal {
+	return makeUgen('PV_RectComb', 1, rateKr, 0, [
+		buffer,
+		numTeeth,
+		phase,
+		width,
+	]);
 }
 // General quadratic map chaotic generator
 export function QuadC(
@@ -1602,7 +1671,11 @@ export function SampleDur(): Signal {
 export function SampleRate(): Signal {
 	return makeUgen('SampleRate', 1, rateIr, 0, []);
 }
-export function SamplerIndex(bufnum: Signal, size: Signal, mnn: Signal): Signal {
+export function SamplerIndex(
+	bufnum: Signal,
+	size: Signal,
+	mnn: Signal,
+): Signal {
 	return makeUgen('SamplerIndex', 2, rateKr, 0, [bufnum, size, mnn]);
 }
 // Remove infinity, NaN, and denormals
@@ -1615,7 +1688,7 @@ export function Saw(freq: Signal): Signal {
 }
 // super-efficient sawtooth oscillator with low aliasing
 export function SawDpw(freq: Signal, iphase: Signal): Signal {
-    return makeUgen('SawDPW', 1, rateAr, 0, [freq, iphase]);
+	return makeUgen('SawDPW', 1, rateAr, 0, [freq, iphase]);
 }
 // Schmidt trigger.
 export function Schmidt(input: Signal, lo: Signal, hi: Signal): Signal {
@@ -1712,8 +1785,13 @@ export function Stepper(
 	]);
 }
 // Sum four signals
-export function Sum4(in0: Signal, in1: Signal, in2: Signal, in3: Signal): Signal {
-    return makeUgen('Sum4', 1, [0, 1, 2, 3], 0, [in0, in1, in2, in3]);
+export function Sum4(
+	in0: Signal,
+	in1: Signal,
+	in2: Signal,
+	in3: Signal,
+): Signal {
+	return makeUgen('Sum4', 1, [0, 1, 2, 3], 0, [in0, in1, in2, in3]);
 }
 // Triggered linear ramp
 export function Sweep(trig: Signal, rate: Signal): Signal {
@@ -2360,8 +2438,26 @@ export function ShufflerB(
 	]);
 }
 // 12db/Oct State Variable Filter
-export function Svf(signal: Signal, cutoff: Signal, res: Signal, lowpass: Signal, bandpass: Signal, highpass: Signal, notch: Signal, peak: Signal): Signal {
-    return makeUgen('SVF', 1, [0], 0, [signal, cutoff, res, lowpass, bandpass, highpass, notch, peak]);
+export function Svf(
+	signal: Signal,
+	cutoff: Signal,
+	res: Signal,
+	lowpass: Signal,
+	bandpass: Signal,
+	highpass: Signal,
+	notch: Signal,
+	peak: Signal,
+): Signal {
+	return makeUgen('SVF', 1, [0], 0, [
+		signal,
+		cutoff,
+		res,
+		lowpass,
+		bandpass,
+		highpass,
+		notch,
+		peak,
+	]);
 }
 // (Undocumented class)
 export function SvfBp(input: Signal, freq: Signal, q: Signal): Signal {

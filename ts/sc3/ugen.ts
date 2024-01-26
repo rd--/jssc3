@@ -84,7 +84,7 @@ export function signalSize(aSignal: Signal): number {
 }
 
 export function signalNumber(aSignal: Signal): number {
-	if(isNumber(aSignal)) {
+	if (isNumber(aSignal)) {
 		return aSignal;
 	} else {
 		throw Error('signalNumber: not a number?');
@@ -225,7 +225,9 @@ export function inputBranch<T>(
 		return onNumber(input);
 	} else {
 		throwError(
-			`inputBranch: unknown input type: ${input}, ${typeof input}, ${isUgen(input)}, ${isNumber(input)}`,
+			`inputBranch: unknown input type: ${input}, ${typeof input}, ${
+				isUgen(input)
+			}, ${isNumber(input)}`,
 		);
 		return onError();
 	}

@@ -74,7 +74,10 @@ export function voiceAddr(part: number, voice: number): Signal {
 	const addrZero = 13000;
 	const maxEventParam = 10;
 	const maxVoices = 24;
-	const partAddr = Add(addrZero, Mul(Mul(Sub(part, 1), maxVoices), maxEventParam));
+	const partAddr = Add(
+		addrZero,
+		Mul(Mul(Sub(part, 1), maxVoices), maxEventParam),
+	);
 	const voiceAddr = Add(partAddr, Mul(Sub(voice, 1), maxEventParam));
 	return voiceAddr;
 }
@@ -95,7 +98,16 @@ export function Voicer(
 }
 
 export function ccEventParamSetMessage(e: ContinuousEvent<number>): OscMessage {
-	return c_setn1(voiceAddrNumber(e.part, e.voice), [e.w, e.x, e.y, e.z, e.i, e.j, e.k, e.p]);
+	return c_setn1(voiceAddrNumber(e.part, e.voice), [
+		e.w,
+		e.x,
+		e.y,
+		e.z,
+		e.i,
+		e.j,
+		e.k,
+		e.p,
+	]);
 }
 
 export function voiceEndMessage(part: number, voice: number): OscMessage {
