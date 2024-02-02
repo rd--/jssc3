@@ -50,20 +50,20 @@ export function loadInputFile() {
 	}
 }
 
-export function loadHelpFor(area, name) {
+export function loadHelpFor(name) {
 	if(name.length > 0) {
 		const isGuide = name.includes(' ');
 		const kind = isGuide ? 'Guide' : 'Reference';
 		const rewrittenName = isGuide ? name : (sl.isOperatorName(name) ? sl.operatorMethodName(name) : name);
-		const url = `lib/spl/help/${area}/${kind}/${rewrittenName}.help.sl`;
+		const url = `lib/spl/help/${kind}/${rewrittenName}.help.sl`;
 		const address = `?${kind}=${rewrittenName}`;
 		sc.fetchUtf8(url, { cache: 'no-cache' })
 			.then(insertTextFor(address));
 	}
 }
 
-export function loadHelp(area) {
-	loadHelpFor(area, sc.getSelectedText());
+export function loadHelp() {
+	loadHelpFor(sc.getSelectedText());
 }
 
 export function keyBindings(event) {
@@ -80,12 +80,9 @@ export function keyBindings(event) {
 		} else if(event.shiftKey && event.key === 'L') {
 			document.getElementById('programInputFileSelect').click();
 		} else if(event.shiftKey && event.key === 'H') {
-			loadHelp('SuperCollider');
-		} else if(event.key === 'm') {
-			loadHelp('Language');
+			loadHelp();
 		} else if(event.shiftKey && event.key === '?') {
-			loadHelp('SuperCollider');
-			loadHelp('Language');
+			loadHelp();
 		}
 	}
 }
@@ -100,7 +97,7 @@ export function loadUrlParam() {
 }
 
 export function loadInstructions() {
-	loadHelpFor('SuperCollider', 'Small Hours');
+	loadHelpFor('Small Hours');
 }
 
 export function initProgramMenu() {
