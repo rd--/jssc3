@@ -1,2 +1,3 @@
-mk-help:
-	sh ../sh/help-smallhours.sh
+all:
+	echo "jssc3/text"
+
