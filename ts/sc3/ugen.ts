@@ -521,7 +521,11 @@ export function BinaryOp(
 
 // isOutUgen(Out(0, mul(SinOsc(440, 0), 0.1)))
 export function isOutUgen(aValue: unknown): boolean {
-	return isUgen(aValue) && aValue.scUgen.name == 'Out';
+	if(!isUgen(aValue)) {
+		return false;
+	} else {
+		return ['Out', 'OffsetOut', 'ReplaceOut', 'XOut'].includes(aValue.scUgen.name);
+	}
 }
 
 // isControlRateUgen(MouseX(0, 1, 0, 0.2))

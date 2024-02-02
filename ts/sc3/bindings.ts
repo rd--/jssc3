@@ -1372,6 +1372,10 @@ export function NRand(lo: Signal, hi: Signal, n: Signal): Signal {
 export function NumOutputBuses(): Signal {
 	return makeUgen('NumOutputBuses', 1, rateIr, 0, []);
 }
+// Write a signal to a bus with sample accurate timing.
+export function OffsetOut(bus: Signal, channelsArray: Signal): Signal {
+	return makeUgen('OffsetOut', 0, [1], 0, arrayConcat([bus], asArray(channelsArray)));
+}
 // One pole filter.
 export function OnePole(input: Signal, coef: Signal): Signal {
 	return makeUgen('OnePole', 1, [0], 0, [input, coef]);
