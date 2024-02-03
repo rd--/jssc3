@@ -1374,7 +1374,13 @@ export function NumOutputBuses(): Signal {
 }
 // Write a signal to a bus with sample accurate timing.
 export function OffsetOut(bus: Signal, channelsArray: Signal): Signal {
-	return makeUgen('OffsetOut', 0, [1], 0, arrayConcat([bus], asArray(channelsArray)));
+	return makeUgen(
+		'OffsetOut',
+		0,
+		[1],
+		0,
+		arrayConcat([bus], asArray(channelsArray)),
+	);
 }
 // One pole filter.
 export function OnePole(input: Signal, coef: Signal): Signal {

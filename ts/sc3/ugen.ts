@@ -521,10 +521,12 @@ export function BinaryOp(
 
 // isOutUgen(Out(0, mul(SinOsc(440, 0), 0.1)))
 export function isOutUgen(aValue: unknown): boolean {
-	if(!isUgen(aValue)) {
+	if (!isUgen(aValue)) {
 		return false;
 	} else {
-		return ['Out', 'OffsetOut', 'ReplaceOut', 'XOut'].includes(aValue.scUgen.name);
+		return ['Out', 'OffsetOut', 'ReplaceOut', 'XOut'].includes(
+			aValue.scUgen.name,
+		);
 	}
 }
 
