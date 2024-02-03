@@ -23,7 +23,7 @@ To end the program type _Control-FullStop_.
 
 ## Program paragraphs
 
-To make programs simpler to select they can be set apart in a paragraph by themselves.  The program below is a SuperCollider2 example written by James McCartney that generates bird like sounds.  When running, the status area will indicate that the program involves 108 unit generators.
+To make programs simpler to select they can be set apart in a paragraph by themselves.  The program below is a SuperCollider2 example written by James McCartney that generates bird like sounds.  When running, the status area will indicate that the program involves 107 unit generators.
 
 ```
 sc.OverlapTexture(function(tr) {
@@ -92,8 +92,9 @@ OverlapTexture({ :tr |
 
 ## Ugen Help
 
-The _Smalltalk SuperCollider_ help files for unit generators can be loaded into SuperScript.
-The help files contain example programs written in _C-Smalltalk_ notation.
+The _Spl_ help files for unit generators can be loaded into SuperScript.
+The help files contain example programs written in _Spl_ notation,
+which is very similar to C-Smalltalk notation.
 
 Selecting the name of a Ugen, for instance _SinOsc_ and typing _Control-Shift-H_ will load the help file.
 At present this replaces any existing text, so be careful!

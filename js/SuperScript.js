@@ -32,7 +32,7 @@ export function loadMd() {
 function ugenHelp() {
 	const name = sc.getSelectedText();
 	if(name.length > 0) {
-		const helpPrefix = './lib/spl/help/SuperCollider/Reference';
+		const helpPrefix = './lib/spl/help/Reference';
 		const url = `${helpPrefix}/${name}.help.sl`;
 		sc.fetchUtf8(url, { cache: 'no-cache' })
 			.then(insertMarkdown);
