@@ -12,7 +12,7 @@ export function consoleError(text: string): void {
 
 export function throwError(text: string): void {
 	console.error(text);
-	throw (Error(text));
+	throw new Error(text);
 }
 
 export function consoleLog(text: string): void {
