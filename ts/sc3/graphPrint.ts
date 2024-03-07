@@ -21,7 +21,6 @@ import {
 	ScUgen,
 	Signal,
 	Ugen,
-	ugenDisplayName,
 } from './ugen.ts';
 
 export function ugenGraphPrintUgenSpec(graph: UgenGraph, ugen: ScUgen): void {
@@ -73,7 +72,7 @@ export function ugenGraphInputDisplayName(
 			return `LocalControl(${ctl.name}, ${ctl.index}, ${ctl.defaultValue})`;
 		} else {
 			const id = String(graphUgenIndex(graph, input.scUgen.id));
-			const nm = ugenDisplayName(input.scUgen);
+			const nm = input.scUgen.displayName();
 			const ix = input.scUgen.numChannels > 1
 				? (`[${String(input.port)}]`)
 				: '';
@@ -89,7 +88,7 @@ export function ugenGraphInputDisplayName(
 
 export function ugenGraphPrettyPrintUgen(graph: UgenGraph, ugen: ScUgen): void {
 	console.log(
-		`${graphUgenIndex(graph, ugen.id)}_${ugenDisplayName(ugen)}`,
+		`${graphUgenIndex(graph, ugen.id)}_${ugen.displayName()}`,
 		rateSelector(ugen.rate),
 		`[${
 			String(arrayMap((input) =>

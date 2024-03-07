@@ -15,7 +15,6 @@ import {
 	ScalarOrArray,
 	scalarOrArraySize,
 } from '../kernel/array.ts';
-import { throwError } from '../kernel/error.ts';
 import { isNumber } from '../kernel/number.ts';
 import { isObject } from '../kernel/object.ts';
 import { setAdd, setNew } from '../kernel/set.ts';
@@ -69,7 +68,7 @@ export function sortLocalControls(controls: LocalControl[]): LocalControl[] {
 	} else if (controls.every((each) => each.index >= 0)) {
 		return controls.sort(localControlIndexCompare);
 	} else {
-		throw Error('sortLocalControls');
+		throw new Error('sortLocalControls');
 	}
 }
 
@@ -87,7 +86,7 @@ export function signalNumber(aSignal: Signal): number {
 	if (isNumber(aSignal)) {
 		return aSignal;
 	} else {
-		throw Error('signalNumber: not a number?');
+		throw new Error('signalNumber: not a number?');
 	}
 }
 
@@ -115,6 +114,16 @@ export class ScUgen {
 		this.inputArray = inputArray;
 		this.multipleRootGraph = setNew();
 		this.localControl = null;
+	}
+	displayName(): string {
+		switch (this.name) {
+			case 'UnaryOpUGen':
+				return unaryOperatorName(this.specialIndex);
+			case 'BinaryOpUGen':
+				return binaryOperatorName(this.specialIndex);
+			default:
+				return this.name;
+		}
 	}
 }
 
@@ -224,7 +233,7 @@ export function inputBranch<T>(
 	} else if (isNumber(input)) {
 		return onNumber(input);
 	} else {
-		throwError(
+		throw new Error(
 			`inputBranch: unknown input type: ${input}, ${typeof input}, ${
 				isUgen(input)
 			}, ${isNumber(input)}`,
@@ -325,17 +334,6 @@ export function makeUgen(
 	}
 }
 
-export function ugenDisplayName(ugen: ScUgen): string {
-	switch (ugen.name) {
-		case 'UnaryOpUGen':
-			return unaryOperatorName(ugen.specialIndex);
-		case 'BinaryOpUGen':
-			return binaryOperatorName(ugen.specialIndex);
-		default:
-			return ugen.name;
-	}
-}
-
 // MultipleRootGraph
 
 // inputFirstUgen([0, SinOsc([440, 441], 0), SinOsc(442, 0)])
@@ -363,7 +361,7 @@ export function multipleRootGraph(lhs: Signal, rhs: Signal): Signal {
 			setAdd(ugen.multipleRootGraph, rhs);
 		}
 	} else {
-		throwError(
+		throw new Error(
 			`multipleRootGraph: no ugen or ugen.multipleRootGraph is null: ${lhs}, ${rhs}`,
 		);
 	}
@@ -389,7 +387,7 @@ export function krMutateInPlace(input: Tree<UgenInput | ScUgen>): void {
 		arrayForEach(input, (item) => krMutateInPlace(item));
 	} else {
 		if (!isNumber(input)) {
-			throwError(`krMutateInPlace: ${input} ${typeof input}`);
+			throw new Error(`krMutateInPlace: ${input} ${typeof input}`);
 		}
 	}
 }
