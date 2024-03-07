@@ -54,6 +54,11 @@ dialog {
 	padding: 0px;
 }
 
+textarea {
+	font-family: var(--font-family);
+	font-size: var(--font-size);
+}
+
 #smallKansas {
 	font-size: var(--font-size);
 	position: absolute;
@@ -90,7 +95,7 @@ dialog {
 	height: 15em;
 }
 
-.TextEditor, .TranscriptViewer {
+.Notebook, .TextEditor, .TranscriptViewer {
 	width: 40em;
 	height: 20em;
 }
@@ -125,8 +130,8 @@ dialog {
 	background-color: #eeff99;
 }
 
-.Workspace, .TableViewer, .Inspector, .TranscriptViewer {
-	background-color: #ff9999;
+.Notebook, .Workspace, .TableViewer, .Inspector, .TranscriptViewer {
+	background-color: #ff7777;
 }
 
 .Menu {
@@ -318,4 +323,28 @@ option:checked, option:active, option:focus, option:focus-visible {
 
 .editorPane :focus {
 	outline: 0px;
+}
+
+.notebookPane {
+	background-color: var(--paper-colour);
+    height: 100%;
+	padding: 10px;
+    overflow-y: scroll;
+}
+
+.notebookSummary {
+	background-color: dodgerblue;
+	width: 95%;
+    margin-bottom: 5px;
+}
+
+.notebookProgram {
+    background-color: cornsilk;
+	width: 94%;
+}
+
+.notebookAnswer, .notebookAnswerText {
+	background-color: orange;
+	width: 95%;
+	margin-top: 0px;
 }
