@@ -59,6 +59,14 @@ textarea {
 	font-size: var(--font-size);
 }
 
+code {
+	font-style: italic;
+}
+
+pre code {
+	font-style: normal;
+}
+
 #smallKansas {
 	font-size: var(--font-size);
 	position: absolute;
@@ -95,7 +103,7 @@ textarea {
 	height: 15em;
 }
 
-.Notebook, .TextEditor, .TranscriptViewer {
+.Notebook, .SmallProgram, .TextEditor, .TranscriptViewer {
 	width: 40em;
 	height: 20em;
 }
@@ -130,7 +138,7 @@ textarea {
 	background-color: #eeff99;
 }
 
-.Notebook, .Workspace, .TableViewer, .Inspector, .TranscriptViewer {
+.Notebook, .SmallProgram, .Workspace, .TableViewer, .Inspector, .TranscriptViewer {
 	background-color: #ff7777;
 }
 
@@ -333,18 +341,29 @@ option:checked, option:active, option:focus, option:focus-visible {
 }
 
 .notebookSummary {
-	background-color: dodgerblue;
-	width: 95%;
-    margin-bottom: 5px;
+	background-color: lightskyblue;
+	width: 3em;
+    margin-bottom: 2.5px;
 }
 
-.notebookProgram {
+.smallProgram {
+	background-color: var(--paper-colour);
+	height: 100%;
+	padding: 5px;
+}
+
+.smallProgram .program {
     background-color: cornsilk;
 	width: 94%;
 }
 
-.notebookAnswer, .notebookAnswerText {
-	background-color: orange;
+.smallProgram .answer {
 	width: 95%;
-	margin-top: 0px;
+}
+
+.smallProgram .answer .answerText {
+	background-color: lightgoldenrodyellow;
+	margin: 0 0 2.5px 0;
+	border: 1px dotted;
+	padding: 2.5px;
 }
