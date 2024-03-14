@@ -28,8 +28,13 @@
 	src: url("../woff2/Parc Place.woff2");
 }
 
+@font-face {
+	font-family: "Computer Modern";
+	src: url("../woff2/Computer Modern.woff2");
+}
+
 :root {
-	--font-family: 'Parc Place', 'Los Altos', 'APL333';
+	--font-family: 'Computer Modern', 'Parc Place', 'Los Altos', 'APL333';
 	--when-selected-background-colour: #fbf6d9;
 }
 
