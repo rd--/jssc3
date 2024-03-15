@@ -117,7 +117,7 @@ pre code {
 	background-color: #aadd99;
 }
 
-.HelpBrowser, .HelpViewer {
+.HelpBrowser, .HelpFileViewer, .tViewer {
 	background-color: #99eecc;
 }
 
@@ -366,9 +366,16 @@ option:checked, option:active, option:focus, option:focus-visible {
 	width: 95%;
 }
 
+.smallProgram .expectedAnswer, .smallProgram .answer .answerText {
+	margin: 0 0 2.5px 0;
+}
+
 .smallProgram .answer .answerText {
 	background-color: lightgoldenrodyellow;
-	margin: 0 0 2.5px 0;
-	border: 1px dotted;
 	padding: 2.5px;
+	border: 1px dotted;
+}
+
+.smallProgram .expectedAnswer {
+	background-color: palegoldenrod;
 }
