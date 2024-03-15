@@ -26,12 +26,12 @@ Requires:
 
 Tested with:
 
-[Chromium](https://www.chromium.org/) 108.0.5359.124,
-[Firefox](https://www.mozilla.org/firefox/) 107.0.5304.121,
+[Chromium](https://www.chromium.org/) 122.0.6261.128,
+[Firefox](https://www.mozilla.org/firefox/) 115.8,
 [Safari](https://apple.com/safari/) 15.3,
 [SuperCollider](https://www.audiosynth.com/) 3.11.2
 
-© [Rohan Drape](http://rohandrape.net/), 2021-2023, [Gpl](http://gnu.org/copyleft/)
+© [Rohan Drape](http://rohandrape.net/), 2021-2024, [Gpl](http://gnu.org/copyleft/)
 
 * * *
 
