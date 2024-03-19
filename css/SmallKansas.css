@@ -117,10 +117,18 @@ pre code {
 	background-color: #aadd99;
 }
 
-.HelpBrowser, .HelpFileViewer, .tViewer {
+.HelpBrowser, .HelpFileViewer, .HelpTextViewer {
 	background-color: #99eecc;
 }
 
+.HelpFileViewer {
+	width: 35em;
+	height: 50em;
+}
+
+.helpFileViewerPane {
+    overflow-y: auto;
+}
 
 .PackageBrowser, .PackageIndexBrowser {
 	background-color: #77eeee;
@@ -160,7 +168,7 @@ pre code {
 	background-color: #99f499;
 }
 
-.PngViewer, .SvgViewer {
+.ImageViewer, .SvgViewer {
 	background-color: #aaffee;
 }
 
