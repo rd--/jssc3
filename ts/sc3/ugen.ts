@@ -451,6 +451,16 @@ export function UnaryOpWithConstantOptimiser(
 				return Math.cos(input);
 			case 30:
 				return Math.tan(input);
+			case 31:
+				return Math.asin(input);
+			case 32:
+				return Math.acos(input);
+			case 33:
+				return Math.atan(input);
+			case 34:
+				return Math.sinh(input);
+			case 35:
+				return Math.cosh(input);
 			case 36:
 				return Math.tanh(input);
 			case 44:
@@ -491,6 +501,10 @@ export function BinaryOpWithConstantOptimiser(
 				return lhs * rhs;
 			case 4:
 				return lhs / rhs;
+			case 12:
+				return Math.min(lhs, rhs);
+			case 13:
+				return Math.max(lhs, rhs);
 			case 23:
 				return scMath.hypot(lhs, rhs);
 			case 34:
