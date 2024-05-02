@@ -501,6 +501,14 @@ export function BinaryOpWithConstantOptimiser(
 				return lhs * rhs;
 			case 4:
 				return lhs / rhs;
+			case 8:
+				return lhs < rhs ? 1 : 0;
+			case 9:
+				return lhs > rhs ? 1 : 0;
+			case 10:
+				return lhs <= rhs ? 1 : 0;
+			case 11:
+				return lhs >= rhs ? 1 : 0;
 			case 12:
 				return Math.min(lhs, rhs);
 			case 13:
@@ -509,6 +517,10 @@ export function BinaryOpWithConstantOptimiser(
 				return scMath.hypot(lhs, rhs);
 			case 34:
 				return scMath.difSqr(lhs, rhs);
+			case 38:
+				return scMath.absDif(lhs, rhs);
+			case 40:
+				return scMath.amClip(lhs, rhs);
 		}
 	}
 	return makeUgen('BinaryOpUGen', 1, [0, 1], specialIndex, [lhs, rhs]);

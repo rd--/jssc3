@@ -1,3 +1,15 @@
+export function absDif(self: number, aNumber: number) {
+	return Math.abs(self - aNumber);
+}
+
+export function amClip(self: number, aNumber: number) {
+	if (aNumber <= 0) {
+		return 0;
+	} else {
+		return self * aNumber;
+	}
+}
+
 export function ampDb(self: number) {
 	return Math.log10(self) * 20;
 }

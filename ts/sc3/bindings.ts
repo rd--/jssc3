@@ -4,7 +4,7 @@ import {
 	asArray,
 	ScalarOrArray,
 } from '../kernel/array.ts';
-
+import { isNumber } from '../kernel/number.ts';
 import { rateAr, rateDr, rateIr, rateKr } from './rate.ts';
 import { BinaryOp, makeUgen, Signal, UnaryOp } from './ugen.ts';
 
@@ -252,8 +252,12 @@ export function ClearBuf(buf: Signal): Signal {
 	return makeUgen('ClearBuf', 1, rateIr, 0, [buf]);
 }
 // Clip a signal outside given thresholds.
-export function Clip(input: Signal, lo: Signal, hi: Signal): Signal {
-	return makeUgen('Clip', 1, [0], 0, [input, lo, hi]);
+export function Clip(input: Signal, low: Signal, high: Signal): Signal {
+	if (isNumber(input) && isNumber(low) && isNumber(high)) {
+		return input < low ? low : (input > high ? high : input);
+	} else {
+		return makeUgen('Clip', 1, [0], 0, [input, lo, hi]);
+	}
 }
 // Clip Noise.
 export function ClipNoise(): Signal {
@@ -1322,7 +1326,11 @@ export function MouseY(minval: Signal, maxval: Signal, warp: Signal, lag: Signal
 
 // Multiply add
 export function MulAdd(input: Signal, mul: Signal, add: Signal): Signal {
-	return makeUgen('MulAdd', 1, [0, 1, 2], 0, [input, mul, add]);
+	if (isNumber(input) && isNumber(mul) && isNumber(add)) {
+		return (input * mul) + add;
+	} else {
+		return makeUgen('MulAdd', 1, [0, 1, 2], 0, [input, mul, add]);
+	}
 }
 export function Multiplexer(selector: Signal, inputArray: Signal): Signal {
 	return makeUgen(
