@@ -7,8 +7,8 @@ export type UdpServerProc = (
 export function udpAddress(hostname: string, port: number): Deno.NetAddr {
 	return {
 		transport: 'udp',
-		hostname: '127.0.0.1',
-		port: 57110,
+		hostname: hostname,
+		port: port,
 	};
 }
 
@@ -46,7 +46,7 @@ export async function udpSendTo(
 	port: number,
 	datagram: Uint8Array,
 ): Promise<void> {
-	udpSendToAddr(udpAddress(hostname, port), datagram);
+	await udpSendToAddr(udpAddress(hostname, port), datagram);
 }
 
 /*

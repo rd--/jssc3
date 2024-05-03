@@ -233,12 +233,12 @@ export function inputBranch<T>(
 	} else if (isNumber(input)) {
 		return onNumber(input);
 	} else {
+		onError();
 		throw new Error(
 			`inputBranch: unknown input type: ${input}, ${typeof input}, ${
 				isUgen(input)
 			}, ${isNumber(input)}`,
 		);
-		return onError();
 	}
 }
 

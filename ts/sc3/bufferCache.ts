@@ -1,6 +1,11 @@
 import { arrayAtWrap, arrayFromTo } from '../kernel/array.ts';
 
 import { fetchSoundFileChannelsToScSynthBuffers } from './buffer.ts';
+import { ScSynth } from './scSynth.ts';
+
+declare global {
+	var globalScSynth: ScSynth;
+}
 
 export type BufferDictionary = { [key: string]: string };
 export type BufferCache = { [key: string]: number[] };
@@ -64,7 +69,6 @@ export function SfAcquire1(
 
 import * as scTcp from './sc3/scSynthTcp.ts'
 const scSynth = await scTcp.ScSynthTcp(scTcp.defaultScSynthAddress);
-
 globalThis.globalScSynth = scSynth;
 
 import * as bc from './sc3/bufferCache.ts'

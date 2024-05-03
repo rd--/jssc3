@@ -24,8 +24,6 @@ export function audioBufferInterleavedChannelData(
 		return anAudioBuffer.getChannelData(0);
 	} else {
 		const channelsArray = audioBufferChannelDataArray(anAudioBuffer);
-		const numberOfSamples = anAudioBuffer.length *
-			anAudioBuffer.numberOfChannels;
 		return interleaveSampleData(
 			anAudioBuffer.length,
 			anAudioBuffer.numberOfChannels,

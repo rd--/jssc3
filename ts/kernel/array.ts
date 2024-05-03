@@ -20,6 +20,7 @@ export function scalarOrArrayFirst<T>(maybeArray: ScalarOrArray<T>): T {
 	return isArray(maybeArray) ? maybeArray[0] : maybeArray;
 }
 
+// Apl: nest
 // [1, [1, 2]].map(asArray) //= [[1], [1, 2]]
 export function asArray<T>(maybeArray: ScalarOrArray<T>): T[] {
 	return isArray(maybeArray) ? maybeArray : [maybeArray];

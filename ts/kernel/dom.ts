@@ -5,11 +5,11 @@ export function getSelectedText(): string {
 }
 
 export function getSelectedTextOrContentsOf(elemId: string): string {
-	var selectedText = getSelectedText().trim();
+	const selectedText = getSelectedText().trim();
 	if (selectedText.length > 0) {
 		return selectedText;
 	} else {
-		var element = document.getElementById(elemId);
+		const element = document.getElementById(elemId);
 		return element ? element.innerText.trim() : '';
 	}
 }
@@ -154,7 +154,7 @@ export function connectButtonToInput(buttonId: string, inputId: string): void {
 	if (!button || !input) {
 		console.warn('connectButtonToInput: element not located?');
 	} else {
-		button.addEventListener('click', (UnusedEvent) => input.click(), false);
+		button.addEventListener('click', (_unusedEvent) => input.click(), false);
 	}
 }
 
@@ -176,7 +176,7 @@ export function textareaGetSelectionOrContents(
 	}
 }
 
-// Lookup key in parameters of Url of current document.  (C.f. window.location)
+// Lookup key in parameters of Url of current document.  (C.f. globalThis.location)
 export function urlGetParam(key: string): null | string {
 	const params = new URLSearchParams(document.location.search);
 	return params.get(key);
@@ -184,9 +184,9 @@ export function urlGetParam(key: string): null | string {
 
 // Set key to value in window location url.
 export function windowUrlSetParam(key: string, value: string): void {
-	const windowUrl = new URL(window.location.href);
+	const windowUrl = new URL(globalThis.location.href);
 	windowUrl.searchParams.set(key, value);
-	window.history.pushState({}, '', windowUrl);
+	globalThis.history.pushState({}, '', windowUrl);
 }
 
 export function parseIntegerOrAlert(
@@ -196,7 +196,7 @@ export function parseIntegerOrAlert(
 ): number {
 	const answer = Number.parseInt(integerText, 10);
 	if (isNaN(answer)) {
-		window.alert(errorText);
+		globalThis.alert(errorText);
 		return defaultAnswer;
 	} else {
 		return answer;
@@ -209,7 +209,7 @@ export function withParsedInteger(
 ): void {
 	const answer = Number.parseInt(integerText, 10);
 	if (isNaN(answer)) {
-		window.alert('Not an integer?');
+		globalThis.alert('Not an integer?');
 	} else {
 		proc(answer);
 	}

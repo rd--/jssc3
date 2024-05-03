@@ -4,6 +4,7 @@ import {
 	asArray,
 	ScalarOrArray,
 } from '../kernel/array.ts';
+
 import { isString } from '../kernel/string.ts';
 
 import { fromMaybe, Maybe } from '../stdlib/maybe.ts';

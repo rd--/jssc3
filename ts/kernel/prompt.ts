@@ -5,7 +5,7 @@ export function withIntegerFromPrompt(
 	defaultValue: number,
 	proc: (aNumber: number) => void,
 ): void {
-	const integerText = window.prompt(promptText, String(defaultValue));
+	const integerText = globalThis.prompt(promptText, String(defaultValue));
 	if (integerText) {
 		withParsedInteger(integerText, proc);
 	}
@@ -15,7 +15,7 @@ export function withIntegerFromPrompt(
 export function webSocketAddressDialog(
 	receiveAddress: (host: string, port: number) => void,
 ): void {
-	const reply = window.prompt(
+	const reply = globalThis.prompt(
 		'Set WebSocket address as Host:Port',
 		'localhost:9160',
 	);

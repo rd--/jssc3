@@ -4,6 +4,9 @@ dist:
 check-ts:
 	deno check --config deno.json */*.ts
 
+lint-ts:
+	deno lint
+
 fmt-ts:
 	deno fmt --use-tabs --single-quote
 

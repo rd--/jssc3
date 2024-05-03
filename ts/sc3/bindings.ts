@@ -256,7 +256,7 @@ export function Clip(input: Signal, low: Signal, high: Signal): Signal {
 	if (isNumber(input) && isNumber(low) && isNumber(high)) {
 		return input < low ? low : (input > high ? high : input);
 	} else {
-		return makeUgen('Clip', 1, [0], 0, [input, lo, hi]);
+		return makeUgen('Clip', 1, [0], 0, [input, low, high]);
 	}
 }
 // Clip Noise.

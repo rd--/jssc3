@@ -205,10 +205,6 @@ export class ScSynth {
 	}
 }
 
-declare global {
-	var globalScSynth: ScSynth;
-}
-
 const synthdefCounter: Counter = counterNew();
 
 export function playSynDefAtMessage(

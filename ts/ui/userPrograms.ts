@@ -39,7 +39,7 @@ export function userProgramSaveTo(
 ): void {
 	const timeStamp = (new Date()).toISOString();
 	const programName = withPrompt
-		? window.prompt('Set program name', timeStamp)
+		? globalThis.prompt('Set program name', timeStamp)
 		: timeStamp;
 	if (programName) {
 		userPrograms.programs[programName] = programText;
@@ -52,7 +52,7 @@ export function userProgramSaveTo(
 }
 
 export function userProgramClear(selectId: string): void {
-	if (window.confirm('Clear user program storage?')) {
+	if (globalThis.confirm('Clear user program storage?')) {
 		selectClearFrom(selectId, 1);
 		localStorage.removeItem(userPrograms.storageKey);
 	}

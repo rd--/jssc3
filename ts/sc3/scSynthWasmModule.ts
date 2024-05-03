@@ -1,4 +1,4 @@
-export type ScSynthWasmModule = Record<string, any>;
+export type ScSynthWasmModule = Record<string, unknown>;
 
 export function initScSynthWasmModule(
 	scSynthModule: ScSynthWasmModule,

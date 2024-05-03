@@ -70,8 +70,8 @@ export function arrayBufferToSoundFile(
 	url: string,
 	arrayBuffer: ArrayBuffer,
 ): Promise<SoundFile> {
-	if (window.AudioContext) {
-		const audioContext = new window.AudioContext();
+	if (globalThis.AudioContext) {
+		const audioContext = new globalThis.AudioContext();
 		return audioContext.decodeAudioData(arrayBuffer)
 			.then((audioBuffer) => audiobufferToSoundFile(url, audioBuffer));
 	} else {
