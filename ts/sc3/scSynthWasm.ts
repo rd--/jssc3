@@ -22,11 +22,14 @@ export function scSynthUseWasm(
 const langPort = 57120;
 const synthPort = 57110;
 
-type OscDriver = Record<number, {receive: ((p: number, d: Uint8Array) => void)}>;
+type OscDriver = Record<
+	number,
+	{ receive: (p: number, d: Uint8Array) => void }
+>;
 
 function wasmConnect(scSynth: ScSynth, wasm: ScSynthWasmModule): void {
 	// console.debug('wasm: connect', scSynth);
-	const args = <string[]>wasm['arguments'];
+	const args = <string[]> wasm['arguments'];
 	args[args.indexOf('-i') + 1] = String(scSynth.options.numInputs);
 	args[args.indexOf('-o') + 1] = String(scSynth.options.numOutputs);
 	// -Z = audio driver block size (frames)
@@ -38,12 +41,12 @@ function wasmConnect(scSynth: ScSynth, wasm: ScSynthWasmModule): void {
 	// -m = Real time memory (Kb), total memory is fixed at compile time, see README_WASM
 	args.push('-m', '32768');
 	// console.debug('wasm: connect: callMain', args);
-	const main = <((argList: string[]) => unknown)>wasm.callMain;
+	const main = <((argList: string[]) => unknown)> wasm.callMain;
 	main(args);
 	// Note: Fix use of arbitary delay
 	setTimeout(function () {
 		// console.debug('wasm: oscDriver', wasm, langPort);
-		const oscDriver = <OscDriver>wasm.oscDriver;
+		const oscDriver = <OscDriver> wasm.oscDriver;
 		oscDriver[langPort] = {
 			receive: function (_unusedPort: number, data: Uint8Array) {
 				// console.debug('wasm: oscDriver: receive', address, data);
@@ -60,7 +63,7 @@ function wasmSendOsc(
 ): void {
 	// console.debug('wasm: sendOsc', oscPacket);
 	if (wasm.oscDriver) {
-		const oscDriver = <OscDriver>wasm.oscDriver;
+		const oscDriver = <OscDriver> wasm.oscDriver;
 		const port = oscDriver[synthPort];
 		if (port && port.receive) {
 			port.receive(langPort, encodeOscPacket(oscPacket));

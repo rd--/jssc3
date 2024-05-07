@@ -1,12 +1,14 @@
 export type Predicate<T> = (aValue: T) => boolean;
 
 // [() => null, Math.abs, Math.pow, console.log].map(functionArity) //= [0, 1, 2, 0]
-export function functionArity<T, U>(aFunction: (...argArray: T[]) => U): number {
+export function functionArity<T, U>(
+	aFunction: (...argArray: T[]) => U,
+): number {
 	return aFunction.length;
 }
 
 export function makeAritySpecificFunction<T, U>(
-	arrayFunction: ((argArray: T[]) => U),
+	arrayFunction: (argArray: T[]) => U,
 	arity: number,
 ) {
 	switch (arity) {
@@ -236,7 +238,25 @@ export function makeAritySpecificFunction<T, U>(
 				p: T,
 				q: T,
 			) {
-				return arrayFunction([a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q]);
+				return arrayFunction([
+					a,
+					b,
+					c,
+					d,
+					e,
+					f,
+					g,
+					h,
+					i,
+					j,
+					k,
+					l,
+					m,
+					n,
+					o,
+					p,
+					q,
+				]);
 			};
 		case 18:
 			return function (
@@ -259,7 +279,26 @@ export function makeAritySpecificFunction<T, U>(
 				q: T,
 				r: T,
 			) {
-				return arrayFunction([a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r]);
+				return arrayFunction([
+					a,
+					b,
+					c,
+					d,
+					e,
+					f,
+					g,
+					h,
+					i,
+					j,
+					k,
+					l,
+					m,
+					n,
+					o,
+					p,
+					q,
+					r,
+				]);
 			};
 		default:
 			throw `makeAritySpecificFunction: arity not supported: ${arity}`;
@@ -267,7 +306,7 @@ export function makeAritySpecificFunction<T, U>(
 }
 
 export function makeCheckedAritySpecificFunction<T, U>(
-	arrayFunction: ((argArray: T[]) => U),
+	arrayFunction: (argArray: T[]) => U,
 	arity: number,
 ) {
 	const checkArity = function (anArray: IArguments) {
