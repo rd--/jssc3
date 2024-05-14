@@ -1081,6 +1081,18 @@ export function LatoocarfianC(
 ): Signal {
 	return makeUgen('LatoocarfianC', 1, rateAr, 0, [freq, a, b, c, d, xi, yi]);
 }
+// Latoocarfian chaotic generator
+export function LatoocarfianL(
+	freq: Signal,
+	a: Signal,
+	b: Signal,
+	c: Signal,
+	d: Signal,
+	xi: Signal,
+	yi: Signal,
+): Signal {
+	return makeUgen('LatoocarfianL', 1, rateAr, 0, [freq, a, b, c, d, xi, yi]);
+}
 // Remove DC
 export function LeakDc(input: Signal, coef: Signal): Signal {
 	return makeUgen('LeakDC', 1, [0], 0, [input, coef]);
