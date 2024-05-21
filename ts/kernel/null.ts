@@ -6,7 +6,7 @@ export function isUndefined(aValue: unknown): aValue is undefined {
 	return aValue === undefined;
 }
 
-// If inputValue is null or undefined log message and return defaultValue, else return inputValue
+/** If inputValue is null or undefined log message and return defaultValue, else return inputValue. */
 export function nullFix<T>(
 	message: string,
 	inputValue: T | null | undefined,

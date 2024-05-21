@@ -46,7 +46,7 @@ export function stcBinarySelectorFromOperator(text: string): string {
 	}
 }
 
-// Request .stc to .js translation from server.
+/** Request .stc to .js translation from server. */
 export function stcToJs(stcText: string): Promise<string> {
 	if (stcText.trim() === '') {
 		return new Promise((resolve, _unusedReject) => resolve(''));

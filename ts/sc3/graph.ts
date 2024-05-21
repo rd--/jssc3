@@ -38,8 +38,10 @@ import {
 	UgenInput,
 } from './ugen.ts';
 
-// traverse graph from p adding leaf nodes to the set c
-// w protects from loops in multipleRootGraph (when recurring in traversing multipleRootGraph elements w is set to c).
+/** Traverse graph from p adding leaf nodes to the set c.
+ *
+ * w protects from loops in multipleRootGraph (when recurring in traversing multipleRootGraph elements w is set to c).
+ */
 export function ugenTraverseCollecting(
 	p: Tree<Ugen>,
 	c: Set<number | ScUgen>,
@@ -99,13 +101,13 @@ export function isScUgenControl(scUgen: ScUgen): boolean {
 	return ['Control', 'LagControl', 'TrigControl'].includes(scUgen.name);
 }
 
-// This should check that signal is not a tree of numbers...
+/** This should check that signal is not a tree of numbers... */
 export function signalToUgenTree(signal: Signal): Tree<Ugen> {
 	// console.debug(`signalToUgenTree: ${signal}`);
 	return <Tree<Ugen>> signal;
 }
 
-// ugens are sorted by id, which is in applicative order.
+/** Ugens are sorted by id, which is in applicative order. */
 export function makeUgenGraph(name: string, signal: Signal): UgenGraph {
 	// console.debug(`makeUgenGraph: ${name}, ${signal}`);
 	const tree = signalToUgenTree(signal);
@@ -204,7 +206,7 @@ export function graphEncodeUgenSpec(
 	];
 }
 
-// Encodes version two files.
+/** Encodes version two .scsyndef file. */
 export function graphEncodeSyndef(graph: UgenGraph): Uint8Array {
 	return flattenByteEncoding([
 		encodeInt32(SCgf), // magic number

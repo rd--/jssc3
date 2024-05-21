@@ -26,8 +26,7 @@ export const sc3Buffer: {
 	next: 100,
 };
 
-/* Fetch buffer index from cache, allocate and load if required.
-Resolve soundFileId against dictionary. */
+/** Fetch buffer index from cache, allocate and load if required. Resolve soundFileId against dictionary. */
 export function SfAcquire(
 	urlOrKey: string,
 	numberOfChannels: number,

@@ -17,7 +17,7 @@ export const kAddToTail = 1;
 
 // b = buffer
 
-// b_alloc, with optional completion message
+/** b_alloc, with optional completion message. */
 export function b_alloc(
 	bufferNumber: number,
 	numberOfFrames: number,
@@ -34,7 +34,7 @@ export function b_alloc(
 	};
 }
 
-// b_gen memcpy is in sc3-rdu
+/** b_gen memcpy is in sc3-rdu. */
 export function b_memcpy(
 	bufferNumber: number,
 	numFrames: number,

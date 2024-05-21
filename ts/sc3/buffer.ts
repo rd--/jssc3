@@ -17,7 +17,7 @@ export function b_allocMemcpySoundFile(
 	);
 }
 
-/* Fetch sound file data, and then allocate a buffer and memcpy all interleaved channel data. */
+/** Fetch sound file data, and then allocate a buffer and memcpy all interleaved channel data. */
 export async function fetchSoundFileToScSynthBuffer(
 	scSynth: ScSynth,
 	soundFileUrl: string,
@@ -37,8 +37,7 @@ export async function fetchSoundFileToScSynthBuffer(
 	}
 }
 
-/* Fetch single channels of sound file data to mono scSynth buffers.
-The channel numbers are one-indexed. */
+/** Fetch single channels of sound file data to mono scSynth buffers.  Channel numbers are one-indexed. */
 export async function fetchSoundFileChannelsToScSynthBuffers(
 	scSynth: ScSynth,
 	soundFileUrl: string,

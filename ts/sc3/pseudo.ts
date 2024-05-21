@@ -312,7 +312,7 @@ export function BufWrite(
 	return BufWr(bufnum, phase, loop, inputArray);
 }
 
-// Reshape input arrays, and allow amp and time to be null (defaulting to 1)
+//** Reshape input arrays, and allow amp and time to be null (defaulting to 1). */
 export function asKlankSpec(
 	freq: Signal,
 	amp: Maybe<Signal>,
@@ -369,12 +369,12 @@ export function UnitCps(a: Signal): Signal {
 	return MidiCps(Mul(a, 100));
 }
 
-// Read a signal from a control bus.
+/** Read a signal from a control bus. */
 export function ControlIn(numChannels: number, bus: Signal): Signal {
 	return kr(In(numChannels, bus));
 }
 
-// Write a signal to a control bus.
+/** Write a signal to a control bus. */
 export function ControlOut(bus: Signal, channelsArray: Signal): Signal {
 	return Out(bus, kr(channelsArray));
 }

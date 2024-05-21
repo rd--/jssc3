@@ -33,7 +33,7 @@ export function cellRefToLinearIndex(
 	return ((rowNumber - 1) * numberOfColumns) + columnIndex;
 }
 
-// apply proc (columnLetter, rowNumber) for each cell in evaluation order (right to left in each row descending)
+// Apply proc(columnLetter, rowNumber) for each cell in evaluation order (right to left in each row descending).
 export function allCellRefDo(
 	numberOfColumns: number,
 	numberOfRows: number,

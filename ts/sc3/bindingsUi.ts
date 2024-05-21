@@ -4,11 +4,10 @@ import { ScSynth } from './scSynth.ts';
 import { makeUgen, Signal } from './ugen.ts';
 
 declare global {
-	// eslint(no-var)
 	var globalScSynth: ScSynth;
 }
 
-// Respond to the state of a key
+/** Respond to the state of a key. */
 export function KeyState(
 	keycode: Signal,
 	minval: Signal,
@@ -24,7 +23,7 @@ export function KeyState(
 	}
 }
 
-// Mouse button UGen.
+/** Mouse button UGen. */
 export function MouseButton(
 	minval: Signal,
 	maxval: Signal,
@@ -37,7 +36,7 @@ export function MouseButton(
 	}
 }
 
-// Cursor tracking UGen.
+/** Cursor tracking UGen. */
 export function MouseX(
 	minval: Signal,
 	maxval: Signal,
@@ -51,7 +50,7 @@ export function MouseX(
 	}
 }
 
-// Cursor tracking UGen.
+/** Cursor tracking UGen. */
 export function MouseY(
 	minval: Signal,
 	maxval: Signal,

@@ -56,10 +56,12 @@ export function localControlNameCompare(
 	return stringCompare(i.name, j.name);
 }
 
-/* There are two allowed cases:
-1. all local controls have non negative indices set, the array is sorted by index
-2. all local controls have indices set to -1, the array is sorted by name and indices assigned
-*/
+/** Sort local controls.
+ *
+ * There are two allowed cases:
+ * 1. all local controls have non negative indices set, the array is sorted by index
+ * 2. all local controls have indices set to -1, the array is sorted by name and indices assigned
+ */
 export function sortLocalControls(controls: LocalControl[]): LocalControl[] {
 	if (controls.every((each) => each.index == -1)) {
 		controls.sort(localControlNameCompare);
@@ -254,7 +256,11 @@ export function inputRate(input: UgenInput): number {
 
 export type RateSpec = number | number[];
 
-// If scalar it is the operating rate, if an array it is indices into the inputs telling how to derive the rate.
+/** Derive operating rate.
+ *
+ * If scalar it is the operating rate.
+ * If an array it is indices into the inputs telling how to derive the rate.
+ */
 export function deriveRate(
 	rateOrFilterUgenInputs: RateSpec,
 	inputArray: UgenInput[],

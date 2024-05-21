@@ -1,5 +1,4 @@
-/* Options for scsynth process (partial) */
-
+/** Options for scsynth process (partial). */
 export class ScSynthOptions {
 	hardwareBufferSize: number;
 	blockSize: number;

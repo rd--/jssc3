@@ -68,8 +68,7 @@ export function eventP<T>(e: ContinuousEvent<T>): T {
 }
 */
 
-// Control bus address of voiceNumber (indexed from one).
-// Uses Ugen math to allow expansion
+/** Control bus address of voiceNumber (indexed from one). Use Ugen math to allow expansion. */
 export function voiceAddr(part: number, voice: number): Signal {
 	const addrZero = 13000;
 	const maxEventParam = 10;
