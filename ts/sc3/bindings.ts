@@ -473,6 +473,10 @@ export function Demand(
 		arrayConcat([trig, reset], asArray(demandUGens)),
 	);
 }
+/** Demand rate envelope generator **/
+export function DemandEnvGen(level: Signal, dur: Signal, shape: Signal, curve: Signal, gate: Signal, reset: Signal, levelScale: Signal, levelBias: Signal, timeScale: Signal, doneAction: Signal): Signal {
+    return makeUgen('DemandEnvGen', 1, rateAr, 0, [level, dur, shape, curve, gate, reset, levelScale, levelBias, timeScale, doneAction]);
+}
 /** Search a buffer for a value */
 export function DetectIndex(bufnum: Signal, input: Signal): Signal {
 	return makeUgen('DetectIndex', 1, [1], 0, [bufnum, input]);
