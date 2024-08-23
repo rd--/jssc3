@@ -1090,6 +1090,18 @@ export function LatoocarfianC(
 	return makeUgen('LatoocarfianC', 1, rateAr, 0, [freq, a, b, c, d, xi, yi]);
 }
 /** Latoocarfian chaotic generator */
+export function LatoocarfianN(
+	freq: Signal,
+	a: Signal,
+	b: Signal,
+	c: Signal,
+	d: Signal,
+	xi: Signal,
+	yi: Signal,
+): Signal {
+	return makeUgen('LatoocarfianN', 1, rateAr, 0, [freq, a, b, c, d, xi, yi]);
+}
+/** Latoocarfian chaotic generator */
 export function LatoocarfianL(
 	freq: Signal,
 	a: Signal,
