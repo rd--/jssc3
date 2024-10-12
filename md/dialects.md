@@ -4,15 +4,15 @@ By Julian Rohrhuber, Tom Hall, and Alberto de Campo
 
 > _"It was tempting to consider repurposing this language and the web
 > browser to recreate the conditions for creative programming in the
-> context of what was becoming a universal platform."_ (Ingalls, 2016)
+> context of what was becoming a universal platform."_ (Ingalls 2016)
 
 For the past few years it's been possible to run the SuperCollider
-synthesiser in a web browser (Berners-Lee, 1992). Below are brief
+synthesiser in a web browser (Berners-Lee 1992). Below are brief
 outlines of some initial experiments using it.
 
 [_JsSc3_](https://rohandrape.net/t/jssc3) is a library for
 communicating with the SuperCollider synthesiser using the language
-interpreter of the browser (Wirfs-Brock, 2020).  It lets one define
+interpreter of the browser (Wirfs-Brock 2020).  It lets one define
 signal processing graphs and send them, along with any related
 instructions, to the synthesiser to be played.
 
@@ -78,10 +78,12 @@ SuperCollider programs and for distributing completed works.
 
 T. J. Berners-Lee et al. The world-wide web. _Computer Networks and
 ISDN Systems_, 25(4):454–459, 1992.
+[Pdf](https://web.stanford.edu/class/cs344g/www-1992.pdf)
 
 D. Ingalls et al. A world of active objects for work and play. In
 _Proc. Symposium on New Ideas, New Paradigms, and Reflections on
 Programming and Software_, 2016, 238–249. 2016.
+[Pdf](https://hirschfeld.org/writings/media/IngallsFelgentreffHirschfeldKrahnLinckeRoederTaivalsaariMikkonen_2016_AWorldOfActiveObjectsForWorkAndPlayTheFirstTenYearsOfLively_AuthorsVersion.pdf)
 
 A. Wirfs-Brock and B. Eich. Javascript: the first 20 years. _Proc. ACM
 Program. Lang._, 4:1–189, June 2020.

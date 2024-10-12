@@ -18,7 +18,7 @@ export const userPrograms: UserPrograms = {
 	storageKey: '',
 };
 
-export function userProgramMenuInit(
+export function userProgramsMenuInit(
 	selectId: string,
 	setProgram: (text: string) => void,
 ): void {
