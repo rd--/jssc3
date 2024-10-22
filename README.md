@@ -16,7 +16,7 @@ Online editors:
 Related:
 [Simple Programming Language](https://rohandrape.net/t/spl),
 [Small Hours](http://smallhours.rohandrape.net/),
-[Block SuperCollider](http://blksc3.rohandrape.net/),
+[SuperBlock](http://blksc3.rohandrape.net/),
 [Polyglot SuperCollider](https://rohandrape.net/pub/hsc3-graphs/polyglot.html)
 
 Requires:

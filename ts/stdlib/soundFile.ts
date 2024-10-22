@@ -39,7 +39,7 @@ export class SoundFile {
 	}
 }
 
-export function audiobufferToSoundFile(
+export function audioBufferToSoundFile(
 	url: string,
 	anAudioBuffer: AudioBuffer,
 ): SoundFile {
@@ -73,7 +73,7 @@ export function arrayBufferToSoundFile(
 	if (globalThis.AudioContext) {
 		const audioContext = new globalThis.AudioContext();
 		return audioContext.decodeAudioData(arrayBuffer)
-			.then((audioBuffer) => audiobufferToSoundFile(url, audioBuffer));
+			.then((audioBuffer) => audioBufferToSoundFile(url, audioBuffer));
 	} else {
 		const soundFile = waveToSoundFile(wave.waveParse(url, arrayBuffer));
 		return new Promise((resolve, _unusedReject) => resolve(soundFile));

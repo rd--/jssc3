@@ -15,30 +15,36 @@ export function encodeInt8(aNumber: number): Uint8Array {
 	return encodeUsing(1, (b) => b.setInt8(0, aNumber));
 }
 
-export function encodeInt16(aNumber: number): Uint8Array {
-	return encodeUsing(2, (b) => b.setInt16(0, aNumber, false));
+export function encodeInt16(
+	aNumber: number,
+	littleEndian: boolean,
+): Uint8Array {
+	return encodeUsing(2, (b) => b.setInt16(0, aNumber, littleEndian));
 }
 
-export function encodeInt32(aNumber: number): Uint8Array {
-	return encodeUsing(4, (b) => b.setInt32(0, aNumber, false));
+export function encodeInt32(
+	aNumber: number,
+	littleEndian: boolean,
+): Uint8Array {
+	return encodeUsing(4, (b) => b.setInt32(0, aNumber, littleEndian));
 }
 
 // encodeFloat32(1.0, false) //= [63, 128, 0, 0]
 export function encodeFloat32(
 	aNumber: number,
-	litteEndian: boolean,
+	littleEndian: boolean,
 ): Uint8Array {
-	return encodeUsing(4, (b) => b.setFloat32(0, aNumber, litteEndian));
+	return encodeUsing(4, (b) => b.setFloat32(0, aNumber, littleEndian));
 }
 
 export function encodeFloat32Array(
 	inputArray: Float32Array,
-	litteEndian: boolean,
+	littleEndian: boolean,
 ): Uint8Array {
 	const arrayBuffer = new ArrayBuffer(inputArray.length * 4);
 	const dataView = new DataView(arrayBuffer);
 	for (let i = 0; i < inputArray.length; i++) {
-		dataView.setFloat32(i * 4, inputArray[i], litteEndian);
+		dataView.setFloat32(i * 4, inputArray[i], littleEndian);
 	}
 	const uint8Array = new Uint8Array(arrayBuffer);
 	return uint8Array;

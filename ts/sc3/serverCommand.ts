@@ -17,7 +17,7 @@ export const kAddToTail = 1;
 
 // b = buffer
 
-/** b_alloc, with optional completion message. */
+/* b_alloc, with optional completion message. */
 export function b_alloc(
 	bufferNumber: number,
 	numberOfFrames: number,
@@ -34,7 +34,7 @@ export function b_alloc(
 	};
 }
 
-/** b_gen memcpy is in sc3-rdu. */
+/* b_gen memcpy is in sc3-rdu. */
 export function b_memcpy(
 	bufferNumber: number,
 	numFrames: number,
@@ -96,7 +96,7 @@ export function b_allocMemcpyFloat32Array(
 	sampleRate: number,
 	data: Float32Array,
 ): OscMessage {
-	const littleEndian = true; /* arm64 is LittleEndian */
+	const littleEndian = true; /* arm64 and x86 are both LittleEndian */
 	const byteSwap = 0; /* do not byte-swap */
 	return b_allocMemcpy(
 		bufferNumber,

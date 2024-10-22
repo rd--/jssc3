@@ -191,13 +191,13 @@ export function graphEncodeUgenSpec(
 	return [
 		encodePascalString(ugen.name),
 		encodeInt8(ugen.rate),
-		encodeInt32(arrayLength(ugen.inputArray)),
-		encodeInt32(ugen.numChannels),
-		encodeInt16(ugen.specialIndex),
+		encodeInt32(arrayLength(ugen.inputArray), false),
+		encodeInt32(ugen.numChannels, false),
+		encodeInt16(ugen.specialIndex, false),
 		arrayMap(
 			(input) =>
 				arrayMap(
-					(index) => encodeInt32(index),
+					(index) => encodeInt32(index, false),
 					graphUgenInputSpec(graph, input),
 				),
 			ugen.inputArray,
@@ -209,25 +209,25 @@ export function graphEncodeUgenSpec(
 /** Encodes version two .scsyndef file. */
 export function graphEncodeSyndef(graph: UgenGraph): Uint8Array {
 	return flattenByteEncoding([
-		encodeInt32(SCgf), // magic number
-		encodeInt32(2), // file version
-		encodeInt16(1), // # synth definitions
+		encodeInt32(SCgf, false), // magic number
+		encodeInt32(2, false), // file version
+		encodeInt16(1, false), // # synth definitions
 		encodePascalString(graph.name), // name
-		encodeInt32(arrayLength(graph.constantArray)), // # constants
+		encodeInt32(arrayLength(graph.constantArray), false), // # constants
 		arrayMap((item) => encodeFloat32(item, false), graph.constantArray), // constants
-		encodeInt32(arrayLength(graph.controlArray)), // # controls
+		encodeInt32(arrayLength(graph.controlArray), false), // # controls
 		arrayMap(
 			(item) => encodeFloat32(item.defaultValue, false),
 			graph.controlArray,
 		), // control default values
-		encodeInt32(arrayLength(graph.controlArray)), // # controls
+		encodeInt32(arrayLength(graph.controlArray), false), // # controls
 		arrayMap(
-			(item) => [encodePascalString(item.name), encodeInt32(item.index)],
+			(item) => [encodePascalString(item.name), encodeInt32(item.index, false)],
 			graph.controlArray,
 		), // controls
-		encodeInt32(arrayLength(graph.ugenArray)), // # ugen
+		encodeInt32(arrayLength(graph.ugenArray), false), // # ugen
 		arrayMap((item) => graphEncodeUgenSpec(graph, item), graph.ugenArray), // ugens
-		encodeInt16(0), // # variants
+		encodeInt16(0, false), // # variants
 	]);
 }
 
