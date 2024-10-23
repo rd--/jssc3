@@ -3,14 +3,14 @@ import * as typedArray from '../kernel/typedArray.ts';
 import * as wave from './wave.ts';
 
 export class SoundFile {
-	url: string;
+	url: URL | string;
 	numberOfChannels: number;
 	numberOfFrames: number;
 	sampleRate: number;
 	interleavedData: Float32Array;
 	cachedChannelData: Float32Array[] | null;
 	constructor(
-		url: string,
+		url: URL | string,
 		numberOfChannels: number,
 		numberOfFrames: number,
 		sampleRate: number,
@@ -40,7 +40,7 @@ export class SoundFile {
 }
 
 export function audioBufferToSoundFile(
-	url: string,
+	url: URL | string,
 	anAudioBuffer: AudioBuffer,
 ): SoundFile {
 	const soundFile = new SoundFile(
@@ -67,7 +67,7 @@ export function waveToSoundFile(wave: wave.Wave): SoundFile {
 }
 
 export function arrayBufferToSoundFile(
-	url: string,
+	url: URL | string,
 	arrayBuffer: ArrayBuffer,
 ): Promise<SoundFile> {
 	if (globalThis.AudioContext) {
@@ -80,7 +80,7 @@ export function arrayBufferToSoundFile(
 	}
 }
 
-export async function fetchSoundFile(url: string): Promise<SoundFile> {
+export async function fetchSoundFile(url: URL | string): Promise<SoundFile> {
 	// console.debug('fetchSoundFile', url);
 	const response = await fetch(url);
 	const arrayBuffer = await response.arrayBuffer();

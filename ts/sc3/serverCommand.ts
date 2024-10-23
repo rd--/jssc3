@@ -94,16 +94,17 @@ export function b_allocMemcpyFloat32Array(
 	numberOfFrames: number,
 	numberOfChannels: number,
 	sampleRate: number,
-	data: Float32Array,
+	interleavedData: Float32Array,
 ): OscMessage {
-	const littleEndian = true; /* arm64 and x86 are both LittleEndian */
-	const byteSwap = 0; /* do not byte-swap */
+	/* the current Wasm binary has an old copy of b_memcpy which always byte swaps, hence reversed values below */
+	const littleEndian = false; /* arm64 and x86 are both LittleEndian = true */
+	const byteSwap = 4; /* do not byte-swap = 0 */
 	return b_allocMemcpy(
 		bufferNumber,
 		numberOfFrames,
 		numberOfChannels,
 		sampleRate,
-		encodeFloat32Array(data, littleEndian),
+		encodeFloat32Array(interleavedData, littleEndian),
 		byteSwap,
 	);
 }
@@ -111,16 +112,16 @@ export function b_allocMemcpyFloat32Array(
 export function b_allocMemcpyArray(
 	bufferNumber: number,
 	sampleRate: number,
-	data: number[],
+	channelData: number[],
 ): OscMessage {
-	const numberOfFrames = data.length;
+	const numberOfFrames = channelData.length;
 	const numberOfChannels = 1;
 	return b_allocMemcpyFloat32Array(
 		bufferNumber,
 		numberOfFrames,
 		numberOfChannels,
 		sampleRate,
-		new Float32Array(data),
+		new Float32Array(channelData),
 	);
 }
 

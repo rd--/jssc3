@@ -56,14 +56,17 @@ export function waveParseDataFloat32(data: riff.RiffChunk): Float32Array {
 }
 
 export type Wave = {
-	url: string;
+	url: URL | string;
 	chunks: riff.RiffChunk[];
 	fmtChunk: WaveFmtChunk;
 	factChunk: WaveFactChunk;
 	data: Float32Array;
 };
 
-export function chunksToWave(url: string, chunks: riff.RiffChunk[]): Wave {
+export function chunksToWave(
+	url: URL | string,
+	chunks: riff.RiffChunk[],
+): Wave {
 	let fmtChunk: WaveFmtChunk | null = null, factChunk = null, data = null;
 	chunks.forEach((chunk) => {
 		// console.debug('chunksToWave', chunk.id, chunk.size, chunk.data);
@@ -94,11 +97,11 @@ export function chunksToWave(url: string, chunks: riff.RiffChunk[]): Wave {
 	}
 }
 
-export function waveParse(url: string, byteArray: ArrayBuffer): Wave {
+export function waveParse(url: URL | string, byteArray: ArrayBuffer): Wave {
 	return chunksToWave(url, waveReadChunkSequence(byteArray));
 }
 
-export function waveFetch(url: string): Promise<Wave> {
+export function waveFetch(url: URL | string): Promise<Wave> {
 	return fetch(url, { cache: 'default' })
 		.then((response) => response.arrayBuffer())
 		.then((byteArray) => waveParse(url, byteArray));
