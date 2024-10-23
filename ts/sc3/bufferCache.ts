@@ -16,11 +16,11 @@ export const sc3Buffer: {
 	next: number;
 } = {
 	dict: {
-		'crotale-d6': 'https://rohandrape.net/pub/jssc3/flac/crotale-d6.wav',
-		'harp-a4': 'https://rohandrape.net/pub/jssc3/flac/harp-a4.wav',
-		'piano-c5': 'https://rohandrape.net/pub/jssc3/flac/piano-c5.wav',
-		'floating_1': 'https://rohandrape.net/pub/jssc3/flac/floating_1.wav',
-		'then': 'https://rohandrape.net/pub/jssc3/flac/then.wav',
+		'CrotaleD6': 'https://rohandrape.net/pub/jssc3/flac/CrotaleD6.wav',
+		'HarpA4': 'https://rohandrape.net/pub/jssc3/flac/HarpA4.wav',
+		'PianoC5': 'https://rohandrape.net/pub/jssc3/flac/PianoC5.wav',
+		'Floating': 'https://rohandrape.net/pub/jssc3/flac/Floating.wav',
+		'Then': 'https://rohandrape.net/pub/jssc3/flac/Then.wav',
 	},
 	cache: {},
 	next: 100,
