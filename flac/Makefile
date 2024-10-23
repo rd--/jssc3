@@ -1,7 +1,7 @@
 %.wav : %.flac
 	sndfile-convert -float32 $< $@
 
-sf=crotale-d6 floating_1 harp-a4 piano-c5 then
+sf=CrotaleD6 Floating HarpA4 PianoC5 Then
 
 all: $(sf:=.wav)
 
