@@ -1,4 +1,4 @@
-@import "SmallHours.css";
+@import 'SmallHours.css';
 
 h1, h2, h3 {
 	text-decoration: none;
@@ -15,9 +15,9 @@ h2, h2 {
 
 pre {
 	background-color: var(--fragment-colour);
-	display:block;
-	white-space:pre;
-	width:100%;
+	display: block;
+	white-space: pre;
+	width: 100%;
 }
 
 a, a:visited {

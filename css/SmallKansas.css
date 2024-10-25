@@ -1,36 +1,36 @@
 @font-face {
-	font-family: "APL2741";
-	src: url("../woff2/Apl2741.woff2");
+	font-family: 'APL2741';
+	src: url('../woff2/Apl2741.woff2');
 }
 
 @font-face {
-	font-family: "APL333";
-	src: url("../woff2/APL333.woff2");
+	font-family: 'APL333';
+	src: url('../woff2/APL333.woff2');
 }
 
 @font-face {
-	font-family: "Los Altos";
-	src: url("../woff2/Los Altos.woff2");
+	font-family: 'Los Altos';
+	src: url('../woff2/Los Altos.woff2');
 }
 
 @font-face {
-	font-family: "Monaco";
-	src: url("../woff2/Monaco.woff2");
+	font-family: 'Monaco';
+	src: url('../woff2/Monaco.woff2');
 }
 
 @font-face {
-	font-family: "Neo Euler";
-	src: url("../woff2/Neo Euler.woff2");
+	font-family: 'Neo Euler';
+	src: url('../woff2/Neo Euler.woff2');
 }
 
 @font-face {
-	font-family: "Parc Place";
-	src: url("../woff2/Parc Place.woff2");
+	font-family: 'Parc Place';
+	src: url('../woff2/Parc Place.woff2');
 }
 
 @font-face {
-	font-family: "Computer Modern";
-	src: url("../woff2/Computer Modern.woff2");
+	font-family: 'Computer Modern';
+	src: url('../woff2/Computer Modern.woff2');
 }
 
 :root {
@@ -49,16 +49,15 @@
 	--image-colour: #aaffee;
 	--chemistry-colour: #ffddff;
 	--ink-colour: #424242; /* #424242 */
-	--program-body-colour; cornsilk;
+	--program-body-colour: cornsilk;
 	--program-answer-colour: lightgoldenrodyellow;
 	--program-expected-answer-colour: palegoldenrod;
 	--when-selected-background-colour: #fbf6d9;
-	--kansan-border-colour: rgba(0.5,0.5,0.5,0.1);
+	--kansan-border-colour: rgba(0.5, 0.5, 0.5, 0.1);
 	--kansan-border-width: 1px;
 }
 
-h1 {
-}
+h1 {}
 
 hr {
 	margin: 1em 6em 0em 3em;
@@ -115,7 +114,6 @@ pre code {
 	z-index: 0;
 	background-color: #ffeecc; /* #fffacd #fbf6d9 #fada5e var(--fragment-colour) #f4c2c2 #b0e0e6 #afdbf5 rgba(208, 240, 192, 0.75) #d0f0c0 #ace1af */
 	padding: 0px; /* 0px 2px 2px 2px */
-
 }
 
 .ColumnBrowser {
@@ -147,7 +145,7 @@ pre code {
 }
 
 .helpFileViewerPane {
-    overflow-y: auto;
+	overflow-y: auto;
 }
 
 .PackageBrowser, .PackageIndexBrowser {
@@ -171,7 +169,12 @@ pre code {
 	background-color: var(--clock-colour);
 }
 
-.Notebook, .SmallProgram, .Workspace, .TableViewer, .Inspector, .TranscriptViewer {
+.Notebook,
+.SmallProgram,
+.Workspace,
+.TableViewer,
+.Inspector,
+.TranscriptViewer {
 	background-color: var(--program-colour);
 }
 
@@ -273,8 +276,7 @@ option:checked, option:active, option:focus, option:focus-visible {
 	background-color: var(--paper-colour);
 }
 
-.titlePane, .browserPane {
-}
+.titlePane, .browserPane {}
 
 .framePane, .listChooserPane, .previewPane {
 	border-width: var(--kansan-border-width);
@@ -321,8 +323,7 @@ option:checked, option:active, option:focus, option:focus-visible {
 	flex-grow: 0;
 }
 
-.menuButton {
-}
+.menuButton {}
 
 .closeButton:hover, .menuButton:hover {
 	background-color: var(--when-selected-background-colour);
@@ -358,7 +359,7 @@ option:checked, option:active, option:focus, option:focus-visible {
 
 .filterText {
 	border-width: 0px;
-	margin: 0px
+	margin: 0px;
 	width: 100%;
 }
 
@@ -383,15 +384,15 @@ option:checked, option:active, option:focus, option:focus-visible {
 
 .notebookPane {
 	background-color: var(--paper-colour);
-    height: 100%;
+	height: 100%;
 	padding: 10px;
-    overflow-y: scroll;
+	overflow-y: scroll;
 }
 
 .notebookSummary {
 	background-color: lightskyblue;
 	width: 3em;
-    margin-bottom: 2.5px;
+	margin-bottom: 2.5px;
 }
 
 .smallProgram {
@@ -401,7 +402,7 @@ option:checked, option:active, option:focus, option:focus-visible {
 }
 
 .smallProgram .program {
-    background-color: var(--program-body-colour);
+	background-color: var(--program-body-colour);
 	width: 94%;
 }
 
