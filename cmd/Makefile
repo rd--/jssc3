@@ -1,3 +1,6 @@
+ws-udp-bridge:
+	deno run --unstable --unstable-net --allow-net --allow-read --allow-write --allow-env ws-udp-bridge.ts
+
 ws-tcp-bridge:
 	deno run --unstable --allow-net --allow-read --allow-write --allow-env ws-tcp-bridge.ts
 
