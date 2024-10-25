@@ -35,7 +35,26 @@
 
 :root {
 	--font-family: 'Computer Modern', 'Parc Place', 'Los Altos', 'APL333';
+	--small-kansas-colour: #aadd99;
+	--help-colour: #99eecc;
+	--package-colour: #77eeee;
+	--supercollider-colour: #88ccff; /* #bbddff */
+	--method-colour: #ffcc55;
+	--clock-colour: #eeff99;
+	--program-colour: #ff7777;
+	--menu-colour: #bbeeff; /* #88ccff #bbeeff */
+	--system-colour: #ffee77;
+	--tuning-colour: #99f499;
+	--midi-colour: #99f499;
+	--image-colour: #aaffee;
+	--chemistry-colour: #ffddff;
+	--ink-colour: #424242; /* #424242 */
+	--program-body-colour; cornsilk;
+	--program-answer-colour: lightgoldenrodyellow;
+	--program-expected-answer-colour: palegoldenrod;
 	--when-selected-background-colour: #fbf6d9;
+	--kansan-border-colour: rgba(0.5,0.5,0.5,0.1);
+	--kansan-border-width: 1px;
 }
 
 h1 {
@@ -48,13 +67,14 @@ hr {
 select {
 	font-family: var(--font-family);
 	font-size: var(--font-size);
+	color: var(--ink-colour);
 	width: 100%;
 	overflow-y: auto;
 }
 
 dialog {
 	position: absolute;
-	border: 0px;
+	border-width: 0px;
 	margin: 0px;
 	padding: 0px;
 }
@@ -114,11 +134,11 @@ pre code {
 }
 
 .SmallKansas, .ColourChooser {
-	background-color: #aadd99;
+	background-color: var(--small-kansas-colour);
 }
 
 .HelpBrowser, .HelpFileViewer, .HelpTextViewer {
-	background-color: #99eecc;
+	background-color: var(--help-colour);
 }
 
 .HelpFileViewer {
@@ -131,11 +151,11 @@ pre code {
 }
 
 .PackageBrowser, .PackageIndexBrowser {
-	background-color: #77eeee;
+	background-color: var(--package-colour);
 }
 
 .ScProgramBrowser, .ScSynthStatusMonitor {
-	background-color: #88ccff; /* #bbddff */
+	background-color: var(--supercollider-colour);
 }
 
 .ScProgramBrowser {
@@ -144,36 +164,40 @@ pre code {
 }
 
 .MethodBrowser, .MethodSignatureBrowser {
-	background-color: #ffcc55;
+	background-color: var(--method-colour);
 }
 
 .DigitalClock, .DigitalClock > .editorPane, .AnalogueClock {
-	background-color: #eeff99;
+	background-color: var(--clock-colour);
 }
 
 .Notebook, .SmallProgram, .Workspace, .TableViewer, .Inspector, .TranscriptViewer {
-	background-color: #ff7777;
+	background-color: var(--program-colour);
 }
 
 .Menu {
-	background-color: #bbeeff; /* #88ccff #bbeeff */
+	background-color: var(--menu-colour);
 	padding: 0px;
 }
 
 .TypeBrowser, .TraitBrowser, .SystemBrowser, .CategoryBrowser {
-	background-color: #ffee77;
+	background-color: var(--system-colour);
 }
 
-.MidiPortBrowser, .ScalaJiTuningBrowser, .ScalaJiMetaBrowser {
-	background-color: #99f499;
+.MidiPortBrowser {
+	background-color: var(--midi-colour);
+}
+
+.ScalaJiTuningBrowser, .ScalaJiMetaBrowser {
+	background-color: var(--tuning-colour);
 }
 
 .ImageViewer, .SvgViewer {
-	background-color: #aaffee;
+	background-color: var(--image-colour);
 }
 
 .CrystalLatticeStructureBrowser {
-	background-color: #ffddff;
+	background-color: var(--chemistry-colour);
 }
 
 .svgPane {
@@ -194,7 +218,7 @@ pre code {
 .listPane, .listChooserPane, .tablePane {
 	font-family: var(--font-family);
 	background-color: var(--paper-colour);
-	color: var(--text-colour);
+	color: var(--ink-colour);
 	display: flex;
 	flex-grow: 1;
 	margin: 0px;
@@ -230,14 +254,14 @@ option:checked, option:active, option:focus, option:focus-visible {
 	row-gap: 2px;
 	overflow: auto;
 	padding: 0px 2px 2px 2px;
-	margin: 2px 0px 0px 0px; /* 2 0 0 0 if bordered */
+	margin: 0px 0px 0px 0px;
 }
 
 .previewPane {
 	display: flex;
 	flex-grow: 4;
 	flex-basis: 6em;
-	margin: 0px 0px 0px 0px; /* 4 0 0 0 if bordered */
+	margin: 0px 0px 0px 0px;
 	padding: 0px;
 	overflow-y: auto;
 }
@@ -245,12 +269,17 @@ option:checked, option:active, option:focus, option:focus-visible {
 .titlePane, .editorPane, .statusPane, .statusText, .filterText, .tablePane {
 	font-family: var(--font-family);
 	font-size: var(--font-size);
-	color: var(--text-colour);
+	color: var(--ink-colour);
 	background-color: var(--paper-colour);
 }
 
-.titlePane, .browserPane, .listChooserPane, .previewPane {
-	border: 0px solid rgba(0,0,0,1); /* 3px if bordered */
+.titlePane, .browserPane {
+}
+
+.framePane, .listChooserPane, .previewPane {
+	border-width: var(--kansan-border-width);
+	border-style: solid;
+	border-color: var(--kansan-border-colour);
 }
 
 .titlePane, .statusPane {
@@ -283,7 +312,7 @@ option:checked, option:active, option:focus, option:focus-visible {
 	height: 100%;
 	min-height: 1em;
 	overflow: auto;
-	margin: 0em; /* 0.25 if bordered */
+	margin: 0.25em;
 }
 
 .closeButton, .menuButton {
@@ -304,7 +333,7 @@ option:checked, option:active, option:focus, option:focus-visible {
 	flex-direction: row;
 	flex-grow: 1;
 	column-gap: 2px;
-	margin: 0px 0px 0px 0px; /* 4 0 0 0 if bordered */
+	margin: 0px 0px 0px 0px;
 }
 
 .columnsPane .column, .columnsPane select, .inspectorPane select {
@@ -324,11 +353,11 @@ option:checked, option:active, option:focus, option:focus-visible {
 
 .listChooserPane > select {
 	flex-grow: 1;
-	padding: 0em; /* 0.25 if bordered */
+	padding: 0.15em;
 }
 
 .filterText {
-	border: 0px;
+	border-width: 0px;
 	margin: 0px
 	width: 100%;
 }
@@ -372,7 +401,7 @@ option:checked, option:active, option:focus, option:focus-visible {
 }
 
 .smallProgram .program {
-    background-color: cornsilk;
+    background-color: var(--program-body-colour);
 	width: 94%;
 }
 
@@ -385,11 +414,12 @@ option:checked, option:active, option:focus, option:focus-visible {
 }
 
 .smallProgram .answer .answerText {
-	background-color: lightgoldenrodyellow;
+	background-color: var(--program-answer-colour);
 	padding: 2.5px;
-	border: 1px dotted;
+	border-width: 1px;
+	border-style: dotted;
 }
 
 .smallProgram .expectedAnswer {
-	background-color: palegoldenrod;
+	background-color: var(--program-expected-answer-colour);
 }
