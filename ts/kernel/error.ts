@@ -31,3 +31,12 @@ export function logErrorAndReturn<T>(
 	console.error(`${fromWhere}: ${reason}`);
 	return defaultValue;
 }
+
+// Useful to print values answered by catch, which receives a value of unknown type.
+export function errorMessage(error: unknown): string {
+	if (error instanceof Error) {
+		return `${error.toString()} -> ${error.cause}`;
+	} {
+		return (error as any).toString();
+	}
+}
