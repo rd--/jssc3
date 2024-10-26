@@ -25,6 +25,10 @@ code {
 	font-family: var(--font-family);
 }
 
+p > code {
+	font-style: italic;
+}
+
 pre {
 	font-family: var(--font-family);
 	tab-size: 4;

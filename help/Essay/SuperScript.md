@@ -1,9 +1,9 @@
-## Superscript
+## SuperScript
 
-SuperScript is a preliminary experiment in providing a rich text environment for writing SuperCollider  (McCartney, 1996) synthesiser programs.
+SuperScript is a preliminary experiment in providing a rich text environment for writing SuperCollider (McCartney 1996) synthesiser programs.
 This experiment is extended a little in the [Small Hours](./smallhours.html) environment for the [Simple Programming Language](https://rohandrape.net/t/spl).
 
-SuperScript (Precision Software, 1985) is also a word processor for Commodore 64 computers.
+SuperScript (Precision Software 1985) is also a word processor for Commodore 64 computers.
 
 ## Synthesiser
 
@@ -15,7 +15,7 @@ The synthesiser will also be started automatically the first time a program is s
 ## Synthesis Programs
 
 `sc.Mul(sc.SinOsc(440, 0), 0.1)` is a simple synthesiser program.
-This program is written in the JavaScript language (Wirfs-Brock, 2020).
+This program is written in the JavaScript language (Wirfs-Brock 2020).
 Selecting the program text and typing _Control-Comma_ will generate a 440 _hz_ sine tone in the left channel.
 (_Control-Comma_ indicates typing the _control_ and _comma_ keys at the same time.)
 
@@ -26,16 +26,16 @@ To end the program type _Control-FullStop_.
 To make programs simpler to select they can be set apart in a paragraph by themselves.  The program below is a SuperCollider2 example written by James McCartney that generates bird like sounds.  When running, the status area will indicate that the program involves 107 unit generators.
 
 ```
-sc.OverlapTexture(function(tr) {
-	var p1 = sc.Mul(
+sc.OverlapTexture((tr) => {
+	const p1 = sc.Mul(
 		sc.LfPulse(sc.TRand(0.4, 1.4, tr), 0, sc.TRand(0.1, 0.9, tr)),
 		sc.TRand(4, 7, tr)
 	);
-	var p2 = sc.Mul(
+	const p2 = sc.Mul(
 		sc.LfPulse(sc.TRand(0.2, 0.7, tr), 0, 0.4),
 		0.02
 	);
-	var sw = sc.Add(
+	const sw = sc.Add(
 		sc.Add(
 			sc.Mul(
 				sc.LfSaw(sc.Add(p1, 2), 0),
@@ -45,8 +45,8 @@ sc.OverlapTexture(function(tr) {
 		),
 		sc.TRand(-1200, 1200, tr)
 	);
-	var freq = sc.Lag(sw, 0.05);
-	var amp = sc.Lag(p2, 0.3);
+	const freq = sc.Lag(sw, 0.05);
+	const amp = sc.Lag(p2, 0.3);
 	return sc.Pan2(sc.SinOsc(freq, 0), sc.TRand(-1, 1, tr), amp);
 }, 7, 4, 4)
 ```
@@ -69,13 +69,14 @@ The function syntax is also somewhat different, as can be seen in the program be
 This program generates overlapping sine tones with random frequency and panning parameters.
 
 ```
-sc.OverlapTexture(function(tr) {
-	return sc.Pan2(
+sc.OverlapTexture(
+	(tr) => sc.Pan2(
 		sc.SinOsc(sc.TRand(20, 2000, tr), 0),
 		sc.TRand(-1, 1, tr),
 		0.05
-	);
-}, 5, 2, 9)
+	),
+	5, 2, 9
+)
 ```
 
 This is the same program written in C-Smalltalk notation.
@@ -115,7 +116,7 @@ The console can be opened from the browser menu, or by typing a key combination,
 
 ## What is JavaScript?
 
-JavaScript (Wirfs-Brock, 2020) is a dynamic language in the [Scheme](https://www.scheme.com/tspl4/) family (Sussman, 1975).  A JavaScript interpreter is included as a part of most web browsers (Berners-Lee, 1992).
+JavaScript (Wirfs-Brock 2020) is a dynamic language in the [Scheme](https://www.scheme.com/tspl4/) family (Sussman 1975).  A JavaScript interpreter is included as a part of most web browsers (Berners-Lee 1992).
 
 ## What is SuperCollider?
 
@@ -124,9 +125,9 @@ SuperCollider is a family of real-time audio signal processing systems written b
 SuperCollider3 is the fourth iteration of the system and has two parts.
 
 1. _ScLang_ is a language interpreter in the Smalltalk family.
-2. _ScSynth_ is a real-time synthesiser in the Music-N family (Mathews, 1961).
+2. _ScSynth_ is a real-time synthesiser in the Music-N family (Mathews 1961).
 
-ScSynth is a _background process_, it connects to the audio system and then listens for [OpenSoundControl](https://opensoundcontrol.stanford.edu/) messages (Wright, 1997).
+ScSynth is a _background process_, it connects to the audio system and then listens for [OpenSoundControl](https://opensoundcontrol.stanford.edu/) messages (Wright 1997).
 
 These messages define the sound processing programs the synthesiser is to run, as well as the data structures these programs are to operate upon, and the real-time control data streams that interact with the executing programs.
 
@@ -144,12 +145,12 @@ The JavaScript SuperCollider library contains functions to define sound processi
 
 ## What is Rich Text Editing?
 
-The browser environment allows for programs to be written as rich text documents (Lampson, 1979).
+The browser environment allows for programs to be written as rich text documents (Lampson 1979).
 The area containing this text is a simple editor, there are the usual key commands for formatting, i.e. _Ctrl-i_ to italicise the selected text &etc.
 
 ## What is C-Smalltalk?
 
-C-Smalltalk is a C-like (Ritchie, 1978) syntax for Smalltalk (Kay, 1993).
+C-Smalltalk is a C-like (Ritchie 1978) syntax for Smalltalk (Kay 1993).
 C-Smalltalk is part of the [Smalltalk SuperCollider](https://rohandrape.net/?t=stsc3) system.
 C-Smalltalk is closely related to the SuperCollider language syntax.
 
@@ -170,7 +171,7 @@ There is a [translator](https://rohandrape.net/pub/stsc3/html/stsc3.html) from C
 
 Berners-Lee, Tim et al.
 "World-Wide Web: the information universe."
-_Electron. Netw. Res. Appl. Policy_ 2 (1992): 74-82.
+_Electron. Netw. Res. Appl. Policy_ 2:74-82, 1992.
 
 Alan Kay.
 ["The early history of Smalltalk"](https://dl.acm.org/doi/pdf/10.1145/155360.155364)

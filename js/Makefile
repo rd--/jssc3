@@ -1,5 +1,5 @@
-all:
-	echo "see ../ts/Makefile"
+mk-fmt:
+	deno fmt --use-tabs --single-quote *.js
 
-clean:
-	rm -f kernel/*.js stdlib/*.js sc3/*.js ui/*.js
+mk-lint:
+	deno lint *.js

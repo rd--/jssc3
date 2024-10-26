@@ -7,12 +7,12 @@ const quill = {
 				['blockquote', 'code-block'],
 				[{ 'header': 1 }, { 'header': 2 }],
 				[{ list: 'ordered' }, { list: 'bullet' }],
-				[{ 'script': 'sub'}, { 'script': 'super' }],
-				['clean']
-			]
+				[{ 'script': 'sub' }, { 'script': 'super' }],
+				['clean'],
+			],
 		},
-		theme: 'snow'
-	}
+		theme: 'snow',
+	},
 };
 
 export function sc3_superscript_init(editor) {

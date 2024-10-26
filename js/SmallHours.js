@@ -1,14 +1,20 @@
-import * as sc from '../dist/jssc3.js'
-import * as sl from '../lib/spl/dist/sl.js'
+import * as sc from '../dist/jssc3.js';
+import * as sl from '../lib/spl/dist/sl.js';
 
 export function evalRegion() {
-	const answer = eval(sl.rewriteString(sc.getSelectedTextOrContentsOf('programText')));
+	const answer = eval(
+		sl.rewriteString(sc.getSelectedTextOrContentsOf('programText')),
+	);
 	console.log(answer);
 	return answer;
 }
 
 export function playRegion() {
-	eval(sl.rewriteString(`{ ${sc.getSelectedTextOrContentsOf('programText')} }.value.play`));
+	eval(
+		sl.rewriteString(
+			`{ ${sc.getSelectedTextOrContentsOf('programText')} }.value.play`,
+		),
+	);
 }
 
 export const state = { autoPlay: false, oracleFiles: null };
@@ -18,17 +24,17 @@ function clear() {
 }
 
 export function insertText(label, text) {
-	if(label) {
-		window.history.pushState({text: text}, '', label);
+	if (label) {
+		globalThis.history.pushState({ text: text }, '', label);
 	}
-	if(text[0] === '#') {
-		var reader = new commonmark.Parser({smart: true});
-		var writer = new commonmark.HtmlRenderer();
+	if (text[0] === '#') {
+		const reader = new commonmark.Parser({ smart: true });
+		const writer = new commonmark.HtmlRenderer();
 		sc.setInnerHtml('documentText', writer.render(reader.parse(text)), false);
 	} else {
 		sc.setTextContent('programText', text, false);
 	}
-	if(state.autoPlay) {
+	if (state.autoPlay) {
 		clear();
 		globalScSynth.reset();
 		playRegion();
@@ -36,9 +42,9 @@ export function insertText(label, text) {
 }
 
 export function insertTextFor(label) {
-	return function(text) {
+	return (text) => {
 		insertText(label, text);
-	}
+	};
 }
 
 export function loadInputFile() {
@@ -51,14 +57,17 @@ export function loadInputFile() {
 }
 
 export function loadHelpFor(name) {
-	if(name.length > 0) {
+	if (name.length > 0) {
 		const isGuide = name.includes(' ');
 		const kind = isGuide ? 'Guide' : 'Reference';
-		const rewrittenName = isGuide ? name : (sl.isOperatorName(name) ? sl.operatorMethodName(name) : name);
+		const rewrittenName = isGuide
+			? name
+			: (sl.isOperatorName(name) ? sl.operatorMethodName(name) : name);
 		const url = `lib/spl/help/${kind}/${rewrittenName}.help.sl`;
 		const address = `?${kind}=${rewrittenName}`;
-		sc.fetchUtf8(url, { cache: 'no-cache' })
-			.then(insertTextFor(address));
+		sc.fetchUtf8(url, { cache: 'no-cache' }).then(
+			insertTextFor(address),
+		);
 	}
 }
 
@@ -68,31 +77,32 @@ export function loadHelp() {
 
 export function keyBindings(event) {
 	// console.log('keyBindings', event.ctrlKey, event.shiftKey, event.key);
-	if(event.ctrlKey) {
-		if(event.key === 'Enter') {
+	if (event.ctrlKey) {
+		if (event.key === 'Enter') {
 			event.preventDefault();
 			event.shiftKey ? evalRegion() : playRegion();
-		} else if(event.key === '.') {
+		} else if (event.key === '.') {
 			globalScSynth.reset();
 			clear();
-		} else if(event.shiftKey && event.key === '>') {
+		} else if (event.shiftKey && event.key === '>') {
 			clear();
-		} else if(event.shiftKey && event.key === 'L') {
+		} else if (event.shiftKey && event.key === 'L') {
 			document.getElementById('programInputFileSelect').click();
-		} else if(event.shiftKey && event.key === 'H') {
+		} else if (event.shiftKey && event.key === 'H') {
 			loadHelp();
-		} else if(event.shiftKey && event.key === '?') {
+		} else if (event.shiftKey && event.key === '?') {
 			loadHelp();
 		}
 	}
 }
 
 export function loadUrlParam() {
-	const fileName = sc.urlGetParam('e')
-	if(fileName) {
+	const fileName = sc.urlGetParam('e');
+	if (fileName) {
 		console.log(`loadUrlParam: ${fileName}`);
-		sc.fetchUtf8(fileName, { cache: 'no-cache' })
-			.then(text => insertText(null, text));
+		sc.fetchUtf8(fileName, { cache: 'no-cache' }).then(
+			(text) => insertText(null, text),
+		);
 	}
 }
 
@@ -101,33 +111,44 @@ export function loadInstructions() {
 }
 
 export function initProgramMenu() {
-	sc.fetchUtf8('text/SmallHoursPrograms.text', { cache: 'no-cache' })
-		.then(text => sc.selectAddKeysAsOptions('programMenu', sc.stringNonEmptyLines(text)));
-	sc.menuOnChangeWithOptionValue('programMenu', function(optionValue) {
-		sc.fetchUtf8(`./lib/spl/help/SuperCollider/${optionValue}`, { cache: 'no-cache' })
-			.then(text => insertText(null, text));
+	sc.fetchUtf8('text/SmallHoursPrograms.text', { cache: 'no-cache' }).then(
+		(text) =>
+			sc.selectAddKeysAsOptions(
+				'programMenu',
+				sc.stringNonEmptyLines(text),
+			),
+	);
+	sc.menuOnChangeWithOptionValue('programMenu', (optionValue) => {
+		sc.fetchUtf8(`./lib/spl/help/SuperCollider/${optionValue}`, {
+			cache: 'no-cache',
+		}).then(
+			(text) => insertText(null, text),
+		);
 	});
 }
 
 export function initOracle() {
-	sc.fetchUtf8('text/SmallHoursOracle.text', { cache: 'no-cache' })
-		.then(text => state.oracleFiles = sc.stringNonEmptyLines(text));
+	sc.fetchUtf8('text/SmallHoursOracle.text', { cache: 'no-cache' }).then(
+		(text) => state.oracleFiles = sc.stringNonEmptyLines(text),
+	);
 }
 
 export function loadOracle() {
-	var fileName = sc.arrayChoose(state.oracleFiles);
-	sc.fetchUtf8(`./lib/spl/help/SuperCollider/${fileName}`, { cache: 'no-cache' })
-		.then(text => insertText(null, text));
+	const fileName = sc.arrayChoose(state.oracleFiles);
+	sc.fetchUtf8(`./lib/spl/help/SuperCollider/${fileName}`, {
+		cache: 'no-cache',
+	}).then(
+		(text) => insertText(null, text),
+	);
 }
 
 export function initStatusListener() {
-	sc
-	let f = sc.setterForInnerHtmlOf('statusText');
-	setInterval(function() {
-			if(globalScSynth.isAlive) {
-				f(globalScSynth.status.ugenCount);
-			} else {
-				f('---');
-			}
+	const f = sc.setterForInnerHtmlOf('statusText');
+	setInterval(() => {
+		if (globalScSynth.isAlive) {
+			f(globalScSynth.status.ugenCount);
+		} else {
+			f('---');
+		}
 	});
 }

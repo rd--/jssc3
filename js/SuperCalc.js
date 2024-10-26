@@ -17,7 +17,7 @@ Backward references will introduce a delay.
 
 In the "node" case the "node order" decides this.
 
-In the graph case a LocalIn/Out pair 
+In the graph case a LocalIn/Out pair
 
 rd := LocalIn(K, ZEROS); {- initialise unit delay -}
 CELL-SEQ := rd(CELL-IX); {- initialise forward references -}
@@ -54,17 +54,22 @@ function setCellStatusAndReturn(colLetter, rowNumber, success, result) {
 
 function evalCellOrZero(colLetter, rowNumber, translatorStatus, text) {
 	// console.debug('evalCellOrZero', colLetter, rowNumber, translatorStatus, '"' + text + '"');
-	if(text === '' || text.substring(0, 2) === '//') {
+	if (text === '' || text.substring(0, 2) === '//') {
 		// console.debug('evalCellOrZero: empty cell or comment cell');
 		return setCellStatusAndReturn(colLetter, rowNumber, translatorStatus, 0);
 	} else {
 		try {
-		    const result = eval(text);
-		    // console.debug('evalCellOrZero: success!');
-		    return setCellStatusAndReturn(colLetter, rowNumber, translatorStatus, result);
-		} catch (Err) {
-		    // console.debug('evalCellOrZero: error!');
-		    return setCellStatusAndReturn(colLetter, rowNumber, false, 0);
+			const result = eval(text);
+			// console.debug('evalCellOrZero: success!');
+			return setCellStatusAndReturn(
+				colLetter,
+				rowNumber,
+				translatorStatus,
+				result,
+			);
+		} catch (_Err) {
+			// console.debug('evalCellOrZero: error!');
+			return setCellStatusAndReturn(colLetter, rowNumber, false, 0);
 		}
 	}
 }
@@ -74,9 +79,16 @@ function evalCell(colLetter, rowNumber, cellText) {
 	console.debug(`evalCell: .sl = ${programText}`);
 	const jsText = sl.rewriteString(programText);
 	console.debug(`evalCell: .js = ${jsText}`);
-	const translatorStatus =  programText === '' || jsText !== '';
-	const cellValue = evalCellOrZero(colLetter, rowNumber, translatorStatus, jsText);
-	const cellUgen = sc.isNumber(cellValue) ? sc.Dc(cellValue) : (sc.isControlRateUgen(cellValue) ? sc.K2A(cellValue) : cellValue);
+	const translatorStatus = programText === '' || jsText !== '';
+	const cellValue = evalCellOrZero(
+		colLetter,
+		rowNumber,
+		translatorStatus,
+		jsText,
+	);
+	const cellUgen = sc.isNumber(cellValue)
+		? sc.Dc(cellValue)
+		: (sc.isControlRateUgen(cellValue) ? sc.K2A(cellValue) : cellValue);
 	const cellPacket = cellUgenToOscPacket(colLetter, rowNumber, cellUgen);
 	globalScSynth.sendOsc(cellPacket);
 }
@@ -91,13 +103,13 @@ function allCellRefDo(proc) {
 }
 
 function evalSheet() {
-	allCellRefDo(function(colLetter, rowNumber) {
+	allCellRefDo((colLetter, rowNumber) => {
 		const cellText = getCellText(colLetter, rowNumber);
 		evalCell(colLetter, rowNumber, cellText);
 	});
 }
 
-function onChange (Instance, Cell, colIndex, rowIndex, cellText) {
+function onChange(_Instance, _Cell, colIndex, rowIndex, cellText) {
 	const colLetter = sc.columnIndexToLetter(Number(colIndex));
 	const rowNumber = Number(rowIndex) + 1;
 	// console.debug('onChange', colLetter, rowNumber, cellText);
@@ -134,15 +146,18 @@ export function initSheet(numCol, numRow) {
 	calc.groupOffset = 12;
 	calc.sheet = jspreadsheet(document.getElementById('superCalcContainer'), {
 		data: calc.data,
-		columns: sc.arrayFillWithIndex(numCol, function(colIndex) {
-		        return { type: 'text', title: sc.columnIndexToLetter(colIndex), width: 200 };
+		columns: sc.arrayFillWithIndex(numCol, (colIndex) => {
+			return {
+				type: 'text',
+				title: sc.columnIndexToLetter(colIndex),
+				width: 200,
+			};
 		}),
 		onchange: onChange,
 		allowInsertRow: false,
 		allowInsertColumn: false,
-		defaultColAlign:'left'
+		defaultColAlign: 'left',
 	});
-
 }
 
 function genCellReaderBusDeclaration(colLetter, rowNumber) {
@@ -152,7 +167,7 @@ function genCellReaderBusDeclaration(colLetter, rowNumber) {
 }
 
 function defineCellVariables() {
-	allCellRefDo(function(colLetter, rowNumber) {
+	allCellRefDo((colLetter, rowNumber) => {
 		const codeText = genCellReaderBusDeclaration(colLetter, rowNumber);
 		const globalEval = eval; // https://262.ecma-international.org/5.1/#sec-10.4.2
 		// console.debug(codeText);
@@ -171,14 +186,14 @@ function cellUgenToOscPacket(colLetter, rowNumber, ugen) {
 	const dRecvMsg = sc.d_recv(syndef, osc.writePacket(sNewMsg));
 	const bundle = {
 		timeTag: 1,
-		packets: [gFreeMsg, dRecvMsg]
+		packets: [gFreeMsg, dRecvMsg],
 	};
 	// console.debug('cellUgenToOscMessage', colLetter, rowNumber, cellName, busIndex, groupId, bundle);
 	return bundle;
 }
 
 function createAndInitCellGroups() {
-	allCellRefDo(function(colLetter, rowNumber) {
+	allCellRefDo((colLetter, rowNumber) => {
 		const groupId = cellRefToGroup(colLetter, rowNumber);
 		const gNewMsg = sc.g_new1(groupId, sc.kAddToTail, 0);
 		globalScSynth.sendOsc(gNewMsg);
@@ -193,11 +208,14 @@ export function serverSetup() {
 }
 
 export function initProgramMenu() {
-	sc.fetchUtf8('text/SuperCalcPrograms.text', { cache: 'no-cache' })
-		.then(text => sc.selectAddKeysAsOptions('programMenu', sc.stringNonEmptyLines(text)));
-	sc.menuOnChangeWithOptionValue('programMenu', function(optionValue) {
-		sc.fetchUtf8(`./help/SuperCalc/${optionValue}`, { cache: 'no-cache' })
-			.then(text => setJson(text));
+	sc.fetchUtf8('text/SuperCalcPrograms.text', { cache: 'no-cache' }).then(
+		(text) =>
+			sc.selectAddKeysAsOptions('programMenu', sc.stringNonEmptyLines(text)),
+	);
+	sc.menuOnChangeWithOptionValue('programMenu', (optionValue) => {
+		sc.fetchUtf8(`./help/SuperCalc/${optionValue}`, { cache: 'no-cache' }).then(
+			(text) => setJson(text),
+		);
 	});
 }
 
