@@ -1668,6 +1668,10 @@ export function QuadL(
 ): Signal {
 	return makeUgen('QuadL', 1, rateAr, 0, [freq, a, b, c, xi]);
 }
+/** Server radians per sample. */
+export function RadiansPerSample(): Signal {
+	return makeUgen('RadiansPerSample', 1, rateIr, 0, []);
+}
 /** Single random number generator. */
 export function Rand(lo: Signal, hi: Signal): Signal {
 	return makeUgen('Rand', 1, rateIr, 0, [lo, hi]);
