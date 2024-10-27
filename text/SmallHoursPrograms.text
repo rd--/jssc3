@@ -1,22 +1,37 @@
 Graph/Adc - 8.1 Schroeder reverb.sl
 Graph/Adc - Bit reduction.sl
 Graph/Adc - Down sample.sl
+Graph/Adc - Shepard tones.sl
 Graph/An - Tw 1529413845231587328.sl
+Graph/Ao - Benjolin.sl
+Graph/Ar - Mdis.sl
 Graph/Bb - Differencetones.sl
+Graph/Bb - Tw 5430344275.sl
 Graph/Bz - 1 5cZ.sl
+Graph/Bz - 1 5dg.sl
 Graph/Bz - 1 5eo.sl
 Graph/Cbe - 6230.sl
 Graph/Cg - Tw 1529205337013854208.sl
 Graph/Cg - Tw 1529852033251033088.sl
+Graph/Ck - Tw 656913884440301568.sl
 Graph/Cl - Prepared piano.sl
 Graph/Cr - Lucier.sl
+Graph/Dcv - Time varying feedback delay network.sl
 Graph/Dmc - Pm crotale.sl
+Graph/Dm - Shift register.sl
+Graph/Dst - 1 5fc.sl
+Graph/Ds - Tw 1401081491.sl
 Graph/Ds - Tw 19.sl
 Graph/Ds - Tw 22.sl
+Graph/Es - fe50790b7601cba65ddd855caffb05ad.sl
 Graph/Es - Tw 435684664200540161.sl
+Graph/Es - Tw 570012853274615808.sl
 Graph/Es - Tw 600429640600186880.sl
+Graph/F0 - 1 4Q6.sl
 Graph/F0 - 2002 08 17.sl
 Graph/F0 - 2012 04 19.sl
+Graph/F0 - 2020 12 11.sl
+Graph/F0 - Feedback.help.sl
 Graph/F0 - Pkt 00.sl
 Graph/F0 - Pkt 07.sl
 Graph/F0 - Pkt 26.sl
@@ -24,13 +39,16 @@ Graph/F0 - Pkt 28.sl
 Graph/F0 - Red frik.sl
 Graph/F0 - Tw 0001.sl
 Graph/F0 - Tw 0002.sl
+Graph/F0 - Tw 0003.sl
 Graph/F0 - Tw 0004.sl
 Graph/F0 - Tw 0005.sl
 Graph/F0 - Tw 0006.sl
+Graph/F0 - Tw 0007.sl
 Graph/F0 - Tw 0008.sl
 Graph/F0 - Tw 0010.sl
 Graph/F0 - Tw 0011.sl
 Graph/F0 - Tw 0014.sl
+Graph/F0 - Tw 0016.sl
 Graph/F0 - Tw 0020.sl
 Graph/F0 - Tw 0026.sl
 Graph/F0 - Tw 0028.sl
@@ -45,9 +63,12 @@ Graph/F0 - Tw 0055.sl
 Graph/F0 - Tw 0058.sl
 Graph/F0 - Tw 0059.sl
 Graph/F0 - Tw 0061.sl
+Graph/F0 - Tw 0077.sl
 Graph/F0 - Tw 0084.sl
+Graph/F0 - Tw 0101.sl
 Graph/F0 - Tw 0120.sl
 Graph/F0 - Tw 0121.sl
+Graph/F0 - Tw 0125.sl
 Graph/F0 - Tw 0134.sl
 Graph/F0 - Tw 0164.sl
 Graph/F0 - Tw 0165.sl
@@ -136,9 +157,12 @@ Graph/F0 - Tw 1143262368392200192.sl
 Graph/F0 - Tw 1166129504747773954.sl
 Graph/F0 - Tw 1197185125819277312.sl
 Graph/F0 - Tw 1204602890574352385.sl
+Graph/F0 - Tw 1210118661022867458.sl
+Graph/F0 - Tw 1235224072579100675.sl
 Graph/F0 - Tw 1246461901669838848.sl
 Graph/F0 - Tw 1254441448327479299.sl
 Graph/F0 - Tw 1319946903711338496.sl
+Graph/F0 - Tw 1338987643057688579.sl
 Graph/F0 - Tw 1343283697840226307.sl
 Graph/F0 - Tw 1367656279926247427.sl
 Graph/F0 - Tw 1367808902457397250.sl
@@ -153,21 +177,34 @@ Graph/F0 - Tw 1452954849885163525.sl
 Graph/F0 - Tw 1453520892374441986.sl
 Graph/F0 - Tw 1454150378241548296.sl
 Graph/F0 - Tw 1464534258173849611.sl
+Graph/F0 - Tw 1467507942664646661.sl
+Graph/F0 - Tw 1479212835192332289.sl
+Graph/F0 - Tw 1509888510525857792.sl
 Graph/F0 - Tw 1519791409921941507.sl
+Graph/F0 - Tw 1546903641575112715.sl
 Graph/F0 - Tw 1562193233001623552.sl
 Graph/F0 - Tw 1590835403157688320.sl
 Graph/F0 - Tw 1598714366483959809.sl
+Graph/F0 - Tw 1746982829144113215.sl
+Graph/F0 - Tw 1762790022623674534.sl
+Graph/F0 - Tw 582277939653439489.sl
+Graph/F0 - Tw 727992849527083009.sl
+Graph/Fl - 1-5aJ.sl
 Graph/Gs - Thx.sl
+Graph/Hv - Tw 517517924236795905.sl
+Graph/Hv - Tw 562825448854675456.sl
 Graph/Hy - Tw 1601331785409134592.sl
 Graph/Io - 6353.sl
 Graph/Jar - 1 4Qx.sl
 Graph/Jar - Rk 20120422.sl
 Graph/Jar - Tw 98315246548172800.sl
 Graph/Jh - 4157.sl
+Graph/Jj - Bohlen Pierce 140.sl
 Graph/Jl - 1 9.sl
 Graph/Jl - 1 Z.sl
 Graph/Jl - Bitwise.sl
 Graph/Jl - Dark sea horns.sl
+Graph/Jl - Pwm Crossfade.sl
 Graph/Jl - Rain thunder.sl
 Graph/Jmcc - Aleatoric quartet.sl
 Graph/Jmcc - Alien froggies.sl
@@ -190,12 +227,14 @@ Graph/Jmcc - Clipped inharmonic warbulence.sl
 Graph/Jmcc - Clustered sines.sl
 Graph/Jmcc - Contamination zone.sl
 Graph/Jmcc - Coolant.sl
+Graph/Jmcc - Cpiano.sl
 Graph/Jmcc - Cymbalism accellerando.sl
 Graph/Jmcc - Data space.sl
 Graph/Jmcc - Deep trip.sl
 Graph/Jmcc - Demanding studies.sl
 Graph/Jmcc - Drag to keyboard.sl
 Graph/Jmcc - Fast lfos with slow beats.sl
+Graph/Jmcc - Griot.sl
 Graph/Jmcc - Hard sync sawtooth with lfo.sl
 Graph/Jmcc - Harmonic cloud.sl
 Graph/Jmcc - Harmonic swimming.sl
@@ -206,6 +245,7 @@ Graph/Jmcc - Impulse sequencer.sl
 Graph/Jmcc - Inharmonic warbulence.sl
 Graph/Jmcc - Landon rose.sl
 Graph/Jmcc - Lfo modulation.sl
+Graph/Jmcc - Metal plate.sl
 Graph/Jmcc - Modal space.sl
 Graph/Jmcc - Monastic resonance.sl
 Graph/Jmcc - Moto rev.sl
@@ -229,6 +269,7 @@ Graph/Jmcc - Repeating harmonic klank.sl
 Graph/Jmcc - Repeating inharmonic klank.sl
 Graph/Jmcc - Resonant dust.sl
 Graph/Jmcc - Reso pulse.sl
+Graph/Jmcc - Rethinking.sl
 Graph/Jmcc - Reverberated sine percussion.sl
 Graph/Jmcc - Ring modulate and echo input.sl
 Graph/Jmcc - Ring modulate input.sl
@@ -259,18 +300,27 @@ Graph/Jmcc - Why SuperCollider.sl
 Graph/Jmcc - Wind metals.sl
 Graph/Jmcc - Wuxia.sl
 Graph/Jmcc - Zizle.sl
+Graph/Jpd - 1 5d6.sl
 Graph/Jrhb - A bath.sl
 Graph/Jrhb - Chainsaw.sl
 Graph/Jrhb - Deepsea.sl
 Graph/Jrhb - Gcd.sl
+Graph/Jrhb - Heavy.sl
 Graph/Jrhb - Stereo half life.sl
 Graph/Jrhb - Sturmian sequencer 1.sl
 Graph/Jrhb - Sturmian sequencer 2.sl
 Graph/Jrhb - Sturmian sequencer 3.sl
+Graph/Kl - Vibraphone.sl
 Graph/Ljp - One line.sl
 Graph/Lkp - Chaos engine.sl
+Graph/Lnu - 113007186778241483.sl
+Graph/Lnu - 1559974704823341058.sl
 Graph/Lnu - 1617212405737472002.sl
 Graph/Lnu - 1619072788311973896.sl
+Graph/Lnu - A6JAF jHBlw.sl
+Graph/Lnu - MKbRuL41uR0.sl
+Graph/Mk - 2206.sl
+Graph/Ml - Qchimes.sl
 Graph/Mm - Tw 11.sl
 Graph/Mv - Interference patterns.sl
 Graph/Nc - Sc tutorial.sl
@@ -279,8 +329,11 @@ Graph/Nh - Phase vocoder.sl
 Graph/Nv - Tw 01.sl
 Graph/Nv - Tw 04.sl
 Graph/Nv - Tw 18.sl
+Graph/Nv - Tw 2013 01 11.sl
 Graph/Nv - Tw 2013 12 04.sl
+Graph/Nv - Tw 2014 02 21.sl
 Graph/Nv - Tw 2014 06 03.sl
+Graph/Nv - Tw 273708223440244736.sl
 Graph/Nv - Tw 40.sl
 Graph/Nv - Tw 41.sl
 Graph/Nv - Tw 43.sl
@@ -288,7 +341,10 @@ Graph/Nv - Tw 528187147543511041.sl
 Graph/Nv - Tw 52.sl
 Graph/Or - Gong.sl
 Graph/Peeq - Tw 1264595510217719809.sl
+Graph/Peeq - Tw 1613573427717345282.sl
 Graph/Pj - Forest sounds.sl
+Graph/Ps - 113238943073232286.sl
+Graph/Pt - 6264 4.sl
 Graph/Ql - Glicol.sl
 Graph/Rd - 20060909.sl
 Graph/Rd - 20060911.sl
@@ -306,10 +362,14 @@ Graph/Rd - 20061008.sl
 Graph/Rd - 20061015.sl
 Graph/Rd - 20061017.sl
 Graph/Rd - 20061023.sl
+Graph/Rd - 20061027.sl
 Graph/Rd - 20061028.sl
 Graph/Rd - 20061030.sl
 Graph/Rd - 20070423.sl
+Graph/Sp - 3926 4.sl
+Graph/Tc - Tw 744132946001559552.sl
 Graph/Tm - Drummer.sl
+Graph/Tmm881 - 3319.sl
 Graph/Tmm881 - 7052.sl
 Graph/Tmm881 - 7055.sl
 Graph/Tm - Tw 463992770596577280.sl
@@ -318,6 +378,12 @@ Graph/Tw - Tw 02.sl
 Graph/Tw - Tw 03.sl
 Graph/Unk - Pmi.sl
 Graph/Unk - Sin gliss.sl
+Graph/Ws - Xylophone.sl
+Graph/Yh - Bd.sl
+Graph/Yh - Ch.sl
+Graph/Yh - Cy.sl
+Graph/Yh - Oh.sl
+Graph/Yh - Sn.sl
 Graph/Zs - Phase distortion.sl
 Graph/Zs - Toshiya.sl
 Texture/Cr - Lucier.sl
@@ -340,10 +406,12 @@ Texture/F0 - Tw 1591161283591782401.sl
 Texture/F0 - Tw 1631979082622566400.sl
 Texture/Jmcc - Alien froggies.sl
 Texture/Jmcc - Alien meadow.sl
+Texture/Jmcc - Arachnid espresso.help.sl
 Texture/Jmcc - Birdies.sl
 Texture/Jmcc - Blips 001.sl
 Texture/Jmcc - Bouncing objects.sl
 Texture/Jmcc - Bowed garage door springs.sl
+Texture/Jmcc - Cfstring.sl
 Texture/Jmcc - Choip.sl
 Texture/Jmcc - Clustered sines.sl
 Texture/Jmcc - Comb delay sweeps.sl
@@ -395,6 +463,7 @@ Texture/Jmcc - Zizle.sl
 Texture/Lnu - 1581607231463731200.sl
 Texture/Nc - Sc tutorial.sl
 Texture/Rd - 20060914.sl
+Texture/Sl - 980525.sl
 Texture/Tm - 6989-16.sl
 Texture/Unk - Pmi.sl
 Graph Collection/An - Tw.sl
@@ -402,16 +471,21 @@ Graph Collection/Bb - Es.sl
 Graph Collection/Coc - Fragments.sl
 Graph Collection/Dcm - Insect ambience.sl
 Graph Collection/F0 - Variations.sl
+Graph Collection/Gg - Explore.sl
 Graph Collection/Jl - Variations.sl
 Graph Collection/Jmcc - Sc2 examples.sl
 Graph Collection/Jmcc - Variations.sl
-Graph Collection/Jmcc - Xy Scope.sl
+Graph Collection/Jmcc - Xy scope.sl
 Graph Collection/Ljp - One line.sl
 Graph Collection/Lnu - Losers union.sl
+Graph Collection/Lnu - Sonomu.sl
+Graph Collection/Mk - 1-50L.sl
 Graph Collection/Nc - Sc tutorial.sl
 Graph Collection/Nh - Variations.sl
 Graph Collection/Nv - Variations.sl
 Graph Collection/Rd - Variations.sl
+Graph Collection/Sc 140.sl
 Graph Collection/Tmm881 - 5296.sl
 Graph Collection/Tmm881 - 6452.sl
+Texture Collection/Fr - Tidal.sl
 Texture Collection/Jmcc - Sc2 examples.sl
