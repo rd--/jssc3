@@ -33,6 +33,11 @@
 	src: url('../woff2/Computer Modern.woff2');
 }
 
+@font-face {
+	font-family: 'Virtue';
+	src: url('../woff2/Virtue.woff2');
+}
+
 :root {
 	--font-family: 'Computer Modern', 'Parc Place', 'Los Altos', 'APL333';
 	--small-kansas-colour: #aadd99;
