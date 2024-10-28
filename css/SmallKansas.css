@@ -40,6 +40,7 @@
 
 :root {
 	--font-family: 'Computer Modern', 'Parc Place', 'Los Altos', 'APL333';
+	--small-kansas-filter: grayscale(100%); /* none */
 	--small-kansas-colour: #aadd99;
 	--help-colour: #99eecc;
 	--package-colour: #77eeee;
@@ -60,6 +61,10 @@
 	--when-selected-background-colour: #fbf6d9;
 	--kansan-border-colour: rgba(0.5, 0.5, 0.5, 0.1);
 	--kansan-border-width: 1px;
+}
+
+html {
+	filter: var(--small-kansas-filter);
 }
 
 h1 {}
@@ -271,7 +276,7 @@ option:checked, option:active, option:focus, option:focus-visible {
 	flex-basis: 6em;
 	margin: 0px 0px 0px 0px;
 	padding: 0px;
-	overflow-y: auto;
+	overflow: hidden;
 }
 
 .titlePane, .editorPane, .statusPane, .statusText, .filterText, .tablePane {
