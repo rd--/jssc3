@@ -40,27 +40,27 @@
 
 :root {
 	--font-family: 'Computer Modern', 'Parc Place', 'Los Altos', 'APL333';
-	--small-kansas-filter: grayscale(100%); /* none */
+	--small-kansas-filter: none; /* grayscale(100%) brightness(125%) | none */
 	--small-kansas-colour: #aadd99;
 	--help-colour: #99eecc;
 	--package-colour: #77eeee;
-	--supercollider-colour: #88ccff; /* #bbddff */
+	--supercollider-colour: #88ccff; /* #88ccff | #bbddff */
 	--method-colour: #ffcc55;
 	--clock-colour: #eeff99;
 	--program-colour: #ff7777;
-	--menu-colour: #bbeeff; /* #88ccff #bbeeff */
+	--menu-colour: #bbeeff; /* #88ccff | #bbeeff */
 	--system-colour: #ffee77;
 	--tuning-colour: #99f499;
 	--midi-colour: #99f499;
 	--image-colour: #aaffee;
 	--chemistry-colour: #ffddff;
-	--ink-colour: #424242; /* #424242 */
+	--ink-colour: #424242; /* #424242 | #202020 */
 	--program-body-colour: cornsilk;
 	--program-answer-colour: lightgoldenrodyellow;
 	--program-expected-answer-colour: palegoldenrod;
 	--when-selected-background-colour: #fbf6d9;
-	--kansan-border-colour: rgba(0.5, 0.5, 0.5, 0.1);
-	--kansan-border-width: 1px;
+	--kansan-border-colour: rgba(0.5, 0.5, 0.5, 0.1); /* α = 0.1 | 1 */
+	--kansan-border-width: 1px; /* 1px | 2px */
 }
 
 html {
@@ -177,6 +177,7 @@ pre code {
 
 .DigitalClock, .DigitalClock > .editorPane, .AnalogueClock {
 	background-color: var(--clock-colour);
+	overflow: hidden;
 }
 
 .Notebook,
@@ -265,7 +266,7 @@ option:checked, option:active, option:focus, option:focus-visible {
 	flex-wrap: nowrap;
 	flex-grow: 1;
 	row-gap: 2px;
-	overflow: auto;
+	overflow: hidden;
 	padding: 0px 2px 2px 2px;
 	margin: 0px 0px 0px 0px;
 }
