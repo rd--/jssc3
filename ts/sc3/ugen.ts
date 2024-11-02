@@ -550,7 +550,7 @@ export function BinaryOp(
 }
 
 // isOutUgen(Out(0, mul(SinOsc(440, 0), 0.1)))
-export function isOutUgen(aValue: unknown): boolean {
+export function isOutUgen(aValue: Signal): boolean {
 	if (!isUgen(aValue)) {
 		return false;
 	} else {
@@ -558,6 +558,15 @@ export function isOutUgen(aValue: unknown): boolean {
 			aValue.scUgen.name,
 		);
 	}
+}
+
+export function isOutUgenList(aValue: Signal): boolean {
+	if (isArray(aValue)) {
+		if (arrayEvery(aValue, isOutUgen)) {
+			return true;
+		};
+	}
+	return false;
 }
 
 // isControlRateUgen(MouseX(0, 1, 0, 0.2))

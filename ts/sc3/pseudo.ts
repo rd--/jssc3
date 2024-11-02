@@ -85,6 +85,7 @@ import {
 import {
 	isOutputSignal,
 	isOutUgen,
+	isOutUgenList,
 	kr,
 	multipleRootGraph,
 	Signal,
@@ -93,7 +94,7 @@ import {
 
 // wrapOut(0, Mul(SinOsc(440, 0), 0.1))
 export function wrapOut(bus: Signal, ugen: Signal): Signal {
-	if (isOutUgen(ugen)) {
+	if (isOutUgen(ugen) || isOutUgenList(ugen)) {
 		return ugen;
 	} else {
 		if (isOutputSignal(ugen)) {
