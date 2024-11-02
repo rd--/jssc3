@@ -1,6 +1,6 @@
 # Fonts
 
-- Apl333: <http://www.apl385.com/fonts/>
+- APL 333 & APL 385: <http://www.apl385.com/fonts/>
 - Computer Modern: <https://github.com/vsalvino/computer-modern>
 - Los Altos, Parc Place: <http://www.kreativekorp.com/software/fonts/urbanrenewal/>
 - Monaco: <https://github.com/taodongl/monaco.ttf>
