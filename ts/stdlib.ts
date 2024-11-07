@@ -1,4 +1,5 @@
 export * from './stdlib/counter.ts';
+export * from './stdlib/fft.ts';
 export * from './stdlib/grid.ts';
 export * from './stdlib/maybe.ts';
 export * from './stdlib/openSoundControl.ts';
