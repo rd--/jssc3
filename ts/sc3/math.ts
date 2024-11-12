@@ -14,6 +14,10 @@ export function ampDb(self: number) {
 	return Math.log10(self) * 20;
 }
 
+export function clip2(self: number, aNumber: number) {
+	return self < -aNumber ? -aNumber : (self > aNumber ? aNumber : self);
+}
+
 export function coin(self: number) {
 	return Math.random() < self;
 }

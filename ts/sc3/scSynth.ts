@@ -1,4 +1,4 @@
-import { Counter, counterNew } from '../stdlib/counter.ts';
+/* import { Counter, counterNew } from '../stdlib/counter.ts'; */
 import {
 	encodeOscBundle,
 	encodeOscMessage,
@@ -205,7 +205,7 @@ export class ScSynth {
 	}
 }
 
-const synthdefCounter: Counter = counterNew();
+/* const synthdefCounter: Counter = counterNew(); */
 
 export function playSynDefAtMessage(
 	synDefName: string,

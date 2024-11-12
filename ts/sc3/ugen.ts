@@ -527,6 +527,8 @@ export function BinaryOpWithConstantOptimiser(
 				return scMath.absDif(lhs, rhs);
 			case 40:
 				return scMath.amClip(lhs, rhs);
+			case 42:
+				return scMath.clip2(lhs, rhs);
 		}
 	}
 	return makeUgen('BinaryOpUGen', 1, [0, 1], specialIndex, [lhs, rhs]);
