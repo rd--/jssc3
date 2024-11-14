@@ -76,14 +76,16 @@ SuperCollider programs and for distributing completed works.
 
 * * *
 
-T. J. Berners-Lee et al. The world-wide web. _Computer Networks and
+T. J. Berners-Lee et al. The World-Wide Web. _Computer Networks and
 ISDN Systems_, 25(4):454–459, 1992.
-[Pdf](https://web.stanford.edu/class/cs344g/www-1992.pdf)
+[Doi](https://doi.org/10.1016/0169-7552(92)90039-S)
 
-D. Ingalls et al. A world of active objects for work and play. In
+D. H. H. Ingalls et al. A World of Active Objects for Work and Play. In
 _Proc. Symposium on New Ideas, New Paradigms, and Reflections on
 Programming and Software_, 2016, 238–249. 2016.
-[Pdf](https://hirschfeld.org/writings/media/IngallsFelgentreffHirschfeldKrahnLinckeRoederTaivalsaariMikkonen_2016_AWorldOfActiveObjectsForWorkAndPlayTheFirstTenYearsOfLively_AuthorsVersion.pdf)
+[Doi](https://doi.org/10.1145/2986012.2986029)
 
-A. Wirfs-Brock and B. Eich. Javascript: the first 20 years. _Proc. ACM
-Program. Lang._, 4:1–189, June 2020.
+A. Wirfs-Brock and B. Eich. Javascript: The First 20 Years. _Proc. ACM
+Program. Lang._, 4:1–189, June 2020. [Doi](https://doi.org/10.1145/3386327)
+
+January 2023; Last modified October 2024

@@ -169,40 +169,40 @@ There is a [translator](https://rohandrape.net/pub/stsc3/html/stsc3.html) from C
 
 ## References
 
-Berners-Lee, Tim et al.
-"World-Wide Web: the information universe."
+Berners-Lee, T. J. et al.
+"World-Wide Web: The Information Universe."
 _Electron. Netw. Res. Appl. Policy_ 2:74-82, 1992.
 
-Alan Kay.
-["The early history of Smalltalk"](https://dl.acm.org/doi/pdf/10.1145/155360.155364)
+Kay, A. C.
+["The Early History of Smalltalk"](https://dl.acm.org/doi/pdf/10.1145/155360.155364)
 _The Second ACM SIGPLAN Conference on History of Programming Languages_, 1993.
 
-Butler Lampson.
-"Bravo manual".
+Lampson, B. W.
+"Bravo Manual".
 In _Alto User's Handbook_, pages 31–62.
 Xerox PARC, 1979.
 
-M. V. Mathews.
-["An acoustical compiler for music and psychological stimuli"](https://archive.org/details/bstj40-3-677)
+Mathews, M. V.
+["An Acoustical Compiler for Music and Psychological Stimuli"](https://archive.org/details/bstj40-3-677)
 _Bell System Technical Journal_, 40(3):677–694, May 1961.
 
-James McCartney.
-["SuperCollider: a new real time synthesis language"](http://hdl.handle.net/2027/spo.bbp2372.1996.078).
+McCartney, J.
+["SuperCollider: A New Real-time Synthesis Language"](http://hdl.handle.net/2027/spo.bbp2372.1996.078).
 _Proc. ICMC_, 1996.
 
-D.M. Ritchie, S.C. Johnson, M.E. Lesk, and B.W. Kernighan.
-"The C programming language".
+Ritchie, D. M., S. C. Johnson, M. E. Lesk and B. W. Kernighan.
+"The C Programming Language".
 _AT&T Bell Laboratories Technical Journal_, 57(6):1991–2019, 1978.
 
-Gerald Jay Sussman and Guy Lewis Steele.
-["Scheme: an interpreter for extended lambda calculus"](https://dspace.mit.edu/handle/1721.1/5794).
+Sussman, G. J. and G. L. Steele.
+["Scheme: An Interpreter for Extended Lambda Calculus"](https://dspace.mit.edu/handle/1721.1/5794).
 _Technical Report Memo 349_, MIT Artificial Intelligence Laboratory, 1975.
 
-Allen Wirfs-Brock and Brendan Eich.
-["Javascript: the first 20 years"](https://dl.acm.org/doi/10.1145/3386327).
+Wirfs-Brock, A. and B. Eich.
+["Javascript: The First 20 Years"](https://dl.acm.org/doi/10.1145/3386327).
 _Proc. ACM Program. Lang._, 4(HOPL):1–189, 2020.
 
-Matthew Wright and Adrian Freed.
+Wright, M. J. and A. Freed.
 [Open Sound Control: a new protocol for communicating with sound synthesizers](http://hdl.handle.net/2027/spo.bbp2372.1997.033)
 _Proc. ICMC_, 101–104, 1997.
 
@@ -212,7 +212,7 @@ Worcester Park, Surrey, 1985.
 
 * * *
 
-February 2022
+February 2022; Last modified October 2024
 
 <!--
 

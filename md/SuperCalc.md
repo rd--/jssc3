@@ -107,12 +107,12 @@ Empty cells would have the value _nil_.
 
 * * *
 
-- Higgins, Hannah. _The Grid Book_. MIT Press, 2009.
+- Higgins, H. B. _The Grid Book_. Cambridge, MA: MIT Press, 2009. ISBN 9780262512404.
 
-- Mattessich, Richard. 1964. _Simulation of the firm through a budget computer program_. Homewood, Ill: R.D. Irwin.
+- Mattessich, R. 1964. _Simulation of the Firm Through a Budget Computer Program_. Homewood, Ill: R.D. Irwin. ISBN 9780598270030.
 
-- Yamamiya, Takashi. "Skeleton — Easy Simulation System," in _Proc. Second International Conference on Creating, Connecting and Collaborating through Computing_, Kyoto, Japan, 2004 pp. 50-53. <doi:10.1109/C5.2004.1314368>
+- Yamamiya, T. "Skeleton — Easy Simulation System," in _Proc. Second International Conference on Creating, Connecting and Collaborating through Computing_, Kyoto, Japan, 2004 pp. 50-53. <doi:10.1109/C5.2004.1314368>
 
 * * *
 
-April 2022
+April 2022; Last modified October 2024
