@@ -11,6 +11,7 @@ export * from './kernel/localStorage.ts';
 export * from './kernel/null.ts';
 export * from './kernel/number.ts';
 export * from './kernel/object.ts';
+export * from './kernel/path.ts';
 export * from './kernel/prompt.ts';
 export * from './kernel/random.ts';
 export * from './kernel/set.ts';
