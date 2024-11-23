@@ -49,7 +49,7 @@
 }
 
 :root {
-	--font-family: 'Computer Modern', 'Parc Place', 'Los Altos', 'APL 333', 'APL 385';
+	--font-family: 'Computer Modern', 'Parc Place', 'APL 333', serif;
 	--small-kansas-filter: none; /* grayscale(100%) brightness(125%) | none */
 	--small-kansas-colour: #aadd99;
 	--help-colour: #99eecc;
@@ -73,14 +73,33 @@
 	--kansan-border-width: 1px; /* 1px | 2px */
 }
 
-html {
-	filter: var(--small-kansas-filter);
+code {
+	font-style: italic;
+}
+
+dialog {
+	position: absolute;
+	border-width: 0px;
+	margin: 0px;
+	padding: 0px;
 }
 
 h1 {}
 
 hr {
 	margin: 1em 6em 0em 3em;
+}
+
+html {
+	filter: var(--small-kansas-filter);
+}
+
+option:checked, option:active, option:focus, option:focus-visible {
+	background-color: var(--when-selected-background-colour);
+}
+
+pre code {
+	font-style: normal;
 }
 
 select {
@@ -91,24 +110,9 @@ select {
 	overflow-y: auto;
 }
 
-dialog {
-	position: absolute;
-	border-width: 0px;
-	margin: 0px;
-	padding: 0px;
-}
-
 textarea {
 	font-family: var(--font-family);
 	font-size: var(--font-size);
-}
-
-code {
-	font-style: italic;
-}
-
-pre code {
-	font-style: normal;
 }
 
 #smallKansas {
@@ -136,100 +140,12 @@ pre code {
 	padding: 0px; /* 0px 2px 2px 2px */
 }
 
-.ColumnBrowser {
-	width: 35em;
-	height: 25em;
-}
-
-.Inspector {
-	width: 25em;
-	height: 15em;
-}
-
-.Notebook, .SmallProgram, .TextEditor, .TranscriptViewer {
-	width: 40em;
-	height: 20em;
-}
-
-.SmallKansas, .ColourChooser {
-	background-color: var(--small-kansas-colour);
-}
-
-.HelpBrowser, .HelpFileViewer, .HelpTextViewer {
-	background-color: var(--help-colour);
-}
-
-.HelpFileViewer {
-	width: 35em;
-	height: 50em;
-}
-
 .helpFileViewerPane {
 	overflow-y: auto;
 }
 
-.PackageBrowser, .PackageIndexBrowser {
-	background-color: var(--package-colour);
-}
-
-.ScProgramBrowser, .ScSynthStatusMonitor {
-	background-color: var(--supercollider-colour);
-}
-
-.ScProgramBrowser {
-	width: 50em;
-	height: 25em;
-}
-
-.MethodBrowser, .MethodSignatureBrowser {
-	background-color: var(--method-colour);
-}
-
-.DigitalClock, .DigitalClock > .editorPane, .AnalogueClock {
-	background-color: var(--clock-colour);
-	overflow: hidden;
-}
-
-.Notebook,
-.SmallProgram,
-.Workspace,
-.TableViewer,
-.Inspector,
-.TranscriptViewer {
-	background-color: var(--program-colour);
-}
-
-.Menu {
-	background-color: var(--menu-colour);
-	padding: 0px;
-}
-
-.TypeBrowser, .TraitBrowser, .SystemBrowser, .CategoryBrowser {
-	background-color: var(--system-colour);
-}
-
-.MidiPortBrowser {
-	background-color: var(--midi-colour);
-}
-
-.ScalaJiTuningBrowser, .ScalaJiMetaBrowser {
-	background-color: var(--tuning-colour);
-}
-
-.ImageViewer, .SvgViewer {
-	background-color: var(--image-colour);
-}
-
-.CrystalLatticeStructureBrowser {
-	background-color: var(--chemistry-colour);
-}
-
 .svgPane {
 	overflow: auto;
-}
-
-.ScalaJiTuningBrowser td, .ScalaJiMetaBrowser td {
-	padding-right: 2em;
 }
 
 .menuPane {
@@ -262,10 +178,6 @@ pre code {
 }
 
 .listPane ul li:hover, .listPane select option:hover {
-	background-color: var(--when-selected-background-colour);
-}
-
-option:checked, option:active, option:focus, option:focus-visible {
 	background-color: var(--when-selected-background-colour);
 }
 
@@ -445,4 +357,92 @@ option:checked, option:active, option:focus, option:focus-visible {
 
 .smallProgram .expectedAnswer {
 	background-color: var(--program-expected-answer-colour);
+}
+
+.ColumnBrowser {
+	width: 35em;
+	height: 25em;
+}
+
+.AnalogueClock, .DigitalClock, .DigitalClock > .editorPane {
+	background-color: var(--clock-colour);
+	overflow: hidden;
+}
+
+.CrystalLatticeStructureBrowser {
+	background-color: var(--chemistry-colour);
+}
+
+.HelpBrowser, .HelpFileViewer, .HelpTextViewer {
+	background-color: var(--help-colour);
+}
+
+.HelpFileViewer {
+	width: 35em;
+	height: 50em;
+}
+
+.ImageViewer, .SvgViewer {
+	background-color: var(--image-colour);
+}
+
+.Inspector {
+	width: 25em;
+	height: 15em;
+}
+
+.Menu {
+	background-color: var(--menu-colour);
+	padding: 0px;
+}
+
+.MethodBrowser, .MethodSignatureBrowser {
+	background-color: var(--method-colour);
+}
+
+.MidiPortBrowser {
+	background-color: var(--midi-colour);
+}
+
+.Notebook,
+.TableViewer,
+.Inspector,
+.SmallProgram,
+.TranscriptViewer,
+.Workspace {
+	background-color: var(--program-colour);
+}
+
+.Notebook, .SmallProgram, .TextEditor, .TranscriptViewer {
+	width: 40em;
+	height: 20em;
+}
+
+.PackageBrowser, .PackageIndexBrowser {
+	background-color: var(--package-colour);
+}
+
+.ScalaJiTuningBrowser td, .ScalaJiMetaBrowser td {
+	padding-right: 2em;
+}
+
+.ScProgramBrowser, .ScSynthStatusMonitor {
+	background-color: var(--supercollider-colour);
+}
+
+.ScProgramBrowser {
+	width: 50em;
+	height: 25em;
+}
+
+.SmallKansas, .ColourChooser {
+	background-color: var(--small-kansas-colour);
+}
+
+.TypeBrowser, .TraitBrowser, .SystemBrowser, .CategoryBrowser {
+	background-color: var(--system-colour);
+}
+
+.ScalaJiTuningBrowser, .ScalaJiMetaBrowser {
+	background-color: var(--tuning-colour);
 }

@@ -1,13 +1,17 @@
+:focus {
+	outline: 1px solid #999;
+}
+
 :root {
 	--font-family:
 		'Computer Modern Concrete', 'Computer Modern Serif', 'C059',
 		'Times New Roman', 'Palatino', 'Garamond', 'Bookman', serif;
 	--font-size: 1em;
 	--body-colour: #98ece8; /* f8e8e8 e8fce8 c1e7f8 fddde6 ace1af fddde6 */
-	--paper-colour: #ffffe8; /* fffacd d0f0c0 fffacd f0fff0  */
-	--text-colour: #424242;
 	--fragment-colour: #ffdfe8; /* fddde6 */
+	--paper-colour: #ffffe8; /* fffacd d0f0c0 fffacd f0fff0  */
 	--program-colour: #f0fff0;
+	--text-colour: #424242;
 }
 
 body {
@@ -17,16 +21,26 @@ body {
 	font-size: var(--font-size);
 }
 
-h1, h2, button, select {
-	font-size: 100%;
+button, select {
+	border: 0px;
 }
 
 code {
 	font-family: var(--font-family);
 }
 
+h1, h2, button, select {
+	font-size: 100%;
+}
+
 p > code {
 	font-style: italic;
+}
+
+p, select, button, div.documentContainer {
+	background-color: var(--paper-colour);
+	color: var(--text-colour);
+	font-family: var(--font-family);
 }
 
 pre {
@@ -34,15 +48,19 @@ pre {
 	tab-size: 4;
 }
 
-p, select, button, div.documentContainer {
-	font-family: var(--font-family);
-	color: var(--text-colour);
-	background-color: var(--paper-colour);
+#documentText {
+	margin: 2em;
 }
 
-div.programContainer {
-	background-color: var(--program-colour);
-	color: var(--text-colour);
+#documentText:focus, #programText:focus {
+	outline: 0px;
+}
+
+#statusText {
+	background-color: var(--paper-colour);
+	border: 1px dotted #666;
+	display: inline-block;
+	width: 75px;
 }
 
 div.documentContainer pre {
@@ -50,49 +68,33 @@ div.documentContainer pre {
 	padding: 1em 2em;
 }
 
-button, select, #statusText {
-	border: 0px;
-}
-
-:focus {
-	outline: 1px solid #999;
-}
-
-div.textContainer {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	resize: both;
-	overflow: auto;
-	height: 85vh;
-	width: 85%;
-}
-
-#documentText:focus, #programText:focus {
-	outline: 0px;
+div.documentContainer, div.menuContainer, div.programContainer {
+	margin-bottom: 1em;
 }
 
 div.documentContainer, div.programContainer {
-	margin-right: 2em;
-	flex-grow: 1;
 	flex-basis: 15em;
+	flex-grow: 1;
+	height: 100%;
+	margin-right: 2em;
+	overflow: auto;
 }
 
-#documentText {
-	margin: 2em;
+div.programContainer {
+	background-color: var(--program-colour);
+	color: var(--text-colour);
 }
 
 div.programContainer pre {
 	margin: 3em;
 }
 
-div.menuContainer, div.documentContainer, div.programContainer {
-	margin-bottom: 1em;
-}
-
-#statusText {
-	background-color: var(--paper-colour);
-	display: inline-block;
-	width: 75px;
-	border: 1px dotted #666;
+div.textContainer {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	height: 85vh;
+	overflow: hidden;
+	resize: both;
+	width: 85%;
 }
