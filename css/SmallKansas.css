@@ -426,11 +426,11 @@ textarea {
 	padding-right: 2em;
 }
 
-.ScProgramBrowser, .ScSynthStatusMonitor {
+.SuperColliderProgramBrowser, .SuperColliderSynthesiserStatusMonitor {
 	background-color: var(--supercollider-colour);
 }
 
-.ScProgramBrowser {
+.SuperColliderProgramBrowser {
 	width: 50em;
 	height: 25em;
 }
