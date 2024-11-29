@@ -37,17 +37,39 @@ export function encodeFloat32(
 	return encodeUsing(4, (b) => b.setFloat32(0, aNumber, littleEndian));
 }
 
+export function encodeFloat64(
+	aNumber: number,
+	littleEndian: boolean,
+): Uint8Array {
+	return encodeUsing(8, (b) => b.setFloat64(0, aNumber, littleEndian));
+}
+
+export function encodeTypedArray(
+	inputArray: Float32Array | Float64Array,
+	elementSize: number,
+	writerFunction: (x: DataView, o: number, i: number) => void,
+): Uint8Array {
+	const arrayBuffer = new ArrayBuffer(inputArray.length * elementSize);
+	const dataView = new DataView(arrayBuffer);
+	for (let i = 0; i < inputArray.length; i++) {
+		writerFunction(dataView, i * elementSize, inputArray[i]);
+	}
+	const uint8Array = new Uint8Array(arrayBuffer);
+	return uint8Array;
+}
+
 export function encodeFloat32Array(
 	inputArray: Float32Array,
 	littleEndian: boolean,
 ): Uint8Array {
-	const arrayBuffer = new ArrayBuffer(inputArray.length * 4);
-	const dataView = new DataView(arrayBuffer);
-	for (let i = 0; i < inputArray.length; i++) {
-		dataView.setFloat32(i * 4, inputArray[i], littleEndian);
-	}
-	const uint8Array = new Uint8Array(arrayBuffer);
-	return uint8Array;
+	return encodeTypedArray(inputArray, 4, (v,o,i) => v.setFloat32(o, i, littleEndian));
+}
+
+export function encodeFloat64Array(
+	inputArray: Float64Array,
+	littleEndian: boolean,
+): Uint8Array {
+	return encodeTypedArray(inputArray, 8, (v,o,i) => v.setFloat64(o, i, littleEndian));
 }
 
 // encodePascalString('string') //= [6, 115, 116, 114, 105, 110, 103]
