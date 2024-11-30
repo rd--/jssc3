@@ -62,14 +62,22 @@ export function encodeFloat32Array(
 	inputArray: Float32Array,
 	littleEndian: boolean,
 ): Uint8Array {
-	return encodeTypedArray(inputArray, 4, (v,o,i) => v.setFloat32(o, i, littleEndian));
+	return encodeTypedArray(
+		inputArray,
+		4,
+		(v, o, i) => v.setFloat32(o, i, littleEndian),
+	);
 }
 
 export function encodeFloat64Array(
 	inputArray: Float64Array,
 	littleEndian: boolean,
 ): Uint8Array {
-	return encodeTypedArray(inputArray, 8, (v,o,i) => v.setFloat64(o, i, littleEndian));
+	return encodeTypedArray(
+		inputArray,
+		8,
+		(v, o, i) => v.setFloat64(o, i, littleEndian),
+	);
 }
 
 // encodePascalString('string') //= [6, 115, 116, 114, 105, 110, 103]

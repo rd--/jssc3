@@ -83,12 +83,11 @@ export function arrayBufferToSoundFile(
 export async function fetchSoundFile(url: URL | string): Promise<SoundFile> {
 	// console.debug('fetchSoundFile', url);
 	const response = await fetch(url);
-	if(response.ok) {
-		const arrayBuffer = await response.arrayBuffer();
-		return arrayBufferToSoundFile(url, arrayBuffer);
-	} {
+	if (!response.ok) {
 		throw new Error(`fetchSoundFile: fetch failed: ${url}`);
 	}
+	const arrayBuffer = await response.arrayBuffer();
+	return arrayBufferToSoundFile(url, arrayBuffer);
 }
 
 /*

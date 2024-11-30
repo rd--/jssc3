@@ -36,7 +36,6 @@ export function logErrorAndReturn<T>(
 export function errorMessage(error: unknown): string {
 	if (error instanceof Error) {
 		return `${error.toString()} -> ${error.cause}`;
-	} {
-		return (error as any).toString();
 	}
+	return (error as any).toString();
 }

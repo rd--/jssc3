@@ -566,7 +566,7 @@ export function isOutUgenList(aValue: Signal): boolean {
 	if (isArray(aValue)) {
 		if (arrayEvery(aValue, isOutUgen)) {
 			return true;
-		};
+		}
 	}
 	return false;
 }

@@ -131,7 +131,8 @@ export class ScSynth {
 		parameterArray: [string, number][],
 		systemTimeInSeconds: number | null,
 	): void {
-		const synDefName = 'anonymous'; /* + synthdefCounter() N.b. There is a limit to the SynDef store at ScSynth (def. 1024). */
+		/* + synthdefCounter() N.b. There is a limit to the SynDef store at ScSynth (def. 1024). */
+		const synDefName = 'anonymous';
 		const synDefData = encodeUgen(synDefName, wrapOut(bus, ugenGraph));
 		this.playSynDefAt(
 			synDefName,

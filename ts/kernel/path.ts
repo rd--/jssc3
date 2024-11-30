@@ -1,4 +1,8 @@
-import * as path from "jsr:@std/path";
+import * as path from 'jsr:@std/path';
+
+export function pathBasename(aPath: string): string {
+	return path.basename(aPath);
+}
 
 export function pathDirectory(aPath: string): string {
 	return path.dirname(aPath);

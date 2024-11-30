@@ -14,13 +14,11 @@ export function KeyState(
 	maxval: Signal,
 	lag: Signal,
 ): Signal {
-	if (globalThis.globalScSynth.useIoUgens) {
-		return makeUgen('KeyState', 1, rateKr, 0, [keycode, minval, maxval, lag]);
-	}
-	{
+	if (!globalThis.globalScSynth.useIoUgens) {
 		console.error('KeyState: no IoUgens');
 		return 0;
 	}
+	return makeUgen('KeyState', 1, rateKr, 0, [keycode, minval, maxval, lag]);
 }
 
 /** Mouse button UGen. */

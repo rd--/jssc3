@@ -66,7 +66,9 @@ export function riffVerifyHeader(byteArray: ArrayBuffer): void {
 	const size = byteArray.byteLength;
 	const header = riffReadChunkHeader(byteArray, 0);
 	if (header.id != 'RIFF' || header.size != (size - 8)) {
-		throw new Error(`Invalid Riff: header.id=${header.id}, header.size=${header.size}, size=${size}`);
+		throw new Error(
+			`Invalid Riff: header.id=${header.id}, header.size=${header.size}, size=${size}`,
+		);
 	}
 }
 
