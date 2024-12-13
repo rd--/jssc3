@@ -18,7 +18,7 @@ Graph/Cl - Prepared piano.sl
 Graph/Cr - Lucier.sl
 Graph/Dcv - Time varying feedback delay network.sl
 Graph/Dmc - Pm crotale.sl
-Graph/Dm - Shift register.sl
+Graph/Ds - Cymbals.sl
 Graph/Dst - 1 5fc.sl
 Graph/Ds - Tw 1401081491.sl
 Graph/Ds - Tw 19.sl
@@ -158,7 +158,6 @@ Graph/F0 - Tw 1166129504747773954.sl
 Graph/F0 - Tw 1197185125819277312.sl
 Graph/F0 - Tw 1204602890574352385.sl
 Graph/F0 - Tw 1210118661022867458.sl
-Graph/F0 - Tw 1235224072579100675.sl
 Graph/F0 - Tw 1246461901669838848.sl
 Graph/F0 - Tw 1254441448327479299.sl
 Graph/F0 - Tw 1319946903711338496.sl
@@ -485,8 +484,9 @@ Graph Collection/Nh - Variations.sl
 Graph Collection/Nv - Variations.sl
 Graph Collection/Ps - Variations.sl
 Graph Collection/Rd - Variations.sl
-Graph Collection/Sc 140.sl
 Graph Collection/Tmm881 - 5296.sl
 Graph Collection/Tmm881 - 6452.sl
+Graph Collection/Va - Sc 140.sl
+Texture Collection/F0 - Variatons.sl
 Texture Collection/Fr - Tidal.sl
 Texture Collection/Jmcc - Sc2 examples.sl
