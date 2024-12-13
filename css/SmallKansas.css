@@ -443,6 +443,6 @@ textarea {
 	background-color: var(--system-colour);
 }
 
-.ScalaJiTuningBrowser, .ScalaJiMetaBrowser {
+.ScalaJiTuningBrowser, .ScalaJiMetaBrowser, .ScalaScaleBrowser {
 	background-color: var(--tuning-colour);
 }
