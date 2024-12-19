@@ -3,7 +3,7 @@ import * as sl from '../lib/spl/dist/sl.js';
 
 export function evalRegion() {
 	const answer = eval(
-		sl.rewriteString(sc.getSelectedTextOrContentsOf('programText')),
+		sl.rewriteString(_paragraphAtCaret_1(window)),
 	);
 	console.log(answer);
 	return answer;
@@ -12,7 +12,7 @@ export function evalRegion() {
 export function playRegion() {
 	eval(
 		sl.rewriteString(
-			`{ ${sc.getSelectedTextOrContentsOf('programText')} }.value.play`,
+			`{ ${_paragraphAtCaret_1(window)} }.value.play`,
 		),
 	);
 }
@@ -62,8 +62,8 @@ export function loadHelpFor(name) {
 		const kind = isGuide ? 'Guide' : 'Reference';
 		const rewrittenName = isGuide
 			? name
-			: (sl.isOperatorName(name) ? sl.operatorMethodName(name) : name);
-		const url = `lib/spl/help/${kind}/${rewrittenName}.help.sl`;
+			: sl.resolveTokenName(name);
+		const url = `lib/spl/Help/${kind}/${rewrittenName}.help.sl`;
 		const address = `?${kind}=${rewrittenName}`;
 		sc.fetchUtf8(url, { cache: 'no-cache' }).then(
 			insertTextFor(address),
@@ -119,7 +119,7 @@ export function initProgramMenu() {
 			),
 	);
 	sc.menuOnChangeWithOptionValue('programMenu', (optionValue) => {
-		sc.fetchUtf8(`./lib/spl/help/SuperCollider/${optionValue}`, {
+		sc.fetchUtf8(`./lib/spl/Program/SuperCollider/${optionValue}`, {
 			cache: 'no-cache',
 		}).then(
 			(text) => insertText(null, text),
@@ -135,7 +135,7 @@ export function initOracle() {
 
 export function loadOracle() {
 	const fileName = sc.arrayChoose(state.oracleFiles);
-	sc.fetchUtf8(`./lib/spl/help/SuperCollider/${fileName}`, {
+	sc.fetchUtf8(`./lib/spl/Program/SuperCollider/${fileName}`, {
 		cache: 'no-cache',
 	}).then(
 		(text) => insertText(null, text),

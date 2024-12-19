@@ -68,21 +68,25 @@ div.documentContainer pre {
 	padding: 1em 2em;
 }
 
-div.documentContainer, div.menuContainer, div.programContainer {
+div.menuContainer, div.programContainer, div.documentContainer {
 	margin-bottom: 1em;
 }
 
-div.documentContainer, div.programContainer {
-	flex-basis: 25em;
-	flex-grow: 1;
+div.programContainer, div.documentContainer {
+	flex-basis: 30em;
 	height: 85vh;
 	margin-right: 2em;
 	overflow: auto;
 }
 
 div.programContainer {
+	flex-grow: 1;
 	background-color: var(--program-colour);
 	color: var(--text-colour);
+}
+
+div.documentContainer {
+	flex-grow: 0;
 }
 
 div.programContainer pre {
