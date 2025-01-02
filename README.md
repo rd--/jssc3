@@ -32,7 +32,7 @@ Tested with:
 [Safari](https://apple.com/safari/) 15.3,
 [SuperCollider](https://www.audiosynth.com/) 3.13.0
 
-© [Rohan Drape](http://rohandrape.net/), 2021-2024, [Gpl](http://gnu.org/copyleft/)
+© [Rohan Drape](http://rohandrape.net/), 2021-2025, [Gpl](http://gnu.org/copyleft/)
 
 * * *
 

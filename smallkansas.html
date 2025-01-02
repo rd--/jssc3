@@ -20,7 +20,7 @@ window.onload = function () {
 	sc.sc3MouseInit(globalScSynth); /* note, this is not part of wasm init for case of remote web socket connection */
 	sl.assignGlobals();
 	sl.setSplDir('lib/spl');
-	sl.loadUrl('*Load*', 'sl/Meta/PackageIndex.sl').then(function() {
+	sl.loadUrl('*Load*', 'Package/Meta/PackageIndex.sl').then(function() {
 		sl.primitiveLoadPackageSequence([
 			'Kernel',
 			'StandardLibrary',
