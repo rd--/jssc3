@@ -26,7 +26,7 @@ window.onload = function () {
 	sc.connectButtonToInput('programInputFileSelect', 'programInputFile');
 	sl.assignGlobals();
 	sl.setSplDir('lib/spl');
-	sl.loadUrl('*Load*', 'sl/Meta/PackageIndex.sl').then(function() {
+	sl.loadUrl('*Load*', 'Package/Meta/PackageIndex.sl').then(function() {
 		sl.primitiveLoadPackageSequence([
 			'Kernel',
 			'StandardLibrary',

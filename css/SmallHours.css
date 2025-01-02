@@ -45,7 +45,7 @@ p, select, button, div.documentContainer {
 
 pre {
 	font-family: var(--font-family);
-	tab-size: 4;
+	tab-size: 8ch;
 }
 
 #documentText {
@@ -65,7 +65,7 @@ pre {
 
 div.documentContainer pre {
 	background-color: var(--fragment-colour);
-	padding: 1em 2em;
+	padding: 1ch;
 }
 
 div.menuContainer, div.programContainer, div.documentContainer {
@@ -73,7 +73,7 @@ div.menuContainer, div.programContainer, div.documentContainer {
 }
 
 div.programContainer, div.documentContainer {
-	flex-basis: 30em;
+	flex-basis: 50ch;
 	height: 85vh;
 	margin-right: 2em;
 	overflow: auto;
@@ -99,5 +99,5 @@ div.textContainer {
 	flex-wrap: wrap;
 	overflow: hidden;
 	resize: both;
-	width: 85%;
+	width: 90%;
 }
