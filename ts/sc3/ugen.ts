@@ -521,6 +521,8 @@ export function BinaryOpWithConstantOptimiser(
 				return Math.max(lhs, rhs);
 			case 23:
 				return scMath.hypot(lhs, rhs);
+			case 25:
+				return scMath.pow(lhs, rhs);
 			case 34:
 				return scMath.difSqr(lhs, rhs);
 			case 38:

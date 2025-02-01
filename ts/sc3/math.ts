@@ -5,9 +5,8 @@ export function absDif(self: number, aNumber: number) {
 export function amClip(self: number, aNumber: number) {
 	if (aNumber <= 0) {
 		return 0;
-	} else {
-		return self * aNumber;
 	}
+	return self * aNumber;
 }
 
 export function ampDb(self: number) {
@@ -52,6 +51,13 @@ export function midiRatio(self: number) {
 
 export function octCps(self: number) {
 	return 440.0 * Math.pow(2.0, self - 4.75);
+}
+
+export function pow(self: number, aNumber: number) {
+	if (self < 0) {
+		return -Math.pow(-self, aNumber);
+	}
+	return Math.pow(self, aNumber);
 }
 
 export function ratioMidi(self: number) {
