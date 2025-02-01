@@ -675,6 +675,18 @@ export function FbSineL(
 ): Signal {
 	return makeUgen('FBSineL', 1, rateAr, 0, [freq, im, fb, a, c, xi, yi]);
 }
+/** Feedback sine with chaotic phase indexing */
+export function FbSineN(
+	freq: Signal,
+	im: Signal,
+	fb: Signal,
+	a: Signal,
+	c: Signal,
+	xi: Signal,
+	yi: Signal,
+): Signal {
+	return makeUgen('FBSineN', 1, rateAr, 0, [freq, im, fb, a, c, xi, yi]);
+}
 /** Fast Fourier Transform */
 export function Fft(
 	buffer: Signal,
