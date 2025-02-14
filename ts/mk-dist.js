@@ -1,5 +1,10 @@
 import { bundle } from 'https://deno.land/x/emit/mod.ts';
-const moduleUrl = new URL('./jssc3.ts', import.meta.url);
+if (Deno.args.length != 2) {
+	throw new Error('mk-dist: inputFile outputFile');
+}
+const inputFile = Deno.args[0];
+const outputFile = Deno.args[1];
+const moduleUrl = new URL(inputFile, import.meta.url);
 const result = await bundle(
 	moduleUrl,
 	{
@@ -10,4 +15,5 @@ const result = await bundle(
 	},
 );
 const { code } = result;
-console.log(code);
+const plainCode = code.replace(/\/\/\#.*/,'')
+await Deno.writeTextFile(outputFile, plainCode);

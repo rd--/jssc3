@@ -1,5 +1,5 @@
 dist:
-	deno run --allow-net --allow-read --allow-env mk-dist.js | grep -v "//#" > ../dist/jssc3.js
+	deno run --allow-net --allow-read --allow-write --allow-env mk-dist.js ./jssc3.ts ../dist/jssc3.js
 
 check-ts:
 	deno check --config deno.json */*.ts
