@@ -27,7 +27,7 @@ Requires:
 Tested with:
 
 [Chromium](https://www.chromium.org/) 131.0,
-[Deno](https://deno.com/) 2.1.4,
+[Deno](https://deno.com/) 2.2.2,
 [Firefox](https://www.mozilla.org/firefox/) 115.8,
 [Safari](https://apple.com/safari/) 15.3,
 [SuperCollider](https://www.audiosynth.com/) 3.13.0

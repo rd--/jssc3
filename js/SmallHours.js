@@ -3,7 +3,7 @@ import * as sl from '../lib/spl/dist/sl.js';
 
 export function evalRegion() {
 	const answer = eval(
-		sl.rewriteString(_paragraphAtCaret_1(window)),
+		sl.rewriteSlToJs(_paragraphAtCaret_1(window)),
 	);
 	console.log(answer);
 	return answer;
@@ -11,7 +11,7 @@ export function evalRegion() {
 
 export function playRegion() {
 	eval(
-		sl.rewriteString(
+		sl.rewriteSlToJs(
 			`{ ${_paragraphAtCaret_1(window)} }.value.play`,
 		),
 	);

@@ -77,7 +77,7 @@ function evalCellOrZero(colLetter, rowNumber, translatorStatus, text) {
 function evalCell(colLetter, rowNumber, cellText) {
 	const programText = cellText.trim();
 	console.debug(`evalCell: .sl = ${programText}`);
-	const jsText = sl.rewriteString(programText);
+	const jsText = sl.rewriteSlToJs(programText);
 	console.debug(`evalCell: .js = ${jsText}`);
 	const translatorStatus = programText === '' || jsText !== '';
 	const cellValue = evalCellOrZero(

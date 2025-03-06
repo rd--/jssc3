@@ -15,5 +15,5 @@ const result = await bundle(
 	},
 );
 const { code } = result;
-const plainCode = code.replace(/\/\/\#.*/,'')
+const plainCode = code.replace(/\/\/\#.*/, '');
 await Deno.writeTextFile(outputFile, plainCode);
