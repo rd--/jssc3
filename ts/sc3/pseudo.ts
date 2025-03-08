@@ -142,7 +142,7 @@ export function Cutoff(
 	curve: EnvCurveSeq,
 ): Signal {
 	const env = EnvCutoff(sustainTime, releaseTime, curve);
-	return EnvGen(1, 1, 0, 1, 0, envCoord(env));
+	return EnvGen(1, 1, 0, 1, 2, envCoord(env));
 }
 
 /* Cf.<https://github.com/supercollider/supercollider/issues/5706>

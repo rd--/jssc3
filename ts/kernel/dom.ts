@@ -125,9 +125,9 @@ export function selectAddOptionAtId(
 // Delete all options at selectId from startIndex
 export function selectClearFrom(selectId: string, startIndex: number): void {
 	withSelectElementById(selectId, function (selectElement) {
-		const endIndex = selectElement.length;
-		for (let i = startIndex; i < endIndex; i++) {
-			selectElement.remove(startIndex);
+		const endIndex = selectElement.length - 1;
+		for (let i = endIndex; i >= startIndex; i--) {
+			selectElement.remove(i);
 		}
 	});
 }
