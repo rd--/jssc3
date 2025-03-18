@@ -12,6 +12,14 @@ import { BinaryOp, makeUgen, Signal, UnaryOp } from './ugen.ts';
 export function A2K(input: Signal): Signal {
 	return makeUgen('A2K', 1, rateKr, 0, [input]);
 }
+/** (Undocumented class) */
+export function Allpass1(input: Signal, freq: Signal): Signal {
+	return makeUgen('Allpass1', 1, rateAr, 0, [input, freq]);
+}
+/** (Undocumented class) */
+export function Allpass2(input: Signal, freq: Signal, rq: Signal): Signal {
+	return makeUgen('Allpass2', 1, rateAr, 0, [input, freq, rq]);
+}
 /** Schroeder allpass delay line with cubic interpolation. */
 export function AllpassC(
 	input: Signal,
@@ -1743,6 +1751,23 @@ export function Ringz(input: Signal, freq: Signal, decaytime: Signal): Signal {
 export function Rlpf(input: Signal, freq: Signal, rq: Signal): Signal {
 	return makeUgen('RLPF', 1, [0], 0, [input, freq, rq]);
 }
+/** (Undocumented class) */
+export function RMEQ(
+	input: Signal,
+	freq: Signal,
+	rq: Signal,
+	k: Signal,
+): Signal {
+	return makeUgen('RMEQ', 1, [0], 0, [input, freq, rq, k]);
+}
+/** (Undocumented class) */
+export function RMShelf(input: Signal, freq: Signal, k: Signal): Signal {
+	return makeUgen('RMShelf', 1, rateAr, 0, [input, freq, k]);
+}
+/** (Undocumented class) */
+export function RMShelf2(input: Signal, freq: Signal, k: Signal): Signal {
+	return makeUgen('RMShelf2', 1, rateAr, 0, [input, freq, k]);
+}
 /** Rotate a sound field. */
 export function Rotate2(x: Signal, y: Signal, pos: Signal): Signal {
 	return makeUgen('Rotate2', 2, [0, 1], 0, [x, y, pos]);
@@ -1835,6 +1860,14 @@ export function Sos(
 	b2: Signal,
 ): Signal {
 	return makeUgen('SOS', 1, [0], 0, [input, a0, a1, a2, b1, b2]);
+}
+/** (Undocumented class) */
+export function Spreader(
+	input: Signal,
+	theta: Signal,
+	filtsPerOctave: Signal,
+): Signal {
+	return makeUgen('Spreader', 2, rateAr, 0, [input, theta, filtsPerOctave]);
 }
 /** physical model of resonating spring */
 export function Spring(input: Signal, spring: Signal, damp: Signal): Signal {
