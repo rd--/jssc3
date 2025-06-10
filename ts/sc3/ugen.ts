@@ -469,6 +469,10 @@ export function UnaryOpWithConstantOptimiser(
 				return Math.cosh(input);
 			case 36:
 				return Math.tanh(input);
+			case 42:
+				return scMath.distort(input);
+			case 43:
+				return scMath.softClip(input);
 			case 44:
 				return scMath.coin(input) ? 1.0 : 0.0;
 		}

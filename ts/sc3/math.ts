@@ -64,6 +64,19 @@ export function ratioMidi(self: number) {
 	return 12.0 * Math.log2(self);
 }
 
+export function softClip(self: number) {
+	let y = Math.abs(self);
+	if (y <= 0.5) {
+		return x;
+	} else {
+		return (y - 0.25) / self;
+	}
+}
+
+export function distort(self :number) {
+	return self / (1 + Math.abs(self));
+}
+
 // <https://github.com/sveinn-steinarsson/flot-downsample>
 export function downsampleSteinarsson(
 	data: number[][],
