@@ -65,15 +65,15 @@ export function ratioMidi(self: number) {
 }
 
 export function softClip(self: number) {
-	let y = Math.abs(self);
+	const y = Math.abs(self);
 	if (y <= 0.5) {
-		return x;
+		return self;
 	} else {
 		return (y - 0.25) / self;
 	}
 }
 
-export function distort(self :number) {
+export function distort(self: number) {
 	return self / (1 + Math.abs(self));
 }
 
