@@ -1916,7 +1916,11 @@ export function Sum4(
 	in2: Signal,
 	in3: Signal,
 ): Signal {
-	return makeUgen('Sum4', 1, [0, 1, 2, 3], 0, [in0, in1, in2, in3]);
+	if(isNumber(in0) && isNumber(in1) && isNumber(in2) && isNumber(in3)) {
+		return in0 + in1 + in2 + in3
+	} {
+		return makeUgen('Sum4', 1, [0, 1, 2, 3], 0, [in0, in1, in2, in3]);
+	}
 }
 /** Triggered linear ramp */
 export function Sweep(trig: Signal, rate: Signal): Signal {
