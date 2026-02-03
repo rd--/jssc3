@@ -29,12 +29,12 @@ fetch-jspreadsheet:
 
 # use submodules, do not fetch
 
-fetch-all: fetch-oscjs fetch-scsynth fetch-stsc3
+fetch-all: fetch-osc-js fetch-scsynth-wasm-builds fetch-stsc3
 
-fetch-oscjs:
+fetch-osc-js:
 	(cd osc.js ; git pull)
 
-fetch-scsynth:
+fetch-scsynth-wasm-builds:
 	(cd scsynth-wasm-builds ; git pull)
 
 fetch-stsc3:
@@ -42,16 +42,19 @@ fetch-stsc3:
 
 # use submodules, do not clone
 
-clone-all: clone-oscjs clone-scsynth clone-stsc3
+clone-all: clone-osc-js clone-scsynth-wasm-builds clone-stsc3 clone-spl
 
-clone-oscjs:
+clone-osc-js:
 	git clone https://github.com/colinbdclark/osc.js/
 
-clone-scsynth:
+clone-scsynth-wasm-builds:
 	git clone https://gitlab.com/rd--/scsynth-wasm-builds
 
 clone-stsc3:
 	git clone https://gitlab.com/rd--/stsc3
+
+clone-spl:
+	git clone https://gitlab.com/rd--/spl
 
 # ace is a text editor library, it's not used by default because it doesn't support proportional fonts, a simple textarea is used instead
 
