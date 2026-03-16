@@ -20,6 +20,10 @@ export function pathJoin(pathArray: string[]): string {
 	return path.join(...pathArray);
 }
 
+export function pathStem(aPath: string): string {
+	return path.parse(aPath).name
+}
+
 export function pathNormalize(aPath: string): string {
 	return path.normalize(aPath);
 }
