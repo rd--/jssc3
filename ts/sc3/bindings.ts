@@ -1669,6 +1669,16 @@ export function PvRectComb(
 	]);
 }
 /** General quadratic map chaotic generator */
+export function QuadN(
+	freq: Signal,
+	a: Signal,
+	b: Signal,
+	c: Signal,
+	xi: Signal,
+): Signal {
+	return makeUgen('QuadN', 1, rateAr, 0, [freq, a, b, c, xi]);
+}
+/** General quadratic map chaotic generator */
 export function QuadC(
 	freq: Signal,
 	a: Signal,
