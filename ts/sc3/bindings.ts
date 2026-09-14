@@ -83,6 +83,10 @@ export function Amplitude(
 ): Signal {
 	return makeUgen('Amplitude', 1, rateAr, 0, [input, attackTime, releaseTime]);
 }
+/** Undocumented. */
+export function Apf(input: Signal, freq: Signal, radius: Signal): Signal {
+	return makeUgen('APF', 1, [0], 0, [input, freq, radius]);
+}
 /** Stereo signal balancer */
 export function Balance2(
 	left: Signal,
