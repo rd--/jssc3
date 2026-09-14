@@ -92,6 +92,10 @@ export function Balance2(
 ): Signal {
 	return makeUgen('Balance2', 2, [0, 1], 0, [left, right, pos, level]);
 }
+/** All Pass Filter */
+export function BAllPass(input: Signal, freq: Signal, rq: Signal): Signal {
+	return makeUgen('BAllPass', 1, [0], 0, [input, freq, rq]);
+}
 /** Band Pass Filter */
 export function BBandPass(input: Signal, freq: Signal, bw: Signal): Signal {
 	return makeUgen('BBandPass', 1, [0], 0, [input, freq, bw]);
