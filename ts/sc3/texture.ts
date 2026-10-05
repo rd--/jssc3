@@ -1,7 +1,7 @@
 import { arrayFromTo, arrayMap, arrayReduce } from '../kernel/array.ts';
 
-import { Add, EnvGen, Impulse, Mul } from './bindings.ts';
-import { Env, envCoord } from './envelope.ts';
+import { Add, Impulse, Mul } from './bindings.ts';
+import { Env, EnvGen } from './envelope.ts';
 import { kr, Signal } from './ugen.ts';
 
 export function OverlapTextureArray(
@@ -23,7 +23,7 @@ export function OverlapTextureArray(
 			null,
 			0,
 		);
-		const sig = Mul(snd, EnvGen(trg, 1, 0, 1, 0, envCoord(env)));
+		const sig = Mul(snd, EnvGen(trg, 1, 0, 1, 0, env));
 		return sig;
 	};
 	return arrayMap(voiceFunction, arrayFromTo(0, overlap - 1));
@@ -58,7 +58,7 @@ export function XFadeTexture(
 			null,
 			0,
 		);
-		const sig = Mul(snd, EnvGen(trg, 1, 0, 1, 0, envCoord(env)));
+		const sig = Mul(snd, EnvGen(trg, 1, 0, 1, 0, env));
 		return sig;
 	};
 	return Add(voiceFunction(0), voiceFunction(0.5));

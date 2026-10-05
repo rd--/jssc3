@@ -34,7 +34,6 @@ import {
 	Dc,
 	DelayN,
 	Duty,
-	EnvGen,
 	Fdiv,
 	Fold2,
 	Gt,
@@ -75,9 +74,9 @@ import {
 	Env,
 	EnvAdsr,
 	EnvAsr,
-	envCoord,
 	EnvCurveSeq,
 	EnvCutoff,
+	EnvGen,
 	EnvPerc,
 	EnvRelease,
 	EnvSine,
@@ -123,7 +122,7 @@ export function Adsr(
 		1,
 		curve,
 	);
-	return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
+	return EnvGen(gate, 1, 0, 1, 0, env);
 }
 
 export function Asr(
@@ -133,7 +132,7 @@ export function Asr(
 	curve: EnvCurveSeq,
 ): Signal {
 	const env = EnvAsr(attackTime, 1, releaseTime, curve);
-	return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
+	return EnvGen(gate, 1, 0, 1, 0, env);
 }
 
 export function Cutoff(
@@ -142,7 +141,7 @@ export function Cutoff(
 	curve: EnvCurveSeq,
 ): Signal {
 	const env = EnvCutoff(sustainTime, releaseTime, curve);
-	return EnvGen(1, 1, 0, 1, 2, envCoord(env));
+	return EnvGen(1, 1, 0, 1, 2, env);
 }
 
 /* Cf.<https://github.com/supercollider/supercollider/issues/5706>
@@ -245,7 +244,7 @@ export function TLine(
 	trig: Signal,
 ): Signal {
 	const env = new Env([start, start, end], [0, dur], 'lin', null, null, 0);
-	return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
+	return EnvGen(trig, 1, 0, 1, 0, env);
 }
 
 export function TxLine(
@@ -255,7 +254,7 @@ export function TxLine(
 	trig: Signal,
 ): Signal {
 	const env = new Env([start, start, end], [0, dur], 'exp', null, null, 0);
-	return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
+	return EnvGen(trig, 1, 0, 1, 0, env);
 }
 
 export function AudioIn(channels: Signal): Signal {
@@ -355,7 +354,7 @@ export function LinSeg(gate: Signal, coordArray: Signal[]): Signal {
 		null,
 		0,
 	);
-	return EnvGen(gate, 1, 0, 1, 0, envCoord(env));
+	return EnvGen(gate, 1, 0, 1, 0, env);
 }
 
 export function SelectX(which: Signal, array: Signal): Signal {
@@ -492,11 +491,11 @@ export function Release(
 	releaseTime: Signal,
 ): Signal {
 	const env = EnvRelease(attackTime, dur, releaseTime);
-	return Mul(input, EnvGen(1, 1, 0, 1, 2, envCoord(env)));
+	return Mul(input, EnvGen(1, 1, 0, 1, 2, env));
 }
 
 export function Sine(trig: Signal, dur: Signal): Signal {
-	return EnvGen(trig, 1, 0, 1, 0, envCoord(EnvSine(dur)));
+	return EnvGen(trig, 1, 0, 1, 0, EnvSine(dur));
 }
 
 export function Perc(
@@ -511,7 +510,7 @@ export function Perc(
 		0,
 		1,
 		0,
-		envCoord(EnvPerc(attackTime, releaseTime, 1, curve)),
+		EnvPerc(attackTime, releaseTime, 1, curve),
 	);
 }
 
@@ -550,7 +549,7 @@ export function VarLag(
 	const env = new Env([input, input], [time], curve, null, null, 0);
 	const timeChanged = (typeof time === 'number') ? 0 : Changed(time, 0);
 	const trig = Add(Add(Changed(input, 0), timeChanged), Impulse(0, 0));
-	return EnvGen(trig, 1, 0, 1, 0, envCoord(env));
+	return EnvGen(trig, 1, 0, 1, 0, env);
 }
 
 export function CompanderD(

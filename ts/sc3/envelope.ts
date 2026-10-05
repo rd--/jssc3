@@ -1,5 +1,6 @@
 import {
 	arrayAtWrap,
+	arrayConcat,
 	arrayLength,
 	asArray,
 	ScalarOrArray,
@@ -11,7 +12,8 @@ import { fromMaybe, Maybe } from '../stdlib/maybe.ts';
 import { queueAsArray, queueNew, queuePush } from '../stdlib/queue.ts';
 
 import { Fdiv, Mul } from './bindings.ts';
-import { Signal, UgenInput } from './ugen.ts';
+import { rateAr } from './rate.ts';
+import { makeUgen, Signal, UgenInput } from './ugen.ts';
 
 export const envCurveDictionary: Record<string, number> = {
 	step: 0,
