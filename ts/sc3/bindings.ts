@@ -634,26 +634,6 @@ export function Dxrand(repeats: Signal, list: Signal): Signal {
 		arrayConcat([repeats], asArray(list)),
 	);
 }
-/** Envelope generator */
-export function EnvGen(
-	gate: Signal,
-	levelScale: Signal,
-	levelBias: Signal,
-	timeScale: Signal,
-	doneAction: Signal,
-	envelope: Signal,
-): Signal {
-	return makeUgen(
-		'EnvGen',
-		1,
-		rateAr,
-		0,
-		arrayConcat(
-			[gate, levelScale, levelBias, timeScale, doneAction],
-			asArray(envelope),
-		),
-	);
-}
 /** Undocumented */
 export function EnvTrapezoid(
 	trig: Signal,

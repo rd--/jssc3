@@ -185,3 +185,24 @@ export function EnvLinen(
 		0,
 	);
 }
+
+/** Envelope generator */
+export function EnvGen(
+	gate: Signal,
+	levelScale: Signal,
+	levelBias: Signal,
+	timeScale: Signal,
+	doneAction: Signal,
+	envelope: Env,
+): Signal {
+	return makeUgen(
+		'EnvGen',
+		1,
+		rateAr,
+		0,
+		arrayConcat(
+			[gate, levelScale, levelBias, timeScale, doneAction],
+			envCoord(envelope),
+		),
+	);
+}
