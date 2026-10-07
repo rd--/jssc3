@@ -6,4 +6,4 @@ ls Graph/*.sp > $r
 ls Texture/*.sp >> $r
 ls "Graph Collection"/*.sp >> $r
 ls "Texture Collection"/*.sp >> $r
-ls "Unit Generator"/*.help.sl >> $r
+# ls "Unit Generator"/*.sp >> $r # No author slot...
