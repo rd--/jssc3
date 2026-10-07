@@ -20,7 +20,7 @@ export function playRegion() {
 export const state = { autoPlay: false, oracleFiles: null };
 
 function clear() {
-	_removeAll_1(_clock_1(_system));
+	_removeAllInPlace_1(_clock_1(_system));
 }
 
 export function insertText(label, text) {

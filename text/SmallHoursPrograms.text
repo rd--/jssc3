@@ -18,6 +18,7 @@ Graph/Cl - Prepared piano.sp
 Graph/Cr - Lucier.sp
 Graph/Dcv - Time varying feedback delay network.sp
 Graph/Dmc - Pm crotale.sp
+Graph/Dm - Shift register.sp
 Graph/Ds - Cymbals.sp
 Graph/Dst - 1 5fc.sp
 Graph/Ds - Tw 1401081491.sp
@@ -63,8 +64,11 @@ Graph/F0 - Tw 0055.sp
 Graph/F0 - Tw 0058.sp
 Graph/F0 - Tw 0059.sp
 Graph/F0 - Tw 0061.sp
+Graph/F0 - Tw 0062.sp
+Graph/F0 - Tw 0071.sp
 Graph/F0 - Tw 0077.sp
 Graph/F0 - Tw 0084.sp
+Graph/F0 - Tw 0086.sp
 Graph/F0 - Tw 0101.sp
 Graph/F0 - Tw 0120.sp
 Graph/F0 - Tw 0121.sp
@@ -72,9 +76,15 @@ Graph/F0 - Tw 0125.sp
 Graph/F0 - Tw 0134.sp
 Graph/F0 - Tw 0164.sp
 Graph/F0 - Tw 0165.sp
+Graph/F0 - Tw 0170.sp
+Graph/F0 - Tw 0183.sp
+Graph/F0 - Tw 0185.sp
+Graph/F0 - Tw 0186.sp
+Graph/F0 - Tw 0198.sp
 Graph/F0 - Tw 0220.sp
 Graph/F0 - Tw 0224.sp
 Graph/F0 - Tw 0225.sp
+Graph/F0 - Tw 0227.sp
 Graph/F0 - Tw 0230.sp
 Graph/F0 - Tw 0232.sp
 Graph/F0 - Tw 0233.sp
@@ -93,6 +103,7 @@ Graph/F0 - Tw 0278.sp
 Graph/F0 - Tw 0279.sp
 Graph/F0 - Tw 0281.sp
 Graph/F0 - Tw 0283.sp
+Graph/F0 - Tw 0284.sp
 Graph/F0 - Tw 0287.sp
 Graph/F0 - Tw 0288.sp
 Graph/F0 - Tw 0289.sp
@@ -117,6 +128,7 @@ Graph/F0 - Tw 0320.sp
 Graph/F0 - Tw 0321.sp
 Graph/F0 - Tw 0322.sp
 Graph/F0 - Tw 0324.sp
+Graph/F0 - Tw 0327.sp
 Graph/F0 - Tw 0329.sp
 Graph/F0 - Tw 0330.sp
 Graph/F0 - Tw 0331.sp
@@ -144,6 +156,7 @@ Graph/F0 - Tw 0356.sp
 Graph/F0 - Tw 0357.sp
 Graph/F0 - Tw 0358.sp
 Graph/F0 - Tw 0360.sp
+Graph/F0 - Tw 0428.sp
 Graph/F0 - Tw 0454598285861617665.sp
 Graph/F0 - Tw 0456384156159574016.sp
 Graph/F0 - Tw 0839296011982024704.sp
@@ -158,6 +171,7 @@ Graph/F0 - Tw 1166129504747773954.sp
 Graph/F0 - Tw 1197185125819277312.sp
 Graph/F0 - Tw 1204602890574352385.sp
 Graph/F0 - Tw 1210118661022867458.sp
+Graph/F0 - Tw 1235224072579100675.broken.sp
 Graph/F0 - Tw 1246461901669838848.sp
 Graph/F0 - Tw 1254441448327479299.sp
 Graph/F0 - Tw 1319946903711338496.sp
@@ -313,6 +327,7 @@ Graph/Kl - Vibraphone.sp
 Graph/Ljp - One line.sp
 Graph/Lkp - Chaos engine.sp
 Graph/Lnu - 113007186778241483.sp
+Graph/Lnu - 113793194275567844.sp
 Graph/Lnu - 1559974704823341058.sp
 Graph/Lnu - 1617212405737472002.sp
 Graph/Lnu - 1619072788311973896.sp
@@ -385,24 +400,15 @@ Graph/Yh - Oh.sp
 Graph/Yh - Sn.sp
 Graph/Zs - Phase distortion.sp
 Graph/Zs - Toshiya.sp
-Scheduler/F0 - Tw 1591161283591782401.sp
 Texture/Cr - Lucier.sp
 Texture/F0 - Tw 0001.sp
 Texture/F0 - Tw 0002.sp
-Texture/F0 - Tw 0003.sp
-Texture/F0 - Tw 0004.sp
-Texture/F0 - Tw 0005.sp
 Texture/F0 - Tw 0006.sp
 Texture/F0 - Tw 0007.sp
 Texture/F0 - Tw 0100.sp
-Texture/F0 - Tw 0101.sp
 Texture/F0 - Tw 0112.sp
-Texture/F0 - Tw 0202.sp
-Texture/F0 - Tw 0205.sp
 Texture/F0 - Tw 0247.sp
 Texture/F0 - Tw 0252.sp
-Texture/F0 - Tw 0293.sp
-Texture/F0 - Tw 1631979082622566400.sp
 Texture/Jmcc - Alien froggies.sp
 Texture/Jmcc - Alien meadow.sp
 Texture/Jmcc - Arachnid espresso.help.sp
@@ -462,7 +468,6 @@ Texture/Jmcc - Zizle.sp
 Texture/Lnu - 1581607231463731200.sp
 Texture/Nc - Sc tutorial.sp
 Texture/Rd - 20060914.sp
-Texture/Sl - 980525.sp
 Texture/Tm - 6989-16.sp
 Texture/Unk - Pmi.sp
 Graph Collection/An - Tw.sp
@@ -470,6 +475,7 @@ Graph Collection/Bb - Es.sp
 Graph Collection/Coc - Fragments.sp
 Graph Collection/Dcm - Insect ambience.sp
 Graph Collection/F0 - Variations.sp
+Graph Collection/Fr - Lisp.sp
 Graph Collection/Gg - Explore.sp
 Graph Collection/Jl - Variations.sp
 Graph Collection/Jmcc - Sc2 examples.sp
@@ -477,6 +483,7 @@ Graph Collection/Jmcc - Variations.sp
 Graph Collection/Jmcc - Xy scope.sp
 Graph Collection/Ljp - One line.sp
 Graph Collection/Lnu - Losers union.sp
+Graph Collection/Lnu - ScScc.sp
 Graph Collection/Lnu - Sonomu.sp
 Graph Collection/Mk - 1-50L.sp
 Graph Collection/Nc - Sc tutorial.sp
@@ -487,6 +494,175 @@ Graph Collection/Rd - Variations.sp
 Graph Collection/Tmm881 - 5296.sp
 Graph Collection/Tmm881 - 6452.sp
 Graph Collection/Va - Sc 140.sp
-Texture Collection/Fr - Tidal.sp
 Texture Collection/Jmcc - Sc2 examples.sp
-Scheduler Collection/F0 - Variations.sp
+Unit Generator/AllpassN.help.sl
+Unit Generator/AnalogFoldOsc.help.sl
+Unit Generator/asLocalBuf.help.sl
+Unit Generator/Atan2.help.sl
+Unit Generator/Balance2.help.sl
+Unit Generator/Bezier.help.sl
+Unit Generator/Blip.help.sl
+Unit Generator/BLowPass4.help.sl
+Unit Generator/BMoog.help.sl
+Unit Generator/Bpf.help.sl
+Unit Generator/BufRd.help.sl
+Unit Generator/Cc.help.sl
+Unit Generator/Changed.help.sl
+Unit Generator/Choose.help.sl
+Unit Generator/Clip.help.sl
+Unit Generator/CombC.help.sl
+Unit Generator/CombL.help.sl
+Unit Generator/CombN.help.sl
+Unit Generator/ControlIn.help.sl
+Unit Generator/Convolution.help.sl
+Unit Generator/CurveGen.help.sl
+Unit Generator/CuspL.help.sl
+Unit Generator/Dc.help.sl
+Unit Generator/Decay2.help.sl
+Unit Generator/Decay.help.sl
+Unit Generator/DegreeToKey.help.sl
+Unit Generator/DelayC.help.sl
+Unit Generator/DelayL.help.sl
+Unit Generator/DelayMap.help.sl
+Unit Generator/DelayN.help.sl
+Unit Generator/DelayWrite.help.sl
+Unit Generator/Demand.help.sl
+Unit Generator/Demultiplexer.help.sl
+Unit Generator/Dseq.help.sl
+Unit Generator/Dshuf.help.sl
+Unit Generator/Dust.help.sl
+Unit Generator/Duty.help.sl
+Unit Generator/DwgPluckedStiff.help.sl
+Unit Generator/Dx7Env.help.sl
+Unit Generator/Dx7.help.sl
+Unit Generator/DynKlank.help.sl
+Unit Generator/DynRingzBank.help.sl
+Unit Generator/EnvGen.help.sl
+Unit Generator/Env.help.sl
+Unit Generator/EnvLinen.help.sl
+Unit Generator/EqPan2.help.sl
+Unit Generator/ExpRandN.help.sl
+Unit Generator/Fm7.help.sl
+Unit Generator/Formant.help.sl
+Unit Generator/Formlet.help.sl
+Unit Generator/Freezer.help.sl
+Unit Generator/FreqShift.help.sl
+Unit Generator/Friction.help.sl
+Unit Generator/FSinOsc.help.sl
+Unit Generator/GrainBuf.help.sl
+Unit Generator/GrainFm.help.sl
+Unit Generator/GrainSin.help.sl
+Unit Generator/GrayNoise.help.sl
+Unit Generator/HenonC.help.sl
+Unit Generator/Hpf.help.sl
+Unit Generator/Idiv.help.sl
+Unit Generator/ImpulseSequencer.help.sl
+Unit Generator/InFb.help.sl
+Unit Generator/Integrator.help.sl
+Unit Generator/KeyDown.help.sl
+Unit Generator/Lag.help.sl
+Unit Generator/Latch.help.sl
+Unit Generator/LatoocarfianC.help.sl
+Unit Generator/LfCub.help.sl
+Unit Generator/LfGauss.help.sl
+Unit Generator/LfNoise0.help.sl
+Unit Generator/LfNoise1.help.sl
+Unit Generator/LfNoise2.help.sl
+Unit Generator/LfPar.help.sl
+Unit Generator/LfPulse.help.sl
+Unit Generator/LfSaw.help.sl
+Unit Generator/LfTri.help.sl
+Unit Generator/LinCongC.help.sl
+Unit Generator/Line.help.sl
+Unit Generator/Linen.help.sl
+Unit Generator/LinExp.help.sl
+Unit Generator/LinGen.help.sl
+Unit Generator/LinRand.help.sl
+Unit Generator/LocalBuf.help.sl
+Unit Generator/LorenzL.help.sl
+Unit Generator/Lpf.help.sl
+Unit Generator/max.help.sl
+Unit Generator/MembraneCircle.help.sl
+Unit Generator/MiBraids.help.sl
+Unit Generator/MiClouds.help.sl
+Unit Generator/MidiCps.help.sl
+Unit Generator/MiRings.help.sl
+Unit Generator/Mix.help.sl
+Unit Generator/mod.help.sl
+Unit Generator/MoogFf.help.sl
+Unit Generator/MoogVcf.help.sl
+Unit Generator/MouseButton.help.sl
+Unit Generator/MouseX.help.sl
+Unit Generator/MulAdd.help.sl
+Unit Generator/Multiplexer.help.sl
+Unit Generator/MVerb.help.sl
+Unit Generator/Out.help.sl
+Unit Generator/PenAngle.help.sl
+Unit Generator/PenDown.help.sl
+Unit Generator/Perc.help.sl
+Unit Generator/Perlin3.help.sl
+Unit Generator/Phasor.help.sl
+Unit Generator/PitchShift.help.sl
+Unit Generator/PlayBuf.help.sl
+Unit Generator/Pluck.help.sl
+Unit Generator/PmOsc.help.sl
+Unit Generator/PulseCount.help.sl
+Unit Generator/PulseDivider.help.sl
+Unit Generator/Pulse.help.sl
+Unit Generator/QuadC.help.sl
+Unit Generator/Rand.help.sl
+Unit Generator/Rcd.help.sl
+Unit Generator/RecordBuf.help.sl
+Unit Generator/Resonz.help.sl
+Unit Generator/Rhpf.help.sl
+Unit Generator/RingzBank.help.sl
+Unit Generator/Ringz.help.sl
+Unit Generator/Rlpf.help.sl
+Unit Generator/SamplerIndex.help.sl
+Unit Generator/Saw.help.sl
+Unit Generator/Schmidt.help.sl
+Unit Generator/Scm.help.sl
+Unit Generator/Select2.help.sl
+Unit Generator/Select.help.sl
+Unit Generator/SelectX.help.sl
+Unit Generator/Sequencer.help.sl
+Unit Generator/SfPlay.help.sl
+Unit Generator/SfRead.help.sl
+Unit Generator/ShufflerB.help.sl
+Unit Generator/Sine.help.sl
+Unit Generator/sin.help.sl
+Unit Generator/SinOscBank.help.sl
+Unit Generator/SinOscFb.help.sl
+Unit Generator/SinOsc.help.sl
+Unit Generator/Slew.help.sl
+Unit Generator/Slope.help.sl
+Unit Generator/Sos.help.sl
+Unit Generator/SparseMatrixMixer.help.sl
+Unit Generator/SplayAz.help.sl
+Unit Generator/Stepper.help.sl
+Unit Generator/SvfBp.help.sl
+Unit Generator/SvfHp.help.sl
+Unit Generator/SvfLp.help.sl
+Unit Generator/Sweep.help.sl
+Unit Generator/Sw.help.sl
+Unit Generator/TBufChoose.help.sl
+Unit Generator/TChoose.help.sl
+Unit Generator/TExpRand.help.sl
+Unit Generator/TGrains.help.sl
+Unit Generator/TIRand.help.sl
+Unit Generator/TLine.help.sl
+Unit Generator/TLinRand.help.sl
+Unit Generator/Tr1.help.sl
+Unit Generator/TRand.help.sl
+Unit Generator/Tr.help.sl
+Unit Generator/TrigAllocator.help.sl
+Unit Generator/TScramble.help.sl
+Unit Generator/TwoPole.help.sl
+Unit Generator/VarSaw.help.sl
+Unit Generator/VbJonVerb.help.sl
+Unit Generator/Vibrato.help.sl
+Unit Generator/Voicer.help.sl
+Unit Generator/Vosim.help.sl
+Unit Generator/WhiteNoise.help.sl
+Unit Generator/XFade2.help.sl
+Unit Generator/XLine.help.sl
