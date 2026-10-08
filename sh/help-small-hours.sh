@@ -3,7 +3,9 @@
 r=$HOME/sw/jssc3/text/SmallHoursPrograms.text
 cd ~/sw/spl/Program/SuperCollider
 ls Graph/*.sp > $r
+ls Scheduler/*.sp >> $r
 ls Texture/*.sp >> $r
 ls "Graph Collection"/*.sp >> $r
+ls "Scheduler Collection"/*.sp >> $r
 ls "Texture Collection"/*.sp >> $r
 # ls "Unit Generator"/*.sp >> $r # No author slot...

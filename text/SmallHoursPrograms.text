@@ -400,6 +400,17 @@ Graph/Yh - Oh.sp
 Graph/Yh - Sn.sp
 Graph/Zs - Phase distortion.sp
 Graph/Zs - Toshiya.sp
+Scheduler/F0 - Tw 0003.sp
+Scheduler/F0 - Tw 0004.sp
+Scheduler/F0 - Tw 0005.sp
+Scheduler/F0 - Tw 0101.sp
+Scheduler/F0 - Tw 0202.sp
+Scheduler/F0 - Tw 0205.sp
+Scheduler/F0 - Tw 0293.sp
+Scheduler/F0 - Tw 1591161283591782401.sp
+Scheduler/F0 - Tw 1631979082622566400.sp
+Scheduler/Rar 10300.sp
+Scheduler/Sl - 980525.sp
 Texture/Cr - Lucier.sp
 Texture/F0 - Tw 0001.sp
 Texture/F0 - Tw 0002.sp
@@ -494,4 +505,6 @@ Graph Collection/Rd - Variations.sp
 Graph Collection/Tmm881 - 5296.sp
 Graph Collection/Tmm881 - 6452.sp
 Graph Collection/Va - Sc 140.sp
+Scheduler Collection/F0 - Variations.sp
+Scheduler Collection/Fr - Tidal.sp
 Texture Collection/Jmcc - Sc2 examples.sp
