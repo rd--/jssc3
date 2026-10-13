@@ -1,6 +1,6 @@
 import * as path from 'jsr:@std/path';
 
-export function pathBasename(aPath: string): string {
+export function pathBaseName(aPath: string): string {
 	return path.basename(aPath);
 }
 
