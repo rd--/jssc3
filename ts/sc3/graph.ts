@@ -18,7 +18,7 @@ import {
 	encodeInt8,
 	encodePascalString,
 } from '../kernel/encode.ts';
-import { isNumber } from '../kernel/number.ts';
+import { isNumberOrBigInt } from '../kernel/number.ts';
 import { setAdd, setAsArray, setIncludes, setNew } from '../kernel/set.ts';
 
 import { Tree } from '../stdlib/tree.ts';
@@ -38,14 +38,16 @@ import {
 	UgenInput,
 } from './ugen.ts';
 
+export type ScUgenInput = number | bigint | ScUgen;
+
 /** Traverse graph from p adding leaf nodes to the set c.
  *
  * w protects from loops in multipleRootGraph (when recurring in traversing multipleRootGraph elements w is set to c).
  */
 export function ugenTraverseCollecting(
 	p: Tree<Ugen>,
-	c: Set<number | ScUgen>,
-	w: Set<number | ScUgen>,
+	c: Set<ScUgenInput>,
+	w: Set<ScUgenInput>,
 ): void {
 	// console.debug(`ugenTraverseCollecting: ${p}, ${c}, ${w}`);
 	if (isArray(p)) {
@@ -59,12 +61,16 @@ export function ugenTraverseCollecting(
 			arrayForEach(
 				p.scUgen.inputArray,
 				(item) =>
-					isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, w),
+					isNumberOrBigInt(item)
+					? setAdd(c, Number(item))
+					: ugenTraverseCollecting(item, c, w),
 			);
 			arrayForEach(
 				multipleRootGraphArray,
 				(item) =>
-					isNumber(item) ? setAdd(c, item) : ugenTraverseCollecting(item, c, c),
+					isNumberOrBigInt(item)
+					? setAdd(c, Number(item))
+					: ugenTraverseCollecting(item, c, c),
 			);
 		}
 	} else {
@@ -72,9 +78,9 @@ export function ugenTraverseCollecting(
 	}
 }
 
-export function ugenTreeLeafNodes(p: Tree<Ugen>): Array<number | ScUgen> {
+export function ugenTreeLeafNodes(p: Tree<Ugen>): Array<ScUgenInput> {
 	// console.debug(`ugenTreeLeafNodes: ${p}`);
-	const c = <Set<number | ScUgen>> setNew();
+	const c = <Set<ScUgenInput>> setNew();
 	ugenTraverseCollecting(p, c, setNew());
 	return setAsArray(c);
 }
@@ -112,7 +118,7 @@ export function makeUgenGraph(name: string, signal: Signal): UgenGraph {
 	// console.debug(`makeUgenGraph: ${name}, ${signal}`);
 	const tree = signalToUgenTree(signal);
 	const leafNodes = ugenTreeLeafNodes(tree);
-	const constantNodes = <number[]> arrayFilter(leafNodes, isNumber);
+	const constantNodes = <number[]> arrayFilter(leafNodes, isNumberOrBigInt).map(Number);
 	const controlUgenNodes = <ScUgen[]> arrayFilter(
 		leafNodes,
 		(item) => isScUgen(item) && item.localControl !== null,
@@ -178,7 +184,8 @@ export function graphUgenInputSpec(
 			return [graphUgenIndex(graph, input.scUgen.id), input.port];
 		}
 	} else {
-		return [-1, graphConstantIndex(graph, input)];
+		// number | bigint
+		return [-1, graphConstantIndex(graph, Number(input))];
 	}
 }
 

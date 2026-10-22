@@ -15,7 +15,7 @@ import {
 	ScalarOrArray,
 	scalarOrArraySize,
 } from '../kernel/array.ts';
-import { isNumber } from '../kernel/number.ts';
+import { isNumberOrBigInt } from '../kernel/number.ts';
 import { isObject } from '../kernel/object.ts';
 import { setAdd, setNew } from '../kernel/set.ts';
 import { stringCompare } from '../kernel/string.ts';
@@ -76,7 +76,7 @@ export function sortLocalControls(controls: LocalControl[]): LocalControl[] {
 
 const ugenCounter: Counter = counterNew();
 
-export type UgenInput = number | Ugen;
+export type UgenInput = number | bigint | Ugen;
 
 export type Signal = Tree<UgenInput>;
 
@@ -85,8 +85,8 @@ export function signalSize(aSignal: Signal): number {
 }
 
 export function signalNumber(aSignal: Signal): number {
-	if (isNumber(aSignal)) {
-		return aSignal;
+	if (isNumberOrBigInt(aSignal)) {
+		return Number(aSignal);
 	} else {
 		throw new Error('signalNumber: not a number?');
 	}
@@ -210,7 +210,7 @@ export function isUgenByName(aValue: unknown): aValue is Ugen {
 }
 
 export function isUgenInput(aValue: unknown): aValue is UgenInput {
-	return isNumber(aValue) || isUgen(aValue);
+	return isNumberOrBigInt(aValue) || isUgen(aValue);
 }
 
 export function isSignal(aValue: unknown): aValue is Signal {
@@ -232,14 +232,12 @@ export function inputBranch<T>(
 ): T {
 	if (isUgen(input)) {
 		return onUgen(input);
-	} else if (isNumber(input)) {
-		return onNumber(input);
+	} else if (isNumberOrBigInt(input)) {
+		return onNumber(Number(input));
 	} else {
 		onError();
 		throw new Error(
-			`inputBranch: unknown input type: ${input}, ${typeof input}, ${
-				isUgen(input)
-			}, ${isNumber(input)}`,
+			`inputBranch: unknown input type: ${input}, ${typeof input}`
 		);
 	}
 }
@@ -266,8 +264,8 @@ export function deriveRate(
 	inputArray: UgenInput[],
 ): number {
 	// console.debug(`deriveRate: ${rateOrFilterUgenInputs} ${inputArray}`);
-	if (isNumber(rateOrFilterUgenInputs)) {
-		return rateOrFilterUgenInputs;
+	if (isNumberOrBigInt(rateOrFilterUgenInputs)) {
+		return Number(rateOrFilterUgenInputs);
 	} else {
 		return arrayMaxItem(
 			arrayMap(
@@ -392,7 +390,7 @@ export function krMutateInPlace(input: Tree<UgenInput | ScUgen>): void {
 		// console.debug(`kr: array: ${input}`);
 		arrayForEach(input, (item) => krMutateInPlace(item));
 	} else {
-		if (!isNumber(input)) {
+		if (!isNumberOrBigInt(input)) {
 			throw new Error(`krMutateInPlace: ${input} ${typeof input}`);
 		}
 	}
@@ -409,7 +407,8 @@ export function UnaryOpWithConstantOptimiser(
 	specialIndex: number,
 	input: Signal,
 ): Signal {
-	if (isNumber(input)) {
+	if (isNumberOrBigInt(input)) {
+		input = Number(input);
 		switch (specialIndex) {
 			case 0:
 				return 0 - input;
@@ -481,14 +480,14 @@ export function UnaryOpWithConstantOptimiser(
 }
 
 // [1, [], [1], [1, 2], [1, null], SinOsc(440, 0), [SinOsc(440, 0)]].map(isArrayConstant)
-export function isArrayConstant(aValue: unknown): aValue is Array<number> {
-	return isArray(aValue) && arrayEvery(aValue, isNumber);
+export function isArrayConstant(aValue: unknown): aValue is Array<number | bigint> {
+	return isArray(aValue) && arrayEvery(aValue, isNumberOrBigInt);
 }
 
 export function UnaryOp(specialIndex: number, input: Signal): Signal {
-	if (isArray(input) && arrayEvery(input, isNumber)) {
+	if (isArrayConstant(input)) {
 		return arrayMap(
-			(item) => UnaryOpWithConstantOptimiser(specialIndex, item),
+			(item) => UnaryOpWithConstantOptimiser(specialIndex, Number(item)),
 			input,
 		);
 	} else {
@@ -501,7 +500,9 @@ export function BinaryOpWithConstantOptimiser(
 	lhs: UgenInput,
 	rhs: UgenInput,
 ): Signal {
-	if (isNumber(lhs) && isNumber(rhs)) {
+	if (isNumberOrBigInt(lhs) && isNumberOrBigInt(rhs)) {
+		lhs = Number(lhs);
+		rhs = Number(rhs);
 		switch (specialIndex) {
 			case 0:
 				return lhs + rhs;

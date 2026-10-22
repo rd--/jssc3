@@ -4,7 +4,7 @@ import {
 	arrayMap,
 	arrayReplicate,
 } from '../kernel/array.ts';
-import { isNumber } from '../kernel/number.ts';
+import { isNumberOrBigInt } from '../kernel/number.ts';
 
 import {
 	graphUgenIndex,
@@ -15,7 +15,7 @@ import {
 } from './graph.ts';
 import { wrapOut } from './pseudo.ts';
 import { rateSelector } from './rate.ts';
-import { isLocalControl, isUgen, ScUgen, Signal, Ugen } from './ugen.ts';
+import { isLocalControl, isUgen, ScUgen, Signal, Ugen, UgenInput } from './ugen.ts';
 
 export function ugenGraphPrintUgenSpec(graph: UgenGraph, ugen: ScUgen): void {
 	console.log(
@@ -58,7 +58,7 @@ export function printSyndefOf(ugen: Signal): void {
 
 export function ugenGraphInputDisplayName(
 	graph: UgenGraph,
-	input: Ugen | number,
+	input: UgenInput,
 ): string {
 	if (isUgen(input)) {
 		if (isLocalControl(input)) {
@@ -72,8 +72,8 @@ export function ugenGraphInputDisplayName(
 				: '';
 			return `${id}_${nm}${ix}`;
 		}
-	} else if (isNumber(input)) {
-		return String(input);
+	} else if (isNumberOrBigInt(input)) {
+		return String(Number(input));
 	} else {
 		console.error('ugenGraphInputDisplayName', input);
 		return '?';

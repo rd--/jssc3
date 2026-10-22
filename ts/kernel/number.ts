@@ -1,5 +1,11 @@
-export function isNumber(aValue: unknown): aValue is number {
-	return (typeof aValue === 'number');
+// Predicate that determines if x is a number.
+export function isNumber(x: unknown): x is number {
+	return (typeof x === 'number');
+}
+
+// Predicate that determines if x is a number or bigint.
+export function isNumberOrBigInt(x: unknown): x is number | bigint {
+	return (typeof x === 'number' || typeof x === 'bigint');
 }
 
 export const numberPi: number = Math.PI;
@@ -15,6 +21,6 @@ export function numberTimesRepeat(
 	}
 }
 
-export function numberToString(aNumber: number): string {
-	return Number(aNumber).toString();
+export function numberToString(x: number): string {
+	return Number(x).toString();
 }
