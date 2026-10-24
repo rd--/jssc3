@@ -15,7 +15,14 @@ import {
 } from './graph.ts';
 import { wrapOut } from './pseudo.ts';
 import { rateSelector } from './rate.ts';
-import { isLocalControl, isUgen, ScUgen, Signal, Ugen, UgenInput } from './ugen.ts';
+import {
+	isLocalControl,
+	isUgen,
+	ScUgen,
+	Signal,
+	Ugen,
+	UgenInput,
+} from './ugen.ts';
 
 export function ugenGraphPrintUgenSpec(graph: UgenGraph, ugen: ScUgen): void {
 	console.log(

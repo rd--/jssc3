@@ -62,15 +62,15 @@ export function ugenTraverseCollecting(
 				p.scUgen.inputArray,
 				(item) =>
 					isNumberOrBigInt(item)
-					? setAdd(c, Number(item))
-					: ugenTraverseCollecting(item, c, w),
+						? setAdd(c, Number(item))
+						: ugenTraverseCollecting(item, c, w),
 			);
 			arrayForEach(
 				multipleRootGraphArray,
 				(item) =>
 					isNumberOrBigInt(item)
-					? setAdd(c, Number(item))
-					: ugenTraverseCollecting(item, c, c),
+						? setAdd(c, Number(item))
+						: ugenTraverseCollecting(item, c, c),
 			);
 		}
 	} else {
@@ -118,7 +118,9 @@ export function makeUgenGraph(name: string, signal: Signal): UgenGraph {
 	// console.debug(`makeUgenGraph: ${name}, ${signal}`);
 	const tree = signalToUgenTree(signal);
 	const leafNodes = ugenTreeLeafNodes(tree);
-	const constantNodes = <number[]> arrayFilter(leafNodes, isNumberOrBigInt).map(Number);
+	const constantNodes = <number[]> arrayFilter(leafNodes, isNumberOrBigInt).map(
+		Number,
+	);
 	const controlUgenNodes = <ScUgen[]> arrayFilter(
 		leafNodes,
 		(item) => isScUgen(item) && item.localControl !== null,

@@ -21,7 +21,7 @@ export function pathJoin(pathArray: string[]): string {
 }
 
 export function pathStem(aPath: string): string {
-	return path.parse(aPath).name
+	return path.parse(aPath).name;
 }
 
 export function pathNormalize(aPath: string): string {

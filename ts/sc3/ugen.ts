@@ -237,7 +237,7 @@ export function inputBranch<T>(
 	} else {
 		onError();
 		throw new Error(
-			`inputBranch: unknown input type: ${input}, ${typeof input}`
+			`inputBranch: unknown input type: ${input}, ${typeof input}`,
 		);
 	}
 }
@@ -480,7 +480,9 @@ export function UnaryOpWithConstantOptimiser(
 }
 
 // [1, [], [1], [1, 2], [1, null], SinOsc(440, 0), [SinOsc(440, 0)]].map(isArrayConstant)
-export function isArrayConstant(aValue: unknown): aValue is Array<number | bigint> {
+export function isArrayConstant(
+	aValue: unknown,
+): aValue is Array<number | bigint> {
 	return isArray(aValue) && arrayEvery(aValue, isNumberOrBigInt);
 }
 
