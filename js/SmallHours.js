@@ -12,7 +12,7 @@ export function evalRegion() {
 export function playRegion() {
 	eval(
 		sl.rewriteSlToJs(
-			`{ ${_paragraphAtCaret_1(window)} }.value.play`,
+			`{ ${_paragraphAtCaret_1(window)} }.nullaryApply.play`,
 		),
 	);
 }

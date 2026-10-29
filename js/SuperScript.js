@@ -1,4 +1,5 @@
 import * as sc from '../dist/jssc3.js';
+import * as sl from '../lib/spl/dist/sl.js';
 
 let mostRecentUgenGraph = null;
 
@@ -11,12 +12,11 @@ function jsPlay() {
 	playUgen(eval(sc.getSelectedText()));
 }
 
-function stcPlay() {
-	const stcText = sc.getSelectedText();
-	console.log(`stcPlay: ${stcText}`);
-	sc.stcToJs(stcText).then(
-		(jsText) => playUgen(eval(jsText)),
-	);
+export function splPlay() {
+	const splText = sc.getSelectedText();
+	const jsText = sl.rewriteSlToJs(splText);
+	console.log(`splPlay: ${jsText}`)
+	playUgen(eval(jsText))
 }
 
 function insertMarkdown(text) {
@@ -35,15 +35,17 @@ export function loadMd() {
 function ugenHelp() {
 	const name = sc.getSelectedText();
 	if (name.length > 0) {
-		const helpPrefix = './lib/spl/help/Reference';
+		const helpPrefix = './lib/spl/Help/Reference';
 		const url = `${helpPrefix}/${name}.help.sl`;
 		sc.fetchUtf8(url, { cache: 'no-cache' }).then(insertMarkdown);
 	}
 }
 
 export function onKeyPress(event) {
+	console.log(`onKeyPress: ${event.key}`);
 	if (event.ctrlKey && event.key === 'Enter') {
-		stcPlay();
+		console.log(`onKeyPress: splPlay`);
+		splPlay();
 	} else if (event.ctrlKey && event.key === ',') {
 		jsPlay();
 	} else if (event.ctrlKey && event.key === '.') {

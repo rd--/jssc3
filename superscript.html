@@ -8,15 +8,27 @@
 		<link rel="stylesheet" type="text/css" media="all" href="css/SuperScript.css" />
 		<script src="lib/scsynth-wasm-builds/lib/ext/osc-browser.js"></script>
 		<script type="module">
-import * as sc from './dist/jssc3.js' // local
+import * as sc from './dist/jssc3.js' /* local */
+import * as sl from './lib/spl/dist/sl.js' /* local */
 import * as wr from './js/SuperScript.js'
 globalThis.sc = sc;
+globalThis.sl = sl;
 globalThis.wr = wr;
+sl.addLoadUrlMethods();
 window.onload = function () {
 	globalThis.globalScSynth = sc.ScSynthWasm();
 	sc.scSynthInitStatusTextListener(globalScSynth, '---');
 	sc.sc3MouseInit(globalScSynth);
 	sc.connectButtonToInput('programInputFileSelect', 'programInputFile');
+	sl.assignGlobals();
+	sl.setSplDir('lib/spl');
+	sl.loadUrl('*Load*', 'Package/Meta/PackageIndex.sl').then(function() {
+		sl.primitiveLoadPackageSequence([
+			'Kernel',
+			'StandardLibrary',
+			'SuperColliderLibrary'
+		]);
+	});
 	document.getElementById('documentContainer').addEventListener('keydown', wr.onKeyPress);
 	wr.loadHelp();
 };

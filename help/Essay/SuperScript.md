@@ -51,22 +51,22 @@ sc.OverlapTexture((tr) => {
 }, 7, 4, 4)
 ```
 
-## C-Smalltalk
+## Simple Programming Language
 
-SuperScript programs can also be written in _C-Smalltalk_ notation.
-In this notation the sine tone program given above is written `SinOsc(440, 0) * 0.1`.
+SuperScript programs can also be written in _Simple Programming Language_ (Sᴘʟ) notation.
+In this notation the sine tone program given above is written `sinOsc(440, 0) * 0.1`.
 Programs written in this notation may be executed by typing _Control-Enter_.
 
 (The period at the end of the sentence containing the program in the paragraph above is not a part of the program.
 If it is accidentally selected the program will have a _syntax error_ and a there will be no sound.)
 
-C-Smalltalk and JavaScript notations are similar in many ways.
-One difference is that C-Smalltalk allows _infix_ operators.
+Sᴘʟ and JavaScript notations are similar in many ways.
+One difference is that Sᴘʟ allows _infix_ operators.
 Here the infix _*_ operator replaces the prefix _sc.Mul_ procedure.
 (In JavaScript operators can be applied only to simple numbers, not to sounds.)
 
 The function syntax is also somewhat different, as can be seen in the program below.
-This program generates overlapping sine tones with random frequency and panning parameters.
+This program generates overlapping sine tones with random frequency and panning parameters:
 
 ```
 sc.OverlapTexture(
@@ -79,25 +79,26 @@ sc.OverlapTexture(
 )
 ```
 
-This is the same program written in C-Smalltalk notation.
+This is the same program written in Sᴘʟ notation:
 
 ```
-OverlapTexture({ :tr |
-	Pan2(
-		SinOsc(TRand(20, 2000, tr), 0),
-		TRand(-1, 1, tr),
+{ :tr |
+	pan2(
+		sinOsc(tRand(20, 2000, tr), 0),
+		tRand(-1, 1, tr),
 		0.05
 	)
-}, 5, 2, 9)
+}.overlapTexture(5, 2, 9).sum
 ```
 
 ## Ugen Help
 
-The _Spl_ help files for unit generators can be loaded into SuperScript.
-The help files contain example programs written in _Spl_ notation,
-which is very similar to C-Smalltalk notation.
+The Sᴘʟ help files for unit generators can be loaded into SuperScript.
+The help files contain example programs written in Sᴘʟ notation.
 
-Selecting the name of a Ugen, for instance _SinOsc_ and typing _Control-Shift-H_ will load the help file.
+Selecting the name of a Ugen,
+for instance `sinOsc`,
+and typing _Control-Shift-H_ will load the help file.
 At present this replaces any existing text, so be careful!
 The [Small Hours](./smallhours.html) editor has two panes to avoid this problem, and also maintains a history for traversal.
 
@@ -148,6 +149,7 @@ The JavaScript SuperCollider library contains functions to define sound processi
 The browser environment allows for programs to be written as rich text documents (Lampson 1979).
 The area containing this text is a simple editor, there are the usual key commands for formatting, i.e. _Ctrl-i_ to italicise the selected text &etc.
 
+<!--
 ## What is C-Smalltalk?
 
 C-Smalltalk is a C-like (Ritchie 1978) syntax for Smalltalk (Kay 1993).
@@ -160,10 +162,11 @@ Smalltalk SuperCollider includes a
 [parser](https://gitlab.com/rd--/stsc3/-/blob/master/Language/Smalltalk/SuperCollider/Parser.y) definitions.
 
 There is a [translator](https://rohandrape.net/pub/stsc3/html/stsc3.html) from C-Smalltalk to JavaScript notation.
+-->
 
 ## What is Simple Programming Language?
 
-[Simple Programming Language](./spl.html) is a Scheme family language that can run SuperCollider programs written in C-Smalltalk notation.
+[Simple Programming Language](./spl.html) (Sᴘʟ) is a Scheme family language that can run SuperCollider programs written in Sᴘʟ notation.
 
 * * *
 
@@ -212,7 +215,7 @@ Worcester Park, Surrey, 1985.
 
 * * *
 
-February 2022; Last modified October 2024
+February 2022; Last modified October 2026
 
 <!--
 
