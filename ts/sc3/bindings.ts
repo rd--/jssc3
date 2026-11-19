@@ -231,7 +231,7 @@ export function BufRateScale(bufnum: Signal): Signal {
 }
 /** Buffer reading oscillator. */
 export function BufRd(
-	numChan: number,
+	numChan: number | bigint,
 	bufnum: Signal,
 	phase: Signal,
 	loop: Signal,
@@ -413,7 +413,7 @@ export function Decay2(
 }
 /** 2D Ambisonic B-format decoder. */
 export function DecodeB2(
-	numChan: number,
+	numChan: number | bigint,
 	w: Signal,
 	x: Signal,
 	y: Signal,
@@ -533,7 +533,7 @@ export function Ddup(n: Signal, input: Signal): Signal {
 	return makeUgen('Ddup', 1, rateDr, 0, [n, input]);
 }
 export function Demultiplexer(
-	numChannels: number,
+	numChannels: number | bigint,
 	input: Signal,
 	selector: Signal,
 ): Signal {
@@ -851,7 +851,7 @@ export function Gendy3(
 }
 /** Granular synthesis with sound stored in a buffer */
 export function GrainBuf(
-	numChan: number,
+	numChan: number | bigint,
 	trigger: Signal,
 	dur: Signal,
 	sndbuf: Signal,
@@ -876,7 +876,7 @@ export function GrainBuf(
 }
 /** Granular synthesis with frequency modulated sine tones */
 export function GrainFm(
-	numChan: number,
+	numChan: number | bigint,
 	trigger: Signal,
 	dur: Signal,
 	carfreq: Signal,
@@ -899,7 +899,7 @@ export function GrainFm(
 }
 /** Granular synthesis with sine tones */
 export function GrainSin(
-	numChan: number,
+	numChan: number | bigint,
 	trigger: Signal,
 	dur: Signal,
 	freq: Signal,
@@ -1005,7 +1005,7 @@ export function Impulse(freq: Signal, phase: Signal): Signal {
 	return makeUgen('Impulse', 1, rateAr, 0, [freq, phase]);
 }
 /** Read a signal from a bus. */
-export function In(numChan: number, bus: Signal): Signal {
+export function In(numChan: number | bigint, bus: Signal): Signal {
 	return makeUgen('In', numChan, rateAr, 0, [bus]);
 }
 /** Index into a table with a signal */
@@ -1017,7 +1017,7 @@ export function IndexInBetween(bufnum: Signal, input: Signal): Signal {
 	return makeUgen('IndexInBetween', 1, [1], 0, [bufnum, input]);
 }
 /** Read signal from a bus with a current or one cycle old timestamp. */
-export function InFeedback(numChan: number, bus: Signal): Signal {
+export function InFeedback(numChan: number | bigint, bus: Signal): Signal {
 	return makeUgen('InFeedback', numChan, rateAr, 0, [bus]);
 }
 /** Tests if a signal is within a given range. */
@@ -1281,7 +1281,7 @@ export function LocalBuf(numChannels: Signal, numFrames: Signal): Signal {
 	return makeUgen('LocalBuf', 1, rateIr, 0, [numChannels, numFrames]);
 }
 /** Define and read from buses local to a synth. */
-export function LocalIn(numChan: number, defaultValue: Signal): Signal {
+export function LocalIn(numChan: number | bigint, defaultValue: Signal): Signal {
 	return makeUgen(
 		'LocalIn',
 		numChan,
@@ -1570,7 +1570,7 @@ export function PitchShift(
 }
 /** Sample playback oscillator. */
 export function PlayBuf(
-	numChan: number,
+	numChan: number | bigint,
 	bufnum: Signal,
 	rate: Signal,
 	trigger: Signal,
@@ -1959,7 +1959,7 @@ export function TExpRand(lo: Signal, hi: Signal, trig: Signal): Signal {
 }
 /** Buffer granulator. */
 export function TGrains(
-	numChan: number,
+	numChan: number | bigint,
 	trigger: Signal,
 	bufnum: Signal,
 	rate: Signal,
@@ -2056,7 +2056,7 @@ export function Vibrato(
 }
 /** Warp a buffer with a time pointer */
 export function Warp1(
-	numChan: number,
+	numChan: number | bigint,
 	bufnum: Signal,
 	pointer: Signal,
 	freqScale: Signal,
@@ -2242,7 +2242,7 @@ export function Dx7Env(
 	]);
 }
 /** (Undocumented class) */
-export function ExpRandN(numChan: number, lo: Signal, hi: Signal): Signal {
+export function ExpRandN(numChan: number | bigint, lo: Signal, hi: Signal): Signal {
 	return makeUgen('ExpRandN', numChan, rateIr, 0, [lo, hi]);
 }
 /** Phase modulation oscillator matrix. */
@@ -2331,7 +2331,7 @@ export function LfBrownNoise1(freq: Signal, dev: Signal, dist: Signal): Signal {
 }
 /** (Undocumented class) */
 export function LinRandN(
-	numChan: number,
+	numChan: number | bigint,
 	lo: Signal,
 	hi: Signal,
 	minmax: Signal,
@@ -2468,7 +2468,7 @@ export function Perlin3(x: Signal, y: Signal, z: Signal): Signal {
 	return makeUgen('Perlin3', 1, rateAr, 0, [x, y, z]);
 }
 /** (Undocumented class) */
-export function RandN(numChan: number, lo: Signal, hi: Signal): Signal {
+export function RandN(numChan: number | bigint, lo: Signal, hi: Signal): Signal {
 	return makeUgen('RandN', numChan, rateIr, 0, [lo, hi]);
 }
 /** rotating clock divider */
@@ -2620,7 +2620,7 @@ export function TScramble(trigger: Signal, inputs: Signal): Signal {
 }
 /** (Undocumented class) */
 export function TrigAllocator(
-	numChannels: number,
+	numChannels: number | bigint,
 	algorithm: Signal,
 	input: Signal,
 	dur: Signal,
@@ -2632,7 +2632,7 @@ export function TrigAllocator(
 	]);
 }
 /** (Undocumented class) */
-export function TrigRoundRobin(numChannels: number, input: Signal): Signal {
+export function TrigRoundRobin(numChannels: number | bigint, input: Signal): Signal {
 	return makeUgen('TrigRoundRobin', numChannels, [0], 0, [input]);
 }
 /** Artifical reverberator */
@@ -2689,7 +2689,7 @@ export function WDistances(
 }
 /** Not at Hsc3Db. Note Kr. */
 export function WkNearest(
-	numChannels: number,
+	numChannels: number | bigint,
 	gate: Signal,
 	x: Signal,
 	y: Signal,

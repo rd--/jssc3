@@ -29,9 +29,11 @@ export const sc3Buffer: {
 /** Fetch buffer index from cache, allocate and load if required. Resolve soundFileId against dictionary. */
 export function SfAcquire(
 	urlOrKey: string,
-	numberOfChannels: number,
-	channelIndices: number[],
+	numberOfChannels: number | bigint,
+	channelIndices: number[] | bigint[],
 ): number[] {
+	numberOfChannels = Number(numberOfChannels);
+	channelIndices = channelIndices.map(Number);
 	if (!globalThis.globalScSynth) {
 		throw new Error('SfAcquire: no scSynth?');
 	} else {
@@ -58,10 +60,10 @@ export function SfAcquire(
 
 export function SfAcquire1(
 	urlOrKey: string,
-	numberOfChannels: number,
-	channelIndex: number,
+	numberOfChannels: number | bigint,
+	channelIndex: number | bigint,
 ): number {
-	return SfAcquire(urlOrKey, numberOfChannels, [channelIndex])[0];
+	return SfAcquire(urlOrKey, Number(numberOfChannels), [Number(channelIndex)])[0];
 }
 
 /*

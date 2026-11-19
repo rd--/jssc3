@@ -12,6 +12,13 @@ export function scalarOrArray<T, U>(
 	return isArray(maybeArray) ? arrayFunc(maybeArray) : scalarFunc(maybeArray);
 }
 
+export function scalarOrArrayMap<T, U>(
+	maybeArray: ScalarOrArray<T>,
+	scalarFunc: (aScalar: T) => U
+): ScalarOrArray<U> {
+	return isArray(maybeArray) ? maybeArray.map(scalarFunc) : scalarFunc(maybeArray);
+}
+
 export function scalarOrArraySize<T>(maybeArray: ScalarOrArray<T>): number {
 	return isArray(maybeArray) ? maybeArray.length : 1;
 }

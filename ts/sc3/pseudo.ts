@@ -187,7 +187,7 @@ export function LinLin(
 	return Add(Mul(input, scale), offset);
 }
 
-export function InFb(numChannels: number, bus: Signal): Signal {
+export function InFb(numChannels: number | bigint, bus: Signal): Signal {
 	return InFeedback(numChannels, bus);
 }
 
@@ -371,7 +371,7 @@ export function UnitCps(a: Signal): Signal {
 }
 
 /** Read a signal from a control bus. */
-export function ControlIn(numChannels: number, bus: Signal): Signal {
+export function ControlIn(numChannels: number | bigint, bus: Signal): Signal {
 	return kr(In(numChannels, bus));
 }
 
@@ -462,10 +462,11 @@ export function PingPongDelay(
 }
 
 export function MultiTapDelay(
-	timesArray: number[],
+	timesArray: number[] | bigint[],
 	levelsArray: Signal[],
 	input: Signal,
 ): Signal {
+	timesArray = timesArray.map(Number);
 	const delayFrames = Mul(arrayMaxItem(timesArray), SampleRate());
 	const buf = BufClear(BufAlloc(1, delayFrames));
 	const writer = DelayWrite(buf, input);

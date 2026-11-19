@@ -14,6 +14,7 @@ import {
 	isArray,
 	ScalarOrArray,
 	scalarOrArraySize,
+	scalarOrArrayMap
 } from '../kernel/array.ts';
 import { isBigInt, isNumber } from '../kernel/number.ts';
 import { isObject } from '../kernel/object.ts';
@@ -77,6 +78,9 @@ export function sortLocalControls(controls: LocalControl[]): LocalControl[] {
 
 const ugenCounter: Counter = counterNew();
 
+// Type of "world" constants
+export type UgenConstant = number | bigint | Fraction;
+
 // Type of "world" inputs
 export type UgenInput = number | bigint | Fraction | Ugen;
 
@@ -88,6 +92,16 @@ export type Signal = Tree<UgenInput>;
 
 // Narrowed type of "internal" signals
 export type ScSignal = Tree<ScUgenInput>;
+
+export function narrowUgenConstant(x: UgenConstant): number {
+	if(isFraction(x)) {
+		return fractionToNumber(x);
+	};
+	if(isBigInt(x)) {
+		return Number(x);
+	}
+	return x;
+}
 
 export function narrowUgenInput(x: UgenInput): ScUgenInput {
 	if(isFraction(x)) {
@@ -322,19 +336,20 @@ export function mceInputTransform(
 
 export function makeUgen(
 	name: string,
-	numChannels: ScalarOrArray<number>,
+	numChannels: ScalarOrArray<number | bigint>,
 	rateSpec: RateSpec,
 	specialIndex: number,
 	signalArray: Signal[],
 ): ScSignal {
 	const scSignalArray = signalArray.map(narrowSignal);
-	// console.debug(`makeUgen: ${name} ${numChannels} ${rateSpec} ${specialIndex} ${signalArray}`);
-	if (isArray(numChannels) || requiresMce(scSignalArray)) {
-		const atLeast = scalarOrArraySize(numChannels);
+	const scNumChannels = scalarOrArrayMap(numChannels, Number);
+	// console.debug(`makeUgen: ${name} ${scNumChannels} ${rateSpec} ${specialIndex} ${scSignalArray}`);
+	if (isArray(scNumChannels) || requiresMce(scSignalArray)) {
+		const atLeast = scalarOrArraySize(scNumChannels);
 		const expandedScSignalArray = mceInputTransform(atLeast, scSignalArray);
 		const expandedSize = expandedScSignalArray.length;
 		const expandedNumChannels = arrayExtendCyclically(
-			asArray(numChannels),
+			asArray(scNumChannels),
 			expandedSize,
 		);
 		// console.debug('Mce', expandedSize, expandedNumChannels);
@@ -352,20 +367,20 @@ export function makeUgen(
 		const derivedRate = deriveRate(rateSpec, inputArray);
 		const scUgen = new ScUgen(
 			name,
-			numChannels,
+			scNumChannels,
 			derivedRate,
 			specialIndex,
 			inputArray,
 		);
 		// console.debug('No-Mce', derivedRate);
-		switch (numChannels) {
+		switch (scNumChannels) {
 			case 0:
 				return new Ugen(scUgen, nilPort);
 			case 1:
 				return new Ugen(scUgen, 0);
 			default:
 				return arrayFillWithIndex(
-					numChannels,
+					scNumChannels,
 					(item) => new Ugen(scUgen, item),
 				);
 		}

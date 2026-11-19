@@ -2,14 +2,17 @@ import { arrayFromTo, arrayMap, arrayReduce } from '../kernel/array.ts';
 
 import { Add, Impulse, Mul } from './bindings.ts';
 import { Env, EnvGen } from './envelope.ts';
-import { kr, Signal } from './ugen.ts';
+import { Signal, UgenConstant, kr, narrowUgenConstant } from './ugen.ts';
 
 export function OverlapTextureArray(
 	graphFunc: (tr: Signal) => Signal,
-	sustainTime: number,
-	transitionTime: number,
-	overlap: number,
+	sustainTime: UgenConstant,
+	transitionTime: UgenConstant,
+	overlap: UgenConstant,
 ): Signal[] {
+	sustainTime = narrowUgenConstant(sustainTime);
+	transitionTime = narrowUgenConstant(transitionTime);
+	overlap = narrowUgenConstant(overlap);
 	const voiceFunction = function (i: number): Signal {
 		const trg = kr(
 			Impulse(1 / (sustainTime + (transitionTime * 2)), i / overlap),
@@ -31,9 +34,9 @@ export function OverlapTextureArray(
 
 export function OverlapTexture(
 	graphFunc: (tr: Signal) => Signal,
-	sustainTime: number,
-	transitionTime: number,
-	overlap: number,
+	sustainTime: UgenConstant,
+	transitionTime: UgenConstant,
+	overlap: UgenConstant,
 ): Signal {
 	return arrayReduce(
 		OverlapTextureArray(graphFunc, sustainTime, transitionTime, overlap),
@@ -43,9 +46,11 @@ export function OverlapTexture(
 
 export function XFadeTexture(
 	graphFunc: (tr: Signal) => Signal,
-	sustainTime: number,
-	transitionTime: number,
+	sustainTime: UgenConstant,
+	transitionTime: UgenConstant,
 ): Signal {
+	sustainTime = narrowUgenConstant(sustainTime);
+	transitionTime = narrowUgenConstant(transitionTime);
 	const envDur = (sustainTime + transitionTime) * 2;
 	const voiceFunction = function (phase: number): Signal {
 		const trg = kr(Impulse(1 / envDur, phase));
