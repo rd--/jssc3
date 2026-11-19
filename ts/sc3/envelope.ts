@@ -13,7 +13,7 @@ import { queueAsArray, queueNew, queuePush } from '../stdlib/queue.ts';
 
 import { Fdiv, Mul } from './bindings.ts';
 import { rateAr } from './rate.ts';
-import { makeUgen, Signal, UgenInput } from './ugen.ts';
+import { Signal, UgenInput, makeUgen } from './ugen.ts';
 
 export const envCurveDictionary: Record<string, number> = {
 	step: 0,

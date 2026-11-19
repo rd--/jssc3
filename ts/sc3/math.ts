@@ -1,20 +1,20 @@
-export function absDif(self: number, aNumber: number) {
-	return Math.abs(self - aNumber);
+export function absDif(self: number, operand: number) {
+	return Math.abs(self - operand);
 }
 
-export function amClip(self: number, aNumber: number) {
-	if (aNumber <= 0) {
+export function amClip(self: number, operand: number) {
+	if (operand <= 0) {
 		return 0;
 	}
-	return self * aNumber;
+	return self * operand;
 }
 
 export function ampDb(self: number) {
 	return Math.log10(self) * 20;
 }
 
-export function clip2(self: number, aNumber: number) {
-	return self < -aNumber ? -aNumber : (self > aNumber ? aNumber : self);
+export function clip2(self: number, operand: number) {
+	return self < -operand ? -operand : (self > operand ? operand : self);
 }
 
 export function coin(self: number) {
@@ -33,12 +33,12 @@ export function dbAmp(self: number) {
 	return Math.pow(10, self * 0.05);
 }
 
-export function difSqr(self: number, aNumber: number) {
-	return (self * self) - (aNumber * aNumber);
+export function difSqr(self: number, operand: number) {
+	return (self * self) - (operand * operand);
 }
 
-export function hypot(self: number, aNumber: number) {
-	return Math.sqrt((self * self) + (aNumber * aNumber));
+export function hypot(self: number, operand: number) {
+	return Math.sqrt((self * self) + (operand * operand));
 }
 
 export function midiCps(self: number) {
@@ -53,11 +53,11 @@ export function octCps(self: number) {
 	return 440.0 * Math.pow(2.0, self - 4.75);
 }
 
-export function pow(self: number, aNumber: number) {
+export function pow(self: number, operand: number) {
 	if (self < 0) {
-		return -Math.pow(-self, aNumber);
+		return -Math.pow(-self, operand);
 	}
-	return Math.pow(self, aNumber);
+	return Math.pow(self, operand);
 }
 
 export function ratioMidi(self: number) {

@@ -15,13 +15,14 @@ import {
 	ScalarOrArray,
 	scalarOrArraySize,
 } from '../kernel/array.ts';
-import { isNumberOrBigInt } from '../kernel/number.ts';
+import { isBigInt, isNumber } from '../kernel/number.ts';
 import { isObject } from '../kernel/object.ts';
 import { setAdd, setNew } from '../kernel/set.ts';
 import { stringCompare } from '../kernel/string.ts';
 
 import { Counter, counterNew } from '../stdlib/counter.ts';
-import { Tree } from '../stdlib/tree.ts';
+import { Tree, treeMap } from '../stdlib/tree.ts';
+import { Fraction, isFraction, fractionToNumber } from '../stdlib/fraction.ts';
 
 import * as scMath from './math.ts';
 import { binaryOperatorName, unaryOperatorName } from './operators.ts';
@@ -76,20 +77,47 @@ export function sortLocalControls(controls: LocalControl[]): LocalControl[] {
 
 const ugenCounter: Counter = counterNew();
 
-export type UgenInput = number | bigint | Ugen;
+// Type of "world" inputs
+export type UgenInput = number | bigint | Fraction | Ugen;
 
+// Narrowed type of "internal" inputs
+export type ScUgenInput = number | Ugen;
+
+// Type of "world" signals
 export type Signal = Tree<UgenInput>;
 
-export function signalSize(aSignal: Signal): number {
-	return isArray(aSignal) ? aSignal.length : 1;
+// Narrowed type of "internal" signals
+export type ScSignal = Tree<ScUgenInput>;
+
+export function narrowUgenInput(x: UgenInput): ScUgenInput {
+	if(isFraction(x)) {
+		return fractionToNumber(x);
+	};
+	if(isBigInt(x)) {
+		return Number(x);
+	}
+	return x;
 }
 
-export function signalNumber(aSignal: Signal): number {
-	if (isNumberOrBigInt(aSignal)) {
-		return Number(aSignal);
-	} else {
-		throw new Error('signalNumber: not a number?');
+export function narrowSignal(x: Signal): ScSignal {
+	return treeMap(x, narrowUgenInput);
+}
+
+export function signalSize(x: Signal): number {
+	return isArray(x) ? x.length : 1;
+}
+
+export function signalNumber(x: Signal): number {
+	if (isNumber(x)) {
+		return x;
 	}
+	if (isBigInt(x)) {
+		return Number(x);
+	}
+	if (isFraction(x)) {
+		return fractionToNumber(x);
+	}
+	throw new Error('signalNumber: not a number?');
 }
 
 export class ScUgen {
@@ -98,15 +126,15 @@ export class ScUgen {
 	rate: number;
 	specialIndex: number;
 	id: number;
-	inputArray: UgenInput[];
-	multipleRootGraph: Set<UgenInput>;
+	inputArray: ScUgenInput[];
+	multipleRootGraph: Set<ScUgenInput>;
 	localControl: null | LocalControl;
 	constructor(
 		name: string,
 		numChannels: number,
 		rate: number,
 		specialIndex: number,
-		inputArray: UgenInput[],
+		inputArray: ScUgenInput[],
 	) {
 		this.name = name;
 		this.numChannels = numChannels;
@@ -148,11 +176,11 @@ export type LocalControlDictionary = Record<string, number | number[]>;
 // sc.localControls({freq: [440, 441], amp: 0.1})
 export function localControls(
 	dictionary: LocalControlDictionary,
-): Map<string, Signal> {
+): Map<string, ScSignal> {
 	let index = 0;
 	const makeArrayed = function (name: string, defaultArray: number[]) {
 		let qualifier = 1;
-		const controlArray: Signal[] = [];
+		const controlArray: ScSignal[] = [];
 		defaultArray.forEach(function (value) {
 			const qualifiedName = `${name}${qualifier}`;
 			controlArray.push(localControlInput(qualifiedName, index, value));
@@ -161,7 +189,7 @@ export function localControls(
 		});
 		return controlArray;
 	};
-	const answer: [string, Signal][] = [];
+	const answer: [string, ScSignal][] = [];
 	for (const [name, defaultValue] of Object.entries(dictionary)) {
 		if (Array.isArray(defaultValue)) {
 			answer.push([name, makeArrayed(name, defaultValue)]);
@@ -173,12 +201,12 @@ export function localControls(
 	return new Map(answer);
 }
 
-export function isScUgen(aValue: unknown): aValue is ScUgen {
-	return aValue instanceof ScUgen;
+export function isScUgen(x: unknown): x is ScUgen {
+	return x instanceof ScUgen;
 }
 
-export function isScUgenByName(aValue: unknown): aValue is ScUgen {
-	return isObject(aValue) && aValue.constructor.name == 'ScUgen';
+export function isScUgenByName(x: unknown): x is ScUgen {
+	return isObject(x) && x.constructor.name == 'ScUgen';
 }
 
 export function scUgenCompare(i: ScUgen, j: ScUgen): number {
@@ -188,6 +216,7 @@ export function scUgenCompare(i: ScUgen, j: ScUgen): number {
 // Ugens with no outputs, such as Out, set port to -1.
 export const nilPort = -1;
 
+// A Ugen is an ScUgen and a port number.
 export class Ugen {
 	scUgen: ScUgen;
 	port: number;
@@ -197,42 +226,46 @@ export class Ugen {
 	}
 }
 
-export function isLocalControl(aUgen: Ugen): boolean {
-	return aUgen.scUgen.localControl !== null;
+export function isLocalControl(x: Ugen): boolean {
+	return x.scUgen.localControl !== null;
 }
 
-export function isUgen(aValue: unknown): aValue is Ugen {
-	return aValue instanceof Ugen;
+export function isUgen(x: unknown): x is Ugen {
+	return x instanceof Ugen;
 }
 
-export function isUgenByName(aValue: unknown): aValue is Ugen {
-	return isObject(aValue) && aValue.constructor.name == 'Ugen';
+export function isUgenByName(x: unknown): x is Ugen {
+	return isObject(x) && x.constructor.name == 'Ugen';
 }
 
-export function isUgenInput(aValue: unknown): aValue is UgenInput {
-	return isNumberOrBigInt(aValue) || isUgen(aValue);
+export function isUgenInput(x: unknown): x is UgenInput {
+	return isNumber(x) || isBigInt(x) || isFraction(x) || isUgen(x);
 }
 
-export function isSignal(aValue: unknown): aValue is Signal {
-	return isUgenInput(aValue) ||
-		(isArray(aValue) && arrayEvery(aValue, isSignal));
+export function isScUgenInput(x: unknown): x is ScUgenInput {
+	return isNumber(x) || isUgen(x);
 }
+
+//export function isSignal(x: unknown): x is Signal {
+//	return isUgenInput(x) ||
+//		(isArray(x) && arrayEvery(x, isSignal));
+//}
 
 /* Output signals should be either a Ugen or an array of Ugens.
 Not all signals are appropriate as outputs. */
-export function isOutputSignal(aValue: unknown): boolean {
-	return isUgen(aValue) || (isArray(aValue) && arrayEvery(aValue, isUgen));
+export function isOutputSignal(x: unknown): boolean {
+	return isUgen(x) || (isArray(x) && arrayEvery(x, isUgen));
 }
 
 export function inputBranch<T>(
-	input: UgenInput,
+	input: ScUgenInput,
 	onUgen: (aUgen: Ugen) => T,
 	onNumber: (aNumber: number) => T,
 	onError: () => T,
 ): T {
 	if (isUgen(input)) {
 		return onUgen(input);
-	} else if (isNumberOrBigInt(input)) {
+	} else if (isNumber(input)) {
 		return onNumber(Number(input));
 	} else {
 		onError();
@@ -242,7 +275,7 @@ export function inputBranch<T>(
 	}
 }
 
-export function inputRate(input: UgenInput): number {
+export function inputRate(input: ScUgenInput): number {
 	// console.debug(`inputRate: ${input}`);
 	return inputBranch(
 		input,
@@ -261,10 +294,10 @@ export type RateSpec = number | number[];
  */
 export function deriveRate(
 	rateOrFilterUgenInputs: RateSpec,
-	inputArray: UgenInput[],
+	inputArray: ScUgenInput[],
 ): number {
 	// console.debug(`deriveRate: ${rateOrFilterUgenInputs} ${inputArray}`);
-	if (isNumberOrBigInt(rateOrFilterUgenInputs)) {
+	if (isNumber(rateOrFilterUgenInputs)) {
 		return Number(rateOrFilterUgenInputs);
 	} else {
 		return arrayMaxItem(
@@ -276,15 +309,15 @@ export function deriveRate(
 	}
 }
 
-export function requiresMce(inputs: Signal[]) {
-	return arrayContainsArray(inputs);
+export function requiresMce(x: ScSignal[]) {
+	return arrayContainsArray(x);
 }
 
 export function mceInputTransform(
 	atLeast: number,
-	aSignal: Signal[],
-): Signal[] {
-	return arrayTranspose(arrayExtendToBeOfEqualSize(atLeast, aSignal));
+	signalArray: ScSignal[],
+): ScSignal[] {
+	return arrayTranspose(arrayExtendToBeOfEqualSize(atLeast, signalArray));
 }
 
 export function makeUgen(
@@ -293,18 +326,19 @@ export function makeUgen(
 	rateSpec: RateSpec,
 	specialIndex: number,
 	signalArray: Signal[],
-): Signal {
+): ScSignal {
+	const scSignalArray = signalArray.map(narrowSignal);
 	// console.debug(`makeUgen: ${name} ${numChannels} ${rateSpec} ${specialIndex} ${signalArray}`);
-	if (isArray(numChannels) || requiresMce(signalArray)) {
+	if (isArray(numChannels) || requiresMce(scSignalArray)) {
 		const atLeast = scalarOrArraySize(numChannels);
-		const expandedSignalArray = mceInputTransform(atLeast, signalArray);
-		const expandedSize = expandedSignalArray.length;
+		const expandedScSignalArray = mceInputTransform(atLeast, scSignalArray);
+		const expandedSize = expandedScSignalArray.length;
 		const expandedNumChannels = arrayExtendCyclically(
 			asArray(numChannels),
 			expandedSize,
 		);
 		// console.debug('Mce', expandedSize, expandedNumChannels);
-		return expandedSignalArray.map((item, index) =>
+		return expandedScSignalArray.map((item, index) =>
 			makeUgen(
 				name,
 				expandedNumChannels[index],
@@ -314,7 +348,7 @@ export function makeUgen(
 			)
 		);
 	} else {
-		const inputArray = <UgenInput[]> signalArray;
+		const inputArray = <ScUgenInput[]> scSignalArray;
 		const derivedRate = deriveRate(rateSpec, inputArray);
 		const scUgen = new ScUgen(
 			name,
@@ -374,7 +408,7 @@ export function multipleRootGraph(lhs: Signal, rhs: Signal): Signal {
 
 // Kr
 
-export function krMutateInPlace(input: Tree<UgenInput | ScUgen>): void {
+export function krMutateInPlace(input: Tree<ScUgenInput | ScUgen>): void {
 	if (isUgen(input)) {
 		const inputPort = input;
 		// console.debug(`kr: port: ${inputPort}`);
@@ -390,24 +424,25 @@ export function krMutateInPlace(input: Tree<UgenInput | ScUgen>): void {
 		// console.debug(`kr: array: ${input}`);
 		arrayForEach(input, (item) => krMutateInPlace(item));
 	} else {
-		if (!isNumberOrBigInt(input)) {
+		if (!isNumber(input)) {
 			throw new Error(`krMutateInPlace: ${input} ${typeof input}`);
 		}
 	}
 }
 
-export function kr(input: Signal): Signal {
-	krMutateInPlace(input);
-	return input;
+export function kr(x: Signal): ScSignal {
+	const s = narrowSignal(x);
+	krMutateInPlace(s);
+	return s;
 }
 
 // Operators
 
 export function UnaryOpWithConstantOptimiser(
 	specialIndex: number,
-	input: Signal,
-): Signal {
-	if (isNumberOrBigInt(input)) {
+	input: ScSignal,
+): ScSignal {
+	if (isNumber(input)) {
 		input = Number(input);
 		switch (specialIndex) {
 			case 0:
@@ -480,13 +515,12 @@ export function UnaryOpWithConstantOptimiser(
 }
 
 // [1, [], [1], [1, 2], [1, null], SinOsc(440, 0), [SinOsc(440, 0)]].map(isArrayConstant)
-export function isArrayConstant(
-	aValue: unknown,
-): aValue is Array<number | bigint> {
-	return isArray(aValue) && arrayEvery(aValue, isNumberOrBigInt);
+export function isArrayConstant(x: unknown): x is Array<number> {
+	return isArray(x) && arrayEvery(x, isNumber);
 }
 
-export function UnaryOp(specialIndex: number, input: Signal): Signal {
+export function UnaryOp(specialIndex: number, inputSignal: Signal): ScSignal {
+	const input = narrowSignal(inputSignal);
 	if (isArrayConstant(input)) {
 		return arrayMap(
 			(item) => UnaryOpWithConstantOptimiser(specialIndex, Number(item)),
@@ -499,12 +533,10 @@ export function UnaryOp(specialIndex: number, input: Signal): Signal {
 
 export function BinaryOpWithConstantOptimiser(
 	specialIndex: number,
-	lhs: UgenInput,
-	rhs: UgenInput,
-): Signal {
-	if (isNumberOrBigInt(lhs) && isNumberOrBigInt(rhs)) {
-		lhs = Number(lhs);
-		rhs = Number(rhs);
+	lhs: ScUgenInput,
+	rhs: ScUgenInput,
+): ScSignal {
+	if (isNumber(lhs) && isNumber(rhs)) {
 		switch (specialIndex) {
 			case 0:
 				return lhs + rhs;
@@ -545,15 +577,17 @@ export function BinaryOpWithConstantOptimiser(
 
 export function BinaryOp(
 	specialIndex: number,
-	lhs: Signal,
-	rhs: Signal,
-): Signal {
+	lhsSignal: Signal,
+	rhsSignal: Signal,
+): ScSignal {
+	const lhs = narrowSignal(lhsSignal);
+	const rhs = narrowSignal(rhsSignal);
 	if (isArray(lhs) || isArray(rhs)) {
 		const expanded = mceInputTransform(1, [asArray(lhs), asArray(rhs)]);
 		// console.debug(`BinaryOp: array constant: ${expanded}`);
 		return arrayMap(
 			(item) => BinaryOpWithConstantOptimiser(specialIndex, item[0], item[1]),
-			<UgenInput[][]> expanded,
+			<ScUgenInput[][]> expanded,
 		);
 	} else {
 		return BinaryOpWithConstantOptimiser(specialIndex, lhs, rhs);
@@ -561,19 +595,19 @@ export function BinaryOp(
 }
 
 // isOutUgen(Out(0, mul(SinOsc(440, 0), 0.1)))
-export function isOutUgen(aValue: Signal): boolean {
-	if (!isUgen(aValue)) {
+export function isOutUgen(x: Signal): boolean {
+	if (!isUgen(x)) {
 		return false;
 	} else {
 		return ['Out', 'OffsetOut', 'ReplaceOut', 'XOut'].includes(
-			aValue.scUgen.name,
+			x.scUgen.name,
 		);
 	}
 }
 
-export function isOutUgenList(aValue: Signal): boolean {
-	if (isArray(aValue)) {
-		if (arrayEvery(aValue, isOutUgen)) {
+export function isOutUgenList(x: Signal): boolean {
+	if (isArray(x)) {
+		if (arrayEvery(x, isOutUgen)) {
 			return true;
 		}
 	}
@@ -581,6 +615,6 @@ export function isOutUgenList(aValue: Signal): boolean {
 }
 
 // isControlRateUgen(MouseX(0, 1, 0, 0.2))
-export function isControlRateUgen(aValue: unknown): boolean {
-	return isUgenInput(aValue) && (inputRate(aValue) == rateKr);
-}
+// export function isControlRateUgen(aValue: unknown): boolean {
+// 	return isUgenInput(aValue) && (inputRate(aValue) == rateKr);
+// }

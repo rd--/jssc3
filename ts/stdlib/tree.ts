@@ -8,6 +8,17 @@ import {
 
 export type Tree<T> = T | Tree<T>[];
 
+export function treeMap<T, U>(
+	aTree: Tree<T>,
+	mapFunction: (x: T) => U,
+): Tree<U> {
+	if (isArray(aTree)) {
+		return aTree.map((item) => treeMap(item, mapFunction));
+	} else {
+		return mapFunction(aTree);
+	}
+}
+
 export function treeVisit<T>(
 	aTree: Tree<T>,
 	visitFunction: (x: T) => void,

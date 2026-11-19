@@ -1,20 +1,23 @@
-export function isObject(aValue: unknown): aValue is Record<string, unknown> {
-	const typeString = typeof aValue;
-	return typeString === 'function' || (typeString === 'object' && !!aValue);
+export function isObject(x: unknown): x is Record<string, unknown> {
+	const typeString = typeof x;
+	return typeString === 'function'
+		|| (typeString === 'object' && !!x);
 }
 
 export function objectHasKey(
-	anObject: Record<string, unknown>,
-	aKey: string,
+	x: Record<string, unknown>,
+	k: string,
 ): boolean {
-	return anObject[aKey] !== undefined;
+	return x[k] !== undefined;
 }
 
 export function objectCopyAllKeysFromTo(
 	sourceObject: Record<string, unknown>,
 	destinationObject: Record<string, unknown>,
 ): void {
-	Object.keys(sourceObject).forEach(function (key) {
-		destinationObject[key] = sourceObject[key];
-	});
+	Object.keys(sourceObject).forEach(
+		function (key) {
+			destinationObject[key] = sourceObject[key];
+		}
+	);
 }

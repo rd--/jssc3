@@ -2,6 +2,10 @@
 export function isNumber(x: unknown): x is number {
 	return (typeof x === 'number');
 }
+// Predicate that determines if x is a bigint.
+export function isBigInt(x: unknown): x is bigint {
+	return (typeof x === 'bigint');
+}
 
 // Predicate that determines if x is a number or bigint.
 export function isNumberOrBigInt(x: unknown): x is number | bigint {

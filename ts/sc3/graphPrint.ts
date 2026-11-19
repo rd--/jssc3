@@ -4,7 +4,7 @@ import {
 	arrayMap,
 	arrayReplicate,
 } from '../kernel/array.ts';
-import { isNumberOrBigInt } from '../kernel/number.ts';
+import { isNumber } from '../kernel/number.ts';
 
 import {
 	graphUgenIndex,
@@ -79,8 +79,8 @@ export function ugenGraphInputDisplayName(
 				: '';
 			return `${id}_${nm}${ix}`;
 		}
-	} else if (isNumberOrBigInt(input)) {
-		return String(Number(input));
+	} else if (isNumber(input)) {
+		return String(input);
 	} else {
 		console.error('ugenGraphInputDisplayName', input);
 		return '?';

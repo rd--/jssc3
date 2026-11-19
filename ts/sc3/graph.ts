@@ -18,7 +18,7 @@ import {
 	encodeInt8,
 	encodePascalString,
 } from '../kernel/encode.ts';
-import { isNumberOrBigInt } from '../kernel/number.ts';
+import { isNumber } from '../kernel/number.ts';
 import { setAdd, setAsArray, setIncludes, setNew } from '../kernel/set.ts';
 
 import { Tree } from '../stdlib/tree.ts';
@@ -38,7 +38,7 @@ import {
 	UgenInput,
 } from './ugen.ts';
 
-export type ScUgenInput = number | bigint | ScUgen;
+export type UgenGraphInput = number | ScUgen;
 
 /** Traverse graph from p adding leaf nodes to the set c.
  *
@@ -46,8 +46,8 @@ export type ScUgenInput = number | bigint | ScUgen;
  */
 export function ugenTraverseCollecting(
 	p: Tree<Ugen>,
-	c: Set<ScUgenInput>,
-	w: Set<ScUgenInput>,
+	c: Set<UgenGraphInput>,
+	w: Set<UgenGraphInput>,
 ): void {
 	// console.debug(`ugenTraverseCollecting: ${p}, ${c}, ${w}`);
 	if (isArray(p)) {
@@ -61,14 +61,14 @@ export function ugenTraverseCollecting(
 			arrayForEach(
 				p.scUgen.inputArray,
 				(item) =>
-					isNumberOrBigInt(item)
+					isNumber(item)
 						? setAdd(c, Number(item))
 						: ugenTraverseCollecting(item, c, w),
 			);
 			arrayForEach(
 				multipleRootGraphArray,
 				(item) =>
-					isNumberOrBigInt(item)
+					isNumber(item)
 						? setAdd(c, Number(item))
 						: ugenTraverseCollecting(item, c, c),
 			);
@@ -78,9 +78,9 @@ export function ugenTraverseCollecting(
 	}
 }
 
-export function ugenTreeLeafNodes(p: Tree<Ugen>): Array<ScUgenInput> {
+export function ugenTreeLeafNodes(p: Tree<Ugen>): Array<UgenGraphInput> {
 	// console.debug(`ugenTreeLeafNodes: ${p}`);
-	const c = <Set<ScUgenInput>> setNew();
+	const c = <Set<UgenGraphInput>> setNew();
 	ugenTraverseCollecting(p, c, setNew());
 	return setAsArray(c);
 }
@@ -118,7 +118,7 @@ export function makeUgenGraph(name: string, signal: Signal): UgenGraph {
 	// console.debug(`makeUgenGraph: ${name}, ${signal}`);
 	const tree = signalToUgenTree(signal);
 	const leafNodes = ugenTreeLeafNodes(tree);
-	const constantNodes = <number[]> arrayFilter(leafNodes, isNumberOrBigInt).map(
+	const constantNodes = <number[]> arrayFilter(leafNodes, isNumber).map(
 		Number,
 	);
 	const controlUgenNodes = <ScUgen[]> arrayFilter(
@@ -186,7 +186,7 @@ export function graphUgenInputSpec(
 			return [graphUgenIndex(graph, input.scUgen.id), input.port];
 		}
 	} else {
-		// number | bigint
+		// number
 		return [-1, graphConstantIndex(graph, Number(input))];
 	}
 }
